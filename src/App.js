@@ -21,13 +21,13 @@ const Unstyled = ({ children }) => (
 )
 
 const Em = ({ children }) => (
-	<em className="">
+	<em className="bg-blue-50 rounded">
 		{children}
 	</em>
 )
 
 const Strong = ({ children }) => (
-	<strong className="">
+	<strong className="bg-blue-50 rounded">
 		{children}
 	</strong>
 )
@@ -63,8 +63,8 @@ const CodexEditor = ({
 	const blocks = [
 		{
 			type: "header",
-			key: "abc-123-xyz", // Change to UUID
-			text: "Hello, world!",
+			key: "TODO:uuidv4()",
+			text: "Hello, how are you?",
 			fields: [
 				{
 					type: "unstyled",
@@ -74,12 +74,17 @@ const CodexEditor = ({
 				{
 					type: "strong",
 					offsetStart: 7,
-					offsetEnd: 13,
+					offsetEnd: 15,
 				},
 				{
 					type: "em",
-					offsetStart: 12,
-					offsetEnd: 13,
+					offsetStart: 11,
+					offsetEnd: 18,
+				},
+				{
+					type: "unstyled",
+					offsetStart: 18,
+					offsetEnd: 19,
 				},
 			],
 		},
@@ -88,44 +93,84 @@ const CodexEditor = ({
 	// Returns whether an inline element is nested.
 	const elementIsNested = (elementA, elementB) => {
 		const ok = (
-			elementB.offsetStart >= elementA.offsetStart &&
+			elementB.offsetStart < elementA.offsetEnd &&
 			elementB.offsetEnd <= elementA.offsetEnd
 		)
 		return ok
 	}
 
-	// // Returns whether an inline element is partially nested.
-	// const elementIsPartiallyNested = (elementA, elementB) => {
-	// 	const ok = (
-	// 		elementB.offsetStart <= elementA.offsetStart &&
-	// 		elementB.offsetEnd > elementA.offsetStart
-	// 	)
-	// 	return ok
-	// }
+	// Returns whether an inline element is partially nested.
+	const elementIsPartiallyNested = (elementA, elementB) => {
+		const ok = (
+			elementB.offsetStart < elementA.offsetEnd &&
+			elementB.offsetEnd > elementA.offsetEnd
+		)
+		return ok
+	}
+
+	// <p>
+	//   Hello,{" "}
+	//   <strong>
+	//     how{" }
+	//     <em>
+	//       are{" "}
+	//     </em>
+	//   </strong>
+	//   <em>
+	//     you
+	//   </em>
+	// </p>
 
 	// Parses an abstract block data structure to a renderable
 	// React component.
 	const parseBlock = block => {
 		const children = []
 		for (let x = 0; x < block.fields.length; x++) {
+			// Resolver for when the next element is nested in the
+			// current element
 			if (x + 1 < block.fields.length && elementIsNested(block.fields[x], block.fields[x + 1])) {
-				const Host = renderableInlineMap[block.fields[x].type]
-				const Nested = renderableInlineMap[block.fields[x + 1].type]
+				const Current = renderableInlineMap[block.fields[x].type]
+				const Next = renderableInlineMap[block.fields[x + 1].type]
+				const beforeCollision = block.text.slice(block.fields[x].offsetStart, block.fields[x + 1].offsetStart)
+				const collision = block.text.slice(block.fields[x + 1].offsetStart, block.fields[x].offsetEnd)
 				children.push((
-					<Host key={children.length}>
-						{block.text.slice(block.fields[x].offsetStart, block.fields[x + 1].offsetStart)}
-						<Nested>
-							{block.text.slice(block.fields[x + 1].offsetStart, block.fields[x].offsetEnd)}
-						</Nested>
-					</Host>
+					<Current key={children.length}>
+						{beforeCollision}
+						<Next>
+							{collision}
+						</Next>
+					</Current>
+				))
+				x++
+			// Resolver for when the next element is partially
+			// nested in the current element
+			} else if (x + 1 < block.fields.length && elementIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
+				const Current = renderableInlineMap[block.fields[x].type]
+				const Next = renderableInlineMap[block.fields[x + 1].type]
+				const beforeCollision = block.text.slice(block.fields[x].offsetStart, block.fields[x + 1].offsetStart)
+				const collision = block.text.slice(block.fields[x + 1].offsetStart, block.fields[x].offsetEnd)
+				const afterCollision = block.text.slice(block.fields[x].offsetEnd, block.fields[x + 1].offsetEnd)
+				children.push((
+					<React.Fragment key={children.length}>
+						<Current>
+							{beforeCollision}
+							<Next>
+								{collision}
+							</Next>
+						</Current>
+						<Next>
+							{afterCollision}
+						</Next>
+					</React.Fragment>
 				))
 				x++
 			} else {
-				const Host = renderableInlineMap[block.fields[x].type]
+				const Current = renderableInlineMap[block.fields[x].type]
+				const noCollision = block.text.slice(block.fields[x].offsetStart, block.fields[x].offsetEnd)
 				children.push((
-					<Host key={children.length}>
-						{block.text.slice(block.fields[x].offsetStart, block.fields[x].offsetEnd)}
-					</Host>
+					<Current key={children.length}>
+						{noCollision}
+					</Current>
 				))
 			}
 		}
@@ -147,13 +192,17 @@ const CodexEditor = ({
 }
 
 const App = () => (
-	<CodexEditor
-		header={Header}
-		paragraph={Paragraph}
-		unstyled={Unstyled}
-		em={Em}
-		strong={Strong}
-	/>
+	<div className="px-6 py-24 flex flex-row justify-center">
+		<div className="w-full max-w-3xl text-xl">
+			<CodexEditor
+				header={Header}
+				paragraph={Paragraph}
+				unstyled={Unstyled}
+				em={Em}
+				strong={Strong}
+			/>
+		</div>
+	</div>
 )
 
 export default App
