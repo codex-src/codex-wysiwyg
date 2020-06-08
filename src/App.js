@@ -74,7 +74,7 @@ const CodexEditor = ({
 		{
 			type: "paragraph",
 			key: "TODO:uuidv4()",
-			text: "Hello, world!",
+			text: "Hello, world! How are you?",
 			fields: [
 				{
 					type: "em",
@@ -96,6 +96,16 @@ const CodexEditor = ({
 					offsetStart: 0,
 					offsetEnd: 13,
 				},
+				{
+					type: "unstyled",
+					offsetStart: 13,
+					offsetEnd: 26,
+				},
+				// {
+				// 	type: "em",
+				// 	offsetStart: 18,
+				// 	offsetEnd: 21,
+				// }
 			],
 		},
 	]
@@ -168,7 +178,7 @@ const CodexEditor = ({
 		const components = []
 		for (let x = 0; x < block.fields.length; x++) {
 
-			if (x && block.fields[x].startOffset === block.fields[x - 1].startOffset && block.fields[x].endOffset === block.fields[x - 1].endOffset) {
+			if (x && block.fields[x].offsetStart === block.fields[x - 1].offsetStart && block.fields[x].offsetEnd === block.fields[x - 1].offsetEnd) {
 				const ref = deepestElement(components[components.length - 1])
 				ref.props.children = {
 					type: block.fields[x].type,
@@ -180,22 +190,17 @@ const CodexEditor = ({
 				components.push({
 					type: block.fields[x].type,
 					props: {
-						children: block.text.slice(
-							block.fields[x].startOffset,
-							block.fields[x].endOffset,
-						),
+						children: block.text.slice(block.fields[x].offsetStart, block.fields[x].offsetEnd),
 					},
 				})
 			}
 
 		}
 
-		const Block = elementMap[block.type]
-		return (
-			<Block key={block.key}>
-				{toReact(components)}
-			</Block>
-		)
+		// console.log(components)
+		return React.createElement(elementMap[block.type], {
+			key: block.key,
+		}, toReact(components))
 	}
 
 	return (
