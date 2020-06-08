@@ -101,11 +101,11 @@ const CodexEditor = ({
 					offsetStart: 13,
 					offsetEnd: 26,
 				},
-				// {
-				// 	type: "em",
-				// 	offsetStart: 18,
-				// 	offsetEnd: 21,
-				// }
+				{
+					type: "em",
+					offsetStart: 18,
+					offsetEnd: 21,
+				}
 			],
 		},
 	]
@@ -140,6 +140,8 @@ const CodexEditor = ({
 	}
 
 	// Returns the deepest reference to "children".
+	//
+	// TODO: Add support for arrays -- how?
 	const deepestElement = element => {
 		let lastRef = element
 		let ref = lastRef.props.children
@@ -178,14 +180,50 @@ const CodexEditor = ({
 		const components = []
 		for (let x = 0; x < block.fields.length; x++) {
 
-			if (x && block.fields[x].offsetStart === block.fields[x - 1].offsetStart && block.fields[x].offsetEnd === block.fields[x - 1].offsetEnd) {
+			// if (x && block.fields[x].offsetStart === block.fields[x - 1].offsetStart && block.fields[x].offsetEnd === block.fields[x - 1].offsetEnd) {
+			// 	const ref = deepestElement(components[components.length - 1])
+			// 	ref.props.children = {
+			// 		type: block.fields[x].type,
+			// 		props: {
+			// 			children: ref.props.children,
+			// 		},
+			// 	}
+
+			if (x && fieldIsNested(block.fields[x - 1], block.fields[x])) {
+				// TODO: Three cases: slice LHS, no slice, slice RHS
 				const ref = deepestElement(components[components.length - 1])
+				const offsetStart = block.fields[x].offsetStart - block.fields[x - 1].offsetStart
+				const offsetEnd = offsetStart + block.fields[x].offsetEnd - block.fields[x].offsetStart
+				console.log(
+					ref.props.children.slice(0, offsetStart),
+					ref.props.children.slice(offsetStart, offsetEnd),
+					ref.props.children.slice(offsetEnd),
+				)
 				ref.props.children = {
 					type: block.fields[x].type,
 					props: {
 						children: ref.props.children,
 					},
 				}
+
+				// const A = elementMap[block.fields[x].type]
+				// const B = elementMap[block.fields[x + 1].type]
+				// children.push((
+				// 	<A key={children.length}>
+				// 		{block.text.slice(block.fields[x].offsetStart,
+				// 			block.fields[x + 1].offsetStart)}
+				// 		<B>
+				// 			{block.text.slice(block.fields[x + 1].offsetStart,
+				// 				block.fields[x + 1].offsetEnd)}
+				// 		</B>
+				// 		{block.text.slice(block.fields[x + 1].offsetEnd,
+				// 			block.fields[x].offsetEnd)}
+				// 	</A>
+				// ))
+				// x++
+
+			// } else if (x && fieldIsPartiallyNested(block.fields[x], block.fields[x - 1])) {
+				// ...
 			} else {
 				components.push({
 					type: block.fields[x].type,
@@ -194,6 +232,52 @@ const CodexEditor = ({
 					},
 				})
 			}
+
+			// if (x + 1 < block.fields.length && fieldIsNested(block.fields[x], block.fields[x + 1])) {
+			// 	const A = elementMap[block.fields[x].type]
+			// 	const B = elementMap[block.fields[x + 1].type]
+			// 	children.push((
+			// 		<A key={children.length}>
+			// 			{block.text.slice(block.fields[x].offsetStart,
+			// 				block.fields[x + 1].offsetStart)}
+			// 			<B>
+			// 				{block.text.slice(block.fields[x + 1].offsetStart,
+			// 					block.fields[x + 1].offsetEnd)}
+			// 			</B>
+			// 			{block.text.slice(block.fields[x + 1].offsetEnd,
+			// 				block.fields[x].offsetEnd)}
+			// 		</A>
+			// 	))
+			// 	x++
+			// } else if (x + 1 < block.fields.length && fieldIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
+			// 	const A = elementMap[block.fields[x].type]
+			// 	const B = elementMap[block.fields[x + 1].type]
+			// 	children.push((
+			// 		<React.Fragment key={children.length}>
+			// 			<A key={children.length}>
+			// 				{block.text.slice(block.fields[x].offsetStart,
+			// 					block.fields[x + 1].offsetStart)}
+			// 				<B key={children.length}>
+			// 					{block.text.slice(block.fields[x + 1].offsetStart,
+			// 						block.fields[x].offsetEnd)}
+			// 				</B>
+			// 			</A>
+			// 			<B key={children.length}>
+			// 				{block.text.slice(block.fields[x].offsetEnd,
+			// 					block.fields[x + 1].offsetEnd)}
+			// 			</B>
+			// 		</React.Fragment>
+			// 	))
+			// 	x++
+			// } else {
+			// 	const A = elementMap[block.fields[x].type]
+			// 	children.push((
+			// 		<A key={children.length}>
+			// 			{block.text.slice(block.fields[x].offsetStart,
+			// 				block.fields[x].offsetEnd)}
+			// 		</A>
+			// 	))
+			// }
 
 		}
 
@@ -227,51 +311,5 @@ const App = () => (
 		</div>
 	</div>
 )
-
-// if (x + 1 < block.fields.length && fieldIsNested(block.fields[x], block.fields[x + 1])) {
-// 	const A = elementMap[block.fields[x].type]
-// 	const B = elementMap[block.fields[x + 1].type]
-// 	children.push((
-// 		<A key={children.length}>
-// 			{block.text.slice(block.fields[x].offsetStart,
-// 				block.fields[x + 1].offsetStart)}
-// 			<B>
-// 				{block.text.slice(block.fields[x + 1].offsetStart,
-// 					block.fields[x + 1].offsetEnd)}
-// 			</B>
-// 			{block.text.slice(block.fields[x + 1].offsetEnd,
-// 				block.fields[x].offsetEnd)}
-// 		</A>
-// 	))
-// 	x++
-// } else if (x + 1 < block.fields.length && fieldIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
-// 	const A = elementMap[block.fields[x].type]
-// 	const B = elementMap[block.fields[x + 1].type]
-// 	children.push((
-// 		<React.Fragment key={children.length}>
-// 			<A key={children.length}>
-// 				{block.text.slice(block.fields[x].offsetStart,
-// 					block.fields[x + 1].offsetStart)}
-// 				<B key={children.length}>
-// 					{block.text.slice(block.fields[x + 1].offsetStart,
-// 						block.fields[x].offsetEnd)}
-// 				</B>
-// 			</A>
-// 			<B key={children.length}>
-// 				{block.text.slice(block.fields[x].offsetEnd,
-// 					block.fields[x + 1].offsetEnd)}
-// 			</B>
-// 		</React.Fragment>
-// 	))
-// 	x++
-// } else {
-// 	const A = elementMap[block.fields[x].type]
-// 	children.push((
-// 		<A key={children.length}>
-// 			{block.text.slice(block.fields[x].offsetStart,
-// 				block.fields[x].offsetEnd)}
-// 		</A>
-// 	))
-// }
 
 export default App
