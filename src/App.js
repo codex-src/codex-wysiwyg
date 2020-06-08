@@ -66,37 +66,68 @@ const CodexEditor = ({
 			key: "abc-123-xyz", // Change to UUID
 			text: "Hello, world!",
 			fields: [
-				// TODO: Deprecate unstyled fields?
 				{
 					type: "unstyled",
-					start: 0,
-					length: 7,
+					offsetStart: 0,
+					offsetEnd: 7,
 				},
 				{
 					type: "strong",
-					start: 7,
-					length: 5,
+					offsetStart: 7,
+					offsetEnd: 13,
 				},
 				{
 					type: "em",
-					start: 12,
-					length: 1,
+					offsetStart: 12,
+					offsetEnd: 13,
 				},
 			],
 		},
 	]
 
+	// Returns whether an inline element is nested.
+	const elementIsNested = (elementA, elementB) => {
+		const ok = (
+			elementB.offsetStart >= elementA.offsetStart &&
+			elementB.offsetEnd <= elementA.offsetEnd
+		)
+		return ok
+	}
+
+	// // Returns whether an inline element is partially nested.
+	// const elementIsPartiallyNested = (elementA, elementB) => {
+	// 	const ok = (
+	// 		elementB.offsetStart <= elementA.offsetStart &&
+	// 		elementB.offsetEnd > elementA.offsetStart
+	// 	)
+	// 	return ok
+	// }
+
 	// Parses an abstract block data structure to a renderable
 	// React component.
 	const parseBlock = block => {
 		const children = []
-		for (const field of block.fields) {
-			const Inline = renderableInlineMap[field.type]
-			children.push((
-				<Inline key={children.length}>
-					{block.text.slice(field.start, field.start + field.length)}
-				</Inline>
-			))
+		for (let x = 0; x < block.fields.length; x++) {
+			if (x + 1 < block.fields.length && elementIsNested(block.fields[x], block.fields[x + 1])) {
+				const Host = renderableInlineMap[block.fields[x].type]
+				const Nested = renderableInlineMap[block.fields[x + 1].type]
+				children.push((
+					<Host key={children.length}>
+						{block.text.slice(block.fields[x].offsetStart, block.fields[x + 1].offsetStart)}
+						<Nested>
+							{block.text.slice(block.fields[x + 1].offsetStart, block.fields[x].offsetEnd)}
+						</Nested>
+					</Host>
+				))
+				x++
+			} else {
+				const Host = renderableInlineMap[block.fields[x].type]
+				children.push((
+					<Host key={children.length}>
+						{block.text.slice(block.fields[x].offsetStart, block.fields[x].offsetEnd)}
+					</Host>
+				))
+			}
 		}
 		const Block = renderableBlockMap[block.type]
 		return (
