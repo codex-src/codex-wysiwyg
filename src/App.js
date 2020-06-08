@@ -21,13 +21,13 @@ const Unstyled = ({ children }) => (
 )
 
 const Em = ({ children }) => (
-	<em className="bg-blue-50 rounded">
+	<em className="!bg-blue-50 !rounded">
 		{children}
 	</em>
 )
 
 const Strong = ({ children }) => (
-	<strong className="bg-blue-50 rounded">
+	<strong className="!bg-blue-50 !rounded">
 		{children}
 	</strong>
 )
@@ -38,6 +38,12 @@ const Code = ({ children }) => (
 	</code>
 )
 
+const Strike = ({ children }) => (
+	<strike className="line-through text-gray-300">
+		{children}
+	</strike>
+)
+
 const CodexEditor = ({
 	header,
 	paragraph,
@@ -45,6 +51,7 @@ const CodexEditor = ({
 	em,
 	strong,
 	code,
+	strike,
 	...props
 }) => {
 
@@ -66,49 +73,34 @@ const CodexEditor = ({
 		em,
 		strong,
 		code,
+		strike,
 	}
-
-	// <p>
-	//   Hello
-	//   <code>
-	//     <strong>
-	//       <em>
-	//         !
-	//       </em>
-	//     </strong>
-	//   </code>
-	// </p>
 
 	const blocks = [
 		{
-			type: "header",
+			type: "paragraph",
 			key: "TODO:uuidv4()",
-			text: `In Go, fmt.Println("Hello, world!") prints Hello, world!`,
+			text: "Hello, world!",
 			fields: [
 				{
-					type: "unstyled",
-					offsetStart: 0,
-					offsetEnd: 7,
-				},
-				{
-					type: "code",
-					offsetStart: 7,
-					offsetEnd: 35,
-				},
-				{
-					type: "unstyled",
-					offsetStart: 35,
-					offsetEnd: 43,
-				},
-				{
 					type: "em",
-					offsetStart: 36,
-					offsetEnd: 42,
+					offsetStart: 0,
+					offsetEnd: 13,
+				},
+				{
+					type: "strong",
+					offsetStart: 0,
+					offsetEnd: 13,
 				},
 				{
 					type: "code",
-					offsetStart: 43,
-					offsetEnd: 56,
+					offsetStart: 0,
+					offsetEnd: 13,
+				},
+				{
+					type: "strike",
+					offsetStart: 0,
+					offsetEnd: 13,
 				},
 			],
 		},
@@ -143,56 +135,65 @@ const CodexEditor = ({
 		return ok
 	}
 
+	// Returns the deepest props.children reference.
+	const deepestReactElement = reactElement => {
+		let lastRef = reactElement
+		let ref = lastRef.props.children
+		while (typeof ref === "object" && "props" in ref && "children" in ref.props) {
+			lastRef = ref
+			ref = ref.props.children
+		}
+		return lastRef
+	}
+
 	// Parses an abstract block data structure to a renderable
 	// React component.
 	const parseBlock = block => {
 		const children = []
 		for (let x = 0; x < block.fields.length; x++) {
-			if (x + 1 < block.fields.length && fieldIsNested(block.fields[x], block.fields[x + 1])) {
-				const A = inlineElementMap[block.fields[x].type]
-				const B = inlineElementMap[block.fields[x + 1].type]
-				children.push((
-					<A key={children.length}>
-						{block.text.slice(block.fields[x].offsetStart,
-							block.fields[x + 1].offsetStart)}
-						<B>
-							{block.text.slice(block.fields[x + 1].offsetStart,
-								block.fields[x + 1].offsetEnd)}
-						</B>
-						{block.text.slice(block.fields[x + 1].offsetEnd,
-							block.fields[x].offsetEnd)}
-					</A>
-				))
-				x++
-			} else if (x + 1 < block.fields.length && fieldIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
-				const A = inlineElementMap[block.fields[x].type]
-				const B = inlineElementMap[block.fields[x + 1].type]
-				children.push((
-					<React.Fragment key={children.length}>
-						<A key={children.length}>
-							{block.text.slice(block.fields[x].offsetStart,
-								block.fields[x + 1].offsetStart)}
-							<B key={children.length}>
-								{block.text.slice(block.fields[x + 1].offsetStart,
-									block.fields[x].offsetEnd)}
-							</B>
-						</A>
-						<B key={children.length}>
-							{block.text.slice(block.fields[x].offsetEnd,
-								block.fields[x + 1].offsetEnd)}
-						</B>
-					</React.Fragment>
-				))
-				x++
+
+			if (x && block.fields[x].startOffset === block.fields[x - 1].startOffset && block.fields[x].endOffset === block.fields[x - 1].endOffset) {
+				// const Component = inlineElementMap[block.fields[x].type]
+				// children.splice(
+				// 	children.length - 1,
+				// 	1,
+				// 	React.cloneElement(children[children.length - 1], {
+				// 		children: (
+				// 			<Component>
+				// 				{deepestReactElement(children[children.length - 1])}
+				// 			</Component>
+				// 		),
+				// 	}),
+				// )
+
+
+				const Component = inlineElementMap[block.fields[x].type]
+
+				const reactElement = deepestReactElement(children[children.length - 1])
+				children.splice(
+					children.length - 1,
+					1,
+					React.cloneElement(children[children.length - 1], {
+						children: (
+							<Component>
+								{reactElement.props.children}
+							</Component>
+						)
+					})
+				)
+
 			} else {
-				const A = inlineElementMap[block.fields[x].type]
+				const Component = inlineElementMap[block.fields[x].type]
 				children.push((
-					<A key={children.length}>
-						{block.text.slice(block.fields[x].offsetStart,
-							block.fields[x].offsetEnd)}
-					</A>
+					<Component>
+						{block.text.slice(
+							block.fields[x].startOffset,
+							block.fields[x].endOffset,
+						)}
+					</Component>
 				))
 			}
+
 		}
 		const Block = elementMap[block.type]
 		return (
@@ -221,9 +222,56 @@ const App = () => (
 				em={Em}
 				strong={Strong}
 				code={Code}
+				strike={Strike}
 			/>
 		</div>
 	</div>
 )
+
+// if (x + 1 < block.fields.length && fieldIsNested(block.fields[x], block.fields[x + 1])) {
+// 	const A = inlineElementMap[block.fields[x].type]
+// 	const B = inlineElementMap[block.fields[x + 1].type]
+// 	children.push((
+// 		<A key={children.length}>
+// 			{block.text.slice(block.fields[x].offsetStart,
+// 				block.fields[x + 1].offsetStart)}
+// 			<B>
+// 				{block.text.slice(block.fields[x + 1].offsetStart,
+// 					block.fields[x + 1].offsetEnd)}
+// 			</B>
+// 			{block.text.slice(block.fields[x + 1].offsetEnd,
+// 				block.fields[x].offsetEnd)}
+// 		</A>
+// 	))
+// 	x++
+// } else if (x + 1 < block.fields.length && fieldIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
+// 	const A = inlineElementMap[block.fields[x].type]
+// 	const B = inlineElementMap[block.fields[x + 1].type]
+// 	children.push((
+// 		<React.Fragment key={children.length}>
+// 			<A key={children.length}>
+// 				{block.text.slice(block.fields[x].offsetStart,
+// 					block.fields[x + 1].offsetStart)}
+// 				<B key={children.length}>
+// 					{block.text.slice(block.fields[x + 1].offsetStart,
+// 						block.fields[x].offsetEnd)}
+// 				</B>
+// 			</A>
+// 			<B key={children.length}>
+// 				{block.text.slice(block.fields[x].offsetEnd,
+// 					block.fields[x + 1].offsetEnd)}
+// 			</B>
+// 		</React.Fragment>
+// 	))
+// 	x++
+// } else {
+// 	const A = inlineElementMap[block.fields[x].type]
+// 	children.push((
+// 		<A key={children.length}>
+// 			{block.text.slice(block.fields[x].offsetStart,
+// 				block.fields[x].offsetEnd)}
+// 		</A>
+// 	))
+// }
 
 export default App
