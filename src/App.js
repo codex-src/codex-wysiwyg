@@ -32,12 +32,19 @@ const Strong = ({ children }) => (
 	</strong>
 )
 
+const Code = ({ children }) => (
+	<code className="px-1 py-0.5 text-sm font-mono text-blue-500 bg-gray-100 rounded-sm">
+		{children}
+	</code>
+)
+
 const CodexEditor = ({
 	header,
 	paragraph,
 	unstyled,
 	em,
 	strong,
+	code,
 	...props
 }) => {
 
@@ -45,7 +52,7 @@ const CodexEditor = ({
 	// components.
 	//
 	// TODO: Change to useMemo? useMemo(() => { ... }, [])
-	const renderableBlockMap = {
+	const elementMap = {
 		header,
 		paragraph,
 	}
@@ -54,127 +61,128 @@ const CodexEditor = ({
 	// inline components.
 	//
 	// TODO: Change to useMemo? useMemo(() => { ... }, [])
-	const renderableInlineMap = {
+	const inlineElementMap = {
 		unstyled,
 		em,
 		strong,
+		code,
 	}
+
+	// <p>
+	//   Hello
+	//   <code>
+	//     <strong>
+	//       <em>
+	//         !
+	//       </em>
+	//     </strong>
+	//   </code>
+	// </p>
 
 	const blocks = [
 		{
 			type: "header",
 			key: "TODO:uuidv4()",
-			text: "Hello, how are you?",
+			text: "hello world!",
 			fields: [
 				{
 					type: "unstyled",
 					offsetStart: 0,
-					offsetEnd: 7,
+					offsetEnd: 6,
 				},
 				{
 					type: "strong",
-					offsetStart: 7,
-					offsetEnd: 15,
+					offsetStart: 6,
+					offsetEnd: 12,
 				},
 				{
 					type: "em",
 					offsetStart: 11,
-					offsetEnd: 18,
-				},
-				{
-					type: "unstyled",
-					offsetStart: 18,
-					offsetEnd: 19,
+					offsetEnd: 12,
 				},
 			],
 		},
 	]
 
-	// Returns whether an inline element is nested.
-	const elementIsNested = (elementA, elementB) => {
+	// Returns whether an inline element field is nested.
+	const fieldIsNested = (fieldA, fieldB) => {
 		const ok = (
-			elementB.offsetStart < elementA.offsetEnd &&
-			elementB.offsetEnd <= elementA.offsetEnd
+			fieldB.offsetStart >= fieldA.offsetStart &&
+			fieldB.offsetEnd <= fieldA.offsetEnd
 		)
 		return ok
 	}
 
-	// Returns whether an inline element is partially nested.
-	const elementIsPartiallyNested = (elementA, elementB) => {
+	// Returns whether an inline element field is partially
+	// nested.
+	const fieldIsPartiallyNested = (fieldA, fieldB) => {
 		const ok = (
-			elementB.offsetStart < elementA.offsetEnd &&
-			elementB.offsetEnd > elementA.offsetEnd
+			fieldB.offsetStart < fieldA.offsetEnd &&
+			fieldB.offsetEnd > fieldA.offsetEnd
 		)
 		return ok
 	}
 
-	// <p>
-	//   Hello,{" "}
-	//   <strong>
-	//     how{" }
-	//     <em>
-	//       are{" "}
-	//     </em>
-	//   </strong>
-	//   <em>
-	//     you
-	//   </em>
-	// </p>
+	// Retursn whether an inline element field is nested or
+	// partially nested.
+	const fieldIsNestedOrPartiallyNested = (fieldA, fieldB) => {
+		const ok = (
+			fieldIsNested(fieldA, fieldB) ||
+			fieldIsPartiallyNested(fieldA, fieldB)
+		)
+		return ok
+	}
 
 	// Parses an abstract block data structure to a renderable
 	// React component.
 	const parseBlock = block => {
 		const children = []
 		for (let x = 0; x < block.fields.length; x++) {
-			// Resolver for when the next element is nested in the
-			// current element
-			if (x + 1 < block.fields.length && elementIsNested(block.fields[x], block.fields[x + 1])) {
-				const Current = renderableInlineMap[block.fields[x].type]
-				const Next = renderableInlineMap[block.fields[x + 1].type]
-				const beforeCollision = block.text.slice(block.fields[x].offsetStart, block.fields[x + 1].offsetStart)
-				const collision = block.text.slice(block.fields[x + 1].offsetStart, block.fields[x].offsetEnd)
+			if (x + 1 < block.fields.length && fieldIsNested(block.fields[x], block.fields[x + 1])) {
+				const A = inlineElementMap[block.fields[x].type]
+				const B = inlineElementMap[block.fields[x + 1].type]
 				children.push((
-					<Current key={children.length}>
-						{beforeCollision}
-						<Next>
-							{collision}
-						</Next>
-					</Current>
+					<A key={children.length}>
+						{block.text.slice(block.fields[x].offsetStart,
+							block.fields[x + 1].offsetStart)}
+						<B>
+							{block.text.slice(block.fields[x + 1].offsetStart,
+								block.fields[x].offsetEnd)}
+						</B>
+					</A>
 				))
 				x++
-			// Resolver for when the next element is partially
-			// nested in the current element
-			} else if (x + 1 < block.fields.length && elementIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
-				const Current = renderableInlineMap[block.fields[x].type]
-				const Next = renderableInlineMap[block.fields[x + 1].type]
-				const beforeCollision = block.text.slice(block.fields[x].offsetStart, block.fields[x + 1].offsetStart)
-				const collision = block.text.slice(block.fields[x + 1].offsetStart, block.fields[x].offsetEnd)
-				const afterCollision = block.text.slice(block.fields[x].offsetEnd, block.fields[x + 1].offsetEnd)
+			} else if (x + 1 < block.fields.length && fieldIsPartiallyNested(block.fields[x], block.fields[x + 1])) {
+				const A = inlineElementMap[block.fields[x].type]
+				const B = inlineElementMap[block.fields[x + 1].type]
 				children.push((
 					<React.Fragment key={children.length}>
-						<Current>
-							{beforeCollision}
-							<Next>
-								{collision}
-							</Next>
-						</Current>
-						<Next>
-							{afterCollision}
-						</Next>
+						<A key={children.length}>
+							{block.text.slice(block.fields[x].offsetStart,
+								block.fields[x + 1].offsetStart)}
+							<B key={children.length}>
+								{block.text.slice(block.fields[x + 1].offsetStart,
+									block.fields[x].offsetEnd)}
+							</B>
+						</A>
+						<B key={children.length}>
+							{block.text.slice(block.fields[x].offsetEnd,
+								block.fields[x + 1].offsetEnd)}
+						</B>
 					</React.Fragment>
 				))
 				x++
 			} else {
-				const Current = renderableInlineMap[block.fields[x].type]
-				const noCollision = block.text.slice(block.fields[x].offsetStart, block.fields[x].offsetEnd)
+				const A = inlineElementMap[block.fields[x].type]
 				children.push((
-					<Current key={children.length}>
-						{noCollision}
-					</Current>
+					<A key={children.length}>
+						{block.text.slice(block.fields[x].offsetStart,
+							block.fields[x].offsetEnd)}
+					</A>
 				))
 			}
 		}
-		const Block = renderableBlockMap[block.type]
+		const Block = elementMap[block.type]
 		return (
 			<Block key={block.key}>
 				{children}
@@ -200,6 +208,7 @@ const App = () => (
 				unstyled={Unstyled}
 				em={Em}
 				strong={Strong}
+				code={Code}
 			/>
 		</div>
 	</div>
