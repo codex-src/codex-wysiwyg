@@ -33,7 +33,7 @@ const Strong = ({ children }) => (
 )
 
 const Code = ({ children }) => (
-	<code className="px-1 py-0.5 text-sm font-mono text-blue-500 bg-gray-100 rounded-sm">
+	<code className="px-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded">
 		{children}
 	</code>
 )
@@ -83,22 +83,32 @@ const CodexEditor = ({
 		{
 			type: "header",
 			key: "TODO:uuidv4()",
-			text: "hello world!",
+			text: `In Go, fmt.Println("Hello, world!") prints Hello, world!`,
 			fields: [
 				{
 					type: "unstyled",
 					offsetStart: 0,
-					offsetEnd: 6,
+					offsetEnd: 7,
 				},
 				{
-					type: "strong",
-					offsetStart: 6,
-					offsetEnd: 12,
+					type: "code",
+					offsetStart: 7,
+					offsetEnd: 35,
+				},
+				{
+					type: "unstyled",
+					offsetStart: 35,
+					offsetEnd: 43,
 				},
 				{
 					type: "em",
-					offsetStart: 11,
-					offsetEnd: 12,
+					offsetStart: 36,
+					offsetEnd: 42,
+				},
+				{
+					type: "code",
+					offsetStart: 43,
+					offsetEnd: 56,
 				},
 			],
 		},
@@ -147,8 +157,10 @@ const CodexEditor = ({
 							block.fields[x + 1].offsetStart)}
 						<B>
 							{block.text.slice(block.fields[x + 1].offsetStart,
-								block.fields[x].offsetEnd)}
+								block.fields[x + 1].offsetEnd)}
 						</B>
+						{block.text.slice(block.fields[x + 1].offsetEnd,
+							block.fields[x].offsetEnd)}
 					</A>
 				))
 				x++
@@ -201,7 +213,7 @@ const CodexEditor = ({
 
 const App = () => (
 	<div className="px-6 py-24 flex flex-row justify-center">
-		<div className="w-full max-w-3xl text-xl">
+		<div className="w-full max-w-3xl">
 			<CodexEditor
 				header={Header}
 				paragraph={Paragraph}
