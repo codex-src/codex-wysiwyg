@@ -58,9 +58,49 @@ function toReact(components, componentMap) {
 }
 
 // Parses an element from a VDOM node.
-function parseElements(nodes, componentMap) {
+function parseElements(node, componentMap) {
 	const components = []
-	for (let x = 0; x < nodes.fields.length; x++) {
+	for (let x = 0; x < node.fields.length; x++) {
+
+		const min = Math.max(x - 1, 0)
+		const max = Math.min(x + 1, node.fields.length)
+
+		const fields = node.fields.slice(min, max)
+		if (fields.length < 1 || fields.length > 2) {
+			throw new Error(`parseElements: too few or too many fields; length=${fields.length}`)
+		}
+
+		if (fields.length === 1 || fieldsDoNotIntersect(fields[0], fields[1])) {
+			const field = fields[fields.length - 1]
+			components.push({
+				...field,
+				props: {
+					children: node.text.slice(field.offsetStart, field.offsetEnd),
+				},
+			})
+		} else {
+			console.log(fields)
+			switch (true) {
+			case fieldsArePartiallyIntersected(...fields):
+				console.log("fieldsArePartiallyIntersected")
+				break
+			case fieldsAreTotallyIntersected(...fields):
+				console.log("fieldsAreTotallyIntersected")
+				break
+			case fieldIsContainedRHS(...fields):
+				console.log("fieldIsContainedRHS")
+				break
+			case fieldIsContained(...fields):
+				console.log("fieldIsContained")
+				break
+			case fieldIsContainedLHS(...fields):
+				console.log("fieldIsContainedLHS")
+				break
+			default:
+				// No-op
+				break
+			}
+		}
 
 		//		// if (x && nodes.fields[x].offsetStart === nodes.fields[x - 1].offsetStart && nodes.fields[x].offsetEnd === nodes.fields[x - 1].offsetEnd) {
 		//		// 	const ref = deepestElement(components[components.length - 1])
