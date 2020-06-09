@@ -1,11 +1,11 @@
-// +-------+-------+
-// |       |\\\\\\\|
-// |   A   |\\\B\\\|
-// |       |\\\\\\\|
-// +-------+-------+
+// +-------+-------+    +-------+ +-------+
+// |       |\\\\\\\|    |       | |\\\\\\\|
+// |   A   |\\\B\\\| or |   A   | |\\\B\\\|
+// |       |\\\\\\\|    |       | |\\\\\\\|
+// +-------+-------+    +-------+ +-------+
 //
 export function fieldsDoNotIntersect(fieldA, fieldB) {
-	return fieldB.offsetStart === fieldA.offsetEnd
+	return fieldB.offsetStart >= fieldA.offsetEnd
 }
 
 //   +---+---+---+

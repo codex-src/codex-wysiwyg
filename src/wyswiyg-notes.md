@@ -6,6 +6,8 @@ ab*c*
 
 
 # sort
+- unstyled fields should not under or over-extend
+- all fields in it of themselves must have a length
 - all consecutive fields must run forwards -- fields must
 start on or at least the same start-offset
 - all consecutive fields must be contained in the previous

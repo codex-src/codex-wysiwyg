@@ -21,6 +21,8 @@ import {
 } from "./fields"
 
 // Returns the deepest reference to props.children.
+//
+// TODO: Change to deepestEndElement?
 function deepestElement(element) {
 	let lastRef = element
 	let ref = lastRef.props.children
@@ -45,19 +47,17 @@ function toReact(components, componentMap) {
 			renderable.push(each)
 			continue
 		}
-		// TODO: Argument components must be an array; uses
-		// [props.children] for now
 		const { type: T, props } = each
 		renderable.push(React.createElement(componentMap[T], {
 			key: renderable.length,
 			...props,
-		}, toReact([props.children], componentMap)))
+		}, toReact([props.children].flat(), componentMap)))
 	}
 	return renderable
 }
 
-// Parses an element from a VDOM node.
-function parseElements(node, componentMap) {
+// Parses inline elements from a VDOM node.
+function parseInlineElements(node, componentMap) {
 	const elements = []
 	for (let x = 0; x < node.fields.length; x++) {
 
@@ -65,100 +65,64 @@ function parseElements(node, componentMap) {
 		const max = Math.min(x + 1, node.fields.length)
 
 		const fields = node.fields.slice(min, max)
-		if (fields.length < 1 || fields.length > 2) {
-			throw new Error(`parseElements: too few or too many fields; length=${fields.length}`)
-		}
+		// if (fields.length < 1 || fields.length > 2) {
+		// 	throw new Error(`parseInlineElements: too few or too many fields; length=${fields.length}`)
+		// }
+		const currentField = fields[fields.length - 1]
 
 		if (fields.length === 1 || fieldsDoNotIntersect(fields[0], fields[1])) {
-			const field = fields[fields.length - 1]
+			// console.log("fieldsDoNotIntersect")
 			elements.push({
-				...field,
+				type: currentField.type,
 				props: {
-					children: node.text.slice(field.offsetStart, field.offsetEnd),
+					children: node.text.slice(currentField.offsetStart, currentField.offsetEnd),
 				},
 			})
 		} else {
-			// console.log(fields)
-			const [, field] = fields
-			switch (true) {
-			case fieldsArePartiallyIntersected(...fields):
-				console.log("fieldsArePartiallyIntersected")
-				break
-			case fieldsAreTotallyIntersected(...fields):
-				console.log("fieldsAreTotallyIntersected")
-
+			if (fieldsArePartiallyIntersected(...fields)) {
+				// console.log("fieldsArePartiallyIntersected")
+				const ref = deepestElement(elements[elements.length - 1])
+				ref.props.children = [
+					{
+						type: fields[0].type,
+						props: {
+							children: node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
+						},
+					},
+					{
+						type: fields[1].type,
+						props: {
+							children: node.text.slice(fields[1].offsetStart, fields[0].offsetEnd),
+						},
+					},
+				]
+				elements.push({
+					type: fields[1].type,
+					props: {
+						children: node.text.slice(fields[0].offsetEnd, fields[1].offsetEnd),
+					},
+				})
+			} else if (fieldsAreTotallyIntersected(...fields)) {
+				// console.log("fieldsAreTotallyIntersected")
 				const ref = deepestElement(elements[elements.length - 1])
 				ref.props.children = {
-					...field,
+					type: currentField.type,
 					props: {
 						children: ref.props.children,
 					},
 				}
-
-				break
-			case fieldIsContainedRHS(...fields):
-				console.log("fieldIsContainedRHS")
-				break
-			case fieldIsContained(...fields):
-				console.log("fieldIsContained")
-				break
-			case fieldIsContainedLHS(...fields):
-				console.log("fieldIsContainedLHS")
-				break
-			default:
-				// No-op
-				break
+			} else if (fieldIsContainedRHS(...fields)) {
+				// console.log("fieldIsContainedRHS")
+			} else if (fieldIsContained(...fields)) {
+				// console.log("fieldIsContained")
+			} else if (fieldIsContainedLHS(...fields)) {
+				// console.log("fieldIsContainedLHS")
 			}
 		}
 
-		// if (x + 1 < nodes.fields.length && fieldIsNested(nodes.fields[x], nodes.fields[x + 1])) {
-		// 	const A = componentMap[nodes.fields[x].type]
-		// 	const B = componentMap[nodes.fields[x + 1].type]
-		// 	children.push((
-		// 		<A key={children.length}>
-		// 			{nodes.text.slice(nodes.fields[x].offsetStart,
-		// 				nodes.fields[x + 1].offsetStart)}
-		// 			<B>
-		// 				{nodes.text.slice(nodes.fields[x + 1].offsetStart,
-		// 					nodes.fields[x + 1].offsetEnd)}
-		// 			</B>
-		// 			{nodes.text.slice(nodes.fields[x + 1].offsetEnd,
-		// 				nodes.fields[x].offsetEnd)}
-		// 		</A>
-		// 	))
-		// 	x++
-		// } else if (x + 1 < nodes.fields.length && fieldIsPartiallyNested(nodes.fields[x], nodes.fields[x + 1])) {
-		// 	const A = componentMap[nodes.fields[x].type]
-		// 	const B = componentMap[nodes.fields[x + 1].type]
-		// 	children.push((
-		// 		<React.Fragment key={children.length}>
-		// 			<A key={children.length}>
-		// 				{nodes.text.slice(nodes.fields[x].offsetStart,
-		// 					nodes.fields[x + 1].offsetStart)}
-		// 				<B key={children.length}>
-		// 					{nodes.text.slice(nodes.fields[x + 1].offsetStart,
-		// 						nodes.fields[x].offsetEnd)}
-		// 				</B>
-		// 			</A>
-		// 			<B key={children.length}>
-		// 				{nodes.text.slice(nodes.fields[x].offsetEnd,
-		// 					nodes.fields[x + 1].offsetEnd)}
-		// 			</B>
-		// 		</React.Fragment>
-		// 	))
-		// 	x++
-		// } else {
-		// 	const A = componentMap[nodes.fields[x].type]
-		// 	children.push((
-		// 		<A key={children.length}>
-		// 			{nodes.text.slice(nodes.fields[x].offsetStart,
-		// 				nodes.fields[x].offsetEnd)}
-		// 		</A>
-		// 	))
-		// }
-
 	}
 
+	console.log(JSON.stringify(elements, null, "\t"))
 	return elements
 }
 
@@ -199,38 +163,28 @@ const CodexEditor = ({
 		{
 			type: "paragraph",
 			key: uuidv4(),
-			text: "Hello, world! How are you?",
+			text: "abc-123-xyz",
 			fields: [
-				{
-					type: "em",
-					offsetStart: 0,
-					offsetEnd: 13,
-				},
 				{
 					type: "strong",
 					offsetStart: 0,
-					offsetEnd: 13,
-				},
-				{
-					type: "code",
-					offsetStart: 0,
-					offsetEnd: 13,
-				},
-				{
-					type: "strike",
-					offsetStart: 0,
-					offsetEnd: 13,
-				},
-				{
-					type: "unstyled",
-					offsetStart: 13,
-					offsetEnd: 26,
+					offsetEnd: 7,
 				},
 				{
 					type: "em",
-					offsetStart: 18,
-					offsetEnd: 21,
+					offsetStart: 4,
+					offsetEnd: 11,
 				},
+				// {
+				// 	type: "em",
+				// 	offsetStart: 4,
+				// 	offsetEnd: 11,
+				// },
+				// {
+				// 	type: "unstyled",
+				// 	offsetStart: 11,
+				// 	offsetEnd: 11,
+				// },
 			],
 		},
 	]
@@ -238,7 +192,7 @@ const CodexEditor = ({
 	return (
 		<article>
 			{nodes.map(({ type: T, ...each }) => {
-				const elements = parseElements(each, componentMap)
+				const elements = parseInlineElements(each, componentMap)
 				return React.createElement(componentMap[T], {
 					key: each.key,
 				}, toReact(elements, componentMap))
@@ -264,5 +218,51 @@ const App = () => (
 		</div>
 	</div>
 )
+
+// if (x + 1 < nodes.fields.length && fieldIsNested(nodes.fields[x], nodes.fields[x + 1])) {
+// 	const A = componentMap[nodes.fields[x].type]
+// 	const B = componentMap[nodes.fields[x + 1].type]
+// 	children.push((
+// 		<A key={children.length}>
+// 			{nodes.text.slice(nodes.fields[x].offsetStart,
+// 				nodes.fields[x + 1].offsetStart)}
+// 			<B>
+// 				{nodes.text.slice(nodes.fields[x + 1].offsetStart,
+// 					nodes.fields[x + 1].offsetEnd)}
+// 			</B>
+// 			{nodes.text.slice(nodes.fields[x + 1].offsetEnd,
+// 				nodes.fields[x].offsetEnd)}
+// 		</A>
+// 	))
+// 	x++
+// } else if (x + 1 < nodes.fields.length && fieldIsPartiallyNested(nodes.fields[x], nodes.fields[x + 1])) {
+// 	const A = componentMap[nodes.fields[x].type]
+// 	const B = componentMap[nodes.fields[x + 1].type]
+// 	children.push((
+// 		<React.Fragment key={children.length}>
+// 			<A key={children.length}>
+// 				{nodes.text.slice(nodes.fields[x].offsetStart,
+// 					nodes.fields[x + 1].offsetStart)}
+// 				<B key={children.length}>
+// 					{nodes.text.slice(nodes.fields[x + 1].offsetStart,
+// 						nodes.fields[x].offsetEnd)}
+// 				</B>
+// 			</A>
+// 			<B key={children.length}>
+// 				{nodes.text.slice(nodes.fields[x].offsetEnd,
+// 					nodes.fields[x + 1].offsetEnd)}
+// 			</B>
+// 		</React.Fragment>
+// 	))
+// 	x++
+// } else {
+// 	const A = componentMap[nodes.fields[x].type]
+// 	children.push((
+// 		<A key={children.length}>
+// 			{nodes.text.slice(nodes.fields[x].offsetStart,
+// 				nodes.fields[x].offsetEnd)}
+// 		</A>
+// 	))
+// }
 
 export default App
