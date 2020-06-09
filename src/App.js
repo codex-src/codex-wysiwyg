@@ -31,8 +31,8 @@ function mostRecentElement(element) {
 		next: null,
 	}
 	while (typeof ref === "object" && "props" in ref && "children" in ref.props) {
-		ref = Array.isArray(ref.props.children) ? ref.props.children[ref.props.children.length - 1] :
-			ref.props.children
+		ref = Array.isArray(ref.props.children) ? ref.props.children[ref.props.children.length - 1]
+			: ref.props.children
 		recent.next = {
 			prev: recent,
 			ref,
@@ -68,19 +68,25 @@ function toReact(components, componentMap) {
 
 // Parses inline elements from a VDOM node.
 function parseInlineElements(node, componentMap) {
+	// The parsed inline elements to be returned.
 	const elements = []
+
+	// Points to the most recent reference.
+	const ref = null
+
+	// Points to the most recent reference container.
+	const container = elements
+
 	for (let x = 0; x < node.fields.length; x++) {
 
-		const field1 = !x ? null : node.fields[x - 1]
-		const field2 = node.fields[x]
-		const fields = [field1, field2]
+		const fields = [!x ? null : node.fields[x - 1], node.fields[x]]
 
-		if (!field1 || fieldsDoNotOverlap(...fields)) {
+		if (fields[0] === null || fieldsDoNotOverlap(...fields)) {
 			// console.log("fieldsDoNotOverlap")
 			elements.push({
-				type: field2.type,
+				type: fields[1].type,
 				props: {
-					children: node.text.slice(field2.offsetStart, field2.offsetEnd),
+					children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
 				},
 			})
 		} else if (fieldsPartiallyOverlap(...fields)) {
@@ -109,7 +115,7 @@ function parseInlineElements(node, componentMap) {
 			const recent = mostRecentElement(elements[elements.length - 1])
 			const ref = recent.prev.ref
 			ref.props.children = {
-				type: field2.type,
+				type: fields[1].type,
 				props: {
 					children: ref.props.children,
 				},
