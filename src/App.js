@@ -45,10 +45,9 @@ function toReact(components, componentMap) {
 			renderable.push(each)
 			continue
 		}
-		const { type: T, props } = each
-		const Element = componentMap[T]
 		// TODO: Argument components must be an array; uses
-		// [...] for now
+		// [props.children] for now
+		const { type: T, props } = each
 		renderable.push(React.createElement(componentMap[T], {
 			key: renderable.length,
 			...props,
@@ -59,7 +58,7 @@ function toReact(components, componentMap) {
 
 // Parses an element from a VDOM node.
 function parseElements(node, componentMap) {
-	const components = []
+	const elements = []
 	for (let x = 0; x < node.fields.length; x++) {
 
 		const min = Math.max(x - 1, 0)
@@ -72,20 +71,30 @@ function parseElements(node, componentMap) {
 
 		if (fields.length === 1 || fieldsDoNotIntersect(fields[0], fields[1])) {
 			const field = fields[fields.length - 1]
-			components.push({
+			elements.push({
 				...field,
 				props: {
 					children: node.text.slice(field.offsetStart, field.offsetEnd),
 				},
 			})
 		} else {
-			console.log(fields)
+			// console.log(fields)
+			const [, field] = fields
 			switch (true) {
 			case fieldsArePartiallyIntersected(...fields):
 				console.log("fieldsArePartiallyIntersected")
 				break
 			case fieldsAreTotallyIntersected(...fields):
 				console.log("fieldsAreTotallyIntersected")
+
+				const ref = deepestElement(elements[elements.length - 1])
+				ref.props.children = {
+					...field,
+					props: {
+						children: ref.props.children,
+					},
+				}
+
 				break
 			case fieldIsContainedRHS(...fields):
 				console.log("fieldIsContainedRHS")
@@ -102,108 +111,55 @@ function parseElements(node, componentMap) {
 			}
 		}
 
-		//		// if (x && nodes.fields[x].offsetStart === nodes.fields[x - 1].offsetStart && nodes.fields[x].offsetEnd === nodes.fields[x - 1].offsetEnd) {
-		//		// 	const ref = deepestElement(components[components.length - 1])
-		//		// 	ref.props.children = {
-		//		// 		type: nodes.fields[x].type,
-		//		// 		props: {
-		//		// 			children: ref.props.children,
-		//		// 		},
-		//		// 	}
-		//
-		//		if (x && fieldIsNested(nodes.fields[x - 1], nodes.fields[x])) {
-		//			// TODO: Three cases: slice LHS, no slice, slice RHS
-		//			const ref = deepestElement(components[components.length - 1])
-		//			const offsetStart = nodes.fields[x].offsetStart - nodes.fields[x - 1].offsetStart
-		//			const offsetEnd = offsetStart + nodes.fields[x].offsetEnd - nodes.fields[x].offsetStart
-		//			console.log(
-		//				ref.props.children.slice(0, offsetStart),
-		//				ref.props.children.slice(offsetStart, offsetEnd),
-		//				ref.props.children.slice(offsetEnd),
-		//			)
-		//			ref.props.children = {
-		//				type: nodes.fields[x].type,
-		//				props: {
-		//					children: ref.props.children,
-		//				},
-		//			}
-		//
-		//			// const A = componentMap[nodes.fields[x].type]
-		//			// const B = componentMap[nodes.fields[x + 1].type]
-		//			// children.push((
-		//			// 	<A key={children.length}>
-		//			// 		{nodes.text.slice(nodes.fields[x].offsetStart,
-		//			// 			nodes.fields[x + 1].offsetStart)}
-		//			// 		<B>
-		//			// 			{nodes.text.slice(nodes.fields[x + 1].offsetStart,
-		//			// 				nodes.fields[x + 1].offsetEnd)}
-		//			// 		</B>
-		//			// 		{nodes.text.slice(nodes.fields[x + 1].offsetEnd,
-		//			// 			nodes.fields[x].offsetEnd)}
-		//			// 	</A>
-		//			// ))
-		//			// x++
-		//
-		//		// } else if (x && fieldIsPartiallyNested(nodes.fields[x], nodes.fields[x - 1])) {
-		//			// ...
-		//		} else {
-		//			components.push({
-		//				type: nodes.fields[x].type,
-		//				props: {
-		//					children: nodes.text.slice(nodes.fields[x].offsetStart, nodes.fields[x].offsetEnd),
-		//				},
-		//			})
-		//		}
-		//
-		//		// if (x + 1 < nodes.fields.length && fieldIsNested(nodes.fields[x], nodes.fields[x + 1])) {
-		//		// 	const A = componentMap[nodes.fields[x].type]
-		//		// 	const B = componentMap[nodes.fields[x + 1].type]
-		//		// 	children.push((
-		//		// 		<A key={children.length}>
-		//		// 			{nodes.text.slice(nodes.fields[x].offsetStart,
-		//		// 				nodes.fields[x + 1].offsetStart)}
-		//		// 			<B>
-		//		// 				{nodes.text.slice(nodes.fields[x + 1].offsetStart,
-		//		// 					nodes.fields[x + 1].offsetEnd)}
-		//		// 			</B>
-		//		// 			{nodes.text.slice(nodes.fields[x + 1].offsetEnd,
-		//		// 				nodes.fields[x].offsetEnd)}
-		//		// 		</A>
-		//		// 	))
-		//		// 	x++
-		//		// } else if (x + 1 < nodes.fields.length && fieldIsPartiallyNested(nodes.fields[x], nodes.fields[x + 1])) {
-		//		// 	const A = componentMap[nodes.fields[x].type]
-		//		// 	const B = componentMap[nodes.fields[x + 1].type]
-		//		// 	children.push((
-		//		// 		<React.Fragment key={children.length}>
-		//		// 			<A key={children.length}>
-		//		// 				{nodes.text.slice(nodes.fields[x].offsetStart,
-		//		// 					nodes.fields[x + 1].offsetStart)}
-		//		// 				<B key={children.length}>
-		//		// 					{nodes.text.slice(nodes.fields[x + 1].offsetStart,
-		//		// 						nodes.fields[x].offsetEnd)}
-		//		// 				</B>
-		//		// 			</A>
-		//		// 			<B key={children.length}>
-		//		// 				{nodes.text.slice(nodes.fields[x].offsetEnd,
-		//		// 					nodes.fields[x + 1].offsetEnd)}
-		//		// 			</B>
-		//		// 		</React.Fragment>
-		//		// 	))
-		//		// 	x++
-		//		// } else {
-		//		// 	const A = componentMap[nodes.fields[x].type]
-		//		// 	children.push((
-		//		// 		<A key={children.length}>
-		//		// 			{nodes.text.slice(nodes.fields[x].offsetStart,
-		//		// 				nodes.fields[x].offsetEnd)}
-		//		// 		</A>
-		//		// 	))
-		//		// }
+		// if (x + 1 < nodes.fields.length && fieldIsNested(nodes.fields[x], nodes.fields[x + 1])) {
+		// 	const A = componentMap[nodes.fields[x].type]
+		// 	const B = componentMap[nodes.fields[x + 1].type]
+		// 	children.push((
+		// 		<A key={children.length}>
+		// 			{nodes.text.slice(nodes.fields[x].offsetStart,
+		// 				nodes.fields[x + 1].offsetStart)}
+		// 			<B>
+		// 				{nodes.text.slice(nodes.fields[x + 1].offsetStart,
+		// 					nodes.fields[x + 1].offsetEnd)}
+		// 			</B>
+		// 			{nodes.text.slice(nodes.fields[x + 1].offsetEnd,
+		// 				nodes.fields[x].offsetEnd)}
+		// 		</A>
+		// 	))
+		// 	x++
+		// } else if (x + 1 < nodes.fields.length && fieldIsPartiallyNested(nodes.fields[x], nodes.fields[x + 1])) {
+		// 	const A = componentMap[nodes.fields[x].type]
+		// 	const B = componentMap[nodes.fields[x + 1].type]
+		// 	children.push((
+		// 		<React.Fragment key={children.length}>
+		// 			<A key={children.length}>
+		// 				{nodes.text.slice(nodes.fields[x].offsetStart,
+		// 					nodes.fields[x + 1].offsetStart)}
+		// 				<B key={children.length}>
+		// 					{nodes.text.slice(nodes.fields[x + 1].offsetStart,
+		// 						nodes.fields[x].offsetEnd)}
+		// 				</B>
+		// 			</A>
+		// 			<B key={children.length}>
+		// 				{nodes.text.slice(nodes.fields[x].offsetEnd,
+		// 					nodes.fields[x + 1].offsetEnd)}
+		// 			</B>
+		// 		</React.Fragment>
+		// 	))
+		// 	x++
+		// } else {
+		// 	const A = componentMap[nodes.fields[x].type]
+		// 	children.push((
+		// 		<A key={children.length}>
+		// 			{nodes.text.slice(nodes.fields[x].offsetStart,
+		// 				nodes.fields[x].offsetEnd)}
+		// 		</A>
+		// 	))
+		// }
 
 	}
 
-	return components
+	return elements
 }
 
 const CodexEditor = ({
