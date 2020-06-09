@@ -1,10 +1,8 @@
 import {
-	fieldIsContainedLHS,
-	fieldIsContainedRHS,
-	fieldIsTotallyContained,
-	fieldsArePartiallyIntersected,
-	fieldsAreTotallyIntersected,
-	fieldsDoNotIntersect,
+	fieldsAreContained,
+	fieldsDoNotOverlap,
+	fieldsPartiallyOverlap,
+	fieldsTotallyOverlap,
 } from "./index"
 
 // +-------+-------+    +-------+ +-------+
@@ -13,7 +11,7 @@ import {
 // |       |\\\\\\\|    |       | |\\\\\\\|
 // +-------+-------+    +-------+ +-------+
 //
-test("fieldsDoNotIntersect", () => {
+test("fieldsDoNotOverlap", () => {
 	const fieldA = {
 		offsetStart: 0,
 		offsetEnd: 3,
@@ -22,16 +20,16 @@ test("fieldsDoNotIntersect", () => {
 		offsetStart: 3,
 		offsetEnd: 6,
 	}
-	expect(fieldsDoNotIntersect(fieldA, fieldB)).toBe(true)
+	expect(fieldsDoNotOverlap(fieldA, fieldB)).toBe(true)
 })
 
-//   +---+---+---+
-//   |   |\\\|\\\|
-//   | A |\\\B\\\|
-//   |   |\\\|\\\|
-//   +---+---+---+
+// +---+---+---+
+// |   |\\\|\\\|
+// | A |\\\B\\\|
+// |   |\\\|\\\|
+// +---+---+---+
 //
-test("fieldsArePartiallyIntersected", () => {
+test("fieldsPartiallyOverlap", () => {
 	const fieldA = {
 		offsetStart: 0,
 		offsetEnd: 3,
@@ -40,16 +38,16 @@ test("fieldsArePartiallyIntersected", () => {
 		offsetStart: 2,
 		offsetEnd: 5,
 	}
-	expect(fieldsArePartiallyIntersected(fieldA, fieldB)).toBe(true)
+	expect(fieldsPartiallyOverlap(fieldA, fieldB)).toBe(true)
 })
 
-//     +-------+
-//     |\\\\\\\|
-//     |\\\B\\\| A
-//     |\\\\\\\|
-//     +-------+
+// +-------+
+// |\\\\\\\|
+// |\\\B\\\|
+// |\\\\\\\|
+// +-------+
 //
-test("fieldsAreTotallyIntersected", () => {
+test("fieldsTotallyOverlap", () => {
 	const fieldA = {
 		offsetStart: 0,
 		offsetEnd: 3,
@@ -58,59 +56,47 @@ test("fieldsAreTotallyIntersected", () => {
 		offsetStart: 0,
 		offsetEnd: 3,
 	}
-	expect(fieldsAreTotallyIntersected(fieldA, fieldB)).toBe(true)
+	expect(fieldsTotallyOverlap(fieldA, fieldB)).toBe(true)
 })
 
-//     +---+---+
-//     |   |\\\|
-//     | A |\B\|
-//     |   |\\\|
-//     +---+---+
+// +---+---+    +-+---+-+    +---+---+
+// |   |\\\|    | |\\\| |    |\\\|   |
+// | A |\B\| or | |\B\| | or |\B\| A |
+// |   |\\\|    | |\\\| |    |\\\|   |
+// +---+---+    +-+---+-+    +---+---+
 //
-test("fieldIsContainedRHS", () => {
-	const fieldA = {
-		offsetStart: 0,
-		offsetEnd: 3,
-	}
-	const fieldB = {
-		offsetStart: 2,
-		offsetEnd: 3,
-	}
-	expect(fieldIsContainedRHS(fieldA, fieldB)).toBe(true)
-})
-
-//     +-+---+-+
-//     | |\\\| |
-//     | |\B\| | A
-//     | |\\\| |
-//     +-+---+-+
-//
-test("fieldIsTotallyContained", () => {
-	const fieldA = {
-		offsetStart: 0,
-		offsetEnd: 3,
-	}
-	const fieldB = {
-		offsetStart: 1,
-		offsetEnd: 2,
-	}
-	expect(fieldIsTotallyContained(fieldA, fieldB)).toBe(true)
-})
-
-//     +---+---+
-//     |\\\|   |
-//     |\B\| A |
-//     |\\\|   |
-//     +---+---+
-//
-test("fieldIsContainedLHS", () => {
-	const fieldA = {
-		offsetStart: 0,
-		offsetEnd: 3,
-	}
-	const fieldB = {
-		offsetStart: 0,
-		offsetEnd: 1,
-	}
-	expect(fieldIsContainedLHS(fieldA, fieldB)).toBe(true)
+describe("fieldsAreNested", () => {
+	test("rhs", () => {
+		const fieldA = {
+			offsetStart: 0,
+			offsetEnd: 3,
+		}
+		const fieldB = {
+			offsetStart: 2,
+			offsetEnd: 3,
+		}
+		expect(fieldsAreContained(fieldA, fieldB)).toBe(true)
+	})
+	test("center", () => {
+		const fieldA = {
+			offsetStart: 0,
+			offsetEnd: 3,
+		}
+		const fieldB = {
+			offsetStart: 1,
+			offsetEnd: 2,
+		}
+		expect(fieldsAreContained(fieldA, fieldB)).toBe(true)
+	})
+	test("lhs", () => {
+		const fieldA = {
+			offsetStart: 0,
+			offsetEnd: 3,
+		}
+		const fieldB = {
+			offsetStart: 0,
+			offsetEnd: 1,
+		}
+		expect(fieldsAreContained(fieldA, fieldB)).toBe(true)
+	})
 })

@@ -12,12 +12,10 @@ import {
 } from "./components"
 
 import {
-	fieldIsContainedLHS,
-	fieldIsContainedRHS,
-	fieldIsTotallyContained,
-	fieldsArePartiallyIntersected,
-	fieldsAreTotallyIntersected,
-	fieldsDoNotIntersect,
+	fieldsAreContained,
+	fieldsDoNotOverlap,
+	fieldsPartiallyOverlap,
+	fieldsTotallyOverlap,
 } from "./fields"
 
 // Returns the deepest reference to props.children.
@@ -89,8 +87,8 @@ function parseInlineElements(node, componentMap) {
 		// }
 		const currentField = fields[fields.length - 1]
 
-		if (fields.length === 1 || fieldsDoNotIntersect(fields[0], fields[1])) {
-			// console.log("fieldsDoNotIntersect")
+		if (fields.length === 1 || fieldsDoNotOverlap(fields[0], fields[1])) {
+			// console.log("fieldsDoNotOverlap")
 			elements.push({
 				type: currentField.type,
 				props: {
@@ -98,8 +96,8 @@ function parseInlineElements(node, componentMap) {
 				},
 			})
 		} else {
-			if (fieldsArePartiallyIntersected(...fields)) {
-				// console.log("fieldsArePartiallyIntersected")
+			if (fieldsPartiallyOverlap(...fields)) {
+				// console.log("fieldsPartiallyOverlap")
 				const recent = mostRecentElement(elements[elements.length - 1])
 				const ref = recent.prev.ref
 				ref.props.children = [
@@ -124,8 +122,8 @@ function parseInlineElements(node, componentMap) {
 						children: node.text.slice(fields[0].offsetEnd, fields[1].offsetEnd),
 					},
 				})
-			} else if (fieldsAreTotallyIntersected(...fields)) {
-				// console.log("fieldsAreTotallyIntersected")
+			} else if (fieldsTotallyOverlap(...fields)) {
+				// console.log("fieldsTotallyOverlap")
 				const recent = mostRecentElement(elements[elements.length - 1])
 				const ref = recent.prev.ref
 				ref.props.children = {
@@ -134,11 +132,7 @@ function parseInlineElements(node, componentMap) {
 						children: ref.props.children,
 					},
 				}
-			} else if (
-				fieldIsContainedLHS(...fields) ||
-				fieldIsTotallyContained(...fields) ||
-				fieldIsContainedRHS(...fields)
-			) {
+			} else if (fieldsAreContained(...fields)) {
 				// ...
 				const recent = mostRecentElement(elements[elements.length - 1])
 				const ref = recent.prev.ref
@@ -146,12 +140,6 @@ function parseInlineElements(node, componentMap) {
 				const lhs = node.text.slice(fields[0].offsetStart, fields[1].offsetStart)
 				if (lhs) {
 					ref.props.children.push(lhs)
-					// ref.props.children.push({
-					// 	type: fields[0].type,
-					// 	props: {
-					// 		children: lhs,
-					// 	},
-					// })
 				}
 				const mid = node.text.slice(fields[1].offsetStart, fields[1].offsetEnd)
 				if (mid) {
@@ -165,12 +153,6 @@ function parseInlineElements(node, componentMap) {
 				const rhs = node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd)
 				if (rhs) {
 					ref.props.children.push(rhs)
-					// ref.props.children.push({
-					// 	type: fields[0].type,
-					// 	props: {
-					// 		children: rhs,
-					// 	},
-					// })
 				}
 			}
 		}

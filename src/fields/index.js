@@ -4,17 +4,17 @@
 // |       |\\\\\\\|    |       | |\\\\\\\|
 // +-------+-------+    +-------+ +-------+
 //
-export function fieldsDoNotIntersect(fieldA, fieldB) {
+export function fieldsDoNotOverlap(fieldA, fieldB) {
 	return fieldB.offsetStart >= fieldA.offsetEnd
 }
 
-//   +---+---+---+
-//   |   |\\\|\\\|
-//   | A |\\\B\\\|
-//   |   |\\\|\\\|
-//   +---+---+---+
+// +---+---+---+
+// |   |\\\|\\\|
+// | A |\\\B\\\|
+// |   |\\\|\\\|
+// +---+---+---+
 //
-export function fieldsArePartiallyIntersected(fieldA, fieldB) {
+export function fieldsPartiallyOverlap(fieldA, fieldB) {
 	const ok = (
 		fieldB.offsetStart < fieldA.offsetEnd &&
 		fieldB.offsetEnd > fieldA.offsetEnd
@@ -22,13 +22,13 @@ export function fieldsArePartiallyIntersected(fieldA, fieldB) {
 	return ok
 }
 
-//     +-------+
-//     |\\\\\\\|
-//     |\\\B\\\| A
-//     |\\\\\\\|
-//     +-------+
+// +-------+
+// |\\\\\\\|
+// |\\\B\\\|
+// |\\\\\\\|
+// +-------+
 //
-export function fieldsAreTotallyIntersected(fieldA, fieldB) {
+export function fieldsTotallyOverlap(fieldA, fieldB) {
 	const ok = (
 		fieldB.offsetStart === fieldA.offsetStart &&
 		fieldB.offsetEnd === fieldA.offsetEnd
@@ -36,44 +36,16 @@ export function fieldsAreTotallyIntersected(fieldA, fieldB) {
 	return ok
 }
 
-//     +---+---+
-//     |   |\\\|
-//     | A |\B\|
-//     |   |\\\|
-//     +---+---+
+// +---+---+    +-+---+-+    +---+---+
+// |   |\\\|    | |\\\| |    |\\\|   |
+// | A |\B\| or | |\B\| | or |\B\| A |
+// |   |\\\|    | |\\\| |    |\\\|   |
+// +---+---+    +-+---+-+    +---+---+
 //
-export function fieldIsContainedRHS(fieldA, fieldB) {
+export function fieldsAreContained(fieldA, fieldB) {
 	const ok = (
-		fieldB.offsetStart > fieldA.offsetStart &&
-		fieldB.offsetEnd === fieldA.offsetEnd
-	)
-	return ok
-}
-
-//     +-+---+-+
-//     | |\\\| |
-//     | |\B\| | A
-//     | |\\\| |
-//     +-+---+-+
-//
-export function fieldIsTotallyContained(fieldA, fieldB) {
-	const ok = (
-		fieldB.offsetStart > fieldA.offsetStart &&
-		fieldB.offsetEnd < fieldA.offsetEnd
-	)
-	return ok
-}
-
-//     +---+---+
-//     |\\\|   |
-//     |\B\| A |
-//     |\\\|   |
-//     +---+---+
-//
-export function fieldIsContainedLHS(fieldA, fieldB) {
-	const ok = (
-		fieldB.offsetStart === fieldA.offsetStart &&
-		fieldB.offsetEnd < fieldA.offsetEnd
+		fieldB.offsetStart >= fieldA.offsetStart &&
+		fieldB.offsetEnd <= fieldA.offsetEnd
 	)
 	return ok
 }
