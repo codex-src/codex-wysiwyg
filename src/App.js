@@ -145,12 +145,13 @@ function parseInlineElements(node, componentMap) {
 				ref.props.children = []
 				const lhs = node.text.slice(fields[0].offsetStart, fields[1].offsetStart)
 				if (lhs) {
-					ref.props.children.push({
-						type: fields[0].type,
-						props: {
-							children: lhs,
-						},
-					})
+					ref.props.children.push(lhs)
+					// ref.props.children.push({
+					// 	type: fields[0].type,
+					// 	props: {
+					// 		children: lhs,
+					// 	},
+					// })
 				}
 				const mid = node.text.slice(fields[1].offsetStart, fields[1].offsetEnd)
 				if (mid) {
@@ -163,12 +164,13 @@ function parseInlineElements(node, componentMap) {
 				}
 				const rhs = node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd)
 				if (rhs) {
-					ref.props.children.push({
-						type: fields[0].type,
-						props: {
-							children: rhs,
-						},
-					})
+					ref.props.children.push(rhs)
+					// ref.props.children.push({
+					// 	type: fields[0].type,
+					// 	props: {
+					// 		children: rhs,
+					// 	},
+					// })
 				}
 			}
 		}
@@ -235,14 +237,14 @@ const CodexEditor = ({
 				},
 				{
 					type: "strong",
-					offsetStart: 11,
-					offsetEnd: 14,
-				},
-				{
-					type: "strike",
-					offsetStart: 11,
+					offsetStart: 12,
 					offsetEnd: 13,
 				},
+				// {
+				// 	type: "strike",
+				// 	offsetStart: 11,
+				// 	offsetEnd: 13,
+				// },
 			],
 		},
 	]
