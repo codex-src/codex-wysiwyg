@@ -134,66 +134,42 @@ function parseInlineElements(node, componentMap) {
 						children: ref.props.children,
 					},
 				}
-			} else if (fieldIsContainedRHS(...fields)) {
-				// console.log("fieldIsContainedRHS")
+			} else if (
+				fieldIsContainedLHS(...fields) ||
+				fieldIsTotallyContained(...fields) ||
+				fieldIsContainedRHS(...fields)
+			) {
+				// ...
 				const recent = mostRecentElement(elements[elements.length - 1])
 				const ref = recent.prev.ref
-				ref.props.children = [
-					{
+				ref.props.children = []
+				const lhs = node.text.slice(fields[0].offsetStart, fields[1].offsetStart)
+				if (lhs) {
+					ref.props.children.push({
 						type: fields[0].type,
 						props: {
-							children: node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
+							children: lhs,
 						},
-					},
-					{
+					})
+				}
+				const mid = node.text.slice(fields[1].offsetStart, fields[1].offsetEnd)
+				if (mid) {
+					ref.props.children.push({
 						type: fields[1].type,
 						props: {
-							children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
+							children: mid,
 						},
-					},
-				]
-			} else if (fieldIsTotallyContained(...fields)) {
-				// console.log("fieldIsTotallyContained")
-				const recent = mostRecentElement(elements[elements.length - 1])
-				const ref = recent.prev.ref
-				ref.props.children = [
-					{
+					})
+				}
+				const rhs = node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd)
+				if (rhs) {
+					ref.props.children.push({
 						type: fields[0].type,
 						props: {
-							children: node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
+							children: rhs,
 						},
-					},
-					{
-						type: fields[1].type,
-						props: {
-							children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
-						},
-					},
-					{
-						type: fields[0].type,
-						props: {
-							children: node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd),
-						},
-					},
-				]
-			} else if (fieldIsContainedLHS(...fields)) {
-				// console.log("fieldIsContainedLHS")
-				const recent = mostRecentElement(elements[elements.length - 1])
-				const ref = recent.prev.ref
-				ref.props.children = [
-					{
-						type: fields[1].type,
-						props: {
-							children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
-						},
-					},
-					{
-						type: fields[0].type,
-						props: {
-							children: node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd),
-						},
-					},
-				]
+					})
+				}
 			}
 		}
 
