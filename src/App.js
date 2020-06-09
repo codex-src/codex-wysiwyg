@@ -21,8 +21,6 @@ import {
 } from "./fields"
 
 // Returns the deepest reference to props.children.
-//
-// TODO: Change to deepestEndElement?
 function deepestElement(element) {
 	let lastRef = element
 	let ref = lastRef.props.children
@@ -31,6 +29,27 @@ function deepestElement(element) {
 		ref = ref.props.children
 	}
 	return lastRef
+}
+
+// Returns doubly linked list to the most recent element.
+function deepestElement2(element) {
+	let ref = element
+	let list = {
+		prev: null,
+		ref,
+		next: null,
+	}
+	while (typeof ref === "object" && "props" in ref && "children" in ref.props) {
+		ref = Array.isArray(ref.props.children) ? ref.props.children[ref.props.children.length - 1] :
+			ref.props.children
+		list.next = {
+			prev: list,
+			ref,
+			next: null,
+		}
+		list = list.next
+	}
+	return list
 }
 
 // Converts elements to renderable React components.
@@ -82,6 +101,7 @@ function parseInlineElements(node, componentMap) {
 			if (fieldsArePartiallyIntersected(...fields)) {
 				// console.log("fieldsArePartiallyIntersected")
 				const ref = deepestElement(elements[elements.length - 1])
+				console.log(deepestElement2(elements[elements.length - 1]))
 				ref.props.children = [
 					{
 						type: fields[0].type,
@@ -122,7 +142,7 @@ function parseInlineElements(node, componentMap) {
 
 	}
 
-	console.log(JSON.stringify(elements, null, "\t"))
+	// console.log(JSON.stringify(elements, null, "\t"))
 	return elements
 }
 
