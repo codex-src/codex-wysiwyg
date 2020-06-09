@@ -21,6 +21,11 @@ state
 *if* properly sorted based on the previous conditions
 - sort order only impacts consecutive elements that share
 the start-offset
+- duplicate fields are not allowed; once a field is
+declared, for the entirety of that scope no such further
+fields may be used or adjacent
+- some attributes may de-attribute nested attributes, such
+as code (perhaps this should be configurable)
 
 # validatation
 - note that sorting and validating are not the same; sorting
