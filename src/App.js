@@ -18,18 +18,11 @@ import {
 	fieldsTotallyOverlap,
 } from "./fields"
 
-// Returns the deepest reference to props.children.
-function deepestElement(element) {
-	let lastRef = element
-	let ref = lastRef.props.children
-	while (typeof ref === "object" && "props" in ref && "children" in ref.props) {
-		lastRef = ref
-		ref = ref.props.children
-	}
-	return lastRef
-}
-
 // Returns doubly linked list to the most recent element.
+//
+// TODO: We can probably just use references to the most
+// recent element and the host element -- I don’t see us
+// needing *more* information
 function mostRecentElement(element) {
 	let ref = element
 	let recent = {
@@ -78,82 +71,70 @@ function parseInlineElements(node, componentMap) {
 	const elements = []
 	for (let x = 0; x < node.fields.length; x++) {
 
-		const min = Math.max(x - 1, 0)
-		const max = Math.min(x + 1, node.fields.length)
+		const field1 = !x ? null : node.fields[x - 1]
+		const field2 = node.fields[x]
+		const fields = [field1, field2]
 
-		const fields = node.fields.slice(min, max)
-		// if (fields.length < 1 || fields.length > 2) {
-		// 	throw new Error(`parseInlineElements: too few or too many fields; length=${fields.length}`)
-		// }
-		const currentField = fields[fields.length - 1]
-
-		if (fields.length === 1 || fieldsDoNotOverlap(fields[0], fields[1])) {
+		if (!field1 || fieldsDoNotOverlap(...fields)) {
 			// console.log("fieldsDoNotOverlap")
 			elements.push({
-				type: currentField.type,
+				type: field2.type,
 				props: {
-					children: node.text.slice(currentField.offsetStart, currentField.offsetEnd),
+					children: node.text.slice(field2.offsetStart, field2.offsetEnd),
 				},
 			})
-		} else {
-			if (fieldsPartiallyOverlap(...fields)) {
-				// console.log("fieldsPartiallyOverlap")
-				const recent = mostRecentElement(elements[elements.length - 1])
-				const ref = recent.prev.ref
-				ref.props.children = [
-					{
-						type: fields[0].type,
-						props: {
-							children: node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
-						},
-					},
-					{
-						type: fields[1].type,
-						props: {
-							children: node.text.slice(fields[1].offsetStart, fields[0].offsetEnd),
-						},
-					},
-				]
-				// TODO: Arrays are not actually supported...
-				const arr = recent.prev.prev ? recent.prev.prev.ref : elements
-				arr.push({
+		} else if (fieldsPartiallyOverlap(...fields)) {
+			// console.log("fieldsPartiallyOverlap")
+			const recent = mostRecentElement(elements[elements.length - 1])
+			const ref = recent.prev.ref
+			ref.props.children = [
+				node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
+				{
 					type: fields[1].type,
 					props: {
-						children: node.text.slice(fields[0].offsetEnd, fields[1].offsetEnd),
+						children: node.text.slice(fields[1].offsetStart, fields[0].offsetEnd),
+					},
+				},
+			]
+			// TODO: Arrays are not actually supported...
+			const arr = recent.prev.prev ? recent.prev.prev.ref : elements
+			arr.push({
+				type: fields[1].type,
+				props: {
+					children: node.text.slice(fields[0].offsetEnd, fields[1].offsetEnd),
+				},
+			})
+		} else if (fieldsTotallyOverlap(...fields)) {
+			// console.log("fieldsTotallyOverlap")
+			const recent = mostRecentElement(elements[elements.length - 1])
+			const ref = recent.prev.ref
+			ref.props.children = {
+				type: field2.type,
+				props: {
+					children: ref.props.children,
+				},
+			}
+		} else if (fieldsAreContained(...fields)) {
+			// ...
+			const recent = mostRecentElement(elements[elements.length - 1])
+			const ref = recent.prev.ref
+			ref.props.children = []
+			const lhs = node.text.slice(fields[0].offsetStart, fields[1].offsetStart)
+			if (lhs) {
+				ref.props.children.push(lhs)
+			}
+			const mid = node.text.slice(fields[1].offsetStart, fields[1].offsetEnd)
+			if (mid) {
+				ref.props.children.push({
+					type: fields[1].type,
+					props: {
+						children: mid,
 					},
 				})
-			} else if (fieldsTotallyOverlap(...fields)) {
-				// console.log("fieldsTotallyOverlap")
-				const recent = mostRecentElement(elements[elements.length - 1])
-				const ref = recent.prev.ref
-				ref.props.children = {
-					type: currentField.type,
-					props: {
-						children: ref.props.children,
-					},
-				}
-			} else if (fieldsAreContained(...fields)) {
-				// ...
-				const recent = mostRecentElement(elements[elements.length - 1])
-				const ref = recent.prev.ref
-				ref.props.children = []
-				const lhs = node.text.slice(fields[0].offsetStart, fields[1].offsetStart)
-				if (lhs) {
-					ref.props.children.push(lhs)
-				}
-				const mid = node.text.slice(fields[1].offsetStart, fields[1].offsetEnd)
-				if (mid) {
-					ref.props.children.push({
-						type: fields[1].type,
-						props: {
-							children: mid,
-						},
-					})
-				}
-				const rhs = node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd)
-				if (rhs) {
-					ref.props.children.push(rhs)
-				}
+			}
+			const rhs = node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd)
+			if (rhs) {
+				ref.props.children.push(rhs)
 			}
 		}
 
