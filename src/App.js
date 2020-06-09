@@ -1,5 +1,14 @@
 import React from "react"
 
+import {
+	fieldIsContained,
+	fieldIsContainedLHS,
+	fieldIsContainedRHS,
+	fieldsArePartiallyIntersected,
+	fieldsAreTotallyIntersected,
+	fieldsDoNotIntersect,
+} from "./fields"
+
 const Header = ({ children }) => (
 	<h1 className="">
 		{children || (
@@ -43,7 +52,6 @@ const Strike = ({ children }) => (
 		{children}
 	</strike>
 )
-
 
 // Returns whether an inline element field is nested.
 function fieldIsNested(fieldA, fieldB) {

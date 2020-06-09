@@ -44,7 +44,7 @@ export function fieldsAreTotallyIntersected(fieldA, fieldB) {
 //
 export function fieldIsContainedRHS(fieldA, fieldB) {
 	const ok = (
-		fieldB.offsetStart < fieldA.offsetStart &&
+		fieldB.offsetStart > fieldA.offsetStart &&
 		fieldB.offsetEnd === fieldA.offsetEnd
 	)
 	return ok
@@ -56,7 +56,7 @@ export function fieldIsContainedRHS(fieldA, fieldB) {
 //     | |\\\| |
 //     +-+---+-+
 //
-export function fieldIsTotallyContained(fieldA, fieldB) {
+export function fieldIsContained(fieldA, fieldB) {
 	const ok = (
 		fieldB.offsetStart > fieldA.offsetStart &&
 		fieldB.offsetEnd < fieldA.offsetEnd
