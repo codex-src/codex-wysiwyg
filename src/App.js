@@ -12,9 +12,9 @@ import {
 } from "./components"
 
 import {
-	fieldIsContained,
 	fieldIsContainedLHS,
 	fieldIsContainedRHS,
+	fieldIsTotallyContained,
 	fieldsArePartiallyIntersected,
 	fieldsAreTotallyIntersected,
 	fieldsDoNotIntersect,
@@ -153,8 +153,31 @@ function parseInlineElements(node, componentMap) {
 						},
 					},
 				]
-			} else if (fieldIsContained(...fields)) {
-				// console.log("fieldIsContained")
+			} else if (fieldIsTotallyContained(...fields)) {
+				console.log("fieldIsTotallyContained")
+				const recent = mostRecentElement(elements[elements.length - 1])
+				const ref = recent.prev.ref
+				console.log(ref)
+				ref.props.children = [
+					{
+						type: fields[0].type,
+						props: {
+							children: node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
+						},
+					},
+					{
+						type: fields[1].type,
+						props: {
+							children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
+						},
+					},
+					{
+						type: fields[0].type,
+						props: {
+							children: node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd),
+						},
+					},
+				]
 			} else if (fieldIsContainedLHS(...fields)) {
 				// console.log("fieldIsContainedLHS")
 			}
@@ -228,13 +251,8 @@ const CodexEditor = ({
 				{
 					type: "strike",
 					offsetStart: 12,
-					offsetEnd: 14,
+					offsetEnd: 13,
 				},
-				// {
-				// 	type: "unstyled",
-				// 	offsetStart: 11,
-				// 	offsetEnd: 11,
-				// },
 			],
 		},
 	]

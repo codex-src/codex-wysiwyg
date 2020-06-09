@@ -1,7 +1,7 @@
 import {
-	fieldIsContained,
 	fieldIsContainedLHS,
 	fieldIsContainedRHS,
+	fieldIsTotallyContained,
 	fieldsArePartiallyIntersected,
 	fieldsAreTotallyIntersected,
 	fieldsDoNotIntersect,
@@ -85,7 +85,7 @@ test("fieldIsContainedRHS", () => {
 //     | |\\\| |
 //     +-+---+-+
 //
-test("fieldIsContained", () => {
+test("fieldIsTotallyContained", () => {
 	const fieldA = {
 		offsetStart: 0,
 		offsetEnd: 3,
@@ -94,7 +94,7 @@ test("fieldIsContained", () => {
 		offsetStart: 1,
 		offsetEnd: 2,
 	}
-	expect(fieldIsContained(fieldA, fieldB)).toBe(true)
+	expect(fieldIsTotallyContained(fieldA, fieldB)).toBe(true)
 })
 
 //     +---+---+

@@ -56,7 +56,7 @@ export function fieldIsContainedRHS(fieldA, fieldB) {
 //     | |\\\| |
 //     +-+---+-+
 //
-export function fieldIsContained(fieldA, fieldB) {
+export function fieldIsTotallyContained(fieldA, fieldB) {
 	const ok = (
 		fieldB.offsetStart > fieldA.offsetStart &&
 		fieldB.offsetEnd < fieldA.offsetEnd
