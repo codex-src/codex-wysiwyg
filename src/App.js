@@ -68,20 +68,36 @@ function toReact(components, componentMap) {
 
 // Parses inline elements from a VDOM node.
 function parseInlineElements(node, componentMap) {
-	// The parsed inline elements to be returned.
+
+	// elements: The parsed inline elements to be returned.
+	// // ref: Points to the most recent reference.
+	// // container: Points to the most recent reference container.
 	const elements = []
-
-	// Points to the most recent reference.
-	const ref = null
-
-	// Points to the most recent reference container.
-	const container = elements
+	// let ref = null
+	// let container = elements
 
 	for (let x = 0; x < node.fields.length; x++) {
 
 		const fields = [!x ? null : node.fields[x - 1], node.fields[x]]
 
-		if (fields[0] === null || fieldsDoNotOverlap(...fields)) {
+		// TODO: Add support for plaintext
+		if (!fields[0] && fields[1].offsetStart > 0) {
+			elements.push(node.text.slice(0, fields[1].offsetStart))
+			elements.push({
+				type: fields[1].type,
+				props: {
+					children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
+				},
+			})
+		} else if (fields[0] && fields[1].offsetStart > fields[0].offsetEnd) {
+			elements.push(node.text.slice(fields[0].offsetEnd, fields[1].offsetStart))
+			elements.push({
+				type: fields[1].type,
+				props: {
+					children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
+				},
+			})
+		} else if (fields[0] === null || fieldsDoNotOverlap(...fields)) {
 			// console.log("fieldsDoNotOverlap")
 			elements.push({
 				type: fields[1].type,
@@ -93,15 +109,14 @@ function parseInlineElements(node, componentMap) {
 			// console.log("fieldsPartiallyOverlap")
 			const recent = mostRecentElement(elements[elements.length - 1])
 			const ref = recent.prev.ref
-			ref.props.children = [
-				node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
-				{
-					type: fields[1].type,
-					props: {
-						children: node.text.slice(fields[1].offsetStart, fields[0].offsetEnd),
-					},
+			ref.props.children = []
+			ref.props.children.push(node.text.slice(fields[0].offsetStart, fields[1].offsetStart))
+			ref.props.children.push({
+				type: fields[1].type,
+				props: {
+					children: node.text.slice(fields[1].offsetStart, fields[0].offsetEnd),
 				},
-			]
+			})
 			// TODO: Arrays are not actually supported...
 			const arr = recent.prev.prev ? recent.prev.prev.ref : elements
 			arr.push({
@@ -187,27 +202,22 @@ const CodexEditor = ({
 		{
 			type: "paragraph",
 			key: uuidv4(),
-			text: "abc-123-xyzabc",
+			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec tempor nisl. Morbi pellentesque risus nec dolor egestas bibendum. In hac habitasse platea dictumst. Duis semper pellentesque condimentum. Nam rutrum dui non nibh congue faucibus. In a rhoncus lorem, eu blandit sem. Phasellus et interdum leo, ac porttitor nisi. Vivamus a blandit lorem. Donec malesuada, arcu at tempus ornare, turpis metus blandit dui, faucibus sodales purus erat eget enim. Nulla ac lacus a elit ultricies tempus. Proin faucibus euismod elit. Sed a mi ac nulla consequat viverra. Vivamus lobortis in dolor id pulvinar. Nunc at sem venenatis eros condimentum cursus et ac sapien. Etiam interdum scelerisque lacus id eleifend. Donec non justo in eros efficitur volutpat eget ut ligula.",
 			fields: [
 				{
 					type: "strong",
-					offsetStart: 0,
-					offsetEnd: 7,
+					offsetStart: 6,
+					offsetEnd: 26,
 				},
 				{
 					type: "em",
-					offsetStart: 4,
-					offsetEnd: 11,
+					offsetStart: 51,
+					offsetEnd: 55,
 				},
 				{
 					type: "code",
-					offsetStart: 11,
-					offsetEnd: 14,
-				},
-				{
-					type: "strong",
-					offsetStart: 12,
-					offsetEnd: 13,
+					offsetStart: 83,
+					offsetEnd: 135,
 				},
 				// {
 				// 	type: "strike",
