@@ -138,7 +138,6 @@ function parseInlineElements(node, componentMap) {
 				// console.log("fieldIsContainedRHS")
 				const recent = mostRecentElement(elements[elements.length - 1])
 				const ref = recent.prev.ref
-				console.log(ref)
 				ref.props.children = [
 					{
 						type: fields[0].type,
@@ -154,10 +153,9 @@ function parseInlineElements(node, componentMap) {
 					},
 				]
 			} else if (fieldIsTotallyContained(...fields)) {
-				console.log("fieldIsTotallyContained")
+				// console.log("fieldIsTotallyContained")
 				const recent = mostRecentElement(elements[elements.length - 1])
 				const ref = recent.prev.ref
-				console.log(ref)
 				ref.props.children = [
 					{
 						type: fields[0].type,
@@ -180,6 +178,22 @@ function parseInlineElements(node, componentMap) {
 				]
 			} else if (fieldIsContainedLHS(...fields)) {
 				// console.log("fieldIsContainedLHS")
+				const recent = mostRecentElement(elements[elements.length - 1])
+				const ref = recent.prev.ref
+				ref.props.children = [
+					{
+						type: fields[1].type,
+						props: {
+							children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
+						},
+					},
+					{
+						type: fields[0].type,
+						props: {
+							children: node.text.slice(fields[1].offsetEnd, fields[0].offsetEnd),
+						},
+					},
+				]
 			}
 		}
 
@@ -250,7 +264,7 @@ const CodexEditor = ({
 				},
 				{
 					type: "strike",
-					offsetStart: 12,
+					offsetStart: 11,
 					offsetEnd: 13,
 				},
 			],
