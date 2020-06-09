@@ -136,6 +136,23 @@ function parseInlineElements(node, componentMap) {
 				}
 			} else if (fieldIsContainedRHS(...fields)) {
 				// console.log("fieldIsContainedRHS")
+				const recent = mostRecentElement(elements[elements.length - 1])
+				const ref = recent.prev.ref
+				console.log(ref)
+				ref.props.children = [
+					{
+						type: fields[0].type,
+						props: {
+							children: node.text.slice(fields[0].offsetStart, fields[1].offsetStart),
+						},
+					},
+					{
+						type: fields[1].type,
+						props: {
+							children: node.text.slice(fields[1].offsetStart, fields[1].offsetEnd),
+						},
+					},
+				]
 			} else if (fieldIsContained(...fields)) {
 				// console.log("fieldIsContained")
 			} else if (fieldIsContainedLHS(...fields)) {
@@ -206,6 +223,11 @@ const CodexEditor = ({
 				{
 					type: "strong",
 					offsetStart: 11,
+					offsetEnd: 14,
+				},
+				{
+					type: "strike",
+					offsetStart: 12,
 					offsetEnd: 14,
 				},
 				// {
