@@ -30,7 +30,7 @@ function toReact(components, renderableMap) {
 	}
 	const renderable = []
 	for (const each of components) {
-		renderable.push(toReactEach(each, renderableMap, components.length))
+		renderable.push(toReactEach(each, renderableMap, renderable.length))
 	}
 	return renderable
 }
@@ -79,9 +79,21 @@ const CodexEditor = ({
 			type: Header,
 			key: uuidv4(),
 			spans: [
+				// {
+				// 	data: "Hello!",
+				// 	formats: [formatsEnum.strong, formatsEnum.emphasis],
+				// },
 				{
-					data: "Hello!",
+					data: "strong",
+					formats: [formatsEnum.strong],
+				},
+				{
+					data: "emphasis",
 					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					data: "strong",
+					formats: [formatsEnum.strong],
 				},
 			],
 		},
@@ -93,24 +105,28 @@ const CodexEditor = ({
 		const components = []
 		for (const each of spans) {
 			if (typeof each === "string") {
-				// Concatenate:
 				if (components.length && typeof components[components.length - 1] === "string") {
 					components[components.length - 1] += each
 					continue
 				}
-				// Push:
 				components.push(each)
 				continue
 			}
+
+			// NOTE: sortedFormats must be sorted based on render
+			// precedence
+			const { formats: [...sortedFormats], data } = each
+			sortedFormats.sort()
+
 			// TODO: Resolve shared formats between elements
 			const component = {
-				type: each.formats[0],
+				type: sortedFormats[0],
 				props: {
 					children: null,
 				},
 			}
 			let ref = component
-			for (const format of each.formats.slice(1)) {
+			for (const format of sortedFormats.slice(1)) {
 				ref.props.children = {
 					type: format,
 					props: {
@@ -119,7 +135,7 @@ const CodexEditor = ({
 				}
 				ref = ref.props.children
 			}
-			ref.props.children = each.data
+			ref.props.children = data
 			components.push(component)
 		}
 		return components
