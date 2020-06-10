@@ -118,6 +118,31 @@ const CodexEditor = ({
 			const { formats: [...sortedFormats], data } = each
 			sortedFormats.sort()
 
+			// FIXME
+			if (components.length && components[components.length - 1].type === sortedFormats[0]) {
+				if (sortedFormats.length === 1) {
+					components[components.length - 1].props.children = [
+						// TODO: Concatenate or append based on whether
+						// a string or array?
+						...components[components.length - 1].props.children,
+						data,
+					]
+					continue
+				} else if (sortedFormats.length === 2) {
+					components[components.length - 1].props.children = [
+						components[components.length - 1].props.children,
+						{
+							// TODO
+							type: sortedFormats[1],
+							props: {
+								children: data,
+							},
+						},
+					]
+					continue
+				}
+			}
+
 			// TODO: Resolve shared formats between elements
 			const component = {
 				type: sortedFormats[0],
@@ -138,6 +163,8 @@ const CodexEditor = ({
 			ref.props.children = data
 			components.push(component)
 		}
+
+		console.log(JSON.stringify(components, null, "\t"))
 		return components
 	}
 
