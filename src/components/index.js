@@ -40,7 +40,8 @@ export const Emphasis = ({ children }) => (
 )
 
 export const Strong = ({ children }) => (
-	<strong className="font-bold">
+	// NOTE: Uses font-semibold not font-bold
+	<strong className="font-semibold">
 		{children}
 	</strong>
 )

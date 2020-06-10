@@ -6,7 +6,8 @@ ab*c*
 
 
 # sort
-- unstyled fields should not under or over-extend
+- unstyled fields should not under or over-extend; only rich
+elements can under and over-extend neighboring fields
 - all fields in it of themselves must have a length
 - all consecutive fields must run forwards -- fields must
 start on or at least the same start-offset

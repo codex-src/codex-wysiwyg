@@ -83,15 +83,13 @@ const CodexEditor = ({
 			type: Header,
 			key: uuidv4(),
 			spans: [
-				"Hello, ",
 				{
-					data: "world",
-					formats: [
-						formatsEnum.anchor,
-						formatsEnum.code,
-					],
+					data: "Google",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://google.com",
+					}
 				},
-				"!",
 
 				// {
 				// 	data: "strong",
@@ -109,8 +107,6 @@ const CodexEditor = ({
 		},
 	]
 
-	// **bold_italics_**
-
 	const parseSpans = spans => {
 		const components = []
 		for (const each of spans) {
@@ -122,58 +118,28 @@ const CodexEditor = ({
 				components.push(each)
 				continue
 			}
-
-			// NOTE: sortedFormats must be sorted based on render
-			// precedence
-			const { formats: [...sortedFormats], data } = each
-			sortedFormats.sort()
-
-			// // FIXME
-			// if (components.length && components[components.length - 1].type === sortedFormats[0]) {
-			// 	if (sortedFormats.length === 1) {
-			// 		components[components.length - 1].props.children = [
-			// 			// TODO: Concatenate or append based on whether
-			// 			// a string or array?
-			// 			...components[components.length - 1].props.children,
-			// 			data,
-			// 		]
-			// 		continue
-			// 	} else if (sortedFormats.length === 2) {
-			// 		components[components.length - 1].props.children = [
-			// 			components[components.length - 1].props.children,
-			// 			{
-			// 				// TODO
-			// 				type: sortedFormats[1],
-			// 				props: {
-			// 					children: data,
-			// 				},
-			// 			},
-			// 		]
-			// 		continue
-			// 	}
-			// }
-
-			// TODO: Resolve shared formats between elements
+			const formats = [...each.formats].sort()
 			const component = {
-				type: sortedFormats[0],
+				type: formats[0],
 				props: {
+					...each[formats[0]],
 					children: null,
 				},
 			}
 			let ref = component
-			for (const format of sortedFormats.slice(1)) {
+			for (const format of formats.slice(1)) {
 				ref.props.children = {
 					type: format,
 					props: {
+						...each[format],
 						children: null,
 					},
 				}
 				ref = ref.props.children
 			}
-			ref.props.children = data
+			ref.props.children = each.data
 			components.push(component)
 		}
-
 		console.log(JSON.stringify(components, null, "\t"))
 		return components
 	}
