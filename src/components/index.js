@@ -18,10 +18,6 @@ export const Paragraph = ({ children }) => (
 	</p>
 )
 
-export const Unstyled = ({ children }) => (
-	children
-)
-
 export const Emphasis = ({ children }) => (
 	<em className="italic">
 		{children}

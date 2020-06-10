@@ -1,10 +1,12 @@
-// import uuidv4 from "uuid/v4"
 import React from "react"
+import uuidv4 from "uuid/v4"
 import { NumberEnum } from "lib/Enums"
 
 import {
 	Code,
 	Emphasis,
+	Header,
+	Paragraph,
 	Strikethrough,
 	Strong,
 } from "./components"
@@ -44,6 +46,8 @@ const formatsEnum = new NumberEnum(
 
 const CodexEditor = ({
 	components: {
+		Header,
+		Paragraph,
 		Emphasis,
 		Strong,
 		Code,
@@ -54,6 +58,8 @@ const CodexEditor = ({
 	// Maps element types (strings) to renderable React
 	// components.
 	const renderableMap = React.useMemo(() => ({
+		[formatsEnum.Header]: Header,
+		[formatsEnum.Paragraph]: Paragraph,
 		[formatsEnum.emphasis]: Emphasis,
 		[formatsEnum.strong]: Strong,
 		[formatsEnum.code]: Code,
@@ -66,40 +72,40 @@ const CodexEditor = ({
 	])
 
 	// TODO: Move to useState or equivalent
-	const spans = [
+	const nodes = [
 		{
-			data: "Hello!",
-			formats: [formatsEnum.strong, formatsEnum.emphasis]
+			key: uuidv4(),
+			type: formatsEnum.Paragraph,
+			spans: [
+				{
+					data: "Hello!",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+			],
 		},
 	]
 
-	// <article>
-	// 	{nodes.map(({ type: T, ...each }) => {
-	// 		const elements = parseInlineElements(each, renderableMap)
-	// 		return React.createElement(renderableMap[T], {
-	// 			key: each.key,
-	// 		}, toReact(elements, renderableMap))
-	// 	})}
-	// </article>
-
 	// **bold_italics_**
+
 	const parseSpans = spans => {
 		const components = []
 		for (const each of spans) {
 			if (typeof each === "string") {
+				// Concatenate:
 				if (components.length && typeof components[components.length - 1] === "string") {
 					components[components.length - 1] += each
 					continue
 				}
+				// Push:
 				components.push(each)
 				continue
 			}
-
-			let component = {
+			// TODO: Resolve shared formats between elements
+			const component = {
 				type: each.formats[0],
 				props: {
 					children: null,
-				}
+				},
 			}
 			let ref = component
 			for (const format of each.formats.slice(1)) {
@@ -107,45 +113,24 @@ const CodexEditor = ({
 					type: format,
 					props: {
 						children: null,
-					}
+					},
 				}
 				ref = ref.props.children
 			}
 			ref.props.children = each.data
-			// console.log(JSON.stringify(component, null, "\t"))
-
 			components.push(component)
-
-			// components.push({
-			// 	type: each.formats[0],
-			// 	props: {
-			// 		children: each.data,
-			// 	},
-			// })
-
-			// if (!components.length || components[components.length - 1].type !== each.formats[0]) {
-			// 	components.push({
-			// 		type: each.formats[0],
-			// 		props: {
-			// 			children: each.data,
-			// 		},
-			// 	})
-			// 	continue
-			// }
-			// components[components.length - 1].props.children += each.data
-
 		}
-
-		// console.log(components)
 		return components
 	}
 
 	return (
-		<p>
-			{toReact(parseSpans(spans), renderableMap) || (
-				<br />
-			)}
-		</p>
+		<article>
+			{nodes.map(each => (
+				React.createElement(renderableMap[each.type], {
+					key: each.uuid,
+				}, toReact(parseSpans(each.spans), renderableMap))
+			))}
+		</article>
 	)
 }
 
@@ -154,6 +139,8 @@ const App = () => (
 		<div className="w-full max-w-3xl">
 			<CodexEditor
 				components={{
+					Header,
+					Paragraph,
 					Emphasis,
 					Strong,
 					Code,
