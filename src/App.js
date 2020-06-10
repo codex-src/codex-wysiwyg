@@ -77,36 +77,73 @@ const CodexEditor = ({
 		Anchor,
 	])
 
+	// // Creates a new array of sorted formats (for spans).
+	// function newFormats(...formats) {
+	// 	return formats.sort()
+	// }
+
 	// TODO: Move to useState or equivalent
 	const nodes = [
 		{
-			type: Header,
+			type: Paragraph,
 			key: uuidv4(),
 			spans: [
 				{
-					data: "Google",
-					formats: [formatsEnum.anchor],
-					[formatsEnum.anchor]: {
-						href: "https://google.com",
-					}
+					data: "emphasis ",
+					formats: [formatsEnum.emphasis],
 				},
-
-				// {
-				// 	data: "strong",
-				// 	formats: [formatsEnum.strong],
-				// },
-				// {
-				// 	data: "emphasis",
-				// 	formats: [formatsEnum.strong, formatsEnum.emphasis],
-				// },
-				// {
-				// 	data: "strong",
-				// 	formats: [formatsEnum.strong],
-				// },
+				{
+					data: "strong",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					data: " emphasis",
+					formats: [formatsEnum.emphasis],
+				},
 			],
 		},
 	]
 
+	// Returns whether a component has a type.
+	function componentHasType(component, type) {
+		let ref = component
+		while (ref && ref.type) {
+			if (ref.type === type) {
+				return true
+			}
+			ref = ref.props.children
+		}
+		return false
+	}
+
+	// Merges VDOM (non-React) span components.
+	//
+	// -> emphasis
+	// 	-> strong
+	// -> emphasis
+	//
+	// <em>
+	// 	emphasis
+	// 	<strong>
+	// 		strong
+	// 	</strong>
+	// 	emphasis
+	// </em>
+	//
+	const mergeSpanComponents = components => {
+		let merged = []
+		for (let x = 0; x < components.length; x++) {
+			if (!x) {
+				merged.push(components[x])
+				continue
+			}
+			console.log(components[x], componentHasType(components[x], 0))
+		}
+		// console.log(merged)
+		return merged
+	}
+
+	// Parses spans to VDOM (Non-React) component.
 	const parseSpans = spans => {
 		const components = []
 		for (const each of spans) {
@@ -140,7 +177,8 @@ const CodexEditor = ({
 			ref.props.children = each.data
 			components.push(component)
 		}
-		console.log(JSON.stringify(components, null, "\t"))
+		// console.log(JSON.stringify(components, null, "\t"))
+		mergeSpanComponents(components)
 		return components
 	}
 
