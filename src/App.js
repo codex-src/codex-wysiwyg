@@ -1,6 +1,6 @@
 // import uuidv4 from "uuid/v4"
 import React from "react"
-import { StringEnum } from "lib/Enums"
+import { NumberEnum } from "lib/Enums"
 
 import {
 	Code,
@@ -9,34 +9,37 @@ import {
 	Strong,
 } from "./components"
 
+// Converts a component to a renderable React component
+function toReactEach(component, renderableMap, key = 0) {
+	if (typeof component === "string") {
+		return component
+	}
+	const { type: T, props } = component
+	return React.createElement(renderableMap[T], {
+		key,
+		...props,
+	}, toReact(props.children, renderableMap))
+}
+
 // Converts components to renderable React components.
-function toReact(components, componentMap) {
-	if (typeof components === "string") {
-		return components
+function toReact(components, renderableMap) {
+	if (!Array.isArray(components)) {
+		return toReactEach(components, renderableMap)
 	}
 	const renderable = []
 	for (const each of components) {
-		if (typeof each === "string") {
-			renderable.push(each)
-			continue
-		}
-		const { type: T, props } = each
-		renderable.push(React.createElement(componentMap[T], {
-			key: renderable.length,
-			...props,
-		}, toReact(props.children, componentMap)))
+		renderable.push(toReactEach(each, renderableMap, components.length))
 	}
 	return renderable
 }
 
-// TODO: Change to an ordered NumberEnum where smaller
-// numbers take precedence?
-const formatsEnum = new StringEnum(
+// NOTE: Ordered by render precedence
+const formatsEnum = new NumberEnum(
+	"anchor",
+	"code",
+	"strikethrough",
 	"strong",
 	"emphasis",
-	"strikethrough",
-	"code",
-	"anchor",
 )
 
 const CodexEditor = ({
@@ -50,7 +53,7 @@ const CodexEditor = ({
 }) => {
 	// Maps element types (strings) to renderable React
 	// components.
-	const componentMap = React.useMemo(() => ({
+	const renderableMap = React.useMemo(() => ({
 		[formatsEnum.emphasis]: Emphasis,
 		[formatsEnum.strong]: Strong,
 		[formatsEnum.code]: Code,
@@ -64,29 +67,18 @@ const CodexEditor = ({
 
 	// TODO: Move to useState or equivalent
 	const spans = [
-		"Hello, world!",
-		" ",
-		"How are you?",
 		{
-			data: "Hello, ",
-			formats: [formatsEnum.strong],
-		},
-		{
-			data: "world",
-			formats: [formatsEnum.strong], // , formatsEnum.emphasis],
-		},
-		{
-			data: "!",
-			formats: [formatsEnum.strong],
+			data: "Hello!",
+			formats: [formatsEnum.strong, formatsEnum.emphasis]
 		},
 	]
 
 	// <article>
 	// 	{nodes.map(({ type: T, ...each }) => {
-	// 		const elements = parseInlineElements(each, componentMap)
-	// 		return React.createElement(componentMap[T], {
+	// 		const elements = parseInlineElements(each, renderableMap)
+	// 		return React.createElement(renderableMap[T], {
 	// 			key: each.key,
-	// 		}, toReact(elements, componentMap))
+	// 		}, toReact(elements, renderableMap))
 	// 	})}
 	// </article>
 
@@ -102,17 +94,46 @@ const CodexEditor = ({
 				components.push(each)
 				continue
 			}
-			// FIXME
-			if (!components.length || components[components.length - 1].type !== each.formats[0]) {
-				components.push({
-					type: each.formats[0],
-					props: {
-						children: each.data,
-					},
-				})
-				continue
+
+			let component = {
+				type: each.formats[0],
+				props: {
+					children: null,
+				}
 			}
-			components[components.length - 1].props.children += each.data
+			let ref = component
+			for (const format of each.formats.slice(1)) {
+				ref.props.children = {
+					type: format,
+					props: {
+						children: null,
+					}
+				}
+				ref = ref.props.children
+			}
+			ref.props.children = each.data
+			// console.log(JSON.stringify(component, null, "\t"))
+
+			components.push(component)
+
+			// components.push({
+			// 	type: each.formats[0],
+			// 	props: {
+			// 		children: each.data,
+			// 	},
+			// })
+
+			// if (!components.length || components[components.length - 1].type !== each.formats[0]) {
+			// 	components.push({
+			// 		type: each.formats[0],
+			// 		props: {
+			// 			children: each.data,
+			// 		},
+			// 	})
+			// 	continue
+			// }
+			// components[components.length - 1].props.children += each.data
+
 		}
 
 		// console.log(components)
@@ -121,7 +142,7 @@ const CodexEditor = ({
 
 	return (
 		<p>
-			{toReact(parseSpans(spans), componentMap) || (
+			{toReact(parseSpans(spans), renderableMap) || (
 				<br />
 			)}
 		</p>
