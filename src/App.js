@@ -3,6 +3,7 @@ import uuidv4 from "uuid/v4"
 import { NumberEnum } from "lib/Enums"
 
 import {
+	Anchor,
 	Code,
 	Emphasis,
 	Header,
@@ -11,8 +12,8 @@ import {
 	Strong,
 } from "./components"
 
-// Converts a component to a renderable React component
-function toReactEach(component, renderableMap, key = 0) {
+// Converts one component to a renderable React component.
+function toReactOne(component, renderableMap, key = 0) {
 	if (typeof component === "string") {
 		return component
 	}
@@ -26,11 +27,11 @@ function toReactEach(component, renderableMap, key = 0) {
 // Converts components to renderable React components.
 function toReact(components, renderableMap) {
 	if (!Array.isArray(components)) {
-		return toReactEach(components, renderableMap)
+		return toReactOne(components, renderableMap)
 	}
 	const renderable = []
 	for (const each of components) {
-		renderable.push(toReactEach(each, renderableMap, renderable.length))
+		renderable.push(toReactOne(each, renderableMap, renderable.length))
 	}
 	return renderable
 }
@@ -52,6 +53,7 @@ const CodexEditor = ({
 		Strong,
 		Code,
 		Strikethrough,
+		Anchor,
 	},
 	...props
 }) => {
@@ -64,6 +66,7 @@ const CodexEditor = ({
 		[formatsEnum.strong]: Strong,
 		[formatsEnum.code]: Code,
 		[formatsEnum.strikethrough]: Strikethrough,
+		[formatsEnum.anchor]: Anchor,
 	}), [
 		Header,
 		Paragraph,
@@ -71,6 +74,7 @@ const CodexEditor = ({
 		Strong,
 		Code,
 		Strikethrough,
+		Anchor,
 	])
 
 	// TODO: Move to useState or equivalent
@@ -79,22 +83,28 @@ const CodexEditor = ({
 			type: Header,
 			key: uuidv4(),
 			spans: [
+				"Hello, ",
+				{
+					data: "world",
+					formats: [
+						formatsEnum.anchor,
+						formatsEnum.code,
+					],
+				},
+				"!",
+
 				// {
-				// 	data: "Hello!",
+				// 	data: "strong",
+				// 	formats: [formatsEnum.strong],
+				// },
+				// {
+				// 	data: "emphasis",
 				// 	formats: [formatsEnum.strong, formatsEnum.emphasis],
 				// },
-				{
-					data: "strong",
-					formats: [formatsEnum.strong],
-				},
-				{
-					data: "emphasis",
-					formats: [formatsEnum.strong, formatsEnum.emphasis],
-				},
-				{
-					data: "strong",
-					formats: [formatsEnum.strong],
-				},
+				// {
+				// 	data: "strong",
+				// 	formats: [formatsEnum.strong],
+				// },
 			],
 		},
 	]
@@ -190,6 +200,7 @@ const App = () => (
 					Strong,
 					Code,
 					Strikethrough,
+					Anchor,
 				}}
 			/>
 		</div>
