@@ -65,6 +65,8 @@ const CodexEditor = ({
 		[formatsEnum.code]: Code,
 		[formatsEnum.strikethrough]: Strikethrough,
 	}), [
+		Header,
+		Paragraph,
 		Emphasis,
 		Strong,
 		Code,
@@ -74,8 +76,8 @@ const CodexEditor = ({
 	// TODO: Move to useState or equivalent
 	const nodes = [
 		{
+			type: Header,
 			key: uuidv4(),
-			type: formatsEnum.Paragraph,
 			spans: [
 				{
 					data: "Hello!",
@@ -125,10 +127,10 @@ const CodexEditor = ({
 
 	return (
 		<article>
-			{nodes.map(each => (
-				React.createElement(renderableMap[each.type], {
-					key: each.uuid,
-				}, toReact(parseSpans(each.spans), renderableMap))
+			{nodes.map(({ type: T, key, spans }) => (
+				React.createElement(T, {
+					key,
+				}, toReact(parseSpans(spans), renderableMap))
 			))}
 		</article>
 	)

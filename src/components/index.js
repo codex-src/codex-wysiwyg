@@ -2,7 +2,7 @@ import React from "react"
 
 // TODO: Use React.memo?
 export const Header = ({ children }) => (
-	<h1 className="">
+	<h1 className="TODO">
 		{children || (
 			<br />
 		)}
@@ -11,7 +11,7 @@ export const Header = ({ children }) => (
 
 // TODO: Use React.memo?
 export const Paragraph = ({ children }) => (
-	<p className="">
+	<p>
 		{children || (
 			<br />
 		)}
