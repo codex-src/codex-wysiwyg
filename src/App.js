@@ -80,6 +80,13 @@ function parseInlineElements(node, componentMap) {
 
 		const fields = [!x ? null : node.fields[x - 1], node.fields[x]]
 
+		// TODO: I’m pretty sure we need to persist a container
+		// in the least, maybe a reference to the most-end
+		// element. If an element is nested, parseInlineElements
+		// needs to accommodate for that. Maybe we can drop ref
+		// and just use a container, because a ref is contained
+		// inside of a container.
+
 		// TODO: Add support for plaintext
 		if (!fields[0] && fields[1].offsetStart > 0) {
 			elements.push(node.text.slice(0, fields[1].offsetStart))
