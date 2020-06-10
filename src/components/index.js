@@ -22,7 +22,7 @@ export const Unstyled = ({ children }) => (
 	children
 )
 
-export const Em = ({ children }) => (
+export const Emphasis = ({ children }) => (
 	<em className="italic">
 		{children}
 	</em>
@@ -40,7 +40,7 @@ export const Code = ({ children }) => (
 	</code>
 )
 
-export const Strike = ({ children }) => (
+export const Strikethrough = ({ children }) => (
 	<strike className="line-through text-gray-300">
 		{children}
 	</strike>
