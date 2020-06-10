@@ -89,31 +89,54 @@ const CodexEditor = ({
 			key: uuidv4(),
 			spans: [
 				{
-					data: "emphasis ",
-					formats: [formatsEnum.emphasis],
+					data: "abc ",
+					formats: [formatsEnum.strong],
 				},
 				{
-					data: "strong",
+					data: "def",
 					formats: [formatsEnum.strong, formatsEnum.emphasis],
 				},
 				{
-					data: " emphasis",
-					formats: [formatsEnum.emphasis],
+					data: " ghi",
+					formats: [formatsEnum.strong],
 				},
 			],
 		},
 	]
 
-	// Returns whether a component has a type.
-	function componentHasType(component, type) {
-		let ref = component
-		while (ref && ref.type) {
-			if (ref.type === type) {
-				return true
-			}
-			ref = ref.props.children
+	// // Returns whether a component has a type nested.
+	// const componentHasType = (component, type) => {
+	// 	let ref = component
+	// 	while (ref && ref.type) {
+	// 		if (ref.type === type) {
+	// 			return ref
+	// 		}
+	// 		ref = ref.props.children
+	// 	}
+	// 	return null
+	// }
+
+	// // Returns an array of common types.
+	// const commonTypes = (component, types) => {
+	// 	const matches = []
+	// 	for (const type of types) {
+	// 		let ref = component
+	// 		while (ref && ref.type) {
+	// 			if (ref.type === type) {
+	// 				matches.push(type)
+	// 				break
+	// 			}
+	// 			ref = ref.props.children
+	// 		}
+	// 	}
+	// 	return matches
+	// }
+
+	const toArray = value => {
+		if (!Array.isArray(value)) {
+			return [value]
 		}
-		return false
+		return value
 	}
 
 	// Merges VDOM (non-React) span components.
@@ -130,17 +153,64 @@ const CodexEditor = ({
 	// 	emphasis
 	// </em>
 	//
-	const mergeSpanComponents = components => {
-		let merged = []
+	const mergeComponents = components => {
+		console.log(JSON.stringify(components, null, "\t"))
+
+		const merged = []
 		for (let x = 0; x < components.length; x++) {
-			if (!x) {
+			if (!x || typeof components[x] === "string") {
 				merged.push(components[x])
 				continue
 			}
-			console.log(components[x], componentHasType(components[x], 0))
+			if (components[x - 1].type && (components[x - 1].type === components[x].type)) {
+				// / console.log(x, [...merged], components[x - 1].props.children)
+				merged.pop()
+				merged.push({
+					...components[x - 1],
+					props: {
+						children: [
+							...toArray(components[x - 1].props.children),
+							...toArray(components[x].props.children),
+						],
+					},
+				})
+				// merged.splice(merged.length - 1, 1, {
+				// 	...components[x - 1],
+				// 	props: {
+				// 		children: [
+				// 			components[x - 1].props.children,
+				// 			components[x].props.children,
+				// 		],
+				// 	},
+				// })
+				continue
+			}
 		}
-		// console.log(merged)
-		return merged
+
+		console.log(JSON.stringify(merged, null, "\t"))
+
+		// for (let x = 0; x < components.length; x++) {
+		// 	if (!x || typeof components[x] === "string") {
+		// 		// No-op
+		// 		continue
+		// 	}
+		// 	if (components[x - 1].type === components[x].type) {
+		// 		components.splice(x - 1, 2, {
+		// 			...components[x - 1],
+		// 			props: {
+		// 				children: [
+		// 					components[x - 1].props.children,
+		// 					components[x].props.children,
+		// 				],
+		// 			}
+		// 		})
+		// 		x++
+		// 		console.log([...components], x)
+		// 		continue
+		// 	}
+		// 	// console.log(components[x]) // , componentHasType(components[x], 4))
+		// }
+		// // return merged // FIXME
 	}
 
 	// Parses spans to VDOM (Non-React) component.
@@ -155,7 +225,7 @@ const CodexEditor = ({
 				components.push(each)
 				continue
 			}
-			const formats = [...each.formats].sort()
+			let formats = [...each.formats].sort()
 			const component = {
 				type: formats[0],
 				props: {
@@ -177,8 +247,7 @@ const CodexEditor = ({
 			ref.props.children = each.data
 			components.push(component)
 		}
-		// console.log(JSON.stringify(components, null, "\t"))
-		mergeSpanComponents(components)
+		mergeComponents(components)
 		return components
 	}
 
