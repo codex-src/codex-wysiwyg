@@ -89,16 +89,16 @@ const CodexEditor = ({
 			key: uuidv4(),
 			spans: [
 				{
-					data: "abc ",
-					formats: [formatsEnum.strong],
+					data: "abc",
+					formats: [formatsEnum.code],
 				},
 				{
 					data: "def",
-					formats: [formatsEnum.strong, formatsEnum.emphasis],
+					formats: [formatsEnum.code, formatsEnum.emphasis],
 				},
 				{
-					data: " ghi",
-					formats: [formatsEnum.strong],
+					data: "ghi",
+					formats: [formatsEnum.code],
 				},
 			],
 		},
@@ -139,79 +139,76 @@ const CodexEditor = ({
 		return value
 	}
 
-	// Merges VDOM (non-React) span components.
-	//
-	// -> emphasis
-	// 	-> strong
-	// -> emphasis
-	//
-	// <em>
-	// 	emphasis
-	// 	<strong>
-	// 		strong
-	// 	</strong>
-	// 	emphasis
-	// </em>
-	//
-	const mergeComponents = components => {
-		console.log(JSON.stringify(components, null, "\t"))
-
-		const merged = []
-		for (let x = 0; x < components.length; x++) {
-			if (!x || typeof components[x] === "string") {
-				merged.push(components[x])
-				continue
-			}
-			if (components[x - 1].type && (components[x - 1].type === components[x].type)) {
-				// / console.log(x, [...merged], components[x - 1].props.children)
-				merged.pop()
-				merged.push({
-					...components[x - 1],
-					props: {
-						children: [
-							...toArray(components[x - 1].props.children),
-							...toArray(components[x].props.children),
-						],
-					},
-				})
-				// merged.splice(merged.length - 1, 1, {
-				// 	...components[x - 1],
-				// 	props: {
-				// 		children: [
-				// 			components[x - 1].props.children,
-				// 			components[x].props.children,
-				// 		],
-				// 	},
-				// })
-				continue
-			}
-		}
-
-		console.log(JSON.stringify(merged, null, "\t"))
-
-		// for (let x = 0; x < components.length; x++) {
-		// 	if (!x || typeof components[x] === "string") {
-		// 		// No-op
-		// 		continue
-		// 	}
-		// 	if (components[x - 1].type === components[x].type) {
-		// 		components.splice(x - 1, 2, {
-		// 			...components[x - 1],
-		// 			props: {
-		// 				children: [
-		// 					components[x - 1].props.children,
-		// 					components[x].props.children,
-		// 				],
-		// 			}
-		// 		})
-		// 		x++
-		// 		console.log([...components], x)
-		// 		continue
-		// 	}
-		// 	// console.log(components[x]) // , componentHasType(components[x], 4))
-		// }
-		// // return merged // FIXME
-	}
+	// // Merges VDOM (non-React) span components.
+	// //
+	// // -> emphasis
+	// // 	-> strong
+	// // -> emphasis
+	// //
+	// // <em>
+	// // 	emphasis
+	// // 	<strong>
+	// // 		strong
+	// // 	</strong>
+	// // 	emphasis
+	// // </em>
+	// //
+	// const mergeComponents = components => {
+	// 	console.log(JSON.stringify(components, null, "\t"))
+	// 	const merged = []
+	// 	for (let x = 0; x < components.length; x++) {
+	// 		if (!x || typeof components[x] === "string") {
+	// 			merged.push(components[x])
+	// 			continue
+	// 		}
+	// 		if (components[x - 1].type && (components[x - 1].type === components[x].type)) {
+	// 			// / console.log(x, [...merged], components[x - 1].props.children)
+	// 			merged.pop()
+	// 			merged.push({
+	// 				...components[x - 1],
+	// 				props: {
+	// 					children: [
+	// 						...toArray(components[x - 1].props.children),
+	// 						...toArray(components[x].props.children),
+	// 					],
+	// 				},
+	// 			})
+	// 			// merged.splice(merged.length - 1, 1, {
+	// 			// 	...components[x - 1],
+	// 			// 	props: {
+	// 			// 		children: [
+	// 			// 			components[x - 1].props.children,
+	// 			// 			components[x].props.children,
+	// 			// 		],
+	// 			// 	},
+	// 			// })
+	// 			continue
+	// 		}
+	// 	}
+	// 	console.log(JSON.stringify(merged, null, "\t"))
+	// 	// for (let x = 0; x < components.length; x++) {
+	// 	// 	if (!x || typeof components[x] === "string") {
+	// 	// 		// No-op
+	// 	// 		continue
+	// 	// 	}
+	// 	// 	if (components[x - 1].type === components[x].type) {
+	// 	// 		components.splice(x - 1, 2, {
+	// 	// 			...components[x - 1],
+	// 	// 			props: {
+	// 	// 				children: [
+	// 	// 					components[x - 1].props.children,
+	// 	// 					components[x].props.children,
+	// 	// 				],
+	// 	// 			}
+	// 	// 		})
+	// 	// 		x++
+	// 	// 		console.log([...components], x)
+	// 	// 		continue
+	// 	// 	}
+	// 	// 	// console.log(components[x]) // , componentHasType(components[x], 4))
+	// 	// }
+	// 	// // return merged // FIXME
+	// }
 
 	// Parses spans to VDOM (Non-React) component.
 	const parseSpans = spans => {
@@ -247,7 +244,6 @@ const CodexEditor = ({
 			ref.props.children = each.data
 			components.push(component)
 		}
-		mergeComponents(components)
 		return components
 	}
 
