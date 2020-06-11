@@ -180,7 +180,7 @@ const CodexEditor = ({
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			const selection = document.getSelection()
-			if (selection.rangeCount) {
+			if (selection && selection.rangeCount) {
 				selection.removeAllRanges()
 			}
 			ReactDOM.render(
@@ -191,17 +191,37 @@ const CodexEditor = ({
 				/>,
 				ref.current,
 				() => {
-					// if (state.readOnly || !state.focused) {
-					// 	// No-op
-					// 	return
-					// }
-					// try {
-					// 	const t = Date.now()
-					// 	syncPos(state)
-					// 	console.log("syncPos", Date.now() - t)
-					// } catch (error) {
-					// 	console.error(error)
-					// }
+					if (!state.focused) {
+						// No-op
+						return
+					}
+
+					let container = ref.current.children[0].childNodes[0]
+					let offset = state.startCursor.character
+
+					// Iterate to container and offset:
+					while (container && offset) {
+						if (offset - container.textContent.length <= 0) {
+							// No-op
+							break
+						}
+						offset -= container.textContent.length
+						container = container.nextSibling
+					}
+
+					// Iterate to text node:
+					while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
+						container = container.childNodes[container.childNodes.length - 1]
+					}
+
+					console.log(container, offset)
+
+					const range = document.createRange()
+					range.setStart(container, offset)
+					range.collapse()
+					// selection.removeAllRanges()
+					selection.addRange(range)
+
 				},
 			)
 		}, [state, setState, renderableMap]),
@@ -288,6 +308,14 @@ const CodexEditor = ({
 					const spans = readSpans(ref.current.children[0])
 					setState({
 						...state,
+						startCursor: {
+							...state.startCursor,
+							character: state.startCursor.character + 1,
+						},
+						endCursors: {
+							...state.startCursor,
+							character: state.startCursor.character + 1,
+						},
 						elements: [
 							{
 								...state.elements[0],
