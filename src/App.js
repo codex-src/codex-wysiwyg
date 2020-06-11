@@ -242,10 +242,12 @@ const CodexEditor = ({
 				domNode.children[0]
 			while (ref) {
 				const format = formatsEnumMap[ref.getAttribute("data-codex-type")]
-				span.formats.push(format)
-				if (format === formatsEnum.anchor) {
-					span[formatsEnum.anchor] = {
-						href: ref.getAttribute("data-codex-href"),
+				if (format) {
+					span.formats.push(format)
+					if (format === formatsEnum.anchor) {
+						span[formatsEnum.anchor] = {
+							href: ref.getAttribute("data-codex-href"),
+						}
 					}
 				}
 				ref = ref.children.length &&
