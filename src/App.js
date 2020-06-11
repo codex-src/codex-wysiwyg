@@ -133,6 +133,8 @@ const CodexEditor = ({
 
 	// Decorates components; sets component.typePos to
 	// "at-start", "at-center", or "at-end" for common types.
+	//
+	// TODO: Merge components for user-exported HTML
 	const decorate = components => {
 		for (let x = 0; x < components.length; x++) {
 			if (!x || typeof components[x] === "string") {
@@ -189,7 +191,11 @@ const CodexEditor = ({
 	}
 
 	return (
-		<article>
+		<article
+			className="whitespace-pre-wrap focus:outline-none"
+			contentEditable
+			suppressContentEditableWarning
+		>
 			{elements.map(({ type: T, key, spans }) => (
 				React.createElement(T, {
 					key,

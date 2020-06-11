@@ -67,7 +67,9 @@ export const Strikethrough = ({ children }) => (
 )
 
 export const Anchor = ({ href, children }) => (
-	<a className="text-blue-500" {...safeAnchor(href)}>
-		{children}
+	<a {...safeAnchor(href)}>
+		<span className="text-blue-500">
+			{children}
+		</span>
 	</a>
 )
