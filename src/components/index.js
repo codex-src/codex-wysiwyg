@@ -46,7 +46,6 @@ export const Strong = ({ children }) => (
 	</strong>
 )
 
-
 const codeClassNames = {
 	undefined:   "px-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded",
 	"at-start":  "pl-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-l",
@@ -68,7 +67,7 @@ export const Strikethrough = ({ children }) => (
 )
 
 export const Anchor = ({ href, children }) => (
-	<a className="underline text-gray-500" {...safeAnchor(href)}>
+	<a className="text-blue-500" {...safeAnchor(href)}>
 		{children}
 	</a>
 )

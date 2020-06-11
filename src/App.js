@@ -77,37 +77,38 @@ const CodexEditor = ({
 		Anchor,
 	])
 
-	// // Creates a new array of sorted formats (for spans).
-	// function newFormats(...formats) {
-	// 	return formats.sort()
-	// }
-
 	// TODO: Move to useState or equivalent
-	const nodes = [
+	const elements = [
 		{
 			type: Paragraph,
 			key: uuidv4(),
 			spans: [
 				{
-					data: "abc",
-					formats: [formatsEnum.code, formatsEnum.anchor],
+					data: "Hey, ",
+					formats: [formatsEnum.strong],
 				},
 				{
-					data: "def",
-					formats: [formatsEnum.code, formatsEnum.emphasis],
+					data: "Russ",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
 				},
 				{
-					data: "def",
-					formats: [formatsEnum.code, formatsEnum.strong],
+					data: "!",
+					formats: [formatsEnum.strong],
 				},
+				" I’m making some ",
 				{
-					data: "def",
-					formats: [formatsEnum.code, formatsEnum.emphasis],
-				},
-				{
-					data: "ghi",
+					data: "progress",
 					formats: [formatsEnum.code],
 				},
+				" on making a ",
+				{
+					data: "WYSIWYG",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://google.com",
+					}
+				},
+				" editor.",
 			],
 		},
 	]
@@ -189,7 +190,7 @@ const CodexEditor = ({
 
 	return (
 		<article>
-			{nodes.map(({ type: T, key, spans }) => (
+			{elements.map(({ type: T, key, spans }) => (
 				React.createElement(T, {
 					key,
 				}, toReact(parseSpans(spans), renderableMap))
