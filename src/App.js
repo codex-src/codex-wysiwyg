@@ -90,7 +90,7 @@ const CodexEditor = ({
 			spans: [
 				{
 					data: "abc",
-					formats: [formatsEnum.code],
+					formats: [formatsEnum.code, formatsEnum.anchor],
 				},
 				{
 					data: "def",
@@ -110,22 +110,6 @@ const CodexEditor = ({
 		},
 	]
 
-	// // Returns an array of common types.
-	// const commonTypes = (component, types) => {
-	// 	const matches = []
-	// 	for (const type of types) {
-	// 		let ref = component
-	// 		while (ref && ref.type) {
-	// 			if (ref.type === type) {
-	// 				matches.push(type)
-	// 				break
-	// 			}
-	// 			ref = ref.props.children
-	// 		}
-	// 	}
-	// 	return matches
-	// }
-
 	// Computes a type map and array of types for a component.
 	const computeTypeInfo = component => {
 		const typeMap = {}
@@ -133,8 +117,10 @@ const CodexEditor = ({
 		if (typeof component === "string") {
 			return [typeMap, types]
 		}
+		// NOTE: Uses ref.type !== undefined because formatsEnum
+		// resolves to numbers (zero-based)
 		let ref = component
-		while (ref && ref.type) {
+		while (ref && ref.type !== undefined) {
 			typeMap[ref.type] = ref
 			types.push(ref.type)
 			ref = ref.props.children
@@ -142,7 +128,8 @@ const CodexEditor = ({
 		return [typeMap, types]
 	}
 
-	// Decorates components.
+	// Decorates components; sets component.pos to "at-start",
+	// "at-center", or "at-end".
 	const decorate = components => {
 		for (let x = 0; x < components.length; x++) {
 			if (!x || typeof components[x] === "string") {
@@ -152,6 +139,8 @@ const CodexEditor = ({
 			const [typeMap1, types1] = computeTypeInfo(components[x - 1])
 			const [typeMap2, types2] = computeTypeInfo(components[x])
 			const common = types1.filter(a => types2.some(b => a === b))
+
+			console.log(x, types1, types2, components[x - 1])
 			for (const type of common) {
 				typeMap1[type].props.pos = !typeMap1[type].props.pos ? "at-start" : "at-center"
 				typeMap2[type].props.pos = "at-end"
