@@ -1,6 +1,6 @@
 import React from "react"
+import readSpans from "./readSpans"
 import uuidv4 from "uuid/v4"
-import { NumberEnum } from "lib/Enums"
 
 import {
 	Anchor,
@@ -11,6 +11,11 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
+
+import {
+	formatsEnum,
+	formatsEnumMap,
+} from "./formatsEnum"
 
 // Converts one component to a renderable React component.
 function toReactOne(component, renderableMap, key = 0) {
@@ -34,24 +39,6 @@ function toReact(components, renderableMap) {
 		renderable.push(toReactOne(component, renderableMap, renderable.length))
 	}
 	return renderable
-}
-
-// NOTE: Ordered by render precedence
-const formatsEnum = new NumberEnum(
-	"anchor",
-	"code",
-	"strikethrough",
-	"strong",
-	"emphasis",
-)
-
-// Maps strings to formatsEnum (zero-based numbers).
-const formatsEnumMap = {
-	anchor: formatsEnum.anchor,
-	code: formatsEnum.code,
-	strikethrough: formatsEnum.strikethrough,
-	strong: formatsEnum.strong,
-	emphasis: formatsEnum.emphasis,
 }
 
 const CodexEditor = ({
@@ -123,6 +110,8 @@ const CodexEditor = ({
 	]
 
 	// Computes a type map and array of types for a component.
+	//
+	// TODO
 	const getTypeInfo = component => {
 		const typeMap = {}
 		const types = []
@@ -223,54 +212,6 @@ const CodexEditor = ({
 	// }
 
 	React.useEffect(() => {
-
-		// Reads a span data structure from an element.
-		const readSpan = domNode => { // domNode: Element or text node
-			if (domNode.nodeType === Node.TEXT_NODE) {
-				return domNode.textContent
-			}
-			const span = {
-				data: domNode.textContent,
-				formats: [formatsEnumMap[domNode.getAttribute("data-codex-type")]],
-			}
-			if (span.formats[0] === formatsEnum.anchor) {
-				span[formatsEnum.anchor] = {
-					href: domNode.getAttribute("data-codex-href"),
-				}
-			}
-			let ref = domNode.children.length &&
-				domNode.children[0]
-			while (ref) {
-				const format = formatsEnumMap[ref.getAttribute("data-codex-type")]
-				if (format) {
-					span.formats.push(format)
-					if (format === formatsEnum.anchor) {
-						span[formatsEnum.anchor] = {
-							href: ref.getAttribute("data-codex-href"),
-						}
-					}
-				}
-				ref = ref.children.length &&
-					ref.children[0]
-			}
-			span.formats.sort()
-			return span
-		}
-
-		// Reads span data structures from an element.
-		const readSpans = element => {
-			const spans = []
-			for (const domNode of element.childNodes) {
-				const span = readSpan(domNode)
-				if (typeof span === "string" && (spans.length && typeof spans[spans.length - 1] === "string")) {
-					spans[spans.length - 1] += span
-					continue
-				}
-				spans.push(span)
-			}
-			console.log(spans)
-			return spans
-		}
 		console.log(readSpans(ref.current.children[0]))
 	}, [])
 
