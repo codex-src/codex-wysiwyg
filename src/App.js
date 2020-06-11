@@ -260,32 +260,17 @@ const CodexEditor = ({
 					const computeCursor = (element, { container, offset }) => {
 						const cursor = {
 							element: 0,
-							character: 0,
+							character: offset,
 						}
-						const recurse = on => {
-							if (on === container) {
-								cursor.character += offset
-								return true
+						let domNode = element.childNodes[0]
+						while (domNode) {
+							if (domNode === container || domNode.contains(container)) {
+								// No-op
+								break
 							}
-							for (const domNode of on.childNodes) {
-								if (recurse(domNode)) {
-									return true
-								}
-								if (domNode.nodeType === Node.TEXT_NODE) {
-									cursor.character += domNode.textContent.length
-								}
-								// const next = each.nextElementSibling
-								// if (next && isDocumentNode(next)) {
-								// 	Object.assign(pos, {
-								// 		x: 0,
-								// 		y: pos.y + 1,
-								// 		pos: pos.pos + 1,
-								// 	})
-								// }
-							}
-							return false
+							cursor.character += domNode.textContent.length
+							domNode = domNode.nextSibling
 						}
-						recurse(element)
 						return cursor
 					}
 
