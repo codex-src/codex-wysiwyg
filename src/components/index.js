@@ -54,12 +54,10 @@ const codeClassNames = {
 	"at-end":    "pr-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-r",
 }
 
-export const Code = ({ pos, children }) => (
-	// console.log({pos}) || (
-		<code className={codeClassNames[pos]} {...disableAutoCorrect}>
-			{children}
-		</code>
-	// )
+export const Code = ({ typePos, children }) => (
+	<code className={codeClassNames[typePos]} {...disableAutoCorrect}>
+		{children}
+	</code>
 )
 
 export const Strikethrough = ({ children }) => (

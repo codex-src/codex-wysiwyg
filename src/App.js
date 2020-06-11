@@ -95,10 +95,12 @@ const CodexEditor = ({
 				{
 					data: "def",
 					formats: [formatsEnum.code, formatsEnum.emphasis],
-				},				{
+				},
+				{
 					data: "def",
 					formats: [formatsEnum.code, formatsEnum.strong],
-				},				{
+				},
+				{
 					data: "def",
 					formats: [formatsEnum.code, formatsEnum.emphasis],
 				},
@@ -111,7 +113,7 @@ const CodexEditor = ({
 	]
 
 	// Computes a type map and array of types for a component.
-	const computeTypeInfo = component => {
+	const getTypeInfo = component => {
 		const typeMap = {}
 		const types = []
 		if (typeof component === "string") {
@@ -128,22 +130,20 @@ const CodexEditor = ({
 		return [typeMap, types]
 	}
 
-	// Decorates components; sets component.pos to "at-start",
-	// "at-center", or "at-end".
+	// Decorates components; sets component.typePos to
+	// "at-start", "at-center", or "at-end" for common types.
 	const decorate = components => {
 		for (let x = 0; x < components.length; x++) {
 			if (!x || typeof components[x] === "string") {
 				// No-op
 				continue
 			}
-			const [typeMap1, types1] = computeTypeInfo(components[x - 1])
-			const [typeMap2, types2] = computeTypeInfo(components[x])
+			const [typeMap1, types1] = getTypeInfo(components[x - 1])
+			const [typeMap2, types2] = getTypeInfo(components[x])
 			const common = types1.filter(a => types2.some(b => a === b))
-
-			console.log(x, types1, types2, components[x - 1])
 			for (const type of common) {
-				typeMap1[type].props.pos = !typeMap1[type].props.pos ? "at-start" : "at-center"
-				typeMap2[type].props.pos = "at-end"
+				typeMap1[type].props.typePos = !typeMap1[type].props.typePos ? "at-start" : "at-center"
+				typeMap2[type].props.typePos = "at-end"
 			}
 		}
 	}
@@ -160,7 +160,7 @@ const CodexEditor = ({
 				components.push(each)
 				continue
 			}
-			let formats = [...each.formats].sort()
+			const formats = [...each.formats].sort()
 			const component = {
 				type: formats[0],
 				props: {
