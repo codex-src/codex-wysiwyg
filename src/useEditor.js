@@ -7,6 +7,13 @@ const methods = state => ({
 	blur() {
 		state.focused = false
 	},
+	select(startCursor, endCursor) {
+		Object.assign(state, {
+			collapsed: startCursor === endCursor,
+			startCursor,
+			endCursor,
+		})
+	},
 	// input(startCursor, endCursor) {
 	// 	const spans = readSpans(ref.current.children[0])
 	// 	setState({
@@ -41,6 +48,7 @@ function init(initialState) {
 			elementIndex: 0,
 			characterOffset: 0,
 		},
+		collapsed: true,
 		elements: initialState,
 	}
 	return state

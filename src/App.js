@@ -51,8 +51,7 @@ function decorate(components) {
 		const [types2, typeMap2] = getTypeInfo(components[x])
 		const common = types1.filter(a => types2.some(b => a === b))
 		for (const type of common) {
-			typeMap1[type].props.typePos =
-					!typeMap1[type].props.typePos ? "at-start" : "at-center"
+			typeMap1[type].props.typePos = !typeMap1[type].props.typePos ? "at-start" : "at-center"
 			typeMap2[type].props.typePos = "at-end"
 		}
 	}
@@ -136,6 +135,7 @@ const CodexEditor = ({
 		Anchor,
 	])
 	const ref = React.useRef(null)
+	const pointerIsDownRef = React.useRef(false)
 
 	const [state, dispatch] = useEditor([
 		{
@@ -190,7 +190,6 @@ const CodexEditor = ({
 						// No-op
 						return
 					}
-					// TODO
 					const { container, offset } = computeRange(ref.current.children[0], state.startCursor.character)
 					const range = document.createRange()
 					range.setStart(container, offset)
@@ -206,27 +205,64 @@ const CodexEditor = ({
 	return (
 		<div>
 			<article
+
 				ref={ref}
+
 				className="whitespace-pre-wrap focus:outline-none"
+
 				contentEditable
 				suppressContentEditableWarning
-				onFocus={() => {
-					// TODO
-				}}
-				onBlur={() => {
-					// TODO
-				}}
+
+				onFocus={dispatch.focus}
+
+				onBlur={dispatch.blur}
+
 				onSelect={() => {
 					const selection = document.getSelection()
 					if (!selection || !selection.rangeCount) {
 						// No-op
 						return
 					}
-					// TODO
+					const range = selection.getRangeAt(0)
+					const startCursor = computeCursor(ref.current.children[0], { container: range.startContainer, offset: range.startOffset })
+					let endCursor = startCursor
+					if (!range.collapsed) {
+						endCursor = computeCursor(ref.current.children[0], { container: range.endContainer, offset: range.endOffset })
+					}
+					dispatch.select(startCursor, endCursor)
 				}}
+
+				onPointerDown={() => {
+					pointerIsDownRef.current = true
+				}}
+
+				onPointerMove={() => {
+					if (!state.focused || !pointerIsDownRef.current) {
+						pointerIsDownRef.current = false
+						return
+					}
+					const selection = document.getSelection()
+					if (!selection || !selection.rangeCount) {
+						// No-op
+						return
+					}
+					const range = selection.getRangeAt(0)
+					const startCursor = computeCursor(ref.current.children[0], { container: range.startContainer, offset: range.startOffset })
+					let endCursor = startCursor
+					if (!range.collapsed) {
+						endCursor = computeCursor(ref.current.children[0], { container: range.endContainer, offset: range.endOffset })
+					}
+					dispatch.select(startCursor, endCursor)
+				}}
+
+				onPointerUp={() => {
+					pointerIsDownRef.current = false
+				}}
+
 				onInput={() => {
 					// TODO
 				}}
+
 			/>
 			<div className="mt-6 whitespace-pre font-mono text-xs leading-tight" style={{ tabSize: 2 }}>
 				{JSON.stringify(state, null, "\t")}
