@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import readSpans from "./readSpans"
 import toReact from "./toReact"
+import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
 import { formatsEnum } from "./formatsEnum"
 
@@ -14,6 +15,11 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
+
+import {
+	computeCursor,
+	computeRange,
+} from "./cursor"
 
 // Computes a type map and array of types for a component.
 function getTypeInfo(component) {
@@ -91,7 +97,7 @@ function parseSpans(spans) {
 	return components
 }
 
-const ReactRenderer = ({ state, setState, renderableMap }) => (
+const ReactRenderer = ({ state, dispatch, renderableMap }) => (
 	state.elements.map(({ type: T, key, spans }) => (
 		React.createElement(T, {
 			key,
@@ -131,51 +137,40 @@ const CodexEditor = ({
 	])
 	const ref = React.useRef(null)
 
-	const [state, setState] = React.useState(() => ({
-		focused: false,
-		startCursor: {
-			element: 0,
-			character: 0,
+	const [state, dispatch] = useEditor([
+		{
+			type: Paragraph,
+			key: uuidv4(),
+			spans: [
+				{
+					content: "Hey, ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					content: "Russ",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					content: "!",
+					formats: [formatsEnum.strong],
+				},
+				" I’m making some ",
+				{
+					content: "progress",
+					formats: [formatsEnum.code],
+				},
+				" on making a ",
+				{
+					content: "WYSIWYG",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://google.com",
+					},
+				},
+				" editor.",
+			],
 		},
-		endCursor: {
-			element: 0,
-			character: 0,
-		},
-		elements: [
-			{
-				type: Paragraph,
-				key: uuidv4(),
-				spans: [
-					{
-						content: "Hey, ",
-						formats: [formatsEnum.strong],
-					},
-					{
-						content: "Russ",
-						formats: [formatsEnum.strong, formatsEnum.emphasis],
-					},
-					{
-						content: "!",
-						formats: [formatsEnum.strong],
-					},
-					" I’m making some ",
-					{
-						content: "progress",
-						formats: [formatsEnum.code],
-					},
-					" on making a ",
-					{
-						content: "WYSIWYG",
-						formats: [formatsEnum.anchor],
-						[formatsEnum.anchor]: {
-							href: "https://google.com",
-						},
-					},
-					" editor.",
-				],
-			},
-		],
-	}))
+	])
 
 	React.useLayoutEffect(
 		React.useCallback(() => {
@@ -186,7 +181,7 @@ const CodexEditor = ({
 			ReactDOM.render(
 				<ReactRenderer
 					state={state}
-					setState={setState}
+					dispatch={dispatch}
 					renderableMap={renderableMap}
 				/>,
 				ref.current,
@@ -195,36 +190,16 @@ const CodexEditor = ({
 						// No-op
 						return
 					}
-
-					let container = ref.current.children[0].childNodes[0]
-					let offset = state.startCursor.character
-
-					// Iterate to container and offset:
-					while (container && offset) {
-						if (offset - container.textContent.length <= 0) {
-							// No-op
-							break
-						}
-						offset -= container.textContent.length
-						container = container.nextSibling
-					}
-
-					// Iterate to text node:
-					while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
-						container = container.childNodes[container.childNodes.length - 1]
-					}
-
-					console.log(container, offset)
-
+					// TODO
+					const { container, offset } = computeRange(ref.current.children[0], state.startCursor.character)
 					const range = document.createRange()
 					range.setStart(container, offset)
 					range.collapse()
 					// selection.removeAllRanges()
 					selection.addRange(range)
-
 				},
 			)
-		}, [state, setState, renderableMap]),
+		}, [state, dispatch, renderableMap]),
 		[state.elements],
 	)
 
@@ -235,18 +210,11 @@ const CodexEditor = ({
 				className="whitespace-pre-wrap focus:outline-none"
 				contentEditable
 				suppressContentEditableWarning
-
 				onFocus={() => {
-					setState({
-						...state,
-						focused: true,
-					})
+					// TODO
 				}}
 				onBlur={() => {
-					setState({
-						...state,
-						focused: false,
-					})
+					// TODO
 				}}
 				onSelect={() => {
 					const selection = document.getSelection()
@@ -254,61 +222,10 @@ const CodexEditor = ({
 						// No-op
 						return
 					}
-
-					// Computes a cursor from an element and range
-					// container and offset.
-					const computeCursor = (element, { container, offset }) => {
-						const cursor = {
-							element: 0,
-							character: offset,
-						}
-						let domNode = element.childNodes[0]
-						while (domNode) {
-							if (domNode === container || domNode.contains(container)) {
-								// No-op
-								break
-							}
-							cursor.character += domNode.textContent.length
-							domNode = domNode.nextSibling
-						}
-						return cursor
-					}
-
-					const range = selection.getRangeAt(0)
-					const startCursor = computeCursor(ref.current.children[0], { container: range.startContainer, offset: range.startOffset })
-					let endCursor = { ...startCursor }
-					if (!range.collapsed) {
-						endCursor = computeCursor(ref.current.children[0], { container: range.endContainer, offset: range.endOffset })
-					}
-
-					setState({
-						...state,
-						startCursor,
-						endCursor,
-					})
-
+					// TODO
 				}}
-
 				onInput={() => {
-					const spans = readSpans(ref.current.children[0])
-					setState({
-						...state,
-						startCursor: {
-							...state.startCursor,
-							character: state.startCursor.character + 1,
-						},
-						endCursors: {
-							...state.startCursor,
-							character: state.startCursor.character + 1,
-						},
-						elements: [
-							{
-								...state.elements[0],
-								key: uuidv4(),
-								spans,
-							},
-						],
-					})
+					// TODO
 				}}
 			/>
 			<div className="mt-6 whitespace-pre font-mono text-xs leading-tight" style={{ tabSize: 2 }}>
