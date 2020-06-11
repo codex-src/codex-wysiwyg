@@ -30,8 +30,8 @@ function toReact(components, renderableMap) {
 		return toReactOne(components, renderableMap)
 	}
 	const renderable = []
-	for (const each of components) {
-		renderable.push(toReactOne(each, renderableMap, renderable.length))
+	for (const component of components) {
+		renderable.push(toReactOne(component, renderableMap, renderable.length))
 	}
 	return renderable
 }
@@ -44,6 +44,15 @@ const formatsEnum = new NumberEnum(
 	"strong",
 	"emphasis",
 )
+
+// Maps strings to formatsEnum (zero-based numbers).
+const formatsEnumMap = {
+	anchor: formatsEnum.anchor,
+	code: formatsEnum.code,
+	strikethrough: formatsEnum.strikethrough,
+	strong: formatsEnum.strong,
+	emphasis: formatsEnum.emphasis,
+}
 
 const CodexEditor = ({
 	components: {
@@ -106,7 +115,7 @@ const CodexEditor = ({
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://google.com",
-					}
+					},
 				},
 				" editor.",
 			],
@@ -122,7 +131,7 @@ const CodexEditor = ({
 		}
 		// NOTE: Uses ref.type !== undefined because formatsEnum
 		// resolves to numbers (zero-based)
-		let ref = component
+		let ref = component // TODO: Change condition to let ref = component && component.type !== undefined?
 		while (ref && ref.type !== undefined) {
 			typeMap[ref.type] = ref
 			types.push(ref.type)
@@ -154,20 +163,20 @@ const CodexEditor = ({
 	// Parses spans to VDOM (non-React) components.
 	const parseSpans = spans => {
 		const components = []
-		for (const each of spans) {
-			if (typeof each === "string") {
+		for (const span of spans) {
+			if (typeof span === "string") {
 				if (components.length && typeof components[components.length - 1] === "string") {
-					components[components.length - 1] += each
+					components[components.length - 1] += span
 					continue
 				}
-				components.push(each)
+				components.push(span)
 				continue
 			}
-			const formats = [...each.formats].sort()
+			const formats = [...span.formats].sort()
 			const component = {
 				type: formats[0],
 				props: {
-					...each[formats[0]],
+					...span[formats[0]],
 					children: null,
 				},
 			}
@@ -176,13 +185,13 @@ const CodexEditor = ({
 				ref.props.children = {
 					type: format,
 					props: {
-						...each[format],
+						...span[format],
 						children: null,
 					},
 				}
 				ref = ref.props.children
 			}
-			ref.props.children = each.data
+			ref.props.children = span.data
 			components.push(component)
 		}
 		decorate(components)
@@ -190,11 +199,89 @@ const CodexEditor = ({
 		return components
 	}
 
+	const ref = React.useRef(null)
+
+	// // Reads a DOM node (element or text node); mocks
+	// // element.textContent.
+	// const readDOMNode = domNode => {
+	// 	let data = ""
+	// 	const recurse = on => {
+	// 		if (on.nodeType === Node.TEXT_NODE) {
+	// 			data += on.nodeValue
+	// 			return
+	// 		}
+	// 		for (const each of on.childNodes) {
+	// 			recurse(each)
+	// 			const next = each.nextElementSibling
+	// 			// if (next && isDocumentNode(next)) {
+	// 			// 	data += "\n"
+	// 			// }
+	// 		}
+	// 	}
+	// 	recurse(domNode)
+	// 	return data
+	// }
+
+	React.useEffect(() => {
+
+		// Reads a span data structure from an element.
+		const readSpan = domNode => { // domNode: Element or text node
+			if (domNode.nodeType === Node.TEXT_NODE) {
+				return domNode.textContent
+			}
+			const span = {
+				data: domNode.textContent,
+				formats: [formatsEnumMap[domNode.getAttribute("data-codex-type")]],
+			}
+			if (span.formats[0] === formatsEnum.anchor) {
+				span[formatsEnum.anchor] = {
+					href: domNode.getAttribute("data-codex-href"),
+				}
+			}
+			let ref = domNode.children.length &&
+				domNode.children[0]
+			while (ref) {
+				const format = formatsEnumMap[ref.getAttribute("data-codex-type")]
+				span.formats.push(format)
+				if (format === formatsEnum.anchor) {
+					span[formatsEnum.anchor] = {
+						href: ref.getAttribute("data-codex-href"),
+					}
+				}
+				ref = ref.children.length &&
+					ref.children[0]
+			}
+			span.formats.sort()
+			return span
+		}
+
+		// Reads span data structures from an element.
+		const readSpans = element => {
+			const spans = []
+			for (const domNode of element.childNodes) {
+				const span = readSpan(domNode)
+				if (typeof span === "string" && (spans.length && typeof spans[spans.length - 1] === "string")) {
+					spans[spans.length - 1] += span
+					continue
+				}
+				spans.push(span)
+			}
+			console.log(spans)
+			return spans
+		}
+		console.log(readSpans(ref.current.children[0]))
+	}, [])
+
 	return (
 		<article
+			ref={ref}
 			className="whitespace-pre-wrap focus:outline-none"
 			contentEditable
 			suppressContentEditableWarning
+
+			onInput={() => {
+				// ...
+			}}
 		>
 			{elements.map(({ type: T, key, spans }) => (
 				React.createElement(T, {

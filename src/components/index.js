@@ -34,13 +34,13 @@ export const Paragraph = ({ children }) => (
 )
 
 export const Emphasis = ({ children }) => (
-	<span className="italic">
+	<span className="italic" data-codex-type="emphasis">
 		{children}
 	</span>
 )
 
 export const Strong = ({ children }) => (
-	<span className="font-semibold">
+	<span className="font-semibold" data-codex-type="strong">
 		{children}
 	</span>
 )
@@ -53,21 +53,20 @@ const codeClassNames = {
 }
 
 export const Code = ({ typePos, children }) => (
-	<span className={codeClassNames[typePos]} {...disableAutoCorrect}>
+	<span className={codeClassNames[typePos]} {...disableAutoCorrect} data-codex-type="code">
 		{children}
 	</span>
 )
 
 export const Strikethrough = ({ children }) => (
-	// NOTE: Uses text-gray-400 not text-gray-500
-	<span className="line-through text-gray-400">
+	<span className="line-through text-gray-400" data-codex-type="strike">
 		{children}
 	</span>
 )
 
 export const Anchor = ({ href, children }) => (
 	<a {...safeAnchor(href)}>
-		<span className="text-blue-500">
+		<span className="no-underline hover:underline text-blue-500" data-codex-type="anchor" data-codex-href={href}>
 			{children}
 		</span>
 	</a>
