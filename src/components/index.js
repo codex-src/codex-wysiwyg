@@ -46,7 +46,15 @@ export const Strong = ({ children }) => (
 	</strong>
 )
 
-export const Code = ({ children }) => (
+
+// const codeClassNames = {
+// 	"":          "px-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded",
+// 	"at-start":  "pl-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-l",
+// 	"at-center": "px-0 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-none",
+// 	"at-end":    "pr-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-r",
+// }
+
+export const Code = ({ pos, children }) => (
 	<code className="px-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded" {...disableAutoCorrect}>
 		{children}
 	</code>
