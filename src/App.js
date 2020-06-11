@@ -1,5 +1,6 @@
 import React from "react"
 import readSpans from "./readSpans"
+import toReact from "./toReact"
 import uuidv4 from "uuid/v4"
 import { formatsEnum } from "./formatsEnum"
 
@@ -12,32 +13,6 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
-
-
-// Returns an array.
-function toArray(value) {
-	if (!Array.isArray(value)) {
-		return [value]
-	}
-	return value
-}
-
-// Converts components to renderable React elements.
-function toReact(components, renderableMap) {
-	const renderable = []
-	for (const component of toArray(components)) {
-		if (typeof component === "string") {
-			renderable.push(component)
-			continue
-		}
-		const { type: T, props } = component
-		renderable.push(React.createElement(renderableMap[T], {
-			key: renderable.length,
-			...props,
-		}, toReact(props.children, renderableMap)))
-	}
-	return renderable
-}
 
 const CodexEditor = ({
 	components: {
@@ -69,6 +44,7 @@ const CodexEditor = ({
 		Strikethrough,
 		Anchor,
 	])
+	const ref = React.useRef(null)
 
 	const [state, setState] = React.useState(() => [
 		{
@@ -156,6 +132,7 @@ const CodexEditor = ({
 				components.push(span)
 				continue
 			}
+			// TODO: Deprecate?
 			const formats = [...span.formats].sort()
 			const component = {
 				type: formats[0],
@@ -179,54 +156,44 @@ const CodexEditor = ({
 			components.push(component)
 		}
 		decorate(components)
-		console.log(JSON.stringify(components, null, "\t"))
 		return components
 	}
 
-	const ref = React.useRef(null)
-
-	// // Reads a DOM node (element or text node); mocks
-	// // element.textContent.
-	// const readDOMNode = domNode => {
-	// 	let data = ""
-	// 	const recurse = on => {
-	// 		if (on.nodeType === Node.TEXT_NODE) {
-	// 			data += on.nodeValue
-	// 			return
-	// 		}
-	// 		for (const each of on.childNodes) {
-	// 			recurse(each)
-	// 			const next = each.nextElementSibling
-	// 			// if (next && isDocumentNode(next)) {
-	// 			// 	data += "\n"
-	// 			// }
-	// 		}
-	// 	}
-	// 	recurse(domNode)
-	// 	return data
-	// }
-
-	React.useEffect(() => {
-		console.log(readSpans(ref.current.children[0]))
-	}, [])
-
 	return (
-		<article
-			ref={ref}
-			className="whitespace-pre-wrap focus:outline-none"
-			contentEditable
-			suppressContentEditableWarning
+		<div>
+			<article
+				ref={ref}
+				className="whitespace-pre-wrap focus:outline-none"
+				contentEditable
+				suppressContentEditableWarning
 
-			onInput={() => {
-				// ...
-			}}
-		>
-			{state.map(({ type: T, key, spans }) => (
-				React.createElement(T, {
-					key,
-				}, toReact(parseSpans(spans), renderableMap))
-			))}
-		</article>
+				onInput={() => {
+					const spans = readSpans(ref.current.children[0])
+					// setState([
+					// 	{
+					// 		...state[0],
+					// 		spans,
+					// 	},
+					// ])
+					setState([
+						{
+							...state[0],
+							key: uuidv4(),
+							spans,
+						},
+					])
+				}}
+			>
+				{state.map(({ type: T, key, spans }) => (
+					React.createElement(T, {
+						key,
+					}, toReact(parseSpans(spans), renderableMap))
+				))}
+			</article>
+			<div className="mt-6 whitespace-pre font-mono text-xs leading-tight" style={{ tabSize: 2 }}>
+				{JSON.stringify(state, null, "\t")}
+			</div>
+		</div>
 	)
 }
 

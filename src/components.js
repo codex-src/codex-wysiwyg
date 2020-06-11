@@ -66,7 +66,7 @@ export const Strikethrough = ({ children }) => (
 
 export const Anchor = ({ href, children }) => (
 	<a {...safeAnchor(href)}>
-		<span className="no-underline hover:underline text-blue-500" data-codex-type="anchor" data-codex-href={href}>
+		<span className="no-underline text-blue-500" data-codex-type="anchor" data-codex-href={href}>
 			{children}
 		</span>
 	</a>

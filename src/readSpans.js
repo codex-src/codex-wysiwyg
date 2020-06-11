@@ -4,24 +4,20 @@ import {
 } from "./formatsEnum"
 
 // Reads a span data structure from an element.
+//
+// TODO: Move props to JSON? E.g. data-codex-props="{ ... }"
 const readSpan = domNode => { // domNode: Element or text node
 	if (domNode.nodeType === Node.TEXT_NODE) {
 		return domNode.textContent
 	}
 	const span = {
 		data: domNode.textContent,
-		formats: [formatsEnumMap[domNode.getAttribute("data-codex-type")]],
+		formats: [],
 	}
-	if (span.formats[0] === formatsEnum.anchor) {
-		span[formatsEnum.anchor] = {
-			href: domNode.getAttribute("data-codex-href"),
-		}
-	}
-	let ref = domNode.children.length &&
-		domNode.children[0]
+	let ref = domNode
 	while (ref) {
 		const format = formatsEnumMap[ref.getAttribute("data-codex-type")]
-		if (format) {
+		if (format !== undefined) { // NOTE: Compare undefined
 			span.formats.push(format)
 			if (format === formatsEnum.anchor) {
 				span[formatsEnum.anchor] = {
@@ -31,6 +27,9 @@ const readSpan = domNode => { // domNode: Element or text node
 		}
 		ref = ref.children.length &&
 			ref.children[0]
+	}
+	if (!span.formats.length) {
+		return span.data
 	}
 	span.formats.sort()
 	return span
