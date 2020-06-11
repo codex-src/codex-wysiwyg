@@ -46,40 +46,45 @@ const CodexEditor = ({
 	])
 	const ref = React.useRef(null)
 
-	const [state, setState] = React.useState(() => [
-		{
-			type: Paragraph,
-			key: uuidv4(),
-			spans: [
-				{
-					data: "Hey, ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					data: "Russ",
-					formats: [formatsEnum.strong, formatsEnum.emphasis],
-				},
-				{
-					data: "!",
-					formats: [formatsEnum.strong],
-				},
-				" I’m making some ",
-				{
-					data: "progress",
-					formats: [formatsEnum.code],
-				},
-				" on making a ",
-				{
-					data: "WYSIWYG",
-					formats: [formatsEnum.anchor],
-					[formatsEnum.anchor]: {
-						href: "https://google.com",
-					},
-				},
-				" editor.",
-			],
+	const [state, setState] = React.useState(() => ({
+		selection: {
+
 		},
-	])
+		elements: [
+			{
+				type: Paragraph,
+				key: uuidv4(),
+				spans: [
+					{
+						content: "Hey, ",
+						formats: [formatsEnum.strong],
+					},
+					{
+						content: "Russ",
+						formats: [formatsEnum.strong, formatsEnum.emphasis],
+					},
+					{
+						content: "!",
+						formats: [formatsEnum.strong],
+					},
+					" I’m making some ",
+					{
+						content: "progress",
+						formats: [formatsEnum.code],
+					},
+					" on making a ",
+					{
+						content: "WYSIWYG",
+						formats: [formatsEnum.anchor],
+						[formatsEnum.anchor]: {
+							href: "https://google.com",
+						},
+					},
+					" editor.",
+				],
+			},
+		],
+	}))
 
 	// Computes a type map and array of types for a component.
 	const getTypeInfo = component => {
@@ -88,14 +93,12 @@ const CodexEditor = ({
 		if (typeof component === "string") {
 			return [types, typeMap]
 		}
-		// NOTE: Uses ref.type !== undefined because formatsEnum
-		// resolves to numbers (zero-based)
-		let ref = component.type !== undefined &&
+		let ref = component.type !== undefined && // NOTE: Guard undefined
 			component
 		while (ref) {
 			types.push(ref.type)
 			typeMap[ref.type] = ref
-			ref = ref.props.children.type !== undefined &&
+			ref = ref.props.children.type !== undefined &&  // NOTE: Guard undefined
 				ref.props.children
 		}
 		return [types, typeMap]
@@ -152,7 +155,7 @@ const CodexEditor = ({
 				}
 				ref = ref.props.children
 			}
-			ref.props.children = span.data
+			ref.props.children = span.content
 			components.push(component)
 		}
 		decorate(components)
@@ -169,22 +172,19 @@ const CodexEditor = ({
 
 				onInput={() => {
 					const spans = readSpans(ref.current.children[0])
-					// setState([
-					// 	{
-					// 		...state[0],
-					// 		spans,
-					// 	},
-					// ])
-					setState([
-						{
-							...state[0],
-							key: uuidv4(),
-							spans,
-						},
-					])
+					setState({
+						...state,
+						elements: [
+							{
+								...state.elements[0],
+								key: uuidv4(),
+								spans,
+							},
+						],
+					})
 				}}
 			>
-				{state.map(({ type: T, key, spans }) => (
+				{state.elements.map(({ type: T, key, spans }) => (
 					React.createElement(T, {
 						key,
 					}, toReact(parseSpans(spans), renderableMap))

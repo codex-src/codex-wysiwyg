@@ -11,13 +11,13 @@ const readSpan = domNode => { // domNode: Element or text node
 		return domNode.textContent
 	}
 	const span = {
-		data: domNode.textContent,
+		content: domNode.textContent,
 		formats: [],
 	}
 	let ref = domNode
 	while (ref) {
 		const format = formatsEnumMap[ref.getAttribute("data-codex-type")]
-		if (format !== undefined) { // NOTE: Compare undefined
+		if (format !== undefined) { // NOTE: Guard undefined
 			span.formats.push(format)
 			if (format === formatsEnum.anchor) {
 				span[formatsEnum.anchor] = {
@@ -29,7 +29,7 @@ const readSpan = domNode => { // domNode: Element or text node
 			ref.children[0]
 	}
 	if (!span.formats.length) {
-		return span.data
+		return span.content
 	}
 	span.formats.sort()
 	return span
