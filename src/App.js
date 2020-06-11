@@ -1,6 +1,7 @@
 import React from "react"
 import readSpans from "./readSpans"
 import uuidv4 from "uuid/v4"
+import { formatsEnum } from "./formatsEnum"
 
 import {
 	Anchor,
@@ -12,31 +13,28 @@ import {
 	Strong,
 } from "./components"
 
-import {
-	formatsEnum,
-	formatsEnumMap,
-} from "./formatsEnum"
 
-// Converts one component to a renderable React component.
-function toReactOne(component, renderableMap, key = 0) {
-	if (typeof component === "string") {
-		return component
+// Returns an array.
+function toArray(value) {
+	if (!Array.isArray(value)) {
+		return [value]
 	}
-	const { type: T, props } = component
-	return React.createElement(renderableMap[T], {
-		key,
-		...props,
-	}, toReact(props.children, renderableMap))
+	return value
 }
 
-// Converts components to renderable React components.
+// Converts components to renderable React elements.
 function toReact(components, renderableMap) {
-	if (!Array.isArray(components)) {
-		return toReactOne(components, renderableMap)
-	}
 	const renderable = []
-	for (const component of components) {
-		renderable.push(toReactOne(component, renderableMap, renderable.length))
+	for (const component of toArray(components)) {
+		if (typeof component === "string") {
+			renderable.push(component)
+			continue
+		}
+		const { type: T, props } = component
+		renderable.push(React.createElement(renderableMap[T], {
+			key: renderable.length,
+			...props,
+		}, toReact(props.children, renderableMap)))
 	}
 	return renderable
 }
@@ -53,8 +51,7 @@ const CodexEditor = ({
 	},
 	...props
 }) => {
-	// Maps element types (strings) to renderable React
-	// components.
+	// Maps types (strings) to renderable React elements.
 	const renderableMap = React.useMemo(() => ({
 		[formatsEnum.Header]: Header,
 		[formatsEnum.Paragraph]: Paragraph,
@@ -73,8 +70,7 @@ const CodexEditor = ({
 		Anchor,
 	])
 
-	// TODO: Move to useState or equivalent
-	const elements = [
+	const [state, setState] = React.useState(() => [
 		{
 			type: Paragraph,
 			key: uuidv4(),
@@ -107,43 +103,42 @@ const CodexEditor = ({
 				" editor.",
 			],
 		},
-	]
+	])
 
 	// Computes a type map and array of types for a component.
-	//
-	// TODO
 	const getTypeInfo = component => {
-		const typeMap = {}
 		const types = []
+		const typeMap = {}
 		if (typeof component === "string") {
-			return [typeMap, types]
+			return [types, typeMap]
 		}
 		// NOTE: Uses ref.type !== undefined because formatsEnum
 		// resolves to numbers (zero-based)
-		let ref = component // TODO: Change condition to let ref = component && component.type !== undefined?
-		while (ref && ref.type !== undefined) {
-			typeMap[ref.type] = ref
+		let ref = component.type !== undefined &&
+			component
+		while (ref) {
 			types.push(ref.type)
-			ref = ref.props.children
+			typeMap[ref.type] = ref
+			ref = ref.props.children.type !== undefined &&
+				ref.props.children
 		}
-		return [typeMap, types]
+		return [types, typeMap]
 	}
 
 	// Decorates components; sets component.typePos to
 	// "at-start", "at-center", or "at-end" for common types.
-	//
-	// TODO: Merge components for user-exported HTML
 	const decorate = components => {
 		for (let x = 0; x < components.length; x++) {
 			if (!x || typeof components[x] === "string") {
 				// No-op
 				continue
 			}
-			const [typeMap1, types1] = getTypeInfo(components[x - 1])
-			const [typeMap2, types2] = getTypeInfo(components[x])
+			const [types1, typeMap1] = getTypeInfo(components[x - 1])
+			const [types2, typeMap2] = getTypeInfo(components[x])
 			const common = types1.filter(a => types2.some(b => a === b))
 			for (const type of common) {
-				typeMap1[type].props.typePos = !typeMap1[type].props.typePos ? "at-start" : "at-center"
+				typeMap1[type].props.typePos =
+					!typeMap1[type].props.typePos ? "at-start" : "at-center"
 				typeMap2[type].props.typePos = "at-end"
 			}
 		}
@@ -226,7 +221,7 @@ const CodexEditor = ({
 				// ...
 			}}
 		>
-			{elements.map(({ type: T, key, spans }) => (
+			{state.map(({ type: T, key, spans }) => (
 				React.createElement(T, {
 					key,
 				}, toReact(parseSpans(spans), renderableMap))
