@@ -47,8 +47,14 @@ const CodexEditor = ({
 	const ref = React.useRef(null)
 
 	const [state, setState] = React.useState(() => ({
-		selection: {
-
+		focused: false,
+		startCursor: {
+			element: 0,
+			character: 0,
+		},
+		endCursor: {
+			element: 0,
+			character: 0,
 		},
 		elements: [
 			{
@@ -169,6 +175,74 @@ const CodexEditor = ({
 				className="whitespace-pre-wrap focus:outline-none"
 				contentEditable
 				suppressContentEditableWarning
+
+				onFocus={() => {
+					setState({
+						...state,
+						focused: true,
+					})
+				}}
+				onBlur={() => {
+					setState({
+						...state,
+						focused: false,
+					})
+				}}
+				onSelect={() => {
+					const selection = document.getSelection()
+					if (!selection || !selection.rangeCount) {
+						// No-op
+						return
+					}
+
+					// Computes a cursor from an element and range
+					// container and offset.
+					const computeCursor = (element, { container, offset }) => {
+						const cursor = {
+							element: 0,
+							character: 0,
+						}
+						const recurse = on => {
+							if (on === container) {
+								cursor.character += offset
+								return true
+							}
+							for (const domNode of on.childNodes) {
+								if (recurse(domNode)) {
+									return true
+								}
+								if (domNode.nodeType === Node.TEXT_NODE) {
+									cursor.character += domNode.textContent.length
+								}
+								// const next = each.nextElementSibling
+								// if (next && isDocumentNode(next)) {
+								// 	Object.assign(pos, {
+								// 		x: 0,
+								// 		y: pos.y + 1,
+								// 		pos: pos.pos + 1,
+								// 	})
+								// }
+							}
+							return false
+						}
+						recurse(element)
+						return cursor
+					}
+
+					const range = selection.getRangeAt(0)
+					const startCursor = computeCursor(ref.current.children[0], { container: range.startContainer, offset: range.startOffset })
+					let endCursor = { ...startCursor }
+					if (!range.collapsed) {
+						endCursor = computeCursor(ref.current.children[0], { container: range.endContainer, offset: range.endOffset })
+					}
+
+					setState({
+						...state,
+						startCursor,
+						endCursor,
+					})
+
+				}}
 
 				onInput={() => {
 					const spans = readSpans(ref.current.children[0])
