@@ -89,7 +89,7 @@ function parseSpans(spans) {
 				type: format,
 				props: {
 					...span[format],
-					children: {} // <- ref
+					children: {}, // <- ref
 				},
 			})
 			lastRef = ref
@@ -188,6 +188,9 @@ const CodexEditor = ({
 	// TODO (5): Add undo handlers
 	React.useLayoutEffect(
 		React.useCallback(() => {
+			// Eagerly remove range because of performance:
+			//
+			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
 			const selection = document.getSelection()
 			if (selection && selection.rangeCount) {
 				selection.removeAllRanges()
@@ -228,9 +231,7 @@ const CodexEditor = ({
 				suppressContentEditableWarning
 
 				onFocus={dispatch.focus}
-
 				onBlur={dispatch.blur}
-
 				onSelect={() => {
 					const cursors = computeCursors()
 					if (!cursors) {
@@ -239,11 +240,9 @@ const CodexEditor = ({
 					}
 					dispatch.select(...cursors)
 				}}
-
 				onPointerDown={() => {
 					pointerIsDownRef.current = true
 				}}
-
 				onPointerMove={() => {
 					if (!state.focused || !pointerIsDownRef.current) {
 						pointerIsDownRef.current = false
@@ -256,9 +255,37 @@ const CodexEditor = ({
 					}
 					dispatch.select(...cursors)
 				}}
-
 				onPointerUp={() => {
 					pointerIsDownRef.current = false
+				}}
+
+				onKeyDown={() => {
+					// case keyDownTypesEnum.formatEm:
+					// case keyDownTypesEnum.formatStrong:
+					switch (detectKeyDownTypes(e)) {
+					case keyDownTypesEnum.tab:
+					case keyDownTypesEnum.enter:
+						// TODO
+					case keyDownTypesEnum.backspaceParagraph:
+						// TODO
+					case keyDownTypesEnum.backspaceWord:
+						// TODO
+					case keyDownTypesEnum.backspaceRune:
+						// TODO
+					case keyDownTypesEnum.forwardBackspaceWord:
+						// TODO
+					case keyDownTypesEnum.forwardBackspaceRune:
+						// TODO
+					case keyDownTypesEnum.undo:
+						// TODO
+					case keyDownTypesEnum.redo:
+						// TODO
+					case keyDownTypesEnum.characterData:
+						// TODO
+					default:
+						// No-op
+						break
+					}
 				}}
 
 				onInput={() => {
