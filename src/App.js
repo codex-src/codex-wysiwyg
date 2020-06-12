@@ -1,5 +1,7 @@
 import computeCursors from "./cursor"
 import computeRange from "./range"
+import detectKeyDownType from "./detect"
+import keyDownTypesEnum from "./keyDownTypesEnum"
 import noopTextContent from "./noopTextContent"
 import React from "react"
 import ReactDOM from "react-dom"
@@ -259,29 +261,53 @@ const CodexEditor = ({
 					pointerIsDownRef.current = false
 				}}
 
-				onKeyDown={() => {
+				// NOTE: Uses e
+				onKeyDown={e => {
 					// case keyDownTypesEnum.formatEm:
 					// case keyDownTypesEnum.formatStrong:
-					switch (detectKeyDownTypes(e)) {
+					switch (detectKeyDownType(e)) {
 					case keyDownTypesEnum.tab:
+						e.preventDefault()
+						// TODO
+						break
 					case keyDownTypesEnum.enter:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.backspaceParagraph:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.backspaceWord:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.backspaceRune:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.forwardBackspaceWord:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.forwardBackspaceRune:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.undo:
+						e.preventDefault()
 						// TODO
+						break
 					case keyDownTypesEnum.redo:
+						e.preventDefault()
 						// TODO
-					case keyDownTypesEnum.characterData:
-						// TODO
+						break
+
+					// case keyDownTypesEnum.characterData:
+					// 	e.preventDefault()
+					// 	// TODO
+					// 	break
+
 					default:
 						// No-op
 						break
