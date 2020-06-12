@@ -2,11 +2,12 @@ import isMetaOrControlKey from "lib/isMetaOrControlKey"
 import keyDownTypesEnum from "./keyDownTypesEnum"
 
 const keyCodes = {
+	I: 73, // Emphasis
+	B: 66, // Strong
+	// TODO
+
 	Tab: 9,
 	Enter: 13,
-
-	I: 73, // Emphasis -- TODO
-	B: 66, // Strong -- TODO
 
 	Backspace: 8,
 	Delete: 46,
@@ -17,17 +18,7 @@ const keyCodes = {
 }
 
 const detect = {
-	tab(e) {
-		const ok = (
-			!e.ctrlKey && // Negates control-tab and shift-control-tab shortcuts
-			e.keyCode === keyCodes.Tab
-		)
-		return ok
-	},
-	enter(e) {
-		return e.keyCode === keyCodes.Enter
-	},
-	formatEm(e) {
+	formatEmphasis(e) {
 		const ok = (
 			isMetaOrControlKey(e) &&
 			e.keyCode === keyCodes.I
@@ -40,6 +31,16 @@ const detect = {
 			e.keyCode === keyCodes.B
 		)
 		return ok
+	},
+	tab(e) {
+		const ok = (
+			!e.ctrlKey && // Negates control-tab and shift-control-tab shortcuts
+			e.keyCode === keyCodes.Tab
+		)
+		return ok
+	},
+	enter(e) {
+		return e.keyCode === keyCodes.Enter
 	},
 	// NOTE: detect.backspace* are ordered by precedence
 	backspaceParagraph(e) {
@@ -126,14 +127,14 @@ const detect = {
 // Detects a key down type.
 function detectKeyDownType(e) {
 	switch (true) {
+	case detect.formatEmphasis(e):
+		return keyDownTypesEnum.formatEmphasis
+	case detect.formatStrong(e):
+		return keyDownTypesEnum.formatStrong
 	case detect.tab(e):
 		return keyDownTypesEnum.tab
 	case detect.enter(e):
 		return keyDownTypesEnum.enter
-	case detect.formatEm(e):
-		return keyDownTypesEnum.formatEm
-	case detect.formatStrong(e):
-		return keyDownTypesEnum.formatStrong
 	// NOTE: detect.backspace* are ordered by precedence
 	case detect.backspaceParagraph(e):
 		return keyDownTypesEnum.backspaceParagraph

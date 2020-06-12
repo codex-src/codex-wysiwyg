@@ -1,12 +1,12 @@
 import { StringEnum } from "lib/Enums"
 
 const keyDownTypesEnum = new StringEnum(
-	"tab",
-	"enter",
-
-	"formatEm",
+	"formatEmphasis",
 	"formatStrong",
 	// TODO
+
+	"tab",
+	"enter",
 
 	"backspaceParagraph",
 	"backspaceWord",

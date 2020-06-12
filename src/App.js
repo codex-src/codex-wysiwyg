@@ -261,46 +261,51 @@ const CodexEditor = ({
 					pointerIsDownRef.current = false
 				}}
 
-				// NOTE: Uses e
 				onKeyDown={e => {
-					// case keyDownTypesEnum.formatEm:
-					// case keyDownTypesEnum.formatStrong:
 					switch (detectKeyDownType(e)) {
+					case keyDownTypesEnum.formatEmphasis:
+						e.preventDefault()
+						console.log("formatEmphasis")
+						break
+					case keyDownTypesEnum.formatStrong:
+						e.preventDefault()
+						console.log("formatStrong")
+						break
 					case keyDownTypesEnum.tab:
 						e.preventDefault()
-						// TODO
+						console.log("tab")
 						break
 					case keyDownTypesEnum.enter:
 						e.preventDefault()
-						// TODO
+						console.log("enter")
 						break
 					case keyDownTypesEnum.backspaceParagraph:
 						e.preventDefault()
-						// TODO
+						console.log("backspaceParagraph")
 						break
 					case keyDownTypesEnum.backspaceWord:
 						e.preventDefault()
-						// TODO
+						console.log("backspaceWord")
 						break
 					case keyDownTypesEnum.backspaceRune:
 						e.preventDefault()
-						// TODO
+						console.log("backspaceRune")
 						break
 					case keyDownTypesEnum.forwardBackspaceWord:
 						e.preventDefault()
-						// TODO
+						console.log("forwardBackspaceWord")
 						break
 					case keyDownTypesEnum.forwardBackspaceRune:
 						e.preventDefault()
-						// TODO
+						console.log("forwardBackspaceRune")
 						break
 					case keyDownTypesEnum.undo:
 						e.preventDefault()
-						// TODO
+						console.log("undo")
 						break
 					case keyDownTypesEnum.redo:
 						e.preventDefault()
-						// TODO
+						console.log("redo")
 						break
 
 					// case keyDownTypesEnum.characterData:
