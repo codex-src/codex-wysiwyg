@@ -1,5 +1,6 @@
 import computeCursors from "./cursor"
 import computeRange from "./range"
+import noopTextContent from "./noopTextContent"
 import React from "react"
 import ReactDOM from "react-dom"
 import readSpans from "./spans"
@@ -17,6 +18,10 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
+
+;(() => {
+	noopTextContent()
+})()
 
 // Computes a type map and array of types for a component.
 function getTypeInfo(component) {
