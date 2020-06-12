@@ -1,27 +1,32 @@
 import ascendToUUIDElement from "./ascend"
 import { newCursor } from "./constructors"
 
-// Computes a cursor from an element and a range container
-// and offset.
-function computeCursor(element, { container, offset }) {
+// Computes a cursor from a UUID element and a range
+// container and offset.
+function computeCursor(uuidElement, { container, offset }) {
 	const cursor = newCursor()
-	if (!element.id) {
-		throw new Error("computeCursor: no such id")
+	if (!uuidElement.id) {
+		throw new Error("computeCursor: no such uuid")
 	}
-	// Iterate to the container and increment cursor.offset:
-	let domNode = element.childNodes[0]
-	while (domNode) {
-		if (domNode === container || domNode.contains(container)) {
-			// No-op
-			break
+	// Recurses on a DOM node, mutates cursor.
+	const recurse = startDOMNode => {
+		if (startDOMNode === container) {
+			Object.assign(cursor, {
+				uuid: uuidElement.id,
+				offset: cursor.offset + offset,
+			})
+			return true
 		}
-		cursor.offset += domNode.textContent.length
-		domNode = domNode.nextSibling
+		for (const domNode of startDOMNode.childNodes) {
+			if (recurse(domNode)) {
+				return true
+			}
+			cursor.offset += domNode.nodeType === Node.TEXT_NODE &&
+				domNode.textContent.length
+		}
+		return false
 	}
-	Object.assign(cursor, {
-		uuid: element.id,
-		offset: cursor.offset + offset,
-	})
+	recurse(uuidElement)
 	return cursor
 }
 

@@ -212,11 +212,15 @@ const CodexEditor = ({
 						return
 					}
 					const { container, offset } = computeRange(state.startCursor)
-					const range = document.createRange()
-					range.setStart(container, offset)
-					range.collapse()
-					// selection.removeAllRanges()
-					selection.addRange(range)
+					try {
+						const range = document.createRange()
+						range.setStart(container, offset)
+						range.collapse()
+						// selection.removeAllRanges()
+						selection.addRange(range)
+					} catch (error) {
+						console.error(error)
+					}
 				},
 			)
 		}, [state, dispatch, renderableMap]),
@@ -328,6 +332,8 @@ const CodexEditor = ({
 						throw new Error("onInput: no such element")
 					}
 					const spans = readSpans(element)
+					// // DEBUG
+					// console.log(element.id, spans, ...cursors)
 					dispatch.input(element.id, spans, ...cursors)
 				}}
 

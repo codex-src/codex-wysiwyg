@@ -64,7 +64,6 @@ export const Strikethrough = ({ children }) => (
 	</span>
 )
 
-
 // <svg
 // 	className="ml-1 w-4 h-4 text-blue-400"
 // 	fill="currentColor"
@@ -75,18 +74,24 @@ export const Strikethrough = ({ children }) => (
 
 export const Anchor = ({ href, children }) => (
 	// text-blue-800 bg-blue-100
-	<span className="px-2 !inline-flex !flex-row !items-center text-blue-600 bg-blue-50 rounded-full" onClick={() => window.open(href)} data-codex-type="anchor" data-codex-props={JSON.stringify({ href })}>
+	<span
+		className="px-2 inline-flex flex-row items-center text-blue-600 bg-blue-50 rounded-full"
+		// onClick={() => window.open(href)}
+		data-codex-type="anchor"
+		data-codex-props={JSON.stringify({ href })}
+	>
 		{children}
-		{/* <svg */}
-		{/* 	className="ml-1 w-4 h-4 text-blue-500" */}
-		{/* 	fill="none" */}
-		{/* 	stroke="currentColor" */}
-		{/* 	strokeLinecap="round" */}
-		{/* 	strokeLinejoin="round" */}
-		{/* 	strokeWidth="2" */}
-		{/* 	viewBox="0 0 24 24" */}
-		{/* > */}
-		{/* 	<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /> */}
-		{/* </svg> */}
+		<svg
+			className="ml-1 w-4 h-4 text-blue-500 transform scale-110"
+			fill="none"
+			stroke="currentColor"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			strokeWidth="2"
+			viewBox="0 0 24 24"
+			contentEditable={false}
+		>
+			<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+		</svg>
 	</span>
 )

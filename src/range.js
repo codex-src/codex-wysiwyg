@@ -4,28 +4,30 @@ import { newRange } from "./constructors"
 // and offset.
 function computeRange({ uuid, offset }) {
 	const range = newRange()
-	const element = document.getElementById(uuid)
-	if (!element) {
-		throw new Error("computeRange: no such element")
+	const uuidElement = document.getElementById(uuid)
+	if (!uuidElement) {
+		throw new Error("computeRange: no such uuid element")
 	}
-	// Iterate to the container and offset:
-	let container = element.childNodes[0]
-	while (container && offset) {
-		if (offset - container.textContent.length <= 0) {
-			// No-op
-			break
+	// Recurses on a DOM node, mutates range.
+	const recurse = startDOMNode => {
+		// TODO: if (pos - (on.nodeValue || "").length <= 0) {
+		if (startDOMNode.nodeType === Node.TEXT_NODE && offset - startDOMNode.textContent.length <= 0) {
+			Object.assign(range, {
+				container: startDOMNode,
+				offset,
+			})
+			return true
 		}
-		offset -= container.textContent.length
-		container = container.nextSibling
+		for (const domNode of startDOMNode.childNodes) {
+			if (recurse(domNode)) {
+				return true
+			}
+			offset -= domNode.nodeType === Node.TEXT_NODE &&
+				domNode.textContent.length
+		}
+		return false
 	}
-	// Iterate to the text node:
-	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
-		container = container.childNodes[container.childNodes.length - 1]
-	}
-	Object.assign(range, {
-		container,
-		offset,
-	})
+	recurse(uuidElement)
 	return range
 }
 

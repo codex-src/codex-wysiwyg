@@ -39,9 +39,11 @@ function readSpans(element) {
 	const spans = []
 	for (const domNode of element.childNodes) {
 		const span = readSpan(domNode)
-		if (typeof span === "string" && (spans.length && typeof spans[spans.length - 1] === "string")) {
-			spans[spans.length - 1] += span
-			continue
+		if (typeof span === "string") {
+			if (spans.length && typeof spans[spans.length - 1] === "string") {
+				spans[spans.length - 1] += span
+				continue
+			}
 		}
 		spans.push(span)
 	}
