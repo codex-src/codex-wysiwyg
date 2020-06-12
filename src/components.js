@@ -75,7 +75,7 @@ export const Strikethrough = ({ children }) => (
 
 export const Anchor = ({ href, children }) => (
 	// text-blue-800 bg-blue-100
-	<span className="px-2 inline-flex flex-row items-center text-blue-600 bg-blue-50 rounded-full" onClick={() => window.open(href)} data-codex-type="anchor" data-codex-props={JSON.stringify({ href })}>
+	<span className="px-2 !inline-flex !flex-row !items-center text-blue-600 bg-blue-50 rounded-full" onClick={() => window.open(href)} data-codex-type="anchor" data-codex-props={JSON.stringify({ href })}>
 		{children}
 		{/* <svg */}
 		{/* 	className="ml-1 w-4 h-4 text-blue-500" */}
