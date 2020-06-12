@@ -38,6 +38,11 @@ function readSpan(domNode) {
 function readSpans(element) {
 	const spans = []
 	for (const domNode of element.childNodes) {
+		// // TODO
+		// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
+		// 	// No-op
+		// 	continue
+		// }
 		const span = readSpan(domNode)
 		if (typeof span === "string") {
 			if (spans.length && typeof spans[spans.length - 1] === "string") {
@@ -47,6 +52,7 @@ function readSpans(element) {
 		}
 		spans.push(span)
 	}
+	console.log(spans)
 	return spans
 }
 

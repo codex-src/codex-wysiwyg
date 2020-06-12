@@ -1,13 +1,5 @@
-// import classNameString from "./classNameString"
 import React from "react"
-
-// const InlineBlock = ({ className, children }) => (
-// 	React.cloneElement(children, {
-// 		className: classNameString(`${children.props.className}
-// 			inline-block
-// 				${className}`),
-// 	})
-// )
+import Transition from "lib/Transition"
 
 // https://davidwalsh.name/disable-autocorrect
 const disableAutoCorrect = {
@@ -26,20 +18,20 @@ const disableAutoCorrect = {
 
 // TODO: Use React.memo?
 export const Header = ({ uuid, children }) => (
-	<h1 id={uuid} className="TODO">
+	<div id={uuid} className="TODO">
 		{children || (
 			<br />
 		)}
-	</h1>
+	</div>
 )
 
 // TODO: Use React.memo?
 export const Paragraph = ({ uuid, children }) => (
-	<p id={uuid}>
+	<div id={uuid}>
 		{children || (
 			<br />
 		)}
-	</p>
+	</div>
 )
 
 export const Emphasis = ({ children }) => (
@@ -89,42 +81,98 @@ export const Strikethrough = ({ children }) => (
 // 	<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
 // </svg>
 
-function focus(classString) {
-	let classArr = []
-	for (const classStr of classString.split(/\s+/)) {
-		classArr.push(classStr)
-		if (classStr.startsWith("hover:")) {
-			classArr.push(classStr.replace("hover:", "focus:"))
-		}
-	}
-	return classArr.join(" ")
-}
-
-// const ExtendHoverToFocus = ({ className, children }) => (
-// 	React.cloneElement(children, {
-// 		className: classNameString(`${children.props.className}
-// 			inline-block
-// 				${className}`),
-// 	})
-// )
+// function focus(classString) {
+// 	let classArr = []
+// 	for (const classStr of classString.split(/\s+/)) {
+// 		classArr.push(classStr)
+// 		if (classStr.startsWith("hover:")) {
+// 			classArr.push(classStr.replace("hover:", "focus:"))
+// 		}
+// 	}
+// 	return classArr.join(" ")
+// }
 
 // text-blue-800 bg-blue-100
 export const Anchor = ({ href, children }) => {
 	const ref = React.useRef()
 
+	const [open, setOpen] = React.useState(false)
+
 	return (
 		<span className="inline-block relative">
-			<div className="!mx-auto absolute top-0 w-full" contentEditable={false}>
-				hello
-			</div>
+
+			<Transition
+				on={open}
+				transition="transition duration-150 ease-in-out"
+				from="opacity-0 transform translate-y-4 pointer-events-none"
+				to="opacity-100 transform translate-y-0 pointer-events-auto"
+			>
+				<div className="absolute bottom-full inset-x-0 flex flex-row justify-center" contentEditable={false}>
+					<div className="mb-1 px-2 py-1 bg-white-100 border border-gray-300 rounded-md shadow-sm">
+						<p className="flex flex-row items-center text-sm text-blue-600 w-full max-w-64" style={{ minWidth: "6rem" }}>
+
+							<span className="truncate">
+								{href}
+							</span>
+
+							{/* <div className="flex-none"> */}
+							{/* 	<svg */}
+							{/* 		className="ml-2 w-4 h-4 text-blue-400 transform scale-90" */}
+							{/* 		fill="none" */}
+							{/* 		strokeLinecap="round" */}
+							{/* 		strokeLinejoin="round" */}
+							{/* 		strokeWidth="2.25" */}
+							{/* 		stroke="currentColor" */}
+							{/* 		viewBox="0 0 24 24" */}
+							{/* 	> */}
+							{/* 		<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /> */}
+							{/* 	</svg> */}
+							{/* </div> */}
+							{/* <svg */}
+							{/* 	className="ml-1 w-4 h-4 text-blue-400" */}
+							{/* 	fill="none" */}
+							{/* 	strokeLinecap="round" */}
+							{/* 	strokeLinejoin="round" */}
+							{/* 	strokeWidth="2" */}
+							{/* 	stroke="currentColor" */}
+							{/* 	viewBox="0 0 24 24" */}
+							{/* > */}
+							{/* 	<path d="M6 18L18 6M6 6l12 12" /> */}
+							{/* </svg> */}
+
+							{/* <svg */}
+							{/* 	className="ml-1 w-4 h-4 text-blue-400 transform scale-90" */}
+							{/* 	fill="currentColor" */}
+							{/* 	viewBox="0 0 20 20" */}
+							{/* > */}
+							{/* 	<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" /> */}
+							{/* </svg> */}
+							{/* <svg */}
+							{/* 	className="ml-1 w-4 h-4 text-blue-400 transform scale-90" */}
+							{/* 	fill="currentColor" */}
+							{/* 	viewBox="0 0 20 20" */}
+							{/* > */}
+							{/* 	<path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /> */}
+							{/* </svg> */}
+
+						</p>
+					</div>
+				</div>
+			</Transition>
+
 			<span
 				ref={ref}
-				className={focus("px-2 py-0.5 text-blue-600 hover:bg-blue-50 border border-blue-100 hover:border-transparent rounded-full focus:outline-none transition duration-150 ease-in-out")}
-				onClick={() => {
+				className="underline text-blue-600 focus:outline-none cursor-pointer"
+				onPointerDown={e => {
+					e.preventDefault()
+					e.stopPropagation()
+				}}
+				onClick={e => {
+					e.preventDefault()
+					e.stopPropagation()
 					const selection = document.getSelection()
 					selection.removeAllRanges()
-					ref.current.focus()
-					// () => window.open(href)
+					setOpen(!open)
 				}}
 				data-codex-type="anchor"
 				data-codex-props={JSON.stringify({ href })}
