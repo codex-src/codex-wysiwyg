@@ -45,6 +45,7 @@ const methods = state => ({
 	// 		],
 	// 	})
 	// },
+
 })
 
 function init(initialState) {
