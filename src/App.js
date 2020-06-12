@@ -63,7 +63,7 @@ function decorate(components) {
 	}
 }
 
-// Parses spans to VDOM (non-React) components.
+// Parses spans.
 function parseSpans(spans) {
 	const components = []
 	for (const span of spans) {
@@ -75,26 +75,23 @@ function parseSpans(spans) {
 			components.push(span)
 			continue
 		}
-		const formats = [...span.formats].sort(sortFormats)
-		const component = {
-			type: formats[0],
-			props: {
-				...span[formats[0]],
-				children: null,
-			},
-		}
-		let ref = component
-		for (const format of formats.slice(1)) {
-			ref.props.children = {
+		const component = {}
+		let lastRef = component
+		let ref = lastRef
+		for (const format of span.formats.sort(sortFormats)) {
+			Object.assign(ref, { // <- lastRef
 				type: format,
 				props: {
 					...span[format],
-					children: null,
+					children: { // <- ref
+						// ...
+					},
 				},
-			}
+			})
+			lastRef = ref
 			ref = ref.props.children
 		}
-		ref.props.children = span.content
+		lastRef.props.children = span.content
 		components.push(component)
 	}
 	decorate(components)
