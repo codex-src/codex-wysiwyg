@@ -1,8 +1,7 @@
 import { StringEnum } from "lib/Enums"
 
-// NOTE (1): Ordered by render precedence
-// NOTE (2): Do not export
-const formatTypes = [
+// NOTE: Unexported
+const formatTypes = [ // Ordered by render precedence
 	"anchor",
 	"code",
 	"strikethrough",

@@ -1,4 +1,4 @@
-import ascendToIDElement from "./ascend"
+import ascendToUUIDElement from "./ascend"
 import { newCursor } from "./constructors"
 
 // Computes a cursor from an element and a range container
@@ -32,10 +32,10 @@ function computeCursors() {
 		return null
 	}
 	const range = selection.getRangeAt(0)
-	const startCursor = computeCursor(ascendToIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
+	const startCursor = computeCursor(ascendToUUIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
 	let endCursor = startCursor
 	if (!range.collapsed) {
-		endCursor = computeCursor(ascendToIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
+		endCursor = computeCursor(ascendToUUIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
 	}
 	return [startCursor, endCursor]
 }

@@ -4,7 +4,7 @@ import {
 	sortFormats,
 } from "./formatsEnum"
 
-// Reads a span from an element.
+// Reads a span from a DOM node.
 //
 // TODO: Move props to JSON? E.g. data-codex-props="{ ... }"
 function readSpan(domNode) {
@@ -21,9 +21,7 @@ function readSpan(domNode) {
 		if (type !== undefined) { // NOTE: "type" can be 0
 			span.formats.push(type)
 			if (type === formatsEnum.anchor) {
-				span[formatsEnum.anchor] = {
-					href: ref.getAttribute("data-codex-href"),
-				}
+				span[formatsEnum.anchor] = JSON.parse(ref.getAttribute("data-codex-props"))
 			}
 		}
 		ref = ref.children.length &&
