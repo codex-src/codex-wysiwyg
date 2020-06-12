@@ -65,9 +65,7 @@ export const Strikethrough = ({ children }) => (
 )
 
 export const Anchor = ({ href, children }) => (
-	// <a {...safeAnchor(href)}>
-	<span className="no-underline text-blue-500" data-codex-type="anchor" data-codex-props={JSON.stringify({ href }, null)}>
+	<span className="underline" onClick={() => window.open(href)} data-codex-type="anchor" data-codex-props={JSON.stringify({ href })}>
 		{children}
 	</span>
-	// </a>
 )
