@@ -1,3 +1,4 @@
+import ascendToIDElement from "./ascend"
 import React from "react"
 import ReactDOM from "react-dom"
 import readSpans from "./readSpans"
@@ -227,10 +228,10 @@ const CodexEditor = ({
 						return
 					}
 					const range = selection.getRangeAt(0)
-					const startCursor = computeCursor(ref.current.children[0], { container: range.startContainer, offset: range.startOffset })
+					const startCursor = computeCursor(ascendToIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
 					let endCursor = startCursor
 					if (!range.collapsed) {
-						endCursor = computeCursor(ref.current.children[0], { container: range.endContainer, offset: range.endOffset })
+						endCursor = computeCursor(ascendToIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
 					}
 					dispatch.select(startCursor, endCursor)
 				}}
@@ -244,17 +245,16 @@ const CodexEditor = ({
 						pointerIsDownRef.current = false
 						return
 					}
-
 					const selection = document.getSelection()
 					if (!selection || !selection.rangeCount) {
 						// No-op
 						return
 					}
 					const range = selection.getRangeAt(0)
-					const startCursor = computeCursor(ref.current.children[0], { container: range.startContainer, offset: range.startOffset })
+					const startCursor = computeCursor(ascendToIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
 					let endCursor = startCursor
 					if (!range.collapsed) {
-						endCursor = computeCursor(ref.current.children[0], { container: range.endContainer, offset: range.endOffset })
+						endCursor = computeCursor(ascendToIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
 					}
 					dispatch.select(startCursor, endCursor)
 				}}
