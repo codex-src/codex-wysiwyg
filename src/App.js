@@ -20,7 +20,7 @@ import {
 
 import {
 	formatsEnum,
-	sortFormats,
+	// sortFormats,
 } from "./formatsEnum"
 
 ;(() => {
@@ -28,6 +28,8 @@ import {
 })()
 
 // Computes a type map and array of types for a component.
+//
+// TODO: Extract
 function getTypeInfo(component) {
 	const types = []
 	const typeMap = {}
@@ -47,6 +49,8 @@ function getTypeInfo(component) {
 
 // Decorates components; sets component.typePos to
 // "at-start", "at-center", or "at-end" for common types.
+//
+// TODO: Extract
 function decorate(components) {
 	for (let x = 0; x < components.length; x++) {
 		if (!x || typeof components[x] === "string") {
@@ -64,6 +68,8 @@ function decorate(components) {
 }
 
 // Parses spans.
+//
+// TODO: Extract
 function parseSpans(spans) {
 	const components = []
 	for (const span of spans) {
@@ -78,14 +84,12 @@ function parseSpans(spans) {
 		const component = {}
 		let lastRef = component
 		let ref = lastRef
-		for (const format of span.formats.sort(sortFormats)) {
+		for (const format of span.formats.sort(/* sortFormats */)) {
 			Object.assign(ref, { // <- lastRef
 				type: format,
 				props: {
 					...span[format],
-					children: { // <- ref
-						// ...
-					},
+					children: {} // <- ref
 				},
 			})
 			lastRef = ref
