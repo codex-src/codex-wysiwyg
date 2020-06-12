@@ -1,4 +1,5 @@
-import ascendToIDElement from "./ascend"
+import computeCursors from "./cursor"
+import computeRange from "./range"
 import React from "react"
 import ReactDOM from "react-dom"
 import readSpans from "./readSpans"
@@ -16,11 +17,6 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
-
-import {
-	computeCursor,
-	computeRange,
-} from "./cursor"
 
 // Computes a type map and array of types for a component.
 function getTypeInfo(component) {
@@ -222,18 +218,12 @@ const CodexEditor = ({
 				onBlur={dispatch.blur}
 
 				onSelect={() => {
-					const selection = document.getSelection()
-					if (!selection || !selection.rangeCount) {
+					const cursors = computeCursors()
+					if (!cursors) {
 						// No-op
 						return
 					}
-					const range = selection.getRangeAt(0)
-					const startCursor = computeCursor(ascendToIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
-					let endCursor = startCursor
-					if (!range.collapsed) {
-						endCursor = computeCursor(ascendToIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
-					}
-					dispatch.select(startCursor, endCursor)
+					dispatch.select(...cursors)
 				}}
 
 				onPointerDown={() => {
@@ -245,18 +235,12 @@ const CodexEditor = ({
 						pointerIsDownRef.current = false
 						return
 					}
-					const selection = document.getSelection()
-					if (!selection || !selection.rangeCount) {
+					const cursors = computeCursors()
+					if (!cursors) {
 						// No-op
 						return
 					}
-					const range = selection.getRangeAt(0)
-					const startCursor = computeCursor(ascendToIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
-					let endCursor = startCursor
-					if (!range.collapsed) {
-						endCursor = computeCursor(ascendToIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
-					}
-					dispatch.select(startCursor, endCursor)
+					dispatch.select(...cursors)
 				}}
 
 				onPointerUp={() => {

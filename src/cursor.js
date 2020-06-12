@@ -1,10 +1,9 @@
-import {
-	newCursor,
-	newRange,
-} from "./constructors"
+import ascendToIDElement from "./ascend"
+import { newCursor } from "./constructors"
 
-// Computes a VDOM cursor from an element and a DOM range.
-export function computeCursor(element, { container, offset }) {
+// Computes a cursor from an element and a range container
+// and offset.
+function computeCursor(element, { container, offset }) {
 	const cursor = newCursor()
 	if (!element.id) {
 		throw new Error("computeCursor: no such id")
@@ -26,30 +25,19 @@ export function computeCursor(element, { container, offset }) {
 	return cursor
 }
 
-// Computes a DOM range from a VDOM cursor.
-export function computeRange({ uuid, offset }) {
-	const range = newRange()
-	const element = document.getElementById(uuid)
-	if (!element) {
-		throw new Error("computeRange: no such element")
+// Computes cursors from the selection API range.
+function computeCursors() {
+	const selection = document.getSelection()
+	if (!selection || !selection.rangeCount) {
+		return null
 	}
-	// Iterate to the container and offset:
-	let container = element.childNodes[0]
-	while (container && offset) {
-		if (offset - container.textContent.length <= 0) {
-			// No-op
-			break
-		}
-		offset -= container.textContent.length
-		container = container.nextSibling
+	const range = selection.getRangeAt(0)
+	const startCursor = computeCursor(ascendToIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
+	let endCursor = startCursor
+	if (!range.collapsed) {
+		endCursor = computeCursor(ascendToIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
 	}
-	// Iterate to the text node:
-	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
-		container = container.childNodes[container.childNodes.length - 1]
-	}
-	Object.assign(range, {
-		container,
-		offset,
-	})
-	return range
+	return [startCursor, endCursor]
 }
+
+export default computeCursors
