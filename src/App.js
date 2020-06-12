@@ -1,5 +1,6 @@
 import computeCursors from "./cursor"
 import computeRange from "./range"
+import noopTextContent from "./noopTextContent"
 import React from "react"
 import ReactDOM from "react-dom"
 import readSpans from "./spans"
@@ -17,6 +18,10 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
+
+;(() => {
+	noopTextContent()
+})()
 
 // Computes a type map and array of types for a component.
 function getTypeInfo(component) {
@@ -172,6 +177,11 @@ const CodexEditor = ({
 		},
 	])
 
+	// TODO (1): Add backspace handlers
+	// TODO (2): Add tab and enter handlers
+	// TODO (3): Add format handlers
+	// TODO (4): Add shortcut handlers
+	// TODO (5): Add undo handlers
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			const selection = document.getSelection()
