@@ -1,4 +1,5 @@
 import useMethods from "use-methods"
+import { newCursor } from "./constructors"
 
 const methods = state => ({
 	focus() {
@@ -40,14 +41,8 @@ const methods = state => ({
 function init(initialState) {
 	const state = {
 		focused: false,
-		startCursor: {
-			elementIndex: 0,
-			characterOffset: 0,
-		},
-		endCursor: {
-			elementIndex: 0,
-			characterOffset: 0,
-		},
+		startCursor: newCursor(),
+		endCursor: newCursor(),
 		collapsed: true,
 		elements: initialState,
 	}

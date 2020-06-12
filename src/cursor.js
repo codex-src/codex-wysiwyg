@@ -1,27 +1,40 @@
-// Computes a VDOM cursor data structure from an element and
-// range container and offset.
+import {
+	newCursor,
+	newRange,
+} from "./constructors"
+
+// Computes a VDOM cursor from an element and a DOM range.
 export function computeCursor(element, { container, offset }) {
-	const cursor = {
-		element: 0,
-		character: offset,
+	const cursor = newCursor()
+	if (!element.id) {
+		throw new Error("computeCursor: no such id")
 	}
+	// Iterate to the container and increment cursor.offset:
 	let domNode = element.childNodes[0]
 	while (domNode) {
 		if (domNode === container || domNode.contains(container)) {
 			// No-op
 			break
 		}
-		cursor.character += domNode.textContent.length
+		cursor.offset += domNode.textContent.length
 		domNode = domNode.nextSibling
 	}
+	Object.assign(cursor, {
+		uuid: element.id,
+		offset: cursor.offset + offset,
+	})
 	return cursor
 }
 
-// Computes a DOM range data structure from an element.
-export function computeRange(element, characterOffset) {
+// Computes a DOM range from a VDOM cursor.
+export function computeRange({ uuid, offset }) {
+	const range = newRange()
+	const element = document.getElementById(uuid)
+	if (!element) {
+		throw new Error("computeRange: no such element")
+	}
+	// Iterate to the container and offset:
 	let container = element.childNodes[0]
-	let offset = characterOffset
-	// Iterate to container and offset:
 	while (container && offset) {
 		if (offset - container.textContent.length <= 0) {
 			// No-op
@@ -30,9 +43,13 @@ export function computeRange(element, characterOffset) {
 		offset -= container.textContent.length
 		container = container.nextSibling
 	}
-	// Iterate to text node:
+	// Iterate to the text node:
 	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
 		container = container.childNodes[container.childNodes.length - 1]
 	}
-	return { container, offset }
+	Object.assign(range, {
+		container,
+		offset,
+	})
+	return range
 }

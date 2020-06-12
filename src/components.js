@@ -16,8 +16,8 @@ const safeAnchor = href => ({
 })
 
 // TODO: Use React.memo?
-export const Header = ({ children }) => (
-	<h1 className="TODO">
+export const Header = ({ uuid, children }) => (
+	<h1 id={uuid} className="TODO">
 		{children || (
 			<br />
 		)}
@@ -25,8 +25,8 @@ export const Header = ({ children }) => (
 )
 
 // TODO: Use React.memo?
-export const Paragraph = ({ children }) => (
-	<p>
+export const Paragraph = ({ uuid, children }) => (
+	<p id={uuid}>
 		{children || (
 			<br />
 		)}

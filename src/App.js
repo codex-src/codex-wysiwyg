@@ -29,12 +29,12 @@ function getTypeInfo(component) {
 		return [types, typeMap]
 	}
 	let ref = component.type !== undefined && // NOTE: Guard undefined
-			component
+		component
 	while (ref) {
 		types.push(ref.type)
 		typeMap[ref.type] = ref
 		ref = ref.props.children.type !== undefined &&  // NOTE: Guard undefined
-				ref.props.children
+			ref.props.children
 	}
 	return [types, typeMap]
 }
@@ -97,9 +97,10 @@ function parseSpans(spans) {
 }
 
 const ReactRenderer = ({ state, dispatch, renderableMap }) => (
-	state.elements.map(({ type: T, key, spans }) => (
+	state.elements.map(({ type: T, spans, ...props }) => (
 		React.createElement(T, {
-			key,
+			key: props.uuid,
+			...props,
 		}, toReact(parseSpans(spans), renderableMap))
 	))
 )
@@ -140,7 +141,7 @@ const CodexEditor = ({
 	const [state, dispatch] = useEditor([
 		{
 			type: Paragraph,
-			key: uuidv4(),
+			uuid: uuidv4(),
 			spans: [
 				{
 					content: "Hey, ",
@@ -190,7 +191,7 @@ const CodexEditor = ({
 						// No-op
 						return
 					}
-					const { container, offset } = computeRange(ref.current.children[0], state.startCursor.character)
+					const { container, offset } = computeRange(state.startCursor)
 					const range = document.createRange()
 					range.setStart(container, offset)
 					range.collapse()
@@ -241,6 +242,7 @@ const CodexEditor = ({
 						pointerIsDownRef.current = false
 						return
 					}
+
 					const selection = document.getSelection()
 					if (!selection || !selection.rangeCount) {
 						// No-op
