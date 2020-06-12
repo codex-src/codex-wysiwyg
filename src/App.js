@@ -28,12 +28,12 @@ function getTypeInfo(component) {
 	if (typeof component === "string") {
 		return [types, typeMap]
 	}
-	let ref = component.type !== undefined && // NOTE: Guard undefined
+	let ref = component.type !== undefined && // NOTE: "type" can be 0
 		component
 	while (ref) {
 		types.push(ref.type)
 		typeMap[ref.type] = ref
-		ref = ref.props.children.type !== undefined &&  // NOTE: Guard undefined
+		ref = ref.props.children.type !== undefined && // NOTE: "type" can be 0
 			ref.props.children
 	}
 	return [types, typeMap]
@@ -117,7 +117,8 @@ const CodexEditor = ({
 	},
 	...props
 }) => {
-	// Maps types (strings) to renderable React elements.
+
+	// Maps types to renderable React components.
 	const renderableMap = React.useMemo(() => ({
 		[formatsEnum.Header]: Header,
 		[formatsEnum.Paragraph]: Paragraph,
@@ -135,6 +136,7 @@ const CodexEditor = ({
 		Strikethrough,
 		Anchor,
 	])
+
 	const ref = React.useRef(null)
 	const pointerIsDownRef = React.useRef(false)
 

@@ -6,7 +6,7 @@ import {
 // Reads a span data structure from an element.
 //
 // TODO: Move props to JSON? E.g. data-codex-props="{ ... }"
-const readSpan = domNode => { // domNode: Element or text node
+const readSpan = domNode => {
 	if (domNode.nodeType === Node.TEXT_NODE) {
 		return domNode.textContent
 	}
@@ -16,10 +16,10 @@ const readSpan = domNode => { // domNode: Element or text node
 	}
 	let ref = domNode
 	while (ref) {
-		const format = formatsEnumMap[ref.getAttribute("data-codex-type")]
-		if (format !== undefined) { // NOTE: Guard undefined
-			span.formats.push(format)
-			if (format === formatsEnum.anchor) {
+		const type = formatsEnumMap[ref.getAttribute("data-codex-type")]
+		if (type !== undefined) { // NOTE: "type" can be 0
+			span.formats.push(type)
+			if (type === formatsEnum.anchor) {
 				span[formatsEnum.anchor] = {
 					href: ref.getAttribute("data-codex-href"),
 				}
