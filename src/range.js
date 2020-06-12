@@ -19,7 +19,10 @@ function computeRange({ uuid, offset }) {
 			return true
 		}
 		for (const domNode of startDOMNode.childNodes) {
-			if (recurse(domNode)) {
+			if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
+				// No-op
+				continue
+			} else if (recurse(domNode)) {
 				return true
 			}
 			offset -= domNode.nodeType === Node.TEXT_NODE &&

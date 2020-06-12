@@ -10,6 +10,7 @@ function computeCursor(uuidElement, { container, offset }) {
 	}
 	// Recurses on a DOM node, mutates cursor.
 	const recurse = startDOMNode => {
+		// TODO: Guard non-text nodes?
 		if (startDOMNode === container) {
 			Object.assign(cursor, {
 				uuid: uuidElement.id,
@@ -18,7 +19,10 @@ function computeCursor(uuidElement, { container, offset }) {
 			return true
 		}
 		for (const domNode of startDOMNode.childNodes) {
-			if (recurse(domNode)) {
+			if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
+				// No-op
+				continue
+			} else if (recurse(domNode)) {
 				return true
 			}
 			cursor.offset += domNode.nodeType === Node.TEXT_NODE &&
