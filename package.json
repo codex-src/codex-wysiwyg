@@ -8,7 +8,9 @@
 		"uuidv4": "^6.1.0"
 	},
 	"scripts": {
+		"tailwind-start": "tailwind build src/stylesheets/tailwind.css -o src/stylesheets/tailwind.generated.css",
 		"start": "react-scripts start",
+		"tailwind-build": "NODE_ENV=production yarn tailwind-start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
@@ -27,5 +29,9 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"@tailwindcss/ui": "^0.3.0",
+		"tailwindcss": "^1.4.6"
 	}
 }

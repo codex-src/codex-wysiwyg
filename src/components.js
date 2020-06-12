@@ -1,4 +1,13 @@
+// import classNameString from "./classNameString"
 import React from "react"
+
+// const InlineBlock = ({ className, children }) => (
+// 	React.cloneElement(children, {
+// 		className: classNameString(`${children.props.className}
+// 			inline-block
+// 				${className}`),
+// 	})
+// )
 
 // https://davidwalsh.name/disable-autocorrect
 const disableAutoCorrect = {
@@ -80,40 +89,49 @@ export const Strikethrough = ({ children }) => (
 // 	<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
 // </svg>
 
-export const Anchor = ({ href, children }) => (
-	// text-blue-800 bg-blue-100
-	<span
-		className="px-2 !inline-flex !flex-row !items-center text-blue-600 bg-blue-50 rounded-full"
-		// onClick={() => window.open(href)}
-		data-codex-type="anchor"
-		data-codex-props={JSON.stringify({ href })}
-	>
-		{children}
-		<span contentEditable={false}>
-			<svg
-				className="ml-1 inline w-4 h-4 text-blue-500"
-				fill="none"
-				stroke="currentColor"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				strokeWidth="2"
-				viewBox="0 0 24 24"
-				contentEditable={false}
+function focus(classString) {
+	let classArr = []
+	for (const classStr of classString.split(/\s+/)) {
+		classArr.push(classStr)
+		if (classStr.startsWith("hover:")) {
+			classArr.push(classStr.replace("hover:", "focus:"))
+		}
+	}
+	return classArr.join(" ")
+}
+
+// const ExtendHoverToFocus = ({ className, children }) => (
+// 	React.cloneElement(children, {
+// 		className: classNameString(`${children.props.className}
+// 			inline-block
+// 				${className}`),
+// 	})
+// )
+
+// text-blue-800 bg-blue-100
+export const Anchor = ({ href, children }) => {
+	const ref = React.useRef()
+
+	return (
+		<span className="inline-block relative">
+			<div className="!mx-auto absolute top-0 w-full" contentEditable={false}>
+				hello
+			</div>
+			<span
+				ref={ref}
+				className={focus("px-2 py-0.5 text-blue-600 hover:bg-blue-50 border border-blue-100 hover:border-transparent rounded-full focus:outline-none transition duration-150 ease-in-out")}
+				onClick={() => {
+					const selection = document.getSelection()
+					selection.removeAllRanges()
+					ref.current.focus()
+					// () => window.open(href)
+				}}
+				data-codex-type="anchor"
+				data-codex-props={JSON.stringify({ href })}
+				tabIndex={0}
 			>
-				<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-			</svg>
+				{children}
+			</span>
 		</span>
-		{/* <svg */}
-		{/* 	className="ml-1 w-4 h-4 text-blue-500 transform scale-110" */}
-		{/* 	fill="none" */}
-		{/* 	stroke="currentColor" */}
-		{/* 	strokeLinecap="round" */}
-		{/* 	strokeLinejoin="round" */}
-		{/* 	strokeWidth="2" */}
-		{/* 	viewBox="0 0 24 24" */}
-		{/* 	contentEditable={false} */}
-		{/* > */}
-		{/* 	<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /> */}
-		{/* </svg> */}
-	</span>
-)
+	)
+}

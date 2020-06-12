@@ -174,7 +174,7 @@ const CodexEditor = ({
 				},
 				" on making a ",
 				{
-					content: "WYSIWYG",
+					content: "WYSIWYG hello hello",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://google.com",
@@ -211,11 +211,11 @@ const CodexEditor = ({
 						// No-op
 						return
 					}
-					const { container, offset } = computeRange(state.startCursor)
+					const startRange = computeRange(state.startCursor)
 					try {
 						const range = document.createRange()
-						range.setStart(container, offset)
-						range.collapse()
+						range.setStart(startRange.container, startRange.offset)
+						// range.collapse()
 						// selection.removeAllRanges()
 						selection.addRange(range)
 					} catch (error) {
@@ -224,7 +224,7 @@ const CodexEditor = ({
 				},
 			)
 		}, [state, dispatch, renderableMap]),
-		[state.elements, state.startCursor, state.endCursor],
+		[state.elements],
 	)
 
 	return (
