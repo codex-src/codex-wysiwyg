@@ -7,7 +7,6 @@ import readSpans from "./spans"
 import toReact from "./toReact"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
-import { formatsEnum } from "./formatsEnum"
 
 import {
 	Anchor,
@@ -18,6 +17,11 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
+
+import {
+	formatsEnum,
+	sortFormats,
+} from "./formatsEnum"
 
 ;(() => {
 	noopTextContent()
@@ -71,8 +75,7 @@ function parseSpans(spans) {
 			components.push(span)
 			continue
 		}
-		// TODO: Deprecate?
-		const formats = [...span.formats].sort()
+		const formats = [...span.formats].sort(sortFormats)
 		const component = {
 			type: formats[0],
 			props: {

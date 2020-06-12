@@ -1,6 +1,7 @@
 import {
 	formatsEnum,
 	formatsEnumMap,
+	sortFormats,
 } from "./formatsEnum"
 
 // Reads a span from an element.
@@ -31,7 +32,7 @@ function readSpan(domNode) {
 	if (!span.formats.length) {
 		return span.content
 	}
-	span.formats.sort()
+	span.formats.sort(sortFormats)
 	return span
 }
 
