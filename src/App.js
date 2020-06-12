@@ -25,6 +25,8 @@ import {
 	// sortFormats,
 } from "./formatsEnum"
 
+import "./Editor.css"
+
 ;(() => {
 	noopTextContent()
 })()
@@ -229,9 +231,6 @@ const CodexEditor = ({
 
 				className="whitespace-pre-wrap focus:outline-none"
 
-				contentEditable
-				suppressContentEditableWarning
-
 				onFocus={dispatch.focus}
 				onBlur={dispatch.blur}
 				onSelect={() => {
@@ -332,6 +331,11 @@ const CodexEditor = ({
 					dispatch.input(element.id, spans, ...cursors)
 				}}
 
+				contentEditable
+				suppressContentEditableWarning
+
+				data-codex-root
+
 			/>
 			<div className="mt-6 whitespace-pre font-mono text-xs leading-tight" style={{ tabSize: 2 }}>
 				{JSON.stringify(state, null, "\t")}
@@ -343,17 +347,13 @@ const CodexEditor = ({
 const App = () => (
 	<div className="px-6 py-24 flex flex-row justify-center">
 		<div className="w-full max-w-3xl">
-			<CodexEditor
-				components={{
-					Header,
-					Paragraph,
-					Emphasis,
-					Strong,
-					Code,
-					Strikethrough,
-					Anchor,
-				}}
-			/>
+
+			<div>
+				{/* ... */}
+			</div>
+
+			<CodexEditor components={{ Header, Paragraph, Emphasis, Strong, Code, Strikethrough, Anchor }} />
+
 		</div>
 	</div>
 )

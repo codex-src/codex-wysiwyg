@@ -64,8 +64,29 @@ export const Strikethrough = ({ children }) => (
 	</span>
 )
 
+
+// <svg
+// 	className="ml-1 w-4 h-4 text-blue-400"
+// 	fill="currentColor"
+// 	viewBox="0 0 20 20"
+// >
+// 	<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+// </svg>
+
 export const Anchor = ({ href, children }) => (
-	<span className="underline" onClick={() => window.open(href)} data-codex-type="anchor" data-codex-props={JSON.stringify({ href })}>
+	// text-blue-800 bg-blue-100
+	<span className="px-2 inline-flex flex-row items-center text-blue-600 bg-blue-50 rounded-full" onClick={() => window.open(href)} data-codex-type="anchor" data-codex-props={JSON.stringify({ href })}>
 		{children}
+		{/* <svg */}
+		{/* 	className="ml-1 w-4 h-4 text-blue-500" */}
+		{/* 	fill="none" */}
+		{/* 	stroke="currentColor" */}
+		{/* 	strokeLinecap="round" */}
+		{/* 	strokeLinejoin="round" */}
+		{/* 	strokeWidth="2" */}
+		{/* 	viewBox="0 0 24 24" */}
+		{/* > */}
+		{/* 	<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /> */}
+		{/* </svg> */}
 	</span>
 )
