@@ -224,7 +224,7 @@ const CodexEditor = ({
 				},
 			)
 		}, [state, dispatch, renderableMap]),
-		[state.elements],
+		[state.elements, state.startCursor, state.endCursor],
 	)
 
 	return (

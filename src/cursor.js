@@ -4,6 +4,16 @@ import { newCursor } from "./constructors"
 // Computes a cursor from a UUID element and a range
 // container and offset.
 function computeCursor(uuidElement, { container, offset }) {
+
+	if (container.nodeType === Node.ELEMENT_NODE /* && offset === container.childNodes.length */) {
+		throw new Error("FIXME")
+		// container = container.nextSibling
+		// if (!container) {
+		// 	throw new Error("computeCursor: no such container.nextSibling")
+		// }
+		// offset = 0
+	}
+
 	const cursor = newCursor()
 	if (!uuidElement.id) {
 		throw new Error("computeCursor: no such uuid")
