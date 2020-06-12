@@ -8,12 +8,12 @@ const disableAutoCorrect = {
 	spellCheck: false,
 }
 
-// https://mathiasbynens.github.io/rel-noopener
-const safeAnchor = href => ({
-	href,
-	target: "_blank",
-	rel: "noopener noreferrer",
-})
+// // https://mathiasbynens.github.io/rel-noopener
+// const safeAnchor = href => ({
+// 	href,
+// 	target: "_blank",
+// 	rel: "noopener noreferrer",
+// })
 
 // TODO: Use React.memo?
 export const Header = ({ uuid, children }) => (
@@ -65,9 +65,9 @@ export const Strikethrough = ({ children }) => (
 )
 
 export const Anchor = ({ href, children }) => (
-	<a {...safeAnchor(href)}>
-		<span className="no-underline text-blue-500" data-codex-type="anchor" data-codex-props={JSON.stringify({ href }, null)}>
-			{children}
-		</span>
-	</a>
+	// <a {...safeAnchor(href)}>
+	<span className="no-underline text-blue-500" data-codex-type="anchor" data-codex-props={JSON.stringify({ href }, null)}>
+		{children}
+	</span>
+	// </a>
 )
