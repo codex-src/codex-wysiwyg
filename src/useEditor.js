@@ -10,11 +10,20 @@ const methods = state => ({
 	},
 	select(startCursor, endCursor) {
 		Object.assign(state, {
-			collapsed: startCursor === endCursor,
 			startCursor,
 			endCursor,
+			collapsed: startCursor === endCursor,
 		})
 	},
+	input(uuid, spans, ...cursors) {
+		const element = state.elements.find(each => each.uuid === uuid)
+		if (!element) {
+			throw new Error("dispatch.input: no such element")
+		}
+		element.spans = spans
+		this.select(...cursors)
+	},
+
 	// input(startCursor, endCursor) {
 	// 	const spans = readSpans(ref.current.children[0])
 	// 	setState({

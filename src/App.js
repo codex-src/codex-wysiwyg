@@ -2,7 +2,7 @@ import computeCursors from "./cursor"
 import computeRange from "./range"
 import React from "react"
 import ReactDOM from "react-dom"
-import readSpans from "./readSpans"
+import readSpans from "./spans"
 import toReact from "./toReact"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
@@ -248,7 +248,16 @@ const CodexEditor = ({
 				}}
 
 				onInput={() => {
-					// TODO
+					const cursors = computeCursors()
+					if (!cursors) {
+						throw new Error("onInput: no such cursors")
+					}
+					const element = document.getElementById(cursors[0].uuid)
+					if (!element) {
+						throw new Error("onInput: no such element")
+					}
+					const spans = readSpans(element)
+					dispatch.input(element.id, spans, ...cursors)
 				}}
 
 			/>

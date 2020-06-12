@@ -3,10 +3,10 @@ import {
 	formatsEnumMap,
 } from "./formatsEnum"
 
-// Reads a span data structure from an element.
+// Reads a span from an element.
 //
 // TODO: Move props to JSON? E.g. data-codex-props="{ ... }"
-const readSpan = domNode => {
+function readSpan(domNode) {
 	if (domNode.nodeType === Node.TEXT_NODE) {
 		return domNode.textContent
 	}
@@ -35,8 +35,8 @@ const readSpan = domNode => {
 	return span
 }
 
-// Reads span data structures from an element.
-const readSpans = element => {
+// Reads spans from an element.
+function readSpans(element) {
 	const spans = []
 	for (const domNode of element.childNodes) {
 		const span = readSpan(domNode)
