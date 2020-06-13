@@ -1,14 +1,14 @@
-import computeCursors from "./cursor"
-import computeRange from "./range"
 import detectKeyDownType from "./detect"
 import keyDownTypesEnum from "./keyDownTypesEnum"
 import noopTextContent from "./noopTextContent"
 import React from "react"
 import ReactDOM from "react-dom"
-import readSpans from "./spans"
 import toReact from "./toReact"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
+import { computeCursors } from "./cursor"
+import { computeRange } from "./range" // TODO: computeRanges?
+import { readSpans } from "./span"
 
 import {
 	Anchor,
@@ -88,7 +88,7 @@ function parseSpans(spans) {
 		const component = {}
 		let lastRef = component
 		let ref = lastRef
-		for (const format of span.formats.sort(/* sortFormats */)) {
+		for (const format of span.formats.sort()) {
 			Object.assign(ref, { // <- lastRef
 				type: format,
 				props: {

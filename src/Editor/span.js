@@ -1,8 +1,4 @@
-import {
-	formatsEnum,
-	formatsEnumMap,
-	// sortFormats,
-} from "./formatsEnum"
+import formatsEnum from "./formatsEnum"
 
 // Reads a span from a DOM node.
 //
@@ -17,8 +13,8 @@ function readSpan(domNode) {
 	}
 	let ref = domNode
 	while (ref) {
-		const type = formatsEnumMap[ref.getAttribute("data-codex-type")]
-		if (type !== undefined) { // NOTE: "type" can be 0
+		const type = Number(ref.getAttribute("data-codex-type"))
+		if (!isNaN(type)) { // NOTE: "type" can be 0; !isNaN(Number(undefined))
 			span.formats.push(type)
 			if (type === formatsEnum.anchor) {
 				span[formatsEnum.anchor] = JSON.parse(ref.getAttribute("data-codex-props"))
@@ -30,12 +26,12 @@ function readSpan(domNode) {
 	if (!span.formats.length) {
 		return span.content
 	}
-	span.formats.sort(/* sortFormats */)
+	span.formats.sort()
 	return span
 }
 
 // Reads spans from an element.
-function readSpans(element) {
+export function readSpans(element) {
 	const spans = []
 	for (const domNode of element.childNodes) {
 		// // TODO
@@ -55,5 +51,3 @@ function readSpans(element) {
 	console.log(spans)
 	return spans
 }
-
-export default readSpans

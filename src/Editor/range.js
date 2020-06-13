@@ -1,8 +1,15 @@
-import { newRange } from "./constructors"
+// Creates a new range.
+export function newRange() {
+	const range = {
+		container: 0,
+		offset: 0,
+	}
+	return range
+}
 
 // Computes a range container and offset from a cursor UUID
 // and offset.
-function computeRange({ uuid, offset }) {
+export function computeRange({ uuid, offset }) { // TODO: Remove export?
 	const range = newRange()
 	const uuidElement = document.getElementById(uuid)
 	if (!uuidElement) {
@@ -33,5 +40,7 @@ function computeRange({ uuid, offset }) {
 	recurse(uuidElement)
 	return range
 }
+
+// TODO: Add computeRanges?
 
 export default computeRange

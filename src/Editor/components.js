@@ -1,4 +1,5 @@
 // import Transition from "lib/Transition"
+import formatsEnum from "./formatsEnum"
 import React from "react"
 
 // https://davidwalsh.name/disable-autocorrect
@@ -35,13 +36,13 @@ export const Paragraph = ({ uuid, children }) => (
 )
 
 export const Emphasis = ({ children }) => (
-	<span className="italic" data-codex-type="emphasis">
+	<span className="italic" data-codex-type={formatsEnum.emphasis}>
 		{children}
 	</span>
 )
 
 export const Strong = ({ children }) => (
-	<span className="font-semibold" data-codex-type="strong">
+	<span className="font-semibold" data-codex-type={formatsEnum.strong}>
 		{children}
 	</span>
 )
@@ -62,13 +63,13 @@ const codeClassNames = {
 }
 
 export const Code = ({ typePos, children }) => (
-	<span className={codeClassNames[typePos]} {...disableAutoCorrect} data-codex-type="code">
+	<span className={codeClassNames[typePos]} data-codex-type={formatsEnum.code} {...disableAutoCorrect}>
 		{children}
 	</span>
 )
 
 export const Strikethrough = ({ children }) => (
-	<span className="line-through text-gray-400" data-codex-type="strike">
+	<span className="line-through text-gray-400" data-codex-type={formatsEnum.strike}>
 		{children}
 	</span>
 )
@@ -126,14 +127,15 @@ export const Anchor = ({ href, children }) => {
 		// 		</div>
 		// 	</Transition>
 		<span
-			className="underline text-blue-600 focus:outline-none cursor-pointer"
+			// focus:outline-none cursor-pointer
+			className="underline text-blue-600"
 			// onPointerDown={e => {
 			// 	e.preventDefault()
 			// 	e.stopPropagation()
 			// 	setOpen(!open)
 			// 	ref.current.focus()
 			// }}
-			data-codex-type="anchor"
+			data-codex-type={formatsEnum.anchor}
 			data-codex-props={JSON.stringify({ href })}
 			tabIndex={0}
 		>

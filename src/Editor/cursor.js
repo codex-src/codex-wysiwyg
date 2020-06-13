@@ -1,5 +1,13 @@
 import ascendToUUIDElement from "./ascend"
-import { newCursor } from "./constructors"
+
+// Creates a new cursor.
+export function newCursor() {
+	const cursor = {
+		uuid: "",
+		offset: 0,
+	}
+	return cursor
+}
 
 // Computes a cursor from a UUID element and a range
 // container and offset.
@@ -45,7 +53,7 @@ function computeCursor(uuidElement, { container, offset }) {
 }
 
 // Computes cursors from the selection API range.
-function computeCursors() {
+export function computeCursors() {
 	const selection = document.getSelection()
 	if (!selection || !selection.rangeCount) {
 		return null
@@ -58,5 +66,3 @@ function computeCursors() {
 	}
 	return [startCursor, endCursor]
 }
-
-export default computeCursors
