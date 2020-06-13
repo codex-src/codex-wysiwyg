@@ -13,10 +13,9 @@ const methods = state => ({
 		state.focused = false
 	},
 	select(cursors) {
-		const collapsed = cursors[0] === cursors[1]
-		Object.assign(state, {
-			cursors,
-			collapsed,
+		Object.assign(state.cursors, {
+			...cursors,
+			collapsed: cursors[0] === cursors[1],
 		})
 	},
 	/*
@@ -25,18 +24,10 @@ const methods = state => ({
 	backspaceRune() {
 		console.log("backspaceRune")
 
-		// // TODO
-		// state.cursors = {
-		// 	0: "...",
-		// 	1: "...",
-		// 	collapsed: ...,
+		// if (!state.cursors.collapsed) {
+		// 	// ...
+		// 	return
 		// }
-		// state.cursors.collapsed
-
-		if (!state.collapsed) {
-			// ...
-			return
-		}
 
 		// TODO: Extract?
 		const reducer = (acc, span) => {
@@ -54,7 +45,7 @@ const methods = state => ({
 	forwardBackspaceRune() {
 		console.log("forwardBackspaceRune")
 
-		// if (!state.collapsed) {
+		// if (!state.cursors.collapsed) {
 		// 	this.write("")
 		// 	return
 		// }
@@ -66,7 +57,7 @@ const methods = state => ({
 	backspaceWord() {
 		console.log("backspaceWord")
 
-		// if (!state.collapsed) {
+		// if (!state.cursors.collapsed) {
 		// 	this.write("")
 		// 	return
 		// }
@@ -78,7 +69,7 @@ const methods = state => ({
 	forwardBackspaceWord() {
 		console.log("forwardBackspaceWord")
 
-		// if (!state.collapsed) {
+		// if (!state.cursors.collapsed) {
 		// 	this.write("")
 		// 	return
 		// }
@@ -90,7 +81,7 @@ const methods = state => ({
 	backspaceParagraph() {
 		console.log("backspaceParagraph")
 
-		// if (!state.collapsed) {
+		// if (!state.cursors.collapsed) {
 		// 	this.write("")
 		// 	return
 		// }
@@ -118,11 +109,11 @@ const methods = state => ({
 function init(initialState) {
 	const state = {
 		focused: false,
-		cursors: [
-			newCursor(),
-			newCursor(),
-		],
-		collapsed: true,
+		cursors: {
+			0: newCursor(),
+			1: newCursor(),
+			collapsed: true,
+		},
 		elements: initialState,
 	}
 	return state

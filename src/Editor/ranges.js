@@ -44,7 +44,7 @@ function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate 
 export function computeRanges(cursors) {
 	const ranges = []
 	ranges.push(computeRange(cursors[0]))
-	if (cursors[0] === cursors[1]) {
+	if (cursors.collapsed) {
 		ranges.push(ranges[0])
 	} else {
 		ranges.push(computeRange(cursors[1]))

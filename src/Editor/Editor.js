@@ -224,7 +224,7 @@ const Editor = () => {
 					try {
 						const range = document.createRange()
 						range.setStart(ranges[0].container, ranges[0].offset)
-						if (state.collapsed) {
+						if (state.cursors.collapsed) {
 							range.collapse()
 						} else {
 							range.setEnd(ranges[1].container, ranges[1].offset)
@@ -329,7 +329,7 @@ const Editor = () => {
 						break
 
 						// // TODO: Use keyDownTypesEnum.characterData
-						// // when !state.collapsed
+						// // when !state.cursors.collapsed
 						// case keyDownTypesEnum.characterData:
 						// 	e.preventDefault()
 						// 	// TODO
