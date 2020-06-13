@@ -1,3 +1,4 @@
+import * as iter from "./iter"
 import useMethods from "use-methods"
 import { newCursor } from "./cursors"
 
@@ -23,6 +24,12 @@ const methods = state => ({
 	 */
 	backspaceRune() {
 		console.log("backspaceRune")
+		const uuidElement = state.elements.find(each => each.uuid === state.cursors[0].uuid)
+		// if (!uuidElement) {
+		// 	throw new Error("dispatch.backspaceRune: no such uuid element")
+		// }
+		const r = (acc, each) => acc + (typeof each === "string" ? each : each.content)
+		const content = uuidElement.spans.reduce(r, "")
 
 		// TODO: Read the current - 1 through current spans and
 		// pass data to posIterators
@@ -87,12 +94,15 @@ const methods = state => ({
 	/*
 	 * Input
 	 */
+	// write() {
+	// 	// ...
+	// }
 	input(uuid, spans, cursors) {
-		const element = state.elements.find(each => each.uuid === uuid)
-		if (!element) {
-			throw new Error("dispatch.input: no such element")
-		}
-		element.spans = spans
+		const uuidElement = state.elements.find(each => each.uuid === uuid)
+		// if (!uuidElement) {
+		// 	throw new Error("dispatch.input: no such uuid element")
+		// }
+		uuidElement.spans = spans
 		this.select(cursors)
 	},
 })

@@ -1,22 +1,22 @@
 import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
-// Returns the number of bytes to backspace.
-export const backspace = {
-	rune(data, pos) {
+// Returns the number of bytes backwards (RTL).
+export const backwards = {
+	rune(content, offset) {
 		let bytes = 0
-		if (pos) {
-			const substr = data.slice(0, pos)
+		if (offset) {
+			const substr = content.slice(0, offset)
 			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
 			bytes += rune.length
 		}
 		return bytes
 	},
-	word(data, pos) {
+	word(content, offset) {
 		// Iterate spaces:
-		let x = pos
+		let x = offset
 		while (x) {
-			const substr = data.slice(0, x)
+			const substr = content.slice(0, x)
 			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
@@ -26,14 +26,14 @@ export const backspace = {
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const substr = data.slice(0, x)
+		const substr = content.slice(0, x)
 		const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
 			while (x) {
-				const substr = data.slice(0, x)
+				const substr = content.slice(0, x)
 				const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
@@ -44,7 +44,7 @@ export const backspace = {
 		// Iterate non-alphanumerics:
 		} else {
 			while (x) {
-				const substr = data.slice(0, x)
+				const substr = content.slice(0, x)
 				const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
@@ -53,16 +53,16 @@ export const backspace = {
 				x -= rune.length
 			}
 		}
-		let bytes = pos - x
-		if (!bytes && x - 1 >= 0 && data[x - 1] === "\n") {
+		let bytes = offset - x
+		if (!bytes && x - 1 >= 0 && content[x - 1] === "\n") {
 			bytes++
 		}
 		return bytes
 	},
-	paragraph(data, pos) {
-		let x = pos
+	paragraph(content, offset) {
+		let x = offset
 		while (x) {
-			const substr = data.slice(0, x)
+			const substr = content.slice(0, x)
 			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
 			if (utf8.isVWhiteSpace(rune)) {
 				// No-op
@@ -70,30 +70,30 @@ export const backspace = {
 			}
 			x -= rune.length
 		}
-		let bytes = pos - x
-		if (!bytes && x - 1 >= 0 && data[x - 1] === "\n") {
+		let bytes = offset - x
+		if (!bytes && x - 1 >= 0 && content[x - 1] === "\n") {
 			bytes++
 		}
 		return bytes
 	},
 }
 
-// Returns the number of bytes to forward-backspace.
-export const forwardBackspace = {
-	rune(data, pos) {
+// Returns the number of bytes forwards (LTR).
+export const forwards = {
+	rune(content, offset) {
 		let bytes = 0
-		if (pos < data.length) {
-			const substr = data.slice(pos)
+		if (offset < content.length) {
+			const substr = content.slice(offset)
 			const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
 			bytes += rune.length
 		}
 		return bytes
 	},
-	word(data, pos) {
+	word(content, offset) {
 		// Iterate spaces:
-		let x = pos
-		while (x < data.length) {
-			const substr = data.slice(x)
+		let x = offset
+		while (x < content.length) {
+			const substr = content.slice(x)
 			const rune = emojiTrie.atStart(substr) || utf8.atStart(substr)
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
@@ -103,14 +103,14 @@ export const forwardBackspace = {
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const substr = data.slice(x)
+		const substr = content.slice(x)
 		const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
-			while (x < data.length) {
-				const substr = data.slice(x)
+			while (x < content.length) {
+				const substr = content.slice(x)
 				const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
@@ -120,8 +120,8 @@ export const forwardBackspace = {
 			}
 		// Iterate non-alphanumerics:
 		} else {
-			while (x < data.length) {
-				const substr = data.slice(x)
+			while (x < content.length) {
+				const substr = content.slice(x)
 				const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
@@ -130,8 +130,8 @@ export const forwardBackspace = {
 				x += rune.length
 			}
 		}
-		let bytes = x - pos
-		if (!bytes && x < data.length && data[x] === "\n") {
+		let bytes = x - offset
+		if (!bytes && x < content.length && content[x] === "\n") {
 			bytes++
 		}
 		return bytes
