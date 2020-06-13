@@ -160,6 +160,38 @@ const Editor = () => {
 				" editor.",
 			],
 		},
+		{
+			type: Paragraph,
+			uuid: uuidv4(),
+			spans: [
+				{
+					content: "Hey, ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					content: "Russ",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					content: "!",
+					formats: [formatsEnum.strong],
+				},
+				" I’m making some ",
+				{
+					content: "progress",
+					formats: [formatsEnum.code],
+				},
+				" on making a ",
+				{
+					content: "WYSIWYG hello hello",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://heroicons.dev",
+					},
+				},
+				" editor.",
+			],
+		},
 	])
 
 	// TODO (1): Add backspace handlers

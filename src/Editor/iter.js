@@ -1,7 +1,7 @@
 import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
-// Returns the number of bytes backwards (RTL).
+// Returns the number of bytes iterated backwards.
 export const backwards = {
 	rune(content, offset) {
 		let bytes = 0
@@ -78,7 +78,7 @@ export const backwards = {
 	},
 }
 
-// Returns the number of bytes forwards (LTR).
+// Returns the number of bytes iterated forwards.
 export const forwards = {
 	rune(content, offset) {
 		let bytes = 0

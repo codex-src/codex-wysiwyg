@@ -24,23 +24,31 @@ const methods = state => ({
 	 */
 	backspaceRune() {
 		console.log("backspaceRune")
+
+		// // TODO
+		// state.cursors = {
+		// 	0: "...",
+		// 	1: "...",
+		// 	collapsed: ...,
+		// }
+		// state.cursors.collapsed
+
+		if (!state.collapsed) {
+			// ...
+			return
+		}
+
+		// TODO: Extract?
+		const reducer = (acc, span) => {
+			if (typeof span === "string") {
+				return acc + span
+			}
+			return acc + span.content
+		}
+
 		const uuidElement = state.elements.find(each => each.uuid === state.cursors[0].uuid)
-		// if (!uuidElement) {
-		// 	throw new Error("dispatch.backspaceRune: no such uuid element")
-		// }
-		const r = (acc, each) => acc + (typeof each === "string" ? each : each.content)
-		const content = uuidElement.spans.reduce(r, "")
-
-		// TODO: Read the current - 1 through current spans and
-		// pass data to posIterators
-
-		// if (!state.collapsed) {
-		// 	this.write("")
-		// 	return
-		// }
-		// // TODO: Change posIterators API to return
-		// // [dropL, dropR]?
-		// const bytes = posIterators.backspace.rune(state.data, state.pos1.pos)
+		const content = uuidElement.spans.reduce(reducer, "")
+		const bytes = iter.backwards.rune(content, state.cursors[0].offset)
 		// this.dropBytes(bytes, 0)
 	},
 	forwardBackspaceRune() {
