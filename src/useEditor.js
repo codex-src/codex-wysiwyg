@@ -24,6 +24,9 @@ const methods = state => ({
 	backspaceRune() {
 		console.log("backspaceRune")
 
+		// TODO: Read the current - 1 through current spans and
+		// pass data to posIterators
+
 		// if (!state.collapsed) {
 		// 	this.write("")
 		// 	return
