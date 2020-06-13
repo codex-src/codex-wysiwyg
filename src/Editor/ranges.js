@@ -7,9 +7,8 @@ export function newRange() {
 	return range
 }
 
-// Computes a range container and offset from a cursor UUID
-// and offset.
-export function computeRange({ uuid, offset }) { // TODO: Remove export?
+// Computes a range from a cursor.
+function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate reference
 	const range = newRange()
 	const uuidElement = document.getElementById(uuid)
 	if (!uuidElement) {
@@ -41,6 +40,14 @@ export function computeRange({ uuid, offset }) { // TODO: Remove export?
 	return range
 }
 
-// TODO: Add computeRanges?
-
-export default computeRange
+// Computes ranges from cursors.
+export function computeRanges(cursors) {
+	const ranges = []
+	ranges.push(computeRange(cursors[0]))
+	if (cursors[0] === cursors[1]) {
+		ranges.push(ranges[0])
+	} else {
+		ranges.push(computeRange(cursors[1]))
+	}
+	return ranges
+}

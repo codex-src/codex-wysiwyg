@@ -8,7 +8,7 @@ import toReact from "./toReact"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
 import { computeCursors } from "./cursors"
-import { computeRange } from "./ranges" // TODO: computeRanges?
+import { computeRanges } from "./ranges"
 import { readSpans } from "./spans"
 
 import {
@@ -188,11 +188,15 @@ const Editor = () => {
 						// No-op
 						return
 					}
-					const startRange = computeRange(state.startCursor)
+					const ranges = computeRanges(state.cursors)
 					try {
 						const range = document.createRange()
-						range.setStart(startRange.container, startRange.offset)
-						// range.collapse()
+						range.setStart(ranges[0].container, ranges[0].offset)
+						if (state.collapsed) {
+							range.collapse()
+						} else {
+							range.setEnd(ranges[1].container, ranges[1].offset)
+						}
 						// selection.removeAllRanges()
 						selection.addRange(range)
 					} catch (error) {
@@ -215,11 +219,11 @@ const Editor = () => {
 				onBlur={dispatch.blur}
 				onSelect={() => {
 					const cursors = computeCursors()
-					if (!cursors) {
-						// No-op
-						return
-					}
-					dispatch.select(...cursors)
+					// if (!cursors) {
+					// 	// No-op
+					// 	return
+					// }
+					dispatch.select(cursors)
 				}}
 				onPointerDown={() => {
 					pointerIsDownRef.current = true
@@ -230,11 +234,11 @@ const Editor = () => {
 						return
 					}
 					const cursors = computeCursors()
-					if (!cursors) {
-						// No-op
-						return
-					}
-					dispatch.select(...cursors)
+					// if (!cursors) {
+					// 	// No-op
+					// 	return
+					// }
+					dispatch.select(cursors)
 				}}
 				onPointerUp={() => {
 					pointerIsDownRef.current = false
@@ -292,6 +296,8 @@ const Editor = () => {
 						console.log("redo")
 						break
 
+						// // TODO: Use keyDownTypesEnum.characterData
+						// // when !state.collapsed
 						// case keyDownTypesEnum.characterData:
 						// 	e.preventDefault()
 						// 	// TODO
@@ -305,17 +311,15 @@ const Editor = () => {
 
 				onInput={() => {
 					const cursors = computeCursors()
-					if (!cursors) {
-						throw new Error("onInput: no such cursors")
+					// if (!cursors) {
+					// 	throw new Error("onInput: no such cursors")
+					// }
+					const uuidElement = document.getElementById(cursors[0].uuid)
+					if (!uuidElement) {
+						throw new Error("onInput: no such uuid element")
 					}
-					const element = document.getElementById(cursors[0].uuid)
-					if (!element) {
-						throw new Error("onInput: no such element")
-					}
-					const spans = readSpans(element)
-					// // DEBUG
-					// console.log(element.id, spans, ...cursors)
-					dispatch.input(element.id, spans, ...cursors)
+					const spans = readSpans(uuidElement)
+					dispatch.input(uuidElement.id, spans, cursors)
 				}}
 
 				contentEditable

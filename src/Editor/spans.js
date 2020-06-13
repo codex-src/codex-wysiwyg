@@ -30,10 +30,10 @@ function readSpan(domNode) {
 	return span
 }
 
-// Reads spans from an element.
-export function readSpans(element) {
+// Reads spans from a UUID element.
+export function readSpans(uuidElement) {
 	const spans = []
-	for (const domNode of element.childNodes) {
+	for (const domNode of uuidElement.childNodes) {
 		// // TODO
 		// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
 		// 	// No-op

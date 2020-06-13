@@ -52,17 +52,21 @@ function computeCursor(uuidElement, { container, offset }) {
 	return cursor
 }
 
-// Computes cursors from the selection API range.
+// Computes cursors from the current range.
 export function computeCursors() {
+	// Get the current range:
 	const selection = document.getSelection()
 	if (!selection || !selection.rangeCount) {
 		return null
 	}
 	const range = selection.getRangeAt(0)
-	const startCursor = computeCursor(ascendToUUIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset })
-	let endCursor = startCursor
-	if (!range.collapsed) {
-		endCursor = computeCursor(ascendToUUIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset })
+	// Compute cursors:
+	const cursors = []
+	cursors.push(computeCursor(ascendToUUIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset }))
+	if (range.collapsed) {
+		cursors.push(cursors[0])
+	} else {
+		cursors.push(computeCursor(ascendToUUIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset }))
 	}
-	return [startCursor, endCursor]
+	return cursors
 }

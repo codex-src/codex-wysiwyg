@@ -1,13 +1,13 @@
-// Ascends to the nearest UUID (e.g. id="...") element.
+// Ascends to the nearest UUID element.
 function ascendToUUIDElement(domNode) {
-	let element = domNode
+	let uuidElement = domNode
 	if (domNode.nodeType !== Node.ELEMENT_NODE) {
-		element = domNode.parentElement
+		uuidElement = domNode.parentElement
 	}
-	while (element && !element.id) {
-		element = element.parentElement
+	while (uuidElement && !uuidElement.id) {
+		uuidElement = uuidElement.parentElement
 	}
-	return element
+	return uuidElement
 }
 
 export default ascendToUUIDElement

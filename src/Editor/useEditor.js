@@ -11,11 +11,11 @@ const methods = state => ({
 	blur() {
 		state.focused = false
 	},
-	select(startCursor, endCursor) {
+	select(cursors) {
+		const collapsed = cursors[0] === cursors[1]
 		Object.assign(state, {
-			startCursor,
-			endCursor,
-			collapsed: startCursor === endCursor,
+			cursors,
+			collapsed,
 		})
 	},
 	/*
@@ -87,21 +87,23 @@ const methods = state => ({
 	/*
 	 * Input
 	 */
-	input(uuid, spans, ...cursors) {
+	input(uuid, spans, cursors) {
 		const element = state.elements.find(each => each.uuid === uuid)
 		if (!element) {
 			throw new Error("dispatch.input: no such element")
 		}
 		element.spans = spans
-		this.select(...cursors)
+		this.select(cursors)
 	},
 })
 
 function init(initialState) {
 	const state = {
 		focused: false,
-		startCursor: newCursor(),
-		endCursor: newCursor(),
+		cursors: [
+			newCursor(),
+			newCursor(),
+		],
 		collapsed: true,
 		elements: initialState,
 	}
