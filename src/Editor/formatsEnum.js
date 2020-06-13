@@ -21,7 +21,7 @@ export const formatsEnum = new NumberEnum(
 )
 
 // Maps strings to formatsEnum (zero-based numbers).
-export const formatsEnumMap = {
+export const formatsEnumMap = { // TODO
 	anchor: formatsEnum.anchor,
 	code: formatsEnum.code,
 	strikethrough: formatsEnum.strikethrough,

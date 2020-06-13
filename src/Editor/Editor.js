@@ -211,7 +211,6 @@ const Editor = () => {
 	return (
 		<div>
 			<article
-
 				ref={ref}
 
 				className="whitespace-pre-wrap focus:outline-none"
@@ -327,11 +326,12 @@ const Editor = () => {
 				suppressContentEditableWarning
 
 				data-codex-root
-
 			/>
+
 			<div className="mt-6 whitespace-pre font-mono text-xs leading-tight" style={{ tabSize: 2 }}>
 				{JSON.stringify(state, null, "\t")}
 			</div>
+
 		</div>
 	)
 }
