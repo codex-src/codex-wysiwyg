@@ -284,23 +284,28 @@ const CodexEditor = ({
 						break
 					case keyDownTypesEnum.backspaceParagraph:
 						e.preventDefault()
-						console.log("backspaceParagraph")
+						// console.log("backspaceParagraph")
+						dispatch.backspaceParagraph()
 						break
 					case keyDownTypesEnum.backspaceWord:
 						e.preventDefault()
-						console.log("backspaceWord")
+						// console.log("backspaceWord")
+						dispatch.backspaceWord()
 						break
 					case keyDownTypesEnum.backspaceRune:
 						e.preventDefault()
-						console.log("backspaceRune")
+						// console.log("backspaceRune")
+						dispatch.backspaceRune()
 						break
 					case keyDownTypesEnum.forwardBackspaceWord:
 						e.preventDefault()
-						console.log("forwardBackspaceWord")
+						// console.log("forwardBackspaceWord")
+						dispatch.forwardBackspaceWord()
 						break
 					case keyDownTypesEnum.forwardBackspaceRune:
 						e.preventDefault()
-						console.log("forwardBackspaceRune")
+						// console.log("forwardBackspaceRune")
+						dispatch.forwardBackspaceRune()
 						break
 					case keyDownTypesEnum.undo:
 						e.preventDefault()

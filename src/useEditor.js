@@ -2,6 +2,9 @@ import useMethods from "use-methods"
 import { newCursor } from "./constructors"
 
 const methods = state => ({
+	/*
+	 * Cursors
+	 */
 	focus() {
 		state.focused = true
 	},
@@ -15,6 +18,72 @@ const methods = state => ({
 			collapsed: startCursor === endCursor,
 		})
 	},
+	/*
+	 * Backspace
+	 */
+	backspaceRune() {
+		console.log("backspaceRune")
+
+		// if (!state.collapsed) {
+		// 	this.write("")
+		// 	return
+		// }
+		// // TODO: Change posIterators API to return
+		// // [dropL, dropR]?
+		// const bytes = posIterators.backspace.rune(state.data, state.pos1.pos)
+		// this.dropBytes(bytes, 0)
+	},
+	forwardBackspaceRune() {
+		console.log("forwardBackspaceRune")
+
+		// if (!state.collapsed) {
+		// 	this.write("")
+		// 	return
+		// }
+		// // TODO: Change posIterators API to return
+		// // [dropL, dropR]?
+		// const bytes = posIterators.forwardBackspace.rune(state.data, state.pos1.pos)
+		// this.dropBytes(0, bytes)
+	},
+	backspaceWord() {
+		console.log("backspaceWord")
+
+		// if (!state.collapsed) {
+		// 	this.write("")
+		// 	return
+		// }
+		// // TODO: Change posIterators API to return
+		// // [dropL, dropR]?
+		// const bytes = posIterators.backspace.word(state.data, state.pos1.pos)
+		// this.dropBytes(bytes, 0)
+	},
+	forwardBackspaceWord() {
+		console.log("forwardBackspaceWord")
+
+		// if (!state.collapsed) {
+		// 	this.write("")
+		// 	return
+		// }
+		// // TODO: Change posIterators API to return
+		// // [dropL, dropR]?
+		// const bytes = posIterators.forwardBackspace.word(state.data, state.pos1.pos)
+		// this.dropBytes(0, bytes)
+	},
+	backspaceParagraph() {
+		console.log("backspaceParagraph")
+
+		// if (!state.collapsed) {
+		// 	this.write("")
+		// 	return
+		// }
+		// // TODO: Change posIterators API to return
+		// // [dropL, dropR]?
+		// const bytes = posIterators.backspace.paragraph(state.data, state.pos1.pos)
+		// this.dropBytes(bytes, 0)
+	},
+	/*
+	 * Input
+	 */
 	input(uuid, spans, ...cursors) {
 		const element = state.elements.find(each => each.uuid === uuid)
 		if (!element) {
@@ -23,29 +92,6 @@ const methods = state => ({
 		element.spans = spans
 		this.select(...cursors)
 	},
-
-	// input(startCursor, endCursor) {
-	// 	const spans = readSpans(ref.current.children[0])
-	// 	setState({
-	// 		...state,
-	// 		startCursor: {
-	// 			...state.startCursor,
-	// 			character: state.startCursor.character + 1,
-	// 		},
-	// 		endCursors: {
-	// 			...state.startCursor,
-	// 			character: state.startCursor.character + 1,
-	// 		},
-	// 		elements: [
-	// 			{
-	// 				...state.elements[0],
-	// 				key: uuidv4(),
-	// 				spans,
-	// 			},
-	// 		],
-	// 	})
-	// },
-
 })
 
 function init(initialState) {
