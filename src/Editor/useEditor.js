@@ -1,5 +1,5 @@
 import useMethods from "use-methods"
-import { newCursor } from "./cursor"
+import { newCursor } from "./cursors"
 
 const methods = state => ({
 	/*

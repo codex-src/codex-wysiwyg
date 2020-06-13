@@ -1,7 +1,7 @@
 import {
 	atEnd,
 	atStart,
-} from "./rune"
+} from "./runes"
 
 test("atStart", () => {
 	expect(atStart("")).toBe("")

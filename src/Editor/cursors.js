@@ -1,4 +1,4 @@
-import ascendToUUIDElement from "./ascend"
+import ascendToUUIDElement from "./ascendToUUIDElement"
 
 // Creates a new cursor.
 export function newCursor() {

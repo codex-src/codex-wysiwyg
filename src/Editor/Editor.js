@@ -1,4 +1,5 @@
-import detectKeyDownType from "./detect"
+import detectKeyDownType from "./detectKeyDownType"
+import formatsEnum from "./formatsEnum"
 import keyDownTypesEnum from "./keyDownTypesEnum"
 import noopTextContent from "./noopTextContent"
 import React from "react"
@@ -6,9 +7,9 @@ import ReactDOM from "react-dom"
 import toReact from "./toReact"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
-import { computeCursors } from "./cursor"
-import { computeRange } from "./range" // TODO: computeRanges?
-import { readSpans } from "./span"
+import { computeCursors } from "./cursors"
+import { computeRange } from "./ranges" // TODO: computeRanges?
+import { readSpans } from "./spans"
 
 import {
 	Anchor,
@@ -19,11 +20,6 @@ import {
 	Strikethrough,
 	Strong,
 } from "./components"
-
-import {
-	formatsEnum,
-	// sortFormats,
-} from "./formatsEnum"
 
 import "./Editor.css"
 
