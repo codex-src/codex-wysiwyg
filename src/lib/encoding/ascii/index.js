@@ -1,1 +1,1 @@
-export * from "./alphanum"
+export * from "./isAlphanum"
