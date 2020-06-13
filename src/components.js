@@ -1,5 +1,5 @@
+// import Transition from "lib/Transition"
 import React from "react"
-import Transition from "lib/Transition"
 
 // https://davidwalsh.name/disable-autocorrect
 const disableAutoCorrect = {
