@@ -119,9 +119,9 @@ const detect = {
 		)
 		return ok
 	},
-	// characterDataCompose(e) {
-	// 	return e.key === "Dead"
-	// },
+	characterDataDead(e) {
+		return e.key === "Dead"
+	},
 }
 
 // Detects a key down type.
@@ -155,8 +155,9 @@ function detectKeyDownType(e) {
 	case detect.redoMacOS(e):
 		return keyDownTypesEnum.redo
 	case detect.characterData(e):
-	// case detect.characterDataCompose(e):
 		return keyDownTypesEnum.characterData
+	case detect.characterDataDead(e):
+		return keyDownTypesEnum.characterDataDead
 	default:
 		// No-op
 		break

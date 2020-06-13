@@ -18,6 +18,7 @@ const keyDownTypesEnum = new StringEnum(
 	"redo",
 
 	"characterData",
+	"characterDataDead",
 )
 
 export default keyDownTypesEnum
