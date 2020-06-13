@@ -177,7 +177,7 @@ const CodexEditor = ({
 					content: "WYSIWYG hello hello",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
-						href: "https://google.com/abc-123-xyz",
+						href: "https://heroicons.dev",
 					},
 				},
 				" editor.",
