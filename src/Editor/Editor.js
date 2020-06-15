@@ -286,7 +286,7 @@ const Editor = () => {
 					const [cursor] = computeVDOMCursors()
 					const uuidElement = document.getElementById(cursor.uuid)
 					if (!uuidElement) {
-						throw new Error("onInput: no such uuid element")
+						throw new Error("onInput: no such uuid dom element")
 					}
 					const spans = readVDOMSpans(uuidElement)
 					dispatch.input(uuidElement.id, spans, cursor)

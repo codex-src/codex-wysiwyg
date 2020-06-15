@@ -22,9 +22,9 @@ export function computeDOMRange({ uuid, offset }) { // NOTE: Copy offset -- do n
 	const range = newDOMRange()
 	const uuidElement = document.getElementById(uuid)
 	if (!uuidElement) {
-		throw new Error("computeDOMRange: no such uuid element")
+		throw new Error("computeDOMRange: no such uuid dom element")
 	}
-	// Recurses on a DOM node, mutates range.
+	// Recurses on a DOM node; mutates range.
 	const recurse = startDOMNode => {
 		if (isTextNodeOrBreakElement(startDOMNode) && offset - startDOMNode.textContent.length <= 0) {
 			Object.assign(range, {

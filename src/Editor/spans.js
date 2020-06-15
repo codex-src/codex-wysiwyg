@@ -1,11 +1,5 @@
 import formatsEnum from "./formatsEnum"
 
-// // TODO
-// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
-// 	// No-op
-// 	continue
-// }
-
 // Reads a VDOM span from a DOM node.
 function readVDOMSpan(domNode) {
 	const span = {
@@ -65,10 +59,15 @@ export function concatenateVDOMSpans(spans) {
 	}
 }
 
-// Reads spans from a UUID element.
+// Reads spans from a UUID DOM element.
 export function readVDOMSpans(uuidElement) {
 	const spans = []
 	for (let x = 0; x < uuidElement.childNodes.length; x++) {
+		// // TODO
+		// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
+		// 	// No-op
+		// 	continue
+		// }
 		spans.push(readVDOMSpan(uuidElement.childNodes[x]))
 	}
 	concatenateVDOMSpans(spans)

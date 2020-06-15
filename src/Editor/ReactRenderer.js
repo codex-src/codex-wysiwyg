@@ -1,7 +1,7 @@
 import React from "react"
 import toReact from "./toReact"
 
-// Computes an array of types and type map for a pseudo-
+// Computes an array of types and a type map for a pseudo-
 // React element.
 function computeTypeInfo(element) {
 	const types = []
@@ -22,7 +22,7 @@ function computeTypeInfo(element) {
 
 // Decorates pseudo-React elements; sets element.pos to
 // "at-start", "at-center", or "at-end".
-function decoratePos(elements) {
+function decorate(elements) {
 	for (let x = 0; x < elements.length; x++) {
 		if (!x || typeof elements[x - 1] === "string" || typeof elements[x] === "string") {
 			// No-op
@@ -39,7 +39,7 @@ function decoratePos(elements) {
 }
 
 // Parses spans to pseudo-React elements.
-function parseSpans(spans) {
+function parse(spans) {
 	const elements = []
 	for (const span of spans) {
 		if (!span.formats.length) {
@@ -63,16 +63,17 @@ function parseSpans(spans) {
 		lastRef.props.children = span.content
 		elements.push(element)
 	}
-	decoratePos(elements)
+	decorate(elements)
 	return elements
 }
 
+// React renderer for the VDOM state (e.g. state.elements).
 const ReactRenderer = ({ state, dispatch, renderableMap }) => (
 	state.elements.map(({ type: T, spans, ...props }) => (
 		React.createElement(T, {
 			key: props.uuid,
 			...props,
-		}, toReact(parseSpans(spans), renderableMap))
+		}, toReact(parse(spans), renderableMap))
 	))
 )
 

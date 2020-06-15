@@ -1,4 +1,4 @@
-import ascendToUUIDElement from "./ascendToUUIDElement"
+import { ascendToUUIDElement } from "./ascend"
 
 // Creates a new VDOM cursor.
 export function newVDOMCursor() {
@@ -9,8 +9,8 @@ export function newVDOMCursor() {
 	return cursor
 }
 
-// Computes a VDOM cursor from a UUID element and a range
-// container and offset.
+// Computes a VDOM cursor from a UUID DOM element and a DOM
+// range container and offset.
 function computeVDOMCursor(uuidElement, { container, offset }) {
 	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
 		if (offset === container.childNodes.length) {
@@ -23,7 +23,7 @@ function computeVDOMCursor(uuidElement, { container, offset }) {
 	if (!uuidElement.id) {
 		throw new Error("computeVDOMCursor: no such uuid")
 	}
-	// Recurses on a DOM node, mutates cursor.
+	// Recurses on a DOM node; mutates cursor.
 	const recurse = startDOMNode => {
 		// TODO: Guard non-text nodes?
 		if (startDOMNode === container) {
