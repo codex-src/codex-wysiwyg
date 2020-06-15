@@ -1,7 +1,7 @@
 import ascendToUUIDElement from "./ascendToUUIDElement"
 
-// Creates a new cursor.
-export function newCursor() {
+// Creates a new VDOM cursor.
+export function newVDOMCursor() {
 	const cursor = {
 		uuid: "",
 		offset: 0,
@@ -9,9 +9,9 @@ export function newCursor() {
 	return cursor
 }
 
-// Computes a cursor from a UUID element and a range
+// Computes a VDOM cursor from a UUID element and a range
 // container and offset.
-function computeCursor(uuidElement, { container, offset }) {
+function computeVDOMCursor(uuidElement, { container, offset }) {
 	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
 		if (offset === container.childNodes.length) {
 			offset = Math.min(0, container.childNodes.length - 1)
@@ -19,10 +19,9 @@ function computeCursor(uuidElement, { container, offset }) {
 		container = container.childNodes[offset]
 		offset = 0
 	}
-
-	const cursor = newCursor()
+	const cursor = newVDOMCursor()
 	if (!uuidElement.id) {
-		throw new Error("computeCursor: no such uuid")
+		throw new Error("computeVDOMCursor: no such uuid")
 	}
 	// Recurses on a DOM node, mutates cursor.
 	const recurse = startDOMNode => {
@@ -50,8 +49,8 @@ function computeCursor(uuidElement, { container, offset }) {
 	return cursor
 }
 
-// Computes cursors from the current range.
-export function computeCursors() {
+// Computes VDOM cursors from the current range.
+export function computeVDOMCursors() {
 	// Get the current range:
 	const selection = document.getSelection()
 	if (!selection || !selection.rangeCount) {
@@ -60,11 +59,17 @@ export function computeCursors() {
 	const range = selection.getRangeAt(0)
 	// Compute cursors:
 	const cursors = []
-	cursors.push(computeCursor(ascendToUUIDElement(range.startContainer), { container: range.startContainer, offset: range.startOffset }))
+	cursors.push(computeVDOMCursor(ascendToUUIDElement(range.startContainer), {
+		container: range.startContainer,
+		offset: range.startOffset,
+	}))
 	if (range.collapsed) {
 		cursors.push(cursors[0])
 	} else {
-		cursors.push(computeCursor(ascendToUUIDElement(range.endContainer), { container: range.endContainer, offset: range.endOffset }))
+		cursors.push(computeVDOMCursor(ascendToUUIDElement(range.endContainer), {
+			container: range.endContainer,
+			offset: range.endOffset,
+		}))
 	}
 	return cursors
 }

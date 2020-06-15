@@ -7,9 +7,9 @@ import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
-import { computeCursors } from "./cursors"
-import { computeRange } from "./ranges"
-import { readSpans } from "./spans"
+import { computeDOMRange } from "./ranges"
+import { computeVDOMCursors } from "./cursors"
+import { readVDOMSpans } from "./spans"
 
 import {
 	Anchor,
@@ -168,7 +168,7 @@ const Editor = () => {
 						// No-op
 						return
 					}
-					const range = computeRange(state.cursors[0])
+					const range = computeDOMRange(state.cursors[0])
 					try {
 						const domRange = document.createRange()
 						domRange.setStart(range.container, range.offset)
@@ -194,7 +194,7 @@ const Editor = () => {
 				onFocus={dispatch.focus}
 				onBlur={dispatch.blur}
 				onSelect={() => {
-					const cursors = computeCursors()
+					const cursors = computeVDOMCursors()
 					dispatch.select(cursors)
 				}}
 				onPointerDown={() => {
@@ -205,7 +205,7 @@ const Editor = () => {
 						pointerIsDownRef.current = false
 						return
 					}
-					const cursors = computeCursors()
+					const cursors = computeVDOMCursors()
 					dispatch.select(cursors)
 				}}
 				onPointerUp={() => {
@@ -283,12 +283,12 @@ const Editor = () => {
 				}}
 
 				onInput={() => {
-					const [cursor] = computeCursors()
+					const [cursor] = computeVDOMCursors()
 					const uuidElement = document.getElementById(cursor.uuid)
 					if (!uuidElement) {
 						throw new Error("onInput: no such uuid element")
 					}
-					const spans = readSpans(uuidElement)
+					const spans = readVDOMSpans(uuidElement)
 					dispatch.input(uuidElement.id, spans, cursor)
 				}}
 

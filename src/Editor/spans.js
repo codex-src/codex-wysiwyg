@@ -6,8 +6,8 @@ import formatsEnum from "./formatsEnum"
 // 	continue
 // }
 
-// Reads a span from a DOM node.
-function readSpan(domNode) {
+// Reads a VDOM span from a DOM node.
+function readVDOMSpan(domNode) {
 	const span = {
 		content: domNode.textContent,
 		formats: [],
@@ -36,23 +36,24 @@ function readSpan(domNode) {
 	return span
 }
 
-// Returns whether two spans’ formats and props are equal.
-function formatsAndPropsAreEqual(spanA, spanB) {
-	if (spanA.formats.length !== spanB.formats.length) {
+// Returns whether two VDOM spans’ formats and props are
+// equal.
+function formatsAndPropsAreEqual(s1, s2) {
+	if (s1.formats.length !== s2.formats.length) {
 		return false
 	}
-	for (let x = 0; x < spanA.formats.length; x++) {
-		if (spanA.formats[x] !== spanB.formats[x]) {
+	for (let x = 0; x < s1.formats.length; x++) {
+		if (s1.formats[x] !== s2.formats[x]) {
 			return false
-		} else if (JSON.stringify(spanA[spanA.formats[x]]) !== JSON.stringify(spanB[spanB.formats[x]])) {
+		} else if (JSON.stringify(s1[s1.formats[x]]) !== JSON.stringify(s2[s2.formats[x]])) {
 			return false
 		}
 	}
 	return true
 }
 
-// Merges repeat spans.
-export function mergeRepeatSpans(spans) {
+// Concatenates VDOM spans that share formats and props.
+export function concatenateVDOMSpans(spans) {
 	for (let x = 0; x < spans.length; x++) {
 		if (x && formatsAndPropsAreEqual(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
@@ -65,12 +66,11 @@ export function mergeRepeatSpans(spans) {
 }
 
 // Reads spans from a UUID element.
-export function readSpans(uuidElement) {
+export function readVDOMSpans(uuidElement) {
 	const spans = []
 	for (let x = 0; x < uuidElement.childNodes.length; x++) {
-		spans.push(readSpan(uuidElement.childNodes[x]))
+		spans.push(readVDOMSpan(uuidElement.childNodes[x]))
 	}
-	mergeRepeatSpans(spans)
-	console.log(spans)
+	concatenateVDOMSpans(spans)
 	return spans
 }

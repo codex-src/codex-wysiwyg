@@ -1,5 +1,5 @@
-// Creates a new range.
-export function newRange() {
+// Creates a new DOM range.
+export function newDOMRange() {
 	const range = {
 		container: null,
 		offset: 0,
@@ -17,12 +17,12 @@ function isTextNodeOrBreakElement(domNode) {
 	return ok
 }
 
-// Computes a range from a cursor.
-export function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate reference
-	const range = newRange()
+// Computes a DOM range from a VDOM cursor.
+export function computeDOMRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate reference
+	const range = newDOMRange()
 	const uuidElement = document.getElementById(uuid)
 	if (!uuidElement) {
-		throw new Error("computeRange: no such uuid element")
+		throw new Error("computeDOMRange: no such uuid element")
 	}
 	// Recurses on a DOM node, mutates range.
 	const recurse = startDOMNode => {

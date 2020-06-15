@@ -1,11 +1,24 @@
 import * as iter from "./iter"
 import useMethods from "use-methods"
 import uuidv4 from "uuid/v4"
-import { mergeRepeatSpans } from "./spans"
-import { newCursor } from "./cursors"
+import { concatenateVDOMSpans } from "./spans"
+import { newVDOMCursor } from "./cursors"
 
-// Counts the number of bytes between the cursors.
+// Reads an array of spans.
+function readSpans(spans) {
+	let content = ""
+	for (const span of spans) {
+		content += span.content
+	}
+	return content
+}
+
+// Counts the number of bytes between state.cursors.
 function countBytesBetweenCursors(state) {
+
+	// const x1 = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
+	// const x2 = state.elements.findIndex(each => each.uuid === state.cursors[1].uuid)
+
 	let x1 = -1
 	let x2 = -1
 	for (let x = 0; x < state.elements.length; x++) {
@@ -21,29 +34,10 @@ function countBytesBetweenCursors(state) {
 		}
 	}
 	let count = state.cursors[1].offset - state.cursors[0].offset
-	while (x1 !== x2) {
-		count += readSyntheticUUIDElement(state.element[x1])
+	for (let x = x1; x !== x2; x++) {
+		count += readSpans(state.elements[x].spans).length
 	}
 	return count
-}
-
-// Reads a synthetic UUID element.
-function readSyntheticUUIDElement(uuidElement) {
-	const reducer = (acc, each) => {
-		if (typeof each === "string") {
-			return acc + each
-		}
-		return acc + each.content
-	}
-	return uuidElement.spans.reduce(reducer, "")
-}
-
-// Reads a synthetic span.
-function readSyntheticSpan(span) {
-	if (typeof span === "string") {
-		return span
-	}
-	return span.content
 }
 
 const methods = state => ({
@@ -72,48 +66,43 @@ const methods = state => ({
 	/*
 	 * Backspace
 	 */
-	// Counts the number of bytes to a boundary.
-	countBytesToBoundary(state, iterator) {
-		let dir = ""
-		switch (iterator) {
-		case iter.rtl.rune:
-		case iter.rtl.word:
-		case iter.rtl.line:
-			dir = "rtl"
-			break
-		case iter.ltr.rune:
-		case iter.ltr.word:
-			dir = "ltr"
-			break
-		default:
-			// No-op
-			break
-		}
+	// Counts the RTL number of bytes to a boundary.
+	countBytesToBoundaryRTL(state, boundaryFn) {
 		if (!state.cursors.collapsed) {
 			return countBytesBetweenCursors(state)
 		}
-		const { uuid, offset } = state.cursors[0]
-		const x = state.elements.findIndex(each => each.uuid === uuid)
-		let count = iterator(readSyntheticUUIDElement(state.elements[x]), offset)
-		if (!count && ((dir === "rtl" && x) || (dir === "ltr" && x + 1 < state.elements.length))) {
+		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
+		const content = readSpans(state.elements[x].spans)
+		let count = boundaryFn(content, state.cursors[0].offset)
+		if (!count && x) {
 			count++
 		}
 		return count
 	},
-	// Removes a number of bytes (countL and countR).
-	removeByteCounts(countL, countR) {
+	// Counts the LTR number of bytes to a boundary.
+	countBytesToBoundaryLTR(state, boundaryFn) {
+		if (!state.cursors.collapsed) {
+			return countBytesBetweenCursors(state)
+		}
+		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
+		const content = readSpans(state.elements[x].spans)
+		let count = boundaryFn(content, state.cursors[0].offset)
+		if (!count && x + 1 < state.elements.length) {
+			count++
+		}
+		return count
+	},
+	// Removes a number of bytes from the current cursors.
+	removeByteCount(count) {
 		// NOTE: Uses state.cursors[1] because of
 		// !state.cursors.collapsed case.
-		//
-		// TODO: Change uuidElement to x so removeByteCounts can
-		// span one or more elements
 		const uuidElement = state.elements.find(each => each.uuid === state.cursors[1].uuid)
 		let offset = state.cursors[1].offset
 
 		// Get the span (x) and character offset (offset):
 		let x = 0
 		for (; x < uuidElement.spans.length; x++) {
-			const content = readSyntheticSpan(uuidElement.spans[x])
+			const content = uuidElement.spans[x].content
 			if (offset - content.length <= 0) {
 				// No-op
 				break
@@ -136,9 +125,9 @@ const methods = state => ({
 			return count
 		}
 
-		const decremented = countL
-		while (countL) {
-			countL -= removeByteCountFromSpan(uuidElement, x, offset, countL)
+		const decremented = count
+		while (count) {
+			count -= removeByteCountFromSpan(uuidElement, x, offset, count)
 			if (x - 1 >= 0) {
 				offset = uuidElement.spans[x - 1].content.length
 				x--
@@ -146,7 +135,7 @@ const methods = state => ({
 		}
 
 		// TODO: We need to merge *many* uuidElement.spans
-		mergeRepeatSpans(uuidElement.spans)
+		concatenateVDOMSpans(uuidElement.spans)
 
 		if (state.cursors.collapsed) {
 			state.cursors[0].offset -= decremented
@@ -155,24 +144,24 @@ const methods = state => ({
 
 	},
 	backspaceRune() {
-		const countL = this.countBytesToBoundary(state, iter.rtl.rune)
-		this.removeByteCounts(countL, 0)
+		const countL = this.countBytesToBoundaryRTL(state, iter.rtl.rune)
+		this.removeByteCount(countL, 0)
 	},
 	backspaceWord() {
-		const countL = this.countBytesToBoundary(state, iter.rtl.word)
-		this.removeByteCounts(countL, 0)
+		const countL = this.countBytesToBoundaryRTL(state, iter.rtl.word)
+		this.removeByteCount(countL, 0)
 	},
 	backspaceParagraph() {
-		const countL = this.countBytesToBoundary(state, iter.rtl.line)
-		this.removeByteCounts(countL, 0)
+		const countL = this.countBytesToBoundaryRTL(state, iter.rtl.line)
+		this.removeByteCount(countL, 0)
 	},
 	forwardBackspaceRune() {
-		const countR = this.countBytesToBoundary(state, iter.ltr.rune)
-		this.removeByteCounts(0, countR)
+		// const countR = this.countBytesToBoundaryLTR(state, iter.ltr.rune)
+		// this.removeByteCount(0, countR)
 	},
 	forwardBackspaceWord() {
-		const countR = this.countBytesToBoundary(state, iter.ltr.word)
-		this.removeByteCounts(0, countR)
+		// const countR = this.countBytesToBoundaryLTR(state, iter.ltr.word)
+		// this.removeByteCount(0, countR)
 	},
 	/*
 	 * Input
@@ -195,8 +184,8 @@ function init(initialState) {
 	const state = {
 		focused: false,
 		cursors: {
-			0: newCursor(),
-			1: newCursor(),
+			0: newVDOMCursor(),
+			1: newVDOMCursor(),
 			collapsed: true,
 		},
 		// TODO: Rename elements to uuidElements?
