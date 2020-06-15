@@ -12,7 +12,6 @@ export function newCursor() {
 // Computes a cursor from a UUID element and a range
 // container and offset.
 function computeCursor(uuidElement, { container, offset }) {
-
 	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
 		if (offset === container.childNodes.length) {
 			offset = Math.min(0, container.childNodes.length - 1)

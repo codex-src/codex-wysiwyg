@@ -1,5 +1,6 @@
 import * as iter from "./iter"
 import useMethods from "use-methods"
+import uuidv4 from "uuid/v4"
 import { newCursor } from "./cursors"
 
 // Reads a synthetic UUID element.
@@ -167,11 +168,13 @@ const methods = state => ({
 	write(characterData) {
 		// TODO
 	},
-	input(uuid, spans, cursors) {
+	input(uuid, spans, cursors) { // TODO: Change cursors to cursor?
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
-		// if (!uuidElement) {
-		// 	throw new Error("dispatch.input: no such uuid element")
-		// }
+		if (!uuidElement.spans.length) {
+			uuidElement.uuid = uuidv4()
+			cursors[0].uuid = uuidElement.uuid
+		}
+		// TODO: Add span props?
 		uuidElement.spans = spans
 		this.select(cursors)
 	},
