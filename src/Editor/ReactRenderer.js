@@ -38,7 +38,7 @@ function decorate(elements) {
 	}
 }
 
-// Parses spans to pseudo-React elements.
+// Parses VDOM spans to pseudo-React elements.
 function parse(spans) {
 	const elements = []
 	for (const span of spans) {
