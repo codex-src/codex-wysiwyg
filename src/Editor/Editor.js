@@ -27,15 +27,16 @@ import "./Editor.css"
 	noopTextContent()
 })()
 
-// Computes a type map and array of types for a component.
-function getTypeInfo(component) {
+// Computes an array of types and type map for a pseudo-
+// React element.
+function computeTypeInfo(element) {
 	const types = []
 	const typeMap = {}
-	if (typeof component === "string") {
+	if (typeof element === "string") {
 		return [types, typeMap]
 	}
-	let ref = component.type !== undefined && // NOTE: "type" can be 0
-		component
+	let ref = element.type !== undefined && // NOTE: "type" can be 0
+		element
 	while (ref) {
 		types.push(ref.type)
 		typeMap[ref.type] = ref
@@ -45,17 +46,16 @@ function getTypeInfo(component) {
 	return [types, typeMap]
 }
 
-// Decorates components; sets component.pos to "at-start",
-// "at-center", or "at-end" for common types.
-
-function decoratePos(components) {
-	for (let x = 0; x < components.length; x++) {
-		if (!x || typeof components[x] === "string") {
+// Decorates pseudo-React elements; sets element.pos to
+// "at-start", "at-center", or "at-end".
+function decoratePos(elements) {
+	for (let x = 0; x < elements.length; x++) {
+		if (!x || typeof elements[x - 1] === "string" || typeof elements[x] === "string") {
 			// No-op
 			continue
 		}
-		const [types1, typeMap1] = getTypeInfo(components[x - 1])
-		const [types2, typeMap2] = getTypeInfo(components[x])
+		const [types1, typeMap1] = computeTypeInfo(elements[x - 1])
+		const [types2, typeMap2] = computeTypeInfo(elements[x])
 		const common = types1.filter(a => types2.some(b => a === b))
 		for (const type of common) {
 			typeMap1[type].props.pos = !typeMap1[type].props.pos ? "at-start" : "at-center"
@@ -64,11 +64,8 @@ function decoratePos(components) {
 	}
 }
 
-// Parses spans to psuedo-React elements.
+// Parses spans to pseudo-React elements.
 function parseSpans(spans) {
-	// if (!spans.length) {
-	// 	return null
-	// }
 	const elements = []
 	for (const span of spans) {
 		if (!span.formats.length) {
