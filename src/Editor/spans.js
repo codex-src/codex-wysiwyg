@@ -1,5 +1,11 @@
 import formatsEnum from "./formatsEnum"
 
+// // TODO
+// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
+// 	// No-op
+// 	continue
+// }
+
 // Reads a span from a DOM node.
 function readSpan(domNode) {
 	const span = {
@@ -30,12 +36,6 @@ function readSpan(domNode) {
 	return span
 }
 
-// // TODO
-// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
-// 	// No-op
-// 	continue
-// }
-
 // Returns whether two spans’ formats and props are equal.
 function formatsAndPropsAreEqual(spanA, spanB) {
 	if (spanA.formats.length !== spanB.formats.length) {
@@ -51,17 +51,26 @@ function formatsAndPropsAreEqual(spanA, spanB) {
 	return true
 }
 
+// Merges redundant spans (e.g. fragmented).
+export function mergeRedundantSpans(spans) {
+	for (let x = 0; x < spans.length; x++) {
+		if (x && formatsAndPropsAreEqual(spans[x - 1], spans[x])) {
+			spans.splice(x - 1, 2, {
+				...spans[x - 1],
+				content: spans[x - 1].content + spans[x].content,
+			})
+			continue
+		}
+	}
+}
+
 // Reads spans from a UUID element.
 export function readSpans(uuidElement) {
 	const spans = []
 	for (let x = 0; x < uuidElement.childNodes.length; x++) {
-		const span = readSpan(uuidElement.childNodes[x])
-		if (x && formatsAndPropsAreEqual(spans[spans.length - 1], span)) {
-			spans[spans.length - 1].content += span.content
-			continue
-		}
-		spans.push(span)
+		spans.push(readSpan(uuidElement.childNodes[x]))
 	}
+	mergeRedundantSpans(spans)
 	console.log(spans)
 	return spans
 }

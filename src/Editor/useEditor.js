@@ -1,6 +1,7 @@
 import * as iter from "./iter"
 import useMethods from "use-methods"
 import uuidv4 from "uuid/v4"
+import { mergeRedundantSpans } from "./spans"
 import { newCursor } from "./cursors"
 
 // Reads a synthetic UUID element.
@@ -103,6 +104,8 @@ const methods = state => ({
 				x--
 			}
 		}
+
+		mergeRedundantSpans(uuidElement.spans)
 
 		state.cursors[0].offset -= decremented
 		this.collapse()
