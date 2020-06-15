@@ -37,6 +37,13 @@ const methods = state => ({
 			collapsed: cursors[0] === cursors[1],
 		})
 	},
+	// Collapses the start and end cursors.
+	collapse() {
+		Object.assign(state.cursors, {
+			...[state.cursors[0], state.cursors[0]],
+			collapsed: true,
+		})
+	},
 	/*
 	 * Backspace
 	 */
@@ -70,6 +77,28 @@ const methods = state => ({
 			}
 			offset -= content.length
 		}
+
+		if (countL) {
+			// console.log(countL, uuidElement.spans[x].content.slice(offset))
+			uuidElement.spans[x].content = (
+				uuidElement.spans[x].content.slice(0, offset - countL, offset) +
+				uuidElement.spans[x].content.slice(offset)
+			)
+			state.cursors[0].offset--
+			// if (typeof spans[x] === "string") {
+			// 	spans[x] = "..."
+			// 	if (!spans[x]) {
+			// 		spans.splice(x, 1)
+			// 	}
+			// } else {
+			// 	spans[x].content = "..."
+			// 	if (!spans[x].content) {
+			// 		spans.splice(x, 1)
+			// 	}
+			// }
+		}
+		this.collapse()
+
 
 		// const ref = typeof uuidElement.spans[x] === "string" ? uuidElement.spans[x] : uuidElement.spans[x].content
 		// console.log(ref)

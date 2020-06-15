@@ -81,7 +81,11 @@ function parseSpans(spans) {
 			components.push(span)
 			continue
 		}
-		const component = {}
+		const component = {
+			// props: {
+			// 	children: {},
+			// },
+		}
 		let lastRef = component
 		let ref = lastRef
 		for (const format of span.formats.sort()) {
@@ -144,11 +148,11 @@ const Editor = () => {
 					content: "!",
 					formats: [formatsEnum.strong],
 				},
-				" I’m making some ",
-				// {
-				// 	content: " I’m making some ",
-				// 	formats: [],
-				// },
+				// " I’m making some ",
+				{
+					content: " I’m making some ",
+					formats: [formatsEnum.strong],
+				},
 				{
 					content: "progress",
 					formats: [formatsEnum.code],
