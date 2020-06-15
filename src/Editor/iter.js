@@ -1,16 +1,16 @@
 import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
-// Returns the number of bytes iterated backwards.
+// Returns the number of bytes (count) iterated backwards.
 export const backwards = {
 	rune(content, offset) {
-		let bytes = 0
+		let count = 0
 		if (offset) {
 			const substr = content.slice(0, offset)
 			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
-			bytes += rune.length
+			count += rune.length
 		}
-		return bytes
+		return count
 	},
 	word(content, offset) {
 		// Iterate spaces:
@@ -53,11 +53,11 @@ export const backwards = {
 				x -= rune.length
 			}
 		}
-		let bytes = offset - x
-		if (!bytes && x - 1 >= 0 && content[x - 1] === "\n") {
-			bytes++
+		let count = offset - x
+		if (!count && x - 1 >= 0 && content[x - 1] === "\n") {
+			count++
 		}
-		return bytes
+		return count
 	},
 	paragraph(content, offset) {
 		let x = offset
@@ -70,24 +70,24 @@ export const backwards = {
 			}
 			x -= rune.length
 		}
-		let bytes = offset - x
-		if (!bytes && x - 1 >= 0 && content[x - 1] === "\n") {
-			bytes++
+		let count = offset - x
+		if (!count && x - 1 >= 0 && content[x - 1] === "\n") {
+			count++
 		}
-		return bytes
+		return count
 	},
 }
 
-// Returns the number of bytes iterated forwards.
+// Returns the number of bytes (count) iterated forwards.
 export const forwards = {
 	rune(content, offset) {
-		let bytes = 0
+		let count = 0
 		if (offset < content.length) {
 			const substr = content.slice(offset)
 			const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
-			bytes += rune.length
+			count += rune.length
 		}
-		return bytes
+		return count
 	},
 	word(content, offset) {
 		// Iterate spaces:
@@ -130,10 +130,10 @@ export const forwards = {
 				x += rune.length
 			}
 		}
-		let bytes = x - offset
-		if (!bytes && x < content.length && content[x] === "\n") {
-			bytes++
+		let count = x - offset
+		if (!count && x < content.length && content[x] === "\n") {
+			count++
 		}
-		return bytes
+		return count
 	},
 }

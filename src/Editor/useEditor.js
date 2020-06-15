@@ -37,9 +37,15 @@ const methods = state => ({
 			return acc + span.content
 		}
 
-		const uuidElement = state.elements.find(each => each.uuid === state.cursors[0].uuid)
-		const content = uuidElement.spans.reduce(reducer, "")
-		const bytes = iter.backwards.rune(content, state.cursors[0].offset)
+		// Read the content:
+		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
+		const content = state.elements[x].spans.reduce(reducer, "")
+		// Compute the number of bytes (count) to backspace:
+		let count = iter.backwards.rune(content, state.cursors[0].offset)
+		if (!count && x > 0) {
+			count++
+		}
+		console.log({ count })
 		// this.dropBytes(bytes, 0)
 	},
 	forwardBackspaceRune() {
@@ -93,9 +99,9 @@ const methods = state => ({
 	/*
 	 * Input
 	 */
-	// write() {
-	// 	// ...
-	// }
+	write(characterData) {
+		// TODO
+	},
 	input(uuid, spans, cursors) {
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
 		// if (!uuidElement) {

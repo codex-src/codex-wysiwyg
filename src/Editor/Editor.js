@@ -151,39 +151,7 @@ const Editor = () => {
 				},
 				" on making a ",
 				{
-					content: "WYSIWYG hello hello",
-					formats: [formatsEnum.anchor],
-					[formatsEnum.anchor]: {
-						href: "https://heroicons.dev",
-					},
-				},
-				" editor.",
-			],
-		},
-		{
-			type: Paragraph,
-			uuid: uuidv4(),
-			spans: [
-				{
-					content: "Hey, ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					content: "Russ",
-					formats: [formatsEnum.strong, formatsEnum.emphasis],
-				},
-				{
-					content: "!",
-					formats: [formatsEnum.strong],
-				},
-				" I’m making some ",
-				{
-					content: "progress",
-					formats: [formatsEnum.code],
-				},
-				" on making a ",
-				{
-					content: "WYSIWYG hello hello",
+					content: "WYSIWYG",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://heroicons.dev",
@@ -328,12 +296,17 @@ const Editor = () => {
 						console.log("redo")
 						break
 
-						// // TODO: Use keyDownTypesEnum.characterData
-						// // when !state.cursors.collapsed
-						// case keyDownTypesEnum.characterData:
-						// 	e.preventDefault()
-						// 	// TODO
-						// 	break
+					case keyDownTypesEnum.characterData:
+						if (!state.cursors.collapsed) {
+							e.preventDefault()
+							dispatch.write(e.key)
+							return
+						}
+						break
+
+					case keyDownTypesEnum.characterDataDead:
+						// TODO
+						break
 
 					default:
 						// No-op

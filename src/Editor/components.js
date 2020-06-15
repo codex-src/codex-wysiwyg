@@ -1,6 +1,7 @@
 // import Transition from "lib/Transition"
 import formatsEnum from "./formatsEnum"
 import React from "react"
+import { StringEnum } from "lib/Enums"
 
 // https://davidwalsh.name/disable-autocorrect
 const disableAutoCorrect = {
@@ -47,19 +48,11 @@ export const Strong = ({ children }) => (
 	</span>
 )
 
-// // TODO
-// const typePosEnum = new String(
-// 	"undefined",
-// 	"atStart",
-// 	"atCenter",
-// 	"atEnd",
-// )
-
 const codeClassNames = {
-	"undefined": "px-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded",
-	"at-start":  "pl-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-l",
-	"at-center": "px-0 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-none",
-	"at-end":    "pr-1 py-1 text-sm font-mono text-blue-500 bg-gray-100 rounded-r",
+	"undefined": "px-1 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded",
+	"at-start":  "pl-1 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded-l",
+	"at-center": "px-0 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded-none",
+	"at-end":    "pr-1 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded-r",
 }
 
 export const Code = ({ typePos, children }) => (
