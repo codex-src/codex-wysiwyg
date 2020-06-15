@@ -94,43 +94,42 @@ const methods = state => ({
 	},
 	// Removes a number of bytes from the current cursors.
 	removeByteCount(count) {
-		// NOTE: Uses state.cursors[1] because of
+		// NOTE: Uses state.cursors[1] because of the
 		// !state.cursors.collapsed case.
 		const uuidElement = state.elements.find(each => each.uuid === state.cursors[1].uuid)
-		let offset = state.cursors[1].offset
+		let characterOffset = state.cursors[1].offset
 
-		// Get the span (x) and character offset (offset):
-		let x = 0
-		for (; x < uuidElement.spans.length; x++) {
-			const content = uuidElement.spans[x].content
-			if (offset - content.length <= 0) {
+		let spanOffset = 0
+		for (; spanOffset < uuidElement.spans.length; spanOffset++) {
+			const content = uuidElement.spans[spanOffset].content
+			if (characterOffset - content.length <= 0) {
 				// No-op
 				break
 			}
-			offset -= content.length
+			characterOffset -= content.length
 		}
 
-		// Removes a number of bytes from a span at an offset.
-		const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
-			if (count > offset) {
-				count = offset
+		// Removes a number of bytes from a span at an characterOffset.
+		const removeByteCountFromSpan = (uuidElement, spanOffset, characterOffset, count) => {
+			if (count > characterOffset) {
+				count = characterOffset
 			}
-			uuidElement.spans[x].content = (
-				uuidElement.spans[x].content.slice(0, offset - count) +
-				uuidElement.spans[x].content.slice(offset)
+			uuidElement.spans[spanOffset].content = (
+				uuidElement.spans[spanOffset].content.slice(0, characterOffset - count) +
+				uuidElement.spans[spanOffset].content.slice(characterOffset)
 			)
-			if (!uuidElement.spans[x].content) {
-				uuidElement.spans.splice(x, 1)
+			if (!uuidElement.spans[spanOffset].content) {
+				uuidElement.spans.splice(spanOffset, 1)
 			}
 			return count
 		}
 
 		const decremented = count
 		while (count) {
-			count -= removeByteCountFromSpan(uuidElement, x, offset, count)
-			if (x - 1 >= 0) {
-				offset = uuidElement.spans[x - 1].content.length
-				x--
+			count -= removeByteCountFromSpan(uuidElement, spanOffset, characterOffset, count)
+			if (spanOffset - 1 >= 0) {
+				characterOffset = uuidElement.spans[spanOffset - 1].content.length
+				spanOffset--
 			}
 		}
 

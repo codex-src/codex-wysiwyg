@@ -15,7 +15,7 @@ function toReact(elements, renderableMap) {
 			...props,
 		}, toReact(props.children, renderableMap)))
 	}
-	// NOTE: Uses null for {children || <br />}.
+	// NOTE: Uses null for the {children || <br />} case.
 	if (!renderable.length) {
 		return null
 	}
