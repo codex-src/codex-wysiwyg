@@ -82,7 +82,7 @@ const methods = state => ({
 			[iter.ltr.word]: "ltr",
 		}))[iterator]
 		if (!state.cursors.collapsed) {
-			return 0
+			return countBytesBetweenCursors(state)
 		}
 		const { uuid, offset } = state.cursors[0]
 		const x = state.elements.findIndex(each => each.uuid === uuid)
@@ -94,10 +94,10 @@ const methods = state => ({
 	},
 	// Removes a number of bytes (countL and countR).
 	removeByteCounts(countL, countR) {
-
-		// Get the current UUID element:
-		let { uuid, offset } = state.cursors[0] // TODO: Change to state.cursors[1]?
-		const uuidElement = state.elements.find(each => each.uuid === uuid)
+		// NOTE: Uses state.cursors[1] because of
+		// !state.cursors.collapsed case.
+		const uuidElement = state.elements.find(each => each.uuid === state.cursors[1].uuid)
+		let offset = state.cursors[1].offset
 
 		// Get the span (x) and character offset (offset):
 		let x = 0
@@ -136,47 +136,29 @@ const methods = state => ({
 
 		mergeRedundantSpans(uuidElement.spans)
 
-		state.cursors[0].offset -= decremented
+		if (state.cursors.collapsed) {
+			state.cursors[0].offset -= decremented
+		}
 		this.collapse()
 
 	},
 	backspaceRune() {
-		if (!state.cursors.collapsed) {
-			console.log(countBytesBetweenCursors(state))
-			return
-		}
 		const count = this.countBytesToBoundary(state, iter.rtl.rune)
 		this.removeByteCounts(count, 0)
 	},
 	backspaceWord() {
-		if (!state.cursors.collapsed) {
-			// TODO: Compute the number of bytes needed
-			return
-		}
 		const count = this.countBytesToBoundary(state, iter.rtl.word)
 		this.removeByteCounts(count, 0)
 	},
 	backspaceParagraph() {
-		if (!state.cursors.collapsed) {
-			// TODO: Compute the number of bytes needed
-			return
-		}
 		const count = this.countBytesToBoundary(state, iter.rtl.line)
 		this.removeByteCounts(count, 0)
 	},
 	forwardBackspaceRune() {
-		if (!state.cursors.collapsed) {
-			// TODO: Compute the number of bytes needed
-			return
-		}
 		const count = this.countBytesToBoundary(state, iter.ltr.rune)
 		this.removeByteCounts(0, count)
 	},
 	forwardBackspaceWord() {
-		if (!state.cursors.collapsed) {
-			// TODO: Compute the number of bytes needed
-			return
-		}
 		const count = this.countBytesToBoundary(state, iter.ltr.word)
 		this.removeByteCounts(0, count)
 	},
