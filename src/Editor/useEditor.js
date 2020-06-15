@@ -63,13 +63,10 @@ const methods = state => ({
 	},
 	// Removes a number of bytes (countL and countR).
 	removeByteCounts(countL, countR) {
-		// console.log({ countL })
-
 		// Get the current UUID element:
 		let { uuid, offset } = state.cursors[0]
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
-		// Get the span offset (x) and decrement the start
-		// cursor offset:
+		// Get the span (x) and character offset (offset):
 		let x = 0
 		for (; x < uuidElement.spans.length; x++) {
 			const content = readSyntheticSpan(uuidElement.spans[x])
@@ -79,33 +76,29 @@ const methods = state => ({
 			}
 			offset -= content.length
 		}
-
 		// Removes a number of bytes from a span at an offset.
-		const removeByteCountFromSpan = (uuidElement, x, offset) => {
-			const remove = count => {
-				if (count > offset) {
-					count = offset
-				}
-				if (typeof uuidElement.spans[x] === "string") {
-					uuidElement.spans[x] = (
-						uuidElement.spans[x].slice(0, offset - count) +
-						uuidElement.spans[x].slice(offset)
-					)
-					if (!uuidElement.spans[x]) {
-						uuidElement.spans.splice(x, 1)
-					}
-				} else {
-					uuidElement.spans[x].content = (
-						uuidElement.spans[x].content.slice(0, offset - count) +
-						uuidElement.spans[x].content.slice(offset)
-					)
-					if (!uuidElement.spans[x].content) {
-						uuidElement.spans.splice(x, 1)
-					}
-				}
-				return count
+		const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
+			if (count > offset) {
+				count = offset
 			}
-			return remove
+			if (typeof uuidElement.spans[x] === "string") {
+				uuidElement.spans[x] = (
+					uuidElement.spans[x].slice(0, offset - count) +
+					uuidElement.spans[x].slice(offset)
+				)
+				if (!uuidElement.spans[x]) {
+					uuidElement.spans.splice(x, 1)
+				}
+			} else {
+				uuidElement.spans[x].content = (
+					uuidElement.spans[x].content.slice(0, offset - count) +
+					uuidElement.spans[x].content.slice(offset)
+				)
+				if (!uuidElement.spans[x].content) {
+					uuidElement.spans.splice(x, 1)
+				}
+			}
+			return count
 		}
 
 		// if (typeof uuidElement[x] === "string") {
@@ -116,10 +109,12 @@ const methods = state => ({
 
 		const decremented = countL
 		while (countL) {
-			countL -= removeByteCountFromSpan(uuidElement, x, offset)(countL)
-			offset = typeof uuidElement.spans[x - 1] === "string" ? uuidElement.spans[x - 1].length :
-				uuidElement.spans[x - 1].content.length
-			x--
+			countL -= removeByteCountFromSpan(uuidElement, x, offset, countL)
+			if (x - 1 >= 0) {
+				offset = typeof uuidElement.spans[x - 1] === "string" ? uuidElement.spans[x - 1].length :
+					uuidElement.spans[x - 1].content.length
+				x--
+			}
 		}
 		state.cursors[0].offset -= decremented
 		this.collapse()
