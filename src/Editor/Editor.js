@@ -312,16 +312,13 @@ const Editor = () => {
 				}}
 
 				onInput={() => {
-					const cursors = computeCursors()
-					// if (!cursors) {
-					// 	throw new Error("onInput: no such cursors")
-					// }
-					const uuidElement = document.getElementById(cursors[0].uuid)
+					const [cursor] = computeCursors()
+					const uuidElement = document.getElementById(cursor.uuid)
 					if (!uuidElement) {
 						throw new Error("onInput: no such uuid element")
 					}
 					const spans = readSpans(uuidElement)
-					dispatch.input(uuidElement.id, spans, cursors)
+					dispatch.input(uuidElement.id, spans, cursor)
 				}}
 
 				contentEditable

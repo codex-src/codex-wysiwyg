@@ -168,15 +168,15 @@ const methods = state => ({
 	write(characterData) {
 		// TODO
 	},
-	input(uuid, spans, cursors) { // TODO: Change cursors to cursor?
+	input(uuid, spans, cursor) {
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
 		if (!uuidElement.spans.length) {
 			uuidElement.uuid = uuidv4()
-			cursors[0].uuid = uuidElement.uuid
+			cursor.uuid = uuidElement.uuid
 		}
 		// TODO: Add span props?
 		uuidElement.spans = spans
-		this.select(cursors)
+		this.select([cursor, cursor])
 	},
 })
 
