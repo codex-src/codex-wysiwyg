@@ -36,16 +36,29 @@ function readSpan(domNode) {
 // 	continue
 // }
 
+// Returns whether two spans’ formats and props are equal.
+function formatsAndPropsAreEqual(spanA, spanB) {
+	if (spanA.formats.length !== spanB.formats.length) {
+		return false
+	}
+	for (let x = 0; x < spanA.formats.length; x++) {
+		if (spanA.formats[x] !== spanB.formats[x]) {
+			return false
+		} else if (JSON.stringify(spanA[spanA.formats[x]]) !== JSON.stringify(spanB[spanB.formats[x]])) {
+			return false
+		}
+	}
+	return true
+}
+
 // Reads spans from a UUID element.
 export function readSpans(uuidElement) {
 	const spans = []
-	for (const domNode of uuidElement.childNodes) {
-		const span = readSpan(domNode)
-		if (typeof span === "string") {
-			if (spans.length && typeof spans[spans.length - 1] === "string") {
-				spans[spans.length - 1] += span
-				continue
-			}
+	for (let x = 0; x < uuidElement.childNodes.length; x++) {
+		const span = readSpan(uuidElement.childNodes[x])
+		if (x && formatsAndPropsAreEqual(spans[spans.length - 1], span)) {
+			spans[spans.length - 1].content += span.content
+			continue
 		}
 		spans.push(span)
 	}

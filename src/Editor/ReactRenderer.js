@@ -30,15 +30,15 @@ function decoratePos(elements) {
 		}
 		const [types1, typeMap1] = computeTypeInfo(elements[x - 1])
 		const [types2, typeMap2] = computeTypeInfo(elements[x])
-		const common = types1.filter(a => types2.some(b => a === b))
-		for (const type of common) {
+		const typesInCommon = types1.filter(a => types2.some(b => a === b))
+		for (const type of typesInCommon) {
 			typeMap1[type].props.pos = !typeMap1[type].props.pos ? "at-start" : "at-center"
 			typeMap2[type].props.pos = "at-end"
 		}
 	}
 }
 
-// Parses pseudo-React elements from spans.
+// Parses spans to pseudo-React elements.
 function parseSpans(spans) {
 	const elements = []
 	for (const span of spans) {

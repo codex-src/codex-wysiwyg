@@ -48,41 +48,48 @@ const Editor = () => {
 			type: Paragraph,
 			uuid: uuidv4(),
 			spans: [
-				// {
-				// 	content: "Hey, ",
-				// 	formats: [formatsEnum.strong],
-				// },
-				// {
-				// 	content: "Russ",
-				// 	formats: [formatsEnum.strong, formatsEnum.emphasis],
-				// },
-				// {
-				// 	content: "!",
-				// 	formats: [formatsEnum.strong],
-				// },
-				// {
-				// 	content: " I’m making some ",
-				// 	formats: [formatsEnum.strong],
-				// },
-				// {
-				// 	content: "progress ",
-				// 	formats: [formatsEnum.code],
-				// },
-				// {
-				// 	content: " on making a ",
-				// 	formats: [],
-				// },
-				// {
-				// 	content: "WYSIWYG",
-				// 	formats: [formatsEnum.anchor],
-				// 	[formatsEnum.anchor]: {
-				// 		href: "https://heroicons.dev",
-				// 	},
-				// },
-				// {
-				// 	content: " editor.",
-				// 	formats: [],
-				// },
+				{
+					content: "Hey, ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					content: "Russ",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					content: "!",
+					formats: [formatsEnum.strong],
+				},
+				{
+					content: " I’m making some ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					content: "progress ",
+					formats: [formatsEnum.code],
+				},
+				{
+					content: " on making a ",
+					formats: [],
+				},
+				{
+					content: "WYSIWYG",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://heroicons.dev",
+					},
+				},
+				{
+					content: " editor.",
+					formats: [],
+				},
+				{
+					content: "WYSIWYG",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://heroicons.dev",
+					},
+				},
 			],
 		},
 	])
