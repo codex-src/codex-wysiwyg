@@ -51,8 +51,8 @@ function formatsAndPropsAreEqual(spanA, spanB) {
 	return true
 }
 
-// Merges redundant spans (e.g. fragmented).
-export function mergeRedundantSpans(spans) {
+// Merges repeat spans.
+export function mergeRepeatSpans(spans) {
 	for (let x = 0; x < spans.length; x++) {
 		if (x && formatsAndPropsAreEqual(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
@@ -70,7 +70,7 @@ export function readSpans(uuidElement) {
 	for (let x = 0; x < uuidElement.childNodes.length; x++) {
 		spans.push(readSpan(uuidElement.childNodes[x]))
 	}
-	mergeRedundantSpans(spans)
+	mergeRepeatSpans(spans)
 	console.log(spans)
 	return spans
 }

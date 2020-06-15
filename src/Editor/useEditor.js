@@ -1,7 +1,7 @@
 import * as iter from "./iter"
 import useMethods from "use-methods"
 import uuidv4 from "uuid/v4"
-import { mergeRedundantSpans } from "./spans"
+import { mergeRepeatSpans } from "./spans"
 import { newCursor } from "./cursors"
 
 // Counts the number of bytes between the cursors.
@@ -74,13 +74,21 @@ const methods = state => ({
 	 */
 	// Counts the number of bytes to a boundary.
 	countBytesToBoundary(state, iterator) {
-		const dir = new Map(Object.entries({
-			[iter.rtl.rune]: "rtl",
-			[iter.rtl.word]: "rtl",
-			[iter.rtl.line]: "rtl",
-			[iter.ltr.rune]: "ltr",
-			[iter.ltr.word]: "ltr",
-		}))[iterator]
+		let dir = ""
+		switch (iterator) {
+		case iter.rtl.rune:
+		case iter.rtl.word:
+		case iter.rtl.line:
+			dir = "rtl"
+			break
+		case iter.ltr.rune:
+		case iter.ltr.word:
+			dir = "ltr"
+			break
+		default:
+			// No-op
+			break
+		}
 		if (!state.cursors.collapsed) {
 			return countBytesBetweenCursors(state)
 		}
@@ -96,6 +104,9 @@ const methods = state => ({
 	removeByteCounts(countL, countR) {
 		// NOTE: Uses state.cursors[1] because of
 		// !state.cursors.collapsed case.
+		//
+		// TODO: Change uuidElement to x so removeByteCounts can
+		// span one or more elements
 		const uuidElement = state.elements.find(each => each.uuid === state.cursors[1].uuid)
 		let offset = state.cursors[1].offset
 
@@ -134,7 +145,8 @@ const methods = state => ({
 			}
 		}
 
-		mergeRedundantSpans(uuidElement.spans)
+		// TODO: We need to merge *many* uuidElement.spans
+		mergeRepeatSpans(uuidElement.spans)
 
 		if (state.cursors.collapsed) {
 			state.cursors[0].offset -= decremented
@@ -143,24 +155,24 @@ const methods = state => ({
 
 	},
 	backspaceRune() {
-		const count = this.countBytesToBoundary(state, iter.rtl.rune)
-		this.removeByteCounts(count, 0)
+		const countL = this.countBytesToBoundary(state, iter.rtl.rune)
+		this.removeByteCounts(countL, 0)
 	},
 	backspaceWord() {
-		const count = this.countBytesToBoundary(state, iter.rtl.word)
-		this.removeByteCounts(count, 0)
+		const countL = this.countBytesToBoundary(state, iter.rtl.word)
+		this.removeByteCounts(countL, 0)
 	},
 	backspaceParagraph() {
-		const count = this.countBytesToBoundary(state, iter.rtl.line)
-		this.removeByteCounts(count, 0)
+		const countL = this.countBytesToBoundary(state, iter.rtl.line)
+		this.removeByteCounts(countL, 0)
 	},
 	forwardBackspaceRune() {
-		const count = this.countBytesToBoundary(state, iter.ltr.rune)
-		this.removeByteCounts(0, count)
+		const countR = this.countBytesToBoundary(state, iter.ltr.rune)
+		this.removeByteCounts(0, countR)
 	},
 	forwardBackspaceWord() {
-		const count = this.countBytesToBoundary(state, iter.ltr.word)
-		this.removeByteCounts(0, count)
+		const countR = this.countBytesToBoundary(state, iter.ltr.word)
+		this.removeByteCounts(0, countR)
 	},
 	/*
 	 * Input
