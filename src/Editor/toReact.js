@@ -1,9 +1,10 @@
 import React from "react"
 
-// Converts components to renderable React elements.
-function toReact(components, renderableMap) {
+// Converts pseudo-React elements to renderable React
+// elements.
+function toReact(elements, renderableMap) {
 	const renderable = []
-	for (const component of [components].flat()) {
+	for (const component of [elements].flat()) {
 		if (typeof component === "string") {
 			renderable.push(component)
 			continue
@@ -13,6 +14,11 @@ function toReact(components, renderableMap) {
 			key: renderable.length,
 			...props,
 		}, toReact(props.children, renderableMap)))
+	}
+	// NOTE: Does not return an empty array -- uses null for
+	// {children || <br />} case
+	if (!renderable.length) {
+		return null
 	}
 	return renderable
 }

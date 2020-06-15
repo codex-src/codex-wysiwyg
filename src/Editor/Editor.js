@@ -45,9 +45,10 @@ function getTypeInfo(component) {
 	return [types, typeMap]
 }
 
-// Decorates components; sets component.typePos to
-// "at-start", "at-center", or "at-end" for common types.
-function decorateTypePos(components) {
+// Decorates components; sets component.pos to "at-start",
+// "at-center", or "at-end" for common types.
+
+function decoratePos(components) {
 	for (let x = 0; x < components.length; x++) {
 		if (!x || typeof components[x] === "string") {
 			// No-op
@@ -57,22 +58,25 @@ function decorateTypePos(components) {
 		const [types2, typeMap2] = getTypeInfo(components[x])
 		const common = types1.filter(a => types2.some(b => a === b))
 		for (const type of common) {
-			typeMap1[type].props.typePos = !typeMap1[type].props.typePos ? "at-start" : "at-center"
-			typeMap2[type].props.typePos = "at-end"
+			typeMap1[type].props.pos = !typeMap1[type].props.pos ? "at-start" : "at-center"
+			typeMap2[type].props.pos = "at-end"
 		}
 	}
 }
 
-// Parses spans.
+// Parses spans to psuedo-React elements.
 function parseSpans(spans) {
-	const components = []
+	// if (!spans.length) {
+	// 	return null
+	// }
+	const elements = []
 	for (const span of spans) {
 		if (!span.formats.length) {
-			components.push(span.content)
+			elements.push(span.content)
 			continue
 		}
-		const component = {}
-		let lastRef = component
+		const element = {}
+		let lastRef = element
 		let ref = lastRef
 		for (const format of span.formats.sort()) {
 			Object.assign(ref, { // <- lastRef
@@ -86,10 +90,10 @@ function parseSpans(spans) {
 			ref = ref.props.children
 		}
 		lastRef.props.children = span.content
-		components.push(component)
+		elements.push(element)
 	}
-	decorateTypePos(components)
-	return components
+	decoratePos(elements)
+	return elements
 }
 
 const ReactRenderer = ({ state, dispatch, renderableMap }) => (
@@ -122,41 +126,41 @@ const Editor = () => {
 			type: Paragraph,
 			uuid: uuidv4(),
 			spans: [
-				{
-					content: "Hey, ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					content: "Russ",
-					formats: [formatsEnum.strong, formatsEnum.emphasis],
-				},
-				{
-					content: "!",
-					formats: [formatsEnum.strong],
-				},
-				{
-					content: " I’m making some ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					content: "progress ",
-					formats: [formatsEnum.code],
-				},
-				{
-					content: " on making a ",
-					formats: [],
-				},
-				{
-					content: "WYSIWYG",
-					formats: [formatsEnum.anchor],
-					[formatsEnum.anchor]: {
-						href: "https://heroicons.dev",
-					},
-				},
-				{
-					content: " editor.",
-					formats: [],
-				},
+				// {
+				// 	content: "Hey, ",
+				// 	formats: [formatsEnum.strong],
+				// },
+				// {
+				// 	content: "Russ",
+				// 	formats: [formatsEnum.strong, formatsEnum.emphasis],
+				// },
+				// {
+				// 	content: "!",
+				// 	formats: [formatsEnum.strong],
+				// },
+				// {
+				// 	content: " I’m making some ",
+				// 	formats: [formatsEnum.strong],
+				// },
+				// {
+				// 	content: "progress ",
+				// 	formats: [formatsEnum.code],
+				// },
+				// {
+				// 	content: " on making a ",
+				// 	formats: [],
+				// },
+				// {
+				// 	content: "WYSIWYG",
+				// 	formats: [formatsEnum.anchor],
+				// 	[formatsEnum.anchor]: {
+				// 		href: "https://heroicons.dev",
+				// 	},
+				// },
+				// {
+				// 	content: " editor.",
+				// 	formats: [],
+				// },
 			],
 		},
 	])
@@ -204,6 +208,7 @@ const Editor = () => {
 
 	return (
 		<div>
+
 			<article
 				ref={ref}
 
@@ -213,10 +218,6 @@ const Editor = () => {
 				onBlur={dispatch.blur}
 				onSelect={() => {
 					const cursors = computeCursors()
-					// if (!cursors) {
-					// 	// No-op
-					// 	return
-					// }
 					dispatch.select(cursors)
 				}}
 				onPointerDown={() => {
@@ -228,10 +229,6 @@ const Editor = () => {
 						return
 					}
 					const cursors = computeCursors()
-					// if (!cursors) {
-					// 	// No-op
-					// 	return
-					// }
 					dispatch.select(cursors)
 				}}
 				onPointerUp={() => {
@@ -324,8 +321,14 @@ const Editor = () => {
 				data-codex-root
 			/>
 
+			{/* Debugger */}
 			<div className="mt-6 whitespace-pre font-mono text-xs leading-tight" style={{ tabSize: 2 }}>
-				{JSON.stringify(state, null, "\t")}
+				{JSON.stringify(state, (key, value) => {
+					if (key === "formats") {
+						return value
+					}
+					return value
+				}, "\t")}
 			</div>
 
 		</div>

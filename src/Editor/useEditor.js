@@ -99,11 +99,7 @@ const methods = state => ({
 		while (countL) {
 			countL -= removeByteCountFromSpan(uuidElement, x, offset, countL)
 			if (x - 1 >= 0) {
-				if (typeof uuidElement.spans[x - 1] === "string") {
-					offset = uuidElement.spans[x - 1].length
-				} else {
-					offset = uuidElement.spans[x - 1].content.length
-				}
+				offset = uuidElement.spans[x - 1].content.length
 				x--
 			}
 		}

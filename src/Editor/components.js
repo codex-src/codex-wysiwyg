@@ -54,8 +54,8 @@ const codeClassNames = {
 	"at-end":    "pr-0.5 py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded-r",
 }
 
-export const Code = ({ typePos, children }) => (
-	<span className={codeClassNames[typePos]} data-codex-type={formatsEnum.code} {...disableAutoCorrect}>
+export const Code = ({ pos, children }) => (
+	<span className={codeClassNames[pos]} data-codex-type={formatsEnum.code} {...disableAutoCorrect}>
 		{children}
 	</span>
 )
