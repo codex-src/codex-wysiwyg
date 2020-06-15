@@ -145,11 +145,19 @@ const Editor = () => {
 					formats: [formatsEnum.strong],
 				},
 				" I’m making some ",
+				// {
+				// 	content: " I’m making some ",
+				// 	formats: [],
+				// },
 				{
 					content: "progress",
 					formats: [formatsEnum.code],
 				},
 				" on making a ",
+				// {
+				// 	content: " on making a ",
+				// 	formats: [],
+				// },
 				{
 					content: "WYSIWYG",
 					formats: [formatsEnum.anchor],
@@ -158,6 +166,10 @@ const Editor = () => {
 					},
 				},
 				" editor.",
+				// {
+				// 	content: " editor.",
+				// 	formats: [],
+				// },
 			],
 		},
 	])

@@ -4,13 +4,21 @@ import { newCursor } from "./cursors"
 
 // Reads a synthetic UUID element.
 function readSyntheticUUIDElement(uuidElement) {
-	const reducer = (acc, span) => {
-		if (typeof span === "string") {
-			return acc + span
+	const reducer = (acc, each) => {
+		if (typeof each === "string") {
+			return acc + each
 		}
-		return acc + span.content
+		return acc + each.content
 	}
 	return uuidElement.spans.reduce(reducer, "")
+}
+
+// Reads a synthetic span.
+function readSyntheticSpan(span) {
+	if (typeof span === "string") {
+		return span
+	}
+	return span.content
 }
 
 const methods = state => ({
@@ -35,37 +43,67 @@ const methods = state => ({
 	// Counts the number of bytes needed to iterate a boundary
 	// such as "rune", "word", etc.
 	countBytes(iterator, boundary, state) {
-		let count = 0
 		if (!state.cursors.collapsed) {
-			return count
+			return 0
 		}
 		const { uuid, offset } = state.cursors[0]
 		const x = state.elements.findIndex(each => each.uuid === uuid)
-		count = iterator[boundary](readSyntheticUUIDElement(state.elements[x]), offset)
+		let count = iterator[boundary](readSyntheticUUIDElement(state.elements[x]), offset)
 		if (!count && ((iterator === iter.rtl && x) || (iterator === iter.ltr && x + 1 < state.elements.length))) {
 			count++
 		}
 		return count
 	},
+	// Removes a number of bytes (countL and countR).
+	removeBytes(countL, countR) {
+		// Get the current UUID element:
+		let { uuid, offset } = state.cursors[0]
+		const uuidElement = state.elements.find(each => each.uuid === uuid)
+		// Get the span offset (x) and decrement the start
+		// cursor offset:
+		let x = 0
+		for (; x < uuidElement.spans.length; x++) {
+			const content = readSyntheticSpan(uuidElement.spans[x])
+			if (offset - content.length <= 0) {
+				// No-op
+				break
+			}
+			offset -= content.length
+		}
+
+		// const ref = typeof uuidElement.spans[x] === "string" ? uuidElement.spans[x] : uuidElement.spans[x].content
+		// console.log(ref)
+
+		// console.log({ content: uuidElement.spans[x].slice(offset) })
+
+		// let span = uuidElement.spans[0]
+		// while (offset) { // TODO: Use offset >= 0?
+		// 	span = uuidElement
+		// }
+
+		// while (countL) {
+		// 	if (countL - )
+		// }
+	},
 	backspaceRune() {
 		const count = this.countBytes(iter.rtl, "rune", state)
-		console.log(count)
+		this.removeBytes(count, 0)
 	},
 	backspaceWord() {
 		const count = this.countBytes(iter.rtl, "word", state)
-		console.log(count)
+		this.removeBytes(count, 0)
 	},
 	backspaceParagraph() {
 		const count = this.countBytes(iter.rtl, "line", state)
-		console.log(count)
+		this.removeBytes(count, 0)
 	},
 	forwardBackspaceRune() {
 		const count = this.countBytes(iter.ltr, "rune", state)
-		console.log(count)
+		this.removeBytes(0, count)
 	},
 	forwardBackspaceWord() {
 		const count = this.countBytes(iter.ltr, "word", state)
-		console.log(count)
+		this.removeBytes(0, count)
 	},
 	/*
 	 * Input
@@ -91,6 +129,7 @@ function init(initialState) {
 			1: newCursor(),
 			collapsed: true,
 		},
+		// TODO: Rename elements to uuidElements?
 		elements: initialState,
 	}
 	return state
