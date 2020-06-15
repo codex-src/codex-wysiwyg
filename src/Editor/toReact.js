@@ -22,6 +22,9 @@ function toReact(components, renderableMap) {
 			...props,
 		}, toReact(props.children, renderableMap)))
 	}
+	if (!renderable.length) {
+		return null
+	}
 	return renderable
 }
 

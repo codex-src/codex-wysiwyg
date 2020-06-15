@@ -63,9 +63,11 @@ const methods = state => ({
 	},
 	// Removes a number of bytes (countL and countR).
 	removeByteCounts(countL, countR) {
+
 		// Get the current UUID element:
 		let { uuid, offset } = state.cursors[0]
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
+
 		// Get the span (x) and character offset (offset):
 		let x = 0
 		for (; x < uuidElement.spans.length; x++) {
@@ -76,6 +78,7 @@ const methods = state => ({
 			}
 			offset -= content.length
 		}
+
 		// Removes a number of bytes from a span at an offset.
 		const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
 			if (count > offset) {
@@ -101,41 +104,60 @@ const methods = state => ({
 			return count
 		}
 
-		// if (typeof uuidElement[x] === "string") {
-		// 	offset = uuidElement[x].length
-		// } else {
-		// 	offset = uuidElement[x].content.length
-		// }
-
 		const decremented = countL
 		while (countL) {
 			countL -= removeByteCountFromSpan(uuidElement, x, offset, countL)
 			if (x - 1 >= 0) {
-				offset = typeof uuidElement.spans[x - 1] === "string" ? uuidElement.spans[x - 1].length :
-					uuidElement.spans[x - 1].content.length
+				if (typeof uuidElement.spans[x - 1] === "string") {
+					offset = uuidElement.spans[x - 1].length
+				} else {
+					offset = uuidElement.spans[x - 1].content.length
+				}
 				x--
 			}
 		}
+
 		state.cursors[0].offset -= decremented
 		this.collapse()
+
 	},
 	backspaceRune() {
+		if (!state.cursors.collapsed) {
+			// TODO
+			return
+		}
 		const count = this.countBytes(iter.rtl, "rune", state)
 		this.removeByteCounts(count, 0)
 	},
 	backspaceWord() {
+		if (!state.cursors.collapsed) {
+			// TODO
+			return
+		}
 		const count = this.countBytes(iter.rtl, "word", state)
 		this.removeByteCounts(count, 0)
 	},
 	backspaceParagraph() {
+		if (!state.cursors.collapsed) {
+			// TODO
+			return
+		}
 		const count = this.countBytes(iter.rtl, "line", state)
 		this.removeByteCounts(count, 0)
 	},
 	forwardBackspaceRune() {
+		if (!state.cursors.collapsed) {
+			// TODO
+			return
+		}
 		const count = this.countBytes(iter.ltr, "rune", state)
 		this.removeByteCounts(0, count)
 	},
 	forwardBackspaceWord() {
+		if (!state.cursors.collapsed) {
+			// TODO
+			return
+		}
 		const count = this.countBytes(iter.ltr, "word", state)
 		this.removeByteCounts(0, count)
 	},
