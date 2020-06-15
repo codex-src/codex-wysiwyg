@@ -174,7 +174,6 @@ const methods = state => ({
 			uuidElement.uuid = uuidv4()
 			cursor.uuid = uuidElement.uuid
 		}
-		// TODO: Add span props?
 		uuidElement.spans = spans
 		this.select([cursor, cursor])
 	},
