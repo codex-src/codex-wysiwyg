@@ -67,15 +67,11 @@ function decorateTypePos(components) {
 function parseSpans(spans) {
 	const components = []
 	for (const span of spans) {
-		if (typeof span === "string") {
-			components.push(span)
+		if (!span.formats.length) {
+			components.push(span.content)
 			continue
 		}
-		const component = {
-			props: {
-				children: {},
-			},
-		}
+		const component = {}
 		let lastRef = component
 		let ref = lastRef
 		for (const format of span.formats.sort()) {
@@ -146,7 +142,10 @@ const Editor = () => {
 					content: "progress ",
 					formats: [formatsEnum.code],
 				},
-				" on making a ",
+				{
+					content: " on making a ",
+					formats: [],
+				},
 				{
 					content: "WYSIWYG",
 					formats: [formatsEnum.anchor],
@@ -154,7 +153,10 @@ const Editor = () => {
 						href: "https://heroicons.dev",
 					},
 				},
-				" editor.",
+				{
+					content: " editor.",
+					formats: [],
+				},
 			],
 		},
 	])
@@ -186,7 +188,6 @@ const Editor = () => {
 						return
 					}
 					const range = computeRange(state.cursors[0])
-					console.log(range)
 					try {
 						const domRange = document.createRange()
 						domRange.setStart(range.container, range.offset)

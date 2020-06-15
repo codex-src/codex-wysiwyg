@@ -85,22 +85,12 @@ const methods = state => ({
 			if (count > offset) {
 				count = offset
 			}
-			if (typeof uuidElement.spans[x] === "string") {
-				uuidElement.spans[x] = (
-					uuidElement.spans[x].slice(0, offset - count) +
-					uuidElement.spans[x].slice(offset)
-				)
-				if (!uuidElement.spans[x]) {
-					uuidElement.spans.splice(x, 1)
-				}
-			} else {
-				uuidElement.spans[x].content = (
-					uuidElement.spans[x].content.slice(0, offset - count) +
-					uuidElement.spans[x].content.slice(offset)
-				)
-				if (!uuidElement.spans[x].content) {
-					uuidElement.spans.splice(x, 1)
-				}
+			uuidElement.spans[x].content = (
+				uuidElement.spans[x].content.slice(0, offset - count) +
+				uuidElement.spans[x].content.slice(offset)
+			)
+			if (!uuidElement.spans[x].content) {
+				uuidElement.spans.splice(x, 1)
 			}
 			return count
 		}

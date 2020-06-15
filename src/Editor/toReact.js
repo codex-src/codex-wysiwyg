@@ -1,17 +1,9 @@
 import React from "react"
 
-// Returns an array.
-function toArray(value) {
-	if (!Array.isArray(value)) {
-		return [value]
-	}
-	return value
-}
-
 // Converts components to renderable React elements.
 function toReact(components, renderableMap) {
 	const renderable = []
-	for (const component of toArray(components)) {
+	for (const component of [components].flat()) {
 		if (typeof component === "string") {
 			renderable.push(component)
 			continue
@@ -21,9 +13,6 @@ function toReact(components, renderableMap) {
 			key: renderable.length,
 			...props,
 		}, toReact(props.children, renderableMap)))
-	}
-	if (!renderable.length) {
-		return null
 	}
 	return renderable
 }
