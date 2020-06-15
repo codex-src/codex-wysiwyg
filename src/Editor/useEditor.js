@@ -77,22 +77,28 @@ const methods = state => ({
 			}
 			offset -= content.length
 		}
+		let characterOffset = offset
 
-		// Removes count of bytes from a span (uuidElement and
-		// x) at a character offset.
-		const removeByteCountFromSpan = (uuidElement, x, offset) => {
+		// Removes count of bytes from a span at a character
+		// offset.
+		const removeByteCountFromSpan = (uuidElement, x, characterOffset) => {
 			const remove = count => {
-				// TODO
 				if (typeof uuidElement.spans[x] === "string") {
 					uuidElement.spans[x] = (
-						uuidElement.spans[x].slice(0, offset - count, offset) +
-						uuidElement.spans[x].slice(offset)
+						uuidElement.spans[x].slice(0, characterOffset - count, characterOffset) +
+						uuidElement.spans[x].slice(characterOffset)
 					)
+					if (!uuidElement.spans[x]) {
+						uuidElement.spans.splice(x, 1)
+					}
 				} else {
 					uuidElement.spans[x].content = (
-						uuidElement.spans[x].content.slice(0, offset - count, offset) +
-						uuidElement.spans[x].content.slice(offset)
+						uuidElement.spans[x].content.slice(0, characterOffset - count, characterOffset) +
+						uuidElement.spans[x].content.slice(characterOffset)
 					)
+					if (!uuidElement.spans[x].content) {
+						uuidElement.spans.splice(x, 1)
+					}
 				}
 				// return offset - count
 			}
@@ -100,7 +106,7 @@ const methods = state => ({
 		}
 
 		if (countL) {
-			removeByteCountFromSpan(uuidElement, x, offset)(countL)
+			removeByteCountFromSpan(uuidElement, x, characterOffset)(countL)
 		}
 		state.cursors[0].offset -= countL
 		this.collapse()

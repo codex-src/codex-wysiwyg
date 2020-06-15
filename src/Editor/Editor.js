@@ -28,8 +28,6 @@ import "./Editor.css"
 })()
 
 // Computes a type map and array of types for a component.
-//
-// TODO: Extract
 function getTypeInfo(component) {
 	const types = []
 	const typeMap = {}
@@ -49,9 +47,7 @@ function getTypeInfo(component) {
 
 // Decorates components; sets component.typePos to
 // "at-start", "at-center", or "at-end" for common types.
-//
-// TODO: Extract
-function decorate(components) {
+function decorateTypePos(components) {
 	for (let x = 0; x < components.length; x++) {
 		if (!x || typeof components[x] === "string") {
 			// No-op
@@ -68,23 +64,17 @@ function decorate(components) {
 }
 
 // Parses spans.
-//
-// TODO: Extract
 function parseSpans(spans) {
 	const components = []
 	for (const span of spans) {
 		if (typeof span === "string") {
-			if (components.length && typeof components[components.length - 1] === "string") {
-				components[components.length - 1] += span
-				continue
-			}
 			components.push(span)
 			continue
 		}
 		const component = {
-			// props: {
-			// 	children: {},
-			// },
+			props: {
+				children: {},
+			},
 		}
 		let lastRef = component
 		let ref = lastRef
@@ -102,7 +92,7 @@ function parseSpans(spans) {
 		lastRef.props.children = span.content
 		components.push(component)
 	}
-	decorate(components)
+	decorateTypePos(components)
 	return components
 }
 
@@ -148,7 +138,6 @@ const Editor = () => {
 					content: "!",
 					formats: [formatsEnum.strong],
 				},
-				// " I’m making some ",
 				{
 					content: " I’m making some ",
 					formats: [formatsEnum.strong],
@@ -158,10 +147,6 @@ const Editor = () => {
 					formats: [formatsEnum.code],
 				},
 				" on making a ",
-				// {
-				// 	content: " on making a ",
-				// 	formats: [],
-				// },
 				{
 					content: "WYSIWYG",
 					formats: [formatsEnum.anchor],
@@ -170,10 +155,6 @@ const Editor = () => {
 					},
 				},
 				" editor.",
-				// {
-				// 	content: " editor.",
-				// 	formats: [],
-				// },
 			],
 		},
 	])
