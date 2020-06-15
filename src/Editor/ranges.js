@@ -1,14 +1,24 @@
 // Creates a new range.
 export function newRange() {
 	const range = {
-		container: 0,
+		container: null,
 		offset: 0,
 	}
 	return range
 }
 
+// Returns whether a DOM node is a text node or a break
+// element.
+function isTextNodeOrBreakElement(domNode) {
+	const ok = (
+		domNode.nodeType === Node.TEXT_NODE ||
+		(domNode.nodeType === Node.ELEMENT_NODE && domNode.nodeName === "BR")
+	)
+	return ok
+}
+
 // Computes a range from a cursor.
-function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate reference
+export function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate reference
 	const range = newRange()
 	const uuidElement = document.getElementById(uuid)
 	if (!uuidElement) {
@@ -16,8 +26,7 @@ function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate 
 	}
 	// Recurses on a DOM node, mutates range.
 	const recurse = startDOMNode => {
-		// TODO: if (pos - (on.nodeValue || "").length <= 0) {
-		if (startDOMNode.nodeType === Node.TEXT_NODE && offset - startDOMNode.textContent.length <= 0) {
+		if (isTextNodeOrBreakElement(startDOMNode) && offset - startDOMNode.textContent.length <= 0) {
 			Object.assign(range, {
 				container: startDOMNode,
 				offset,
@@ -38,16 +47,4 @@ function computeRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate 
 	}
 	recurse(uuidElement)
 	return range
-}
-
-// Computes ranges from cursors.
-export function computeRanges(cursors) {
-	const ranges = []
-	ranges.push(computeRange(cursors[0]))
-	if (cursors.collapsed) {
-		ranges.push(ranges[0])
-	} else {
-		ranges.push(computeRange(cursors[1]))
-	}
-	return ranges
 }

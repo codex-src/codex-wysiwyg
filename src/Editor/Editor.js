@@ -8,7 +8,7 @@ import toReact from "./toReact"
 import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
 import { computeCursors } from "./cursors"
-import { computeRanges } from "./ranges"
+import { computeRange } from "./ranges"
 import { readSpans } from "./spans"
 
 import {
@@ -185,17 +185,13 @@ const Editor = () => {
 						// No-op
 						return
 					}
-					const ranges = computeRanges(state.cursors)
+					const range = computeRange(state.cursors[0])
+					console.log(range)
 					try {
-						const range = document.createRange()
-						range.setStart(ranges[0].container, ranges[0].offset)
-						if (state.cursors.collapsed) {
-							range.collapse()
-						} else {
-							range.setEnd(ranges[1].container, ranges[1].offset)
-						}
-						// selection.removeAllRanges()
-						selection.addRange(range)
+						const domRange = document.createRange()
+						domRange.setStart(range.container, range.offset)
+						domRange.collapse()
+						selection.addRange(domRange)
 					} catch (error) {
 						console.error(error)
 					}
