@@ -62,7 +62,7 @@ const methods = state => ({
 		return count
 	},
 	// Removes a number of bytes (countL and countR).
-	removeBytes(countL, countR) {
+	removeByteCounts(countL, countR) {
 		// Get the current UUID element:
 		let { uuid, offset } = state.cursors[0]
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
@@ -78,27 +78,32 @@ const methods = state => ({
 			offset -= content.length
 		}
 
-		if (countL) {
-			// console.log(countL, uuidElement.spans[x].content.slice(offset))
-			uuidElement.spans[x].content = (
-				uuidElement.spans[x].content.slice(0, offset - countL, offset) +
-				uuidElement.spans[x].content.slice(offset)
-			)
-			state.cursors[0].offset--
-			// if (typeof spans[x] === "string") {
-			// 	spans[x] = "..."
-			// 	if (!spans[x]) {
-			// 		spans.splice(x, 1)
-			// 	}
-			// } else {
-			// 	spans[x].content = "..."
-			// 	if (!spans[x].content) {
-			// 		spans.splice(x, 1)
-			// 	}
-			// }
+		// Removes count of bytes from a span (uuidElement and
+		// x) at a character offset.
+		const removeByteCountFromSpan = (uuidElement, x, offset) => {
+			const remove = count => {
+				// TODO
+				if (typeof uuidElement.spans[x] === "string") {
+					uuidElement.spans[x] = (
+						uuidElement.spans[x].slice(0, offset - count, offset) +
+						uuidElement.spans[x].slice(offset)
+					)
+				} else {
+					uuidElement.spans[x].content = (
+						uuidElement.spans[x].content.slice(0, offset - count, offset) +
+						uuidElement.spans[x].content.slice(offset)
+					)
+				}
+				// return offset - count
+			}
+			return remove
 		}
-		this.collapse()
 
+		if (countL) {
+			removeByteCountFromSpan(uuidElement, x, offset)(countL)
+		}
+		state.cursors[0].offset -= countL
+		this.collapse()
 
 		// const ref = typeof uuidElement.spans[x] === "string" ? uuidElement.spans[x] : uuidElement.spans[x].content
 		// console.log(ref)
@@ -116,23 +121,23 @@ const methods = state => ({
 	},
 	backspaceRune() {
 		const count = this.countBytes(iter.rtl, "rune", state)
-		this.removeBytes(count, 0)
+		this.removeByteCounts(count, 0)
 	},
 	backspaceWord() {
 		const count = this.countBytes(iter.rtl, "word", state)
-		this.removeBytes(count, 0)
+		this.removeByteCounts(count, 0)
 	},
 	backspaceParagraph() {
 		const count = this.countBytes(iter.rtl, "line", state)
-		this.removeBytes(count, 0)
+		this.removeByteCounts(count, 0)
 	},
 	forwardBackspaceRune() {
 		const count = this.countBytes(iter.ltr, "rune", state)
-		this.removeBytes(0, count)
+		this.removeByteCounts(0, count)
 	},
 	forwardBackspaceWord() {
 		const count = this.countBytes(iter.ltr, "word", state)
-		this.removeBytes(0, count)
+		this.removeByteCounts(0, count)
 	},
 	/*
 	 * Input
