@@ -13,13 +13,12 @@ export function newCursor() {
 // container and offset.
 function computeCursor(uuidElement, { container, offset }) {
 
-	if (container.nodeType === Node.ELEMENT_NODE /* && offset === container.childNodes.length */) {
-		throw new Error("FIXME")
-		// container = container.nextSibling
-		// if (!container) {
-		// 	throw new Error("computeCursor: no such container.nextSibling")
-		// }
-		// offset = 0
+	while (container.nodeType === Node.ELEMENT_NODE && container.childNodes.length) {
+		if (offset === container.childNodes.length) {
+			offset = Math.min(0, container.childNodes.length - 1)
+		}
+		container = container.childNodes[offset]
+		offset = 0
 	}
 
 	const cursor = newCursor()
