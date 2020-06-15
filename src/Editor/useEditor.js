@@ -32,7 +32,9 @@ const methods = state => ({
 	/*
 	 * Backspace
 	 */
-	internalBackspaceHandler(iterator, boundary, state) {
+	// Counts the number of bytes needed to iterate a boundary
+	// such as "rune", "word", etc.
+	countBytes(iterator, boundary, state) {
 		let count = 0
 		if (!state.cursors.collapsed) {
 			return count
@@ -46,23 +48,23 @@ const methods = state => ({
 		return count
 	},
 	backspaceRune() {
-		const count = this.internalBackspaceHandler(iter.rtl, "rune", state)
+		const count = this.countBytes(iter.rtl, "rune", state)
 		console.log(count)
 	},
 	backspaceWord() {
-		const count = this.internalBackspaceHandler(iter.rtl, "word", state)
+		const count = this.countBytes(iter.rtl, "word", state)
 		console.log(count)
 	},
 	backspaceParagraph() {
-		const count = this.internalBackspaceHandler(iter.rtl, "line", state)
+		const count = this.countBytes(iter.rtl, "line", state)
 		console.log(count)
 	},
 	forwardBackspaceRune() {
-		const count = this.internalBackspaceHandler(iter.ltr, "rune", state)
+		const count = this.countBytes(iter.ltr, "rune", state)
 		console.log(count)
 	},
 	forwardBackspaceWord() {
-		const count = this.internalBackspaceHandler(iter.ltr, "word", state)
+		const count = this.countBytes(iter.ltr, "word", state)
 		console.log(count)
 	},
 	/*
