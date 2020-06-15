@@ -48,10 +48,10 @@ export const Strong = ({ children }) => (
 )
 
 const codeClassNames = {
-	"undefined": "px-1 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded",
-	"at-start":  "pl-1 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded-l",
-	"at-center": "px-0 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded-none",
-	"at-end":    "pr-1 py-px text-sm font-mono text-blue-500 border border-gray-300 rounded-r",
+	"undefined": "px-0.5 py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded",
+	"at-start":  "pl-0.5 py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded-l",
+	"at-center": "px-0   py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded-none",
+	"at-end":    "pr-0.5 py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded-r",
 }
 
 export const Code = ({ typePos, children }) => (

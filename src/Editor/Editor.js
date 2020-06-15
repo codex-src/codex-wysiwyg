@@ -143,7 +143,7 @@ const Editor = () => {
 					formats: [formatsEnum.strong],
 				},
 				{
-					content: "progress",
+					content: "progress ",
 					formats: [formatsEnum.code],
 				},
 				" on making a ",
