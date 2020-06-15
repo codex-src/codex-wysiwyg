@@ -9,7 +9,7 @@ import useEditor from "./useEditor"
 import uuidv4 from "uuid/v4"
 import { computeDOMRange } from "./ranges"
 import { computeVDOMCursors } from "./cursors"
-import { readVDOMSpans } from "./spans"
+import { computeVDOMSpans } from "./spans"
 
 import {
 	Anchor,
@@ -288,7 +288,7 @@ const Editor = () => {
 					if (!uuidElement) {
 						throw new Error("onInput: no such uuid dom element")
 					}
-					const spans = readVDOMSpans(uuidElement)
+					const spans = computeVDOMSpans(uuidElement)
 					dispatch.input(uuidElement.id, spans, cursor)
 				}}
 

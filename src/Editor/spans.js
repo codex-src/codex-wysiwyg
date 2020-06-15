@@ -1,7 +1,7 @@
 import formatsEnum from "./formatsEnum"
 
-// Reads a VDOM span from a DOM node.
-function readVDOMSpan(domNode) {
+// Computes a VDOM span from a DOM node.
+function computeVDOMSpan(domNode) {
 	const span = {
 		content: domNode.textContent,
 		formats: [],
@@ -59,8 +59,8 @@ export function concatenateVDOMSpans(spans) {
 	}
 }
 
-// Reads spans from a UUID DOM element.
-export function readVDOMSpans(uuidElement) {
+// Computes VDOM spans from a UUID DOM element.
+export function computeVDOMSpans(uuidElement) {
 	const spans = []
 	for (let x = 0; x < uuidElement.childNodes.length; x++) {
 		// // TODO
@@ -68,7 +68,7 @@ export function readVDOMSpans(uuidElement) {
 		// 	// No-op
 		// 	continue
 		// }
-		spans.push(readVDOMSpan(uuidElement.childNodes[x]))
+		spans.push(computeVDOMSpan(uuidElement.childNodes[x]))
 	}
 	concatenateVDOMSpans(spans)
 	return spans
