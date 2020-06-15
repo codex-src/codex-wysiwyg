@@ -2,7 +2,7 @@ import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
 // Returns the number of bytes (count) iterated backwards.
-export const backwards = {
+export const rtl = {
 	rune(content, offset) {
 		let count = 0
 		if (offset) {
@@ -59,7 +59,7 @@ export const backwards = {
 		}
 		return count
 	},
-	paragraph(content, offset) {
+	line(content, offset) {
 		let x = offset
 		while (x) {
 			const substr = content.slice(0, x)
@@ -79,7 +79,7 @@ export const backwards = {
 }
 
 // Returns the number of bytes (count) iterated forwards.
-export const forwards = {
+export const ltr = {
 	rune(content, offset) {
 		let count = 0
 		if (offset < content.length) {

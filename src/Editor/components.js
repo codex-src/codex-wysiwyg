@@ -1,7 +1,6 @@
 // import Transition from "lib/Transition"
 import formatsEnum from "./formatsEnum"
 import React from "react"
-import { StringEnum } from "lib/Enums"
 
 // https://davidwalsh.name/disable-autocorrect
 const disableAutoCorrect = {

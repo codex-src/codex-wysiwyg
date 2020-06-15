@@ -2,6 +2,17 @@ import * as iter from "./iter"
 import useMethods from "use-methods"
 import { newCursor } from "./cursors"
 
+// Reads a synthetic UUID element.
+function readSyntheticUUIDElement(uuidElement) {
+	const reducer = (acc, span) => {
+		if (typeof span === "string") {
+			return acc + span
+		}
+		return acc + span.content
+	}
+	return uuidElement.spans.reduce(reducer, "")
+}
+
 const methods = state => ({
 	/*
 	 * Cursors
@@ -21,80 +32,38 @@ const methods = state => ({
 	/*
 	 * Backspace
 	 */
-	backspaceRune() {
-		console.log("backspaceRune")
-
-		// if (!state.cursors.collapsed) {
-		// 	// ...
-		// 	return
-		// }
-
-		// TODO: Extract?
-		const reducer = (acc, span) => {
-			if (typeof span === "string") {
-				return acc + span
-			}
-			return acc + span.content
+	internalBackspaceHandler(iterator, boundary, state) {
+		let count = 0
+		if (!state.cursors.collapsed) {
+			return count
 		}
-
-		// Read the content:
-		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-		const content = state.elements[x].spans.reduce(reducer, "")
-		// Compute the number of bytes (count) to backspace:
-		let count = iter.backwards.rune(content, state.cursors[0].offset)
-		if (!count && x > 0) {
+		const { uuid, offset } = state.cursors[0]
+		const x = state.elements.findIndex(each => each.uuid === uuid)
+		count = iterator[boundary](readSyntheticUUIDElement(state.elements[x]), offset)
+		if (!count && ((iterator === iter.rtl && x) || (iterator === iter.ltr && x + 1 < state.elements.length))) {
 			count++
 		}
-		console.log({ count })
-		// this.dropBytes(bytes, 0)
+		return count
 	},
-	forwardBackspaceRune() {
-		console.log("forwardBackspaceRune")
-
-		// if (!state.cursors.collapsed) {
-		// 	this.write("")
-		// 	return
-		// }
-		// // TODO: Change posIterators API to return
-		// // [dropL, dropR]?
-		// const bytes = posIterators.forwardBackspace.rune(state.data, state.pos1.pos)
-		// this.dropBytes(0, bytes)
+	backspaceRune() {
+		const count = this.internalBackspaceHandler(iter.rtl, "rune", state)
+		console.log(count)
 	},
 	backspaceWord() {
-		console.log("backspaceWord")
-
-		// if (!state.cursors.collapsed) {
-		// 	this.write("")
-		// 	return
-		// }
-		// // TODO: Change posIterators API to return
-		// // [dropL, dropR]?
-		// const bytes = posIterators.backspace.word(state.data, state.pos1.pos)
-		// this.dropBytes(bytes, 0)
-	},
-	forwardBackspaceWord() {
-		console.log("forwardBackspaceWord")
-
-		// if (!state.cursors.collapsed) {
-		// 	this.write("")
-		// 	return
-		// }
-		// // TODO: Change posIterators API to return
-		// // [dropL, dropR]?
-		// const bytes = posIterators.forwardBackspace.word(state.data, state.pos1.pos)
-		// this.dropBytes(0, bytes)
+		const count = this.internalBackspaceHandler(iter.rtl, "word", state)
+		console.log(count)
 	},
 	backspaceParagraph() {
-		console.log("backspaceParagraph")
-
-		// if (!state.cursors.collapsed) {
-		// 	this.write("")
-		// 	return
-		// }
-		// // TODO: Change posIterators API to return
-		// // [dropL, dropR]?
-		// const bytes = posIterators.backspace.paragraph(state.data, state.pos1.pos)
-		// this.dropBytes(bytes, 0)
+		const count = this.internalBackspaceHandler(iter.rtl, "line", state)
+		console.log(count)
+	},
+	forwardBackspaceRune() {
+		const count = this.internalBackspaceHandler(iter.ltr, "rune", state)
+		console.log(count)
+	},
+	forwardBackspaceWord() {
+		const count = this.internalBackspaceHandler(iter.ltr, "word", state)
+		console.log(count)
 	},
 	/*
 	 * Input
