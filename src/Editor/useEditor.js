@@ -4,6 +4,29 @@ import uuidv4 from "uuid/v4"
 import { mergeRedundantSpans } from "./spans"
 import { newCursor } from "./cursors"
 
+// Counts the number of bytes between the cursors.
+function countBytesBetweenCursors(state) {
+	let x1 = -1
+	let x2 = -1
+	for (let x = 0; x < state.elements.length; x++) {
+		if (state.elements[x].uuid === state.cursors[0].uuid) {
+			x1 = x
+		}
+		if (state.elements[x].uuid === state.cursors[1].uuid) {
+			x2 = x
+		}
+		if (x1 !== -1 && x2 !== -1) {
+			// No-op
+			break
+		}
+	}
+	let count = state.cursors[1].offset - state.cursors[0].offset
+	while (x1 !== x2) {
+		count += readSyntheticUUIDElement(state.element[x1])
+	}
+	return count
+}
+
 // Reads a synthetic UUID element.
 function readSyntheticUUIDElement(uuidElement) {
 	const reducer = (acc, each) => {
@@ -49,16 +72,22 @@ const methods = state => ({
 	/*
 	 * Backspace
 	 */
-	// Counts the number of bytes needed to iterate a boundary
-	// such as "rune", "word", etc.
-	countBytes(iterator, boundary, state) {
+	// Counts the number of bytes to a boundary.
+	countBytesToBoundary(state, iterator) {
+		const dir = new Map(Object.entries({
+			[iter.rtl.rune]: "rtl",
+			[iter.rtl.word]: "rtl",
+			[iter.rtl.line]: "rtl",
+			[iter.ltr.rune]: "ltr",
+			[iter.ltr.word]: "ltr",
+		}))[iterator]
 		if (!state.cursors.collapsed) {
 			return 0
 		}
 		const { uuid, offset } = state.cursors[0]
 		const x = state.elements.findIndex(each => each.uuid === uuid)
-		let count = iterator[boundary](readSyntheticUUIDElement(state.elements[x]), offset)
-		if (!count && ((iterator === iter.rtl && x) || (iterator === iter.ltr && x + 1 < state.elements.length))) {
+		let count = iterator(readSyntheticUUIDElement(state.elements[x]), offset)
+		if (!count && ((dir === "rtl" && x) || (dir === "ltr" && x + 1 < state.elements.length))) {
 			count++
 		}
 		return count
@@ -67,7 +96,7 @@ const methods = state => ({
 	removeByteCounts(countL, countR) {
 
 		// Get the current UUID element:
-		let { uuid, offset } = state.cursors[0]
+		let { uuid, offset } = state.cursors[0] // TODO: Change to state.cursors[1]?
 		const uuidElement = state.elements.find(each => each.uuid === uuid)
 
 		// Get the span (x) and character offset (offset):
@@ -113,42 +142,42 @@ const methods = state => ({
 	},
 	backspaceRune() {
 		if (!state.cursors.collapsed) {
-			// TODO
+			console.log(countBytesBetweenCursors(state))
 			return
 		}
-		const count = this.countBytes(iter.rtl, "rune", state)
+		const count = this.countBytesToBoundary(state, iter.rtl.rune)
 		this.removeByteCounts(count, 0)
 	},
 	backspaceWord() {
 		if (!state.cursors.collapsed) {
-			// TODO
+			// TODO: Compute the number of bytes needed
 			return
 		}
-		const count = this.countBytes(iter.rtl, "word", state)
+		const count = this.countBytesToBoundary(state, iter.rtl.word)
 		this.removeByteCounts(count, 0)
 	},
 	backspaceParagraph() {
 		if (!state.cursors.collapsed) {
-			// TODO
+			// TODO: Compute the number of bytes needed
 			return
 		}
-		const count = this.countBytes(iter.rtl, "line", state)
+		const count = this.countBytesToBoundary(state, iter.rtl.line)
 		this.removeByteCounts(count, 0)
 	},
 	forwardBackspaceRune() {
 		if (!state.cursors.collapsed) {
-			// TODO
+			// TODO: Compute the number of bytes needed
 			return
 		}
-		const count = this.countBytes(iter.ltr, "rune", state)
+		const count = this.countBytesToBoundary(state, iter.ltr.rune)
 		this.removeByteCounts(0, count)
 	},
 	forwardBackspaceWord() {
 		if (!state.cursors.collapsed) {
-			// TODO
+			// TODO: Compute the number of bytes needed
 			return
 		}
-		const count = this.countBytes(iter.ltr, "word", state)
+		const count = this.countBytesToBoundary(state, iter.ltr.word)
 		this.removeByteCounts(0, count)
 	},
 	/*
