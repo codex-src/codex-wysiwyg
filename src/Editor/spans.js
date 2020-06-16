@@ -3,11 +3,11 @@ import formatsEnum from "./formatsEnum"
 // Computes a VDOM span from a DOM node.
 function computeVDOMSpan(domNode) {
 	const span = {
-		content: domNode.textContent,
+		textContent: domNode.textContent,
 		formats: [],
 	}
 	if (domNode.nodeType === Node.TEXT_NODE) {
-		span.content = domNode.textContent
+		span.textContent = domNode.textContent
 		return span
 	}
 	let ref = domNode
@@ -24,7 +24,7 @@ function computeVDOMSpan(domNode) {
 			ref.children[0]
 	}
 	if (!span.formats.length) {
-		return span.content
+		return span.textContent
 	}
 	span.formats.sort()
 	return span
@@ -52,7 +52,7 @@ export function concatenateVDOMSpans(spans) {
 		if (x && formatsAndPropsAreEqual(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
 				...spans[x - 1],
-				content: spans[x - 1].content + spans[x].content,
+				textContent: spans[x - 1].textContent + spans[x].textContent,
 			})
 			continue
 		}

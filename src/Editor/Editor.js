@@ -49,42 +49,38 @@ const Editor = () => {
 			uuid: uuidv4(),
 			spans: [
 				{
-					content: "Hey, ",
+					textContent: "Hey, ",
 					formats: [formatsEnum.strong],
 				},
 				{
-					content: "Russ",
+					textContent: "Russ",
 					formats: [formatsEnum.strong, formatsEnum.emphasis],
 				},
 				{
-					content: "!",
+					textContent: "! I’m making some ",
 					formats: [formatsEnum.strong],
 				},
 				{
-					content: " I’m making some ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					content: "progress ",
+					textContent: "progress ",
 					formats: [formatsEnum.code],
 				},
 				{
-					content: " on making a ",
+					textContent: " on making a ",
 					formats: [],
 				},
 				{
-					content: "WYSIWYG",
+					textContent: "WYSIWYG",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://heroicons.dev",
 					},
 				},
 				{
-					content: " editor.",
+					textContent: " editor.",
 					formats: [],
 				},
 				{
-					content: "WYSIWYG",
+					textContent: "WYSIWYG",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://heroicons.dev",
@@ -97,42 +93,38 @@ const Editor = () => {
 			uuid: uuidv4(),
 			spans: [
 				{
-					content: "Hey, ",
+					textContent: "Hey, ",
 					formats: [formatsEnum.strong],
 				},
 				{
-					content: "Russ",
+					textContent: "Russ",
 					formats: [formatsEnum.strong, formatsEnum.emphasis],
 				},
 				{
-					content: "!",
+					textContent: "! I’m making some ",
 					formats: [formatsEnum.strong],
 				},
 				{
-					content: " I’m making some ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					content: "progress ",
+					textContent: "progress ",
 					formats: [formatsEnum.code],
 				},
 				{
-					content: " on making a ",
+					textContent: " on making a ",
 					formats: [],
 				},
 				{
-					content: "WYSIWYG",
+					textContent: "WYSIWYG",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://heroicons.dev",
 					},
 				},
 				{
-					content: " editor.",
+					textContent: " editor.",
 					formats: [],
 				},
 				{
-					content: "WYSIWYG",
+					textContent: "WYSIWYG",
 					formats: [formatsEnum.anchor],
 					[formatsEnum.anchor]: {
 						href: "https://heroicons.dev",
@@ -143,8 +135,15 @@ const Editor = () => {
 	])
 
 	// TODO (1): Add backspace handlers
+	// - Clean up removeByteCount implementation and add
+	// support for forward-backspace handlers
 	// TODO (2): Add tab and enter handlers
+	// - The write handler should be easier than
+	// removeByteCount or equivalent
 	// TODO (3): Add format handlers
+	// - This should be reasonably easy, because we basically
+	// just need to find a contiguous array of spans, decorate
+	// them, sort, concatenate, and rerender
 	// TODO (4): Add shortcut handlers
 	// TODO (5): Add undo handlers
 	React.useLayoutEffect(

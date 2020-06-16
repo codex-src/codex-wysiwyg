@@ -4,21 +4,21 @@ import uuidv4 from "uuid/v4"
 import { concatenateVDOMSpans } from "./spans"
 import { newVDOMCursor } from "./cursors"
 
-// Reads an array of spans.
-function readSpans(spans) {
-	let content = ""
+// Reads an array of VDOM spans.
+function readVDOMSpans(spans) {
+	let textContent = ""
 	for (const span of spans) {
-		content += span.content
+		textContent += span.textContent
 	}
-	return content
+	return textContent
 }
 
 // Counts the number of bytes between state.cursors.
 function countBytesBetweenCursors(state) {
-
-	// const x1 = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-	// const x2 = state.elements.findIndex(each => each.uuid === state.cursors[1].uuid)
-
+	let count = state.cursors[1].offset - state.cursors[0].offset
+	if (state.cursors.collapsed) {
+		return count
+	}
 	let x1 = -1
 	let x2 = -1
 	for (let x = 0; x < state.elements.length; x++) {
@@ -33,9 +33,8 @@ function countBytesBetweenCursors(state) {
 			break
 		}
 	}
-	let count = state.cursors[1].offset - state.cursors[0].offset
 	for (let x = x1; x !== x2; x++) {
-		count += readSpans(state.elements[x].spans).length
+		count += readVDOMSpans(state.elements[x].spans).length
 	}
 	return count
 }
@@ -67,79 +66,82 @@ const methods = state => ({
 	 * Backspace
 	 */
 	// Counts the RTL number of bytes to a boundary.
-	countBytesToBoundaryRTL(state, boundaryFn) {
+	countBytesToBoundaryRTL(state, boundaryFn) { // TODO: Add cursors as a parameter?
 		if (!state.cursors.collapsed) {
 			return countBytesBetweenCursors(state)
 		}
 		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-		const content = readSpans(state.elements[x].spans)
-		let count = boundaryFn(content, state.cursors[0].offset)
+		const textContent = readVDOMSpans(state.elements[x].spans)
+		let count = boundaryFn(textContent, state.cursors[0].offset)
 		if (!count && x) {
 			count++
 		}
 		return count
 	},
 	// Counts the LTR number of bytes to a boundary.
-	countBytesToBoundaryLTR(state, boundaryFn) {
+	countBytesToBoundaryLTR(state, boundaryFn) { // TODO: Add cursors as a parameter?
 		if (!state.cursors.collapsed) {
 			return countBytesBetweenCursors(state)
 		}
 		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-		const content = readSpans(state.elements[x].spans)
-		let count = boundaryFn(content, state.cursors[0].offset)
+		const textContent = readVDOMSpans(state.elements[x].spans)
+		let count = boundaryFn(textContent, state.cursors[0].offset)
 		if (!count && x + 1 < state.elements.length) {
 			count++
 		}
 		return count
 	},
 	// Removes a number of bytes from the current cursors.
-	removeByteCount(count) {
-		// NOTE: Uses state.cursors[1] because of the
-		// !state.cursors.collapsed case.
-		const uuidElement = state.elements.find(each => each.uuid === state.cursors[1].uuid)
-		let characterOffset = state.cursors[1].offset
+	removeByteCount(count) { // TODO: Add cursors as a parameter?
 
-		let spanOffset = 0
-		for (; spanOffset < uuidElement.spans.length; spanOffset++) {
-			const content = uuidElement.spans[spanOffset].content
-			if (characterOffset - content.length <= 0) {
-				// No-op
-				break
-			}
-			characterOffset -= content.length
-		}
 
-		// Removes a number of bytes from a span at an characterOffset.
-		const removeByteCountFromSpan = (uuidElement, spanOffset, characterOffset, count) => {
-			if (count > characterOffset) {
-				count = characterOffset
-			}
-			uuidElement.spans[spanOffset].content = (
-				uuidElement.spans[spanOffset].content.slice(0, characterOffset - count) +
-				uuidElement.spans[spanOffset].content.slice(characterOffset)
-			)
-			if (!uuidElement.spans[spanOffset].content) {
-				uuidElement.spans.splice(spanOffset, 1)
-			}
-			return count
-		}
 
-		const decremented = count
-		while (count) {
-			count -= removeByteCountFromSpan(uuidElement, spanOffset, characterOffset, count)
-			if (spanOffset - 1 >= 0) {
-				characterOffset = uuidElement.spans[spanOffset - 1].content.length
-				spanOffset--
-			}
-		}
-
-		// TODO: We need to merge *many* uuidElement.spans
-		concatenateVDOMSpans(uuidElement.spans)
-
-		if (state.cursors.collapsed) {
-			state.cursors[0].offset -= decremented
-		}
-		this.collapse()
+		// // NOTE: Uses state.cursors[1] because of the
+		// // !state.cursors.collapsed case.
+		// const uuidElement = state.elements.find(each => each.uuid === state.cursors[1].uuid)
+		// let characterOffset = state.cursors[1].offset
+		//
+		// let spanOffset = 0
+		// for (; spanOffset < uuidElement.spans.length; spanOffset++) {
+		// 	const textContent = uuidElement.spans[spanOffset].textContent
+		// 	if (characterOffset - textContent.length <= 0) {
+		// 		// No-op
+		// 		break
+		// 	}
+		// 	characterOffset -= textContent.length
+		// }
+		//
+		// // Removes a number of bytes from a span at an characterOffset.
+		// const removeByteCountFromSpan = (uuidElement, spanOffset, characterOffset, count) => {
+		// 	if (count > characterOffset) {
+		// 		count = characterOffset
+		// 	}
+		// 	uuidElement.spans[spanOffset].textContent = (
+		// 		uuidElement.spans[spanOffset].textContent.slice(0, characterOffset - count) +
+		// 		uuidElement.spans[spanOffset].textContent.slice(characterOffset)
+		// 	)
+		// 	if (!uuidElement.spans[spanOffset].textContent) {
+		// 		uuidElement.spans.splice(spanOffset, 1)
+		// 	}
+		// 	return count
+		// }
+		//
+		// const decremented = count
+		// while (count) {
+		// 	count -= removeByteCountFromSpan(uuidElement, spanOffset, characterOffset, count)
+		// 	if (spanOffset - 1 >= 0) {
+		// 		characterOffset = uuidElement.spans[spanOffset - 1].textContent.length
+		// 		spanOffset--
+		// 	}
+		// }
+		//
+		// // TODO: We need to merge *many* uuidElement.spans
+		// concatenateVDOMSpans(uuidElement.spans)
+		//
+		// if (state.cursors.collapsed) {
+		// 	state.cursors[0].offset -= decremented
+		// }
+		// this.collapse()
 
 	},
 	backspaceRune() {

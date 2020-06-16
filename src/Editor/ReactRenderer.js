@@ -43,7 +43,7 @@ function parse(spans) {
 	const elements = []
 	for (const span of spans) {
 		if (!span.formats.length) {
-			elements.push(span.content)
+			elements.push(span.textContent)
 			continue
 		}
 		const element = {}
@@ -60,7 +60,7 @@ function parse(spans) {
 			lastRef = ref
 			ref = ref.props.children
 		}
-		lastRef.props.children = span.content
+		lastRef.props.children = span.textContent
 		elements.push(element)
 	}
 	decorate(elements)
