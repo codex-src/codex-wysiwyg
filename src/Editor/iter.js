@@ -1,139 +1,123 @@
 import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
-// Returns the number of bytes (count) iterated backwards.
+// Returns the number of bytes iterated backwards.
 export const rtl = {
-	rune(textContent, offset) {
-		let count = 0
-		if (offset) {
-			const substr = textContent.slice(0, offset)
-			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
-			count += rune.length
+	rune(textContent) {
+		const emojiInfo = emojiTrie.atEnd(textContent)
+		if (emojiInfo) {
+			return emojiInfo.emoji
 		}
-		return count
+		return utf8.atEnd(textContent)
 	},
-	word(textContent, offset) {
+	word(textContent) {
 		// Iterate spaces:
-		let x = offset
-		while (x) {
-			const substr = textContent.slice(0, x)
-			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
+		let offset = textContent.length
+		while (offset) {
+			const rune = this.rune(textContent.slice(0, offset))
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
 				break
 			}
-			x -= rune.length
+			offset -= rune.length
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const substr = textContent.slice(0, x)
-		const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
+		const rune = this.rune(textContent.slice(0, offset))
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
-			while (x) {
-				const substr = textContent.slice(0, x)
-				const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
+			while (offset) {
+				const rune = this.rune(textContent.slice(0, offset))
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
 				}
-				x -= rune.length
+				offset -= rune.length
 			}
 		// Iterate non-alphanumerics:
 		} else {
-			while (x) {
-				const substr = textContent.slice(0, x)
-				const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
+			while (offset) {
+				const rune = this.rune(textContent.slice(0, offset))
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
 				}
-				x -= rune.length
+				offset -= rune.length
 			}
 		}
-		let count = offset - x
-		if (!count && x - 1 >= 0 && textContent[x - 1] === "\n") {
-			count++
+		if (offset === textContent.length && offset && textContent[offset - 1] === "\n") {
+			offset--
 		}
-		return count
+		return textContent.slice(offset)
 	},
-	line(textContent, offset) {
-		let x = offset
-		while (x) {
-			const substr = textContent.slice(0, x)
-			const rune = emojiTrie.atEnd(substr)?.emoji || utf8.atEnd(substr)
+	line(textContent) {
+		let offset = textContent.length
+		while (offset) {
+			const rune = this.rune(textContent.slice(0, offset))
 			if (utf8.isVWhiteSpace(rune)) {
 				// No-op
 				break
 			}
-			x -= rune.length
+			offset -= rune.length
 		}
-		let count = offset - x
-		if (!count && x - 1 >= 0 && textContent[x - 1] === "\n") {
-			count++
+		if (offset === textContent.length && offset && textContent[offset - 1] === "\n") {
+			offset--
 		}
-		return count
+		return textContent.slice(offset)
 	},
 }
 
-// Returns the number of bytes (count) iterated forwards.
+// Returns the number of bytes iterated forwards.
 export const ltr = {
-	rune(textContent, offset) {
-		let count = 0
-		if (offset < textContent.length) {
-			const substr = textContent.slice(offset)
-			const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
-			count += rune.length
+	rune(textContent) {
+		const emojiInfo = emojiTrie.atStart(textContent)
+		if (emojiInfo) {
+			return emojiInfo.emoji
 		}
-		return count
+		return utf8.atStart(textContent)
 	},
-	word(textContent, offset) {
+	word(textContent) {
 		// Iterate spaces:
-		let x = offset
-		while (x < textContent.length) {
-			const substr = textContent.slice(x)
-			const rune = emojiTrie.atStart(substr) || utf8.atStart(substr)
+		let offset = 0
+		while (offset < textContent.length) {
+			const rune = this.rune(textContent.slice(offset))
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
 				break
 			}
-			x += rune.length
+			offset += rune.length
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const substr = textContent.slice(x)
-		const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
+		const rune = this.rune(textContent.slice(offset))
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
-			while (x < textContent.length) {
-				const substr = textContent.slice(x)
-				const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
+			while (offset < textContent.length) {
+				const rune = this.rune(textContent.slice(offset))
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
 				}
-				x += rune.length
+				offset += rune.length
 			}
 		// Iterate non-alphanumerics:
 		} else {
-			while (x < textContent.length) {
-				const substr = textContent.slice(x)
-				const rune = emojiTrie.atStart(substr)?.emoji || utf8.atStart(substr)
+			while (offset < textContent.length) {
+				const rune = this.rune(textContent.slice(offset))
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
 				}
-				x += rune.length
+				offset += rune.length
 			}
 		}
-		let count = x - offset
-		if (!count && x < textContent.length && textContent[x] === "\n") {
-			count++
+		if (!offset && offset < textContent.length && textContent[offset] === "\n") {
+			offset++
 		}
-		return count
+		return textContent.slice(0, offset)
 	},
 }

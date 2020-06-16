@@ -14,6 +14,8 @@ function readVDOMSpans(spans) {
 }
 
 // Counts the number of bytes between state.cursors.
+//
+// TODO: Extract
 function countBytesBetweenCursors(state) {
 	let count = state.cursors[1].offset - state.cursors[0].offset
 	if (state.cursors.collapsed) {
@@ -35,6 +37,37 @@ function countBytesBetweenCursors(state) {
 	}
 	for (let x = x1; x !== x2; x++) {
 		count += readVDOMSpans(state.elements[x].spans).length
+	}
+	return count
+}
+
+// Counts the number of bytes from state.cursors[0] to a
+// boundary (boundaryFn).
+//
+// TODO: Extract
+function countBytesToBoundary(state, boundaryFn) {
+	let dir = ""
+	switch (boundaryFn) {
+	case iter.rtl.rune:
+	case iter.rtl.word:
+		dir = "rtl"
+		break
+	case iter.rtl.line:
+	case iter.ltr.rune:
+	case iter.ltr.word:
+		dir = "ltr"
+		break
+	default:
+		// No-op
+		break
+	}
+	const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
+	const textContent = readVDOMSpans(state.elements[x].spans)
+	let count = boundaryFn(textContent, state.cursors[0].offset) // TODO: Use String.slice?
+	if (dir === "ltr" && !count && x) {
+		count++
+	} else if (dir === "rtl" && (!count && x + 1 < state.elements.length)) {
+		count++
 	}
 	return count
 }
@@ -65,36 +98,8 @@ const methods = state => ({
 	/*
 	 * Backspace
 	 */
-	// Counts the RTL number of bytes to a boundary.
-	countBytesToBoundaryRTL(state, boundaryFn) { // TODO: Add cursors as a parameter?
-		if (!state.cursors.collapsed) {
-			return countBytesBetweenCursors(state)
-		}
-		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-		const textContent = readVDOMSpans(state.elements[x].spans)
-		let count = boundaryFn(textContent, state.cursors[0].offset)
-		if (!count && x) {
-			count++
-		}
-		return count
-	},
-	// Counts the LTR number of bytes to a boundary.
-	countBytesToBoundaryLTR(state, boundaryFn) { // TODO: Add cursors as a parameter?
-		if (!state.cursors.collapsed) {
-			return countBytesBetweenCursors(state)
-		}
-		const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-		const textContent = readVDOMSpans(state.elements[x].spans)
-		let count = boundaryFn(textContent, state.cursors[0].offset)
-		if (!count && x + 1 < state.elements.length) {
-			count++
-		}
-		return count
-	},
 	// Removes a number of bytes from the current cursors.
 	removeByteCount(count) { // TODO: Add cursors as a parameter?
-
-
 
 		// // NOTE: Uses state.cursors[1] because of the
 		// // !state.cursors.collapsed case.
@@ -145,24 +150,49 @@ const methods = state => ({
 
 	},
 	backspaceRune() {
-		const countL = this.countBytesToBoundaryRTL(state, iter.rtl.rune)
-		this.removeByteCount(countL, 0)
+		let count = 0
+		if (!state.cursors.collapsed) {
+			count = countBytesBetweenCursors(state)
+		} else {
+			count = countBytesToBoundary(state, iter.rtl.rune)
+		}
+		this.removeByteCount(count, 0)
 	},
 	backspaceWord() {
-		const countL = this.countBytesToBoundaryRTL(state, iter.rtl.word)
-		this.removeByteCount(countL, 0)
+		let count = 0
+		if (!state.cursors.collapsed) {
+			count = countBytesBetweenCursors(state)
+		} else {
+			count = countBytesToBoundary(state, iter.rtl.word)
+		}
+		this.removeByteCount(count, 0)
 	},
 	backspaceParagraph() {
-		const countL = this.countBytesToBoundaryRTL(state, iter.rtl.line)
-		this.removeByteCount(countL, 0)
+		let count = 0
+		if (!state.cursors.collapsed) {
+			count = countBytesBetweenCursors(state)
+		} else {
+			count = countBytesToBoundary(state, iter.rtl.line)
+		}
+		this.removeByteCount(count, 0)
 	},
 	forwardBackspaceRune() {
-		// const countR = this.countBytesToBoundaryLTR(state, iter.ltr.rune)
-		// this.removeByteCount(0, countR)
+		let count = 0
+		if (!state.cursors.collapsed) {
+			count = countBytesBetweenCursors(state)
+		} else {
+			count = countBytesToBoundary(state, iter.ltr.rune)
+		}
+		this.removeByteCount(0, count)
 	},
 	forwardBackspaceWord() {
-		// const countR = this.countBytesToBoundaryLTR(state, iter.ltr.word)
-		// this.removeByteCount(0, countR)
+		let count = 0
+		if (!state.cursors.collapsed) {
+			count = countBytesBetweenCursors(state)
+		} else {
+			count = countBytesToBoundary(state, iter.ltr.word)
+		}
+		this.removeByteCount(0, count)
 	},
 	/*
 	 * Input
