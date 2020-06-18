@@ -33,12 +33,42 @@ function toReact(children) {
 	if (typeof children === "string") {
 		return children
 	}
+
+	// Finds the last instance of an element that nests up to
+	// all of the following types.
+	const findLastInstanceOf = (renderable, types) => {
+		if (!renderable.length) {
+			return null
+		} else if (renderable.length && typeof renderable[renderable.length - 1] === "string") {
+			return null
+		}
+		let ref = renderable[renderable.length - 1]
+		let lastRef = ref
+		for (const T of types) {
+			if (ref.type !== T) {
+				// No-op
+				break
+			}
+			lastRef = ref
+			ref = ref.props.children
+		}
+		lastRef.props.children = toArray(ref)
+		return lastRef
+	}
+
 	const renderable = []
 	for (const each of toArray(children)) {
 		if (each.types.length === 0) {
 			renderable.push(each.props.children)
 			continue
 		}
+
+		const instance = findLastInstanceOf(renderable, each.types)
+		if (instance) {
+			console.log(each.types)
+			console.log(JSON.stringify(instance, null, "\t"))
+		}
+
 		const element = {}
 		let ref = element
 		let lastRef = ref
