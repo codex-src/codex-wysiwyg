@@ -15,18 +15,14 @@ const App = () => (
 				{/* </h1> */}
 				<p>
 					Hello,{" "}
-					<a href="https://google.com">
-						www
-						<code>
-							world
-						</code>
-						www
-					</a>
-					<em>
-						<strong>
-							!
-						</strong>
-					</em>
+					<strong>
+						strong
+						<em>
+							em
+						</em>
+						strong
+					</strong>
+					!
 				</p>
 				{/* <hr /> */}
 				{/* <p> */}
