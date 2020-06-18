@@ -10,12 +10,12 @@ const App = () => (
 			</div>
 
 			<Editor>
-				{/* <h1> */}
-				{/* 	Hello, world! */}
-				{/* </h1> */}
+				<h1>
+					Hello, world!
+				</h1>
 				<p>
 					Hello,{" "}
-					<a href="">
+					<a href="#">
 						<em>
 							world
 						</em>
@@ -28,10 +28,10 @@ const App = () => (
 						</strong>
 					</a>
 				</p>
-				{/* <hr /> */}
-				{/* <p> */}
-				{/* 	Hello, world! */}
-				{/* </p> */}
+				<hr />
+				<p>
+					Hello, world!
+				</p>
 			</Editor>
 
 		</div>
