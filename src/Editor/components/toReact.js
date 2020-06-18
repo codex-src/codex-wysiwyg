@@ -1,10 +1,7 @@
-import merge from "./children/merge"
 import omitKey from "lib/omitKey"
-import parse from "./intermediary/parse"
 import React from "react"
-import sort from "./children/sort"
 import toArray from "lib/toArray"
-import typeMap from "./components/typeMap"
+import typeMap from "./typeMap"
 
 // Converts non-renderable React elements to renderable
 // React elements.
@@ -93,59 +90,4 @@ function toReact(children) {
 	return createElements(elements)
 }
 
-const ReactRenderer = ({ children: intermediary }) => (
-	intermediary.map(({ type: T, key, props }) => (
-		React.createElement(typeMap[T], {
-			key,
-			...{
-				...props,
-				reactKey: key,
-			},
-		}, props.children)
-	))
-)
-
-const Editor = ({ children }) => {
-	const intermediary = React.useMemo(() => {
-		return parse(children).map(each => {
-			switch ("<" + each.type + ">") {
-			case "<h1>":
-			case "<h2>":
-			case "<h3>":
-			case "<h4>":
-			case "<h5>":
-			case "<h6>":
-				merge(each.props.children).map(each => sort(each))
-				break
-			case "<p>":
-				merge(each.props.children).map(each => sort(each))
-				break
-			case "<hr>":
-				// No-op
-				break
-			default:
-				throw new Error("unknown type")
-			}
-			return each
-		})
-	}, [children])
-
-	return (
-		<div>
-
-			{children}
-
-			<ReactRenderer>
-				{intermediary}
-			</ReactRenderer>
-
-			{/* Debugger */}
-			<div className="whitespace-pre text-xs font-mono" style={{ tabSize: 2 }}>
-				{JSON.stringify(intermediary, null, "\t")}
-			</div>
-
-		</div>
-	)
-}
-
-export default Editor
+export default toReact
