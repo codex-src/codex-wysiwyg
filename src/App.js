@@ -9,7 +9,24 @@ const App = () => (
 				{/* ... */}
 			</div>
 
-			<Editor />
+			<Editor>
+				{/* <h1> */}
+				{/* 	Hello, world! */}
+				{/* </h1> */}
+				<p>
+					Hello,{" "}
+					<a href="https://google.com">
+						<code>
+							world
+						</code>
+					</a>
+					!
+				</p>
+				{/* <hr /> */}
+				{/* <p> */}
+				{/* 	Hello, world! */}
+				{/* </p> */}
+			</Editor>
 
 		</div>
 	</div>

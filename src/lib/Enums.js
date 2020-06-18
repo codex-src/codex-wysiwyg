@@ -1,8 +1,8 @@
 // Maps strings to string properties.
 export class StringEnum {
 	constructor(...keys) {
-		for (const key of keys) {
-			this[key] = key
+		for (const each of keys) {
+			this[each] = each
 		}
 		Object.freeze(this)
 	}
