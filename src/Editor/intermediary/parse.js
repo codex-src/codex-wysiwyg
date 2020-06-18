@@ -1,5 +1,6 @@
 import omitKey from "lib/omitKey"
 import toArray from "lib/toArray"
+import uuidv4 from "uuid/v4"
 
 // Parses intermediary inline elements from React elements.
 function parseInline(children) {
@@ -42,6 +43,7 @@ function parse(children) {
 		case "<h6>":
 			intermediary.push({
 				type: each.type,
+				key: uuidv4(),
 				props: {
 					children: parseInline(each.props.children),
 				},
@@ -50,6 +52,7 @@ function parse(children) {
 		case "<p>":
 			intermediary.push({
 				type: each.type,
+				key: uuidv4(),
 				props: {
 					children: parseInline(each.props.children),
 				},
@@ -58,6 +61,7 @@ function parse(children) {
 		case "<hr>":
 			intermediary.push({
 				type: each.type,
+				key: uuidv4(),
 				props: {
 					children: null,
 				},

@@ -6,27 +6,25 @@ const sortedTypes = [
 	"em",
 ]
 
+// Precomputes sort order based on sortedTypes.
+const sortedTypesMap = {
+	[sortedTypes[0]]: 0,
+	[sortedTypes[1]]: 1,
+	[sortedTypes[2]]: 2,
+	[sortedTypes[3]]: 3,
+	[sortedTypes[4]]: 4,
+}
+
 // Sort function for sorting types based on render
 // precedence (see sortedTypes).
 function sortTypesFn(type1, type2) {
-	let x1 = -1
-	let x2 = -1
-	for (let x = 0; x < sortedTypes.length; x++) {
-		if (type1 === sortedTypes[x]) {
-			x1 = x
-		}
-		if (type2 === sortedTypes[x]) {
-			x2 = x
-		}
-		if (x1 >= 0 && x2 >= 0) {
-			// No-op
-			break
-		}
-	}
-	if (x1 === -1) {
+	const x1 = sortedTypesMap[type1]
+	if (x1 === undefined) {
 		// eslint-disable-next-line quotes
 		throw new Error(`sortTypesFn: no such type (type1=${type1 || `""`})`)
-	} else if (x2 === -1) {
+	}
+	const x2 = sortedTypesMap[type2]
+	if (x2 === undefined) {
 		// eslint-disable-next-line quotes
 		throw new Error(`sortTypesFn: no such type (type2=${type2 || `""`})`)
 	}
