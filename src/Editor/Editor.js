@@ -26,6 +26,31 @@ function createElements(elements) {
 	return renderable
 }
 
+// Finds a container that matches types and type-props.
+function findContainer(elements, { types, props }) {
+	if (!elements.length || typeof elements[elements.length - 1] === "string") {
+		return [elements, types]
+	}
+	let ref = elements[elements.length - 1]
+	let lastRef = ref
+	let x = 0
+	for (; x < types.length; x++) {
+		if (ref.type !== types[x] || JSON.stringify(omitKey(ref.props, "children")) !== JSON.stringify(props[types[x]])) {
+			// No-op
+			break
+		}
+		lastRef = ref
+		ref = ref.props.children
+	}
+	// Do not mutate lastRef.props.children when lastRef and
+	// ref are equal:
+	if (lastRef === ref) {
+		return [elements, types]
+	}
+	lastRef.props.children = toArray(ref)
+	return [lastRef.props.children, types.slice(x)]
+}
+
 // Converts intermediary elements to renderable React
 // elements. Non-renderable elements are used because React
 // elements are read-only.
@@ -33,53 +58,17 @@ function toReact(children) {
 	if (typeof children === "string") {
 		return children
 	}
-
-	// // Compares whether two containers are equal.
-	// const areEqualContainers = (con1, con2) => {
-	// 	const ok = (
-	// 		con1.type === con
-	// 		JSON.stringify()
-	// 	)
-	// 	return ok
-	// }
-
-	// Finds a container that matches types and type-props.
-	const findContainer = (elements, { types, props }) => {
-		if (!elements.length || (elements.length && typeof elements[elements.length - 1] === "string")) {
-			return [elements, types]
-		}
-		let ref = elements[elements.length - 1]
-		let lastRef = ref
-		let x = 0
-		for (; x < types.length; x++) {
-			if (ref.type !== types[x] || JSON.stringify(omitKey(ref.props, "children")) !== JSON.stringify(props[types[x]])) {
-				// No-op
-				break
-			}
-			lastRef = ref
-			ref = ref.props.children
-		}
-		if (!x) {
-			return [elements, types]
-		}
-		lastRef.props.children = toArray(ref)
-		return [lastRef.props.children, types.slice(x)]
-	}
-
 	const elements = []
 	for (const each of toArray(children)) {
 		if (!each.types.length) {
 			elements.push(each.props.children)
 			continue
 		}
-
-		// console.log(JSON.stringify({ reference, types }, null, "\t"))
 		const [container, types] = findContainer(elements, each)
 		if (!types.length) {
 			container.push(each.props.children)
 			continue
 		}
-
 		const element = {}
 		let ref = element
 		let lastRef = ref
@@ -100,7 +89,6 @@ function toReact(children) {
 	if (!elements.length) {
 		return null
 	}
-	console.log(elements)
 	return createElements(elements)
 }
 

@@ -15,18 +15,17 @@ const App = () => (
 				{/* </h1> */}
 				<p>
 					Hello,{" "}
-					<code>
-						world
-					</code>
-					<a href="a">
-						<code>
+					<a href="">
+						<em>
 							world
-						</code>
+						</em>
 					</a>
-					<a href="b">
-						<code>
-							world
-						</code>
+					<a href="hello">
+						<strong>
+							<em>
+								world
+							</em>
+						</strong>
 					</a>
 				</p>
 				{/* <hr /> */}
