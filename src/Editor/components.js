@@ -120,7 +120,7 @@ export const Anchor = ({ href, children }) => {
 		// 	</Transition>
 		<span
 			// focus:outline-none cursor-pointer
-			className="underline text-blue-600"
+			className="text-blue-600"
 			// onPointerDown={e => {
 			// 	e.preventDefault()
 			// 	e.stopPropagation()

@@ -79,14 +79,8 @@ const Editor = () => {
 					textContent: " editor.",
 					formats: [],
 				},
-				{
-					textContent: "WYSIWYG",
-					formats: [formatsEnum.anchor],
-					[formatsEnum.anchor]: {
-						href: "https://heroicons.dev",
-					},
-				},
 			],
+			textContent: "Hey, Russ! I’m making some progress  on making a WYSIWYG editor.",
 		},
 		{
 			type: Paragraph,
@@ -123,6 +117,33 @@ const Editor = () => {
 					textContent: " editor.",
 					formats: [],
 				},
+			],
+			textContent: "Hey, Russ! I’m making some progress  on making a WYSIWYG editor.",
+		},
+		{
+			type: Paragraph,
+			uuid: uuidv4(),
+			spans: [
+				{
+					textContent: "Hey, ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					textContent: "Russ",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					textContent: "! I’m making some ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					textContent: "progress ",
+					formats: [formatsEnum.code],
+				},
+				{
+					textContent: " on making a ",
+					formats: [],
+				},
 				{
 					textContent: "WYSIWYG",
 					formats: [formatsEnum.anchor],
@@ -130,7 +151,12 @@ const Editor = () => {
 						href: "https://heroicons.dev",
 					},
 				},
+				{
+					textContent: " editor.",
+					formats: [],
+				},
 			],
+			textContent: "Hey, Russ! I’m making some progress  on making a WYSIWYG editor.",
 		},
 	])
 
@@ -289,6 +315,19 @@ const Editor = () => {
 					}
 					const spans = computeVDOMSpans(uuidElement)
 					dispatch.input(uuidElement.id, spans, cursor)
+				}}
+
+				onCut={e => {
+					e.preventDefault()
+					// ...
+				}}
+				onCopy={e => {
+					e.preventDefault()
+					// ...
+				}}
+				onPaste={e => {
+					e.preventDefault()
+					// ...
 				}}
 
 				contentEditable
