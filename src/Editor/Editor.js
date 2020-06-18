@@ -1,5 +1,5 @@
-// import areEqualTypesAndTypeProps from "./children/areEqualTypesAndTypeProps" // TODO: Deprecate?
 import merge from "./children/merge"
+import omitKey from "lib/omitKey"
 import parse from "./intermediary/parse"
 import React from "react"
 import sort from "./children/sort"
@@ -20,7 +20,7 @@ function createElements(elements) {
 			...props,
 		}, createElements(props.children)))
 	}
-	if (renderable.length === 0) {
+	if (!renderable.length) {
 		return null
 	}
 	return renderable
@@ -34,45 +34,56 @@ function toReact(children) {
 		return children
 	}
 
-	// Finds the last instance of an element that nests up to
-	// all of the following types.
-	const findLastInstanceOf = (renderable, types) => {
-		if (!renderable.length) {
-			return null
-		} else if (renderable.length && typeof renderable[renderable.length - 1] === "string") {
-			return null
+	// // Compares whether two containers are equal.
+	// const areEqualContainers = (con1, con2) => {
+	// 	const ok = (
+	// 		con1.type === con
+	// 		JSON.stringify()
+	// 	)
+	// 	return ok
+	// }
+
+	// Finds a container that matches types and type-props.
+	const findContainer = (elements, { types, props }) => {
+		if (!elements.length || (elements.length && typeof elements[elements.length - 1] === "string")) {
+			return [elements, types]
 		}
-		let ref = renderable[renderable.length - 1]
+		let ref = elements[elements.length - 1]
 		let lastRef = ref
-		for (const T of types) {
-			if (ref.type !== T) {
+		let x = 0
+		for (; x < types.length; x++) {
+			if (ref.type !== types[x] || JSON.stringify(omitKey(ref.props, "children")) !== JSON.stringify(props[types[x]])) {
 				// No-op
 				break
 			}
 			lastRef = ref
 			ref = ref.props.children
 		}
+		if (!x) {
+			return [elements, types]
+		}
 		lastRef.props.children = toArray(ref)
-		return lastRef
+		return [lastRef.props.children, types.slice(x)]
 	}
 
-	const renderable = []
+	const elements = []
 	for (const each of toArray(children)) {
-		if (each.types.length === 0) {
-			renderable.push(each.props.children)
+		if (!each.types.length) {
+			elements.push(each.props.children)
 			continue
 		}
 
-		const instance = findLastInstanceOf(renderable, each.types)
-		if (instance) {
-			console.log(each.types)
-			console.log(JSON.stringify(instance, null, "\t"))
+		// console.log(JSON.stringify({ reference, types }, null, "\t"))
+		const [container, types] = findContainer(elements, each)
+		if (!types.length) {
+			container.push(each.props.children)
+			continue
 		}
 
 		const element = {}
 		let ref = element
 		let lastRef = ref
-		for (const T of each.types) {
+		for (const T of types) {
 			Object.assign(ref, { // <- prevPref
 				type: T,
 				props: {
@@ -84,12 +95,13 @@ function toReact(children) {
 			ref = ref.props.children
 		}
 		lastRef.props.children = toReact(each.props.children)
-		renderable.push(element)
+		container.push(element)
 	}
-	if (!renderable.length) {
+	if (!elements.length) {
 		return null
 	}
-	return createElements(renderable)
+	console.log(elements)
+	return createElements(elements)
 }
 
 const H1 = React.memo(({ reactKey, children }) => (
@@ -148,27 +160,27 @@ const HR = React.memo(({ children }) => (
 ))
 
 const Em = ({ children }) => (
-	<em className="TODO">
+	<em className="italic">
 		{children}
 	</em>
 )
 const Strong = ({ children }) => (
-	<strong className="TODO">
+	<strong className="font-bold">
 		{children}
 	</strong>
 )
 const Code = ({ children }) => (
-	<code className="TODO">
+	<code className="px-0.5 py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded">
 		{children}
 	</code>
 )
 const Strike = ({ children }) => (
-	<strike className="TODO">
+	<strike className="line-through text-gray-400">
 		{children}
 	</strike>
 )
 const A = ({ href, children }) => (
-	<a className="TODO" href={href}>
+	<a className="mx-px underline text-blue-600" href={href}>
 		{children}
 	</a>
 )

@@ -1,17 +1,15 @@
-import areEqualTypesAndTypeProps from "./areEqualTypesAndTypeProps"
+import omitKey from "lib/omitKey"
 
-// import omitKey from "lib/omitKey"
-//
-// // Returns whether two intermediary inline elements are
-// // equal in types and type-props.
-// function areEqualTypesAndTypeProps(el1, el2) {
-// 	const ok = (
-// 		JSON.stringify(el1.types) === JSON.stringify(el2.types) &&
-// 		JSON.stringify(omitKey(el1.props, "children")) ===
-// 			JSON.stringify(omitKey(el2.props, "children"))
-// 	)
-// 	return ok
-// }
+// Returns whether two intermediary inline elements are
+// equal in types and type-props.
+function areEqualTypesAndTypeProps(el1, el2) {
+	const ok = (
+		JSON.stringify(el1.types) === JSON.stringify(el2.types) &&
+		JSON.stringify(omitKey(el1.props, "children")) ===
+			JSON.stringify(omitKey(el2.props, "children"))
+	)
+	return ok
+}
 
 // Merges children that share types and type-props.
 function merge(children) {
