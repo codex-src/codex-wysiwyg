@@ -6,6 +6,10 @@ import { typeMap } from "./typeInfo"
 // Converts non-renderable React elements to renderable
 // React elements.
 function createElement(intermediary) {
+	// NOTE: Uses return null for {children || <br />} case.
+	if (Array.isArray(intermediary) && !intermediary.length) {
+		return null
+	}
 	const reactElements = []
 	for (const each of toArray(intermediary)) {
 		if (typeof each === "string") {
@@ -18,16 +22,13 @@ function createElement(intermediary) {
 			...props,
 		}, createElement(props.children)))
 	}
-	// NOTE: Uses return null for
-	// {toReact(children) || <br />} case
-	if (!reactElements.length) {
-		return null
-	}
 	return reactElements
 }
 
 // Searches for the most recent container that matches types
 // and type-props.
+//
+// TODO
 function searchContainer(intermediary, { types, props }) {
 	if (!intermediary.length || typeof intermediary[intermediary.length - 1] === "string") {
 		return [intermediary, types]
@@ -70,11 +71,12 @@ function toReact(spans) {
 			container.push(each.props.children)
 			continue
 		}
+		// TODO: Extract?
 		const element = {}
 		let ref = element
 		let lastRef = ref
 		for (const T of types) {
-			Object.assign(ref, { // <- prevPref
+			Object.assign(ref, { // <- lastRef
 				type: T,
 				props: {
 					...each.props[T],
@@ -84,11 +86,8 @@ function toReact(spans) {
 			lastRef = ref
 			ref = ref.props.children
 		}
-		lastRef.props.children = toReact(each.props.children)
+		lastRef.props.children = each.props.children
 		container.push(element)
-	}
-	if (!intermediary.length) {
-		return null
 	}
 	return createElement(intermediary)
 }
