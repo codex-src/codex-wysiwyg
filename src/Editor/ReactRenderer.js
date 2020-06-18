@@ -71,7 +71,7 @@ function parse(spans) {
 const ReactRenderer = ({ state, dispatch, renderableMap }) => (
 	state.elements.map(({ type: T, spans, ...props }) => (
 		React.createElement(T, {
-			key: props.uuid,
+			$key: props.key,
 			...props,
 		}, toReact(parse(spans), renderableMap))
 	))

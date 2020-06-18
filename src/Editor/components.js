@@ -18,8 +18,8 @@ const disableAutoCorrect = {
 // })
 
 // TODO: Use React.memo?
-export const Header = ({ uuid, children }) => (
-	<div id={uuid} className="TODO">
+export const Header = ({ $key, children }) => (
+	<div id={$key} className="TODO">
 		{children || (
 			<br />
 		)}
@@ -27,8 +27,8 @@ export const Header = ({ uuid, children }) => (
 )
 
 // TODO: Use React.memo?
-export const Paragraph = ({ uuid, children }) => (
-	<div id={uuid}>
+export const Paragraph = ({ $key, children }) => (
+	<div id={$key}>
 		{children || (
 			<br />
 		)}

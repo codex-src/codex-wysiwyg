@@ -46,8 +46,8 @@ const Editor = () => {
 	const [state, dispatch] = useEditor([
 		{
 			type: Paragraph,
-			uuid: uuidv4(),
-			spans: [
+			key: uuidv4(),
+			spans: [ // TODO: Rename to children?
 				{
 					textContent: "Hey, ",
 					formats: [formatsEnum.strong],
@@ -80,11 +80,10 @@ const Editor = () => {
 					formats: [],
 				},
 			],
-			textContent: "Hey, Russ! I’m making some progress  on making a WYSIWYG editor.",
 		},
 		{
 			type: Paragraph,
-			uuid: uuidv4(),
+			key: uuidv4(),
 			spans: [
 				{
 					textContent: "Hey, ",
@@ -118,45 +117,6 @@ const Editor = () => {
 					formats: [],
 				},
 			],
-			textContent: "Hey, Russ! I’m making some progress  on making a WYSIWYG editor.",
-		},
-		{
-			type: Paragraph,
-			uuid: uuidv4(),
-			spans: [
-				{
-					textContent: "Hey, ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					textContent: "Russ",
-					formats: [formatsEnum.strong, formatsEnum.emphasis],
-				},
-				{
-					textContent: "! I’m making some ",
-					formats: [formatsEnum.strong],
-				},
-				{
-					textContent: "progress ",
-					formats: [formatsEnum.code],
-				},
-				{
-					textContent: " on making a ",
-					formats: [],
-				},
-				{
-					textContent: "WYSIWYG",
-					formats: [formatsEnum.anchor],
-					[formatsEnum.anchor]: {
-						href: "https://heroicons.dev",
-					},
-				},
-				{
-					textContent: " editor.",
-					formats: [],
-				},
-			],
-			textContent: "Hey, Russ! I’m making some progress  on making a WYSIWYG editor.",
 		},
 	])
 
@@ -309,9 +269,9 @@ const Editor = () => {
 
 				onInput={() => {
 					const [cursor] = computeVDOMCursors()
-					const uuidElement = document.getElementById(cursor.uuid)
+					const uuidElement = document.getElementById(cursor.key)
 					if (!uuidElement) {
-						throw new Error("onInput: no such uuid dom element")
+						throw new Error("onInput: no such id")
 					}
 					const spans = computeVDOMSpans(uuidElement)
 					dispatch.input(uuidElement.id, spans, cursor)

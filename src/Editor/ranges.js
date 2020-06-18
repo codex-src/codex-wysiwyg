@@ -18,11 +18,11 @@ function isTextNodeOrBreakElement(domNode) {
 }
 
 // Computes a DOM range from a VDOM cursor.
-export function computeDOMRange({ uuid, offset }) { // NOTE: Copy offset -- do not mutate reference
+export function computeDOMRange({ key, offset }) { // NOTE: Copy offset -- do not mutate reference
 	const range = newDOMRange()
-	const uuidElement = document.getElementById(uuid)
+	const uuidElement = document.getElementById(key)
 	if (!uuidElement) {
-		throw new Error("computeDOMRange: no such uuid dom element")
+		throw new Error("computeDOMRange: no such id")
 	}
 	// Recurses on a DOM node; mutates range.
 	const recurse = startDOMNode => {

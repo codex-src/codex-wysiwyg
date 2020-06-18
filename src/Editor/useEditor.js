@@ -207,11 +207,11 @@ const methods = state => ({
 	write(characterData) {
 		// TODO
 	},
-	input(uuid, spans, cursor) {
-		const uuidElement = state.elements.find(each => each.uuid === uuid)
+	input(key, spans, cursor) {
+		const uuidElement = state.elements.find(each => each.key === key)
 		if (!uuidElement.spans.length) {
-			uuidElement.uuid = uuidv4()
-			cursor.uuid = uuidElement.uuid
+			uuidElement.key = uuidv4()
+			cursor.key = uuidElement.key
 		}
 		uuidElement.spans = spans
 		// uuidElement.textContent = uuidElement.spans.map(each => each.textContent).join("")

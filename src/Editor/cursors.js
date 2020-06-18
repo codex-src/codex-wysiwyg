@@ -3,7 +3,7 @@ import { ascendToUUIDElement } from "./ascend"
 // Creates a new VDOM cursor.
 export function newVDOMCursor() {
 	const cursor = {
-		uuid: "",
+		key: "",
 		offset: 0,
 	}
 	return cursor
@@ -21,14 +21,14 @@ function computeVDOMCursor(uuidElement, { container, offset }) {
 	}
 	const cursor = newVDOMCursor()
 	if (!uuidElement.id) {
-		throw new Error("computeVDOMCursor: no such uuid")
+		throw new Error("computeVDOMCursor: no such id")
 	}
 	// Recurses on a DOM node; mutates cursor.
 	const recurse = startDOMNode => {
 		// TODO: Guard non-text nodes?
 		if (startDOMNode === container) {
 			Object.assign(cursor, {
-				uuid: uuidElement.id,
+				key: uuidElement.id,
 				offset: cursor.offset + offset,
 			})
 			return true
