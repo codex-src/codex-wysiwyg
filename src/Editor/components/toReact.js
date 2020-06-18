@@ -1,35 +1,38 @@
 import omitKey from "lib/omitKey"
 import React from "react"
 import toArray from "lib/toArray"
-import { typeMap } from "./types"
+import { typeMap } from "./typeInfo"
 
 // Converts non-renderable React elements to renderable
 // React elements.
-function createElements(elements) {
-	const renderable = []
-	for (const each of toArray(elements)) {
+function createElement(intermediary) {
+	const reactElements = []
+	for (const each of toArray(intermediary)) {
 		if (typeof each === "string") {
-			renderable.push(each)
+			reactElements.push(each)
 			continue
 		}
 		const { type: T, props } = each
-		renderable.push(React.createElement(typeMap[T], {
-			key: renderable.length,
+		reactElements.push(React.createElement(typeMap[T], {
+			key: reactElements.length,
 			...props,
-		}, createElements(props.children)))
+		}, createElement(props.children)))
 	}
-	if (!renderable.length) {
+	// NOTE: Uses return null for
+	// {toReact(children) || <br />} case
+	if (!reactElements.length) {
 		return null
 	}
-	return renderable
+	return reactElements
 }
 
-// Finds a container that matches types and type-props.
-function findContainer(elements, { types, props }) {
-	if (!elements.length || typeof elements[elements.length - 1] === "string") {
-		return [elements, types]
+// Searches for the most recent container that matches types
+// and type-props.
+function searchContainer(intermediary, { types, props }) {
+	if (!intermediary.length || typeof intermediary[intermediary.length - 1] === "string") {
+		return [intermediary, types]
 	}
-	let ref = elements[elements.length - 1]
+	let ref = intermediary[intermediary.length - 1]
 	let lastRef = ref
 	let x = 0
 	for (; x < types.length; x++) {
@@ -43,26 +46,26 @@ function findContainer(elements, { types, props }) {
 	// Do not mutate lastRef.props.children when lastRef and
 	// ref are equal:
 	if (lastRef === ref) {
-		return [elements, types]
+		return [intermediary, types]
 	}
 	lastRef.props.children = toArray(ref)
 	return [lastRef.props.children, types.slice(x)]
 }
 
-// Converts intermediary elements to renderable React
-// elements. Non-renderable elements are used because React
-// elements are read-only.
-function toReact(children) {
-	if (typeof children === "string") {
-		return children
+// Converts spans to React elements. Non-renderable React
+// elements are used as an intermediary step because
+// renderable React elements are read-only.
+function toReact(spans) {
+	if (typeof spans === "string") {
+		return spans
 	}
-	const elements = []
-	for (const each of toArray(children)) {
+	const intermediary = []
+	for (const each of toArray(spans)) {
 		if (!each.types.length) {
-			elements.push(each.props.children)
+			intermediary.push(each.props.children)
 			continue
 		}
-		const [container, types] = findContainer(elements, each)
+		const [container, types] = searchContainer(intermediary, each) // FIXME
 		if (!types.length) {
 			container.push(each.props.children)
 			continue
@@ -84,10 +87,10 @@ function toReact(children) {
 		lastRef.props.children = toReact(each.props.children)
 		container.push(element)
 	}
-	if (!elements.length) {
+	if (!intermediary.length) {
 		return null
 	}
-	return createElements(elements)
+	return createElement(intermediary)
 }
 
 export default toReact

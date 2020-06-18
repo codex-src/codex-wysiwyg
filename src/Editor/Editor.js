@@ -3,7 +3,7 @@ import parseNodes from "./nodes/parseNodes"
 import React from "react"
 import ReactRenderer from "./ReactRenderer"
 import sortSpans from "./spans/sortSpans"
-import { typeEnum } from "./components/types"
+import { typeEnum } from "./components/typeInfo"
 
 const Editor = ({ children }) => {
 	const nodes = React.useMemo(() => {

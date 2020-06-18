@@ -13,7 +13,7 @@ function areEqualContainers(c1, c2) {
 // Merges spans that share containers.
 function mergeSpans(spans) {
 	for (let x = 0; x < spans.length; x++) {
-		if (x - 1 >= 0 && areEqualContainers(spans[x - 1], spans[x])) {
+		if (x && areEqualContainers(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
 				...spans[x - 1],
 				props: {

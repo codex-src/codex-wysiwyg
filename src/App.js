@@ -32,6 +32,10 @@ const App = () => (
 				<p>
 					Hello, world!
 				</p>
+				<p>
+					{/* <br /> */}
+					{/* <br /> */}
+				</p>
 			</Editor>
 
 		</div>

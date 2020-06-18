@@ -1,4 +1,4 @@
-import { sortedTypeMap } from "../components/types"
+import { sortedTypeMap } from "../components/typeInfo"
 
 // Compares the order of two span types.
 function sortSpanTypes(T1, T2) {

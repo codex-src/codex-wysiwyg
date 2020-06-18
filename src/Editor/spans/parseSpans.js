@@ -1,5 +1,6 @@
 import omitKey from "lib/omitKey"
 import toArray from "lib/toArray"
+import { typeMap } from "../components/typeInfo"
 
 // Parses spans from React elements.
 function parseSpans(reactElements) {
@@ -8,6 +9,16 @@ function parseSpans(reactElements) {
 	// context for the next span.
 	const recurse = (reactElement, types = [], props = {}) => {
 		for (const each of toArray(reactElement)) {
+			// Guard empty node-elements and unknown span-element
+			// types:
+			//
+			// Case 1: <p></p>
+			// Case 2: <p><br></p>
+			//
+			if (each === undefined || (each.type && !typeMap[each.type])) {
+				// No-op
+				continue
+			}
 			if (typeof each === "string") {
 				spans.push({
 					types,

@@ -1,4 +1,3 @@
-import attrs from "./attrs"
 import React from "react"
 import toReact from "./toReact"
 
