@@ -20,7 +20,11 @@ const App = () => (
 							world
 						</code>
 					</a>
-					!
+					<em>
+						<strong>
+							!
+						</strong>
+					</em>
 				</p>
 				{/* <hr /> */}
 				{/* <p> */}

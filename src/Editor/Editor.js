@@ -1,11 +1,8 @@
-import toArray from "lib/toArray"
+import merge from "./children/merge"
+import omitKey from "lib/omitKey"
 import React from "react"
-
-// Omits a key from a destructured object.
-function omitKey(object, key) {
-	const { [key]: _, ...destructured } = object
-	return destructured
-}
+import sort from "./children/sort"
+import toArray from "lib/toArray"
 
 // Parses inline elements to intermediary React elements.
 function parseInlineElements(children) {
@@ -80,40 +77,6 @@ function parseElements(children) {
 	return intermediary
 }
 
-// Compares whether two intermediary element children are
-// equal in types and props.
-function areEqualTypesAndProps(e1, e2) {
-	const ok = (
-		JSON.stringify(e1.types) === JSON.stringify(e2.types) &&
-		JSON.stringify(omitKey(e1.props, "children")) === JSON.stringify(omitKey(e2.props, "children"))
-	)
-	return ok
-}
-
-// Merges an intermediary element’s children.
-function merge(children) {
-	const merged = []
-	for (let x = 0; x < children.length; x++) {
-		if (x - 1 >= 0 && areEqualTypesAndProps(children[x - 1], children[x])) {
-			merged.splice(merged.length - 1, 1, {
-				...children[x - 1],
-				props: {
-					...children[x - 1].props,
-					children: children[x - 1].props.children + children[x].props.children,
-				},
-			})
-			continue
-		}
-		merged.push(children[x])
-	}
-	return merged
-}
-
-// function sortChildrenTypes(intermediary) {
-// 	// const sorted = []
-// 	return intermediary
-// }
-
 const Editor = ({ children }) => {
 	const intermediary = React.useMemo(() => {
 		return parseElements(children).map(each => {
@@ -124,10 +87,10 @@ const Editor = ({ children }) => {
 			case "h4":
 			case "h5":
 			case "h6":
-				each.props.children = /* sort( */ merge(each.props.children) /* ) */
+				merge(each.props.children).map(each => sort(each))
 				break
 			case "p":
-				each.props.children = /* sort( */ merge(each.props.children) /* ) */
+				merge(each.props.children).map(each => sort(each))
 				break
 			case "hr":
 				// No-op
