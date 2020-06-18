@@ -47,7 +47,44 @@ const Editor = () => {
 		{
 			type: Paragraph,
 			key: uuidv4(),
-			spans: [ // TODO: Rename to children?
+			spans: [
+				{
+					textContent: "Hey, ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					textContent: "Russ",
+					formats: [formatsEnum.strong, formatsEnum.emphasis],
+				},
+				{
+					textContent: "! I’m making some ",
+					formats: [formatsEnum.strong],
+				},
+				{
+					textContent: "progress ",
+					formats: [formatsEnum.code],
+				},
+				{
+					textContent: " on making a ",
+					formats: [],
+				},
+				{
+					textContent: "WYSIWYG",
+					formats: [formatsEnum.anchor],
+					[formatsEnum.anchor]: {
+						href: "https://heroicons.dev",
+					},
+				},
+				{
+					textContent: " editor.",
+					formats: [],
+				},
+			],
+		},
+		{
+			type: Paragraph,
+			key: uuidv4(),
+			spans: [
 				{
 					textContent: "Hey, ",
 					formats: [formatsEnum.strong],
