@@ -5,90 +5,9 @@ import React from "react"
 import sort from "./children/sort"
 import toArray from "lib/toArray"
 
-// // Parses VDOM spans to pseudo-React elements.
-// function parse(spans) {
-// 	const elements = []
-// 	for (const span of spans) {
-// 		if (!span.formats.length) {
-// 			elements.push(span.textContent)
-// 			continue
-// 		}
-// 		const element = {}
-// 		let lastRef = element
-// 		let ref = lastRef
-// 		for (const format of span.formats.sort()) {
-// 			Object.assign(ref, { // <- lastRef
-// 				type: format,
-// 				props: {
-// 					...span[format],
-// 					children: {}, // <- ref
-// 				},
-// 			})
-// 			lastRef = ref
-// 			ref = ref.props.children
-// 		}
-// 		lastRef.props.children = span.textContent
-// 		elements.push(element)
-// 	}
-// 	decorate(elements)
-// 	return elements
-// }
-
-// // Returns whether two intermediary inline elements are
-// // equal in types and type-props or nested. Note that
-// // untyped are not compared and return "uncommon".
-// //
-// // "unequal" -> Types or type-props are unequal
-// // "equal"   -> Types and type-props are equal
-// // "nested"  -> Types are nested; type-props must be equal
-// //
-// function areEqualOrNestedTypes(el1, el2) {
-// 	if (el1.types.length === 0 || el2.types.length === 0) {
-// 		return "unequal"
-// 	}
-// 	if (el1.types.length === el2.types.length) {
-// 		return !areEqualTypesAndTypeProps(el1, el2) ? "unequal" : "equal"
-// 	}
-// 	// el2 must contain all of el1 types and more; the more
-// 	// types be of a lower render precedence than the lowest
-// 	// render precedence of el1. types
-// 	return false
-// }
-
-// // Converts intermediary inline elements (children) to
-// // renderable React elements.
-// function toReact(children) {
-// 	const renderable = []
-// 	for (let x = 0; x < children.length; x++) {
-// 		if (x - 1 >= 0) {
-// 			switch (spanNestInfo(...)) {
-// 			case "unequal":
-// 				renderable.push(children[x])
-// 				continue
-// 			case "equal":
-// 				renderable.splice(renderable.length - 1, 1, {
-// 					...children[x - 1],
-// 					props: {
-// 						children: children[x - 1].props.children + children[x].props.children
-// 					}
-// 				})
-// 				continue
-// 			case "nested":
-// 				// ...
-// 			default:
-// 				// No-op
-// 				continue
-// 			}
-// 			// continue
-// 		}
-// 		renderable.push(children[x])
-// 	}
-// 	return "TODO"
-// }
-
-// Converts pseudo React elements to renderable React
-// elements.
-function toRenderableReact(elements) {
+// Converts non-renderable React elements to renderable
+// React elements.
+function createElements(elements) {
 	const renderable = []
 	for (const each of toArray(elements)) {
 		if (typeof each === "string") {
@@ -99,7 +18,7 @@ function toRenderableReact(elements) {
 		renderable.push(React.createElement(typeMap[T], {
 			key: renderable.length,
 			...props,
-		}, toRenderableReact(props.children)))
+		}, createElements(props.children)))
 	}
 	if (renderable.length === 0) {
 		return null
@@ -108,8 +27,8 @@ function toRenderableReact(elements) {
 }
 
 // Converts intermediary elements to renderable React
-// elements. Pseudo React elements are used because React
-// elements are read-only and cannot be mutated.
+// elements. Non-renderable elements are used because React
+// elements are read-only.
 function toReact(children) {
 	if (typeof children === "string") {
 		return children
@@ -122,25 +41,25 @@ function toReact(children) {
 		}
 		const element = {}
 		let ref = element
-		let prevRef = ref
+		let lastRef = ref
 		for (const T of each.types) {
 			Object.assign(ref, { // <- prevPref
 				type: T,
 				props: {
 					...each.props[T],
 					children: {}, // <- ref
-				}
+				},
 			})
-			prevRef = ref
+			lastRef = ref
 			ref = ref.props.children
 		}
-		prevRef.props.children = toReact(each.props.children)
+		lastRef.props.children = toReact(each.props.children)
 		renderable.push(element)
 	}
 	if (!renderable.length) {
 		return null
 	}
-	return toRenderableReact(renderable)
+	return createElements(renderable)
 }
 
 const H1 = React.memo(({ reactKey, children }) => (
