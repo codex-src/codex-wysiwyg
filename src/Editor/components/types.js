@@ -9,12 +9,15 @@ import {
 	H6,
 	P,
 	HR,
+} from "./nodes"
+
+import {
 	Em,
 	Strong,
 	Code,
 	Strike,
 	A,
-} from "./components"
+} from "./spans"
 
 export const typeEnum = {
 	"h1": "h1",
