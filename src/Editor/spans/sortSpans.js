@@ -1,31 +1,16 @@
-const sortedTypes = [
-	"a",
-	"code",
-	"strike",
-	"strong",
-	"em",
-]
-
-// Precomputes sort order based on sortedTypes.
-const sortedTypesMap = { // TODO: Use typeMap
-	[sortedTypes[0]]: 0,
-	[sortedTypes[1]]: 1,
-	[sortedTypes[2]]: 2,
-	[sortedTypes[3]]: 3,
-	[sortedTypes[4]]: 4,
-}
+import { sortedTypeMap } from "../components/types"
 
 // Compares the order of two span types.
-function sortSpanTypes(t1, t2) {
-	const x1 = sortedTypesMap[t1]
+function sortSpanTypes(T1, T2) {
+	const x1 = sortedTypeMap[T1]
 	if (x1 === undefined) {
 		// eslint-disable-next-line quotes
-		throw new Error(`sortSpanTypes: no such type (t1=${t1 || `""`})`)
+		throw new Error(`sortSpanTypes: no such type (T1=${T1 || `""`})`)
 	}
-	const x2 = sortedTypesMap[t2]
+	const x2 = sortedTypeMap[T2]
 	if (x2 === undefined) {
 		// eslint-disable-next-line quotes
-		throw new Error(`sortSpanTypes: no such type (t2=${t2 || `""`})`)
+		throw new Error(`sortSpanTypes: no such type (T2=${T2 || `""`})`)
 	}
 	return x1 - x2
 }

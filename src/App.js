@@ -15,12 +15,12 @@ const App = () => (
 				</h1>
 				<p>
 					Hello,{" "}
-					<a href="#">
+					<a href="/#">
 						<em>
 							world
 						</em>
 					</a>
-					<a href="hello">
+					<a href="abc">
 						<strong>
 							<em>
 								world

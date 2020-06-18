@@ -1,9 +1,8 @@
 import React from "react"
-import typeMap from "./components/typeMap"
+import { typeMap } from "./components/types"
 
-// TODO
-const ReactRenderer = ({ children: intermediary }) => (
-	intermediary.map(({ type: T, key, props }) => (
+const ReactRenderer = ({ children: nodes }) => (
+	nodes.map(({ type: T, key, props }) => (
 		React.createElement(typeMap[T], {
 			key,
 			...{

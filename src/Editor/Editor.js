@@ -3,23 +3,24 @@ import parseNodes from "./nodes/parseNodes"
 import React from "react"
 import ReactRenderer from "./ReactRenderer"
 import sortSpans from "./spans/sortSpans"
+import { typeEnum } from "./components/types"
 
 const Editor = ({ children }) => {
 	const nodes = React.useMemo(() => {
 		return parseNodes(children).map(each => {
 			switch (each.type) {
-			case "h1":
-			case "h2":
-			case "h3":
-			case "h4":
-			case "h5":
-			case "h6":
+			case typeEnum.h1:
+			case typeEnum.h2:
+			case typeEnum.h3:
+			case typeEnum.h4:
+			case typeEnum.h5:
+			case typeEnum.h6:
 				sortSpans(mergeSpans(each.props.children))
 				break
-			case "p":
+			case typeEnum.p:
 				sortSpans(mergeSpans(each.props.children))
 				break
-			case "hr":
+			case typeEnum.hr:
 				// No-op
 				break
 			default:
@@ -32,7 +33,14 @@ const Editor = ({ children }) => {
 	return (
 		<div>
 
-			{children}
+			<article
+				className="whitespace-pre-wrap focus:outline-none"
+				// contentEditable
+				// suppressContentEditableWarning
+				data-codex-root
+			>
+				{children}
+			</article>
 
 			<div className="mt-6" />
 
