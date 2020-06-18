@@ -1,29 +1,29 @@
-import merge from "./children/merge"
-import parse from "./intermediary/parse"
+import mergeSpans from "./spans/mergeSpans"
+import parseNodes from "./nodes/parseNodes"
 import React from "react"
 import ReactRenderer from "./ReactRenderer"
-import sort from "./children/sort"
+import sortSpans from "./spans/sortSpans"
 
 const Editor = ({ children }) => {
-	const intermediary = React.useMemo(() => {
-		return parse(children).map(each => {
-			switch ("<" + each.type + ">") {
-			case "<h1>":
-			case "<h2>":
-			case "<h3>":
-			case "<h4>":
-			case "<h5>":
-			case "<h6>":
-				merge(each.props.children).map(each => sort(each))
+	const nodes = React.useMemo(() => {
+		return parseNodes(children).map(each => {
+			switch (each.type) {
+			case "h1":
+			case "h2":
+			case "h3":
+			case "h4":
+			case "h5":
+			case "h6":
+				sortSpans(mergeSpans(each.props.children))
 				break
-			case "<p>":
-				merge(each.props.children).map(each => sort(each))
+			case "p":
+				sortSpans(mergeSpans(each.props.children))
 				break
-			case "<hr>":
+			case "hr":
 				// No-op
 				break
 			default:
-				throw new Error("unknown type")
+				throw new Error("FIXME: unknown type")
 			}
 			return each
 		})
@@ -37,12 +37,12 @@ const Editor = ({ children }) => {
 			<div className="mt-6" />
 
 			<ReactRenderer>
-				{intermediary}
+				{nodes}
 			</ReactRenderer>
 
 			{/* Debugger */}
 			<div className="mt-6 whitespace-pre text-xs font-mono" style={{ tabSize: 2 }}>
-				{JSON.stringify(intermediary, null, "\t")}
+				{JSON.stringify(nodes, null, "\t")}
 			</div>
 
 		</div>
