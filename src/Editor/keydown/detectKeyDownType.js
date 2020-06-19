@@ -2,6 +2,8 @@ import isMetaOrControlKey from "lib/isMetaOrControlKey"
 import keyDownTypesEnum from "./keyDownTypesEnum"
 
 const keyCodes = {
+	Dead: 229,
+
 	Tab: 9,
 	Enter: 13,
 
@@ -28,7 +30,7 @@ const detect = {
 		return ok
 	},
 	characterDataDead(e) {
-		return e.key === "Dead"
+		return e.keyCode === keyCodes.Dead
 	},
 	tab(e) {
 		const ok = (
