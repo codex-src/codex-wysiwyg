@@ -12,7 +12,7 @@ function parseReact(reactElements) {
 	const recurse = (reactElement, types = [], props = {}) => {
 		for (const each of toArray(reactElement)) {
 			// Guard <p></p> and <p><br></p> cases:
-			if (each === undefined || (each && each.type && !typeMap[each.type])) {
+			if (each === undefined || (each.type && !typeMap[each.type])) {
 				// No-op
 				continue
 			}
