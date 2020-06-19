@@ -24,31 +24,41 @@ function toReactElements(elements) {
 // Traverses intermediary elements for an element array to
 // push the next span.
 function traverse(elements, span) {
-	const types = [...span.types]
-	if (!elements.length || typeof elements[elements.length - 1] === "string" || !types.length) {
-		return [elements, types]
+	if (!elements.length || typeof elements[elements.length - 1] === "string" || !span.types.length) {
+		return [elements, span.types]
 	}
 	let lastRef = elements[elements.length - 1]
 	let ref = lastRef
-	for (let T = types[0]; types.length; types.shift()) {
-		if (ref.type !== T || !areEqualJSON(omitKey(ref.props, "children"), span.props[T])) {
+	// NOTE: let T = types[0]; types.length; types.shift()
+	// does not work as expected.
+	let x = 0
+	for (; x < span.types.length; x++) {
+		ref = toArray(ref).slice(-1)[0]
+		if (typeof ref === "string" || ref.type !== span.types[x] || !areEqualJSON(omitKey(ref.props, "children"), span.props[span.types[x]])) {
 			// No-op
 			break
 		}
 		lastRef = ref
-		ref = ref.props.children // TOOD: Add support for arrays?
+		ref = ref.props.children
 	}
 	if (lastRef === ref) {
-		return [elements, types]
+		return [elements, span.types]
 	}
 	lastRef.props.children = toArray(ref)
-	return [lastRef.props.children, types]
+	return [lastRef.props.children, span.types.slice(x)]
 }
 
 // Converts spans to intermediary elements.
 function toElements(spans) {
 	const elements = []
 	for (const each of spans) {
+
+		// if (!each.types.length) {
+		// 	elements.push(each.props.children)
+		// 	continue
+		// }
+
+		// const [elementsRef, types] = [elements, each.types]
 		const [elementsRef, types] = traverse(elements, each)
 		if (!types.length) {
 			elementsRef.push(each.props.children)
@@ -68,9 +78,11 @@ function toElements(spans) {
 			lastRef = ref
 			ref = ref.props.children
 		}
+		// lastRef.props.children = toArray(each.props.children)
 		lastRef.props.children = each.props.children
 		elementsRef.push(element)
 	}
+	console.log(elements) // DEBUG
 	return elements
 }
 
