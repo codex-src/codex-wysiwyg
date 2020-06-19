@@ -36,7 +36,7 @@ function traverse(elements, span) {
 			break
 		}
 		lastRef = ref
-		ref = ref.props.children
+		ref = ref.props.children // TOOD: Add support for arrays?
 	}
 	if (lastRef === ref) {
 		return [elements, types]
