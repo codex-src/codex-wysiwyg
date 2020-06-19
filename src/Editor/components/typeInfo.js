@@ -29,11 +29,12 @@ export const typeEnum = {
 	"p":  "p",
 	"hr": "hr",
 
-	"em":     "em",
-	"strong": "strong",
+	// Sorted by render precedence.
+	"a":      "a",
 	"code":   "code",
 	"strike": "strike",
-	"a":      "a",
+	"strong": "strong",
+	"em":     "em",
 }
 
 export const typeMap = {
@@ -46,11 +47,12 @@ export const typeMap = {
 	[typeEnum.p]:  P,
 	[typeEnum.hr]: HR,
 
-	[typeEnum.em]:     Em,
-	[typeEnum.strong]: Strong,
+	// Sorted by render precedence.
+	[typeEnum.a]:      A,
 	[typeEnum.code]:   Code,
 	[typeEnum.strike]: Strike,
-	[typeEnum.a]:      A,
+	[typeEnum.strong]: Strong,
+	[typeEnum.em]:     Em,
 }
 
 const i = iota()
@@ -65,9 +67,10 @@ export const sortedTypeMap = { // Sorted based on render precedence
 	[typeEnum.p]:  i(),
 	[typeEnum.hr]: i(),
 
-	[typeEnum.em]:     i(),
-	[typeEnum.strong]: i(),
+	// Sorted by render precedence.
+	[typeEnum.a]:      i(),
 	[typeEnum.code]:   i(),
 	[typeEnum.strike]: i(),
-	[typeEnum.a]:      i(),
+	[typeEnum.strong]: i(),
+	[typeEnum.em]:     i(),
 }
