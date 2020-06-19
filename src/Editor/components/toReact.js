@@ -21,47 +21,42 @@ function toReactElements(elements) {
 	return reactElements
 }
 
-// Traverses intermediary elements for an element array to
-// push the next span.
-function traverse(elements, span) {
-	if (!elements.length || typeof elements[elements.length - 1] === "string" || !span.types.length) {
-		return [elements, span.types]
+// Queries the most recent intermediary element for a
+// container (array) to push the next span; shifts non-
+// nested types.
+//
+// NOTE: Destructures span; do not mutate types reference.
+function queryContainer(elements, { types: [...types], props }) {
+	if (!elements.length || typeof elements[elements.length - 1] === "string" || !types.length) {
+		return [elements, types]
 	}
 	let lastRef = elements[elements.length - 1]
 	let ref = lastRef
-	// NOTE: let T = types[0]; types.length; types.shift()
-	// does not work as expected.
-	let x = 0
-	for (; x < span.types.length; x++) {
+	for (let T = types[0]; types.length; types.shift(), T = types[0]) {
 		ref = toArray(ref).slice(-1)[0]
-		if (typeof ref === "string" || ref.type !== span.types[x] || !areEqualJSON(omitKey(ref.props, "children"), span.props[span.types[x]])) {
+		if (typeof ref === "string" || ref.type !== T || !areEqualJSON(omitKey(ref.props, "children"), props[T])) {
 			// No-op
 			break
 		}
 		lastRef = ref
 		ref = ref.props.children
 	}
+	// Guard lastRef.props.children = toArray(ref); prevents
+	// stack exceeded error:
 	if (lastRef === ref) {
-		return [elements, span.types]
+		return [elements, types]
 	}
 	lastRef.props.children = toArray(ref)
-	return [lastRef.props.children, span.types.slice(x)]
+	return [lastRef.props.children, types]
 }
 
 // Converts spans to intermediary elements.
 function toElements(spans) {
 	const elements = []
 	for (const each of spans) {
-
-		// if (!each.types.length) {
-		// 	elements.push(each.props.children)
-		// 	continue
-		// }
-
-		// const [elementsRef, types] = [elements, each.types]
-		const [elementsRef, types] = traverse(elements, each)
+		const [container, types] = queryContainer(elements, each)
 		if (!types.length) {
-			elementsRef.push(each.props.children)
+			container.push(each.props.children)
 			continue
 		}
 		const element = {}
@@ -78,11 +73,9 @@ function toElements(spans) {
 			lastRef = ref
 			ref = ref.props.children
 		}
-		// lastRef.props.children = toArray(each.props.children)
 		lastRef.props.children = each.props.children
-		elementsRef.push(element)
+		container.push(element)
 	}
-	console.log(elements) // DEBUG
 	return elements
 }
 
