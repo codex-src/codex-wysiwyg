@@ -1,7 +1,7 @@
 import omitKey from "lib/omitKey"
 import React from "react"
 import toArray from "lib/toArray"
-import { typeMap } from "./typeInfo"
+import { typeMap } from "./typeMaps"
 
 // Converts non-renderable React elements to renderable
 // React elements.

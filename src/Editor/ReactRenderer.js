@@ -1,5 +1,5 @@
 import React from "react"
-import { typeMap } from "./components/typeInfo"
+import { typeMap } from "./components/typeMaps"
 
 const ReactRenderer = ({ children: nodes }) => (
 	nodes.map(({ type: T, key, props }) => (

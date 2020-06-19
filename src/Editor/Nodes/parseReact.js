@@ -1,10 +1,12 @@
-import parseSpans from "../spans/parseSpans"
+import * as Spans from "../Spans"
 import toArray from "lib/toArray"
 import uuidv4 from "uuid/v4"
-import { typeEnum } from "../components/typeInfo"
+import { typeEnum } from "../components/typeMaps"
 
 // Parses nodes from React elements.
-function parseNodes(reactElements) {
+//
+// TODO: Add parseHTML?
+function parseReact(reactElements) {
 	const nodes = []
 	for (const each of toArray(reactElements)) {
 		switch (each.type) {
@@ -18,7 +20,7 @@ function parseNodes(reactElements) {
 				type: each.type,
 				key: uuidv4(),
 				props: {
-					children: parseSpans(each.props.children),
+					children: Spans.parseReact(each.props.children),
 				},
 			})
 			break
@@ -27,7 +29,7 @@ function parseNodes(reactElements) {
 				type: each.type,
 				key: uuidv4(),
 				props: {
-					children: parseSpans(each.props.children),
+					children: Spans.parseReact(each.props.children),
 				},
 			})
 			break
@@ -47,4 +49,4 @@ function parseNodes(reactElements) {
 	return nodes
 }
 
-export default parseNodes
+export default parseReact

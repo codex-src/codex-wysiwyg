@@ -11,7 +11,7 @@ function areEqualContainers(c1, c2) {
 }
 
 // Merges spans that share containers.
-function mergeSpans(spans) {
+function merge(spans) {
 	for (let x = 0; x < spans.length; x++) {
 		if (x && areEqualContainers(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
@@ -27,4 +27,4 @@ function mergeSpans(spans) {
 	return spans
 }
 
-export default mergeSpans
+export default merge

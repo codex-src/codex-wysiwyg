@@ -1,13 +1,12 @@
-import mergeSpans from "./spans/mergeSpans"
-import parseNodes from "./nodes/parseNodes"
+import * as Nodes from "./Nodes"
+import * as Spans from "./Spans"
 import React from "react"
 import ReactRenderer from "./ReactRenderer"
-import sortSpans from "./spans/sortSpans"
-import { typeEnum } from "./components/typeInfo"
+import { typeEnum } from "./components/typeMaps"
 
 const Editor = ({ children }) => {
 	const nodes = React.useMemo(() => {
-		return parseNodes(children).map(each => {
+		return Nodes.parseReact(children).map(each => {
 			switch (each.type) {
 			case typeEnum.h1:
 			case typeEnum.h2:
@@ -15,10 +14,10 @@ const Editor = ({ children }) => {
 			case typeEnum.h4:
 			case typeEnum.h5:
 			case typeEnum.h6:
-				sortSpans(mergeSpans(each.props.children))
+				Spans.sort(Spans.merge(each.props.children))
 				break
 			case typeEnum.p:
-				sortSpans(mergeSpans(each.props.children))
+				Spans.sort(Spans.merge(each.props.children))
 				break
 			case typeEnum.hr:
 				// No-op

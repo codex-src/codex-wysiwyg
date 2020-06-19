@@ -19,6 +19,7 @@ import {
 	A,
 } from "./spans"
 
+// Sorted based on render precedence.
 export const typeEnum = {
 	"h1": "h1",
 	"h2": "h2",
@@ -29,7 +30,6 @@ export const typeEnum = {
 	"p":  "p",
 	"hr": "hr",
 
-	// Sorted by render precedence.
 	"a":      "a",
 	"code":   "code",
 	"strike": "strike",
@@ -37,6 +37,7 @@ export const typeEnum = {
 	"em":     "em",
 }
 
+// Sorted based on render precedence.
 export const typeMap = {
 	[typeEnum.h1]: H1,
 	[typeEnum.h2]: H2,
@@ -47,7 +48,6 @@ export const typeMap = {
 	[typeEnum.p]:  P,
 	[typeEnum.hr]: HR,
 
-	// Sorted by render precedence.
 	[typeEnum.a]:      A,
 	[typeEnum.code]:   Code,
 	[typeEnum.strike]: Strike,
@@ -57,7 +57,8 @@ export const typeMap = {
 
 const i = iota()
 
-export const sortedTypeMap = { // Sorted based on render precedence
+// Sorted based on render precedence.
+export const sortedTypeMap = {
 	[typeEnum.h1]: i(),
 	[typeEnum.h2]: i(),
 	[typeEnum.h3]: i(),
@@ -67,7 +68,7 @@ export const sortedTypeMap = { // Sorted based on render precedence
 	[typeEnum.p]:  i(),
 	[typeEnum.hr]: i(),
 
-	// Sorted by render precedence.
+	// Sorted based on render precedence.
 	[typeEnum.a]:      i(),
 	[typeEnum.code]:   i(),
 	[typeEnum.strike]: i(),
