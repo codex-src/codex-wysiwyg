@@ -1,6 +1,6 @@
 import create from "./constructor"
 
-// Ascends to the closest DOM element.
+// Returns the closest DOM element.
 function closestElement(domNode) {
 	if (domNode.nodeType !== Node.ELEMENT_NODE) {
 		return domNode.parentElement
@@ -8,7 +8,7 @@ function closestElement(domNode) {
 	return domNode
 }
 
-// Ascends to the closest DOM element with an ID.
+// Returns the closest DOM element with an ID.
 function closestIDElement(domNode) {
 	let domElement = closestElement(domNode)
 	while (domElement && domElement.getAttribute("id") === null) {
