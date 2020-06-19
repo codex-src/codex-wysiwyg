@@ -92,6 +92,17 @@ const Editor = ({ children }) => {
 
 				onKeyDown={e => {
 					switch (detectKeyDownType(e)) {
+					case keyDownTypesEnum.characterData:
+						if (!state.collapsed) {
+							e.preventDefault()
+							console.log("characterData")
+							return
+						}
+						break
+					case keyDownTypesEnum.characterDataDead:
+						e.preventDefault()
+						console.log("characterDataDead")
+						break
 					case keyDownTypesEnum.tab:
 						e.preventDefault()
 						console.log("tab")
@@ -135,19 +146,6 @@ const Editor = ({ children }) => {
 					case keyDownTypesEnum.redo:
 						e.preventDefault()
 						console.log("redo")
-						break
-					// TODO: Move to top?
-					case keyDownTypesEnum.characterData:
-						if (!state.collapsed) {
-							e.preventDefault()
-							console.log("characterData")
-							return
-						}
-						break
-					// TODO: Move to top?
-					case keyDownTypesEnum.characterDataDead:
-						e.preventDefault()
-						console.log("characterDataDead")
 						break
 					default:
 						// No-op

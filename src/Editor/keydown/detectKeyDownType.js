@@ -11,13 +11,25 @@ const keyCodes = {
 
 	Backspace: 8,
 	Delete: 46,
-	D: 68, // Delete -- macOS
+	D: 68, // macOS
 
-	Y: 89, // Undo
+	Y: 89, // Undo (other)
 	Z: 90, // Redo
 }
 
 const detect = {
+	// Character data must use a non-macro, non-command e.key;
+	// most macros and commands are more than one rune.
+	characterData(e) {
+		const ok = (
+			!isMetaOrControlKey(e) &&
+			[...e.key].length === 1
+		)
+		return ok
+	},
+	characterDataDead(e) {
+		return e.key === "Dead"
+	},
 	tab(e) {
 		const ok = (
 			!e.ctrlKey && // Negates browser shortcuts (ctrl-tab and shift-ctrl-tab)
@@ -113,23 +125,16 @@ const detect = {
 		)
 		return ok
 	},
-	// Character data must use a non-macro, non-command e.key;
-	// most macros and commands are more than one rune.
-	characterData(e) {
-		const ok = (
-			!isMetaOrControlKey(e) &&
-			[...e.key].length === 1
-		)
-		return ok
-	},
-	characterDataDead(e) {
-		return e.key === "Dead"
-	},
 }
 
 // Detects a key down type.
 function detectKeyDownType(e) {
 	switch (true) {
+
+	case detect.characterData(e):
+		return keyDownTypesEnum.characterData
+	case detect.characterDataDead(e):
+		return keyDownTypesEnum.characterDataDead
 
 	case detect.tab(e):
 		return keyDownTypesEnum.tab
@@ -163,11 +168,6 @@ function detectKeyDownType(e) {
 	case detect.redoMacOS(e):
 	case detect.redoOther(e):
 		return keyDownTypesEnum.redo
-
-	case detect.characterData(e):
-		return keyDownTypesEnum.characterData
-	case detect.characterDataDead(e):
-		return keyDownTypesEnum.characterDataDead
 
 	default:
 		// No-op

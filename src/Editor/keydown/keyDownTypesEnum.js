@@ -1,4 +1,7 @@
 const keyDownTypesEnum = {
+	"characterData":     "characterData",
+	"characterDataDead": "characterDataDead",
+
 	"tab":   "tab",
 	"enter": "enter",
 
@@ -16,9 +19,6 @@ const keyDownTypesEnum = {
 
 	"undo": "undo",
 	"redo": "redo",
-
-	"characterData":     "characterData",
-	"characterDataDead": "characterDataDead",
 }
 
 export default keyDownTypesEnum
