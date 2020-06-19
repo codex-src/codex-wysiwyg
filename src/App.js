@@ -27,6 +27,17 @@ const App = () => (
 							</strong>
 						</em>
 					</a>
+					{" "}
+					<a href>
+						<code>
+							fmt.Println("Hello, world!")
+						</code>
+					</a>
+					<a>
+						<code>
+							fmt.Println("Hello, world!")
+						</code>
+					</a>
 				</p>
 				<hr />
 				<p>

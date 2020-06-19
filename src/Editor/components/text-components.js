@@ -14,7 +14,7 @@ export const Strong = ({ children }) => (
 )
 
 export const Code = ({ children }) => (
-	<code className="px-0.5 py-0.5 text-sm font-mono text-blue-500 border border-gray-300 rounded" {...attrs.code}>
+	<code className="px-1 py-0.5 text-sm font-mono text-blue-600 border border-cool-gray-300 rounded" {...attrs.code}>
 		{children}
 	</code>
 )
