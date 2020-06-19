@@ -11,12 +11,7 @@ function parseReact(reactElements) {
 	// context for the next span.
 	const recurse = (reactElement, types = [], props = {}) => {
 		for (const each of toArray(reactElement)) {
-			// Guard empty node-elements and unknown span-element
-			// types:
-			//
-			// Case 1: <p></p>
-			// Case 2: <p><br></p>
-			//
+			// Guard <p></p> and <p><br></p> cases:
 			if (each === undefined || (each && each.type && !typeMap[each.type])) {
 				// No-op
 				continue
