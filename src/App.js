@@ -9,6 +9,7 @@ const App = () => (
 				{/* ... */}
 			</div>
 
+			{/* eslint-disable jsx-a11y/anchor-is-valid */}
 			<Editor>
 				<h1>
 					Hello, world!
@@ -28,7 +29,7 @@ const App = () => (
 						</em>
 					</a>
 					{" "}
-					<a href>
+					<a href="yolo">
 						<code>
 							fmt.Println("Hello, world!")
 						</code>
@@ -50,6 +51,7 @@ const App = () => (
 					<br />
 				</p>
 			</Editor>
+			{/* eslint-enable jsx-a11y/anchor-is-valid */}
 
 		</div>
 	</div>
