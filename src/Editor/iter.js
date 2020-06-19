@@ -4,9 +4,9 @@ import * as utf8 from "lib/encoding/utf8"
 // Returns the number of bytes iterated backwards.
 export const rtl = {
 	rune(textContent) {
-		const emojiInfo = emojiTrie.atEnd(textContent)
-		if (emojiInfo) {
-			return emojiInfo.emoji
+		const info = emojiTrie.atEnd(textContent)
+		if (info) {
+			return info.emoji
 		}
 		return utf8.atEnd(textContent)
 	},
@@ -72,9 +72,9 @@ export const rtl = {
 // Returns the number of bytes iterated forwards.
 export const ltr = {
 	rune(textContent) {
-		const emojiInfo = emojiTrie.atStart(textContent)
-		if (emojiInfo) {
-			return emojiInfo.emoji
+		const info = emojiTrie.atStart(textContent)
+		if (info) {
+			return info.emoji
 		}
 		return utf8.atStart(textContent)
 	},

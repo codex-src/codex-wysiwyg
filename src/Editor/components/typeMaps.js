@@ -17,7 +17,7 @@ import {
 	Code,
 	Strike,
 	A,
-} from "./text-components"
+} from "./inline-components"
 
 // Sorted based on render precedence.
 export const typeEnum = {
