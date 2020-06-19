@@ -21,14 +21,15 @@ function toReactElements(elements) {
 	return reactElements
 }
 
-// Gets the intermediary parent element for a span.
-function getParentElementForSpan(elements, span) {
+// Traverses intermediary elements for an element array to
+// push the next span.
+function traverse(elements, span) {
 	const types = [...span.types]
-	if (!elements.length || typeof elements[elements.length - 1] === "string") {
+	if (!elements.length || typeof elements[elements.length - 1] === "string" || !types.length) {
 		return [elements, types]
 	}
 	let lastRef = elements[elements.length - 1]
-	let ref = elements[elements.length - 1]
+	let ref = lastRef
 	for (let T = types[0]; types.length; types.shift()) {
 		if (ref.type !== T || !areEqualJSON(omitKey(ref.props, "children"), span.props[T])) {
 			// No-op
@@ -48,31 +49,27 @@ function getParentElementForSpan(elements, span) {
 function toElements(spans) {
 	const elements = []
 	for (const each of spans) {
-		if (!each.types.length) {
-			elements.push(each.props.children)
-			continue
-		}
-		const [parentElement, types] = getParentElementForSpan(elements, each)
+		const [elementsRef, types] = traverse(elements, each)
 		if (!types.length) {
-			parentElement.push(each.props.children)
+			elementsRef.push(each.props.children)
 			continue
 		}
 		const element = {}
 		let lastRef = element
 		let ref = lastRef
 		for (const T of types) {
-			Object.assign(ref, { // Becomes lastRef
+			Object.assign(ref, {
 				type: T,
 				props: {
 					...each.props[T],
-					children: {}, // Becomes ref
+					children: {},
 				},
 			})
 			lastRef = ref
 			ref = ref.props.children
 		}
 		lastRef.props.children = each.props.children
-		parentElement.push(element)
+		elementsRef.push(element)
 	}
 	return elements
 }
@@ -82,7 +79,6 @@ function toElements(spans) {
 function toReact(spans) {
 	const elements = toElements(spans)
 	const reactElements = toReactElements(elements)
-	// NOTE: Uses return null for {children || <br />} case.
 	if (!reactElements.length) {
 		return null
 	}

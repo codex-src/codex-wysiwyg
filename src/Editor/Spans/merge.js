@@ -11,7 +11,7 @@ function areEqual(s1, s2) {
 	return ok
 }
 
-// Merges spans that share containers.
+// Merges spans that share types and type-props.
 function merge(spans) {
 	for (let x = 0; x < spans.length; x++) {
 		if (x && areEqual(spans[x - 1], spans[x])) {
