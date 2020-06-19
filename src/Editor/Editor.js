@@ -9,6 +9,7 @@ import useEditor from "./useEditor"
 
 const Editor = ({ children }) => {
 	const ref = React.useRef(null)
+	const pointerIsDownRef = React.useRef(false)
 
 	const [state, dispatch] = useEditor(children)
 
@@ -54,15 +55,26 @@ const Editor = ({ children }) => {
 				}}
 
 				onPointerDown={e => {
-					// TODO
+					pointerIsDownRef.current = true
 				}}
 
 				onPointerMove={e => {
-					// TODO
+					if (!state.focused) {
+						pointerIsDownRef.current = false // Reset
+					} else if (!pointerIsDownRef.current) {
+						// No-op
+						return
+					}
+					const cursors = Cursors.compute()
+					if (!cursors) {
+						// No-op
+						return
+					}
+					dispatch.select(cursors)
 				}}
 
 				onPointerUp={e => {
-					// TODO
+					pointerIsDownRef.current = false // Reset
 				}}
 
 				onSelect={e => {

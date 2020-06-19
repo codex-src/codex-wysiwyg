@@ -17,7 +17,7 @@ function closestIDElement(domNode) {
 	return domElement
 }
 
-// // FIXME: contenteditable?
+// // TODO: contenteditable?
 // if (each.nodeType === Node.ELEMENT_NODE && each.getAttribute("contenteditable") === "false") {
 // 	// No-op
 // 	continue
