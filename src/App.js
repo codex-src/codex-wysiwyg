@@ -15,6 +15,15 @@ const App = () => (
 					Hello, world!
 				</h1>
 				<p>
+					<code>
+						hello
+						<strong>
+							world
+						</strong>
+						hello
+					</code>
+				</p>
+				<p>
 					Hello,{" "}
 					<a href="/#">
 						<em>
@@ -34,7 +43,7 @@ const App = () => (
 							fmt.Println("Hello, world!")
 						</code>
 					</a>
-					<a>
+					<a href="dyolo">
 						<code>
 							fmt.Println("Hello, world!")
 						</code>
@@ -44,12 +53,11 @@ const App = () => (
 				<p>
 					Hello, world!
 				</p>
-				<p>
-					{/* <br /> */}
-				</p>
-				<p>
-					<br />
-				</p>
+				{/* <p> */}
+				{/* </p> */}
+				{/* <p> */}
+				{/* 	<br /> */}
+				{/* </p> */}
 			</Editor>
 			{/* eslint-enable jsx-a11y/anchor-is-valid */}
 

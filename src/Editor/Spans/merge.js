@@ -1,11 +1,12 @@
+import areEqualJSON from "lib/areEqualJSON"
 import omitKey from "lib/omitKey"
 
-// Compares whether two span containers are equal (compares
-// types and type-props).
-function areEqualContainers(c1, c2) {
+// Compares whether two spans are equal (compares types and
+// type-props).
+function areEqual(s1, s2) {
 	const ok = (
-		JSON.stringify(c1.types) === JSON.stringify(c2.types) &&
-		JSON.stringify(omitKey(c1.props, "children")) === JSON.stringify(omitKey(c2.props, "children"))
+		areEqualJSON(s1.types, s2.types) &&
+		areEqualJSON(omitKey(s1.props, "children"), omitKey(s2.props, "children"))
 	)
 	return ok
 }
@@ -13,7 +14,7 @@ function areEqualContainers(c1, c2) {
 // Merges spans that share containers.
 function merge(spans) {
 	for (let x = 0; x < spans.length; x++) {
-		if (x && areEqualContainers(spans[x - 1], spans[x])) {
+		if (x && areEqual(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
 				...spans[x - 1],
 				props: {
