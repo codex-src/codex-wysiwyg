@@ -5,7 +5,8 @@ import { typeEnum } from "../components/typeMaps"
 
 // Parses nodes from React elements.
 //
-// TODO: Add parseHTML?
+// TODO (1): Add parseHTML?
+// TODO (2): Add Spans.merge and Spans.sort?
 function parseReact(reactElements) {
 	const nodes = []
 	for (const each of toArray(reactElements)) {

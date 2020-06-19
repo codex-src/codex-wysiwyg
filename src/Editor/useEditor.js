@@ -9,7 +9,7 @@ import { typeEnum } from "./components/typeMaps"
 
 const methods = state => ({
 	/*
-	 * Cursors
+	 * Focus
 	 */
 	focus() {
 		state.focused = true
@@ -17,16 +17,18 @@ const methods = state => ({
 	blur() {
 		state.focused = false
 	},
+	/*
+	 * Cursors
+	 */
 	select(cursors) {
-		Object.assign(state.cursors, {
-			...cursors,
+		Object.assign(state, {
+			cursors,
 			collapsed: cursors[0] === cursors[1],
 		})
 	},
-	// Collapses the start and end cursors.
 	collapse() {
-		Object.assign(state.cursors, {
-			...[state.cursors[0], state.cursors[0]],
+		Object.assign(state, {
+			cursors: [state.curors[0], state.cursors[0]],
 			collapsed: true,
 		})
 	},
@@ -61,13 +63,13 @@ const methods = state => ({
 
 function init(nodes) {
 	const state = {
-		focused: false,
-		cursors: {
-			0: Cursors.create(),
-			1: Cursors.create(),
-			collapsed: true,
-		},
-		nodes,
+		focused: false,     // Is the DOM element focused?
+		cursors: [          // The start and end cursors
+			Cursors.create(), //
+			Cursors.create(), //
+		],                  //
+		collapsed: true,    // Are the cursors collapsed?
+		nodes,              // The document nodes
 	}
 	return state
 }

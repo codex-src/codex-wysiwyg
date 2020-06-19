@@ -41,9 +41,63 @@ const Editor = ({ children }) => {
 
 			<article
 				ref={ref}
+
 				className="whitespace-pre-wrap focus:outline-none"
+
+				onFocus={e => {
+					dispatch.focus()
+				}}
+
+				onBlur={e => {
+					dispatch.blur()
+				}}
+
+				onPointerDown={e => {
+					// TODO
+				}}
+
+				onPointerMove={e => {
+					// TODO
+				}}
+
+				onPointerUp={e => {
+					// TODO
+				}}
+
+				onSelect={e => {
+					// TODO
+				}}
+
+				onKeyDown={e => {
+					// TODO
+				}}
+
+				onInput={e => {
+					// TODO
+				}}
+
+				onCut={e => {
+					e.preventDefault()
+					// TODO
+				}}
+
+				onCopy={e => {
+					e.preventDefault()
+					// TODO
+				}}
+
+				onPaste={e => {
+					e.preventDefault()
+					// TODO
+				}}
+
+				onDragStart={e => {
+					e.preventDefault()
+				}}
+
 				contentEditable
 				suppressContentEditableWarning
+
 				data-codex-root
 			/>
 
