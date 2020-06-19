@@ -1,6 +1,7 @@
 // import * as Nodes from "./Nodes"
 // import * as Spans from "./Spans"
 // import { typeEnum } from "./components/typeMaps"
+import * as Cursors from "./Cursors"
 import React from "react"
 import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
@@ -65,7 +66,12 @@ const Editor = ({ children }) => {
 				}}
 
 				onSelect={e => {
-					// TODO
+					const cursors = Cursors.compute()
+					if (!cursors) {
+						// No-op
+						return
+					}
+					dispatch.select(cursors)
 				}}
 
 				onKeyDown={e => {

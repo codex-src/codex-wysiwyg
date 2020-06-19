@@ -57,6 +57,7 @@ export const P = React.memo(({ reactKey, children }) => (
 	</p>
 ))
 
-export const HR = React.memo(({ children }) => (
-	<hr className="my-6 border-t-4 border-cool-gray-300" /* tabIndex={0} */ />
+// TODO
+export const HR = React.memo(({ reactKey, children }) => (
+	<hr id={reactKey} className="my-6 border-t-4 border-cool-gray-300" />
 ))
