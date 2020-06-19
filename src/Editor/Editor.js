@@ -1,13 +1,15 @@
-// import * as Nodes from "./Nodes"
-// import * as Spans from "./Spans"
-// import { typeEnum } from "./components/typeMaps"
 import * as Cursors from "./Cursors"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
+import noopTextContent from "./noopTextContent"
 import React from "react"
 import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
 import useEditor from "./useEditor"
+
+;(() => {
+	noopTextContent()
+})()
 
 const Editor = ({ children }) => {
 	const ref = React.useRef(null)
