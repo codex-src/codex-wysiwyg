@@ -22,8 +22,7 @@ function toReactElements(elements) {
 }
 
 // Queries the most recent intermediary element for a
-// container (array) to push the next span; shifts non-
-// nested types.
+// container (array) to push the next span.
 //
 // NOTE: Destructures span; do not mutate types reference.
 function queryContainer(elements, { types: [...types], props }) {

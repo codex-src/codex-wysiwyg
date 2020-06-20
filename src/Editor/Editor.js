@@ -1,5 +1,6 @@
 import * as Cursors from "./Cursors"
 import * as Nodes from "./Nodes"
+import * as Range from "./Range"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextContent from "./noopTextContent"
@@ -27,11 +28,11 @@ const Editor = ({ children }) => {
 			selection.removeAllRanges()
 		}
 		ReactDOM.render(<ReactRenderer>{state.nodes}</ReactRenderer>, ref.current, () => {
-			// if (!state.focused) {
-			// 	// No-op
-			// 	return
-			// }
-			// const range = computeDOMRange(state.cursors[0])
+			if (!state.focused) {
+				// No-op
+				return
+			}
+			// const range = Range.computeFromCursors(state.cursors)
 			// try {
 			// 	const domRange = document.createRange()
 			// 	domRange.setStart(range.container, range.offset)
@@ -130,10 +131,10 @@ const Editor = ({ children }) => {
 						e.preventDefault()
 						console.log("backspaceWord")
 						break
-					// case keyDownTypesEnum.backspaceRune:
-					// 	e.preventDefault()
-					// 	console.log("backspaceRune")
-					// 	break
+					case keyDownTypesEnum.backspaceRune:
+						e.preventDefault()
+						console.log("backspaceRune")
+						break
 					case keyDownTypesEnum.forwardBackspaceWord:
 						e.preventDefault()
 						console.log("forwardBackspaceWord")
