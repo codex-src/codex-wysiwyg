@@ -35,7 +35,7 @@ const methods = state => ({
 	// 	// ...
 	// },
 	input(node, cursors) {
-		const x = state.nodes.find(each => each.key === node.key)
+		const x = state.nodes.findIndex(each => each.key === cursors[0].key)
 		if (x === -1) {
 			throw new Error("dispatch.input: FIXME")
 		}

@@ -42,8 +42,8 @@ function parseDOMIDElement(domIDElement) {
 		if (onDOMNode.nodeType === Node.TEXT_NODE) {
 			spans.push({
 				types,
-				...{
-					...props,
+				props: {
+					...props, // Type-props
 					children: onDOMNode.nodeValue,
 				},
 			})
