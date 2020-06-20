@@ -1,7 +1,6 @@
 import areEqualJSON from "lib/areEqualJSON"
 import omitKey from "lib/omitKey"
 
-// Compares whether two spans (sans children) are equal.
 function areEqual(s1, s2) {
 	const ok = (
 		areEqualJSON(s1.types, s2.types) &&
@@ -10,7 +9,7 @@ function areEqual(s1, s2) {
 	return ok
 }
 
-// Merges nearby spans that share types and props.
+// Merges synthetic spans that share types and props.
 function merge(spans) {
 	for (let x = 0; x < spans.length; x++) {
 		if (x && areEqual(spans[x - 1], spans[x])) {

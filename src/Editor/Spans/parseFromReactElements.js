@@ -2,7 +2,7 @@ import omitKey from "lib/omitKey"
 import toArray from "lib/toArray"
 import { typeMap } from "../components/typeMaps"
 
-// Parses spans from React elements.
+// Parses synthetic spans from React elements.
 function parseFromReactElements(reactElements) {
 	const spans = []
 	const recurse = (reactElement, types = [], props = {}) => {

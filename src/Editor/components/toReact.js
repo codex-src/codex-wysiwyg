@@ -22,16 +22,15 @@ function toReactElements(elements) {
 }
 
 // Queries the most recent intermediary element for a
-// container (array) to push the next span.
-//
-// NOTE: Destructures span; do not mutate types reference.
-function queryContainer(elements, { types: [...types], props }) {
-	if (!elements.length || typeof elements[elements.length - 1] === "string" || !types.length) {
-		return [elements, types]
+// container (array) to push the next intermediary element.
+function queryContainer(elements, { types, props }) {
+	const nextTypes = [...types]
+	if (!elements.length || typeof elements[elements.length - 1] === "string" || !nextTypes.length) {
+		return [elements, nextTypes]
 	}
 	let lastRef = elements[elements.length - 1]
 	let ref = lastRef
-	for (let T = types[0]; types.length; types.shift(), T = types[0]) {
+	for (let T = nextTypes[0]; nextTypes.length; nextTypes.shift(), T = nextTypes[0]) {
 		ref = toArray(ref).slice(-1)[0]
 		if (typeof ref === "string" || ref.type !== T || !areEqualJSON(omitKey(ref.props, "children"), props[T])) {
 			// No-op
@@ -43,13 +42,13 @@ function queryContainer(elements, { types: [...types], props }) {
 	// Guard lastRef.props.children = toArray(ref); prevents
 	// stack exceeded error:
 	if (lastRef === ref) {
-		return [elements, types]
+		return [elements, nextTypes]
 	}
 	lastRef.props.children = toArray(ref)
-	return [lastRef.props.children, types]
+	return [lastRef.props.children, nextTypes]
 }
 
-// Converts spans to intermediary elements.
+// Converts synthetic spans to intermediary elements.
 function toElements(spans) {
 	const elements = []
 	for (const each of spans) {
@@ -78,8 +77,9 @@ function toElements(spans) {
 	return elements
 }
 
-// Converts spans to React elements. Uses intermediary
-// elements because React elements are read-only.
+// Converts synthetic spans to intermediary elements to
+// React elements. Uses intermediary elements because React
+// elements are read-only.
 function toReact(spans) {
 	const elements = toElements(spans)
 	const reactElements = toReactElements(elements)
