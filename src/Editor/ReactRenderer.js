@@ -7,7 +7,7 @@ const ReactRenderer = ({ elements }) => (
 			key,
 			...{
 				...props,
-				reactKey: key,
+				$key: key,
 			},
 		})
 	))

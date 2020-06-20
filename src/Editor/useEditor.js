@@ -39,7 +39,7 @@ const methods = state => ({
 		}
 		// Force a new key for <br> to text node:
 		if (!state.elements[x].props.children.length) {
-			const forcedKey = uuidv4()
+			const forcedKey = uuidv4().slice(0, 8)
 			element.key = forcedKey
 			cursors[0].key = forcedKey // Updates cursors[1] because references are shared
 		}

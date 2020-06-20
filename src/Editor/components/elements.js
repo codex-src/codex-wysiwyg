@@ -3,9 +3,9 @@ import T from "./hoc"
 import toReact from "./toReact"
 import { typeEnum } from "./typeMaps"
 
-export const H1 = React.memo(({ reactKey, children }) => (
+export const H1 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h1}>
-		<div id={reactKey} className="font-semibold text-3xl leading-tight">
+		<div id={$key} className="font-semibold text-3xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -13,9 +13,9 @@ export const H1 = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
-export const H2 = React.memo(({ reactKey, children }) => (
+export const H2 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h2}>
-		<div id={reactKey} className="font-semibold text-2xl leading-tight">
+		<div id={$key} className="font-semibold text-2xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -23,9 +23,9 @@ export const H2 = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
-export const H3 = React.memo(({ reactKey, children }) => (
+export const H3 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h3}>
-		<div id={reactKey} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -33,9 +33,9 @@ export const H3 = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
-export const H4 = React.memo(({ reactKey, children }) => (
+export const H4 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h4}>
-		<div id={reactKey} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -43,9 +43,9 @@ export const H4 = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
-export const H5 = React.memo(({ reactKey, children }) => (
+export const H5 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h5}>
-		<div id={reactKey} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -53,9 +53,9 @@ export const H5 = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
-export const H6 = React.memo(({ reactKey, children }) => (
+export const H6 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h6}>
-		<div id={reactKey} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -63,9 +63,9 @@ export const H6 = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
-export const P = React.memo(({ reactKey, children }) => (
+export const P = React.memo(({ $key, children }) => (
 	<T type={typeEnum.p}>
-		<div id={reactKey}>
+		<div id={$key}>
 			{toReact(children) || (
 				<br />
 			)}
@@ -74,14 +74,14 @@ export const P = React.memo(({ reactKey, children }) => (
 ))
 
 // FIXME
-export const HR = React.memo(({ reactKey, children }) => (
+export const HR = React.memo(({ $key, children }) => (
 	<T type={typeEnum.hr}>
-		<div id={reactKey} className="my-6 border-t-4 border-cool-gray-300" />
+		<div id={$key} className="my-6 border-t-4 border-cool-gray-300" />
 	</T>
 ))
 
-// export const HR = React.memo(({ reactKey, children }) => (
-// 	<div id={reactKey} className="my-6 text-right text-cool-gray-300" style={{ backgroundImage: "linear-gradient(transparent 0, transparent 0.625rem, currentColor 0.625rem, currentColor 0.875rem, transparent 0.875rem)" }}>
+// export const HR = React.memo(({ $key, children }) => (
+// 	<div id={$key} className="my-6 text-right text-cool-gray-300" style={{ backgroundImage: "linear-gradient(transparent 0, transparent 0.625rem, currentColor 0.625rem, currentColor 0.875rem, transparent 0.875rem)" }}>
 // 		<br />
 // 	</div>
 // ))

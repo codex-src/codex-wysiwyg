@@ -8,7 +8,7 @@ function parseReact(reactElements) {
 	for (const each of toArray(reactElements)) {
 		const element = {
 			type: each.type,
-			key: uuidv4(),
+			key: uuidv4().slice(0, 8),
 			props: {
 				children: Spans.parseReact(each.props.children),
 			},
