@@ -71,7 +71,7 @@ const Editor = ({ children }) => {
 						// No-op
 						return
 					}
-					const cursors = Cursors.compute()
+					const cursors = Cursors.computeFromCurrentRange()
 					if (!cursors) {
 						// No-op
 						return
@@ -84,7 +84,7 @@ const Editor = ({ children }) => {
 				}}
 
 				onSelect={e => {
-					const cursors = Cursors.compute()
+					const cursors = Cursors.computeFromCurrentRange()
 					if (!cursors) {
 						// No-op
 						return
@@ -156,7 +156,21 @@ const Editor = ({ children }) => {
 				}}
 
 				onInput={e => {
-					// TODO
+					const cursors = Cursors.computeFromCurrentRange()
+					if (!cursors) {
+						throw new Error("onInput: no such cursors")
+					}
+					const domIDElement = document.getElementById(cursors[0].key)
+					if (!domIDElement) {
+						throw new Error("onInput: no such element")
+					}
+
+					// Parses a DOM ID element.
+					const parseDOMIDElement = domIDElement => {
+						// ...
+					}
+
+					console.log(domIDElement)
 				}}
 
 				onCut={e => {

@@ -1,8 +1,11 @@
-// Constructs a new cursor.
+// Constructs a new node.
 function construct() {
 	const ref = {
+		type: "",
 		key: "",
-		offset: 0,
+		props: {
+			children: null,
+		},
 	}
 	return ref
 }

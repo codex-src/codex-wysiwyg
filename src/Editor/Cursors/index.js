@@ -1,2 +1,2 @@
-export * from "./compute"
-export { default as create } from "./constructor"
+export { default as computeFromCurrentRange } from "./computeFromCurrentRange"
+export { default as construct } from "./constructor"

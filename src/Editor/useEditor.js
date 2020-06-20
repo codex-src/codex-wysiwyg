@@ -63,13 +63,13 @@ const methods = state => ({
 
 function init(nodes) {
 	const state = {
-		focused: false,     // Is the DOM element focused?
-		cursors: [          // The start and end cursors
-			Cursors.create(), //
-			Cursors.create(), //
-		],                  //
-		collapsed: true,    // Are the cursors collapsed?
-		nodes,              // The document nodes
+		focused: false,        // Is the DOM element focused?
+		cursors: [             // The start and end cursors
+			Cursors.construct(), //
+			Cursors.construct(), //
+		],                     //
+		collapsed: true,       // Are the cursors collapsed?
+		nodes,                 // The document nodes
 	}
 	return state
 }

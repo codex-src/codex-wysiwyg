@@ -75,7 +75,10 @@ const App = () => (
 						</code>
 					</a>
 				</p>
-				<hr />
+				<p>
+					<br />
+				</p>
+				{/* <hr /> */}
 				<p>
 					Hello, world!
 				</p>

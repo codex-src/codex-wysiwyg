@@ -1,4 +1,4 @@
-import create from "./constructor"
+import construct from "./constructor"
 
 // Returns the closest DOM element.
 function closestElement(domNode) {
@@ -8,7 +8,7 @@ function closestElement(domNode) {
 	return domNode
 }
 
-// Returns the closest DOM element with an ID.
+// Returns the closest DOM ID element.
 function closestIDElement(domNode) {
 	let domElement = closestElement(domNode)
 	while (domElement && domElement.getAttribute("id") === null) {
@@ -24,16 +24,16 @@ function closestIDElement(domNode) {
 // }
 
 // Computes a cursor from a range.
-function computeCursor(domIDElement, [domNode, offset]) {
+function computeFromRange(domIDElement, [domNode, offset]) {
 	// TODO
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
 		if (offset >= domNode.childNodes.length) {
-			throw new Error("computeCursor: FIXME")
+			throw new Error("computeFromRange: FIXME")
 		}
 		domNode = domNode.childNodes[offset]
 		offset = 0
 	}
-	const cursor = create()
+	const cursor = construct()
 	// Recurses on a DOM node; mutates cursor.
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {
@@ -57,7 +57,7 @@ function computeCursor(domIDElement, [domNode, offset]) {
 }
 
 // Computes cursors from the current range.
-export function compute() {
+function computeFromCurrentRange() {
 	const selection = document.getSelection()
 	if (!selection.rangeCount) {
 		return null
@@ -65,16 +65,16 @@ export function compute() {
 	const range = selection.getRangeAt(0)
 	const cursors = []
 	/* eslint-disable */
-	cursors.push(computeCursor(closestIDElement(range.startContainer),
+	cursors.push(computeFromRange(closestIDElement(range.startContainer),
 		[range.startContainer, range.startOffset]))
 	if (range.collapsed) {
 		cursors.push(cursors[0])
 	} else {
-		cursors.push(computeCursor(closestIDElement(range.endContainer),
+		cursors.push(computeFromRange(closestIDElement(range.endContainer),
 			[range.endContainer, range.endOffset]))
 	}
 	/* eslint-enable */
 	return cursors
 }
 
-export default compute
+export default computeFromCurrentRange
