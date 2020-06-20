@@ -3,7 +3,7 @@ import * as Nodes from "./Nodes"
 import * as Range from "./Range"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
-import noopTextContent from "./noopTextContent"
+import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
@@ -12,7 +12,7 @@ import useEditor from "./useEditor"
 import "./Editor.css"
 
 ;(() => {
-	noopTextContent()
+	noopTextNodeRerenders()
 })()
 
 const Editor = ({ children }) => {
@@ -21,28 +21,31 @@ const Editor = ({ children }) => {
 
 	const [state, dispatch] = useEditor(children)
 
-	React.useLayoutEffect(() => {
-		// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
-		const selection = document.getSelection()
-		if (selection.rangeCount) {
-			selection.removeAllRanges()
-		}
-		ReactDOM.render(<ReactRenderer>{state.nodes}</ReactRenderer>, ref.current, () => {
-			if (!state.focused) {
-				// No-op
-				return
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
+			const selection = document.getSelection()
+			if (selection.rangeCount) {
+				selection.removeAllRanges()
 			}
-			// const range = Range.computeFromCursors(state.cursors)
-			// try {
-			// 	const domRange = document.createRange()
-			// 	domRange.setStart(range.container, range.offset)
-			// 	domRange.collapse()
-			// 	selection.addRange(domRange)
-			// } catch (error) {
-			// 	console.error(error)
-			// }
-		})
-	}, [state.nodes])
+			ReactDOM.render(<ReactRenderer>{state.nodes}</ReactRenderer>, ref.current, () => {
+				if (!state.focused) {
+					// No-op
+					return
+				}
+				const range = Range.computeFromCursor(state.cursors[0])
+				try {
+					const domRange = document.createRange()
+					domRange.setStart(range.container, range.offset)
+					domRange.collapse()
+					selection.addRange(domRange)
+				} catch (error) {
+					console.error(error)
+				}
+			})
+		}, [state]),
+		[state.nodes],
+	)
 
 	return (
 		<div>

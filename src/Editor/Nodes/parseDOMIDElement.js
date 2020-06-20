@@ -25,18 +25,17 @@ function parseDOMIDElement(domIDElement) {
 	// Get the current type:
 	const type = typeEnum[domIDElement.nodeName.toLowerCase()]
 	// if (!type) {
-	// 	throw new Error("parseDOMIDElement: no such type")
+	// 	throw new Error("Nodes.parseDOMIDElement: no such type")
 	// }
 	node.type = type
 
 	// Get the current key:
 	const key = domIDElement.getAttribute("id")
 	// if (!key) {
-	// 	throw new Error("parseDOMIDElement: no such key")
+	// 	throw new Error("Nodes.parseDOMIDElement: no such key")
 	// }
 	node.key = key
 
-	// Recurses on a DOM node; pushes spans.
 	const spans = []
 	const recurse = (onDOMNode, types = [], props = {}) => {
 		if (onDOMNode.nodeType === Node.TEXT_NODE) {
@@ -55,7 +54,7 @@ function parseDOMIDElement(domIDElement) {
 			if (each.nodeType === Node.ELEMENT_NODE) {
 				const type = typeEnum[each.nodeName.toLowerCase()]
 				if (!type) {
-					throw new Error("parseDOMIDElement.recurse: no such type")
+					throw new Error("Nodes.parseDOMIDElement.recurse: no such type")
 				}
 				nextTypes.push(type)
 				nextProps[type] = JSON.parse(each.getAttribute("data-props") || "{}")

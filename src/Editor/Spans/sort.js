@@ -4,11 +4,11 @@ import { sortedTypeMap } from "../components/typeMaps"
 function sortFn(type1, type2) {
 	const x1 = sortedTypeMap[type1]
 	if (x1 === undefined) {
-		throw new Error("sortFn: no such type")
+		throw new Error("Spans.sortFn: no such type")
 	}
 	const x2 = sortedTypeMap[type2]
 	if (x2 === undefined) {
-		throw new Error("sortFn: no such type")
+		throw new Error("Spans.sortFn: no such type")
 	}
 	return x1 - x2
 }

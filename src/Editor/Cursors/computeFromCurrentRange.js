@@ -34,7 +34,6 @@ function computeFromRange(domIDElement, [domNode, offset]) {
 		offset = 0
 	}
 	const cursor = construct()
-	// Recurses on a DOM node; mutates cursor.
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {
 			Object.assign(cursor, {
