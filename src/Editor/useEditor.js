@@ -78,7 +78,7 @@ function init(elements) {
 
 function useEditor(children) {
 	const elements = React.useMemo(() => {
-		return Elements.parseReact(children)
+		return Elements.parseFromReactElements(children)
 	}, [children])
 	return useMethods(methods, {}, () => init(elements))
 }

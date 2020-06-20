@@ -2,28 +2,25 @@ import * as Spans from "../Spans"
 import construct from "./constructor"
 import { typeEnum } from "../components/typeMaps"
 
-// Parses an element from a React-rendered element.
-function parseDOMElement(domElement) {
+// Parses a synthetic element from a DOM element.
+function parseFromDOMElement(domElement) {
 	const element = construct()
 
-	// Get the current type:
 	const type = typeEnum[domElement.getAttribute("data-type")]
 	if (!type) {
-		throw new Error("Elements.parseDOMElement: no such type")
+		throw new Error("Elements.parseFromDOMElement: no such type")
 	}
 	element.type = type
 
-	// Get the current key:
 	const key = domElement.id
 	if (!key) {
-		throw new Error("Elements.parseDOMElement: no such key")
+		throw new Error("Elements.parseFromDOMElement: no such key")
 	}
 	element.key = key
 
-	// // TODO: Get the current props:
 	// const props = JSON.parse(domElement.getAttribute("data-props") || "{}")
 	// if (!props) {
-	// 	throw new Error("Elements.parseDOMElement: no such props")
+	// 	throw new Error("Elements.parseFromDOMElement: no such props")
 	// }
 	// Object.assign(element.props, props)
 
@@ -45,7 +42,7 @@ function parseDOMElement(domElement) {
 			if (each.nodeType === Node.ELEMENT_NODE) {
 				const type = typeEnum[each.getAttribute("data-type")]
 				if (!type) {
-					throw new Error("Elements.parseDOMElement.recurse: no such type")
+					throw new Error("Elements.parseFromDOMElement.recurse: no such type")
 				}
 				nextTypes.push(type)
 				nextProps[type] = JSON.parse(each.getAttribute("data-props") || "{}")
@@ -54,10 +51,9 @@ function parseDOMElement(domElement) {
 		}
 	}
 
-	// Get the current spans:
 	recurse(domElement)
 	if (!spans.length) {
-		throw new Error("Elements.parseDOMElement: no such spans")
+		throw new Error("Elements.parseFromDOMElement: no such spans")
 	}
 	element.props.children = spans
 
@@ -65,4 +61,4 @@ function parseDOMElement(domElement) {
 	return element
 }
 
-export default parseDOMElement
+export default parseFromDOMElement

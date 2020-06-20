@@ -1,4 +1,3 @@
-// Constructs a new span.
 function construct() {
 	const ref = {
 		types: [],

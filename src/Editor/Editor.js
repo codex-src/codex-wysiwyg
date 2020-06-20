@@ -169,7 +169,7 @@ const Editor = ({ children }) => {
 					if (!domElement) {
 						throw new Error("onInput: no such element")
 					}
-					const element = Elements.parseDOMElement(domElement)
+					const element = Elements.parseFromDOMElement(domElement)
 					dispatch.input(element, [selection[0], selection[0]])
 				}}
 

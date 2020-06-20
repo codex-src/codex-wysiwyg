@@ -1,20 +1,18 @@
 import construct from "./constructor"
 
-// Ascends to the closest element node.
+// Ascends to the closest DOM element with a non-empty ID.
 function ascend(domNode) {
-	// Get the closest element:
 	let domElement = domNode
 	if (domNode.nodeType !== Node.ELEMENT_NODE && domNode.parentElement) {
 		domElement = domNode.parentElement
 	}
-	// Ascend to the closest element node:
 	while (!domElement.id && domNode.parentElement) {
 		domElement = domElement.parentElement
 	}
 	return domElement
 }
 
-// Computes a cursor from a range.
+// Computes a synthetic cursor from a DOM range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
 		if (offset >= domNode.childNodes.length) {
@@ -45,15 +43,13 @@ function computeCursorFromRange(domElement, [domNode, offset]) {
 	return cursor
 }
 
-// Computes a selection from the current range.
+// Computes a synthetic selection from the current DOM range.
 function computeFromCurrentRange() {
-	// Get the current range:
 	const domSelection = document.getSelection()
 	if (!domSelection.rangeCount) {
 		return null
 	}
 	const domRange = domSelection.getRangeAt(0)
-	// Compute selection:
 	const selection = []
 	/* eslint-disable */
 	selection.push(computeCursorFromRange(ascend(domRange.startContainer),

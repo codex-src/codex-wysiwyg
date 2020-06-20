@@ -3,7 +3,7 @@ import toArray from "lib/toArray"
 import { typeMap } from "../components/typeMaps"
 
 // Parses spans from React elements.
-function parseReact(reactElements) {
+function parseFromReactElements(reactElements) {
 	const spans = []
 	const recurse = (reactElement, types = [], props = {}) => {
 		for (const each of toArray(reactElement)) {
@@ -34,4 +34,4 @@ function parseReact(reactElements) {
 	return spans
 }
 
-export default parseReact
+export default parseFromReactElements
