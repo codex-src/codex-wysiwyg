@@ -72,6 +72,9 @@ function parseDOMIDElement(domIDElement) {
 
 	// Get the current spans:
 	recurse(domIDElement)
+	if (!spans.length) {
+		throw new Error("Nodes.parseDOMIDElement: no such spans")
+	}
 	node.props.children = spans
 
 	Spans.sort(Spans.merge(node.props.children))
