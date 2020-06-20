@@ -14,7 +14,7 @@ function ascend(domNode) {
 	return domElement
 }
 
-// Computes a selection cursor from a range.
+// Computes a cursor from a range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
 		if (offset >= domNode.childNodes.length) {

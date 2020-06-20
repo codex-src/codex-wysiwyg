@@ -5,11 +5,11 @@ import construct from "./constructor"
 // 	continue
 // }
 
-// Computes a range from a selection cursor.
-function computeFromSelectionCursor({ key, offset }) { // Destructures so offset can be mutated
+// Computes a range from a cursor.
+function computeFromCursor({ key, offset }) {
 	const domElement = document.getElementById(key)
 	if (!domElement) {
-		throw new Error("Range.computeFromSelectionCursor: no such element")
+		throw new Error("Range.computeFromCursor: no such element")
 	}
 	const range = construct()
 	const recurse = onDOMNode => {
@@ -33,4 +33,4 @@ function computeFromSelectionCursor({ key, offset }) { // Destructures so offset
 	return range
 }
 
-export default computeFromSelectionCursor
+export default computeFromCursor

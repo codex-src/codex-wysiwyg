@@ -35,7 +35,7 @@ const Editor = ({ children }) => {
 				}
 				try {
 					const domRange = document.createRange()
-					const range = Range.computeFromSelectionCursor(state.selection[0])
+					const range = Range.computeFromCursor(state.selection[0])
 					domRange.setStart(range.container, range.offset)
 					domRange.collapse()
 					domSelection.addRange(domRange)
