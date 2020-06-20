@@ -11,7 +11,8 @@ function closestDOMElement(domNode) {
 // Returns the closest DOM ID element.
 function closestDOMIDElement(domNode) {
 	let domElement = closestDOMElement(domNode)
-	while (domElement && domElement.getAttribute("id") === null) {
+	// while (domElement && domElement.getAttribute("id") === null) {
+	while (domElement && !domElement.id) {
 		domElement = domElement.parentElement
 	}
 	return domElement

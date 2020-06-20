@@ -40,6 +40,13 @@ const methods = state => ({
 			throw new Error("dispatch.input: FIXME")
 		}
 		state.nodes.splice(x, 1, node)
+
+		// // TODO
+		// if (!uuidElement.spans.length) {
+		// 	uuidElement.key = uuidv4()
+		// 	cursor.key = uuidElement.key
+		// }
+
 		this.select(cursors)
 	},
 	backspaceRune() {

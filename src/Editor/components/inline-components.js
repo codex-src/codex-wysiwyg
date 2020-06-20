@@ -1,37 +1,44 @@
 import attrs from "./attrs"
 import React from "react"
+import T from "./hoc"
+import { typeEnum } from "./typeMaps"
 
 export const Em = ({ children }) => (
-	// data-type={typeEnum.em}
-	<em className="italic">
-		{children}
-	</em>
+	<T type={typeEnum.em}>
+		<span className="italic">
+			{children}
+		</span>
+	</T>
 )
 
 export const Strong = ({ children }) => (
-	// data-type={typeEnum.strong}
-	<strong className="font-bold">
-		{children}
-	</strong>
+	<T type={typeEnum.strong}>
+		<span className="font-bold">
+			{children}
+		</span>
+	</T>
 )
 
 export const Code = ({ children }) => (
-	// data-type={typeEnum.code}
-	<code className="px-1 py-0.5 text-sm font-mono text-blue-600 border border-cool-gray-300 rounded" {...attrs.code}>
-		{children}
-	</code>
+	<T type={typeEnum.code}>
+		<span className="px-1 py-0.5 text-sm font-mono text-blue-600 border border-cool-gray-300 rounded" {...attrs.code}>
+			{children}
+		</span>
+	</T>
 )
 
 export const Strike = ({ children }) => (
-	// data-type={typeEnum.strike}
-	<strike className="line-through text-gray-400">
-		{children}
-	</strike>
+	<T type={typeEnum.strike}>
+		<span className="line-through text-gray-400">
+			{children}
+		</span>
+	</T>
 )
 
 export const A = ({ href, children }) => (
-	// data-type={typeEnum.a}
-	<a className="mx-px underline text-blue-600" href={href} {...attrs.a} data-props={JSON.stringify({ href })}>
-		{children}
-	</a>
+	<T type={typeEnum.a} props={{ href }}>
+		<span className="mx-px underline text-blue-600" {...attrs.a}>
+			{children}
+		</span>
+	</T>
 )
