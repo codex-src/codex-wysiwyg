@@ -1,11 +1,7 @@
-// import * as iter from "./iter"
-// import uuidv4 from "uuid/v4"
 import * as Cursors from "./Cursors"
 import * as Nodes from "./Nodes"
-import * as Spans from "./Spans"
 import React from "react"
 import useMethods from "use-methods"
-import { typeEnum } from "./components/typeMaps"
 
 const methods = state => ({
 	/*
@@ -33,30 +29,32 @@ const methods = state => ({
 		})
 	},
 	/*
-	 * Backspace
+	 * Input
 	 */
+	// write() {
+	// 	// ...
+	// },
+	input(node, cursors) {
+		const x = state.nodes.find(each => each.key === node.key)
+		if (x === -1) {
+			throw new Error("dispatch.input: FIXME")
+		}
+		state.nodes.splice(x, 1, node)
+		this.select(cursors)
+	},
 	backspaceRune() {
 		// ...
 	},
 	backspaceWord() {
 		// ...
 	},
-	backspaceParagraph() {
+	backspaceLine() {
 		// ...
 	},
 	forwardBackspaceRune() {
 		// ...
 	},
 	forwardBackspaceWord() {
-		// ...
-	},
-	/*
-	 * Input
-	 */
-	write() {
-		// ...
-	},
-	input() {
 		// ...
 	},
 })
@@ -76,27 +74,7 @@ function init(nodes) {
 
 function useEditor(children) {
 	const nodes = React.useMemo(() => {
-		return Nodes.parseReact(children).map(each => {
-			switch (each.type) {
-			case typeEnum.h1:
-			case typeEnum.h2:
-			case typeEnum.h3:
-			case typeEnum.h4:
-			case typeEnum.h5:
-			case typeEnum.h6:
-				Spans.sort(Spans.merge(each.props.children))
-				break
-			case typeEnum.p:
-				Spans.sort(Spans.merge(each.props.children))
-				break
-			case typeEnum.hr:
-				// No-op
-				break
-			default:
-				throw new Error("FIXME: unknown type")
-			}
-			return each
-		})
+		return Nodes.parseReact(children)
 	}, [children])
 	return useMethods(methods, {}, () => init(nodes))
 }

@@ -165,7 +165,8 @@ const Editor = ({ children }) => {
 					if (!domIDElement) {
 						throw new Error("onInput: no such element")
 					}
-					console.log(Nodes.parseDOMIDElement(domIDElement))
+					const node = Nodes.parseDOMIDElement(domIDElement) // TODO: Rename to element?
+					dispatch.input(node, [cursors[0], cursors[0]])
 				}}
 
 				onCut={e => {

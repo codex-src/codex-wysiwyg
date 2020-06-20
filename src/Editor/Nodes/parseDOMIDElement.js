@@ -1,3 +1,4 @@
+import * as Spans from "../Spans"
 import construct from "./constructor"
 import { typeEnum } from "../components/typeMaps"
 
@@ -51,6 +52,7 @@ function parseDOMIDElement(domIDElement) {
 	recurse(domIDElement)
 	node.props.children = spans
 
+	Spans.sort(Spans.merge(node.props.children))
 	return node
 }
 

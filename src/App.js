@@ -78,7 +78,7 @@ const App = () => (
 				<p>
 					<br />
 				</p>
-				{/* <hr /> */}
+				<hr />
 				<p>
 					Hello, world!
 				</p>
