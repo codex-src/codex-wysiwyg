@@ -31,7 +31,7 @@ export const Strike = ({ children }) => (
 
 export const A = ({ href, children }) => (
 	// data-type={typeEnum.a}
-	<a className="mx-px underline text-blue-600" href={href} {...attrs.a}>
+	<a className="mx-px underline text-blue-600" href={href} {...attrs.a} data-props={JSON.stringify({ href })}>
 		{children}
 	</a>
 )

@@ -47,8 +47,11 @@ function computeFromRange(domIDElement, [domNode, offset]) {
 			if (recurse(each)) {
 				return true
 			}
+			// if (each.nodeType === Node.TEXT_NODE) {
+			// 	cursor.offset += each.nodeValue.length
+			// }
 			cursor.offset += each.nodeType === Node.TEXT_NODE &&
-				each.textContent.length
+				each.nodeValue.length
 		}
 		return false
 	}

@@ -3,18 +3,18 @@ import * as utf8 from "lib/encoding/utf8"
 
 // Returns the number of bytes iterated backwards.
 export const rtl = {
-	rune(textContent) {
-		const info = emojiTrie.atEnd(textContent)
+	rune(str) {
+		const info = emojiTrie.atEnd(str)
 		if (info) {
 			return info.emoji
 		}
-		return utf8.atEnd(textContent)
+		return utf8.atEnd(str)
 	},
-	word(textContent) {
+	word(str) {
 		// Iterate spaces:
-		let offset = textContent.length
+		let offset = str.length
 		while (offset) {
-			const rune = rtl.rune(textContent.slice(0, offset))
+			const rune = rtl.rune(str.slice(0, offset))
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
 				break
@@ -23,13 +23,13 @@ export const rtl = {
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const rune = rtl.rune(textContent.slice(0, offset))
+		const rune = rtl.rune(str.slice(0, offset))
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
 			while (offset) {
-				const rune = rtl.rune(textContent.slice(0, offset))
+				const rune = rtl.rune(str.slice(0, offset))
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -39,7 +39,7 @@ export const rtl = {
 		// Iterate non-alphanumerics:
 		} else {
 			while (offset) {
-				const rune = rtl.rune(textContent.slice(0, offset))
+				const rune = rtl.rune(str.slice(0, offset))
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -47,42 +47,42 @@ export const rtl = {
 				offset -= rune.length
 			}
 		}
-		if (offset === textContent.length && offset && textContent[offset - 1] === "\n") {
+		if (offset === str.length && offset && str[offset - 1] === "\n") {
 			offset--
 		}
-		return textContent.slice(offset)
+		return str.slice(offset)
 	},
-	line(textContent) {
-		let offset = textContent.length
+	line(str) {
+		let offset = str.length
 		while (offset) {
-			const rune = rtl.rune(textContent.slice(0, offset))
+			const rune = rtl.rune(str.slice(0, offset))
 			if (utf8.isVWhiteSpace(rune)) {
 				// No-op
 				break
 			}
 			offset -= rune.length
 		}
-		if (offset === textContent.length && offset && textContent[offset - 1] === "\n") {
+		if (offset === str.length && offset && str[offset - 1] === "\n") {
 			offset--
 		}
-		return textContent.slice(offset)
+		return str.slice(offset)
 	},
 }
 
 // Returns the number of bytes iterated forwards.
 export const ltr = {
-	rune(textContent) {
-		const info = emojiTrie.atStart(textContent)
+	rune(str) {
+		const info = emojiTrie.atStart(str)
 		if (info) {
 			return info.emoji
 		}
-		return utf8.atStart(textContent)
+		return utf8.atStart(str)
 	},
-	word(textContent) {
+	word(str) {
 		// Iterate spaces:
 		let offset = 0
-		while (offset < textContent.length) {
-			const rune = ltr.rune(textContent.slice(offset))
+		while (offset < str.length) {
+			const rune = ltr.rune(str.slice(offset))
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
 				break
@@ -91,13 +91,13 @@ export const ltr = {
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const rune = ltr.rune(textContent.slice(offset))
+		const rune = ltr.rune(str.slice(offset))
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
-			while (offset < textContent.length) {
-				const rune = ltr.rune(textContent.slice(offset))
+			while (offset < str.length) {
+				const rune = ltr.rune(str.slice(offset))
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -106,8 +106,8 @@ export const ltr = {
 			}
 		// Iterate non-alphanumerics:
 		} else {
-			while (offset < textContent.length) {
-				const rune = ltr.rune(textContent.slice(offset))
+			while (offset < str.length) {
+				const rune = ltr.rune(str.slice(offset))
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -115,9 +115,9 @@ export const ltr = {
 				offset += rune.length
 			}
 		}
-		if (!offset && offset < textContent.length && textContent[offset] === "\n") {
+		if (!offset && offset < str.length && str[offset] === "\n") {
 			offset++
 		}
-		return textContent.slice(0, offset)
+		return str.slice(0, offset)
 	},
 }

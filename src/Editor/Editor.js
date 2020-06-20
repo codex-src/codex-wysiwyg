@@ -1,4 +1,5 @@
 import * as Cursors from "./Cursors"
+import * as Nodes from "./Nodes"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextContent from "./noopTextContent"
@@ -6,6 +7,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
 import useEditor from "./useEditor"
+import { typeEnum } from "./components/typeMaps"
 
 import "./Editor.css"
 
@@ -160,17 +162,66 @@ const Editor = ({ children }) => {
 					if (!cursors) {
 						throw new Error("onInput: no such cursors")
 					}
-					const domIDElement = document.getElementById(cursors[0].key)
+					const id = cursors[0].key
+					const domIDElement = document.getElementById(id)
 					if (!domIDElement) {
-						throw new Error("onInput: no such element")
+						// eslint-disable-next-line quotes
+						throw new Error(`onInput: no such id (id=${id || `""`})`)
 					}
 
 					// Parses a DOM ID element.
 					const parseDOMIDElement = domIDElement => {
-						// ...
+						const node = Nodes.construct()
+
+						// Get the current type:
+						const type = typeEnum[domIDElement.nodeName.toLowerCase()]
+						if (!type) {
+							// eslint-disable-next-line quotes
+							throw new Error(`parseDOMIDElement: no such type (type=${type || `""`})`)
+						}
+						node.type = type
+						// Get the current key:
+						const key = domIDElement.getAttribute("id")
+						if (!key) {
+							// eslint-disable-next-line quotes
+							throw new Error(`parseDOMIDElement: no such key (key=${key || `""`})`)
+						}
+						node.key = key
+						// Get the current spans:
+						const spans = []
+						const recurse = (onDOMNode, types = [], props = {}) => {
+							if (onDOMNode.nodeType === Node.TEXT_NODE) {
+								spans.push({
+									types,
+									...{
+										...props,
+										children: onDOMNode.nodeValue,
+									},
+								})
+								return
+							}
+							for (const each of onDOMNode.childNodes) {
+								// Get the next types and type-props:
+								const nextTypes = [...types]
+								const nextProps = { ...props } // TODO
+								if (each.nodeType === Node.ELEMENT_NODE) {
+									const type = typeEnum[each.nodeName.toLowerCase()]
+									if (!type) {
+										// eslint-disable-next-line quotes
+										throw new Error(`parseDOMIDElement.recurse: no such type (type=${type || `""`})`)
+									}
+									nextTypes.push(type)
+									nextProps[type] = JSON.parse(each.getAttribute("data-props") || "{}")
+								}
+								recurse(each, nextTypes, nextProps)
+							}
+						}
+						recurse(domIDElement)
+						console.log(spans)
+						// console.log(domIDElement, node)
 					}
 
-					console.log(domIDElement)
+					parseDOMIDElement(domIDElement)
 				}}
 
 				onCut={e => {
