@@ -73,6 +73,7 @@ export const P = React.memo(({ reactKey, children }) => (
 	</T>
 ))
 
+// FIXME
 export const HR = React.memo(({ reactKey, children }) => (
 	<T type={typeEnum.hr}>
 		<div id={reactKey} className="my-6 border-t-4 border-cool-gray-300" />
