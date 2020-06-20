@@ -6,27 +6,15 @@
 // - React?
 // - JSON? (probably not)
 
-// We can use spans as a keyword to denote inline elements::
-//
-// {
-// 	props: {
-// 		spans: [
-// 			// ...
-// 		],
-// 	},
-// }
-
 const elem = {
 	type: typeEnum.p,
 	key: "abc-xyz-123",
 	props: {
-		children: {
-			spans: [
-				// <span>
-				// <span>
-				// <span>
-			],
-		},
+		children: [
+			// <span>
+			// <span>
+			// <span>
+		],
 	},
 }
 
@@ -60,13 +48,11 @@ const elem = {
 					checked: {
 						value: false,
 					},
-					children: {
-						spans: [
-							// <span>
-							// <span>
-							// <span>
-						],
-					},
+					children: [
+						// <span>
+						// <span>
+						// <span>
+					],
 				},
 			},
 			{
@@ -76,13 +62,11 @@ const elem = {
 					checked: {
 						value: false,
 					},
-					children: {
-						spans: [
-							// <span>
-							// <span>
-							// <span>
-						],
-					},
+					children: [
+						// <span>
+						// <span>
+						// <span>
+					],
 				},
 			},
 		],
