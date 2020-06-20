@@ -1,5 +1,5 @@
-import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
+import * as Selection from "./Selection"
 import React from "react"
 import shortUUID from "lib/shortUUID"
 import useMethods from "use-methods"
@@ -15,25 +15,25 @@ const methods = state => ({
 		state.focused = false
 	},
 	/*
-	 * Cursors
+	 * Selection
 	 */
-	select(cursors) {
+	select(selection) {
 		Object.assign(state, {
-			cursors,
-			collapsed: cursors[0] === cursors[1],
+			selection,
+			collapsed: selection[0] === selection[1],
 		})
 	},
 	collapse() {
 		Object.assign(state, {
-			cursors: [state.curors[0], state.cursors[0]],
+			selection: [state.selection[0], state.selection[0]],
 			collapsed: true,
 		})
 	},
 	/*
 	 * Input
 	 */
-	input(element, cursors) {
-		const x = state.elements.findIndex(each => each.key === cursors[0].key)
+	input(element, selection) {
+		const x = state.elements.findIndex(each => each.key === selection[0].key)
 		if (x === -1) {
 			throw new Error("dispatch.input: FIXME")
 		}
@@ -41,10 +41,10 @@ const methods = state => ({
 		if (!state.elements[x].props.children.length) {
 			const forcedKey = shortUUID()
 			element.key = forcedKey
-			cursors[0].key = forcedKey // Updates cursors[1] because references are shared
+			selection[0].key = forcedKey // Updates selection[1] because references are shared
 		}
 		state.elements.splice(x, 1, element)
-		this.select(cursors)
+		this.select(selection)
 	},
 	backspaceRune() {
 		// ...
@@ -66,9 +66,9 @@ const methods = state => ({
 function init(elements) {
 	const state = {
 		focused: false,
-		cursors: [
-			Cursors.construct(),
-			Cursors.construct(),
+		selection: [
+			Selection.construct(),
+			Selection.construct(),
 		],
 		collapsed: true,
 		elements,

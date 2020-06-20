@@ -14,12 +14,11 @@ function ascend(domNode) {
 	return domElement
 }
 
-// Computes a cursor from a range.
-function computeFromRange(domElement, [domNode, offset]) {
-	// TODO
+// Computes a selection cursor from a range.
+function computeCursorFromRange(domElement, [domNode, offset]) {
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
 		if (offset >= domNode.childNodes.length) {
-			throw new Error("Cursors.computeFromRange: FIXME")
+			throw new Error("Selection.computeCursorFromRange: FIXME")
 		}
 		domNode = domNode.childNodes[offset]
 		offset = 0
@@ -37,9 +36,6 @@ function computeFromRange(domElement, [domNode, offset]) {
 			if (recurse(each)) {
 				return true
 			}
-			// if (each.nodeType === Node.TEXT_NODE) {
-			// 	cursor.offset += each.nodeValue.length
-			// }
 			cursor.offset += each.nodeType === Node.TEXT_NODE &&
 				each.nodeValue.length
 		}
@@ -49,25 +45,27 @@ function computeFromRange(domElement, [domNode, offset]) {
 	return cursor
 }
 
-// Computes cursors from the current range.
+// Computes a selection from the current range.
 function computeFromCurrentRange() {
-	const selection = document.getSelection()
-	if (!selection.rangeCount) {
+	// Get the current range:
+	const domSelection = document.getSelection()
+	if (!domSelection.rangeCount) {
 		return null
 	}
-	const range = selection.getRangeAt(0)
-	const cursors = []
+	const domRange = domSelection.getRangeAt(0)
+	// Compute selection:
+	const selection = []
 	/* eslint-disable */
-	cursors.push(computeFromRange(ascend(range.startContainer),
-		[range.startContainer, range.startOffset]))
-	if (range.collapsed) {
-		cursors.push(cursors[0])
+	selection.push(computeCursorFromRange(ascend(domRange.startContainer),
+		[domRange.startContainer, domRange.startOffset]))
+	if (domRange.collapsed) {
+		selection.push(selection[0])
 	} else {
-		cursors.push(computeFromRange(ascend(range.endContainer),
-			[range.endContainer, range.endOffset]))
+		selection.push(computeCursorFromRange(ascend(domRange.endContainer),
+			[domRange.endContainer, domRange.endOffset]))
 	}
 	/* eslint-enable */
-	return cursors
+	return selection
 }
 
 export default computeFromCurrentRange

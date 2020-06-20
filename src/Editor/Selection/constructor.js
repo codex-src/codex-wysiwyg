@@ -1,4 +1,4 @@
-// Constructs a new cursor.
+// Constructs a new selection cursor.
 function construct() {
 	const ref = {
 		key: "",

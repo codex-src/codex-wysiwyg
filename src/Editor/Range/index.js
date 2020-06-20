@@ -1,2 +1,2 @@
-export { default as computeFromCursor } from "./computeFromCursor"
+export { default as computeFromSelectionCursor } from "./computeFromSelectionCursor"
 export { default as construct } from "./constructor"

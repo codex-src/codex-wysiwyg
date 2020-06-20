@@ -1,6 +1,6 @@
-import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Range from "./Range"
+import * as Selection from "./Selection"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
@@ -24,21 +24,21 @@ const Editor = ({ children }) => {
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
-			const selection = document.getSelection()
-			if (selection.rangeCount) {
-				selection.removeAllRanges()
+			const domSelection = document.getSelection()
+			if (domSelection.rangeCount) {
+				domSelection.removeAllRanges()
 			}
 			ReactDOM.render(<ReactRenderer elements={state.elements} />, ref.current, () => {
 				if (!state.focused) {
 					// No-op
 					return
 				}
-				const range = Range.computeFromCursor(state.cursors[0])
 				try {
 					const domRange = document.createRange()
+					const range = Range.computeFromSelectionCursor(state.selection[0])
 					domRange.setStart(range.container, range.offset)
 					domRange.collapse()
-					selection.addRange(domRange)
+					domSelection.addRange(domRange)
 				} catch (error) {
 					console.error(error)
 				}
@@ -76,12 +76,12 @@ const Editor = ({ children }) => {
 						// No-op
 						return
 					}
-					const cursors = Cursors.computeFromCurrentRange()
-					if (!cursors) {
+					const selection = Selection.computeFromCurrentRange()
+					if (!selection) {
 						// No-op
 						return
 					}
-					dispatch.select(cursors)
+					dispatch.select(selection)
 				}}
 
 				onPointerUp={e => {
@@ -89,12 +89,12 @@ const Editor = ({ children }) => {
 				}}
 
 				onSelect={e => {
-					const cursors = Cursors.computeFromCurrentRange()
-					if (!cursors) {
+					const selection = Selection.computeFromCurrentRange()
+					if (!selection) {
 						// No-op
 						return
 					}
-					dispatch.select(cursors)
+					dispatch.select(selection)
 				}}
 
 				onKeyDown={e => {
@@ -161,16 +161,16 @@ const Editor = ({ children }) => {
 				}}
 
 				onInput={e => {
-					const cursors = Cursors.computeFromCurrentRange()
-					if (!cursors) {
-						throw new Error("onInput: no such cursors")
+					const selection = Selection.computeFromCurrentRange()
+					if (!selection) {
+						throw new Error("onInput: no such selection")
 					}
-					const domIDElement = document.getElementById(cursors[0].key)
-					if (!domIDElement) {
+					const domElement = document.getElementById(selection[0].key)
+					if (!domElement) {
 						throw new Error("onInput: no such element")
 					}
-					const element = Elements.parseDOMIDElement(domIDElement)
-					dispatch.input(element, [cursors[0], cursors[0]])
+					const element = Elements.parseDOMElement(domElement)
+					dispatch.input(element, [selection[0], selection[0]])
 				}}
 
 				onCut={e => {
