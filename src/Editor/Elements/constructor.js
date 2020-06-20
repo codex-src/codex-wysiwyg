@@ -1,4 +1,4 @@
-// Constructs a new node.
+// Constructs a new element.
 function construct() {
 	const ref = {
 		type: "",

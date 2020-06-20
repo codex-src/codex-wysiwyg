@@ -1,5 +1,5 @@
 import * as Cursors from "./Cursors"
-import * as Nodes from "./Nodes"
+import * as Elements from "./Elements"
 import * as Range from "./Range"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
@@ -28,7 +28,7 @@ const Editor = ({ children }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<ReactRenderer>{state.nodes}</ReactRenderer>, ref.current, () => {
+			ReactDOM.render(<ReactRenderer elements={state.elements} />, ref.current, () => {
 				if (!state.focused) {
 					// No-op
 					return
@@ -44,7 +44,7 @@ const Editor = ({ children }) => {
 				}
 			})
 		}, [state]),
-		[state.nodes],
+		[state.elements],
 	)
 
 	return (
@@ -169,8 +169,8 @@ const Editor = ({ children }) => {
 					if (!domIDElement) {
 						throw new Error("onInput: no such element")
 					}
-					const node = Nodes.parseDOMIDElement(domIDElement) // TODO: Rename to element?
-					dispatch.input(node, [cursors[0], cursors[0]])
+					const element = Elements.parseDOMIDElement(domIDElement)
+					dispatch.input(element, [cursors[0], cursors[0]])
 				}}
 
 				onCut={e => {

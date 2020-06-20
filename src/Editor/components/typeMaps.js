@@ -9,7 +9,7 @@ import {
 	H6,
 	P,
 	HR,
-} from "./components"
+} from "./elements"
 
 import {
 	Em,
@@ -17,7 +17,7 @@ import {
 	Code,
 	Strike,
 	A,
-} from "./inline-components"
+} from "./spans"
 
 // Sorted based on render precedence.
 export const typeEnum = {

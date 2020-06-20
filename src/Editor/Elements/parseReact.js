@@ -2,21 +2,21 @@ import * as Spans from "../Spans"
 import toArray from "lib/toArray"
 import uuidv4 from "uuid/v4"
 
-// Parses nodes from React elements.
+// Parses elements from React elements.
 function parseReact(reactElements) {
-	const nodes = []
+	const elements = []
 	for (const each of toArray(reactElements)) {
-		const node = {
+		const element = {
 			type: each.type,
 			key: uuidv4(),
 			props: {
 				children: Spans.parseReact(each.props.children),
 			},
 		}
-		Spans.sort(Spans.merge(node.props.children))
-		nodes.push(node)
+		Spans.sort(Spans.merge(element.props.children))
+		elements.push(element)
 	}
-	return nodes
+	return elements
 }
 
 export default parseReact

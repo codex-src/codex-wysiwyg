@@ -1,5 +1,5 @@
 import * as Cursors from "./Cursors"
-import * as Nodes from "./Nodes"
+import * as Elements from "./Elements"
 import React from "react"
 import useMethods from "use-methods"
 import uuidv4 from "uuid/v4"
@@ -32,18 +32,18 @@ const methods = state => ({
 	/*
 	 * Input
 	 */
-	input(node, cursors) {
-		const x = state.nodes.findIndex(each => each.key === cursors[0].key)
+	input(element, cursors) {
+		const x = state.elements.findIndex(each => each.key === cursors[0].key)
 		if (x === -1) {
 			throw new Error("dispatch.input: FIXME")
 		}
 		// Force a new key for <br> to text node:
-		if (!state.nodes[x].props.children.length) {
+		if (!state.elements[x].props.children.length) {
 			const forcedKey = uuidv4()
-			node.key = forcedKey
+			element.key = forcedKey
 			cursors[0].key = forcedKey // Updates cursors[1] because references are shared
 		}
-		state.nodes.splice(x, 1, node)
+		state.elements.splice(x, 1, element)
 		this.select(cursors)
 	},
 	backspaceRune() {
@@ -63,24 +63,24 @@ const methods = state => ({
 	},
 })
 
-function init(nodes) {
+function init(elements) {
 	const state = {
-		focused: false,        // Is the DOM element focused?
-		cursors: [             // The start and end cursors
-			Cursors.construct(), //
-			Cursors.construct(), //
-		],                     //
-		collapsed: true,       // Are the cursors collapsed?
-		nodes,                 // The document nodes
+		focused: false,
+		cursors: [
+			Cursors.construct(),
+			Cursors.construct(),
+		],
+		collapsed: true,
+		elements,
 	}
 	return state
 }
 
 function useEditor(children) {
-	const nodes = React.useMemo(() => {
-		return Nodes.parseReact(children)
+	const elements = React.useMemo(() => {
+		return Elements.parseReact(children)
 	}, [children])
-	return useMethods(methods, {}, () => init(nodes))
+	return useMethods(methods, {}, () => init(elements))
 }
 
 export default useEditor
