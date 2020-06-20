@@ -1,7 +1,7 @@
 import construct from "./constructor"
 
 // Returns the closest DOM element.
-function closestElement(domNode) {
+function closestDOMElement(domNode) {
 	if (domNode.nodeType !== Node.ELEMENT_NODE) {
 		return domNode.parentElement
 	}
@@ -9,8 +9,8 @@ function closestElement(domNode) {
 }
 
 // Returns the closest DOM ID element.
-function closestIDElement(domNode) {
-	let domElement = closestElement(domNode)
+function closestDOMIDElement(domNode) {
+	let domElement = closestDOMElement(domNode)
 	while (domElement && domElement.getAttribute("id") === null) {
 		domElement = domElement.parentElement
 	}
@@ -68,12 +68,12 @@ function computeFromCurrentRange() {
 	const range = selection.getRangeAt(0)
 	const cursors = []
 	/* eslint-disable */
-	cursors.push(computeFromRange(closestIDElement(range.startContainer),
+	cursors.push(computeFromRange(closestDOMIDElement(range.startContainer),
 		[range.startContainer, range.startOffset]))
 	if (range.collapsed) {
 		cursors.push(cursors[0])
 	} else {
-		cursors.push(computeFromRange(closestIDElement(range.endContainer),
+		cursors.push(computeFromRange(closestDOMIDElement(range.endContainer),
 			[range.endContainer, range.endOffset]))
 	}
 	/* eslint-enable */

@@ -7,7 +7,6 @@ import React from "react"
 import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
 import useEditor from "./useEditor"
-import { typeEnum } from "./components/typeMaps"
 
 import "./Editor.css"
 
@@ -131,10 +130,10 @@ const Editor = ({ children }) => {
 						e.preventDefault()
 						console.log("backspaceWord")
 						break
-					case keyDownTypesEnum.backspaceRune:
-						e.preventDefault()
-						console.log("backspaceRune")
-						break
+					// case keyDownTypesEnum.backspaceRune:
+					// 	e.preventDefault()
+					// 	console.log("backspaceRune")
+					// 	break
 					case keyDownTypesEnum.forwardBackspaceWord:
 						e.preventDefault()
 						console.log("forwardBackspaceWord")
@@ -162,66 +161,11 @@ const Editor = ({ children }) => {
 					if (!cursors) {
 						throw new Error("onInput: no such cursors")
 					}
-					const id = cursors[0].key
-					const domIDElement = document.getElementById(id)
+					const domIDElement = document.getElementById(cursors[0].key)
 					if (!domIDElement) {
-						// eslint-disable-next-line quotes
-						throw new Error(`onInput: no such id (id=${id || `""`})`)
+						throw new Error("onInput: no such element")
 					}
-
-					// Parses a DOM ID element.
-					const parseDOMIDElement = domIDElement => {
-						const node = Nodes.construct()
-
-						// Get the current type:
-						const type = typeEnum[domIDElement.nodeName.toLowerCase()]
-						if (!type) {
-							// eslint-disable-next-line quotes
-							throw new Error(`parseDOMIDElement: no such type (type=${type || `""`})`)
-						}
-						node.type = type
-						// Get the current key:
-						const key = domIDElement.getAttribute("id")
-						if (!key) {
-							// eslint-disable-next-line quotes
-							throw new Error(`parseDOMIDElement: no such key (key=${key || `""`})`)
-						}
-						node.key = key
-						// Get the current spans:
-						const spans = []
-						const recurse = (onDOMNode, types = [], props = {}) => {
-							if (onDOMNode.nodeType === Node.TEXT_NODE) {
-								spans.push({
-									types,
-									...{
-										...props,
-										children: onDOMNode.nodeValue,
-									},
-								})
-								return
-							}
-							for (const each of onDOMNode.childNodes) {
-								// Get the next types and type-props:
-								const nextTypes = [...types]
-								const nextProps = { ...props } // TODO
-								if (each.nodeType === Node.ELEMENT_NODE) {
-									const type = typeEnum[each.nodeName.toLowerCase()]
-									if (!type) {
-										// eslint-disable-next-line quotes
-										throw new Error(`parseDOMIDElement.recurse: no such type (type=${type || `""`})`)
-									}
-									nextTypes.push(type)
-									nextProps[type] = JSON.parse(each.getAttribute("data-props") || "{}")
-								}
-								recurse(each, nextTypes, nextProps)
-							}
-						}
-						recurse(domIDElement)
-						console.log(spans)
-						// console.log(domIDElement, node)
-					}
-
-					parseDOMIDElement(domIDElement)
+					console.log(Nodes.parseDOMIDElement(domIDElement))
 				}}
 
 				onCut={e => {
