@@ -5,7 +5,7 @@ import { typeEnum } from "./typeMaps"
 
 export const H1 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h1}>
-		<div id={$key} className="font-semibold text-3xl leading-tight">
+		<div id={$key} className="font-semibold text-2xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -15,7 +15,7 @@ export const H1 = React.memo(({ $key, children }) => (
 
 export const H2 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h2}>
-		<div id={$key} className="font-semibold text-2xl leading-tight">
+		<div id={$key} className="font-semibold text-xl leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -25,7 +25,7 @@ export const H2 = React.memo(({ $key, children }) => (
 
 export const H3 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h3}>
-		<div id={$key} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-lg leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -35,7 +35,7 @@ export const H3 = React.memo(({ $key, children }) => (
 
 export const H4 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h4}>
-		<div id={$key} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-lg leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -45,7 +45,7 @@ export const H4 = React.memo(({ $key, children }) => (
 
 export const H5 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h5}>
-		<div id={$key} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-lg leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
@@ -55,7 +55,7 @@ export const H5 = React.memo(({ $key, children }) => (
 
 export const H6 = React.memo(({ $key, children }) => (
 	<T type={typeEnum.h6}>
-		<div id={$key} className="font-semibold text-xl leading-tight">
+		<div id={$key} className="font-semibold text-lg leading-tight">
 			{toReact(children) || (
 				<br />
 			)}
