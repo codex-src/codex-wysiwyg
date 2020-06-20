@@ -1,35 +1,25 @@
 import construct from "./constructor"
 
-// Returns the closest DOM element.
-function closestDOMElement(domNode) {
-	if (domNode.nodeType !== Node.ELEMENT_NODE) {
-		return domNode.parentElement
+// Ascends to the closest element node.
+function ascend(domNode) {
+	// Get the closest element:
+	let domElement = domNode
+	if (domNode.nodeType !== Node.ELEMENT_NODE && domNode.parentElement) {
+		domElement = domNode.parentElement
 	}
-	return domNode
-}
-
-// Returns the closest DOM ID element.
-function closestDOMIDElement(domNode) {
-	let domElement = closestDOMElement(domNode)
-	// while (domElement && domElement.getAttribute("id") === null) {
-	while (domElement && !domElement.id) {
+	// Ascend to the closest element node:
+	while (!domElement.id && domNode.parentElement) {
 		domElement = domElement.parentElement
 	}
 	return domElement
 }
 
-// // TODO: contenteditable?
-// if (each.nodeType === Node.ELEMENT_NODE && each.getAttribute("contenteditable") === "false") {
-// 	// No-op
-// 	continue
-// }
-
 // Computes a cursor from a range.
-function computeFromRange(domIDElement, [domNode, offset]) {
+function computeFromRange(domElement, [domNode, offset]) {
 	// TODO
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
 		if (offset >= domNode.childNodes.length) {
-			throw new Error("computeFromRange: FIXME")
+			throw new Error("Cursors.computeFromRange: FIXME")
 		}
 		domNode = domNode.childNodes[offset]
 		offset = 0
@@ -38,7 +28,7 @@ function computeFromRange(domIDElement, [domNode, offset]) {
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {
 			Object.assign(cursor, {
-				key: domIDElement.id,
+				key: domElement.id,
 				offset: cursor.offset + offset,
 			})
 			return true
@@ -55,7 +45,7 @@ function computeFromRange(domIDElement, [domNode, offset]) {
 		}
 		return false
 	}
-	recurse(domIDElement)
+	recurse(domElement)
 	return cursor
 }
 
@@ -68,12 +58,12 @@ function computeFromCurrentRange() {
 	const range = selection.getRangeAt(0)
 	const cursors = []
 	/* eslint-disable */
-	cursors.push(computeFromRange(closestDOMIDElement(range.startContainer),
+	cursors.push(computeFromRange(ascend(range.startContainer),
 		[range.startContainer, range.startOffset]))
 	if (range.collapsed) {
 		cursors.push(cursors[0])
 	} else {
-		cursors.push(computeFromRange(closestDOMIDElement(range.endContainer),
+		cursors.push(computeFromRange(ascend(range.endContainer),
 			[range.endContainer, range.endOffset]))
 	}
 	/* eslint-enable */
