@@ -78,15 +78,15 @@ const App = () => (
 				<p>
 					<br />
 				</p>
-				<hr />
+				{/* <hr /> */}
 				<p>
 					Hello, world!
 				</p>
-				<p>
-				</p>
-				<p>
-					<br />
-				</p>
+				{/* <p> */}
+				{/* </p> */}
+				{/* <p> */}
+				{/* 	<br /> */}
+				{/* </p> */}
 			</Editor>
 			{/* eslint-enable jsx-a11y/anchor-is-valid */}
 
