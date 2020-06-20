@@ -7,6 +7,8 @@ import ReactDOM from "react-dom"
 import ReactRenderer from "./ReactRenderer"
 import useEditor from "./useEditor"
 
+import "./Editor.css"
+
 ;(() => {
 	noopTextContent()
 })()
@@ -64,7 +66,7 @@ const Editor = ({ children }) => {
 
 				onPointerMove={e => {
 					if (!state.focused) {
-						pointerIsDownRef.current = false // Reset
+						pointerIsDownRef.current = false
 					} else if (!pointerIsDownRef.current) {
 						// No-op
 						return
@@ -78,7 +80,7 @@ const Editor = ({ children }) => {
 				}}
 
 				onPointerUp={e => {
-					pointerIsDownRef.current = false // Reset
+					pointerIsDownRef.current = false
 				}}
 
 				onSelect={e => {

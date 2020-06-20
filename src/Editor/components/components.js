@@ -57,7 +57,13 @@ export const P = React.memo(({ reactKey, children }) => (
 	</p>
 ))
 
-// TODO
+// // TODO
+// export const HR = React.memo(({ reactKey, children }) => (
+// 	<hr id={reactKey} className="my-6 border-t-4 border-cool-gray-300" />
+// ))
+
 export const HR = React.memo(({ reactKey, children }) => (
-	<hr id={reactKey} className="my-6 border-t-4 border-cool-gray-300" />
+	<div id={reactKey} className="my-6 text-right text-cool-gray-300" style={{ backgroundImage: "linear-gradient(transparent 0, transparent 0.625rem, currentColor 0.625rem, currentColor 0.875rem, transparent 0.875rem)" }}>
+		<br />
+	</div>
 ))

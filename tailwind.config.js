@@ -8,10 +8,6 @@ module.exports = {
 	],
 	theme: {
 		extend: {
-			// colors: {
-			// 	"gh-gray": "#24292e",
-			// 	"tw-blue": "#1da1f2",
-			// },
 			fontFamily: {
 				sans: [
 					"-apple-system",
@@ -19,10 +15,6 @@ module.exports = {
 					"Inter",
 					...defaultTheme.fontFamily.sans,
 				],
-			},
-			opacity: {
-				90: "0.90",
-				95: "0.95",
 			},
 			// https://youtube.com/watch?v=jl_tdhBxc_Y
 			spacing: {
