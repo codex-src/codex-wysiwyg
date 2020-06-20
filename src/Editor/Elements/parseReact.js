@@ -1,6 +1,6 @@
 import * as Spans from "../Spans"
+import shortUUID from "lib/shortUUID"
 import toArray from "lib/toArray"
-import uuidv4 from "uuid/v4"
 
 // Parses elements from React elements.
 function parseReact(reactElements) {
@@ -8,7 +8,7 @@ function parseReact(reactElements) {
 	for (const each of toArray(reactElements)) {
 		const element = {
 			type: each.type,
-			key: uuidv4().slice(0, 8),
+			key: shortUUID(),
 			props: {
 				children: Spans.parseReact(each.props.children),
 			},

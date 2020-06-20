@@ -1,8 +1,8 @@
 import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import React from "react"
+import shortUUID from "lib/shortUUID"
 import useMethods from "use-methods"
-import uuidv4 from "uuid/v4"
 
 const methods = state => ({
 	/*
@@ -39,7 +39,7 @@ const methods = state => ({
 		}
 		// Force a new key for <br> to text node:
 		if (!state.elements[x].props.children.length) {
-			const forcedKey = uuidv4().slice(0, 8)
+			const forcedKey = shortUUID()
 			element.key = forcedKey
 			cursors[0].key = forcedKey // Updates cursors[1] because references are shared
 		}
