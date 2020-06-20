@@ -4,8 +4,7 @@ import { typeMap } from "../components/typeMaps"
 
 // Parses spans from React elements.
 function parseReact(reactElements) {
-	// Recurses on a React element, uses types and props as
-	// context for the next span.
+	// Recurses on a React element; pushes spans.
 	const spans = []
 	const recurse = (reactElement, types = [], props = {}) => {
 		for (const each of toArray(reactElement)) {

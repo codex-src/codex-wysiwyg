@@ -2,6 +2,22 @@ import * as Spans from "../Spans"
 import construct from "./constructor"
 import { typeEnum } from "../components/typeMaps"
 
+// // Parses nodes from React elements.
+// function parseReact(reactElements) {
+// 	const nodes = []
+// 	for (const each of toArray(reactElements)) {
+// 		const node = {
+// 			type: each.type,
+// 			key: uuidv4(),
+// 			props: {
+// 				children: Spans.parseReact(each.props.children),
+// 			},
+// 		}
+// 		nodes.push(node)
+// 	}
+// 	return nodes
+// }
+
 // Parses a DOM ID element.
 function parseDOMIDElement(domIDElement) {
 	const node = construct()
