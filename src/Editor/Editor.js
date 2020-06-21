@@ -199,7 +199,7 @@ const Editor = ({ children }) => {
 			/>
 
 			{/* Debugger */}
-			<div className="mt-6 whitespace-pre text-xs font-mono" style={{ tabSize: 2 }}>
+			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify(state, null, "\t")}
 			</div>
 
