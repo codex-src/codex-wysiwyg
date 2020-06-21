@@ -1,6 +1,6 @@
 import attrs from "./attrs"
 import React from "react"
-import T from "./hoc"
+import T from "./typeHOC"
 import { typeEnum } from "./typeMaps"
 
 export const Em = ({ children }) => (
