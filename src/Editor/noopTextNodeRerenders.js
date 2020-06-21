@@ -1,4 +1,4 @@
-// Compares whether two strings are equal.
+// Compares whether strings are equal.
 function areEqual(str1, str2) {
 	const ok = (
 		str1.length === str2.length &&

@@ -48,7 +48,7 @@ function queryContainer(elements, { types, props }) {
 	return [lastRef.props.children, nextTypes]
 }
 
-// Converts synthetic spans to intermediary elements.
+// Converts spans to intermediary elements.
 function toElements(spans) {
 	const elements = []
 	for (const each of spans) {
@@ -77,9 +77,8 @@ function toElements(spans) {
 	return elements
 }
 
-// Converts synthetic spans to intermediary elements to
-// React elements. Uses intermediary elements because React
-// elements are read-only.
+// Converts spans to React elements. Uses intermediary
+// elements because React elements are read-only.
 function toReact(spans) {
 	const elements = toElements(spans)
 	const reactElements = toReactElements(elements)
