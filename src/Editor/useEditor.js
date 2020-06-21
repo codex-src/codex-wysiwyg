@@ -50,6 +50,12 @@ const methods = state => ({
 	backspaceRune() {
 		console.log("backspaceRune")
 
+		// Reads an array of spans.
+		const readSpans = spans => {
+			const reducer = (acc, each) => acc + each.props.children
+			return spans.reduce(reducer, "")
+		}
+
 		// Computes the element (elemOffset), span (spanOffset),
 		// and character offsets (charOffset).
 		const computeOffsets = (elements, { key, offset }) => {
@@ -76,24 +82,27 @@ const methods = state => ({
 			return [elemOffset, nodeOffset, spanOffset, charOffset]
 		}
 
-		// const elementOffset = state.elements.findIndex(each => each.key === state.selection[0].key)
-		// if (elementOffset === -1) {
-		// 	throw new Error("dispatch.backspaceRune: FIXME")
-		// }
+		const offs1 = computeOffsets(state.elements, state.selection[0])
 
-		// Compute offsets:
-		const offsets = computeOffsets(state.elements, state.selection[0])
-		console.log(offsets)
-
-		// Compute runes:
-		const textContent = state.elements[offsets[0]].props.children.map(each => each.props.children).join("")
+		const textContent = readSpans(state.elements[offs1[0]].props.children)
 		const runes = Iterators.rtl.rune(textContent.slice(0, state.selection[0].offset))
 
-		// Compute new offsets:
-		const newOffsets = computeOffsets(state.elements, { ...state.selection[0], offset: state.selection[0].offset - runes.length })
-		console.log(newOffsets)
+		let offs2 = offs1
+		if (!(offs1[0] && !offs1[1] && !offs1[2] && !offs1[3])) {
+			offs2 = computeOffsets(state.elements, {
+				...state.selection[0],
+				offset: state.selection[0].offset - runes.length,
+			})
+		} else {
+			offs2 = computeOffsets(state.elements, {
+				key: state.elements[offs1[0] - 1].key,
+				offset: readSpans(state.elements[offs1[0] - 1].props.children).length,
+			})
+		}
 
-		// console.log(state.elements[offsets[0]].props.children.reduce((acc, each) => acc + each.props.children, "")
+		console.log(offs1, offs2)
+
+		// console.log(state.elements[startOffsets[0]].props.children.reduce((acc, each) => acc + each.props.children, "")
 	},
 	backspaceWord() {
 		console.log("backspaceWord")
