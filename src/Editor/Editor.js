@@ -126,23 +126,23 @@ const Editor = ({ children }) => {
 						break
 					case keyDownTypesEnum.backspaceLine:
 						e.preventDefault()
-						console.log("backspaceLine")
+						dispatch.backspaceLine()
 						break
 					case keyDownTypesEnum.backspaceWord:
 						e.preventDefault()
-						console.log("backspaceWord")
+						dispatch.backspaceWord()
 						break
 					case keyDownTypesEnum.backspaceRune:
 						e.preventDefault()
-						console.log("backspaceRune")
+						dispatch.backspaceRune()
 						break
 					case keyDownTypesEnum.forwardBackspaceWord:
 						e.preventDefault()
-						console.log("forwardBackspaceWord")
+						dispatch.forwardBackspaceWord()
 						break
 					case keyDownTypesEnum.forwardBackspaceRune:
 						e.preventDefault()
-						console.log("forwardBackspaceRune")
+						dispatch.forwardBackspaceRune()
 						break
 					case keyDownTypesEnum.undo:
 						e.preventDefault()
