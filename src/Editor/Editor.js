@@ -48,156 +48,160 @@ const Editor = ({ children }) => {
 	)
 
 	return (
-		<article
-			ref={ref}
+		<div>
 
-			className="focus:outline-none"
+			<article
+				ref={ref}
 
-			onFocus={e => {
-				dispatch.focus()
-			}}
+				className="focus:outline-none"
 
-			onBlur={e => {
-				dispatch.blur()
-			}}
+				onFocus={e => {
+					dispatch.focus()
+				}}
 
-			onPointerDown={e => {
-				pointerIsDownRef.current = true
-			}}
+				onBlur={e => {
+					dispatch.blur()
+				}}
 
-			onPointerMove={e => {
-				if (!state.focused) {
-					pointerIsDownRef.current = false
-				} else if (!pointerIsDownRef.current) {
-					// No-op
-					return
-				}
-				const selection = Selection.computeFromCurrentRange()
-				if (!selection) {
-					// No-op
-					return
-				}
-				dispatch.select(selection)
-			}}
+				onPointerDown={e => {
+					pointerIsDownRef.current = true
+				}}
 
-			onPointerUp={e => {
-				pointerIsDownRef.current = false
-			}}
-
-			// onSelect={e => {
-			// 	const selection = Selection.computeFromCurrentRange()
-			// 	if (!selection) {
-			// 		// No-op
-			// 		return
-			// 	}
-			// 	dispatch.select(selection)
-			// }}
-
-			onKeyDown={e => {
-				switch (detectKeyDownType(e)) {
-				case keyDownTypesEnum.characterData:
-					if (!state.collapsed) {
-						e.preventDefault()
-						console.log("characterData")
+				onPointerMove={e => {
+					if (!state.focused) {
+						pointerIsDownRef.current = false
+					} else if (!pointerIsDownRef.current) {
+						// No-op
 						return
 					}
-					break
-				case keyDownTypesEnum.characterDataDead:
-					e.preventDefault()
-					console.log("characterDataDead")
-					break
-				case keyDownTypesEnum.tab:
-					e.preventDefault()
-					console.log("tab")
-					break
-				case keyDownTypesEnum.enter:
-					e.preventDefault()
-					console.log("enter")
-					break
-				case keyDownTypesEnum.formatEm:
-					e.preventDefault()
-					console.log("formatEm")
-					break
-				case keyDownTypesEnum.formatStrong:
-					e.preventDefault()
-					console.log("formatStrong")
-					break
-				case keyDownTypesEnum.backspaceLine:
-					e.preventDefault()
-					console.log("backspaceLine")
-					break
-				case keyDownTypesEnum.backspaceWord:
-					e.preventDefault()
-					console.log("backspaceWord")
-					break
-				case keyDownTypesEnum.backspaceRune:
-					e.preventDefault()
-					console.log("backspaceRune")
-					break
-				case keyDownTypesEnum.forwardBackspaceWord:
-					e.preventDefault()
-					console.log("forwardBackspaceWord")
-					break
-				case keyDownTypesEnum.forwardBackspaceRune:
-					e.preventDefault()
-					console.log("forwardBackspaceRune")
-					break
-				case keyDownTypesEnum.undo:
-					e.preventDefault()
-					console.log("undo")
-					break
-				case keyDownTypesEnum.redo:
-					e.preventDefault()
-					console.log("redo")
-					break
-				default:
-					// No-op
-					break
-				}
-			}}
+					const selection = Selection.computeFromCurrentRange()
+					if (!selection) {
+						// No-op
+						return
+					}
+					dispatch.select(selection)
+				}}
 
-			onInput={e => {
-				const selection = Selection.computeFromCurrentRange()
-				if (!selection) {
-					throw new Error("onInput: no such selection")
-				}
-				const domElement = document.getElementById(selection[0].key)
-				if (!domElement) {
-					throw new Error("onInput: no such element")
-				}
-				const element = Elements.parseFromDOMElement(domElement)
-				dispatch.input(element, [selection[0], selection[0]])
-			}}
+				onPointerUp={e => {
+					pointerIsDownRef.current = false
+				}}
 
-			onCut={e => {
-				e.preventDefault()
-				// TODO
-			}}
+				onSelect={e => {
+					const selection = Selection.computeFromCurrentRange()
+					if (!selection) {
+						// No-op
+						return
+					}
+					dispatch.select(selection)
+				}}
 
-			onCopy={e => {
-				e.preventDefault()
-				// TODO
-			}}
+				onKeyDown={e => {
+					switch (detectKeyDownType(e)) {
+					case keyDownTypesEnum.characterData:
+						if (!state.collapsed) {
+							e.preventDefault()
+							console.log("characterData")
+							return
+						}
+						break
+					case keyDownTypesEnum.characterDataDead:
+						e.preventDefault()
+						console.log("characterDataDead")
+						break
+					case keyDownTypesEnum.tab:
+						e.preventDefault()
+						console.log("tab")
+						break
+					case keyDownTypesEnum.enter:
+						e.preventDefault()
+						console.log("enter")
+						break
+					case keyDownTypesEnum.formatEm:
+						e.preventDefault()
+						console.log("formatEm")
+						break
+					case keyDownTypesEnum.formatStrong:
+						e.preventDefault()
+						console.log("formatStrong")
+						break
+					case keyDownTypesEnum.backspaceLine:
+						e.preventDefault()
+						console.log("backspaceLine")
+						break
+					case keyDownTypesEnum.backspaceWord:
+						e.preventDefault()
+						console.log("backspaceWord")
+						break
+					case keyDownTypesEnum.backspaceRune:
+						e.preventDefault()
+						console.log("backspaceRune")
+						break
+					case keyDownTypesEnum.forwardBackspaceWord:
+						e.preventDefault()
+						console.log("forwardBackspaceWord")
+						break
+					case keyDownTypesEnum.forwardBackspaceRune:
+						e.preventDefault()
+						console.log("forwardBackspaceRune")
+						break
+					case keyDownTypesEnum.undo:
+						e.preventDefault()
+						console.log("undo")
+						break
+					case keyDownTypesEnum.redo:
+						e.preventDefault()
+						console.log("redo")
+						break
+					default:
+						// No-op
+						break
+					}
+				}}
 
-			onPaste={e => {
-				e.preventDefault()
-				// TODO
-			}}
+				onInput={e => {
+					const selection = Selection.computeFromCurrentRange()
+					if (!selection) {
+						throw new Error("onInput: no such selection")
+					}
+					const domElement = document.getElementById(selection[0].key)
+					if (!domElement) {
+						throw new Error("onInput: no such element")
+					}
+					const element = Elements.parseFromDOMElement(domElement)
+					dispatch.input(element, [selection[0], selection[0]])
+				}}
 
-			onDragStart={e => {
-				e.preventDefault()
-			}}
+				onCut={e => {
+					e.preventDefault()
+					// TODO
+				}}
 
-			contentEditable
-			suppressContentEditableWarning
+				onCopy={e => {
+					e.preventDefault()
+					// TODO
+				}}
 
-			data-codex-root
-		/>
+				onPaste={e => {
+					e.preventDefault()
+					// TODO
+				}}
 
-		// {/* Debugger */}
-		// {/* <div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
-		// {/* 	{JSON.stringify(state, null, "\t")} */}
-		// {/* </div> */}
+				onDragStart={e => {
+					e.preventDefault()
+				}}
+
+				contentEditable
+				suppressContentEditableWarning
+
+				data-codex-root
+			/>
+
+			{/* Debugger */}
+			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
+				{JSON.stringify(state, null, "\t")}
+			</div>
+
+		</div>
 	)
 }
 

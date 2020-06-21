@@ -18,6 +18,7 @@ function parseFromDOMElement(domElement) {
 	}
 	element.key = key
 
+	// // TODO
 	// const props = JSON.parse(domElement.getAttribute("data-props") || "{}")
 	// if (!props) {
 	// 	throw new Error("Elements.parseFromDOMElement: no such props")
@@ -40,6 +41,11 @@ function parseFromDOMElement(domElement) {
 			const nextTypes = [...types]
 			const nextProps = { ...props }
 			if (each.nodeType === Node.ELEMENT_NODE) {
+				// COMPAT: No-op <br> elements:
+				if (each.nodeName === "BR") {
+					// No-op
+					continue
+				}
 				const type = typeEnum[each.getAttribute("data-type")]
 				if (!type) {
 					throw new Error("Elements.parseFromDOMElement.recurse: no such type")

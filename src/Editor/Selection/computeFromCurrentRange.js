@@ -14,8 +14,7 @@ function ascend(domNode) {
 
 // Computes a synthetic cursor from a DOM range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
-	console.log(domNode, offset)
-
+	// FIXME
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
 		if (offset >= domNode.childNodes.length) {
 			throw new Error("Selection.computeCursorFromRange: FIXME")
@@ -23,9 +22,6 @@ function computeCursorFromRange(domElement, [domNode, offset]) {
 		domNode = domNode.childNodes[offset]
 		offset = 0
 	}
-
-	console.log(domNode, offset)
-
 	const cursor = construct()
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {
@@ -70,3 +66,5 @@ function computeFromCurrentRange() {
 }
 
 export default computeFromCurrentRange
+
+
