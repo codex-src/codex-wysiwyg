@@ -28,27 +28,43 @@ function computeOffsets(elements, { key, offset }) {
 	return [elemOffset, nodeOffset, spanOffset, charOffset]
 }
 
-// Computes a set of offsets for a backspace operation.
-function computeOffsetsForBackspace(elements, selection, iterator) {
-	let offs1 = computeOffsets(elements, selection[0])
-	const offs2 = computeOffsets(elements, selection[1])
+// Computes a set of RTL offsets.
+function computeRTLOffsetsSet(elements, selection, rtlIterator) {
+	let offsets1 = computeOffsets(elements, selection[0])
+	const offsets2 = computeOffsets(elements, selection[1])
 	if (Selection.areEqual(...selection)) {
 		// Backspace on text:
-		if (!(offs1[0] && !offs1[1] && !offs1[2] && !offs1[3])) {
-			const substr = Spans.textContent(elements[offs1[0]].props.children).slice(0, selection[0].offset)
-			offs1 = computeOffsets(elements, {
+		if (!(offsets1[0] && !offsets1[1] && !offsets1[2] && !offsets1[3])) {
+			const substr = Spans.textContent(elements[offsets1[0]].props.children).slice(0, selection[0].offset)
+			offsets1 = computeOffsets(elements, {
 				...selection[0],
-				offset: selection[0].offset - iterator(substr).length,
+				offset: selection[0].offset - rtlIterator(substr).length,
 			})
 		// Backspace on "\n":
 		} else {
-			offs1 = computeOffsets(elements, {
-				key: elements[offs1[0] - 1].key,
-				offset: Spans.textContent(elements[offs1[0] - 1].props.children).length,
+			offsets1 = computeOffsets(elements, {
+				key: elements[offsets1[0] - 1].key,
+				offset: Spans.textContent(elements[offsets1[0] - 1].props.children).length,
 			})
 		}
 	}
-	return [offs1, offs2]
+	return [offsets1, offsets2]
+}
+
+// Computes a set of LTR offsets.
+function computeLTROffsetsSet(elements, selection, ltrIterator) {
+	const offsets1 = computeOffsets(elements, selection[0])
+	let offsets2 = computeOffsets(elements, selection[1])
+	if (Selection.areEqual(...selection)) {
+		// NOTE: Uses offsets2 and selection[1] not offsets1 and
+		// selection[0].
+		const substr = Spans.textContent(elements[offsets2[0]].props.children).slice(selection[1].offset)
+		offsets2 = computeOffsets(elements, {
+			...selection[1],
+			offset: selection[1].offset + ltrIterator(substr).length,
+		})
+	}
+	return [offsets1, offsets2]
 }
 
 const methods = state => ({
@@ -94,22 +110,24 @@ const methods = state => ({
 		this.select(selection)
 	},
 	backspaceRune() {
-		console.log("backspaceRune")
-		console.log(computeOffsetsForBackspace(state.elements, state.selection, Iterators.rtl.rune))
+		// console.log("backspaceRune")
+		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.rune))
 	},
 	backspaceWord() {
-		console.log("backspaceWord")
-		console.log(computeOffsetsForBackspace(state.elements, state.selection, Iterators.rtl.word))
+		// console.log("backspaceWord")
+		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.word))
 	},
 	backspaceLine() {
-		console.log("backspaceLine")
-		console.log(computeOffsetsForBackspace(state.elements, state.selection, Iterators.rtl.line))
+		// console.log("backspaceLine")
+		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.line))
 	},
 	forwardBackspaceRune() {
-		console.log("forwardBackspaceRune")
+		// console.log("forwardBackspaceRune")
+		console.log(computeLTROffsetsSet(state.elements, state.selection, Iterators.ltr.rune))
 	},
 	forwardBackspaceWord() {
-		console.log("forwardBackspaceWord")
+		// console.log("forwardBackspaceWord")
+		console.log(computeLTROffsetsSet(state.elements, state.selection, Iterators.ltr.word))
 	},
 })
 

@@ -96,6 +96,7 @@ const Editor = ({ children }) => {
 				}}
 
 				onKeyDown={e => {
+					// console.log(detectKeyDownType(e))
 					switch (detectKeyDownType(e)) {
 					case keyDownTypesEnum.characterData:
 						if (!state.collapsed) {

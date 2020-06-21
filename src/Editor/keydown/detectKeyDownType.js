@@ -24,7 +24,9 @@ const detect = {
 	// most macros and commands are more than one rune.
 	characterData(e) {
 		const ok = (
-			!isMetaOrControlKey(e) &&
+			// !isMetaOrControlKey(e) &&
+			!e.ctrlKey && // Non-macro
+			!e.metaKey && // Non-command
 			[...e.key].length === 1
 		)
 		return ok
