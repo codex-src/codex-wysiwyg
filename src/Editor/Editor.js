@@ -50,12 +50,11 @@ const Editor = ({ children }) => {
 	return (
 		<div>
 
-			{/* {children} */}
-
 			<article
 				ref={ref}
 
-				className="whitespace-pre-wrap focus:outline-none"
+				// className="whitespace-pre-wrap focus:outline-none"
+				className="focus:outline-none"
 
 				onFocus={e => {
 					dispatch.focus()
@@ -88,14 +87,14 @@ const Editor = ({ children }) => {
 					pointerIsDownRef.current = false
 				}}
 
-				onSelect={e => {
-					const selection = Selection.computeFromCurrentRange()
-					if (!selection) {
-						// No-op
-						return
-					}
-					dispatch.select(selection)
-				}}
+				// onSelect={e => {
+				// 	const selection = Selection.computeFromCurrentRange()
+				// 	if (!selection) {
+				// 		// No-op
+				// 		return
+				// 	}
+				// 	dispatch.select(selection)
+				// }}
 
 				onKeyDown={e => {
 					switch (detectKeyDownType(e)) {
