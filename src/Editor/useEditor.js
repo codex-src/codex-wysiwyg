@@ -109,24 +109,19 @@ const methods = state => ({
 		state.elements.splice(x, 1, element)
 		this.select(selection)
 	},
-	backspaceRune() {
-		// console.log("backspaceRune")
+	backspaceRTLRune() {
 		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.rune))
 	},
-	backspaceWord() {
-		// console.log("backspaceWord")
+	backspaceRTLWord() {
 		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.word))
 	},
-	backspaceLine() {
-		// console.log("backspaceLine")
+	backspaceRTLLine() {
 		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.line))
 	},
-	forwardBackspaceRune() {
-		// console.log("forwardBackspaceRune")
+	backspaceLTRRune() {
 		console.log(computeLTROffsetsSet(state.elements, state.selection, Iterators.ltr.rune))
 	},
-	forwardBackspaceWord() {
-		// console.log("forwardBackspaceWord")
+	backspaceLTRWord() {
 		console.log(computeLTROffsetsSet(state.elements, state.selection, Iterators.ltr.word))
 	},
 })

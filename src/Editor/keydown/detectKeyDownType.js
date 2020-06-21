@@ -58,28 +58,28 @@ const detect = {
 		)
 		return ok
 	},
-	// NOTE: detect.backspace* methods are ordered by
+	// NOTE: detect.backspaceRTL* methods are ordered by
 	// precedence.
-	backspaceLine(e) {
+	backspaceRTLLine(e) {
 		const ok = (
 			isMetaOrControlKey(e) &&
 			e.keyCode === keyCodes.Backspace
 		)
 		return ok
 	},
-	backspaceWord(e) {
+	backspaceRTLWord(e) {
 		const ok = (
 			e.altKey &&
 			e.keyCode === keyCodes.Backspace
 		)
 		return ok
 	},
-	backspaceRune(e) {
+	backspaceRTLRune(e) {
 		return e.keyCode === keyCodes.Backspace
 	},
-	// NOTE: detect.forwardBackspace* methods are ordered by
+	// NOTE: detect.backspaceLTR* methods are ordered by
 	// precedence.
-	forwardBackspaceWordMacOS(e) {
+	backspaceLTRWordMacOS(e) {
 		if (navigator.userAgent.indexOf("Mac OS X") >= 0) {
 			const ok = (
 				e.altKey &&
@@ -89,10 +89,10 @@ const detect = {
 		}
 		return false
 	},
-	forwardBackspaceRune(e) {
+	backspaceLTRRune(e) {
 		return e.keyCode === keyCodes.Delete
 	},
-	forwardBackspaceRuneMacOS(e) {
+	backspaceLTRRuneMacOS(e) {
 		if (navigator.userAgent.indexOf("Mac OS X") >= 0) {
 			const ok = (
 				e.ctrlKey &&
@@ -150,22 +150,22 @@ function detectKeyDownType(e) {
 	case detect.formatStrong(e):
 		return keyDownTypesEnum.formatStrong
 
-	// NOTE: detect.backspace* methods are ordered by
+	// NOTE: detect.backspaceRTL* methods are ordered by
 	// precedence.
-	case detect.backspaceLine(e):
-		return keyDownTypesEnum.backspaceLine
-	case detect.backspaceWord(e):
-		return keyDownTypesEnum.backspaceWord
-	case detect.backspaceRune(e):
-		return keyDownTypesEnum.backspaceRune
+	case detect.backspaceRTLLine(e):
+		return keyDownTypesEnum.backspaceRTLLine
+	case detect.backspaceRTLWord(e):
+		return keyDownTypesEnum.backspaceRTLWord
+	case detect.backspaceRTLRune(e):
+		return keyDownTypesEnum.backspaceRTLRune
 
-	// NOTE: detect.forwardBackspace* methods are ordered by
+	// NOTE: detect.backspaceLTR* methods are ordered by
 	// precedence.
-	case detect.forwardBackspaceWordMacOS(e):
-		return keyDownTypesEnum.forwardBackspaceWord
-	case detect.forwardBackspaceRune(e):
-	case detect.forwardBackspaceRuneMacOS(e):
-		return keyDownTypesEnum.forwardBackspaceRune
+	case detect.backspaceLTRWordMacOS(e):
+		return keyDownTypesEnum.backspaceLTRWord
+	case detect.backspaceLTRRune(e):
+	case detect.backspaceLTRRuneMacOS(e):
+		return keyDownTypesEnum.backspaceLTRRune
 
 	case detect.undo(e):
 		return keyDownTypesEnum.undo

@@ -11,11 +11,11 @@ const keyDownTypesEnum = {
 	"formatStrike": "formatStrike",
 	"formatA":      "formatA",
 
-	"backspaceWord":        "backspaceWord",
-	"backspaceRune":        "backspaceRune",
-	"backspaceLine":        "backspaceLine",
-	"forwardBackspaceWord": "forwardBackspaceWord",
-	"forwardBackspaceRune": "forwardBackspaceRune",
+	"backspaceRTLRune": "backspaceRTLRune",
+	"backspaceRTLWord": "backspaceRTLWord",
+	"backspaceRTLLine": "backspaceRTLLine",
+	"backspaceLTRRune": "backspaceLTRRune",
+	"backspaceLTRWord": "backspaceLTRWord",
 
 	"undo": "undo",
 	"redo": "redo",

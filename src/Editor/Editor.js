@@ -96,62 +96,65 @@ const Editor = ({ children }) => {
 				}}
 
 				onKeyDown={e => {
-					// console.log(detectKeyDownType(e))
-					switch (detectKeyDownType(e)) {
+					const keyDownType = detectKeyDownType(e)
+					if (keyDownType) {
+						console.log({ keyDownType })
+					}
+					switch (keyDownType) {
 					case keyDownTypesEnum.characterData:
 						if (!state.collapsed) {
 							e.preventDefault()
-							console.log("characterData")
+							// TODO
 							return
 						}
 						break
 					case keyDownTypesEnum.characterDataDead:
 						e.preventDefault()
-						console.log("characterDataDead")
+						// TODO
 						break
 					case keyDownTypesEnum.tab:
 						e.preventDefault()
-						console.log("tab")
+						// TODO
 						break
 					case keyDownTypesEnum.enter:
 						e.preventDefault()
-						console.log("enter")
+						// TODO
 						break
 					case keyDownTypesEnum.formatEm:
 						e.preventDefault()
-						console.log("formatEm")
+						// TODO
 						break
 					case keyDownTypesEnum.formatStrong:
 						e.preventDefault()
-						console.log("formatStrong")
+						// TODO
 						break
-					case keyDownTypesEnum.backspaceLine:
+					case keyDownTypesEnum.backspaceRTLRune:
 						e.preventDefault()
-						dispatch.backspaceLine()
+						dispatch.backspaceRTLRune()
 						break
-					case keyDownTypesEnum.backspaceWord:
+					case keyDownTypesEnum.backspaceRTLWord:
 						e.preventDefault()
-						dispatch.backspaceWord()
+						dispatch.backspaceRTLWord()
 						break
-					case keyDownTypesEnum.backspaceRune:
+					case keyDownTypesEnum.backspaceRTLLine:
 						e.preventDefault()
-						dispatch.backspaceRune()
+						dispatch.backspaceRTLLine()
 						break
-					case keyDownTypesEnum.forwardBackspaceWord:
+					case keyDownTypesEnum.backspaceLTRRune:
 						e.preventDefault()
-						dispatch.forwardBackspaceWord()
+						dispatch.backspaceLTRRune()
 						break
-					case keyDownTypesEnum.forwardBackspaceRune:
+					case keyDownTypesEnum.backspaceLTRWord:
 						e.preventDefault()
-						dispatch.forwardBackspaceRune()
+						dispatch.backspaceLTRWord()
 						break
 					case keyDownTypesEnum.undo:
 						e.preventDefault()
-						console.log("undo")
+						// TODO
 						break
 					case keyDownTypesEnum.redo:
 						e.preventDefault()
-						console.log("redo")
+						// TODO
 						break
 					default:
 						// No-op
