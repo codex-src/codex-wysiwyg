@@ -4,10 +4,10 @@ export const Element = ({ type, props, children }) => (
 	React.cloneElement(children, {
 		style: {
 			...children.props.style, // Takes precedence
-			// TODO
+			// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
 			whiteSpace: "pre-wrap",
-			wordBreak: "break-word",
-		}
+			overflowWrap: "break-word",
+		},
 		// Enum type:
 		"data-type": type,
 		// JSON-encoded props:
