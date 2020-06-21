@@ -32,12 +32,12 @@ const BlockContainer = React.forwardRef(({ children }, ref) => {
 	)
 })
 
-export const H1 = React.memo(({ $key, children }) => {
+export const H1 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.h1}>
-				<div ref={ref} id={$key} className="font-semibold text-2xl leading-tight">
+				<div ref={ref} id={id} className="font-semibold text-2xl leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
@@ -47,12 +47,12 @@ export const H1 = React.memo(({ $key, children }) => {
 	)
 })
 
-export const H2 = React.memo(({ $key, children }) => {
+export const H2 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.h2}>
-				<div ref={ref} id={$key} className="font-semibold text-xl leading-tight">
+				<div ref={ref} id={id} className="font-semibold text-xl leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
@@ -62,12 +62,12 @@ export const H2 = React.memo(({ $key, children }) => {
 	)
 })
 
-export const H3 = React.memo(({ $key, children }) => {
+export const H3 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.h3}>
-				<div ref={ref} id={$key} className="font-semibold text-lg leading-tight">
+				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
@@ -77,12 +77,12 @@ export const H3 = React.memo(({ $key, children }) => {
 	)
 })
 
-export const H4 = React.memo(({ $key, children }) => {
+export const H4 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.h4}>
-				<div ref={ref} id={$key} className="font-semibold text-lg leading-tight">
+				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
@@ -92,12 +92,12 @@ export const H4 = React.memo(({ $key, children }) => {
 	)
 })
 
-export const H5 = React.memo(({ $key, children }) => {
+export const H5 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.h5}>
-				<div ref={ref} id={$key} className="font-semibold text-lg leading-tight">
+				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
@@ -107,12 +107,12 @@ export const H5 = React.memo(({ $key, children }) => {
 	)
 })
 
-export const H6 = React.memo(({ $key, children }) => {
+export const H6 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.h6}>
-				<div ref={ref} id={$key} className="font-semibold text-lg leading-tight">
+				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
@@ -122,12 +122,12 @@ export const H6 = React.memo(({ $key, children }) => {
 	)
 })
 
-export const P = React.memo(({ $key, children }) => {
+export const P = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.p}>
-				<div ref={ref} id={$key}>
+				<div ref={ref} id={id}>
 					{toReact(children) || (
 						<br />
 					)}
@@ -138,19 +138,19 @@ export const P = React.memo(({ $key, children }) => {
 })
 
 // FIXME
-export const HR = React.memo(({ $key, children }) => {
+export const HR = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<BlockContainer ref={ref}>
 			<Element type={typeEnum.hr}>
-				<div ref={ref} id={$key} className="my-6 border-t-4 border-cool-gray-300" />
+				<div ref={ref} id={id} className="my-6 border-t-4 border-cool-gray-300" />
 			</Element>
 		</BlockContainer>
 	)
 })
 
-// export const HR = ({ $key, children }) => (
-// 	<div id={$key} className="my-6 text-right text-cool-gray-300" style={{ backgroundImage: "linear-gradient(transparent 0, transparent 0.625rem, currentColor 0.625rem, currentColor 0.875rem, transparent 0.875rem)" }}>
+// export const HR = ({ id, children }) => (
+// 	<div id={id} className="my-6 text-right text-cool-gray-300" style={{ backgroundImage: "linear-gradient(transparent 0, transparent 0.625rem, currentColor 0.625rem, currentColor 0.875rem, transparent 0.875rem)" }}>
 // 		<br />
 // 	</div>
 // ))

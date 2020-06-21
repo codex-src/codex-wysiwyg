@@ -6,6 +6,7 @@ import toArray from "lib/toArray"
 function parseFromReactElements(reactElements) {
 	const elements = []
 	for (const each of toArray(reactElements)) {
+		// TODO: Use construct()?
 		const element = {
 			type: each.type,
 			key: shortUUID(),
