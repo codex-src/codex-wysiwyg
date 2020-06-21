@@ -48,7 +48,13 @@ const methods = state => ({
 		this.select(selection)
 	},
 	backspaceRune() {
-		console.log("backspaceRune")
+		// console.log("backspaceRune")
+
+		// if (state.collapsed) {
+		// 	// ...
+		// } else {
+		// 	// ...
+		// }
 
 		// Reads an array of spans.
 		const readSpans = spans => {
@@ -83,16 +89,15 @@ const methods = state => ({
 		}
 
 		const offs1 = computeOffsets(state.elements, state.selection[0])
-
-		const textContent = readSpans(state.elements[offs1[0]].props.children)
-		const runes = Iterators.rtl.rune(textContent.slice(0, state.selection[0].offset))
-
 		let offs2 = offs1
+		// Backspace on text:
 		if (!(offs1[0] && !offs1[1] && !offs1[2] && !offs1[3])) {
+			const substr = readSpans(state.elements[offs1[0]].props.children).slice(0, state.selection[0].offset)
 			offs2 = computeOffsets(state.elements, {
 				...state.selection[0],
-				offset: state.selection[0].offset - runes.length,
+				offset: state.selection[0].offset - Iterators.rtl.rune(substr).length,
 			})
+		// Backspace on "\n":
 		} else {
 			offs2 = computeOffsets(state.elements, {
 				key: state.elements[offs1[0] - 1].key,
