@@ -14,7 +14,7 @@ function parseFromReactElements(reactElements) {
 				children: Spans.parseFromReactElements(each.props.children),
 			},
 		}
-		Spans.sort(Spans.merge(element.props.children))
+		Spans.defer(element.props.children)
 		elements.push(element)
 	}
 	return elements

@@ -6,28 +6,32 @@ import { typeEnum } from "../components/typeMaps"
 function parseFromDOMElement(domElement) {
 	const element = construct()
 
+	// Types:
 	const type = typeEnum[domElement.getAttribute("data-type")]
 	if (!type) {
 		throw new Error("Elements.parseFromDOMElement: no such type")
 	}
 	element.type = type
 
+	// Key (ID):
 	const key = domElement.id
 	if (!key) {
 		throw new Error("Elements.parseFromDOMElement: no such key")
 	}
 	element.key = key
 
-	// // TODO
-	// const props = JSON.parse(domElement.getAttribute("data-props") || "{}")
-	// if (!props) {
-	// 	throw new Error("Elements.parseFromDOMElement: no such props")
-	// }
-	// Object.assign(element.props, props)
+	// Props:
+	const props = JSON.parse(domElement.getAttribute("data-props") || "{}")
+	if (!props) {
+		throw new Error("Elements.parseFromDOMElement: no such props")
+	}
+	Object.assign(element.props, props)
 
+	// Spans:
 	const spans = []
 	const recurse = (onDOMNode, types = [], props = {}) => {
 		if (onDOMNode.nodeType === Node.TEXT_NODE) {
+			// TODO: Use construct()?
 			spans.push({
 				types,
 				props: {
@@ -38,14 +42,13 @@ function parseFromDOMElement(domElement) {
 			return
 		}
 		for (const each of onDOMNode.childNodes) {
+			if (each.nodeType === Node.ELEMENT_NODE && each.nodeName === "BR") {
+				// No-op
+				continue
+			}
 			const nextTypes = [...types]
 			const nextProps = { ...props }
 			if (each.nodeType === Node.ELEMENT_NODE) {
-				// COMPAT: No-op <br> elements:
-				if (each.nodeName === "BR") {
-					// No-op
-					continue
-				}
 				const type = typeEnum[each.getAttribute("data-type")]
 				if (!type) {
 					throw new Error("Elements.parseFromDOMElement.recurse: no such type")
@@ -57,13 +60,14 @@ function parseFromDOMElement(domElement) {
 		}
 	}
 
+	// Spans (cont.d):
 	recurse(domElement)
 	if (!spans.length) {
 		throw new Error("Elements.parseFromDOMElement: no such spans")
 	}
 	element.props.children = spans
 
-	Spans.sort(Spans.merge(element.props.children))
+	Spans.defer(element.props.children)
 	return element
 }
 
