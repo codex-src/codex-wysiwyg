@@ -7,8 +7,8 @@ function areEqual(val1, val2) {
 	return ok
 }
 
-// No-ops redundant text node (domNode.textContent and
-// domNode.nodeValue) rerenders.
+// No-ops redundant text node rerenders (domNode.textContent
+// and domNode.nodeValue).
 //
 // https://github.com/facebook/react/issues/11538#issuecomment-417504600
 // https://github.com/facebook/react/blob/master/packages/react-dom/src/client/setTextContent.js

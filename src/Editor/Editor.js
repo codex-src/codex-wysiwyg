@@ -6,14 +6,29 @@ import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
-import ReactRenderer from "./ReactRenderer"
 import useEditor from "./useEditor"
+import { typeMap } from "./components/typeMaps"
 
 import "./Editor.css"
 
 ;(() => {
+	// No-ops redundant text node rerenders.
 	noopTextNodeRerenders()
 })()
+
+const Renderer = ({ state, dispatch }) => (
+	// <FocusedContext.Provider value={state.focused}>
+	state.elements.map(({ type: T, key, props }) => (
+		// NOTE: React reserves "key"; uses "id".
+		React.createElement(typeMap[T], {
+			key,
+			id: key,
+			...props,
+		})
+	))
+	// </FocusedContext.Provider>
+)
+
 
 const Editor = ({ children }) => {
 	const ref = React.useRef(null)
@@ -28,7 +43,7 @@ const Editor = ({ children }) => {
 			if (domSelection.rangeCount) {
 				domSelection.removeAllRanges()
 			}
-			ReactDOM.render(<ReactRenderer elements={state.elements} />, ref.current, () => {
+			ReactDOM.render(<Renderer state={state} dispatch={dispatch} />, ref.current, () => {
 				if (!state.focused) {
 					// No-op
 					return
@@ -43,7 +58,7 @@ const Editor = ({ children }) => {
 					console.error(error)
 				}
 			})
-		}, [state]),
+		}, [state, dispatch]),
 		[state.elements],
 	)
 
