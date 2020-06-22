@@ -1,7 +1,7 @@
 import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
-// Returns the number of bytes iterated backwards.
+// Right-to-left (RTL) iterator; returns a substring.
 export const rtl = {
 	rune(str) {
 		const info = emojiTrie.atEnd(str)
@@ -69,7 +69,7 @@ export const rtl = {
 	},
 }
 
-// Returns the number of bytes iterated forwards.
+// Left-to-right (LTR) iterator; returns a substring.
 export const ltr = {
 	rune(str) {
 		const info = emojiTrie.atStart(str)

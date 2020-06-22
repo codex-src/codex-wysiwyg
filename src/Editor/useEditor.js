@@ -71,47 +71,9 @@ import useMethods from "use-methods"
 // 	return [offsets1, offsets2]
 // }
 
-// // Reads text content from a UUID element.
-// function readTextContent(uuidElement) {
-// 	let textContent = ""
-// 	for (const span of uuidElement.spans) {
-// 		textContent += span.textContent
-// 	}
-// 	return textContent
-// }
-//
-// // Counts the number of bytes from state.cursors[0] to a
-// // boundary (boundaryFn).
-// function countBytesToBoundary(state, boundaryFn) {
-// 	let dir = ""
-// 	switch (boundaryFn) {
-// 	case iter.rtl.rune:
-// 	case iter.rtl.word:
-// 	case iter.rtl.line:
-// 		dir = "rtl"
-// 		break
-// 	case iter.ltr.rune:
-// 	case iter.ltr.word:
-// 		dir = "ltr"
-// 		break
-// 	default:
-// 		// No-op
-// 		break
-// 	}
-// 	const x = state.elements.findIndex(each => each.uuid === state.cursors[0].uuid)
-// 	const textContent = readTextContent(state.elements[x])
-// 	let count = boundaryFn(textContent.slice(0, state.cursors[0].offset)).length
-// 	if (!count && dir === "rtl" && x) {
-// 		count++
-// 	} else if (!count && dir === "ltr" && x + 1 < state.elements.length) {
-// 		count++
-// 	}
-// 	return count
-// }
-
-// Computes the uncollapsed byte count (both RTL and LTR).
+// Computes the uncollapsed byte count.
 function computeUncollapsedByteCount(state) {
-	let count = state.cursors[1].offset - state.cursors[0].offset
+	let byteCount = state.cursors[1].offset - state.cursors[0].offset
 
 	let x1 = -1
 	let x2 = -1
@@ -127,50 +89,68 @@ function computeUncollapsedByteCount(state) {
 			break
 		}
 		// Increment paragraphs:
-		count += x1 >= 0
+		byteCount += x1 >= 0
 	}
 	for (let x = x1; x !== x2; x++) {
-		count += Spans.textContent(state.elements[x].props.children).length
+		byteCount += Spans.textContent(state.elements[x].props.children).length
 	}
-	return count
+	return byteCount
 }
 
-// Computes the collapsed (RTL) byte count.
-function computeCollapsedRTLByteCount(state, rtlIterator) {
-	let count = 0
+// Computes the collapsed byte count (RTL).
+function computeCollapsedByteCountRTL(state, rtlIter) {
+	let byteCount = 0
 
 	const x = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	const textContent = Spans.textContent(state.elements[x].props.children)
-	count += rtlIterator(textContent.slice(0, state.cursors[0].offset)).length
-	if (!count && x) {
-		count++
+	byteCount += rtlIter(textContent.slice(0, state.cursors[0].offset)).length
+	if (!byteCount && x) { // FIXME: Add support for nodes
+		byteCount++
 	}
-	return count
+	return byteCount
 }
 
-// Compute the byte count (RTL) for collapsed and
-// uncollapsed cursors states.
-function computeRTLByteCount(state, rtlIterator) {
-	let count = 0
+// Computes the collapsed byte count (LTR).
+function computeCollapsedByteCountLTR(state, ltrIter) {
+	let byteCount = 0
+
+	const x = state.elements.findIndex(each => each.key === state.cursors[0].key)
+	const textContent = Spans.textContent(state.elements[x].props.children)
+	byteCount += ltrIter(textContent.slice(state.cursors[0].offset)).length
+	if (!byteCount && x + 1 < state.elements.length) { // FIXME: Add support for nodes
+		byteCount++
+	}
+	return byteCount
+}
+
+// Compute the right-to-left (RTL) or left-to-right (LTR)
+// byte count for collapsed and uncollapsed states.
+function computeByteCount(state, anyIter) {
+	let dir = ""
+	switch (anyIter) {
+	case Iterators.rtl.rune:
+	case Iterators.rtl.word:
+	case Iterators.rtl.line:
+		dir = "rtl"
+		break
+	case Iterators.ltr.rune:
+	case Iterators.ltr.word:
+		dir = "ltr"
+		break
+	default:
+		// No-op
+		break
+	}
+	let byteCount = 0
 	if (state.cursors.collapsed) {
-		count += computeCollapsedRTLByteCount(state, rtlIterator)
+		const computeCollapsedByteCount = dir === "rtl" ? computeCollapsedByteCountRTL :
+			computeCollapsedByteCountLTR
+		byteCount += computeCollapsedByteCount(state, anyIter)
 	} else {
-		count += computeUncollapsedByteCount(state)
+		byteCount += computeUncollapsedByteCount(state)
 	}
-	console.log(count)
+	console.log(byteCount)
 }
-
-// // Compute the byte count (RTL) for collapsed and
-// // uncollapsed cursors states.
-// function computeRTLByteCount(state, rtlIterator) {
-// 	let count = 0
-// 	if (state.cursors.collapsed) {
-// 		count += computeCollapsedRTLByteCount(state, rtlIterator)
-// 	} else {
-// 		count += computeUncollapsedByteCount(state)
-// 	}
-// 	console.log(count)
-// }
 
 const methods = state => ({
 	/*
@@ -213,22 +193,24 @@ const methods = state => ({
 		// ...
 	},
 	backspaceRTLRune() {
-		const byteCount = computeRTLByteCount(state, Iterators.rtl.rune)
+		const byteCount = computeByteCount(state, Iterators.rtl.rune)
 		this.dropByteCount(byteCount, 0)
 	},
 	backspaceRTLWord() {
-		const byteCount = computeRTLByteCount(state, Iterators.rtl.word)
+		const byteCount = computeByteCount(state, Iterators.rtl.word)
 		this.dropByteCount(byteCount, 0)
 	},
 	backspaceRTLLine() {
-		const byteCount = computeRTLByteCount(state, Iterators.rtl.line)
+		const byteCount = computeByteCount(state, Iterators.rtl.line)
 		this.dropByteCount(byteCount, 0)
 	},
 	backspaceLTRRune() {
-		// console.log(computeLTROffsetsSet(state.elements, state.cursors, Iterators.ltr.rune))
+		const byteCount = computeByteCount(state, Iterators.ltr.rune)
+		this.dropByteCount(0, byteCount)
 	},
 	backspaceLTRWord() {
-		// console.log(computeLTROffsetsSet(state.elements, state.cursors, Iterators.ltr.word))
+		const byteCount = computeByteCount(state, Iterators.ltr.word)
+		this.dropByteCount(0, byteCount)
 	},
 })
 
