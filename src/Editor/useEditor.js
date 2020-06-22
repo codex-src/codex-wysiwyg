@@ -218,7 +218,7 @@ const methods = state => ({
 				spans.splice(spanOffset, 1)
 			}
 			console.log(JSON.parse(JSON.stringify(spans)))
-			// const collapsed = Cursors.collapse(state.cursors)
+			Spans.defer(spans)
 
 			state.cursors[0].offset--
 			const collapsed = Cursors.collapse(state.cursors)

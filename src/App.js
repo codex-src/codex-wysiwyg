@@ -15,23 +15,18 @@ const App = () => (
 					a
 					<code>
 						<strong>
+							b
 							<em>
-								d
+								c
 							</em>
+							d
+							<em>
+								e
+							</em>
+							f
 						</strong>
 					</code>
 					g
-					<code>
-						{/* h */}
-						<strong>
-							i
-							<em>
-								j
-							</em>
-							k
-						</strong>
-						{/* l */}
-					</code>
 				</p>
 
 				{/* <h1> */}
