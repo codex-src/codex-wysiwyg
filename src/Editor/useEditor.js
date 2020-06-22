@@ -93,7 +93,9 @@ function computeUncollapsedByteCount(state) {
 	for (let x = x1; x !== x2; x++) {
 		byteCount += Spans.textContent(state.elements[x].props.children).length
 	}
-	return { x1, x2, byteCount}
+	// // NOTE: Uses x2 for x; e.g. RTL.
+	// return { x: x2, byteCount}
+	return { elemOffset: x1, byteCount}
 }
 
 // Computes the collapsed byte count (RTL).
@@ -105,7 +107,7 @@ function computeCollapsedByteCountRTL(state, rtlIter) {
 	if (!byteCount && x) { // FIXME: Add support for nodes
 		byteCount++
 	}
-	return { x1: x, x2: -1, byteCount }
+	return { elemOffset: x, byteCount }
 }
 
 // Computes the collapsed byte count (LTR).
@@ -117,7 +119,7 @@ function computeCollapsedByteCountLTR(state, ltrIter) {
 	if (!byteCount && x + 1 < state.elements.length) { // FIXME: Add support for nodes
 		byteCount++
 	}
-	return { x1: x, x2: -1, byteCount }
+	return { elemOffset: x, byteCount }
 }
 
 // Compute the right-to-left (RTL) or left-to-right (LTR)
@@ -138,15 +140,15 @@ function computeByteCount(state, anyIter) {
 		// No-op
 		break
 	}
-	let ret = null
+	let payload = null
 	if (state.cursors.collapsed) {
 		const computeCollapsedByteCount = dir === "rtl" ? computeCollapsedByteCountRTL :
 			computeCollapsedByteCountLTR
-		ret = computeCollapsedByteCount(state, anyIter)
+		payload = computeCollapsedByteCount(state, anyIter)
 	} else {
-		ret = computeUncollapsedByteCount(state)
+		payload = computeUncollapsedByteCount(state)
 	}
-	console.log(ret)
+	return payload
 }
 
 const methods = state => ({
@@ -165,10 +167,10 @@ const methods = state => ({
 	select(cursors) {
 		state.cursors = cursors
 	},
-	collapse() {
-		const collapsed = Cursors.collapse(state.cursors)
-		this.select(collapsed)
-	},
+	// collapse() {
+	// 	const collapsed = Cursors.collapse(state.cursors)
+	// 	this.select(collapsed)
+	// },
 	/*
 	 * Input
 	 */
@@ -186,28 +188,151 @@ const methods = state => ({
 		state.elements.splice(x, 1, element)
 		this.select(collapsed)
 	},
-	dropByteCount() {
-		// ...
+	dropByteCount(payload, dir) {
+		// console.log(payload, { dir })
+
+		let { elemOffset, byteCount } = payload
+		if (dir === "rtl") {
+
+			// Computes the span and character offsets from a
+			// cursor offset.
+			const computeSpanOffsets = (spans, offset) => {
+				let spanOffset = 0      // Span offset
+				let charOffset = offset // Character offset of the span offset
+				for (; spanOffset < spans.length; spanOffset++) {
+					const textContent = spans[spanOffset].props.children
+					if (charOffset - textContent.length <= 0) {
+						// No-op
+						break
+					}
+					charOffset -= textContent.length
+				}
+				return [spanOffset, charOffset]
+			}
+
+			// TODO: Add support for nodes
+			if (byteCount) {
+				const spans = state.elements[elemOffset].props.children
+				let [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
+				// let count = byteCount
+				// if (count > charOffset) { // TODO: LTR?
+				// 	count = charOffset
+				// }
+				const count = Math.min(charOffset, byteCount)
+				spans[spanOffset].props.children = (
+					spans[spanOffset].props.children.slice(0, charOffset - count) +
+					spans[spanOffset].props.children.slice(charOffset)
+				)
+				if (!spans[spanOffset].props.children) {
+					spans.splice(spanOffset, 1)
+				}
+				byteCount -= count
+				state.cursors[0].offset -= count
+			}
+			const collapsed = Cursors.collapse(state.cursors)
+			this.select(collapsed)
+
+			// // Removes a number of bytes from a span at an offset.
+			// const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
+			// 	if (count > offset) {
+			// 		count = offset
+			// 	}
+			// 	if (typeof uuidElement.spans[x] === "string") {
+			// 		uuidElement.spans[x] = (
+			// 			uuidElement.spans[x].slice(0, offset - count) +
+			// 			uuidElement.spans[x].slice(offset)
+			// 		)
+			// 		if (!uuidElement.spans[x]) {
+			// 			uuidElement.spans.splice(x, 1)
+			// 		}
+			// 	} else {
+			// 		uuidElement.spans[x].content = (
+			// 			uuidElement.spans[x].content.slice(0, offset - count) +
+			// 			uuidElement.spans[x].content.slice(offset)
+			// 		)
+			// 		if (!uuidElement.spans[x].content) {
+			// 			uuidElement.spans.splice(x, 1)
+			// 		}
+			// 	}
+			// 	return count
+			// }
+
+
+			// 1. get the span offset and character offsets (we
+			// already have the element offset -- we don’t need to
+			// recompute this on every pass)
+			// 2. from the span offset, we can try to drop the max
+			// number of bytes; returns the max number of bytes
+			// dropped (splice or equivalent empty spans)
+			// 3. repeat (dropCount > 0)
+
+			// while (byteCount) {
+			// 	// ...
+			// }
+		} else if (dir === "ltr") {
+			// while (byteCount) {
+			// 	// ...
+			// }
+		}
+
+		// // Get the current UUID element:
+		// let { uuid, offset } = state.cursors[0]
+		// const uuidElement = state.elements.find(each => each.uuid === uuid)
+		// // Get the span (x) and character offset (offset):
+		// let x = 0
+		// for (; x < uuidElement.spans.length; x++) {
+		// 	const content = readSyntheticSpan(uuidElement.spans[x])
+		// 	if (offset - content.length <= 0) {
+		// 		// No-op
+		// 		break
+		// 	}
+		// 	offset -= content.length
+		// }
+		// // Removes a number of bytes from a span at an offset.
+		// const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
+		// 	if (count > offset) {
+		// 		count = offset
+		// 	}
+		// 	if (typeof uuidElement.spans[x] === "string") {
+		// 		uuidElement.spans[x] = (
+		// 			uuidElement.spans[x].slice(0, offset - count) +
+		// 			uuidElement.spans[x].slice(offset)
+		// 		)
+		// 		if (!uuidElement.spans[x]) {
+		// 			uuidElement.spans.splice(x, 1)
+		// 		}
+		// 	} else {
+		// 		uuidElement.spans[x].content = (
+		// 			uuidElement.spans[x].content.slice(0, offset - count) +
+		// 			uuidElement.spans[x].content.slice(offset)
+		// 		)
+		// 		if (!uuidElement.spans[x].content) {
+		// 			uuidElement.spans.splice(x, 1)
+		// 		}
+		// 	}
+		// 	return count
+		// }
+
 	},
 	backspaceRTLRune() {
-		const byteCount = computeByteCount(state, Iterators.rtl.rune)
-		this.dropByteCount(byteCount, 0)
+		const payload = computeByteCount(state, Iterators.rtl.rune)
+		this.dropByteCount(payload, "rtl")
 	},
 	backspaceRTLWord() {
-		const byteCount = computeByteCount(state, Iterators.rtl.word)
-		this.dropByteCount(byteCount, 0)
+		const payload = computeByteCount(state, Iterators.rtl.word)
+		this.dropByteCount(payload, "rtl")
 	},
 	backspaceRTLLine() {
-		const byteCount = computeByteCount(state, Iterators.rtl.line)
-		this.dropByteCount(byteCount, 0)
+		const payload = computeByteCount(state, Iterators.rtl.line)
+		this.dropByteCount(payload, "rtl")
 	},
 	backspaceLTRRune() {
-		const byteCount = computeByteCount(state, Iterators.ltr.rune)
-		this.dropByteCount(0, byteCount)
+		const payload = computeByteCount(state, Iterators.ltr.rune)
+		this.dropByteCount(payload, "ltr")
 	},
 	backspaceLTRWord() {
-		const byteCount = computeByteCount(state, Iterators.ltr.word)
-		this.dropByteCount(0, byteCount)
+		const payload = computeByteCount(state, Iterators.ltr.word)
+		this.dropByteCount(payload, "ltr")
 	},
 })
 

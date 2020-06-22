@@ -113,7 +113,7 @@ const Editor = ({ children }) => {
 				onKeyDown={e => {
 					const keyDownType = detectKeyDownType(e)
 					if (keyDownType) {
-						console.log({ keyDownType })
+						console.log(keyDownType)
 					}
 					switch (keyDownType) {
 					case keyDownTypesEnum.characterData:
