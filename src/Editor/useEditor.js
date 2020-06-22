@@ -93,7 +93,7 @@ function computeUncollapsedByteCount(state) {
 	for (let x = x1; x !== x2; x++) {
 		byteCount += Spans.textContent(state.elements[x].props.children).length
 	}
-	return byteCount
+	return { x1, x2, byteCount}
 }
 
 // Computes the collapsed byte count (RTL).
@@ -105,7 +105,7 @@ function computeCollapsedByteCountRTL(state, rtlIter) {
 	if (!byteCount && x) { // FIXME: Add support for nodes
 		byteCount++
 	}
-	return byteCount
+	return { x1: x, x2: -1, byteCount }
 }
 
 // Computes the collapsed byte count (LTR).
@@ -117,7 +117,7 @@ function computeCollapsedByteCountLTR(state, ltrIter) {
 	if (!byteCount && x + 1 < state.elements.length) { // FIXME: Add support for nodes
 		byteCount++
 	}
-	return byteCount
+	return { x1: x, x2: -1, byteCount }
 }
 
 // Compute the right-to-left (RTL) or left-to-right (LTR)
@@ -138,15 +138,15 @@ function computeByteCount(state, anyIter) {
 		// No-op
 		break
 	}
-	let byteCount = 0
+	let ret = null
 	if (state.cursors.collapsed) {
 		const computeCollapsedByteCount = dir === "rtl" ? computeCollapsedByteCountRTL :
 			computeCollapsedByteCountLTR
-		byteCount += computeCollapsedByteCount(state, anyIter)
+		ret = computeCollapsedByteCount(state, anyIter)
 	} else {
-		byteCount += computeUncollapsedByteCount(state)
+		ret = computeUncollapsedByteCount(state)
 	}
-	console.log(byteCount)
+	console.log(ret)
 }
 
 const methods = state => ({
