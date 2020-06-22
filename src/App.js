@@ -11,73 +11,96 @@ const App = () => (
 
 			{/* eslint-disable jsx-a11y/anchor-is-valid */}
 			<Editor>
-				<h1>
-					Hello, world!
-				</h1>
 				<p>
-					hello
+					a
 					<code>
-						hello
 						<strong>
-							hello
 							<em>
-								hello
+								d
 							</em>
-							hello
 						</strong>
-						hello
 					</code>
-					hello
+					g
 					<code>
-						hello
+						{/* h */}
 						<strong>
-							hello
+							i
 							<em>
-								hello
+								j
 							</em>
-							hello
+							k
 						</strong>
-						hello
+						{/* l */}
 					</code>
 				</p>
-				<p>
-					<code>
-						hello
-						<strong>
-							world
-						</strong>
-						hello
-					</code>
-				</p>
-				<p>
-					Hello,{" "}
-					<a href="/#">
-						<em>
-							worldx
-						</em>
-					</a>
-					<a href="abc">
-						<em>
-							<strong>
-								worldy
-							</strong>
-						</em>
-					</a>
-					{" "}
-					<a href="yolo">
-						<code>
-							fmt.Println("Hello, world!")
-						</code>
-					</a>
-					<a href="dyolo">
-						<code>
-							fmt.Println("Hello, world!")
-						</code>
-					</a>
-				</p>
-				<p>
-					<br />
-				</p>
+
+				{/* <h1> */}
+				{/* 	Hello, world! */}
+				{/* </h1> */}
+				{/* <p> */}
+				{/* 	hello{" "} */}
+				{/* 	<code> */}
+				{/* 		hello{" "} */}
+				{/* 		<strong> */}
+				{/* 			hello */}
+				{/* 			<em> */}
+				{/* 				hello */}
+				{/* 			</em> */}
+				{/* 			hello */}
+				{/* 		</strong> */}
+				{/* 		hello */}
+				{/* 	</code> */}
+				{/* 	hello */}
+				{/* 	<code> */}
+				{/* 		hello */}
+				{/* 		<strong> */}
+				{/* 			hello */}
+				{/* 			<em> */}
+				{/* 				hello */}
+				{/* 			</em> */}
+				{/* 			hello */}
+				{/* 		</strong> */}
+				{/* 		hello */}
+				{/* 	</code> */}
+				{/* </p> */}
+				{/* <p> */}
+				{/* 	<code> */}
+				{/* 		hello */}
+				{/* 		<strong> */}
+				{/* 			world */}
+				{/* 		</strong> */}
+				{/* 		hello */}
+				{/* 	</code> */}
+				{/* </p> */}
+				{/* <p> */}
+				{/* 	Hello,{" "} */}
+				{/* 	<a href="/#"> */}
+				{/* 		<em> */}
+				{/* 			worldx */}
+				{/* 		</em> */}
+				{/* 	</a> */}
+				{/* 	<a href="abc"> */}
+				{/* 		<em> */}
+				{/* 			<strong> */}
+				{/* 				worldy */}
+				{/* 			</strong> */}
+				{/* 		</em> */}
+				{/* 	</a> */}
+				{/* 	{" "} */}
+				{/* 	<a href="yolo"> */}
+				{/* 		<code> */}
+				{/* 			fmt.Println("Hello, world!") */}
+				{/* 		</code> */}
+				{/* 	</a> */}
+				{/* 	<a href="dyolo"> */}
+				{/* 		<code> */}
+				{/* 			fmt.Println("Hello, world!") */}
+				{/* 		</code> */}
+				{/* 	</a> */}
+				{/* </p> */}
+				{/* <p> */}
+				{/* 	<br /> */}
+				{/* </p> */}
 			</Editor>
 			{/* eslint-enable jsx-a11y/anchor-is-valid */}
 
