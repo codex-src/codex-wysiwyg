@@ -210,76 +210,57 @@ const methods = state => ({
 				return [spanOffset, charOffset]
 			}
 
-			// const spans = state.elements[elemOffset].props.children
-			// let [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
-			// spans[spanOffset].props.children = ""
-			// // console.log(JSON.parse(JSON.stringify(spans)))
-			// if (!spans[spanOffset].props.children) {
-			// 	spans.splice(spanOffset, 1)
-			// }
-			// console.log(JSON.parse(JSON.stringify(spans)))
-			// Spans.defer(spans)
-			// state.cursors[0].offset--
-			// const collapsed = Cursors.collapse(state.cursors)
-			// this.select(collapsed)
-
-			// TODO: Add support for nodes
-			while (byteCount) {
-				const spans = state.elements[elemOffset].props.children
-				const [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
-				const bytes = Math.min(byteCount, charOffset)
+			// Drops n-bytes from an array of spans at an offset.
+			// Returns the number of dropped bytes.
+			const dropBytesFromSpans = (spans, offset, count) => {
+				const [spanOffset, charOffset] = computeSpanOffsets(spans, offset)
+				if (count > charOffset) {
+					count = charOffset
+				}
 				spans[spanOffset].props.children = (
-					spans[spanOffset].props.children.slice(0, charOffset - bytes) +
+					spans[spanOffset].props.children.slice(0, charOffset - count) +
 					spans[spanOffset].props.children.slice(charOffset)
 				)
 				if (!spans[spanOffset].props.children) {
 					spans.splice(spanOffset, 1)
 				}
-				// TODO: Decrement elemOffset here
+				// TODO: Decrement elemOffset here?
 				Spans.defer(spans)
-				byteCount -= bytes
-				state.cursors[0].offset -= bytes
+				return count
+			}
+
+			// state.elements[elemOffset - 1].props.children.push(...state.elements[elemOffset].props.children)
+			// state.elements.splice(elemOffset - 1, 2, {
+			// 	...state.elements[elemOffset - 1],
+			// 	props: {
+			// 		...state.elements[elemOffset - 1],
+			// 		children: [
+			// 			...state.elements[elemOffset - 1].props.children,
+			// 			...state.elements[elemOffset].props.children,
+			// 		],
+			// 	},
+			// })
+
+			// TODO: Add support for nodes
+			while (byteCount) {
+				if (!state.cursors[0].offset && elemOffset) {
+					const textContent = Spans.textContent(state.elements[elemOffset - 1].props.children)
+					state.elements[elemOffset - 1].props.children.push(...state.elements[elemOffset].props.children)
+					state.elements.splice(elemOffset, 1)
+					Object.assign(state.cursors[0], {
+						key: state.elements[elemOffset - 1].key,
+						offset: textContent.length, // Spans.textContent(state.elements[elemOffset - 1].props.children).length,
+					})
+					elemOffset--
+				}
+				const spans = state.elements[elemOffset].props.children
+				const count = dropBytesFromSpans(spans, state.cursors[0].offset, byteCount)
+				byteCount -= count
+				state.cursors[0].offset -= count
 			}
 			const collapsed = Cursors.collapse(state.cursors)
 			this.select(collapsed)
 
-			// // Removes a number of bytes from a span at an offset.
-			// const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
-			// 	if (count > offset) {
-			// 		count = offset
-			// 	}
-			// 	if (typeof uuidElement.spans[x] === "string") {
-			// 		uuidElement.spans[x] = (
-			// 			uuidElement.spans[x].slice(0, offset - count) +
-			// 			uuidElement.spans[x].slice(offset)
-			// 		)
-			// 		if (!uuidElement.spans[x]) {
-			// 			uuidElement.spans.splice(x, 1)
-			// 		}
-			// 	} else {
-			// 		uuidElement.spans[x].content = (
-			// 			uuidElement.spans[x].content.slice(0, offset - count) +
-			// 			uuidElement.spans[x].content.slice(offset)
-			// 		)
-			// 		if (!uuidElement.spans[x].content) {
-			// 			uuidElement.spans.splice(x, 1)
-			// 		}
-			// 	}
-			// 	return count
-			// }
-
-
-			// 1. get the span offset and character offsets (we
-			// already have the element offset -- we don’t need to
-			// recompute this on every pass)
-			// 2. from the span offset, we can try to drop the max
-			// number of bytes; returns the max number of bytes
-			// dropped (splice or equivalent empty spans)
-			// 3. repeat (dropCount > 0)
-
-			// while (byteCount) {
-			// 	// ...
-			// }
 		} else if (dir === "ltr") {
 			// while (byteCount) {
 			// 	// ...
