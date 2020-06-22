@@ -21,11 +21,11 @@ function computeOffsets(elements, { key, offset }) {
 	let spanOffset = 0
 	let charOffset = offset
 	for (; spanOffset < spans.length; spanOffset++) {
-		if (charOffset - spans[elemOffset].props.children.length <= 0) {
+		if (charOffset - spans[spanOffset].props.children.length <= 0) {
 			// No-op
 			break
 		}
-		charOffset -= spans[elemOffset].props.children.length
+		charOffset -= spans[spanOffset].props.children.length
 	}
 	return [elemOffset, nodeOffset, spanOffset, charOffset]
 }
@@ -103,7 +103,7 @@ const methods = state => ({
 		if (!state.elements[x].props.children.length) {
 			const forcedKey = shortUUID()
 			element.key = forcedKey
-			collapsed[0].key = forcedKey // Updates collapsed[1] because references are shared
+			collapsed[0].key = forcedKey // Updates collapsed[1].key because references are shared
 		}
 		state.elements.splice(x, 1, element)
 		this.select(collapsed)

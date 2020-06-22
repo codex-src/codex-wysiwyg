@@ -4,7 +4,7 @@ function construct() {
 		type: "",
 		key: "",
 		props: {
-			children: null,
+			children: null, // TODO: Use []?
 		},
 	}
 	return ref
