@@ -16,8 +16,12 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 	// dependency.
 	React.useEffect(() => {
 		const handler = e => {
-			const next = window.location.hash.slice("#".length)
-			setBackgroundColor(next !== id ? "var(--transparent)" : "var(--blue-50)")
+			const current = window.location.hash.slice("#".length)
+			if (current !== id) {
+				setBackgroundColor("var(--transparent)")
+			} else {
+				setBackgroundColor("var(--blue-50)")
+			}
 		}
 		window.addEventListener("hashchange", handler)
 		return () => {
@@ -25,11 +29,24 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 		}
 	}, [id])
 
+	const handleClick = e => {
+		const current = window.location.hash.slice("#".length)
+		if (current === id) {
+			setBackgroundColor("var(--transparent)")
+			// https://stackoverflow.com/a/5298684
+			window.history.pushState(null, "", window.location.pathname +
+				window.location.search)
+			return
+		}
+		window.location.hash = id
+		window.scrollBy(0, -96)
+	}
+
 	return (
 		<div className="group relative" style={{ backgroundColor }}>
 			<div className="absolute right-full h-full" contentEditable={false}>
 				{/* TODO: Use offsetTop prop? */}
-				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={e => { window.location.hash = id; window.scrollBy(0, -96) }}>
+				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={handleClick}>
 					<svg
 						className="w-4 h-4 transform scale-110"
 						fill="currentColor"
