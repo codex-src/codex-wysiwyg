@@ -8,8 +8,8 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 	const [backgroundColor, setBackgroundColor] = React.useState("var(--transparent)")
 
 	React.useLayoutEffect(() => {
-		const lineHeight = Number(window.getComputedStyle(ref.current).lineHeight.slice(0, -1 * "px".length))
-		setPaddingY((lineHeight - 16) / 2)
+		const lineHeightPx = Number(window.getComputedStyle(ref.current).lineHeight.slice(0, -1 * "px".length))
+		setPaddingY((lineHeightPx - 16) / 2)
 	}, [ref])
 
 	// NOTE: window.location.hash does not work as an effect
@@ -32,10 +32,9 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 	const handleClick = e => {
 		const current = window.location.hash.slice("#".length)
 		if (current === id) {
-			setBackgroundColor("var(--transparent)")
 			// https://stackoverflow.com/a/5298684
-			window.history.pushState(null, "", window.location.pathname +
-				window.location.search)
+			setBackgroundColor("var(--transparent)")
+			window.history.pushState(null, "", window.location.pathname + window.location.search)
 			return
 		}
 		window.location.hash = id
