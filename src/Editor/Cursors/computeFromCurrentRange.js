@@ -46,12 +46,17 @@ function computeCursorFromRange(domElement, [domNode, offset]) {
 }
 
 // Computes a set of cursors from the current DOM range.
-function computeFromCurrentRange() {
+function computeFromCurrentRange(rootElement) {
+	// Get the current DOM range:
 	const domSelection = document.getSelection()
 	if (!domSelection.rangeCount) {
 		return null
 	}
 	const domRange = domSelection.getRangeAt(0)
+	if (!rootElement.contains(domRange.startContainer) || !rootElement.contains(domRange.endContainer)) {
+		return null
+	}
+	// Compute cursors:
 	const cursors = []
 	/* eslint-disable */
 	cursors.push(computeCursorFromRange(ascend(domRange.startContainer),

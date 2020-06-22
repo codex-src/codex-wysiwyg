@@ -74,7 +74,7 @@ const Editor = ({ children }) => {
 						// No-op
 						return
 					}
-					const cursors = Cursors.computeFromCurrentRange()
+					const cursors = Cursors.computeFromCurrentRange(ref.current)
 					if (!cursors) {
 						// No-op
 						return
@@ -87,7 +87,7 @@ const Editor = ({ children }) => {
 				}}
 
 				onSelect={e => {
-					const cursors = Cursors.computeFromCurrentRange()
+					const cursors = Cursors.computeFromCurrentRange(ref.current)
 					if (!cursors) {
 						// No-op
 						return
@@ -163,7 +163,7 @@ const Editor = ({ children }) => {
 				}}
 
 				onInput={e => {
-					const cursors = Cursors.computeFromCurrentRange()
+					const cursors = Cursors.computeFromCurrentRange(ref.current)
 					if (!cursors) {
 						throw new Error("onInput: no such cursors")
 					}
