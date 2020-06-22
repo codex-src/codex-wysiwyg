@@ -1,5 +1,5 @@
 import * as Spans from "../Spans"
-import shortUUID from "lib/shortUUID"
+import newShortUUID from "lib/newShortUUID"
 import toArray from "lib/toArray"
 
 // Parses elements from React elements.
@@ -9,7 +9,7 @@ function parseFromReactElements(reactElements) {
 		// TODO: Use construct() and Object.assign?
 		const element = {
 			type: each.type,
-			key: shortUUID(),
+			key: newShortUUID(),
 			props: {
 				children: Spans.parseFromReactElements(each.props.children),
 			},

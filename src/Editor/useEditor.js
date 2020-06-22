@@ -2,8 +2,8 @@ import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
 import * as Spans from "./Spans"
+import newShortUUID from "lib/newShortUUID"
 import React from "react"
-import shortUUID from "lib/shortUUID"
 import useMethods from "use-methods"
 
 // // Computes offsets based on a cursor.
@@ -74,7 +74,6 @@ import useMethods from "use-methods"
 // Computes the uncollapsed byte count.
 function computeUncollapsedByteCount(state) {
 	let byteCount = state.cursors[1].offset - state.cursors[0].offset
-
 	let x1 = -1
 	let x2 = -1
 	for (let x = 0; x < state.elements.length; x++) {
@@ -100,7 +99,6 @@ function computeUncollapsedByteCount(state) {
 // Computes the collapsed byte count (RTL).
 function computeCollapsedByteCountRTL(state, rtlIter) {
 	let byteCount = 0
-
 	const x = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	const textContent = Spans.textContent(state.elements[x].props.children)
 	byteCount += rtlIter(textContent.slice(0, state.cursors[0].offset)).length
@@ -113,7 +111,6 @@ function computeCollapsedByteCountRTL(state, rtlIter) {
 // Computes the collapsed byte count (LTR).
 function computeCollapsedByteCountLTR(state, ltrIter) {
 	let byteCount = 0
-
 	const x = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	const textContent = Spans.textContent(state.elements[x].props.children)
 	byteCount += ltrIter(textContent.slice(state.cursors[0].offset)).length
@@ -182,7 +179,7 @@ const methods = state => ({
 		}
 		// Force a new key for <br> to text node:
 		if (!state.elements[x].props.children.length) {
-			const forcedKey = shortUUID()
+			const forcedKey = newShortUUID()
 			element.key = forcedKey
 			collapsed[0].key = forcedKey // Updates collapsed[1].key because references are shared
 		}
