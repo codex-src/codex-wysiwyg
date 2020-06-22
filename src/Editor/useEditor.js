@@ -6,71 +6,6 @@ import newShortUUID from "lib/newShortUUID"
 import React from "react"
 import useMethods from "use-methods"
 
-// // Computes offsets based on a cursor.
-// //
-// // TODO: Extract offsets module?
-// function computeOffsets(elements, { key, offset }) {
-// 	const elemOffset = elements.findIndex(each => each.key === key)
-// 	if (elemOffset === -1) {
-// 		throw new Error("computeOffsets: FIXME")
-// 	}
-// 	// TODO: Add support for non-standard types here?
-// 	const nodeOffset = 0
-// 	// Shorthand:
-// 	const spans = elements[elemOffset].props.children
-// 	let spanOffset = 0
-// 	let charOffset = offset
-// 	for (; spanOffset < spans.length; spanOffset++) {
-// 		if (charOffset - spans[spanOffset].props.children.length <= 0) {
-// 			// No-op
-// 			break
-// 		}
-// 		charOffset -= spans[spanOffset].props.children.length
-// 	}
-// 	return [elemOffset, nodeOffset, spanOffset, charOffset]
-// }
-//
-// // Computes a set of RTL offsets.
-// //
-// // TODO: Extract offsets module?
-// function computeRTLOffsetsSet(elements, cursors, rtlIterator) {
-// 	let offsets1 = computeOffsets(elements, cursors[0]) // TODO: Do not autocompute?
-// 	const offsets2 = computeOffsets(elements, cursors[1])
-// 	if (cursors.collapsed) {
-// 		// Backspace on text:
-// 		if (!(offsets1[0] && !offsets1[1] && !offsets1[2] && !offsets1[3])) {
-// 			const substr = Spans.textContent(elements[offsets1[0]].props.children).slice(0, cursors[0].offset)
-// 			offsets1 = computeOffsets(elements, {
-// 				...cursors[0],
-// 				offset: cursors[0].offset - rtlIterator(substr).length,
-// 			})
-// 		// Backspace on "\n":
-// 		} else {
-// 			offsets1 = computeOffsets(elements, {
-// 				key: elements[offsets1[0] - 1].key,
-// 				offset: Spans.textContent(elements[offsets1[0] - 1].props.children).length,
-// 			})
-// 		}
-// 	}
-// 	return [offsets1, offsets2]
-// }
-//
-// // Computes a set of LTR offsets.
-// function computeLTROffsetsSet(elements, cursors, ltrIterator) {
-// 	const offsets1 = computeOffsets(elements, cursors[0]) // TODO: Do not autocompute?
-// 	let offsets2 = computeOffsets(elements, cursors[1])
-// 	if (cursors.collapsed) {
-// 		// NOTE: Uses offsets2 and cursors[1] not offsets1 and
-// 		// cursors[0].
-// 		const substr = Spans.textContent(elements[offsets2[0]].props.children).slice(cursors[1].offset)
-// 		offsets2 = computeOffsets(elements, {
-// 			...cursors[1],
-// 			offset: cursors[1].offset + ltrIterator(substr).length,
-// 		})
-// 	}
-// 	return [offsets1, offsets2]
-// }
-
 // Computes the uncollapsed byte count.
 function computeUncollapsedByteCount(state) {
 	let byteCount = state.cursors[1].offset - state.cursors[0].offset
@@ -93,9 +28,7 @@ function computeUncollapsedByteCount(state) {
 	for (let x = x1; x !== x2; x++) {
 		byteCount += Spans.textContent(state.elements[x].props.children).length
 	}
-	// // NOTE: Uses x2 for x; e.g. RTL.
-	// return { x: x2, byteCount}
-	return { elemOffset: x1, byteCount}
+	return { x: x1, byteCount}
 }
 
 // Computes the collapsed byte count (RTL).
@@ -107,7 +40,7 @@ function computeCollapsedByteCountRTL(state, rtlIter) {
 	if (!byteCount && x) { // FIXME: Add support for nodes
 		byteCount++
 	}
-	return { elemOffset: x, byteCount }
+	return { x: x, byteCount }
 }
 
 // Computes the collapsed byte count (LTR).
@@ -119,7 +52,7 @@ function computeCollapsedByteCountLTR(state, ltrIter) {
 	if (!byteCount && x + 1 < state.elements.length) { // FIXME: Add support for nodes
 		byteCount++
 	}
-	return { elemOffset: x, byteCount }
+	return { x: x, byteCount }
 }
 
 // Compute the right-to-left (RTL) or left-to-right (LTR)
@@ -167,10 +100,6 @@ const methods = state => ({
 	select(cursors) {
 		state.cursors = cursors
 	},
-	// collapse() {
-	// 	const collapsed = Cursors.collapse(state.cursors)
-	// 	this.select(collapsed)
-	// },
 	/*
 	 * Input
 	 */
@@ -191,70 +120,69 @@ const methods = state => ({
 	dropByteCount(payload, dir) {
 		// console.log(payload, { dir })
 
-		let { elemOffset, byteCount } = payload
+		let { x, byteCount } = payload
 		if (dir === "rtl") {
 
 			// Computes the span and character offsets from a
 			// cursor offset.
 			const computeSpanOffsets = (spans, offset) => {
-				let spanOffset = 0      // Span offset
-				let charOffset = offset // Character offset of the span offset
+				let spanOffset = 0
+				let characterOffset = offset
 				for (; spanOffset < spans.length; spanOffset++) {
 					const textContent = spans[spanOffset].props.children
-					if (charOffset - textContent.length <= 0) {
+					if (characterOffset - textContent.length <= 0) {
 						// No-op
 						break
 					}
-					charOffset -= textContent.length
+					characterOffset -= textContent.length
 				}
-				return [spanOffset, charOffset]
+				return [spanOffset, characterOffset]
 			}
 
 			// Drops n-bytes from an array of spans at an offset.
 			// Returns the number of dropped bytes.
 			const dropBytesFromSpans = (spans, offset, count) => {
-				const [spanOffset, charOffset] = computeSpanOffsets(spans, offset)
-				if (count > charOffset) {
-					count = charOffset
+				const [spanOffset, characterOffset] = computeSpanOffsets(spans, offset)
+				if (count > characterOffset) {
+					count = characterOffset
 				}
 				spans[spanOffset].props.children = (
-					spans[spanOffset].props.children.slice(0, charOffset - count) +
-					spans[spanOffset].props.children.slice(charOffset)
+					spans[spanOffset].props.children.slice(0, characterOffset - count) +
+					spans[spanOffset].props.children.slice(characterOffset)
 				)
 				if (!spans[spanOffset].props.children) {
 					spans.splice(spanOffset, 1)
 				}
-				// TODO: Decrement elemOffset here?
+				// TODO: Decrement x here?
 				Spans.defer(spans)
 				return count
 			}
 
-			// state.elements[elemOffset - 1].props.children.push(...state.elements[elemOffset].props.children)
-			// state.elements.splice(elemOffset - 1, 2, {
-			// 	...state.elements[elemOffset - 1],
+			// state.elements[x - 1].props.children.push(...state.elements[x].props.children)
+			// state.elements.splice(x - 1, 2, {
+			// 	...state.elements[x - 1],
 			// 	props: {
-			// 		...state.elements[elemOffset - 1],
+			// 		...state.elements[x - 1],
 			// 		children: [
-			// 			...state.elements[elemOffset - 1].props.children,
-			// 			...state.elements[elemOffset].props.children,
+			// 			...state.elements[x - 1].props.children,
+			// 			...state.elements[x].props.children,
 			// 		],
 			// 	},
 			// })
 
 			// TODO: Add support for nodes
 			while (byteCount) {
-				if (!state.cursors[0].offset && elemOffset) {
-					const textContent = Spans.textContent(state.elements[elemOffset - 1].props.children)
-					state.elements[elemOffset - 1].props.children.push(...state.elements[elemOffset].props.children)
-					state.elements.splice(elemOffset, 1)
+				if (!state.cursors[0].offset && x) {
+					const textContent = Spans.textContent(state.elements[x - 1].props.children)
+					state.elements[x - 1].props.children.push(...state.elements[x].props.children)
+					state.elements.splice(x, 1)
 					Object.assign(state.cursors[0], {
-						key: state.elements[elemOffset - 1].key,
-						offset: textContent.length, // Spans.textContent(state.elements[elemOffset - 1].props.children).length,
+						key: state.elements[x - 1].key,
+						offset: textContent.length, // Spans.textContent(state.elements[x - 1].props.children).length,
 					})
-					elemOffset--
+					x--
 				}
-				const spans = state.elements[elemOffset].props.children
-				const count = dropBytesFromSpans(spans, state.cursors[0].offset, byteCount)
+				const count = dropBytesFromSpans(state.elements[x].props.children, state.cursors[0].offset, byteCount)
 				byteCount -= count
 				state.cursors[0].offset -= count
 			}
