@@ -3,9 +3,9 @@ import toReact from "./toReact"
 import { Element } from "./meta"
 import { typeEnum } from "./typeMaps"
 
-const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
+const Block = React.forwardRef(({ id, children }, ref) => {
 	const [paddingY, setPaddingY] = React.useState(4)
-	const [backgroundColor, setBackgroundColor] = React.useState("var(--transparent)")
+	const [backgroundColor, setBackgroundColor] = React.useState(undefined)
 
 	React.useLayoutEffect(() => {
 		const lineHeightPx = Number(window.getComputedStyle(ref.current).lineHeight.slice(0, -1 * "px".length))
@@ -18,7 +18,7 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 		const handler = e => {
 			const current = window.location.hash.slice("#".length)
 			if (current !== id) {
-				setBackgroundColor("var(--transparent)")
+				setBackgroundColor(undefined)
 			} else {
 				setBackgroundColor("var(--blue-50)")
 			}
@@ -30,10 +30,12 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 	}, [id])
 
 	const handleClick = e => {
+		// e.preventDefault()
+		// e.stopPropagation()
 		const current = window.location.hash.slice("#".length)
 		if (current === id) {
 			// https://stackoverflow.com/a/5298684
-			setBackgroundColor("var(--transparent)")
+			setBackgroundColor(undefined)
 			window.history.pushState(null, "", window.location.pathname + window.location.search)
 			return
 		}
@@ -63,7 +65,7 @@ const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 export const H1 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.h1}>
 				<div ref={ref} id={id} className="font-semibold text-2xl leading-tight">
 					{toReact(children) || (
@@ -71,14 +73,14 @@ export const H1 = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
 export const H2 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.h2}>
 				<div ref={ref} id={id} className="font-semibold text-xl leading-tight">
 					{toReact(children) || (
@@ -86,14 +88,14 @@ export const H2 = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
 export const H3 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.h3}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
@@ -101,14 +103,14 @@ export const H3 = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
 export const H4 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.h4}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
@@ -116,14 +118,14 @@ export const H4 = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
 export const H5 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.h5}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
@@ -131,14 +133,14 @@ export const H5 = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
 export const H6 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.h6}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
@@ -146,14 +148,14 @@ export const H6 = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
 export const P = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.p}>
 				<div ref={ref} id={id}>
 					{toReact(children) || (
@@ -161,7 +163,7 @@ export const P = React.memo(({ id, children }) => {
 					)}
 				</div>
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
@@ -169,11 +171,11 @@ export const P = React.memo(({ id, children }) => {
 export const HR = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<BlockWrapper ref={ref} id={id}>
+		<Block ref={ref} id={id}>
 			<Element type={typeEnum.hr}>
 				<div ref={ref} id={id} className="my-6 border-t-4 border-cool-gray-300" />
 			</Element>
-		</BlockWrapper>
+		</Block>
 	)
 })
 
