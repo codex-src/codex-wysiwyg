@@ -210,42 +210,38 @@ const methods = state => ({
 				return [spanOffset, charOffset]
 			}
 
-			const spans = state.elements[elemOffset].props.children
-			let [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
-			spans[spanOffset].props.children = ""
-			// console.log(JSON.parse(JSON.stringify(spans)))
-			if (!spans[spanOffset].props.children) {
-				spans.splice(spanOffset, 1)
-			}
-			console.log(JSON.parse(JSON.stringify(spans)))
-			Spans.defer(spans)
-
-			state.cursors[0].offset--
-			const collapsed = Cursors.collapse(state.cursors)
-			this.select(collapsed)
-
-			// // TODO: Add support for nodes
-			// while (byteCount) {
-			// 	const spans = state.elements[elemOffset].props.children
-			// 	let [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
-			// 	let nchars = byteCount
-			// 	if (nchars > charOffset) {
-			// 		nchars = charOffset
-			// 	}
-			// 	spans[spanOffset].props.children = (
-			// 		spans[spanOffset].props.children.slice(0, charOffset - nchars) +
-			// 		spans[spanOffset].props.children.slice(charOffset)
-			// 	)
-			// 	if (!spans[spanOffset].props.children) {
-			// 		spans.splice(spanOffset, 1)
-			// 	}
-			// 	// TODO: Decrement elemOffset here
-			// 	Spans.defer(spans)
-			// 	byteCount -= nchars
-			// 	state.cursors[0].offset -= nchars
+			// const spans = state.elements[elemOffset].props.children
+			// let [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
+			// spans[spanOffset].props.children = ""
+			// // console.log(JSON.parse(JSON.stringify(spans)))
+			// if (!spans[spanOffset].props.children) {
+			// 	spans.splice(spanOffset, 1)
 			// }
+			// console.log(JSON.parse(JSON.stringify(spans)))
+			// Spans.defer(spans)
+			// state.cursors[0].offset--
 			// const collapsed = Cursors.collapse(state.cursors)
 			// this.select(collapsed)
+
+			// TODO: Add support for nodes
+			while (byteCount) {
+				const spans = state.elements[elemOffset].props.children
+				const [spanOffset, charOffset] = computeSpanOffsets(spans, state.cursors[0].offset)
+				const bytes = Math.min(byteCount, charOffset)
+				spans[spanOffset].props.children = (
+					spans[spanOffset].props.children.slice(0, charOffset - bytes) +
+					spans[spanOffset].props.children.slice(charOffset)
+				)
+				if (!spans[spanOffset].props.children) {
+					spans.splice(spanOffset, 1)
+				}
+				// TODO: Decrement elemOffset here
+				Spans.defer(spans)
+				byteCount -= bytes
+				state.cursors[0].offset -= bytes
+			}
+			const collapsed = Cursors.collapse(state.cursors)
+			this.select(collapsed)
 
 			// // Removes a number of bytes from a span at an offset.
 			// const removeByteCountFromSpan = (uuidElement, x, offset, count) => {
