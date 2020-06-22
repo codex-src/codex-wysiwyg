@@ -30,23 +30,21 @@ const Block = React.forwardRef(({ id, children }, ref) => {
 	}, [id])
 
 	const handleClick = e => {
-		// e.preventDefault()
-		// e.stopPropagation()
 		const current = window.location.hash.slice("#".length)
 		if (current === id) {
-			// https://stackoverflow.com/a/5298684
 			setBackgroundColor(undefined)
-			window.history.pushState(null, "", window.location.pathname + window.location.search)
+			window.history.replaceState(null, "", window.location.pathname + window.location.search)
 			return
 		}
 		window.location.hash = id
+		// TODO (1): Use offsetTop prop?
+		// TODO (2): Change to mount effect
 		window.scrollBy(0, -96)
 	}
 
 	return (
 		<div className="group relative" style={{ backgroundColor }}>
 			<div className="absolute right-full h-full" contentEditable={false}>
-				{/* TODO: Use offsetTop prop? */}
 				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={handleClick}>
 					<svg
 						className="w-4 h-4 transform scale-110"
