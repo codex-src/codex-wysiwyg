@@ -1,3 +1,4 @@
+// Constructs a new range.
 function construct() {
 	const ref = {
 		container: "",

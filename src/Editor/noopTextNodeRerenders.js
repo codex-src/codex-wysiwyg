@@ -1,8 +1,8 @@
 // Compares whether strings are equal.
-function areEqual(str1, str2) {
+function areEqual(val1, val2) {
 	const ok = (
-		str1.length === str2.length &&
-		str1 === str2
+		val1.length === val2.length &&
+		val1 === val2
 	)
 	return ok
 }

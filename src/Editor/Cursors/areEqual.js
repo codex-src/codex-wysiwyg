@@ -1,8 +1,8 @@
 // Compares whether cursors are equal.
-function areEqual(cursor1, cursor2) {
+function areEqual(ref1, ref2) {
 	const ok = (
-		cursor1.key === cursor2.key &&
-		cursor1.offset === cursor2.offset
+		ref1.key === ref2.key &&
+		ref1.offset === ref2.offset
 	)
 	return ok
 }

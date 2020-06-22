@@ -2,10 +2,10 @@ import areEqualJSON from "lib/areEqualJSON"
 import omitKey from "lib/omitKey"
 
 // Compares whether spans (sans span.children) are equal.
-function areEqualSansChildren(span1, span2) {
+function areEqualSansChildren(ref1, ref2) {
 	const ok = (
-		areEqualJSON(span1.types, span2.types) &&
-		areEqualJSON(omitKey(span1.props, "children"), omitKey(span2.props, "children"))
+		areEqualJSON(ref1.types, ref2.types) &&
+		areEqualJSON(omitKey(ref1.props, "children"), omitKey(ref2.props, "children"))
 	)
 	return ok
 }

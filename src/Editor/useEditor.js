@@ -36,7 +36,7 @@ function computeOffsets(elements, { key, offset }) {
 function computeRTLOffsetsSet(elements, cursors, rtlIterator) {
 	let offsets1 = computeOffsets(elements, cursors[0]) // TODO: Do not autocompute?
 	const offsets2 = computeOffsets(elements, cursors[1])
-	if (Cursors.areEqual(cursors[0], cursors[1])) {
+	if (cursors.collapsed) {
 		// Backspace on text:
 		if (!(offsets1[0] && !offsets1[1] && !offsets1[2] && !offsets1[3])) {
 			const substr = Spans.textContent(elements[offsets1[0]].props.children).slice(0, cursors[0].offset)
@@ -59,7 +59,7 @@ function computeRTLOffsetsSet(elements, cursors, rtlIterator) {
 function computeLTROffsetsSet(elements, cursors, ltrIterator) {
 	const offsets1 = computeOffsets(elements, cursors[0]) // TODO: Do not autocompute?
 	let offsets2 = computeOffsets(elements, cursors[1])
-	if (Cursors.areEqual(cursors[0], cursors[1])) {
+	if (cursors.collapsed) {
 		// NOTE: Uses offsets2 and cursors[1] not offsets1 and
 		// cursors[0].
 		const substr = Spans.textContent(elements[offsets2[0]].props.children).slice(cursors[1].offset)
@@ -85,22 +85,17 @@ const methods = state => ({
 	 * Cursors
 	 */
 	select(cursors) {
-		Object.assign(state, {
-			cursors,
-			collapsed: Cursors.areEqual(cursors[0], cursors[1]),
-		})
+		state.cursors = cursors
 	},
 	collapse() {
-		Object.assign(state, {
-			cursors: [state.cursors[0], state.cursors[0]],
-			collapsed: true,
-		})
+		const collapsed = Cursors.collapse(state.cursors)
+		this.select(collapsed)
 	},
 	/*
 	 * Input
 	 */
-	input(element, cursors) {
-		const x = state.elements.findIndex(each => each.key === cursors[0].key)
+	input(element, collapsed) {
+		const x = state.elements.findIndex(each => each.key === collapsed[0].key)
 		if (x === -1) {
 			throw new Error("dispatch.input: FIXME")
 		}
@@ -108,10 +103,10 @@ const methods = state => ({
 		if (!state.elements[x].props.children.length) {
 			const forcedKey = shortUUID()
 			element.key = forcedKey
-			cursors[0].key = forcedKey // Updates cursors[1] because references are shared
+			collapsed[0].key = forcedKey // Updates collapsed[1] because references are shared
 		}
 		state.elements.splice(x, 1, element)
-		this.select(cursors)
+		this.select(collapsed)
 	},
 	backspaceRTLRune() {
 		console.log(computeRTLOffsetsSet(state.elements, state.cursors, Iterators.rtl.rune))
@@ -133,11 +128,11 @@ const methods = state => ({
 function init(elements) {
 	const state = {
 		focused: false,
-		cursors: [
-			Cursors.construct(),
-			Cursors.construct(),
-		],
-		collapsed: true,
+		cursors: {
+			0: Cursors.construct(),
+			1: Cursors.construct(),
+			collapsed: true,
+		},
 		elements,
 	}
 	return state

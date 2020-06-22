@@ -1,3 +1,4 @@
+import areEqual from "./areEqual"
 import construct from "./constructor"
 
 // Ascends to the closest DOM element with a non-empty ID.
@@ -62,7 +63,7 @@ function computeFromCurrentRange() {
 			[domRange.endContainer, domRange.endOffset]))
 	}
 	/* eslint-enable */
-	return cursors
+	return { ...cursors, collapsed: areEqual(...cursors) }
 }
 
 export default computeFromCurrentRange

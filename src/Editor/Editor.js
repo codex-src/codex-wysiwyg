@@ -1,6 +1,6 @@
+import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Range from "./Range"
-import * as Cursors from "./Cursors"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
@@ -102,7 +102,7 @@ const Editor = ({ children }) => {
 					}
 					switch (keyDownType) {
 					case keyDownTypesEnum.characterData:
-						if (!state.collapsed) {
+						if (!state.cursors.collapsed) {
 							e.preventDefault()
 							// TODO
 							return
@@ -167,12 +167,13 @@ const Editor = ({ children }) => {
 					if (!cursors) {
 						throw new Error("onInput: no such cursors")
 					}
-					const domElement = document.getElementById(cursors[0].key)
+					const collapsed = Cursors.collapse(cursors)
+					const domElement = document.getElementById(collapsed[0].key)
 					if (!domElement) {
 						throw new Error("onInput: no such element")
 					}
 					const element = Elements.parseFromDOMElement(domElement)
-					dispatch.input(element, [cursors[0], cursors[0]])
+					dispatch.input(element, collapsed)
 				}}
 
 				onCut={e => {
