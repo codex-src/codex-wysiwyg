@@ -5,24 +5,36 @@ import { typeEnum } from "./typeMaps"
 
 const BlockWrapper = React.forwardRef(({ id, children }, ref) => {
 	const [paddingY, setPaddingY] = React.useState(4)
+	const [backgroundColor, setBackgroundColor] = React.useState("var(--transparent)")
 
 	React.useLayoutEffect(() => {
-		// TODO: Use rem or em units?
-		const lineHeight = Number(window.getComputedStyle(ref.current).lineHeight.slice(0, -2))
+		const lineHeight = Number(window.getComputedStyle(ref.current).lineHeight.slice(0, -1 * "px".length))
 		setPaddingY((lineHeight - 16) / 2)
 	}, [ref])
 
+	// NOTE: window.location.hash does not work as an effect
+	// dependency.
+	React.useEffect(() => {
+		const handler = e => {
+			const next = window.location.hash.slice("#".length)
+			setBackgroundColor(next !== id ? "var(--transparent)" : "var(--blue-50)")
+		}
+		window.addEventListener("hashchange", handler)
+		return () => {
+			window.removeEventListener("hashchange", handler)
+		}
+	}, [id])
+
 	return (
-		<div className="group relative">
+		<div className="group relative" style={{ backgroundColor }}>
 			<div className="absolute right-full h-full" contentEditable={false}>
-				{/* TODO: Offset offsetTop? */}
-				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={e => window.location.hash = id}>
+				{/* TODO: Use offsetTop prop? */}
+				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={e => { window.location.hash = id; window.scrollBy(0, -96) }}>
 					<svg
 						className="w-4 h-4 transform scale-110"
 						fill="currentColor"
 						viewBox="0 0 20 20"
 					>
-						{/* <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" /> */}
 						<path d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clipRule="evenodd" fillRule="evenodd" />
 					</svg>
 				</div>
