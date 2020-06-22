@@ -2,7 +2,7 @@ import * as Spans from "../Spans"
 import construct from "./constructor"
 import { typeEnum } from "../components/typeMaps"
 
-// Parses a synthetic element from a DOM element.
+// Parses an element from a DOM element.
 function parseFromDOMElement(domElement) {
 	const element = construct()
 

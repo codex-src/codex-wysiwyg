@@ -1,6 +1,6 @@
 import * as Elements from "./Elements"
 import * as Range from "./Range"
-import * as Selection from "./Selection"
+import * as Cursors from "./Cursors"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
@@ -35,7 +35,7 @@ const Editor = ({ children }) => {
 				}
 				try {
 					const domRange = document.createRange()
-					const range = Range.computeFromCursor(state.selection[0])
+					const range = Range.computeFromCursor(state.cursors[0])
 					domRange.setStart(range.container, range.offset)
 					domRange.collapse()
 					domSelection.addRange(domRange)
@@ -74,12 +74,12 @@ const Editor = ({ children }) => {
 						// No-op
 						return
 					}
-					const selection = Selection.computeFromCurrentRange()
-					if (!selection) {
+					const cursors = Cursors.computeFromCurrentRange()
+					if (!cursors) {
 						// No-op
 						return
 					}
-					dispatch.select(selection)
+					dispatch.select(cursors)
 				}}
 
 				onPointerUp={e => {
@@ -87,12 +87,12 @@ const Editor = ({ children }) => {
 				}}
 
 				onSelect={e => {
-					const selection = Selection.computeFromCurrentRange()
-					if (!selection) {
+					const cursors = Cursors.computeFromCurrentRange()
+					if (!cursors) {
 						// No-op
 						return
 					}
-					dispatch.select(selection)
+					dispatch.select(cursors)
 				}}
 
 				onKeyDown={e => {
@@ -163,16 +163,16 @@ const Editor = ({ children }) => {
 				}}
 
 				onInput={e => {
-					const selection = Selection.computeFromCurrentRange()
-					if (!selection) {
-						throw new Error("onInput: no such selection")
+					const cursors = Cursors.computeFromCurrentRange()
+					if (!cursors) {
+						throw new Error("onInput: no such cursors")
 					}
-					const domElement = document.getElementById(selection[0].key)
+					const domElement = document.getElementById(cursors[0].key)
 					if (!domElement) {
 						throw new Error("onInput: no such element")
 					}
 					const element = Elements.parseFromDOMElement(domElement)
-					dispatch.input(element, [selection[0], selection[0]])
+					dispatch.input(element, [cursors[0], cursors[0]])
 				}}
 
 				onCut={e => {

@@ -2,11 +2,11 @@ import * as Spans from "../Spans"
 import shortUUID from "lib/shortUUID"
 import toArray from "lib/toArray"
 
-// Parses synthetic elements from React elements.
+// Parses elements from React elements.
 function parseFromReactElements(reactElements) {
 	const elements = []
 	for (const each of toArray(reactElements)) {
-		// TODO: Use construct()?
+		// TODO: Use construct() and Object.assign?
 		const element = {
 			type: each.type,
 			key: shortUUID(),

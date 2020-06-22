@@ -12,7 +12,7 @@ function ascend(domNode) {
 	return domElement
 }
 
-// Computes a synthetic cursor from a DOM range.
+// Computes a cursor from a DOM range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
 	// FIXME
 	while (domNode.nodeType === Node.ELEMENT_NODE && domNode.childNodes.length) {
@@ -44,27 +44,25 @@ function computeCursorFromRange(domElement, [domNode, offset]) {
 	return cursor
 }
 
-// Computes a synthetic selection from the current DOM range.
+// Computes a set of cursors from the current DOM range.
 function computeFromCurrentRange() {
 	const domSelection = document.getSelection()
 	if (!domSelection.rangeCount) {
 		return null
 	}
 	const domRange = domSelection.getRangeAt(0)
-	const selection = []
+	const cursors = []
 	/* eslint-disable */
-	selection.push(computeCursorFromRange(ascend(domRange.startContainer),
+	cursors.push(computeCursorFromRange(ascend(domRange.startContainer),
 		[domRange.startContainer, domRange.startOffset]))
 	if (domRange.collapsed) {
-		selection.push(selection[0])
+		cursors.push(cursors[0])
 	} else {
-		selection.push(computeCursorFromRange(ascend(domRange.endContainer),
+		cursors.push(computeCursorFromRange(ascend(domRange.endContainer),
 			[domRange.endContainer, domRange.endOffset]))
 	}
 	/* eslint-enable */
-	return selection
+	return cursors
 }
 
 export default computeFromCurrentRange
-
-

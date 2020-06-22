@@ -1,12 +1,14 @@
+import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
-import * as Selection from "./Selection"
 import * as Spans from "./Spans"
 import React from "react"
 import shortUUID from "lib/shortUUID"
 import useMethods from "use-methods"
 
-// Computes offsets based on a synthetic cursor.
+// Computes offsets based on a cursor.
+//
+// TODO: Extract offsets module?
 function computeOffsets(elements, { key, offset }) {
 	const elemOffset = elements.findIndex(each => each.key === key)
 	if (elemOffset === -1) {
@@ -29,16 +31,18 @@ function computeOffsets(elements, { key, offset }) {
 }
 
 // Computes a set of RTL offsets.
-function computeRTLOffsetsSet(elements, selection, rtlIterator) {
-	let offsets1 = computeOffsets(elements, selection[0])
-	const offsets2 = computeOffsets(elements, selection[1])
-	if (Selection.areEqual(...selection)) {
+//
+// TODO: Extract offsets module?
+function computeRTLOffsetsSet(elements, cursors, rtlIterator) {
+	let offsets1 = computeOffsets(elements, cursors[0]) // TODO: Do not autocompute?
+	const offsets2 = computeOffsets(elements, cursors[1])
+	if (Cursors.areEqual(cursors[0], cursors[1])) {
 		// Backspace on text:
 		if (!(offsets1[0] && !offsets1[1] && !offsets1[2] && !offsets1[3])) {
-			const substr = Spans.textContent(elements[offsets1[0]].props.children).slice(0, selection[0].offset)
+			const substr = Spans.textContent(elements[offsets1[0]].props.children).slice(0, cursors[0].offset)
 			offsets1 = computeOffsets(elements, {
-				...selection[0],
-				offset: selection[0].offset - rtlIterator(substr).length,
+				...cursors[0],
+				offset: cursors[0].offset - rtlIterator(substr).length,
 			})
 		// Backspace on "\n":
 		} else {
@@ -52,16 +56,16 @@ function computeRTLOffsetsSet(elements, selection, rtlIterator) {
 }
 
 // Computes a set of LTR offsets.
-function computeLTROffsetsSet(elements, selection, ltrIterator) {
-	const offsets1 = computeOffsets(elements, selection[0])
-	let offsets2 = computeOffsets(elements, selection[1])
-	if (Selection.areEqual(...selection)) {
-		// NOTE: Uses offsets2 and selection[1] not offsets1 and
-		// selection[0].
-		const substr = Spans.textContent(elements[offsets2[0]].props.children).slice(selection[1].offset)
+function computeLTROffsetsSet(elements, cursors, ltrIterator) {
+	const offsets1 = computeOffsets(elements, cursors[0]) // TODO: Do not autocompute?
+	let offsets2 = computeOffsets(elements, cursors[1])
+	if (Cursors.areEqual(cursors[0], cursors[1])) {
+		// NOTE: Uses offsets2 and cursors[1] not offsets1 and
+		// cursors[0].
+		const substr = Spans.textContent(elements[offsets2[0]].props.children).slice(cursors[1].offset)
 		offsets2 = computeOffsets(elements, {
-			...selection[1],
-			offset: selection[1].offset + ltrIterator(substr).length,
+			...cursors[1],
+			offset: cursors[1].offset + ltrIterator(substr).length,
 		})
 	}
 	return [offsets1, offsets2]
@@ -78,25 +82,25 @@ const methods = state => ({
 		state.focused = false
 	},
 	/*
-	 * Selection
+	 * Cursors
 	 */
-	select(selection) {
+	select(cursors) {
 		Object.assign(state, {
-			selection,
-			collapsed: Selection.areEqual(...selection),
+			cursors,
+			collapsed: Cursors.areEqual(cursors[0], cursors[1]),
 		})
 	},
 	collapse() {
 		Object.assign(state, {
-			selection: [state.selection[0], state.selection[0]],
+			cursors: [state.cursors[0], state.cursors[0]],
 			collapsed: true,
 		})
 	},
 	/*
 	 * Input
 	 */
-	input(element, selection) {
-		const x = state.elements.findIndex(each => each.key === selection[0].key)
+	input(element, cursors) {
+		const x = state.elements.findIndex(each => each.key === cursors[0].key)
 		if (x === -1) {
 			throw new Error("dispatch.input: FIXME")
 		}
@@ -104,34 +108,34 @@ const methods = state => ({
 		if (!state.elements[x].props.children.length) {
 			const forcedKey = shortUUID()
 			element.key = forcedKey
-			selection[0].key = forcedKey // Updates selection[1] because references are shared
+			cursors[0].key = forcedKey // Updates cursors[1] because references are shared
 		}
 		state.elements.splice(x, 1, element)
-		this.select(selection)
+		this.select(cursors)
 	},
 	backspaceRTLRune() {
-		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.rune))
+		console.log(computeRTLOffsetsSet(state.elements, state.cursors, Iterators.rtl.rune))
 	},
 	backspaceRTLWord() {
-		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.word))
+		console.log(computeRTLOffsetsSet(state.elements, state.cursors, Iterators.rtl.word))
 	},
 	backspaceRTLLine() {
-		console.log(computeRTLOffsetsSet(state.elements, state.selection, Iterators.rtl.line))
+		console.log(computeRTLOffsetsSet(state.elements, state.cursors, Iterators.rtl.line))
 	},
 	backspaceLTRRune() {
-		console.log(computeLTROffsetsSet(state.elements, state.selection, Iterators.ltr.rune))
+		console.log(computeLTROffsetsSet(state.elements, state.cursors, Iterators.ltr.rune))
 	},
 	backspaceLTRWord() {
-		console.log(computeLTROffsetsSet(state.elements, state.selection, Iterators.ltr.word))
+		console.log(computeLTROffsetsSet(state.elements, state.cursors, Iterators.ltr.word))
 	},
 })
 
 function init(elements) {
 	const state = {
 		focused: false,
-		selection: [
-			Selection.construct(),
-			Selection.construct(),
+		cursors: [
+			Cursors.construct(),
+			Cursors.construct(),
 		],
 		collapsed: true,
 		elements,

@@ -5,7 +5,7 @@ import construct from "./constructor"
 // 	continue
 // }
 
-// Computes a DOM range from a synthetic cursor.
+// Computes a DOM range from a cursor.
 function computeFromCursor({ key, offset }) {
 	const domElement = document.getElementById(key)
 	if (!domElement) {

@@ -1,7 +1,7 @@
 import areEqualJSON from "lib/areEqualJSON"
 import omitKey from "lib/omitKey"
 
-// Compares whether spans (sans "children") are equal.
+// Compares whether spans (sans span.children) are equal.
 function areEqualSansChildren(span1, span2) {
 	const ok = (
 		areEqualJSON(span1.types, span2.types) &&
