@@ -43,7 +43,7 @@ const Block = React.forwardRef(({ id, children }, ref) => {
 	}
 
 	return (
-		<div className="group relative" style={{ backgroundColor }}>
+		<div className="em-context group relative" style={{ backgroundColor }}>
 			<div className="absolute right-full h-full" contentEditable={false}>
 				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={handleClick}>
 					<svg

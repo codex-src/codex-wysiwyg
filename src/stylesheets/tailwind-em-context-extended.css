@@ -1,0 +1,339 @@
+.em-context.-ml-0\.5,
+.em-context .-ml-0\.5 {
+  margin-left: -0.125em;
+}
+.em-context.-ml-1\.5,
+.em-context .-ml-1\.5 {
+  margin-left: -0.375em;
+}
+.em-context.-ml-2\.5,
+.em-context .-ml-2\.5 {
+  margin-left: -0.625em;
+}
+.em-context.-ml-3\.5,
+.em-context .-ml-3\.5 {
+  margin-left: -0.875em;
+}
+
+.em-context.-mr-0\.5,
+.em-context .-mr-0\.5 {
+  margin-right: -0.125em;
+}
+.em-context.-mr-1\.5,
+.em-context .-mr-1\.5 {
+  margin-right: -0.375em;
+}
+.em-context.-mr-2\.5,
+.em-context .-mr-2\.5 {
+  margin-right: -0.625em;
+}
+.em-context.-mr-3\.5,
+.em-context .-mr-3\.5 {
+  margin-right: -0.875em;
+}
+
+.em-context.-mt-0\.5,
+.em-context .-mt-0\.5 {
+  margin-top: -0.125em;
+}
+.em-context.-mt-1\.5,
+.em-context .-mt-1\.5 {
+  margin-top: -0.375em;
+}
+.em-context.-mt-2\.5,
+.em-context .-mt-2\.5 {
+  margin-top: -0.625em;
+}
+.em-context.-mt-3\.5,
+.em-context .-mt-3\.5 {
+  margin-top: -0.875em;
+}
+
+.em-context.-mb-0\.5,
+.em-context .-mb-0\.5 {
+  margin-bottom: -0.125em;
+}
+.em-context.-mb-1\.5,
+.em-context .-mb-1\.5 {
+  margin-bottom: -0.375em;
+}
+.em-context.-mb-2\.5,
+.em-context .-mb-2\.5 {
+  margin-bottom: -0.625em;
+}
+.em-context.-mb-3\.5,
+.em-context .-mb-3\.5 {
+  margin-bottom: -0.875em;
+}
+
+.em-context.-mx-0\.5,
+.em-context .-mx-0\.5 {
+  margin-left: -0.125em; margin-right: -0.125em;
+}
+.em-context.-mx-1\.5,
+.em-context .-mx-1\.5 {
+  margin-left: -0.375em; margin-right: -0.375em;
+}
+.em-context.-mx-2\.5,
+.em-context .-mx-2\.5 {
+  margin-left: -0.625em; margin-right: -0.625em;
+}
+.em-context.-mx-3\.5,
+.em-context .-mx-3\.5 {
+  margin-left: -0.875em; margin-right: -0.875em;
+}
+
+.em-context.-my-0\.5,
+.em-context .-my-0\.5 {
+  margin-top: -0.125em; margin-bottom: -0.125em;
+}
+.em-context.-my-1\.5,
+.em-context .-my-1\.5 {
+  margin-top: -0.375em; margin-bottom: -0.375em;
+}
+.em-context.-my-2\.5,
+.em-context .-my-2\.5 {
+  margin-top: -0.625em; margin-bottom: -0.625em;
+}
+.em-context.-my-3\.5,
+.em-context .-my-3\.5 {
+  margin-top: -0.875em; margin-bottom: -0.875em;
+}
+
+.em-context.ml-0\.5,
+.em-context .ml-0\.5 {
+  margin-left: 0.125em;
+}
+.em-context.ml-1\.5,
+.em-context .ml-1\.5 {
+  margin-left: 0.375em;
+}
+.em-context.ml-2\.5,
+.em-context .ml-2\.5 {
+  margin-left: 0.625em;
+}
+.em-context.ml-3\.5,
+.em-context .ml-3\.5 {
+  margin-left: 0.875em;
+}
+
+.em-context.mr-0\.5,
+.em-context .mr-0\.5 {
+  margin-right: 0.125em;
+}
+.em-context.mr-1\.5,
+.em-context .mr-1\.5 {
+  margin-right: 0.375em;
+}
+.em-context.mr-2\.5,
+.em-context .mr-2\.5 {
+  margin-right: 0.625em;
+}
+.em-context.mr-3\.5,
+.em-context .mr-3\.5 {
+  margin-right: 0.875em;
+}
+
+.em-context.mt-0\.5,
+.em-context .mt-0\.5 {
+  margin-top: 0.125em;
+}
+.em-context.mt-1\.5,
+.em-context .mt-1\.5 {
+  margin-top: 0.375em;
+}
+.em-context.mt-2\.5,
+.em-context .mt-2\.5 {
+  margin-top: 0.625em;
+}
+.em-context.mt-3\.5,
+.em-context .mt-3\.5 {
+  margin-top: 0.875em;
+}
+
+.em-context.mb-0\.5,
+.em-context .mb-0\.5 {
+  margin-bottom: 0.125em;
+}
+.em-context.mb-1\.5,
+.em-context .mb-1\.5 {
+  margin-bottom: 0.375em;
+}
+.em-context.mb-2\.5,
+.em-context .mb-2\.5 {
+  margin-bottom: 0.625em;
+}
+.em-context.mb-3\.5,
+.em-context .mb-3\.5 {
+  margin-bottom: 0.875em;
+}
+
+.em-context.mx-0\.5,
+.em-context .mx-0\.5 {
+  margin-left: 0.125em; margin-right: 0.125em;
+}
+.em-context.mx-1\.5,
+.em-context .mx-1\.5 {
+  margin-left: 0.375em; margin-right: 0.375em;
+}
+.em-context.mx-2\.5,
+.em-context .mx-2\.5 {
+  margin-left: 0.625em; margin-right: 0.625em;
+}
+.em-context.mx-3\.5,
+.em-context .mx-3\.5 {
+  margin-left: 0.875em; margin-right: 0.875em;
+}
+
+.em-context.my-0\.5,
+.em-context .my-0\.5 {
+  margin-top: 0.125em; margin-bottom: 0.125em;
+}
+.em-context.my-1\.5,
+.em-context .my-1\.5 {
+  margin-top: 0.375em; margin-bottom: 0.375em;
+}
+.em-context.my-2\.5,
+.em-context .my-2\.5 {
+  margin-top: 0.625em; margin-bottom: 0.625em;
+}
+.em-context.my-3\.5,
+.em-context .my-3\.5 {
+  margin-top: 0.875em; margin-bottom: 0.875em;
+}
+
+.em-context.pl-0\.5,
+.em-context .pl-0\.5 {
+  padding-left: 0.125em;
+}
+.em-context.pl-1\.5,
+.em-context .pl-1\.5 {
+  padding-left: 0.375em;
+}
+.em-context.pl-2\.5,
+.em-context .pl-2\.5 {
+  padding-left: 0.625em;
+}
+.em-context.pl-3\.5,
+.em-context .pl-3\.5 {
+  padding-left: 0.875em;
+}
+
+.em-context.pr-0\.5,
+.em-context .pr-0\.5 {
+  padding-right: 0.125em;
+}
+.em-context.pr-1\.5,
+.em-context .pr-1\.5 {
+  padding-right: 0.375em;
+}
+.em-context.pr-2\.5,
+.em-context .pr-2\.5 {
+  padding-right: 0.625em;
+}
+.em-context.pr-3\.5,
+.em-context .pr-3\.5 {
+  padding-right: 0.875em;
+}
+
+.em-context.pt-0\.5,
+.em-context .pt-0\.5 {
+  padding-top: 0.125em;
+}
+.em-context.pt-1\.5,
+.em-context .pt-1\.5 {
+  padding-top: 0.375em;
+}
+.em-context.pt-2\.5,
+.em-context .pt-2\.5 {
+  padding-top: 0.625em;
+}
+.em-context.pt-3\.5,
+.em-context .pt-3\.5 {
+  padding-top: 0.875em;
+}
+
+.em-context.pb-0\.5,
+.em-context .pb-0\.5 {
+  padding-bottom: 0.125em;
+}
+.em-context.pb-1\.5,
+.em-context .pb-1\.5 {
+  padding-bottom: 0.375em;
+}
+.em-context.pb-2\.5,
+.em-context .pb-2\.5 {
+  padding-bottom: 0.625em;
+}
+.em-context.pb-3\.5,
+.em-context .pb-3\.5 {
+  padding-bottom: 0.875em;
+}
+
+.em-context.px-0\.5,
+.em-context .px-0\.5 {
+  padding-left: 0.125em; padding-right: 0.125em;
+}
+.em-context.px-1\.5,
+.em-context .px-1\.5 {
+  padding-left: 0.375em; padding-right: 0.375em;
+}
+.em-context.px-2\.5,
+.em-context .px-2\.5 {
+  padding-left: 0.625em; padding-right: 0.625em;
+}
+.em-context.px-3\.5,
+.em-context .px-3\.5 {
+  padding-left: 0.875em; padding-right: 0.875em;
+}
+
+.em-context.py-0\.5,
+.em-context .py-0\.5 {
+  padding-top: 0.125em; padding-bottom: 0.125em;
+}
+.em-context.py-1\.5,
+.em-context .py-1\.5 {
+  padding-top: 0.375em; padding-bottom: 0.375em;
+}
+.em-context.py-2\.5,
+.em-context .py-2\.5 {
+  padding-top: 0.625em; padding-bottom: 0.625em;
+}
+.em-context.py-3\.5,
+.em-context .py-3\.5 {
+  padding-top: 0.875em; padding-bottom: 0.875em;
+}
+
+.em-context.w-0\.5,
+.em-context .w-0\.5 {
+  width: 0.125em;
+}
+.em-context.w-1\.5,
+.em-context .w-1\.5 {
+  width: 0.375em;
+}
+.em-context.w-2\.5,
+.em-context .w-2\.5 {
+  width: 0.625em;
+}
+.em-context.w-3\.5,
+.em-context .w-3\.5 {
+  width: 0.875em;
+}
+
+.em-context.h-0\.5,
+.em-context .h-0\.5 {
+  height: 0.125em;
+}
+.em-context.h-1\.5,
+.em-context .h-1\.5 {
+  height: 0.375em;
+}
+.em-context.h-2\.5,
+.em-context .h-2\.5 {
+  height: 0.625em;
+}
+.em-context.h-3\.5,
+.em-context .h-3\.5 {
+  height: 0.875em;
+}
