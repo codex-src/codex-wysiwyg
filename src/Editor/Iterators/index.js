@@ -2,7 +2,7 @@ import * as emojiTrie from "emoji-trie"
 import * as utf8 from "lib/encoding/utf8"
 
 // Right-to-left (RTL) iterator; returns a substring.
-export const rtl = {
+export const RTL = {
 	rune(str) {
 		const info = emojiTrie.atEnd(str)
 		if (info) {
@@ -14,7 +14,7 @@ export const rtl = {
 		// Iterate spaces:
 		let offset = str.length
 		while (offset) {
-			const rune = rtl.rune(str.slice(0, offset))
+			const rune = RTL.rune(str.slice(0, offset))
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
 				break
@@ -23,13 +23,13 @@ export const rtl = {
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const rune = rtl.rune(str.slice(0, offset))
+		const rune = RTL.rune(str.slice(0, offset))
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
 			while (offset) {
-				const rune = rtl.rune(str.slice(0, offset))
+				const rune = RTL.rune(str.slice(0, offset))
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -39,7 +39,7 @@ export const rtl = {
 		// Iterate non-alphanumerics:
 		} else {
 			while (offset) {
-				const rune = rtl.rune(str.slice(0, offset))
+				const rune = RTL.rune(str.slice(0, offset))
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -55,7 +55,7 @@ export const rtl = {
 	line(str) {
 		let offset = str.length
 		while (offset) {
-			const rune = rtl.rune(str.slice(0, offset))
+			const rune = RTL.rune(str.slice(0, offset))
 			if (utf8.isVWhiteSpace(rune)) {
 				// No-op
 				break
@@ -70,7 +70,7 @@ export const rtl = {
 }
 
 // Left-to-right (LTR) iterator; returns a substring.
-export const ltr = {
+export const LTR = {
 	rune(str) {
 		const info = emojiTrie.atStart(str)
 		if (info) {
@@ -82,7 +82,7 @@ export const ltr = {
 		// Iterate spaces:
 		let offset = 0
 		while (offset < str.length) {
-			const rune = ltr.rune(str.slice(offset))
+			const rune = LTR.rune(str.slice(offset))
 			if (!utf8.isHWhiteSpace(rune)) {
 				// No-op
 				break
@@ -91,13 +91,13 @@ export const ltr = {
 		}
 		// Iterate alphanumerics OR non-alphanumerics based on
 		// the next rune:
-		const rune = ltr.rune(str.slice(offset))
+		const rune = LTR.rune(str.slice(offset))
 		if (!rune) {
 			// No-op; defer to end
 		// Iterate alphanumerics:
 		} else if (utf8.isAlphanum(rune)) {
 			while (offset < str.length) {
-				const rune = ltr.rune(str.slice(offset))
+				const rune = LTR.rune(str.slice(offset))
 				if (!utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
@@ -107,7 +107,7 @@ export const ltr = {
 		// Iterate non-alphanumerics:
 		} else {
 			while (offset < str.length) {
-				const rune = ltr.rune(str.slice(offset))
+				const rune = LTR.rune(str.slice(offset))
 				if (utf8.isAlphanum(rune) || utf8.isWhiteSpace(rune)) {
 					// No-op
 					break
