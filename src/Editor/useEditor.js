@@ -115,8 +115,8 @@ function computeCursorsFromIterator(state, dir, boundary) {
 // 	byteCount -= count
 // }
 
-// Drops the cursor range from elements.
-function dropCursors(state, cursors) {
+// Drops bytes between a set of cursors.
+function dropBytesBetweenCursors(state, cursors) {
 
 	// Drops up to n bytes from an array of spans at an
 	// offset. Returns the number of bytes dropped.
@@ -185,47 +185,47 @@ const methods = state => ({
 		}
 		state.elements.splice(y, 1, element)
 		this.select(collapsed)
-		// state.shouldRerenderElements++
+		state.shouldRenderElements++
 	},
 	backspaceRTLRune() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "rune")
-		dropCursors(state, cursors)
+		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
-		// state.shouldRerenderElements++
+		state.shouldRenderElements++
 	},
 	backspaceRTLWord() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "word")
-		dropCursors(state, cursors)
+		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
-		// state.shouldRerenderElements++
+		state.shouldRenderElements++
 	},
 	backspaceRTLLine() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "line")
-		dropCursors(state, cursors)
+		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
-		// state.shouldRerenderElements++
+		state.shouldRenderElements++
 	},
 	backspaceLTRRune() {
 		const cursors = computeCursorsFromIterator(state, "ltr", "rune")
-		dropCursors(state, cursors)
+		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
-		// state.shouldRerenderElements++
+		state.shouldRenderElements++
 	},
 	backspaceLTRWord() {
 		const cursors = computeCursorsFromIterator(state, "ltr", "word")
-		dropCursors(state, cursors)
+		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
-		// state.shouldRerenderElements++
+		state.shouldRenderElements++
 	},
 })
 
@@ -238,7 +238,7 @@ function init(elements) {
 			collapsed: true,
 		},
 		elements,
-		// shouldRerenderElements: 0,
+		shouldRenderElements: 0,
 	}
 	return state
 }

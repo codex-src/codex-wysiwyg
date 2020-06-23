@@ -59,7 +59,7 @@ const Editor = ({ children }) => {
 				}
 			})
 		}, [state, dispatch]),
-		[state.elements],
+		[state.shouldRenderElements],
 	)
 
 	return (
