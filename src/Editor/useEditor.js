@@ -2,7 +2,6 @@ import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
 import * as Spans from "./Spans"
-import JSONClone from "lib/JSONClone"
 import newShortUUID from "lib/newShortUUID"
 import React from "react"
 import useMethods from "use-methods"
@@ -69,7 +68,7 @@ function computeCursorsFromIterator(state, dir, boundary) {
 }
 
 // Drops up to n bytes from array of spans at an offset.
-// Returns the number of bytes dropped.
+// Returns bytes dropped.
 function dropBytesFromSpans(spans, offset, nbytes) {
 	let x = 0
 	for (; x < spans.length; x++) {
@@ -91,17 +90,11 @@ function dropBytesFromSpans(spans, offset, nbytes) {
 	return nbytes
 }
 
-// Drops bytes between cursors[1] to cursors[0].
+// Drops bytes between cursors.
 function dropBytesBetweenCursors(state, cursors) {
 	let y = state.elements.findIndex(each => each.key === cursors[1].key)
 	while (!Cursors.areEqual(cursors[0], cursors[1])) {
-		// Compute the number of bytes to drop:
-		let nbytes = 0
-		if (cursors[0].key === cursors[1].key) {
-			nbytes = cursors[1].offset - cursors[0].offset
-		} else {
-			nbytes = cursors[1].offset
-		}
+		let nbytes = cursors[1].offset - (cursors[0].key === cursors[1].key && cursors[0].offset)
 		if (!nbytes && y) {
 			// Read the current span (for cursors[1].offset):
 			const textContent = Spans.textContent(state.elements[y - 1].props.children)
@@ -117,7 +110,6 @@ function dropBytesBetweenCursors(state, cursors) {
 			y--
 			continue
 		}
-		// Decrement the number of bytes dropped:
 		nbytes = dropBytesFromSpans(state.elements[y].props.children, cursors[1].offset, nbytes)
 		cursors[1].offset -= nbytes
 	}
@@ -142,20 +134,18 @@ const methods = state => ({
 		if (!state.elements[y].props.children.length) {
 			const forcedKey = newShortUUID()
 			element.key = forcedKey
-			// NOTE: Updates collapsed[1].key because references
-			// are shared.
+			// NOTE: collapsed[0].key = ... updates
+			// collapsed[1].key because references are shared.
 			collapsed[0].key = forcedKey
 		}
 		state.elements.splice(y, 1, element)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
-	// console.log(JSONClone(cursors[0]), JSONClone(cursors[1]))
 	backspaceRTLRune() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "rune")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
@@ -163,7 +153,6 @@ const methods = state => ({
 		const cursors = computeCursorsFromIterator(state, "rtl", "word")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
@@ -171,7 +160,6 @@ const methods = state => ({
 		const cursors = computeCursorsFromIterator(state, "rtl", "line")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
@@ -179,7 +167,6 @@ const methods = state => ({
 		const cursors = computeCursorsFromIterator(state, "ltr", "rune")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
@@ -187,7 +174,6 @@ const methods = state => ({
 		const cursors = computeCursorsFromIterator(state, "ltr", "word")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
