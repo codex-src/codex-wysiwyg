@@ -145,17 +145,34 @@ function dropBytesBetweenCursors(state, cursors) {
 		return nbytes
 	}
 
-	const y = state.elements.findIndex(each => each.key === cursors[1].key)
+	let y = state.elements.findIndex(each => each.key === cursors[1].key)
 	while (!Cursors.areEqual(cursors[0], cursors[1])) {
 		let nbytes = cursors[1].offset
 		if (cursors[0].key === cursors[1].key) {
 			nbytes -= cursors[0].offset
 		}
+		if (!nbytes && y) {
+			// state.elements[y - 1].props.children.push(...state.elements[y].props.children)
+			// state.elements.splice(y, 1)
+			state.elements.splice(y - 1, 2, {
+				...state.elements[y - 1],
+				props: {
+					...state.elements[y - 1].props,
+					children: [
+						...state.elements[y - 1].props.children,
+						...state.elements[y].props.children,
+					],
+				},
+			})
+			Object.assign(cursors[1], {
+				key: state.elements[y - 1].key,
+				offset: Spans.textContent(state.elements[y - 1].props.children).length,
+			})
+			y--
+			return
+		}
 		nbytes = dropBytesFromSpans(state.elements[y].props.children, cursors[1].offset, nbytes)
 		cursors[1].offset -= nbytes
-		// if (...) {
-		// 	// ...
-		// }
 	}
 
 }
