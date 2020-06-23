@@ -7,37 +7,37 @@ import React from "react"
 import useMethods from "use-methods"
 
 // Computes a cursor from an Iterators.RTL method.
-function computeCursorFromRTLIterator(state, boundary) {
+function computeCursorFromRTLIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
-	// Compute key:
-	const y = state.elements.findIndex(each => each.key === state.cursors[0].key)
-	cursor.key = state.elements[y].key
-	// Compute offset:
-	const textContent = Spans.textContent(state.elements[y].props.children).slice(0, state.cursors[0].offset)
+	// Key:
+	const y = elements.findIndex(each => each.key === cursors[0].key)
+	cursor.key = elements[y].key
+	// Offset:
+	const textContent = Spans.textContent(elements[y].props.children).slice(0, cursors[0].offset)
 	const runes = Iterators.RTL[boundary](textContent)
-	cursor.offset = state.cursors[0].offset - runes.length // Uses "-"
+	cursor.offset = cursors[0].offset - runes.length // Uses "-"
 	if (!runes.length && y) {
 		Object.assign(cursor, {
-			key: state.elements[y - 1].key,
-			offset: Spans.textContent(state.elements[y - 1].props.children).length,
+			key: elements[y - 1].key,
+			offset: Spans.textContent(elements[y - 1].props.children).length,
 		})
 	}
 	return cursor
 }
 
 // Computes a cursor from an Iterators.LTR method.
-function computeCursorFromLTRIterator(state, boundary) {
+function computeCursorFromLTRIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
-	// Compute key:
-	const y = state.elements.findIndex(each => each.key === state.cursors[0].key)
-	cursor.key = state.elements[y].key
-	// Compute offset:
-	const textContent = Spans.textContent(state.elements[y].props.children).slice(state.cursors[0].offset)
+	// Key:
+	const y = elements.findIndex(each => each.key === cursors[0].key)
+	cursor.key = elements[y].key
+	// Offset:
+	const textContent = Spans.textContent(elements[y].props.children).slice(cursors[0].offset)
 	const runes = Iterators.LTR[boundary](textContent)
-	cursor.offset = state.cursors[0].offset + runes.length // Uses "+"
-	if (!runes.length && y + 1 < state.elements.length) {
+	cursor.offset = cursors[0].offset + runes.length // Uses "+"
+	if (!runes.length && y + 1 < elements.length) {
 		Object.assign(cursor, {
-			key: state.elements[y + 1].key,
+			key: elements[y + 1].key,
 			offset: 0,
 		})
 	}
@@ -46,25 +46,25 @@ function computeCursorFromLTRIterator(state, boundary) {
 
 // Computes a set of cursors; dir maps to "rtl" or "ltr" and
 // boundary maps to "rune", "word", or "line".
-function computeCursorsFromIterator(state, dir, boundary) {
-	if (!state.cursors.collapsed) {
-		return state.cursors
+function computeCursorsFromIterator(elements, cursors, dir, boundary) {
+	if (!cursors.collapsed) {
+		return cursors
 	}
-	const cursors = {}
+	const next = {}
 	if (dir === "rtl" && dir !== "ltr") {
-		const cursor = computeCursorFromRTLIterator(state, boundary)
-		Object.assign(cursors, {
-			...[cursor, state.cursors[0]],
-			collapsed: Cursors.areEqual(cursor, state.cursors[0]),
+		const start = computeCursorFromRTLIterator(elements, cursors, boundary)
+		Object.assign(next, {
+			...[start, cursors[0]],
+			collapsed: Cursors.areEqual(start, cursors[0]),
 		})
 	} else {
-		const cursor = computeCursorFromLTRIterator(state, boundary)
-		Object.assign(cursors, {
-			...[state.cursors[0], cursor],
-			collapsed: Cursors.areEqual(state.cursors[0], cursor),
+		const end = computeCursorFromLTRIterator(elements, cursors, boundary)
+		Object.assign(next, {
+			...[cursors[0], end],
+			collapsed: Cursors.areEqual(cursors[0], end),
 		})
 	}
-	return cursors
+	return next
 }
 
 // Drops up to n bytes from array of spans at an offset.
@@ -143,35 +143,35 @@ const methods = state => ({
 		state.shouldRenderElements++
 	},
 	backspaceRTLRune() {
-		const cursors = computeCursorsFromIterator(state, "rtl", "rune")
+		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "rtl", "rune")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceRTLWord() {
-		const cursors = computeCursorsFromIterator(state, "rtl", "word")
+		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "rtl", "word")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceRTLLine() {
-		const cursors = computeCursorsFromIterator(state, "rtl", "line")
+		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "rtl", "line")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceLTRRune() {
-		const cursors = computeCursorsFromIterator(state, "ltr", "rune")
+		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "ltr", "rune")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceLTRWord() {
-		const cursors = computeCursorsFromIterator(state, "ltr", "word")
+		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "ltr", "word")
 		dropBytesBetweenCursors(state, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
