@@ -98,9 +98,9 @@ const App = () => (
 						</code>
 					</a>
 				</p>
-				<p>
-					<br />
-				</p>
+				{/* <p> */}
+				{/* 	<br /> */}
+				{/* </p> */}
 			</Editor>
 			{/* eslint-enable jsx-a11y/anchor-is-valid */}
 

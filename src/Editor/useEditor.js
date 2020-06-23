@@ -7,57 +7,36 @@ import newShortUUID from "lib/newShortUUID"
 import React from "react"
 import useMethods from "use-methods"
 
-// // Computes the byte count between cursors.
-// function computeByteCount(elements, cursors) {
-// 	let byteCount = cursors[1].offset - cursors[0].offset
-// all: // eslint-disable-line
-// 	for (let y = 0; y < elements.length; y++) {
-// 		if (elements[y].key === cursors[0].key) {
-// 			for (; y < elements.length; y++) {
-// 				if (elements[y].key === cursors[1].key) {
-// 					break all
-// 				}
-// 				const textContent = Spans.textContent(elements[y].props.children)
-// 				byteCount += (textContent + "\n").length
-// 			}
-// 		}
-// 	}
-// 	return byteCount // byteCount
-// }
-
 // Computes a cursor from an Iterators.RTL method.
 function computeCursorFromRTLIterator(state, boundary) {
 	const cursor = Cursors.construct()
-
 	// Compute key:
 	const y = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	cursor.key = state.elements[y].key
-
 	// Compute offset:
 	const textContent = Spans.textContent(state.elements[y].props.children).slice(0, state.cursors[0].offset)
-	cursor.offset = state.cursors[0].offset - Iterators.RTL[boundary](textContent).length
-	if (!cursor.offset && y) {
+	const runes = Iterators.RTL[boundary](textContent)
+	cursor.offset = state.cursors[0].offset - runes.length // Uses "-"
+	if (!runes.length && y) {
 		Object.assign(cursor, {
 			key: state.elements[y - 1].key,
-			offset: Spans.textContent(state.elements[y - 1].props.children),
+			offset: Spans.textContent(state.elements[y - 1].props.children).length,
 		})
 	}
-
 	return cursor
 }
 
 // Computes a cursor from an Iterators.LTR method.
 function computeCursorFromLTRIterator(state, boundary) {
 	const cursor = Cursors.construct()
-
 	// Compute key:
 	const y = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	cursor.key = state.elements[y].key
-
 	// Compute offset:
 	const textContent = Spans.textContent(state.elements[y].props.children).slice(state.cursors[0].offset)
-	cursor.offset = state.cursors[0].offset + Iterators.LTR[boundary](textContent).length
-	if (!cursor.offset && y + 1 < state.elements.length) {
+	const runes = Iterators.LTR[boundary](textContent)
+	cursor.offset = state.cursors[0].offset + runes.length // Uses "+"
+	if (!runes.length && y + 1 < state.elements.length) {
 		Object.assign(cursor, {
 			key: state.elements[y + 1].key,
 			offset: 0,
@@ -104,11 +83,13 @@ const methods = state => ({
 		if (x === -1) {
 			throw new Error("dispatch.input: FIXME")
 		}
-		// Force rerender <br> to text nodes:
+		// Force rerender on <br> to a text node:
 		if (!state.elements[x].props.children.length) {
 			const forcedKey = newShortUUID()
 			element.key = forcedKey
-			collapsed[0].key = forcedKey // Updates collapsed[1].key because references are shared
+			// NOTE: Updates collapsed[1].key because references
+			// are shared.
+			collapsed[0].key = forcedKey
 		}
 		state.elements.splice(x, 1, element)
 		this.select(collapsed)
