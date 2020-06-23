@@ -1,6 +1,6 @@
 import React from "react"
 import toReact from "./toReact"
-import { Element } from "./meta"
+import { Element as T } from "./type"
 import { typeEnum } from "./typeMaps"
 
 const Block = React.forwardRef(({ id, children }, ref) => {
@@ -37,13 +37,11 @@ const Block = React.forwardRef(({ id, children }, ref) => {
 			return
 		}
 		window.location.hash = id
-		// TODO (1): Use offsetTop prop?
-		// TODO (2): Change to mount effect
-		window.scrollBy(0, -96)
+		window.scrollBy(0, -96) // TODO: Add mount effect
 	}
 
 	return (
-		<div className="em-context group relative" style={{ backgroundColor }}>
+		<div className="em-context group relative transition duration-300 ease-in-out" style={{ backgroundColor }}>
 			<div className="absolute right-full h-full" contentEditable={false}>
 				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={handleClick}>
 					<svg
@@ -64,13 +62,13 @@ export const H1 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.h1}>
+			<T type={typeEnum.h1}>
 				<div ref={ref} id={id} className="font-semibold text-2xl leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -79,13 +77,13 @@ export const H2 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.h2}>
+			<T type={typeEnum.h2}>
 				<div ref={ref} id={id} className="font-semibold text-xl leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -94,13 +92,13 @@ export const H3 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.h3}>
+			<T type={typeEnum.h3}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -109,13 +107,13 @@ export const H4 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.h4}>
+			<T type={typeEnum.h4}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -124,13 +122,13 @@ export const H5 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.h5}>
+			<T type={typeEnum.h5}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -139,13 +137,13 @@ export const H6 = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.h6}>
+			<T type={typeEnum.h6}>
 				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -154,13 +152,13 @@ export const P = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.p}>
+			<T type={typeEnum.p}>
 				<div ref={ref} id={id}>
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</Element>
+			</T>
 		</Block>
 	)
 })
@@ -170,9 +168,9 @@ export const HR = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (
 		<Block ref={ref} id={id}>
-			<Element type={typeEnum.hr}>
+			<T type={typeEnum.hr}>
 				<div ref={ref} id={id} className="my-6 border-t-4 border-cool-gray-300" />
-			</Element>
+			</T>
 		</Block>
 	)
 })
