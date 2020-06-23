@@ -6,6 +6,54 @@ import newShortUUID from "lib/newShortUUID"
 import React from "react"
 import useMethods from "use-methods"
 
+// Drops up to n bytes from an array of spans at an offset.
+// Returns the number of bytes dropped.
+function dropBytes({ spans, offset, nbytes }) {
+	let x = 0
+	for (; x < spans.length; x++) {
+		if (offset - spans[x].props.children.length <= 0) {
+			// No-op
+			break
+		}
+		offset -= spans[x].props.children.length
+	}
+	nbytes = Math.min(nbytes, offset)
+	spans[x].props.children = (
+		spans[x].props.children.slice(0, offset - nbytes) +
+		spans[x].props.children.slice(offset)
+	)
+	if (!spans[x].props.children) {
+		spans.splice(x, 1)
+	}
+	Spans.defer(spans)
+	return nbytes
+}
+
+// Drops bytes between cursors.
+function dropBytesBetweenCursors(elements, cursors) {
+	let y = elements.findIndex(each => each.key === cursors[1].key)
+	while (!Cursors.areEqual(cursors[0], cursors[1])) {
+		let nbytes = cursors[1].offset - (cursors[0].key === cursors[1].key && cursors[0].offset)
+		if (!nbytes && y) {
+			// Read the current span (for cursors[1].offset):
+			const textContent = Spans.textContent(elements[y - 1].props.children)
+			// Push and defer spans:
+			elements[y - 1].props.children.push(...elements[y].props.children)
+			elements.splice(y, 1)
+			Spans.defer(elements[y - 1].props.children)
+			// Reset cursor[1]:
+			Object.assign(cursors[1], {
+				key: elements[y - 1].key,
+				offset: textContent.length,
+			})
+			y--
+			continue
+		}
+		nbytes = dropBytes({ spans: elements[y].props.children, offset: cursors[1].offset, nbytes })
+		cursors[1].offset -= nbytes
+	}
+}
+
 // Computes a cursor from an Iterators.RTL method.
 function computeCursorFromRTLIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
@@ -52,67 +100,19 @@ function computeCursorsFromIterator(elements, cursors, dir, boundary) {
 	}
 	const next = {}
 	if (dir === "rtl" && dir !== "ltr") {
-		const start = computeCursorFromRTLIterator(elements, cursors, boundary)
+		const one = computeCursorFromRTLIterator(elements, cursors, boundary)
 		Object.assign(next, {
-			...[start, cursors[0]],
-			collapsed: Cursors.areEqual(start, cursors[0]),
+			...[one, cursors[0]],
+			collapsed: Cursors.areEqual(one, cursors[0]),
 		})
 	} else {
-		const end = computeCursorFromLTRIterator(elements, cursors, boundary)
+		const one = computeCursorFromLTRIterator(elements, cursors, boundary)
 		Object.assign(next, {
-			...[cursors[0], end],
-			collapsed: Cursors.areEqual(cursors[0], end),
+			...[cursors[0], one],
+			collapsed: Cursors.areEqual(cursors[0], one),
 		})
 	}
 	return next
-}
-
-// Drops up to n bytes from array of spans at an offset.
-// Returns bytes dropped.
-function dropBytesFromSpans(spans, offset, nbytes) {
-	let x = 0
-	for (; x < spans.length; x++) {
-		if (offset - spans[x].props.children.length <= 0) {
-			// No-op
-			break
-		}
-		offset -= spans[x].props.children.length
-	}
-	nbytes = Math.min(nbytes, offset)
-	spans[x].props.children = (
-		spans[x].props.children.slice(0, offset - nbytes) +
-		spans[x].props.children.slice(offset)
-	)
-	if (!spans[x].props.children) {
-		spans.splice(x, 1)
-	}
-	Spans.defer(spans)
-	return nbytes
-}
-
-// Drops bytes between cursors.
-function dropBytesBetweenCursors(state, cursors) {
-	let y = state.elements.findIndex(each => each.key === cursors[1].key)
-	while (!Cursors.areEqual(cursors[0], cursors[1])) {
-		let nbytes = cursors[1].offset - (cursors[0].key === cursors[1].key && cursors[0].offset)
-		if (!nbytes && y) {
-			// Read the current span (for cursors[1].offset):
-			const textContent = Spans.textContent(state.elements[y - 1].props.children)
-			// Push and defer spans:
-			state.elements[y - 1].props.children.push(...state.elements[y].props.children)
-			state.elements.splice(y, 1)
-			Spans.defer(state.elements[y - 1].props.children)
-			// Reset cursor[1]:
-			Object.assign(cursors[1], {
-				key: state.elements[y - 1].key,
-				offset: textContent.length,
-			})
-			y--
-			continue
-		}
-		nbytes = dropBytesFromSpans(state.elements[y].props.children, cursors[1].offset, nbytes)
-		cursors[1].offset -= nbytes
-	}
 }
 
 const methods = state => ({
@@ -144,35 +144,35 @@ const methods = state => ({
 	},
 	backspaceRTLRune() {
 		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "rtl", "rune")
-		dropBytesBetweenCursors(state, cursors)
+		dropBytesBetweenCursors(state.elements, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceRTLWord() {
 		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "rtl", "word")
-		dropBytesBetweenCursors(state, cursors)
+		dropBytesBetweenCursors(state.elements, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceRTLLine() {
 		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "rtl", "line")
-		dropBytesBetweenCursors(state, cursors)
+		dropBytesBetweenCursors(state.elements, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceLTRRune() {
 		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "ltr", "rune")
-		dropBytesBetweenCursors(state, cursors)
+		dropBytesBetweenCursors(state.elements, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
 	backspaceLTRWord() {
 		const cursors = computeCursorsFromIterator(state.elements, state.cursors, "ltr", "word")
-		dropBytesBetweenCursors(state, cursors)
+		dropBytesBetweenCursors(state.elements, cursors)
 		const collapsed = Cursors.collapse(cursors)
 		this.select(collapsed)
 		state.shouldRenderElements++
