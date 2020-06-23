@@ -2,7 +2,7 @@ import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
 import * as Spans from "./Spans"
-import JSONCopy from "lib/JSONCopy"
+import JSONClone from "lib/JSONClone"
 import newShortUUID from "lib/newShortUUID"
 import React from "react"
 import useMethods from "use-methods"
@@ -10,9 +10,11 @@ import useMethods from "use-methods"
 // Computes a cursor from an Iterators.RTL method.
 function computeCursorFromRTLIterator(state, boundary) {
 	const cursor = Cursors.construct()
+
 	// Compute key:
 	const y = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	cursor.key = state.elements[y].key
+
 	// Compute offset:
 	const textContent = Spans.textContent(state.elements[y].props.children).slice(0, state.cursors[0].offset)
 	const runes = Iterators.RTL[boundary](textContent)
@@ -23,15 +25,18 @@ function computeCursorFromRTLIterator(state, boundary) {
 			offset: Spans.textContent(state.elements[y - 1].props.children).length,
 		})
 	}
+
 	return cursor
 }
 
 // Computes a cursor from an Iterators.LTR method.
 function computeCursorFromLTRIterator(state, boundary) {
 	const cursor = Cursors.construct()
+
 	// Compute key:
 	const y = state.elements.findIndex(each => each.key === state.cursors[0].key)
 	cursor.key = state.elements[y].key
+
 	// Compute offset:
 	const textContent = Spans.textContent(state.elements[y].props.children).slice(state.cursors[0].offset)
 	const runes = Iterators.LTR[boundary](textContent)
@@ -42,6 +47,7 @@ function computeCursorFromLTRIterator(state, boundary) {
 			offset: 0,
 		})
 	}
+
 	return cursor
 }
 
@@ -117,13 +123,9 @@ function computeCursorsFromIterator(state, dir, boundary) {
 
 // Drops bytes between a set of cursors.
 function dropBytesBetweenCursors(state, cursors) {
-
 	// Drops up to n bytes from an array of spans at an
 	// offset. Returns the number of bytes dropped.
 	const dropBytesFromSpans = (spans, offset, nbytes) => {
-		// Compute span offsets:
-		//
-		// NOTE: "offset" becomes the character offset.
 		let x = 0
 		for (; x < spans.length; x++) {
 			if (offset - spans[x].props.children.length <= 0) {
@@ -132,7 +134,6 @@ function dropBytesBetweenCursors(state, cursors) {
 			}
 			offset -= spans[x].props.children.length
 		}
-		// Drop up to n bytes from span[x]:
 		nbytes = Math.min(nbytes, offset)
 		spans[x].props.children = (
 			spans[x].props.children.slice(0, offset - nbytes) +
@@ -152,29 +153,23 @@ function dropBytesBetweenCursors(state, cursors) {
 			nbytes -= cursors[0].offset
 		}
 		if (!nbytes && y) {
-			// state.elements[y - 1].props.children.push(...state.elements[y].props.children)
-			// state.elements.splice(y, 1)
-			state.elements.splice(y - 1, 2, {
-				...state.elements[y - 1],
-				props: {
-					...state.elements[y - 1].props,
-					children: [
-						...state.elements[y - 1].props.children,
-						...state.elements[y].props.children,
-					],
-				},
-			})
+			// Read the current text content:
+			const textContent = Spans.textContent(state.elements[y - 1].props.children)
+
+			state.elements[y - 1].props.children.push(...state.elements[y].props.children)
+			Spans.defer(state.elements[y - 1].props.children)
+
+			state.elements.splice(y, 1)
 			Object.assign(cursors[1], {
 				key: state.elements[y - 1].key,
-				offset: Spans.textContent(state.elements[y - 1].props.children).length,
+				offset: textContent.length,
 			})
 			y--
-			return
+			continue
 		}
 		nbytes = dropBytesFromSpans(state.elements[y].props.children, cursors[1].offset, nbytes)
 		cursors[1].offset -= nbytes
 	}
-
 }
 
 const methods = state => ({
@@ -204,6 +199,7 @@ const methods = state => ({
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
+	// console.log(JSONClone(cursors[0]), JSONClone(cursors[1]))
 	backspaceRTLRune() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "rune")
 		dropBytesBetweenCursors(state, cursors)
@@ -212,38 +208,38 @@ const methods = state => ({
 		this.select(collapsed)
 		state.shouldRenderElements++
 	},
-	backspaceRTLWord() {
-		const cursors = computeCursorsFromIterator(state, "rtl", "word")
-		dropBytesBetweenCursors(state, cursors)
-		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
-		this.select(collapsed)
-		state.shouldRenderElements++
-	},
-	backspaceRTLLine() {
-		const cursors = computeCursorsFromIterator(state, "rtl", "line")
-		dropBytesBetweenCursors(state, cursors)
-		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
-		this.select(collapsed)
-		state.shouldRenderElements++
-	},
-	backspaceLTRRune() {
-		const cursors = computeCursorsFromIterator(state, "ltr", "rune")
-		dropBytesBetweenCursors(state, cursors)
-		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
-		this.select(collapsed)
-		state.shouldRenderElements++
-	},
-	backspaceLTRWord() {
-		const cursors = computeCursorsFromIterator(state, "ltr", "word")
-		dropBytesBetweenCursors(state, cursors)
-		const collapsed = Cursors.collapse(cursors)
-		state.elements = [...state.elements] // DEBUG
-		this.select(collapsed)
-		state.shouldRenderElements++
-	},
+	// backspaceRTLWord() {
+	// 	const cursors = computeCursorsFromIterator(state, "rtl", "word")
+	// 	dropBytesBetweenCursors(state, cursors)
+	// 	const collapsed = Cursors.collapse(cursors)
+	// 	state.elements = [...state.elements] // DEBUG
+	// 	this.select(collapsed)
+	// 	state.shouldRenderElements++
+	// },
+	// backspaceRTLLine() {
+	// 	const cursors = computeCursorsFromIterator(state, "rtl", "line")
+	// 	dropBytesBetweenCursors(state, cursors)
+	// 	const collapsed = Cursors.collapse(cursors)
+	// 	state.elements = [...state.elements] // DEBUG
+	// 	this.select(collapsed)
+	// 	state.shouldRenderElements++
+	// },
+	// backspaceLTRRune() {
+	// 	const cursors = computeCursorsFromIterator(state, "ltr", "rune")
+	// 	dropBytesBetweenCursors(state, cursors)
+	// 	const collapsed = Cursors.collapse(cursors)
+	// 	state.elements = [...state.elements] // DEBUG
+	// 	this.select(collapsed)
+	// 	state.shouldRenderElements++
+	// },
+	// backspaceLTRWord() {
+	// 	const cursors = computeCursorsFromIterator(state, "ltr", "word")
+	// 	dropBytesBetweenCursors(state, cursors)
+	// 	const collapsed = Cursors.collapse(cursors)
+	// 	state.elements = [...state.elements] // DEBUG
+	// 	this.select(collapsed)
+	// 	state.shouldRenderElements++
+	// },
 })
 
 function init(elements) {

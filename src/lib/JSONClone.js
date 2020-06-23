@@ -1,6 +1,6 @@
 // JSON-stringifies and parses a value.
-function JSONCopy(value) {
+function JSONClone(value) {
 	return JSON.parse(JSON.stringify(value))
 }
 
-export default JSONCopy
+export default JSONClone
