@@ -3,10 +3,10 @@ import omitKey from "lib/omitKey"
 import { sortedTypeMap } from "../components/typeMaps"
 
 // Compares whether spans are equal (omits props.children).
-function areEqualTypesAndProps(ref1, ref2) {
+function areEqualTypesAndProps(span1, span2) {
 	const ok = (
-		areEqualJSON(ref1.types, ref2.types) &&
-		areEqualJSON(omitKey(ref1.props, "children"), omitKey(ref2.props, "children"))
+		areEqualJSON(span1.types, span2.types) &&
+		areEqualJSON(omitKey(span1.props, "children"), omitKey(span2.props, "children"))
 	)
 	return ok
 }

@@ -1,12 +1,12 @@
 // Constructs a new span.
 function construct() {
-	const ref = {
+	const span = {
 		types: [],
 		props: {
 			children: "",
 		},
 	}
-	return ref
+	return span
 }
 
 export default construct

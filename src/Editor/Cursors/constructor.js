@@ -1,10 +1,10 @@
 // Constructs a new cursor.
 function construct() {
-	const ref = {
+	const cursor = {
 		key: "",
 		offset: 0,
 	}
-	return ref
+	return cursor
 }
 
 export default construct

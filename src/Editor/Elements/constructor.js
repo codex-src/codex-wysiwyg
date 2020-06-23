@@ -1,13 +1,13 @@
 // Constructs a new element.
 function construct() {
-	const ref = {
+	const element = {
 		type: "",
 		key: "",
 		props: {
-			children: null, // TODO: Use []?
+			children: [],
 		},
 	}
-	return ref
+	return element
 }
 
 export default construct
