@@ -9,6 +9,7 @@ import useMethods from "use-methods"
 // Drops up to n bytes from an array of spans at an offset.
 // Returns the number of bytes dropped.
 function dropBytes({ spans, offset, nbytes }) {
+	// Compute the span and character offsets (offset):
 	let x = 0
 	for (; x < spans.length; x++) {
 		if (offset - spans[x].props.children.length <= 0) {
@@ -17,6 +18,7 @@ function dropBytes({ spans, offset, nbytes }) {
 		}
 		offset -= spans[x].props.children.length
 	}
+	// Drop up to n bytes:
 	nbytes = Math.min(nbytes, offset)
 	spans[x].props.children = (
 		spans[x].props.children.slice(0, offset - nbytes) +
@@ -30,6 +32,8 @@ function dropBytes({ spans, offset, nbytes }) {
 }
 
 // Drops bytes between cursors.
+//
+// TODO: Extract
 function dropBytesBetweenCursors(elements, cursors) {
 	let y = elements.findIndex(each => each.key === cursors[1].key)
 	while (!Cursors.areEqual(cursors[0], cursors[1])) {
@@ -49,7 +53,8 @@ function dropBytesBetweenCursors(elements, cursors) {
 			y--
 			continue
 		}
-		nbytes = dropBytes({ spans: elements[y].props.children, offset: cursors[1].offset, nbytes })
+		const ref = { spans: elements[y].props.children, offset: cursors[1].offset, nbytes }
+		nbytes = dropBytes(ref)
 		cursors[1].offset -= nbytes
 	}
 }
@@ -94,6 +99,8 @@ function computeCursorFromLTRIterator(elements, cursors, boundary) {
 
 // Computes a set of cursors; dir maps to "rtl" or "ltr" and
 // boundary maps to "rune", "word", or "line".
+//
+// TODO: Extract
 function computeCursorsFromIterator(elements, cursors, dir, boundary) {
 	if (!cursors.collapsed) {
 		return cursors

@@ -13,8 +13,13 @@ function areEqualTypesAndProps(span1, span2) {
 
 // Merges fragmented spans; spans must share equal types and
 // props to be merged.
-function mergeSpans(spans) {
+function merge(spans) {
 	for (let x = 0; x < spans.length; x++) {
+		// // ... Note that empty spans are dropped.
+		// if (!spans[x].props.children) {
+		// 	spans.splice(x, 1)
+		// 	continue
+		// }
 		if (x && areEqualTypesAndProps(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
 				...spans[x - 1],
@@ -30,14 +35,14 @@ function mergeSpans(spans) {
 }
 
 // Compares span types based on render precedence.
-function sortTypes(type1, type2) {
+function compareTypes(type1, type2) {
 	const x1 = sortedTypeMap[type1]
 	if (x1 === undefined) {
-		throw new Error("Spans.sortTypes: no such type")
+		throw new Error("Spans.compareTypes: no such type")
 	}
 	const x2 = sortedTypeMap[type2]
 	if (x2 === undefined) {
-		throw new Error("Spans.sortTypes: no such type")
+		throw new Error("Spans.compareTypes: no such type")
 	}
 	return x1 - x2
 }
@@ -45,8 +50,8 @@ function sortTypes(type1, type2) {
 // NOTE: Does not return a new copy of spans; mutates
 // references.
 function defer(spans) {
-	mergeSpans(spans)
-	spans.map(each => each.types.sort(sortTypes))
+	merge(spans)
+	spans.map(each => each.types.sort(compareTypes))
 }
 
 export default defer
