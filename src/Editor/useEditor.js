@@ -68,6 +68,11 @@ function computeCursorsFromIterator(state, dir, boundary) {
 	return cursors
 }
 
+// Drops bytes from a set of cursors.
+function dropBytesFromCursors(state, cursors) {
+	// ...
+}
+
 const methods = state => ({
 	focus() {
 		state.focused = true
@@ -96,23 +101,38 @@ const methods = state => ({
 	},
 	backspaceRTLRune() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "rune")
-		console.log(JSONCopy(cursors))
+		dropBytesFromCursors(state, cursors)
+		const collapsed = Cursors.collapseToStart(cursors)
+		state.elements = [...state.elements] // DEBUG
+		this.select(collapsed)
 	},
 	backspaceRTLWord() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "word")
-		console.log(JSONCopy(cursors))
+		dropBytesFromCursors(state, cursors)
+		const collapsed = Cursors.collapseToStart(cursors)
+		state.elements = [...state.elements] // DEBUG
+		this.select(collapsed)
 	},
 	backspaceRTLLine() {
 		const cursors = computeCursorsFromIterator(state, "rtl", "line")
-		console.log(JSONCopy(cursors))
+		dropBytesFromCursors(state, cursors)
+		const collapsed = Cursors.collapseToStart(cursors)
+		state.elements = [...state.elements] // DEBUG
+		this.select(collapsed)
 	},
 	backspaceLTRRune() {
 		const cursors = computeCursorsFromIterator(state, "ltr", "rune")
-		console.log(JSONCopy(cursors))
+		dropBytesFromCursors(state, cursors)
+		const collapsed = Cursors.collapseToEnd(cursors) // NOTE: Use Cursors.collapseToEnd.
+		state.elements = [...state.elements] // DEBUG
+		this.select(collapsed)
 	},
 	backspaceLTRWord() {
 		const cursors = computeCursorsFromIterator(state, "ltr", "word")
-		console.log(JSONCopy(cursors))
+		dropBytesFromCursors(state, cursors)
+		const collapsed = Cursors.collapseToEnd(cursors) // NOTE: Use Cursors.collapseToEnd.
+		state.elements = [...state.elements] // DEBUG
+		this.select(collapsed)
 	},
 })
 

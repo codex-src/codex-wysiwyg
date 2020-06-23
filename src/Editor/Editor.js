@@ -182,7 +182,7 @@ const Editor = ({ children }) => {
 					if (!cursors) {
 						throw new Error("onInput: no such cursors")
 					}
-					const collapsed = Cursors.collapse(cursors)
+					const collapsed = Cursors.collapseToStart(cursors)
 					const domElement = document.getElementById(collapsed[0].key)
 					if (!domElement) {
 						throw new Error("onInput: no such element")
