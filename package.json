@@ -12,7 +12,7 @@
 		"tailwind-start": "tailwind build src/stylesheets/tailwind.css -o src/stylesheets/tailwind.generated.css",
 		"start": "react-scripts start",
 		"tailwind-build": "NODE_ENV=production yarn tailwind-start",
-		"build": "react-scripts build",
+		"build": "yarn tailwind-build && yarn react-scripts build && osascript -e 'display notification \"Production build ready\" with title \"yarn build\"' && yarn tailwind-start",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

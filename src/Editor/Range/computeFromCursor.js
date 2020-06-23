@@ -5,6 +5,16 @@ import construct from "./constructor"
 // 	continue
 // }
 
+// Returns whether a DOM node is a text node or a <br>
+// element.
+function isTextNodeOrBRElement(domNode) {
+	const ok =(
+		domNode.nodeType === Node.TEXT_NODE ||
+		(domNode.nodeType === Node.ELEMENT_NODE && domNode.nodeName === "BR")
+	)
+	return ok
+}
+
 // Computes a DOM range from a cursor.
 function computeFromCursor({ key, offset }) {
 	const domElement = document.getElementById(key)
@@ -13,7 +23,7 @@ function computeFromCursor({ key, offset }) {
 	}
 	const range = construct()
 	const recurse = onDOMNode => {
-		if (offset - (onDOMNode.nodeValue || "").length <= 0) {
+		if (isTextNodeOrBRElement(onDOMNode) && offset - (onDOMNode.nodeValue || "").length <= 0) {
 			Object.assign(range, {
 				container: onDOMNode,
 				offset,
