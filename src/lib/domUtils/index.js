@@ -2,11 +2,10 @@
 const domUtils = {
 	// Ascends to the closest element.
 	ascendElement(domNode) {
-		let domElement = domNode
-		if (domNode.nodeType !== Node.ELEMENT_NODE && domNode.parentElement) {
-			domElement = domNode.parentElement
+		if (domNode.nodeType === Node.TEXT_NODE && domNode.parentElement) {
+			return domNode.parentElement
 		}
-		return domElement
+		return domNode
 	},
 	// Ascends to the closest ID-d element.
 	ascendElementID(domNode) {
