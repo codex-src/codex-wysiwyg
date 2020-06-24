@@ -11,8 +11,8 @@ function isNonZeroValueOrStringifiedZeroValue(value) {
 
 // Trims extraneous spaces, zero values, and stringified
 // zero values.
-function className(str) {
+function classNameString(str) {
 	return str.split(/\s+/).filter(isNonZeroValueOrStringifiedZeroValue).join(" ")
 }
 
-export default className
+export default classNameString

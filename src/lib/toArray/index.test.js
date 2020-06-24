@@ -1,4 +1,4 @@
-import toArray from "./toArray"
+import toArray from "./index"
 
 test("toArray", () => {
 	expect(toArray(undefined)).toEqual([undefined])

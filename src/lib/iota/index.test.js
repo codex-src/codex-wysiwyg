@@ -1,4 +1,4 @@
-import iota from "./iota"
+import iota from "./index"
 
 test("iota", () => {
 	const i = iota()

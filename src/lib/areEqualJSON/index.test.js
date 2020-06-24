@@ -1,4 +1,4 @@
-import areEqualJSON from "./areEqualJSON"
+import areEqualJSON from "./index"
 
 test("areEqualJSON", () => {
 	// NOTE: Use expect(...).toBe(...) not

@@ -1,4 +1,4 @@
-import omitKey from "./omitKey"
+import omitKey from "./index"
 
 test("omitKey", () => {
 	expect(omitKey({ a: null }, "a")).toEqual({})
