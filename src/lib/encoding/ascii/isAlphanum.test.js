@@ -1,4 +1,4 @@
-import { isAlphanum } from "./isAlphanum"
+import isAlphanum from "./isAlphanum"
 
 test("isAlphanum", () => {
 	expect(isAlphanum("")).toBe(false)

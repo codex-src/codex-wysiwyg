@@ -1,5 +1,5 @@
 // Returns whether a character is an alphanumeric character.
-export function isAlphanum(char) {
+function isAlphanum(char) {
 	const ok = (
 		(char >= "a" && char <= "z") ||
 		(char >= "A" && char <= "Z") ||
@@ -8,3 +8,5 @@ export function isAlphanum(char) {
 	)
 	return ok
 }
+
+export default isAlphanum

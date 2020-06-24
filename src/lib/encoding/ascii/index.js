@@ -1,1 +1,1 @@
-export * from "./isAlphanum"
+export { default as isAlphanum } from "./isAlphanum"
