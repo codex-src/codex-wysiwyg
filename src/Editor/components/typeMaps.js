@@ -9,7 +9,7 @@ import {
 	H6,
 	P,
 	HR,
-} from "./elements"
+} from "./Elements"
 
 import {
 	Em,
@@ -17,7 +17,7 @@ import {
 	Code,
 	Strike,
 	A,
-} from "./spans"
+} from "./Spans"
 
 // Sorted based on render precedence.
 export const typeEnum = {
@@ -38,7 +38,7 @@ export const typeEnum = {
 }
 
 // Sorted based on render precedence.
-export const typeMap = {
+export const typeMap = { // TODO: Rename to componentMap?
 	[typeEnum.h1]: H1,
 	[typeEnum.h2]: H2,
 	[typeEnum.h3]: H3,

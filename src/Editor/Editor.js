@@ -6,13 +6,16 @@ import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
-import Renderer from "./components/renderer"
+import Renderer from "./components/Renderer"
 import useEditor from "./useEditor"
 
 import "./Editor.css"
 
 ;(() => {
 	noopTextNodeRerenders()
+	setTimeout(() => { // DEBUG
+		console.clear()
+	}, 1e3)
 })()
 
 const Editor = ({ children }) => {

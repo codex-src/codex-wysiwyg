@@ -1,6 +1,6 @@
 import React from "react"
 import toReact from "./toReact"
-import { Element as T } from "./type"
+import { Element as T } from "./HOC"
 import { typeEnum } from "./typeMaps"
 
 const Block = React.forwardRef(({ id, children }, ref) => {
