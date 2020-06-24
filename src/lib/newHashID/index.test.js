@@ -10,7 +10,7 @@ test("nchars", () => {
 test("hex", () => {
 	const hex = "0123456789abcdef"
 	for (const char of newHashID()) {
-		expect(hex.indexOf(char) >= 0).toBe(true)
+		expect(hex.indexOf(char) >= 0).toBeTruthy()
 	}
 })
 

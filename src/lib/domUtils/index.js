@@ -11,7 +11,7 @@ const domUtils = {
 	// Ascends to the closest ID-d element.
 	ascendElementID(domNode) {
 		let domElement = domUtils.ascendElement(domNode)
-		while (!domElement.id && domNode.parentElement) {
+		while (domElement.getAttribute("id") === null && domElement.parentElement) {
 			domElement = domElement.parentElement
 		}
 		return domElement

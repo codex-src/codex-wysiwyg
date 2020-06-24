@@ -8,10 +8,10 @@ test("non-macOS", () => {
 		configurable: true,
 	})
 	/* eslint-disable no-multi-spaces */
-	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: false })).toBe(false)
-	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: true  })).toBe(true)
-	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: false })).toBe(false)
-	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: true  })).toBe(false)
+	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: false })).not.toBeTruthy()
+	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: true  })).toBeTruthy()
+	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: false })).not.toBeTruthy()
+	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: true  })).not.toBeTruthy()
 	/* eslint-enable no-multi-spaces */
 })
 
@@ -23,9 +23,9 @@ test("macOS", () => {
 		configurable: true,
 	})
 	/* eslint-disable no-multi-spaces */
-	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: false })).toBe(false)
-	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: true  })).toBe(false)
-	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: false })).toBe(true)
-	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: true  })).toBe(false)
+	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: false })).not.toBeTruthy()
+	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: true  })).not.toBeTruthy()
+	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: false })).toBeTruthy()
+	expect(isCtrlOrMetaKey({ metaKey: true,  ctrlKey: true  })).not.toBeTruthy()
 	/* eslint-enable no-multi-spaces */
 })
