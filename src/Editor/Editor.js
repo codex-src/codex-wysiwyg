@@ -6,29 +6,14 @@ import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
+import Renderer from "./components/renderer"
 import useEditor from "./useEditor"
-import { typeMap } from "./components/typeMaps"
 
 import "./Editor.css"
 
 ;(() => {
-	// No-ops redundant text node rerenders.
 	noopTextNodeRerenders()
 })()
-
-const Renderer = ({ state, dispatch }) => (
-	// <FocusedContext.Provider value={state.focused}>
-	state.elements.map(({ type: T, key, props }) => (
-		// NOTE: React reserves "key"; uses "id".
-		React.createElement(typeMap[T], {
-			key,
-			id: key,
-			...props,
-		})
-	))
-	// </FocusedContext.Provider>
-)
-
 
 const Editor = ({ children }) => {
 	const ref = React.useRef(null)
@@ -191,20 +176,20 @@ const Editor = ({ children }) => {
 					dispatch.input(element, collapsed)
 				}}
 
-				onCut={e => {
-					e.preventDefault()
-					// TODO
-				}}
-
-				onCopy={e => {
-					e.preventDefault()
-					// TODO
-				}}
-
-				onPaste={e => {
-					e.preventDefault()
-					// TODO
-				}}
+				// onCut={e => {
+				// 	e.preventDefault()
+				// 	// TODO
+				// }}
+				//
+				// onCopy={e => {
+				// 	e.preventDefault()
+				// 	// TODO
+				// }}
+				//
+				// onPaste={e => {
+				// 	e.preventDefault()
+				// 	// TODO
+				// }}
 
 				onDragStart={e => {
 					e.preventDefault()
