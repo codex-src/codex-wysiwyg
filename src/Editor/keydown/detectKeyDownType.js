@@ -1,4 +1,4 @@
-import isMetaOrControlKey from "lib/isMetaOrControlKey"
+import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 import keyDownTypesEnum from "./keyDownTypesEnum"
 
 const keyCodes = {
@@ -9,7 +9,11 @@ const keyCodes = {
 
 	I: 73, // Em
 	B: 66, // Strong
-	// TODO
+
+	// // TODO
+	// "formatCode":   "formatCode",
+	// "formatStrike": "formatStrike",
+	// "formatA":      "formatA",
 
 	Backspace: 8,
 	Delete: 46,
@@ -24,7 +28,7 @@ const detect = {
 	// most macros and commands are more than one rune.
 	characterData(e) {
 		const ok = (
-			// !isMetaOrControlKey(e) &&
+			// !isCtrlOrMetaKey(e) &&
 			!e.ctrlKey && // Non-macro
 			!e.metaKey && // Non-command
 			[...e.key].length === 1
@@ -46,14 +50,14 @@ const detect = {
 	},
 	formatEm(e) {
 		const ok = (
-			isMetaOrControlKey(e) &&
+			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodes.I
 		)
 		return ok
 	},
 	formatStrong(e) {
 		const ok = (
-			isMetaOrControlKey(e) &&
+			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodes.B
 		)
 		return ok
@@ -62,7 +66,7 @@ const detect = {
 	// precedence.
 	backspaceRTLLine(e) {
 		const ok = (
-			isMetaOrControlKey(e) &&
+			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodes.Backspace
 		)
 		return ok
@@ -105,8 +109,8 @@ const detect = {
 	undo(e) {
 		const ok = (
 			!e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
 			!e.altKey &&
-			isMetaOrControlKey(e) &&
 			e.keyCode === keyCodes.Z
 		)
 		return ok
@@ -114,8 +118,8 @@ const detect = {
 	redoMacOS(e) {
 		const ok = (
 			e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
 			!e.altKey &&
-			isMetaOrControlKey(e) &&
 			e.keyCode === keyCodes.Z
 		)
 		return ok
@@ -123,8 +127,8 @@ const detect = {
 	redoOther(e) {
 		const ok = (
 			!e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
 			!e.altKey &&
-			isMetaOrControlKey(e) &&
 			e.keyCode === keyCodes.Y
 		)
 		return ok

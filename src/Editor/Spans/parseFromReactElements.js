@@ -11,7 +11,7 @@ function parseFromReactElements(reactElements) {
 			//
 			// TODO: Guard <em></em> case; "omitKey: no such key
 			// (key=children)".
-			if (each === undefined || (each.type && !typeMap[each.type])) {
+			if (each === undefined || (each.type && !typeMap[each.type])) { // TODO: Move up?
 				// No-op
 				continue
 			}

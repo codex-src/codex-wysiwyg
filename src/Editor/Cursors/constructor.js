@@ -1,4 +1,3 @@
-// Constructs a new cursor.
 function construct() {
 	const cursor = {
 		key: "",

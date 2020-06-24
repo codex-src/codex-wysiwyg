@@ -1,5 +1,5 @@
 // Compares whether strings are equal.
-function areEqual(str1, str2) {
+function areEqual(str1, str2) { // TODO: Inline
 	const ok = (
 		str1.length === str2.length &&
 		str1 === str2

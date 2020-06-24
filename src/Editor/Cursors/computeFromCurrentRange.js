@@ -1,12 +1,15 @@
 import areEqual from "./areEqual"
+import check from "lib/check"
 import construct from "./constructor"
 import domUtils from "lib/domUtils"
 
 // Computes a cursor from a DOM range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
-	if (!domUtils.isTextNodeOrBrElement(domNode)) {
-		throw new Error("Cursors.computeCursorFromRange: FIXME")
+	if (domUtils.isElement(domNode) && !domUtils.isBrElement(domNode) && domUtils.isTextNodeOrBrElement(domNode.childNodes[offset])) {
+		domNode = domNode.childNodes[offset]
+		offset = 0
 	}
+	check(domUtils.isTextNodeOrBrElement(domNode))
 	const cursor = construct()
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {
@@ -20,8 +23,7 @@ function computeCursorFromRange(domElement, [domNode, offset]) {
 			if (recurse(each)) {
 				return true
 			}
-			cursor.offset += each.nodeType === Node.TEXT_NODE &&
-				each.nodeValue.length
+			cursor.offset += domUtils.isTextNode(each) && each.nodeValue.length
 		}
 		return false
 	}

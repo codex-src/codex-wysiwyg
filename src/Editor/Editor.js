@@ -1,6 +1,7 @@
 import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Range from "./Range"
+import check from "lib/check"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
@@ -39,7 +40,7 @@ const Editor = ({ children }) => {
 				try {
 					const domRange = document.createRange()
 					const range = Range.computeFromCursor(state.cursors[0])
-					domRange.setStart(range.container, range.offset)
+					domRange.setStart(...range)
 					domRange.collapse()
 					domSelection.addRange(domRange)
 				} catch (error) {
@@ -166,15 +167,11 @@ const Editor = ({ children }) => {
 				}}
 
 				onInput={e => {
-					const cursors = Cursors.computeFromCurrentRange(ref.current)
-					if (!cursors) {
-						throw new Error("onInput: no such cursors")
-					}
+					// NOTE: "cursors" takes precedence because
+					// "domElement" uses "cursors".
+					const cursors = check(Cursors.computeFromCurrentRange(ref.current))
 					const collapsed = Cursors.collapse(cursors)
-					const domElement = document.getElementById(collapsed[0].key)
-					if (!domElement) {
-						throw new Error("onInput: no such element")
-					}
+					const domElement = check(document.getElementById(collapsed[0].key))
 					const element = Elements.parseFromDOMElement(domElement)
 					dispatch.input(element, collapsed)
 				}}

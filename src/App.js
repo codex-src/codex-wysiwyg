@@ -98,9 +98,35 @@ const App = () => (
 						</code>
 					</a>
 				</p>
-				{/* <p> */}
-				{/* 	<br /> */}
-				{/* </p> */}
+				<p>
+					<br />
+				</p>
+				<p>
+					Hello,{" "}
+					<a href="/#">
+						<em>
+							worldx
+						</em>
+					</a>
+					<a href="abc">
+						<em>
+							<strong>
+								worldy
+							</strong>
+						</em>
+					</a>
+					{" "}
+					<a href="yolo">
+						<code>
+							fmt.Println("Hello, world!")
+						</code>
+					</a>
+					<a href="dyolo">
+						<code>
+							fmt.Println("Hello, world!")
+						</code>
+					</a>
+				</p>
 			</Editor>
 			{/* eslint-enable jsx-a11y/anchor-is-valid */}
 

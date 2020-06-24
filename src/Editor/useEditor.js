@@ -36,7 +36,7 @@ function dropBytes({ spans, offset, nbytes }) {
 //
 // TODO: Extract
 function dropBytesBetweenCursors(elements, cursors) {
-	let y = elements.findIndex(each => each.key === cursors[1].key)
+	let y = check(elements.findIndex(each => each.key === cursors[1].key))
 	while (!Cursors.areEqual(cursors[0], cursors[1])) {
 		let nbytes = cursors[1].offset - (cursors[0].key === cursors[1].key && cursors[0].offset)
 		if (!nbytes && y) {
@@ -64,7 +64,7 @@ function dropBytesBetweenCursors(elements, cursors) {
 function computeCursorFromRTLIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
 	// Key:
-	const y = elements.findIndex(each => each.key === cursors[0].key)
+	const y = check(elements.findIndex(each => each.key === cursors[0].key))
 	cursor.key = elements[y].key
 	// Offset:
 	const textContent = Spans.textContent(elements[y].props.children).slice(0, cursors[0].offset)
@@ -83,7 +83,7 @@ function computeCursorFromRTLIterator(elements, cursors, boundary) {
 function computeCursorFromLTRIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
 	// Key:
-	const y = elements.findIndex(each => each.key === cursors[0].key)
+	const y = check(elements.findIndex(each => each.key === cursors[0].key))
 	cursor.key = elements[y].key
 	// Offset:
 	const textContent = Spans.textContent(elements[y].props.children).slice(cursors[0].offset)

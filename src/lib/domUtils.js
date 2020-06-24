@@ -16,11 +16,18 @@ const domUtils = {
 		}
 		return domElement
 	},
+	isTextNode(domNode) {
+		return domNode.nodeType === Node.TEXT_NODE
+	},
 	isElement(domNode) {
 		return domNode.nodeType === Node.ELEMENT_NODE
 	},
-	isTextNode(domNode) {
-		return domNode.nodeType === Node.TEXT_NODE
+	isBrElement(domNode) {
+		const ok = (
+			domNode.nodeType === Node.ELEMENT_NODE &&
+			domNode.nodeName === "BR"
+		)
+		return ok
 	},
 	isTextNodeOrBrElement(domNode) {
 		const ok = (

@@ -1,5 +1,5 @@
-// macOS implementation of isMetaOrControlKey.
-function isMetaOrControlKeyMacOS(e) {
+// macOS implementation of isCtrlOrMetaKey.
+function isCtrlOrMetaKeyMacOS(e) {
 	const ok = (
 		!e.ctrlKey &&
 		e.metaKey
@@ -8,12 +8,12 @@ function isMetaOrControlKeyMacOS(e) {
 }
 
 // Returns whether an key down event exclusively uses the
-// meta (command on macOS) or control key.
+// control key or meta (command on macOS) key.
 //
 // https://css-tricks.com/snippets/javascript/test-mac-pc-javascript
-function isMetaOrControlKey(e) {
+function isCtrlOrMetaKey(e) {
 	if (navigator.userAgent.indexOf("Mac OS X") !== -1) {
-		return isMetaOrControlKeyMacOS(e)
+		return isCtrlOrMetaKeyMacOS(e)
 	}
 	const ok = (
 		e.ctrlKey &&
@@ -22,4 +22,4 @@ function isMetaOrControlKey(e) {
 	return ok
 }
 
-export default isMetaOrControlKey
+export default isCtrlOrMetaKey

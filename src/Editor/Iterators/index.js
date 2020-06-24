@@ -4,6 +4,7 @@ import * as utf8 from "lib/encoding/utf8"
 // Right-to-left (RTL) iterator; returns a substring.
 export const RTL = {
 	rune(str) {
+		// return emojiTrie.atEnd(str)?.emoji || utf8.atEnd(str)
 		const info = emojiTrie.atEnd(str)
 		if (info) {
 			return info.emoji
@@ -72,6 +73,7 @@ export const RTL = {
 // Left-to-right (LTR) iterator; returns a substring.
 export const LTR = {
 	rune(str) {
+		// return emojiTrie.atStart(str)?.emoji || utf8.atStart(str)
 		const info = emojiTrie.atStart(str)
 		if (info) {
 			return info.emoji

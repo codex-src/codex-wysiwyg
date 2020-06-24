@@ -21,9 +21,8 @@ function toReactElements(elements) {
 	return reactElements
 }
 
-// Queries the next intermediary element array and non-
-// nested types.
-function queryNext(elements, span) {
+// Queries the next intermediary element array and types.
+function queryNextAndTypes(elements, span) {
 	const types = [...span.types]
 	if (!elements.length || typeof elements[elements.length - 1] === "string" || !types.length) {
 		return [elements, types]
@@ -54,9 +53,9 @@ function queryNext(elements, span) {
 function toElements(spans) {
 	const elements = []
 	for (const span of spans) {
-		const [arr, types] = queryNext(elements, span)
+		const [next, types] = queryNextAndTypes(elements, span)
 		if (!types.length) {
-			arr.push(span.props.children)
+			next.push(span.props.children)
 			continue
 		}
 		const element = {}
@@ -74,7 +73,7 @@ function toElements(spans) {
 			ref = ref.props.children
 		}
 		lastRef.props.children = span.props.children
-		arr.push(element)
+		next.push(element)
 	}
 	return elements
 }
@@ -85,7 +84,7 @@ function toReact(spans) {
 	const elements = toElements(spans)
 	const reactElements = toReactElements(elements)
 	if (!reactElements.length) {
-		return null
+		return null // Uses null for {toReact(children) || <br />}
 	}
 	return reactElements
 }

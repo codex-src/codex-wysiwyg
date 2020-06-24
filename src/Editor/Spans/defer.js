@@ -1,4 +1,5 @@
 import areEqualJSON from "lib/areEqualJSON"
+import check from "lib/check"
 import omitKey from "lib/omitKey"
 import { sortedTypeMap } from "../components/typeMaps"
 
@@ -15,11 +16,6 @@ function areEqualTypesAndProps(span1, span2) {
 // props to be merged.
 function merge(spans) {
 	for (let x = 0; x < spans.length; x++) {
-		// // ... Note that empty spans are dropped.
-		// if (!spans[x].props.children) {
-		// 	spans.splice(x, 1)
-		// 	continue
-		// }
 		if (x && areEqualTypesAndProps(spans[x - 1], spans[x])) {
 			spans.splice(x - 1, 2, {
 				...spans[x - 1],
@@ -35,20 +31,12 @@ function merge(spans) {
 }
 
 // Compares span types based on render precedence.
-function compareTypes(type1, type2) {
-	const x1 = sortedTypeMap[type1]
-	if (x1 === undefined) {
-		throw new Error("Spans.compareTypes: no such type")
-	}
-	const x2 = sortedTypeMap[type2]
-	if (x2 === undefined) {
-		throw new Error("Spans.compareTypes: no such type")
-	}
+function compareTypes(T1, T2) {
+	const x1 = check(sortedTypeMap[T1])
+	const x2 = check(sortedTypeMap[T2])
 	return x1 - x2
 }
 
-// NOTE: Does not return a new copy of spans; mutates
-// references.
 function defer(spans) {
 	merge(spans)
 	spans.map(each => each.types.sort(compareTypes))

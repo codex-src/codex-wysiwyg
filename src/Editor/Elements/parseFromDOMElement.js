@@ -1,37 +1,30 @@
 import * as Spans from "../Spans"
+import check from "lib/check"
 import construct from "./constructor"
+import domUtils from "lib/domUtils"
 import { typeEnum } from "../components/typeMaps"
 
 // Parses an element from a DOM element.
 function parseFromDOMElement(domElement) {
 	const element = construct()
 
-	// Types:
-	const type = typeEnum[domElement.getAttribute("data-type")]
-	if (!type) {
-		throw new Error("Elements.parseFromDOMElement: no such type")
-	}
+	// (1) Type:
+	const type = check(typeEnum[domElement.getAttribute("data-type")])
 	element.type = type
 
-	// Key (ID):
-	const key = domElement.id
-	if (!key) {
-		throw new Error("Elements.parseFromDOMElement: no such key")
-	}
+	// (2) Key:
+	const key = check(domElement.id)
 	element.key = key
 
-	// Props:
+	// (3) Props:
 	const props = JSON.parse(domElement.getAttribute("data-props") || "{}")
-	if (!props) {
-		throw new Error("Elements.parseFromDOMElement: no such props")
-	}
 	Object.assign(element.props, props)
 
-	// Spans:
+	// (4) Spans:
 	const spans = []
 	const recurse = (onDOMNode, types = [], props = {}) => {
-		if (onDOMNode.nodeType === Node.TEXT_NODE) {
-			// TODO: Use construct()?
+		if (domUtils.isTextNode(onDOMNode)) {
+			// TODO: Use construct() and Object.assign?
 			spans.push({
 				types,
 				props: {
@@ -42,32 +35,29 @@ function parseFromDOMElement(domElement) {
 			return
 		}
 		for (const each of onDOMNode.childNodes) {
-			if (each.nodeType === Node.ELEMENT_NODE && each.nodeName === "BR") {
+			if (domUtils.isBrElement(each)) {
 				// No-op
 				continue
 			}
+			// FIXME
 			const nextTypes = [...types]
 			const nextProps = { ...props }
-			if (each.nodeType === Node.ELEMENT_NODE) {
-				const type = typeEnum[each.getAttribute("data-type")]
-				if (!type) {
-					throw new Error("Elements.parseFromDOMElement.recurse: no such type")
-				}
+			if (domUtils.isElement(each)) {
+				const type = check(typeEnum[each.getAttribute("data-type")])
 				nextTypes.push(type)
-				nextProps[type] = JSON.parse(each.getAttribute("data-props") || "{}")
+				const props = JSON.parse(each.getAttribute("data-props") || "{}")
+				nextProps[type] = props
 			}
 			recurse(each, nextTypes, nextProps)
 		}
 	}
 
-	// Spans (cont.d):
+	// (4) Spans (cont.d):
 	recurse(domElement)
-	if (!spans.length) {
-		throw new Error("Elements.parseFromDOMElement: no such spans")
-	}
+	// NOTE: Do not check spans; spans can be empty.
 	element.props.children = spans
-
 	Spans.defer(element.props.children)
+
 	return element
 }
 

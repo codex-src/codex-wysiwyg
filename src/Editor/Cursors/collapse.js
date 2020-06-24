@@ -1,5 +1,4 @@
-// Returns a collapsed set of cursors; does not mutate
-// references.
+// Returns a collapsed set of cursors.
 function collapse(cursors) {
 	const collapsed = {
 		...[cursors[0], cursors[0]],

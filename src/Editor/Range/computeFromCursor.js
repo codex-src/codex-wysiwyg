@@ -1,27 +1,20 @@
-import construct from "./constructor"
+import check from "lib/check"
 import domUtils from "lib/domUtils"
 
-// Computes a DOM range from a cursor.
+// Computes a DOM range array from a cursor.
 function computeFromCursor({ key, offset }) {
-	const domElement = document.getElementById(key)
-	if (!domElement) {
-		throw new Error("Range.computeFromCursor: no such element")
-	}
-	const range = construct()
+	const domElement = check(document.getElementById(key))
+	const range = [null, -1]
 	const recurse = onDOMNode => {
 		if (domUtils.isTextNodeOrBrElement(onDOMNode) && offset - (onDOMNode.nodeValue || "").length <= 0) {
-			Object.assign(range, {
-				container: onDOMNode,
-				offset,
-			})
+			range.splice(0, 2, onDOMNode, offset)
 			return true
 		}
 		for (const each of onDOMNode.childNodes) {
 			if (recurse(each)) {
 				return true
 			}
-			offset -= each.nodeType === Node.TEXT_NODE &&
-				each.nodeValue.length
+			offset -= domUtils.isTextNode(each) && each.nodeValue.length
 		}
 		return false
 	}

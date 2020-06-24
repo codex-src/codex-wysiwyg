@@ -1,4 +1,3 @@
-// Constructs a new element.
 function construct() {
 	const element = {
 		type: "",
