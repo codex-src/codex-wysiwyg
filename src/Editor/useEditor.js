@@ -3,11 +3,11 @@ import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
 import * as Spans from "./Spans"
 import check from "lib/check"
-import newShortUUID from "lib/newShortUUID"
+import newHashID from "lib/newHashID"
 import React from "react"
 import useMethods from "use-methods"
 
-// Drops up to n bytes from an array of spans at an offset.
+// Drops up to n-bytes from an array of spans at an offset.
 // Returns the number of bytes dropped.
 function dropBytes({ spans, offset, nbytes }) {
 	// Compute the span and character offsets (offset):
@@ -19,7 +19,7 @@ function dropBytes({ spans, offset, nbytes }) {
 		}
 		offset -= spans[x].props.children.length
 	}
-	// Drop up to n bytes:
+	// Drop up to n-bytes:
 	nbytes = Math.min(nbytes, offset)
 	spans[x].props.children = (
 		spans[x].props.children.slice(0, offset - nbytes) +
@@ -137,7 +137,7 @@ const methods = state => ({
 		// Force rerender on <br> to a text node:
 		const y = check(state.elements.findIndex(each => each.key === collapsed[0].key))
 		if (!state.elements[y].props.children.length) {
-			const forcedKey = newShortUUID()
+			const forcedKey = newHashID(8)
 			element.key = forcedKey
 			collapsed[0].key = forcedKey // Updates cursor[1].key because references are shared
 		}
