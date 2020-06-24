@@ -37,9 +37,13 @@ const Editor = ({ children }) => {
 					// No-op
 					return
 				}
+				const range = Range.computeFromCursor(state.cursors[0])
+				if (range[0] === null || range[0] === -1) {
+					// No-op
+					return
+				}
 				try {
 					const domRange = document.createRange()
-					const range = Range.computeFromCursor(state.cursors[0])
 					domRange.setStart(...range)
 					domRange.collapse()
 					domSelection.addRange(domRange)
