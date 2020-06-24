@@ -38,7 +38,7 @@ export const typeEnum = {
 }
 
 // Sorted based on render precedence.
-export const typeMap = { // TODO: Rename to componentMap?
+export const typeMap = {
 	[typeEnum.h1]: H1,
 	[typeEnum.h2]: H2,
 	[typeEnum.h3]: H3,

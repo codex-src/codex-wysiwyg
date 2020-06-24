@@ -2,6 +2,7 @@ import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
 import * as Spans from "./Spans"
+import check from "lib/check"
 import newShortUUID from "lib/newShortUUID"
 import React from "react"
 import useMethods from "use-methods"
@@ -133,17 +134,12 @@ const methods = state => ({
 		state.cursors = cursors
 	},
 	input(element, collapsed) {
-		const y = state.elements.findIndex(each => each.key === collapsed[0].key)
-		if (y === -1) {
-			throw new Error("dispatch.input: FIXME")
-		}
 		// Force rerender on <br> to a text node:
+		const y = check(state.elements.findIndex(each => each.key === collapsed[0].key))
 		if (!state.elements[y].props.children.length) {
 			const forcedKey = newShortUUID()
 			element.key = forcedKey
-			// NOTE: collapsed[0].key = ... updates
-			// collapsed[1].key because references are shared.
-			collapsed[0].key = forcedKey
+			collapsed[0].key = forcedKey // Updates cursor[1].key because references are shared
 		}
 		state.elements.splice(y, 1, element)
 		this.select(collapsed)

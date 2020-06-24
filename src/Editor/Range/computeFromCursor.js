@@ -1,19 +1,5 @@
 import construct from "./constructor"
-
-// if (domNode.nodeType === Node.ELEMENT_NODE && domNode.getAttribute("contenteditable") === "false") {
-// 	// No-op
-// 	continue
-// }
-
-// Returns whether a DOM node is a text node or a <br>
-// element.
-function isTextNodeOrBRElement(domNode) {
-	const ok =(
-		domNode.nodeType === Node.TEXT_NODE ||
-		(domNode.nodeType === Node.ELEMENT_NODE && domNode.nodeName === "BR")
-	)
-	return ok
-}
+import domUtils from "lib/domUtils"
 
 // Computes a DOM range from a cursor.
 function computeFromCursor({ key, offset }) {
@@ -23,7 +9,7 @@ function computeFromCursor({ key, offset }) {
 	}
 	const range = construct()
 	const recurse = onDOMNode => {
-		if (isTextNodeOrBRElement(onDOMNode) && offset - (onDOMNode.nodeValue || "").length <= 0) {
+		if (domUtils.isTextNodeOrBrElement(onDOMNode) && offset - (onDOMNode.nodeValue || "").length <= 0) {
 			Object.assign(range, {
 				container: onDOMNode,
 				offset,

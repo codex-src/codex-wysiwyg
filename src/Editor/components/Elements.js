@@ -163,7 +163,6 @@ export const P = React.memo(({ id, children }) => {
 	)
 })
 
-// FIXME
 export const HR = React.memo(({ id, children }) => {
 	const ref = React.useRef(null)
 	return (

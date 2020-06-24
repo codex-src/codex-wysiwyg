@@ -1,10 +1,10 @@
 // Constructs a new range.
 function construct() {
-	const ref = {
+	const range = {
 		container: "",
 		offset: 0,
 	}
-	return ref
+	return range
 }
 
 export default construct
