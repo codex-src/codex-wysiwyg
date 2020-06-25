@@ -101,6 +101,18 @@ const Editor = ({ children }) => {
 						return
 					}
 					dispatch.select(cursors)
+
+					let clientRect = null
+					if (cursors[0].key === cursors[1].key) {
+						const selection = document.getSelection()
+						if (!selection.rangeCount) {
+							// No-op; defer to end
+						} else {
+							const range = selection.getRangeAt(0)
+							clientRect = range.getBoundingClientRect()
+						}
+					}
+					dispatch.setToolbarClientRect(clientRect)
 				}}
 
 				onKeyDown={e => {
@@ -130,11 +142,11 @@ const Editor = ({ children }) => {
 						break
 					case keyDownTypesEnum.formatEm:
 						e.preventDefault()
-						dispatch.formatEm()
+						// dispatch.formatEm()
 						break
 					case keyDownTypesEnum.formatStrong:
 						e.preventDefault()
-						dispatch.formatStrong()
+						// dispatch.formatStrong()
 						break
 					case keyDownTypesEnum.backspaceRTLRune:
 						e.preventDefault()
@@ -171,12 +183,9 @@ const Editor = ({ children }) => {
 				}}
 
 				onInput={e => {
-					// NOTE: "cursors" takes precedence because
-					// "domElement" uses "cursors".
-					const cursors = must(Cursors.computeFromCurrentRange(ref.current))
-					const collapsed = Cursors.collapse(cursors)
-					const domElement = must(document.getElementById(collapsed[0].key))
-					const element = Elements.parseFromDOMElement(domElement)
+					const collapsed = must(Cursors.computeFromCurrentRange(ref.current))
+					const domElementID = must(document.getElementById(collapsed[0].key))
+					const element = Elements.parseFromDOMElement(domElementID)
 					dispatch.input(element, collapsed)
 				}}
 
@@ -207,7 +216,7 @@ const Editor = ({ children }) => {
 
 			{/* Debugger */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify(state, null, "\t")}
+				{JSON.stringify(state.toolbarClientRect, null, "\t")}
 			</div>
 
 		</div>
