@@ -1,7 +1,6 @@
 import attrs from "./attrs"
 import React from "react"
 import { SpanHOC as HOC } from "./HOC"
-import { typeEnum } from "./typeMaps"
 
 // TODO: Add bg-blue-100 or equivalent?
 export const Em = ({ type, children }) => (
