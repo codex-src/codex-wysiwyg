@@ -40,18 +40,14 @@ const Editor = ({ children }) => {
 					return
 				}
 				const range = Range.computeFromCursor(state.cursors[0])
-				if (!range) { // || range[0] === null || range[0] === -1) {
+				if (!range || range[0] === null || range[0] === -1) {
 					// No-op
 					return
 				}
-				try {
-					const domRange = document.createRange()
-					domRange.setStart(...range)
-					domRange.collapse()
-					domSelection.addRange(domRange)
-				} catch (error) {
-					console.error(error)
-				}
+				const domRange = document.createRange()
+				domRange.setStart(...range)
+				domRange.collapse()
+				domSelection.addRange(domRange)
 			})
 		}, [state, dispatch]),
 		[state.shouldRenderElements],
