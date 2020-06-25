@@ -1,6 +1,6 @@
 import React from "react"
 
-export const Element = ({ type, props, children }) => (
+export const ElementHOC = ({ type, props, children }) => (
 	React.cloneElement(children, {
 		style: {
 			...children.props.style, // Takes precedence
@@ -15,7 +15,7 @@ export const Element = ({ type, props, children }) => (
 	})
 )
 
-export const Span = ({ type, props, children }) => (
+export const SpanHOC = ({ type, props, children }) => (
 	React.cloneElement(children, {
 		// Enum type:
 		"data-type": type,

@@ -1,6 +1,6 @@
 import React from "react"
 import toReact from "./toReact"
-import { Element as T } from "./HOC"
+import { ElementHOC as HOC } from "./HOC"
 import { typeEnum } from "./typeMaps"
 
 const Block = React.forwardRef(({ id, children }, ref) => {
@@ -41,7 +41,7 @@ const Block = React.forwardRef(({ id, children }, ref) => {
 	}
 
 	return (
-		<div className="em-context group relative transition duration-300 ease-in-out" style={{ backgroundColor }}>
+		<div className="group relative transition duration-300 ease-in-out" style={{ backgroundColor }}>
 			<div className="absolute right-full h-full" contentEditable={false}>
 				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={handleClick}>
 					<svg
@@ -58,119 +58,79 @@ const Block = React.forwardRef(({ id, children }, ref) => {
 	)
 })
 
-export const H1 = React.memo(({ id, children }) => {
+const headerClassNames = {
+	h1: "font-semibold text-4xl leading-tight",
+	h2: "font-semibold text-3xl leading-tight",
+	h3: "font-semibold text-2xl leading-tight",
+	h4: "font-semibold text-xl leading-tight",
+	h5: "font-semibold text-xl leading-tight",
+	h6: "font-semibold text-xl leading-tight",
+}
+
+export const H = React.memo(({ type, id, children }) => {
 	const ref = React.useRef(null)
+	const labelRef = React.useRef(null)
+
+	const [paddingY, setPaddingY] = React.useState(4)
+	const [backgroundColor, setBackgroundColor] = React.useState(undefined)
+
+	// Computes line-height for a DOM element; "24px" -> 24.
+	const computeLineHeight = domElement => {
+		const lineHeightPx = window.getComputedStyle(domElement).lineHeight
+		return Number(lineHeightPx.slice(0, -2)) // Removes "px"
+	}
+
+	React.useLayoutEffect(() => {
+		const refLineHeight = computeLineHeight(ref.current)
+		const labelRefLineHeight = computeLineHeight(labelRef.current)
+		setPaddingY(refLineHeight - labelRefLineHeight)
+	}, [ref, labelRef])
+
 	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.h1}>
-				<div ref={ref} id={id} className="font-semibold text-2xl leading-tight">
+		// <Block ref={ref} id={id}>
+		<div className="group relative">
+			<HOC type={type}>
+				<div ref={ref} id={id} className={headerClassNames[type]}>
 					{toReact(children) || (
 						<br />
 					)}
 				</div>
-			</T>
-		</Block>
-	)
-})
-
-export const H2 = React.memo(({ id, children }) => {
-	const ref = React.useRef(null)
-	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.h2}>
-				<div ref={ref} id={id} className="font-semibold text-xl leading-tight">
-					{toReact(children) || (
-						<br />
-					)}
+			</HOC>
+			<div className="absolute top-0 right-full" contentEditable={false}>
+				<div className="mr-2" style={{ marginTop: -paddingY / 6, paddingTop: paddingY }}>
+					<p ref={labelRef} className="font-bold text-xs tracking-wider text-cool-gray-300">
+						{type.toUpperCase()}
+					</p>
 				</div>
-			</T>
-		</Block>
+			</div>
+		</div>
+		// </Block>
 	)
 })
 
-export const H3 = React.memo(({ id, children }) => {
+export const P = React.memo(({ type, id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.h3}>
-				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
-					{toReact(children) || (
-						<br />
-					)}
-				</div>
-			</T>
-		</Block>
+		// <Block ref={ref} id={id}>
+		<HOC type={type}>
+			<div ref={ref} id={id}>
+				{toReact(children) || (
+					<br />
+				)}
+			</div>
+		</HOC>
+		// </Block>
 	)
 })
 
-export const H4 = React.memo(({ id, children }) => {
+export const HR = React.memo(({ type, id, children }) => {
 	const ref = React.useRef(null)
 	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.h4}>
-				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
-					{toReact(children) || (
-						<br />
-					)}
-				</div>
-			</T>
-		</Block>
-	)
-})
-
-export const H5 = React.memo(({ id, children }) => {
-	const ref = React.useRef(null)
-	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.h5}>
-				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
-					{toReact(children) || (
-						<br />
-					)}
-				</div>
-			</T>
-		</Block>
-	)
-})
-
-export const H6 = React.memo(({ id, children }) => {
-	const ref = React.useRef(null)
-	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.h6}>
-				<div ref={ref} id={id} className="font-semibold text-lg leading-tight">
-					{toReact(children) || (
-						<br />
-					)}
-				</div>
-			</T>
-		</Block>
-	)
-})
-
-export const P = React.memo(({ id, children }) => {
-	const ref = React.useRef(null)
-	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.p}>
-				<div ref={ref} id={id}>
-					{toReact(children) || (
-						<br />
-					)}
-				</div>
-			</T>
-		</Block>
-	)
-})
-
-export const HR = React.memo(({ id, children }) => {
-	const ref = React.useRef(null)
-	return (
-		<Block ref={ref} id={id}>
-			<T type={typeEnum.hr}>
-				<div ref={ref} id={id} className="my-6 border-t-4 border-cool-gray-300" />
-			</T>
-		</Block>
+		// <Block ref={ref} id={id}>
+		<HOC type={type}>
+			<div ref={ref} id={id} className="my-6 border-t-4 border-cool-gray-300" />
+		</HOC>
+		// </Block>
 	)
 })
 

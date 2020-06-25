@@ -12,8 +12,8 @@ function toReactElements(elements) {
 			reactElements.push(each)
 			continue
 		}
-		const { type: T, props } = each
-		reactElements.push(React.createElement(typeMap[T], {
+		const { type, props } = each
+		reactElements.push(React.createElement(typeMap[type], {
 			key: reactElements.length,
 			...props,
 		}, toReactElements(props.children)))
@@ -29,11 +29,11 @@ function queryNextAndTypes(elements, span) {
 	}
 	let lastRef = elements[elements.length - 1]
 	let ref = lastRef
-	for (let T = types[0]; types.length; types.shift(), T = types[0]) {
+	for (let type = types[0]; types.length; types.shift(), type = types[0]) {
 		if (Array.isArray(ref) && ref.length && ref[ref.length - 1] && ref[ref.length - 1].type) {
 			ref = ref[ref.length - 1]
 		}
-		if (typeof ref === "string" || ref.type !== T || !areEqualJSON(omitKey(ref.props, "children"), span.props[T])) {
+		if (typeof ref === "string" || ref.type !== type || !areEqualJSON(omitKey(ref.props, "children"), span.props[type])) {
 			// No-op
 			break
 		}
@@ -52,7 +52,7 @@ function queryNextAndTypes(elements, span) {
 // Converts spans to intermediary elements.
 function toElements(spans) {
 	const elements = []
-	for (const span of spans) {
+	for (const span of spans) { // Do not use "each"; too confusing
 		const [next, types] = queryNextAndTypes(elements, span)
 		if (!types.length) {
 			next.push(span.props.children)
@@ -61,11 +61,12 @@ function toElements(spans) {
 		const element = {}
 		let lastRef = element
 		let ref = lastRef
-		for (const T of types) {
+		for (const type of types) { // Do not use "each"; too confusing
 			Object.assign(ref, {
-				type: T,
+				type,
 				props: {
-					...span.props[T],
+					type, // Passes as a prop
+					...span.props[type],
 					children: {},
 				},
 			})

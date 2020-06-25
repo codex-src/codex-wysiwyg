@@ -14,11 +14,11 @@ import "./Editor.css"
 
 ;(() => {
 	noopTextNodeRerenders()
-	if (process.NODE_ENV !== "production") { // DEBUG
-		setTimeout(() => {
-			console.clear()
-		}, 1e3)
-	}
+	// if (process.NODE_ENV !== "production") { // DEBUG
+	// 	setTimeout(() => {
+	// 		console.clear()
+	// 	}, 1e3)
+	// }
 })()
 
 const Editor = ({ children }) => {
@@ -58,7 +58,7 @@ const Editor = ({ children }) => {
 	)
 
 	return (
-		<div>
+		<div className="em-context">
 
 			<article
 				ref={ref}
