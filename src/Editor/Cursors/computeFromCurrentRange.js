@@ -5,11 +5,16 @@ import must from "lib/must"
 
 // Computes a cursor from a DOM range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
-	if (domUtils.isElement(domNode) && !domUtils.isBrElement(domNode) && domUtils.isTextNodeOrBrElement(domNode.childNodes[offset])) {
+	if (offset === domNode.childNodes.length) {
+		offset = domNode.childNodes.length - 1
+	}
+	while (!domUtils.isTextNodeOrBrElement(domNode)) {
 		domNode = domNode.childNodes[offset]
 		offset = 0
+		// Must be done or can descend more:
+		must(domUtils.isTextNodeOrBrElement(domNode) || // Done
+			domNode.childNodes.length) // Can descend more
 	}
-	must(domUtils.isTextNodeOrBrElement(domNode))
 	const cursor = construct()
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {

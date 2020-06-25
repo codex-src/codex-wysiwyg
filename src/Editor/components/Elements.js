@@ -95,7 +95,7 @@ export const H = React.memo(({ type, id, children }) => {
 			</HOC>
 			<div className="absolute top-0 right-full cursor-default" contentEditable={false}>
 				<div className="mr-2" style={{ marginTop: -paddingY / 6, paddingTop: paddingY }}>
-					<p ref={labelRef} className="font-bold text-xs tracking-wider text-cool-gray-300">
+					<p ref={labelRef} className="font-bold text-xs tracking-wider text-cool-gray-300 selection-bg-transparent">
 						{type.toUpperCase()}
 					</p>
 				</div>
