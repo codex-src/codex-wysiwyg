@@ -33,6 +33,7 @@ function queryNextAndTypes(elements, span) {
 		if (Array.isArray(ref) && ref.length && ref[ref.length - 1] && ref[ref.length - 1].type) {
 			ref = ref[ref.length - 1]
 		}
+		// https://github.com/codex-src/codex-wysiwyg/commit/ec83e7fd6ae5a7a4ed2c6145ba84f1b823108447
 		if (typeof ref === "string" || ref.type !== type || !areEqualJSON(omitKeys(ref.props, "type", "children"), span.props[type])) {
 			// No-op
 			break
