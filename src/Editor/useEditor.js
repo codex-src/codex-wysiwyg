@@ -184,50 +184,51 @@ const methods = state => ({
 		// Computes an array of spans from an array of spans and
 		// offsets. Offsets must be from shared keys.
 		const computeSpansBetweenOffsets = (spans, offset1, offset2) => {
-			const [s1, t1] = must(computeSpanOffsets(spans, offset1))
-			const [s2, t2] = must(computeSpanOffsets(spans, offset2))
+			let [s1, t1] = must(computeSpanOffsets(spans, offset1))
+			let [s2, t2] = must(computeSpanOffsets(spans, offset2))
 
-			console.log([s1, t1], [s2, t2])
+			// console.log([s1, t1], [s2, t2])
 
-			// if (t1) {
-			spans.splice(s1, 1, ...[
-				{
-					...spans[s1],
-					props: {
-						...spans[s1].props,
-						children: spans[s1].props.children.slice(0, t1),
-					}
-				},
-				{
-					...spans[s1],
-					props: {
-						...spans[s1].props,
-						children: spans[s1].props.children.slice(t1),
-					}
-				},
-			])
-			spans.splice(s2, 1, ...[
-				{
-					...spans[s2],
-					props: {
-						...spans[s2].props,
-						children: spans[s2].props.children.slice(0, t2),
-					}
-				},
-				{
-					...spans[s2],
-					props: {
-						...spans[s2].props,
-						children: spans[s2].props.children.slice(t2),
-					}
-				},
-			])
+			// ...
+			if (t1 && t1 < spans[s1].props.children.length) {
+				const cloned1A = JSONClone(spans[s1])
+				const cloned1B = JSONClone(spans[s1])
+				cloned1A.props.children = cloned1A.props.children.slice(0, t1)
+				cloned1B.props.children = cloned1B.props.children.slice(t1)
+				spans.splice(s1, 1, cloned1A, cloned1B)
+				s1++
+				s2++
+			}
+			// ...
+			if (t2 && t2 < spans[s2].props.children.length) {
+				const cloned2A = JSONClone(spans[s2])
+				const cloned2B = JSONClone(spans[s2])
+				cloned2A.props.children = cloned2A.props.children.slice(0, t2)
+				cloned2B.props.children = cloned2B.props.children.slice(t2)
+				spans.splice(s2, 1, cloned2A, cloned2B)
+				s2++
+			}
 
-			// console.log([JSONClone(spans[s1]), t1], [JSONClone(spans[s2]), t2])
-			console.log(JSONClone(spans))
+			const shouldApply = !spans.slice(s1, s2).every(each => each.types.some(each => each === typeEnum.strong))
+			spans.slice(s1, s2).map(each => {
+				const x = each.types.findIndex(each => each === typeEnum.strong)
+				if (!shouldApply && x >= 0) {
+					each.types.splice(x, 1)
+				} else if (shouldApply && x === -1) {
+					each.types.push(typeEnum.strong)
+				}
+			})
+
+			// for (; s1 < s2; s1++) {
+			// 	spans[s1].types.push(typeEnum.strong)
+			// }
+			// Spans.defer(spans)
+			// state.shouldRenderElements++
 		}
 
 		computeSpansBetweenOffsets(spans, state.cursors[0].offset, state.cursors[1].offset)
+		Spans.defer(spans)
+		state.shouldRenderElements++
 
 		// const shouldApply = !spans.every(each => each.types.some(each => each === typeEnum.strong))
 		// // console.log({ shouldApply }) // DEBUG
