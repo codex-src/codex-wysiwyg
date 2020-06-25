@@ -6,10 +6,10 @@ import { ElementHOC as HOC } from "./HOC"
 const headerStyleMap = {
 	h1: { className: "font-semibold leading-tight antialiased", style: { fontSize: "225%" } },
 	h2: { className: "font-semibold leading-tight antialiased", style: { fontSize: "175%" } },
-	h3: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
-	h4: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
-	h5: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
-	h6: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
+	h3: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
+	h4: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
+	h5: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
+	h6: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
 }
 /* eslint-disable no-multi-spaces */
 

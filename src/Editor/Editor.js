@@ -39,14 +39,15 @@ const Editor = ({ children }) => {
 					// No-op
 					return
 				}
-				const range = Range.computeFromCursor(state.cursors[0])
-				if (!range || range[0] === null || range[0] === -1) {
+				const ranges = Range.computeFromCursors(state.cursors)
+				console.log(ranges)
+				if (!ranges) { // range[0] === null || range[0] === -1) {
 					// No-op
 					return
 				}
 				const domRange = document.createRange()
-				domRange.setStart(...range)
-				domRange.collapse()
+				domRange.setStart(...ranges[0])
+				domRange.setEnd(...ranges[1])
 				domSelection.addRange(domRange)
 			})
 		}, [state, dispatch]),
@@ -130,11 +131,11 @@ const Editor = ({ children }) => {
 						break
 					case keyDownTypesEnum.formatEm:
 						e.preventDefault()
-						// TODO
+						dispatch.formatEm()
 						break
 					case keyDownTypesEnum.formatStrong:
 						e.preventDefault()
-						// TODO
+						dispatch.formatStrong()
 						break
 					case keyDownTypesEnum.backspaceRTLRune:
 						e.preventDefault()

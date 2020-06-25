@@ -1,1 +1,1 @@
-export { default as computeFromCursor } from "./computeFromCursor"
+export { default as computeFromCursors } from "./computeFromCursors"

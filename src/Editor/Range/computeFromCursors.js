@@ -1,7 +1,7 @@
 // import must from "lib/must"
 import domUtils from "lib/domUtils"
 
-// Computes a DOM range array from a cursor.
+// Computes a DOM range from a cursor.
 function computeFromCursor({ key, offset }) {
 	// const domElement = must(document.getElementById(key))
 	const domElement = document.getElementById(key)
@@ -26,4 +26,27 @@ function computeFromCursor({ key, offset }) {
 	return range
 }
 
-export default computeFromCursor
+// Computes a set of DOM ranges from a set of cursors.
+function computeFromCursors(cursors) {
+	const ranges = []
+	const range = computeFromCursor(cursors[0])
+	if (!range) {
+		return null
+	}
+	ranges.push(range)
+	if (cursors.collapsed) {
+		// if (!ranges[0]) {
+		// 	return null
+		// }
+		ranges.push(ranges[0])
+	} else {
+		const range = computeFromCursor(cursors[1])
+		if (!range) {
+			return null
+		}
+		ranges.push(range)
+	}
+	return ranges
+}
+
+export default computeFromCursors

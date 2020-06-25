@@ -44,7 +44,9 @@ const App = () => (
 					Hello, world!
 				</h3>
 				<h4>
-					Hello, world!
+					<strong>
+						Hello, world!
+					</strong>
 				</h4>
 				<h5>
 					Hello, world!
