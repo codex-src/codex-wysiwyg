@@ -1,9 +1,9 @@
-import check from "lib/check"
 import domUtils from "lib/domUtils"
+import must from "lib/must"
 
 // Computes a DOM range array from a cursor.
 function computeFromCursor({ key, offset }) {
-	const domElement = check(document.getElementById(key))
+	const domElement = must(document.getElementById(key))
 	const range = [null, -1]
 	const recurse = onDOMNode => {
 		if (domUtils.isTextNodeOrBrElement(onDOMNode) && offset - (onDOMNode.nodeValue || "").length <= 0) {

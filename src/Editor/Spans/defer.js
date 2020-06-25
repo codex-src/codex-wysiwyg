@@ -1,5 +1,5 @@
 import areEqualJSON from "lib/areEqualJSON"
-import check from "lib/check"
+import must from "lib/must"
 import omitKey from "lib/omitKey"
 import { sortedTypeMap } from "../components/typeMaps"
 
@@ -32,8 +32,8 @@ function merge(spans) {
 
 // Compares span types based on render precedence.
 function compareTypes(T1, T2) {
-	const x1 = check(sortedTypeMap[T1])
-	const x2 = check(sortedTypeMap[T2])
+	const x1 = must(sortedTypeMap[T1])
+	const x2 = must(sortedTypeMap[T2])
 	return x1 - x2
 }
 

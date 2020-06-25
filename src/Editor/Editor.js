@@ -1,9 +1,9 @@
 import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Range from "./Range"
-import check from "lib/check"
 import detectKeyDownType from "./keydown/detectKeyDownType"
 import keyDownTypesEnum from "./keydown/keyDownTypesEnum"
+import must from "lib/must"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
@@ -14,9 +14,11 @@ import "./Editor.css"
 
 ;(() => {
 	noopTextNodeRerenders()
-	setTimeout(() => { // DEBUG
-		console.clear()
-	}, 1e3)
+	if (process.NODE_ENV !== "production") { // DEBUG
+		setTimeout(() => {
+			console.clear()
+		}, 1e3)
+	}
 })()
 
 const Editor = ({ children }) => {
@@ -94,6 +96,8 @@ const Editor = ({ children }) => {
 					pointerIsDownRef.current = false
 				}}
 
+				// TODO: Add COMPAT guard for select-all? Or prevent
+				// default?
 				onSelect={e => {
 					const cursors = Cursors.computeFromCurrentRange(ref.current)
 					if (!cursors) {
@@ -173,9 +177,9 @@ const Editor = ({ children }) => {
 				onInput={e => {
 					// NOTE: "cursors" takes precedence because
 					// "domElement" uses "cursors".
-					const cursors = check(Cursors.computeFromCurrentRange(ref.current))
+					const cursors = must(Cursors.computeFromCurrentRange(ref.current))
 					const collapsed = Cursors.collapse(cursors)
-					const domElement = check(document.getElementById(collapsed[0].key))
+					const domElement = must(document.getElementById(collapsed[0].key))
 					const element = Elements.parseFromDOMElement(domElement)
 					dispatch.input(element, collapsed)
 				}}

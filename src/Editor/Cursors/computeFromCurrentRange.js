@@ -1,7 +1,7 @@
 import areEqual from "./areEqual"
-import check from "lib/check"
 import construct from "./constructor"
 import domUtils from "lib/domUtils"
+import must from "lib/must"
 
 // Computes a cursor from a DOM range.
 function computeCursorFromRange(domElement, [domNode, offset]) {
@@ -9,7 +9,7 @@ function computeCursorFromRange(domElement, [domNode, offset]) {
 		domNode = domNode.childNodes[offset]
 		offset = 0
 	}
-	check(domUtils.isTextNodeOrBrElement(domNode))
+	must(domUtils.isTextNodeOrBrElement(domNode))
 	const cursor = construct()
 	const recurse = onDOMNode => {
 		if (onDOMNode === domNode) {

@@ -2,7 +2,7 @@ import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
 import * as Iterators from "./Iterators"
 import * as Spans from "./Spans"
-import check from "lib/check"
+import must from "lib/must"
 import newHashID from "lib/newHashID"
 import React from "react"
 import useMethods from "use-methods"
@@ -36,7 +36,7 @@ function dropBytes({ spans, offset, nbytes }) {
 //
 // TODO: Extract
 function dropBytesBetweenCursors(elements, cursors) {
-	let y = check(elements.findIndex(each => each.key === cursors[1].key))
+	let y = must(elements.findIndex(each => each.key === cursors[1].key))
 	while (!Cursors.areEqual(cursors[0], cursors[1])) {
 		let nbytes = cursors[1].offset - (cursors[0].key === cursors[1].key && cursors[0].offset)
 		if (!nbytes && y) {
@@ -64,7 +64,7 @@ function dropBytesBetweenCursors(elements, cursors) {
 function computeCursorFromRTLIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
 	// Key:
-	const y = check(elements.findIndex(each => each.key === cursors[0].key))
+	const y = must(elements.findIndex(each => each.key === cursors[0].key))
 	cursor.key = elements[y].key
 	// Offset:
 	const textContent = Spans.textContent(elements[y].props.children).slice(0, cursors[0].offset)
@@ -83,7 +83,7 @@ function computeCursorFromRTLIterator(elements, cursors, boundary) {
 function computeCursorFromLTRIterator(elements, cursors, boundary) {
 	const cursor = Cursors.construct()
 	// Key:
-	const y = check(elements.findIndex(each => each.key === cursors[0].key))
+	const y = must(elements.findIndex(each => each.key === cursors[0].key))
 	cursor.key = elements[y].key
 	// Offset:
 	const textContent = Spans.textContent(elements[y].props.children).slice(cursors[0].offset)
@@ -135,7 +135,7 @@ const methods = state => ({
 	},
 	input(element, collapsed) {
 		// Force rerender on <br> to a text node:
-		const y = check(state.elements.findIndex(each => each.key === collapsed[0].key))
+		const y = must(state.elements.findIndex(each => each.key === collapsed[0].key))
 		if (!state.elements[y].props.children.length) {
 			const forcedKey = newHashID(8)
 			element.key = forcedKey

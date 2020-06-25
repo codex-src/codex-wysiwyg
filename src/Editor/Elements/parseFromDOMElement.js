@@ -1,7 +1,7 @@
 import * as Spans from "../Spans"
-import check from "lib/check"
 import construct from "./constructor"
 import domUtils from "lib/domUtils"
+import must from "lib/must"
 import { typeEnum } from "../components/typeMaps"
 
 // Parses an element from a DOM element.
@@ -9,11 +9,11 @@ function parseFromDOMElement(domElement) {
 	const element = construct()
 
 	// (1) Type:
-	const type = check(typeEnum[domElement.getAttribute("data-type")])
+	const type = must(typeEnum[domElement.getAttribute("data-type")])
 	element.type = type
 
 	// (2) Key:
-	const key = check(domElement.id)
+	const key = must(domElement.id)
 	element.key = key
 
 	// (3) Props:
@@ -43,7 +43,7 @@ function parseFromDOMElement(domElement) {
 			const nextTypes = [...types]
 			const nextProps = { ...props }
 			if (domUtils.isElement(each)) {
-				const type = check(typeEnum[each.getAttribute("data-type")])
+				const type = must(typeEnum[each.getAttribute("data-type")])
 				nextTypes.push(type)
 				const props = JSON.parse(each.getAttribute("data-props") || "{}")
 				nextProps[type] = props
@@ -54,7 +54,6 @@ function parseFromDOMElement(domElement) {
 
 	// (4) Spans (cont.d):
 	recurse(domElement)
-	// NOTE: Do not check spans; spans can be empty.
 	element.props.children = spans
 	Spans.defer(element.props.children)
 

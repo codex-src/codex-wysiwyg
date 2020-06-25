@@ -6,11 +6,11 @@
 // - ""
 // - null
 //
-function check(value) {
+function must(value) {
 	if (value === undefined || value === false || value === -1 || value === "" || value === null) {
-		throw new Error(`check: value=${value} must be a non-0 zero value`)
+		throw new Error(`must: value=${value} must not be undefined, false, -1, "", or null`)
 	}
 	return value
 }
 
-export default check
+export default must
