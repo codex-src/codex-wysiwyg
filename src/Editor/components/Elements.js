@@ -2,69 +2,16 @@ import React from "react"
 import toReact from "./toReact"
 import { ElementHOC as HOC } from "./HOC"
 
-// const Block = React.forwardRef(({ id, children }, ref) => {
-// 	const [paddingY, setPaddingY] = React.useState(4)
-// 	const [backgroundColor, setBackgroundColor] = React.useState(undefined)
-//
-// 	React.useLayoutEffect(() => {
-// 		const lineHeightPx = Number(window.getComputedStyle(ref.current).lineHeight.slice(0, -1 * "px".length))
-// 		setPaddingY((lineHeightPx - 16) / 2)
-// 	}, [ref])
-//
-// 	// NOTE: window.location.hash does not work as an effect
-// 	// dependency.
-// 	React.useEffect(() => {
-// 		const handler = e => {
-// 			const current = window.location.hash.slice("#".length)
-// 			if (current !== id) {
-// 				setBackgroundColor(undefined)
-// 			} else {
-// 				setBackgroundColor("var(--blue-50)")
-// 			}
-// 		}
-// 		window.addEventListener("hashchange", handler)
-// 		return () => {
-// 			window.removeEventListener("hashchange", handler)
-// 		}
-// 	}, [id])
-//
-// 	const handleClick = e => {
-// 		const current = window.location.hash.slice("#".length)
-// 		if (current === id) {
-// 			setBackgroundColor(undefined)
-// 			window.history.replaceState(null, "", window.location.pathname + window.location.search)
-// 			return
-// 		}
-// 		window.location.hash = id
-// 		window.scrollBy(0, -96) // TODO: Add mount effect
-// 	}
-//
-// 	return (
-// 		<div className="group relative transition duration-300 ease-in-out" style={{ backgroundColor }}>
-// 			<div className="absolute right-full h-full" contentEditable={false}>
-// 				<div className="px-2 text-transparent group-hover:text-cool-gray-300 hover:text-blue-500 transition duration-300 ease-in-out" style={{ paddingTop: paddingY, paddingBottom: paddingY }} onClick={handleClick}>
-// 					<svg
-// 						className="w-4 h-4 transform scale-110"
-// 						fill="currentColor"
-// 						viewBox="0 0 20 20"
-// 					>
-// 						<path d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clipRule="evenodd" fillRule="evenodd" />
-// 					</svg>
-// 				</div>
-// 			</div>
-// 			{children}
-// 		</div>
-// 	)
-// })
-
-const classNames = {
-	h1: "font-semibold text-4xl leading-tight",
-	h2: "font-semibold text-3xl leading-tight",
-	h3: "font-semibold text-2xl leading-tight",
-	h4: "font-semibold text-xl leading-tight",
-	h5: "font-semibold text-xl leading-tight",
-	h6: "font-semibold text-xl leading-tight",
+/* eslint-disable no-multi-spaces */
+const headerStyleMap = {
+	h1: { className: "font-semibold leading-tight antialiased", style: { fontSize: "225%" } },
+	h2: { className: "font-semibold leading-tight antialiased", style: { fontSize: "175%" } },
+	h3: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
+	h4: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
+	h5: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
+	h6: { className: "font-bold leading-tight antialiased",     style: { fontSize: "125%" } },
 }
+/* eslint-disable no-multi-spaces */
 
 export const H = React.memo(({ type, id, children }) => {
 	const ref = React.useRef(null)
@@ -82,11 +29,12 @@ export const H = React.memo(({ type, id, children }) => {
 		setPaddingY(refLineHeight - labelRefLineHeight)
 	}, [ref, labelRef])
 
+	const styles = headerStyleMap[type]
 	return (
 		// <Block ref={ref} id={id}>
 		<div className="group relative">
 			<HOC type={type}>
-				<div ref={ref} id={id} className={classNames[type]}>
+				<div ref={ref} id={id} { ...styles }>
 					{toReact(children) || (
 						<br />
 					)}

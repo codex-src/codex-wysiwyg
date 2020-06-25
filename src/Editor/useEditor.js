@@ -21,7 +21,6 @@ function dropBytes({ spans, offset, nbytes }) {
 	}
 	// Drop up to n-bytes:
 	nbytes = Math.min(nbytes, offset)
-	console.log({ "spans[x].props.children": spans[x].props.children })
 	spans[x].props.children = (
 		spans[x].props.children.slice(0, offset - nbytes) +
 		spans[x].props.children.slice(offset)
