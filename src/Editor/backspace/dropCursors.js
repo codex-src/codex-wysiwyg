@@ -3,37 +3,14 @@ import * as Spans from "../Spans"
 import JSONClone from "lib/JSONClone"
 import must from "lib/must"
 
-// // Returns the span and character offsets for an array of
-// // spans at an offset.
-// function computeSpanOffsets(spans, offset) {
-// 	const offsets = {
-// 		span: 0,
-//  		char: 0,
-// 	}
-//
-// 	let x = 0
-// 	for (; x < spans.length; x++) {
-// 		const children = spans[x].props.children
-// 		if (offset - children.length <= 0) {
-// 			Object.assign(offsets, {
-// 				span: x,
-// 				char: offset,
-// 			})
-// 			return offsets
-// 		}
-// 		offset -= children.length
-// 	}
-// 	return null
-// }
-
 // Returns the span and character offsets for an array of
 // spans at an offset.
-function computeSpanOffsets(spans, offset) {
+function Span_offsets(spans, offset) { // TODO
 	let x = 0
 	for (; x < spans.length; x++) {
 		const children = spans[x].props.children
 		if (offset - children.length <= 0) {
-			return { span: x, char: offset }
+			return [x, offset]
 		}
 		offset -= children.length
 	}
@@ -43,16 +20,16 @@ function computeSpanOffsets(spans, offset) {
 // Drops a number of characters from an array of spans at an
 // offset. Returns the number of characters dropped.
 function dropChars(spans, offset, nchars) {
-	const offsets = must(computeSpanOffsets(spans, offset))
-	if (nchars > offsets.char) {
-		nchars = offsets.char
+	const offsets = must(Span_offsets(spans, offset))
+	if (nchars > offsets[1]) {
+		nchars = offsets[1]
 	}
-	spans[offsets.span].props.children = (
-		spans[offsets.span].props.children.slice(0, offsets.char - nchars) +
-		spans[offsets.span].props.children.slice(offsets.char)
+	spans[offsets[0]].props.children = (
+		spans[offsets[0]].props.children.slice(0, offsets[1] - nchars) +
+		spans[offsets[0]].props.children.slice(offsets[1])
 	)
-	if (!spans[offsets.span].props.children) {
-		spans.splice(offsets.span, 1)
+	if (!spans[offsets[0]].props.children) {
+		spans.splice(offsets[0], 1)
 	}
 	Spans.defer(spans)
 	return nchars
@@ -61,11 +38,16 @@ function dropChars(spans, offset, nchars) {
 // Counts the number of characters between the offsets of a
 // set of cursors.
 function nchars(cursors) {
-	const nchars = 0
+	let nchars = 0
 	if (cursors[0].key === cursors[1].key) {
-		return cursors[1].offset - cursors[0].offset
+		// Hello, [world]!
+		nchars = cursors[1].offset - cursors[0].offset
+	} else {
+		//  Hello, world!
+		// [Hello, world]!
+		nchars = cursors[1].offset
 	}
-	return cursors[1].offset
+	return nchars
 }
 
 // Drops the characters between a set of cursors.

@@ -1,6 +1,6 @@
 import * as Cursors from "./Cursors"
 import * as Elements from "./Elements"
-import backspaceHandler from "./backspace"
+import backspace from "./backspace"
 import must from "lib/must"
 import newHashID from "lib/newHashID"
 import React from "react"
@@ -106,32 +106,27 @@ const methods = state => ({
 	// },
 
 	backspaceRTLRune() {
-		const { elements, cursors } = state
-		const collapsed = backspaceHandler(elements, cursors, "rtl", "rune")
+		const collapsed = backspace(state.elements, state.cursors, "rtl", "rune")
 		this.select(collapsed)
 		this.render()
 	},
 	backspaceRTLWord() {
-		const { elements, cursors } = state
-		const collapsed = backspaceHandler(elements, cursors, "rtl", "word")
+		const collapsed = backspace(state.elements, state.cursors, "rtl", "word")
 		this.select(collapsed)
 		this.render()
 	},
 	backspaceRTLLine() {
-		const { elements, cursors } = state
-		const collapsed = backspaceHandler(elements, cursors, "rtl", "line")
+		const collapsed = backspace(state.elements, state.cursors, "rtl", "line")
 		this.select(collapsed)
 		this.render()
 	},
 	backspaceLTRRune() {
-		const { elements, cursors } = state
-		const collapsed = backspaceHandler(elements, cursors, "ltr", "rune")
+		const collapsed = backspace(state.elements, state.cursors, "ltr", "rune")
 		this.select(collapsed)
 		this.render()
 	},
 	backspaceLTRWord() {
-		const { elements, cursors } = state
-		const collapsed = backspaceHandler(elements, cursors, "ltr", "word")
+		const collapsed = backspace(state.elements, state.cursors, "ltr", "word")
 		this.select(collapsed)
 		this.render()
 	},

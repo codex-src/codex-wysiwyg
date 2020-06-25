@@ -1,7 +1,7 @@
 import * as emojiTrie from "emoji-trie"
 import * as UTF8 from "lib/encoding/UTF8"
 
-// Right-to-left (RTL) iterator; returns a substring.
+// Right-to-left iterator; returns a substring.
 export const RTL = {
 	rune(str) {
 		// return emojiTrie.atEnd(str)?.emoji || UTF8.atEnd(str)
@@ -70,7 +70,7 @@ export const RTL = {
 	},
 }
 
-// Left-to-right (LTR) iterator; returns a substring.
+// Left-to-right iterator; returns a substring.
 export const LTR = {
 	rune(str) {
 		// return emojiTrie.atStart(str)?.emoji || UTF8.atStart(str)
