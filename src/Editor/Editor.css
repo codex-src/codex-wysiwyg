@@ -2,7 +2,7 @@
 /* 	scroll-behavior: smooth; */
 /* } */
 
-[data-codex-root] * {
+[data-root] * {
 	caret-color: #000;
 }
 

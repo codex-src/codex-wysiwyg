@@ -59,7 +59,7 @@ const Editor = ({ children }) => {
 			<article
 				ref={ref}
 
-				className="focus:outline-none"
+				className="leading-relaxed focus:outline-none"
 
 				onFocus={e => {
 					dispatch.focus()
@@ -103,7 +103,7 @@ const Editor = ({ children }) => {
 					dispatch.select(cursors)
 
 					let clientRect = null
-					if (cursors[0].key === cursors[1].key) {
+					if (cursors[0].key === cursors[1].key && cursors[0].offset !== cursors[1].offset) {
 						const selection = document.getSelection()
 						if (!selection.rangeCount) {
 							// No-op; defer to end
@@ -211,8 +211,20 @@ const Editor = ({ children }) => {
 				contentEditable
 				suppressContentEditableWarning
 
-				data-codex-root
+				data-root
 			/>
+
+			{state.toolbarClientRect && (
+				<div className="absolute" style={{ top: window.scrollY + state.toolbarClientRect.y + state.toolbarClientRect.height, left: window.scrollX + state.toolbarClientRect.x + state.toolbarClientRect.width / 2 }}>
+					{/* <div className="relative"> */}
+						{/* <div className="absolute bottom-full"> */}
+							<div className="px-2 py-1 bg-gray-100 w-32">
+								Hello, world!
+							</div>
+						{/* </div> */}
+					{/* </div> */}
+				</div>
+			)}
 
 			{/* Debugger */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
