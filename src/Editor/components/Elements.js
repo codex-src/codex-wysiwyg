@@ -73,10 +73,9 @@ export const H = React.memo(({ type, id, children }) => {
 	const [paddingY, setPaddingY] = React.useState(4)
 
 	React.useLayoutEffect(() => {
-		// Computes line-height for a DOM element; "24px" -> 24.
 		const computeLineHeight = domElement => {
 			const lineHeightPx = window.getComputedStyle(domElement).lineHeight
-			return Number(lineHeightPx.slice(0, -2)) // Removes "px"
+			return Number(lineHeightPx.slice(0, -2)) // Removes "px" and converts to a number
 		}
 		const refLineHeight = computeLineHeight(ref.current)
 		const labelRefLineHeight = computeLineHeight(labelRef.current)
@@ -94,7 +93,7 @@ export const H = React.memo(({ type, id, children }) => {
 				</div>
 			</HOC>
 			<div className="absolute top-0 right-full cursor-default" contentEditable={false}>
-				<div className="mr-2" style={{ marginTop: -paddingY / 6, paddingTop: paddingY }}>
+				<div className="mr-3" style={{ marginTop: -paddingY / 6, paddingTop: paddingY }}>
 					<p ref={labelRef} className="font-bold text-xs tracking-wider text-cool-gray-300 selection-bg-transparent">
 						{type.toUpperCase()}
 					</p>
