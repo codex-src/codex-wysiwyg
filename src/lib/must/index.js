@@ -8,7 +8,7 @@
 //
 function must(value) {
 	if (value === undefined || value === false || value === -1 || value === "" || value === null) {
-		throw new Error(`must: value=${JSON.stringify(value)} must not be undefined, false, -1, "", or null`)
+		throw new Error(`FIXME: value=${JSON.stringify(value)}`)
 	}
 	return value
 }

@@ -4,8 +4,7 @@ import * as Spans from "../Spans"
 import dropCursors from "./dropCursors"
 import must from "lib/must"
 
-// Returns the next right-to-left (RTL) cursor for a
-// boundary.
+// Returns the next right-to-left cursor for a boundary.
 function nextRTLCursor(elements, { ...rtl }, boundary) {
 	const y = must(elements.findIndex(each => each.key === rtl.key))
 	const substr = Spans.textContent(elements[y].props.children).slice(0, rtl.offset)
@@ -16,12 +15,13 @@ function nextRTLCursor(elements, { ...rtl }, boundary) {
 		})
 		return rtl
 	}
-	const runes = Iterators.RTL[boundary](substr)
-	rtl.offset -= runes.length
+	// const runes = Iterators.RTL[boundary](substr) // DEBUG
+	// rtl.offset -= runes.length                    // DEBUG
+	rtl.offset -= Iterators.RTL[boundary](substr).length
 	return rtl
 }
 
-// Returns the next left-to-right (LTR) cursor.
+// Returns the next left-to-right cursor for a boundary.
 function nextLTRCursor(elements, { ...ltr }, boundary) {
 	const y = must(elements.findIndex(each => each.key === ltr.key))
 	const substr = Spans.textContent(elements[y].props.children).slice(ltr.offset)
@@ -32,13 +32,13 @@ function nextLTRCursor(elements, { ...ltr }, boundary) {
 		})
 		return ltr
 	}
-	const runes = Iterators.LTR[boundary](substr)
-	ltr.offset += runes.length
+	// const runes = Iterators.LTR[boundary](substr) // DEBUG
+	// ltr.offset += runes.length                    // DEBUG
+	ltr.offset += Iterators.LTR[boundary](substr).length
 	return ltr
 }
 
-// Returns the next set of cursors for a direction and a
-// boundary.
+// Returns the next set of cursors.
 function nextCursors(elements, cursors, dir, boundary) {
 	if (!cursors.collapsed) {
 		return cursors
@@ -60,13 +60,12 @@ function nextCursors(elements, cursors, dir, boundary) {
 	return next
 }
 
-// Backspace handler. Returns a collapsed set of cursors.
-// dir maps to "rtl" or "ltr" and boundary maps to "rune",
-// "word", or "line".
-function backspace(elements, cursors, dir, boundary) {
+// Backspace handler for both directions and all boundaries.
+// Returns the next set of collapsed cursors.
+function backspaceHandler(elements, cursors, dir, boundary) {
 	const next = nextCursors(elements, cursors, dir, boundary)
 	dropCursors(elements, next)
 	return Cursors.collapse(next)
 }
 
-export default backspace
+export default backspaceHandler
