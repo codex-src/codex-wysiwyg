@@ -20,6 +20,7 @@ function dropBytes({ spans, offset, nbytes }) {
 		offset -= spans[x].props.children.length
 	}
 	// Drop up to n-bytes:
+	console.log({ "spans[x]": JSON.parse(JSON.stringify(spans[x])) }) // DEBUG
 	nbytes = Math.min(nbytes, offset)
 	spans[x].props.children = (
 		spans[x].props.children.slice(0, offset - nbytes) +
