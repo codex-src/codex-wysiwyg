@@ -40,7 +40,7 @@ const Editor = ({ children }) => {
 					return
 				}
 				const range = Range.computeFromCursor(state.cursors[0])
-				if (range[0] === null || range[0] === -1) {
+				if (!range) { // || range[0] === null || range[0] === -1) {
 					// No-op
 					return
 				}

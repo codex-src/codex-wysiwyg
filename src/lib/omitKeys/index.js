@@ -3,7 +3,8 @@ function omitKeys(object, ...keys) {
 	const ommitted = { ...object }
 	for (const each of keys) {
 		if (ommitted[each] === undefined) {
-			throw new Error(`omitKeys: no such key=${each || "\"\""})`)
+			// eslint-disable-next-line quotes
+			throw new Error(`omitKeys: no such key=${each || `""`})`)
 		}
 		ommitted[each] = undefined
 	}
