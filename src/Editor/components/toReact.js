@@ -1,5 +1,5 @@
 import areEqualJSON from "lib/areEqualJSON"
-import omitKey from "lib/omitKey"
+import omitKeys from "lib/omitKeys"
 import React from "react"
 import toArray from "lib/toArray"
 import { typeMap } from "./typeMaps"
@@ -33,7 +33,7 @@ function queryNextAndTypes(elements, span) {
 		if (Array.isArray(ref) && ref.length && ref[ref.length - 1] && ref[ref.length - 1].type) {
 			ref = ref[ref.length - 1]
 		}
-		if (typeof ref === "string" || ref.type !== type || !areEqualJSON(omitKey(ref.props, "children"), span.props[type])) {
+		if (typeof ref === "string" || ref.type !== type || !areEqualJSON(omitKeys(ref.props, "type", "children"), span.props[type])) {
 			// No-op
 			break
 		}

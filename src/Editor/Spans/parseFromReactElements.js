@@ -1,4 +1,4 @@
-import omitKey from "lib/omitKey"
+import omitKeys from "lib/omitKeys"
 import toArray from "lib/toArray"
 import { typeMap } from "../components/typeMaps"
 
@@ -9,8 +9,7 @@ function parseFromReactElements(reactElements) {
 		for (const each of toArray(reactElement)) {
 			// Guard <p></p> and <p><br></p> cases:
 			//
-			// TODO: Guard <em></em> case; "omitKey: no such key
-			// (key=children)".
+			// TODO: Guard <em></em> case.
 			if (each === undefined || (each.type && !typeMap[each.type])) { // TODO: Move up?
 				// No-op
 				continue
@@ -26,7 +25,7 @@ function parseFromReactElements(reactElements) {
 				continue
 			}
 			const nextTypes = [...types, each.type]
-			const nextProps = { ...props, [each.type]: omitKey(each.props, "children") }
+			const nextProps = { ...props, [each.type]: omitKeys(each.props, "children") }
 			recurse(each.props.children, nextTypes, nextProps)
 		}
 	}

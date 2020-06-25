@@ -1,13 +1,13 @@
 import areEqualJSON from "lib/areEqualJSON"
 import must from "lib/must"
-import omitKey from "lib/omitKey"
+import omitKeys from "lib/omitKeys"
 import { sortedTypeMap } from "../components/typeMaps"
 
 // Compares whether spans are equal (omits props.children).
 function areEqualTypesAndProps(span1, span2) {
 	const ok = (
 		areEqualJSON(span1.types, span2.types) &&
-		areEqualJSON(omitKey(span1.props, "children"), omitKey(span2.props, "children"))
+		areEqualJSON(omitKeys(span1.props, "children"), omitKeys(span2.props, "children"))
 	)
 	return ok
 }
