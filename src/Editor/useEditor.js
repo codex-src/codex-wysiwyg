@@ -164,99 +164,84 @@ const methods = state => ({
 			return
 		}
 
-		const { key, offset } = state.cursors[0]
-		const element = must(state.elements.find(each => each.key === key))
+		const element = must(state.elements.find(each => each.key === state.cursors[0].key))
 		const spans = element.props.children
 
-		// Computes a span and character offset from an array of
-		// spans and an offset.
-		const computeSpanAtOffset = (spans, offset) => {
-			for (const span of spans) {
-				if (offset - span.props.children.length <= 0) {
-					return span
+		// Computes the span and text offsets from an array of
+		// spans at an offset.
+		const computeSpanOffsets = (spans, offset) => {
+			let spanOffset = 0
+			let textOffset = offset
+			for (; spanOffset < spans.length; spanOffset++) {
+				if (textOffset - spans[spanOffset].props.children.length <= 0) {
+					return [spanOffset, textOffset]
 				}
-				offset -= span.props.children.length
+				textOffset -= spans[spanOffset].props.children.length
 			}
 			return null
 		}
 
-		// // Computes an array of spans from an array of spans and
-		// // offsets. Offsets must be from shared keys.
-		// const computeSpansBetweenOffsets = (spans, offset1, offset2) => {
-		// 	// ...
-		// }
+		// Computes an array of spans from an array of spans and
+		// offsets. Offsets must be from shared keys.
+		const computeSpansBetweenOffsets = (spans, offset1, offset2) => {
+			const [s1, t1] = must(computeSpanOffsets(spans, offset1))
+			const [s2, t2] = must(computeSpanOffsets(spans, offset2))
 
-		// console.log(JSONClone(computeSpanAtOffset(spans, offset)))
+			console.log([s1, t1], [s2, t2])
 
-		// a:
-		// for (const span of element.props.children) {  // Do not use "each"; too confusing
-		// 	for (const type of span.types) { // Do not use "each"; too confusing
-		// 		if (type === typeEnum.strong) {
-		// 			// No-op
-		// 			continue a
-		// 		}
-		// 		span.types.push(typeEnum.strong)
-		// 		continue a
-		// 	}
-		// }
+			// if (t1) {
+			spans.splice(s1, 1, ...[
+				{
+					...spans[s1],
+					props: {
+						...spans[s1].props,
+						children: spans[s1].props.children.slice(0, t1),
+					}
+				},
+				{
+					...spans[s1],
+					props: {
+						...spans[s1].props,
+						children: spans[s1].props.children.slice(t1),
+					}
+				},
+			])
+			spans.splice(s2, 1, ...[
+				{
+					...spans[s2],
+					props: {
+						...spans[s2].props,
+						children: spans[s2].props.children.slice(0, t2),
+					}
+				},
+				{
+					...spans[s2],
+					props: {
+						...spans[s2].props,
+						children: spans[s2].props.children.slice(t2),
+					}
+				},
+			])
 
-		const shouldApply = !spans.every(each => each.types.some(each => each === typeEnum.strong))
-		// console.log({ shouldApply }) // DEBUG
-		for (const each of spans) {
-			if (!shouldApply) {
-				const x = must(each.types.findIndex(each => each === typeEnum.strong))
-				each.types.splice(x, 1)
-				continue
-			}
-			each.types.push(typeEnum.strong)
+			// console.log([JSONClone(spans[s1]), t1], [JSONClone(spans[s2]), t2])
+			console.log(JSONClone(spans))
 		}
-		Spans.defer(spans)
-		state.shouldRenderElements++
 
-		// // Compute the span and character offsets (offset):
-		// let x = 0
-		// for (; x < spans.length; x++) {
-		// 	if (offset - spans[x].props.children.length <= 0) {
-		// 		// No-op
-		// 		break
-		// 	}
-		// 	offset -= spans[x].props.children.length
-		// }
-		// // Drop up to n-bytes:
-		// console.log({ "spans[x]": JSON.parse(JSON.stringify(spans[x])) }) // DEBUG
-		// nbytes = Math.min(nbytes, offset)
-		// spans[x].props.children = (
-		// 	spans[x].props.children.slice(0, offset - nbytes) +
-		// 	spans[x].props.children.slice(offset)
-		// )
-		// if (!spans[x].props.children) {
-		// 	spans.splice(x, 1)
-		// }
-		// Spans.defer(spans)
-		// return nbytes
+		computeSpansBetweenOffsets(spans, state.cursors[0].offset, state.cursors[1].offset)
 
-		// let y = must(state.elements.findIndex(each => each.key === state.cursors[1].key))
-		// while (!Cursors.areEqual(state.cursors[0], state.cursors[1])) {
-		// 	let nbytes = state.cursors[1].offset - (state.cursors[0].key === state.cursors[1].key && state.cursors[0].offset)
-		// 	if (!nbytes && y) {
-		// 		// Read the current span (for state.cursors[1].offset):
-		// 		const textContent = Spans.textContent(state.elements[y - 1].props.children)
-		// 		// Push and defer spans:
-		// 		state.elements[y - 1].props.children.push(...state.elements[y].props.children)
-		// 		state.elements.splice(y, 1)
-		// 		Spans.defer(state.elements[y - 1].props.children)
-		// 		// Reset cursor[1]:
-		// 		Object.assign(state.cursors[1], {
-		// 			key: state.elements[y - 1].key,
-		// 			offset: textContent.length,
-		// 		})
-		// 		y--
+		// const shouldApply = !spans.every(each => each.types.some(each => each === typeEnum.strong))
+		// // console.log({ shouldApply }) // DEBUG
+		// for (const each of spans) {
+		// 	if (!shouldApply) {
+		// 		const x = must(each.types.findIndex(each => each === typeEnum.strong))
+		// 		each.types.splice(x, 1)
 		// 		continue
 		// 	}
+		// 	each.types.push(typeEnum.strong)
 		// }
-		// const collapsed = Cursors.collapse(cursors)
-		// this.select(collapsed)
+		// Spans.defer(spans)
 		// state.shouldRenderElements++
+
 	},
 
 	backspaceRTLRune() {

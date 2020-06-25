@@ -40,7 +40,6 @@ const Editor = ({ children }) => {
 					return
 				}
 				const ranges = Range.computeFromCursors(state.cursors)
-				console.log(ranges)
 				if (!ranges) { // range[0] === null || range[0] === -1) {
 					// No-op
 					return
