@@ -33,6 +33,7 @@ export const H = React.memo(({ type, id, children }) => {
 	return (
 		// <Block ref={ref} id={id}>
 		<div className="group relative">
+
 			<HOC type={type}>
 				<div ref={ref} id={id} { ...styles }>
 					{toReact(children) || (
@@ -40,6 +41,8 @@ export const H = React.memo(({ type, id, children }) => {
 					)}
 				</div>
 			</HOC>
+
+			{/* H1-H6 */}
 			<div className="absolute top-0 right-full cursor-default" contentEditable={false}>
 				<div className="mr-3" style={{ marginTop: -paddingY / 6, paddingTop: paddingY }}>
 					<p ref={labelRef} className="font-bold text-xs tracking-wider text-cool-gray-300 selection-bg-transparent">
@@ -47,6 +50,7 @@ export const H = React.memo(({ type, id, children }) => {
 					</p>
 				</div>
 			</div>
+
 		</div>
 		// </Block>
 	)
