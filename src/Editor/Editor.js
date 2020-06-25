@@ -50,7 +50,7 @@ const Editor = ({ children }) => {
 				domSelection.addRange(domRange)
 			})
 		}, [state, dispatch]),
-		[state.shouldRenderElements],
+		[state.shouldRender],
 	)
 
 	return (
