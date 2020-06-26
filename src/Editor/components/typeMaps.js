@@ -1,7 +1,7 @@
 import iota from "lib/iota"
 
 import { // Do not sort
-	H,
+	Header,
 	P,
 	HR,
 } from "./Elements"
@@ -34,12 +34,12 @@ export const typeEnum = {
 
 // Sorted based on render precedence.
 export const typeMap = {
-	[typeEnum.h1]: H,
-	[typeEnum.h2]: H,
-	[typeEnum.h3]: H,
-	[typeEnum.h4]: H,
-	[typeEnum.h5]: H,
-	[typeEnum.h6]: H,
+	[typeEnum.h1]: Header,
+	[typeEnum.h2]: Header,
+	[typeEnum.h3]: Header,
+	[typeEnum.h4]: Header,
+	[typeEnum.h5]: Header,
+	[typeEnum.h6]: Header,
 	[typeEnum.p]:  P,
 	[typeEnum.hr]: HR,
 

@@ -2,18 +2,16 @@ import React from "react"
 import toReact from "./toReact"
 import { ElementHOC as HOC } from "./HOC"
 
-/* eslint-disable no-multi-spaces */
 const headerStyleMap = {
-	h1: { className: "font-semibold leading-tight antialiased", style: { fontSize: "225%" } },
-	h2: { className: "font-semibold leading-tight antialiased", style: { fontSize: "175%" } },
-	h3: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
-	h4: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
-	h5: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
-	h6: { className: "font-semibold leading-tight antialiased", style: { fontSize: "125%" } }, // TODO
+	h1: { fontSize: "225%" },
+	h2: { fontSize: "175%" },
+	h3: { fontSize: "125%" },
+	h4: { fontSize: "125%" },
+	h5: { fontSize: "125%" },
+	h6: { fontSize: "125%" },
 }
-/* eslint-disable no-multi-spaces */
 
-export const H = React.memo(({ type, id, children }) => {
+export const Header = React.memo(({ type, id, children }) => {
 	const ref = React.useRef(null)
 	const labelRef = React.useRef(null)
 
@@ -29,13 +27,12 @@ export const H = React.memo(({ type, id, children }) => {
 		setPaddingY(refLineHeight - labelRefLineHeight)
 	}, [ref, labelRef])
 
-	const styles = headerStyleMap[type]
 	return (
 		// <Block ref={ref} id={id}>
 		<div className="group relative">
 
 			<HOC type={type}>
-				<div ref={ref} id={id} { ...styles }>
+				<div ref={ref} id={id} className="font-semibold leading-tight antialiased" style={headerStyleMap[type]}>
 					{toReact(children) || (
 						<br />
 					)}

@@ -19,9 +19,11 @@ export const Strong = ({ type, children }) => (
 	</HOC>
 )
 
+// NOTE: py-* and border-* classes interfere with
+// toolbarClientRect; was py-1 border border-cool-gray-300
 export const Code = ({ type, children }) => (
 	<HOC type={type}>
-		<span className="px-1 py-px text-sm font-mono text-blue-600 bg-white border border-cool-gray-300 rounded" {...attrs.code}>
+		<span className="mx-1 text-sm font-mono text-blue-600" style={{ borderRadius: 0.5, boxShadow: "0 0 0 3px var(--white), 0 0 0 4px var(--cool-gray-300)" }} {...attrs.code}>
 			{children}
 		</span>
 	</HOC>

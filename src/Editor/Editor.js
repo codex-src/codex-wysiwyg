@@ -7,18 +7,14 @@ import must from "lib/must"
 import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
-import Renderer from "./components/Renderer"
+import Renderer from "./Renderer"
+import Toolbar from "./Toolbar"
 import useEditor from "./useEditor"
 
 import "./Editor.css"
 
 ;(() => {
 	noopTextNodeRerenders()
-	// if (process.NODE_ENV !== "production") { // DEBUG
-	// 	setTimeout(() => {
-	// 		console.clear()
-	// 	}, 1e3)
-	// }
 })()
 
 const Editor = ({ children }) => {
@@ -71,6 +67,7 @@ const Editor = ({ children }) => {
 
 				onPointerDown={e => {
 					pointerIsDownRef.current = true
+					dispatch.setToolbarClientRect(null)
 				}}
 
 				onPointerMove={e => {
@@ -214,22 +211,12 @@ const Editor = ({ children }) => {
 				data-root
 			/>
 
-			{state.toolbarClientRect && (
-				<div className="absolute" style={{ top: window.scrollY + state.toolbarClientRect.y + state.toolbarClientRect.height, left: window.scrollX + state.toolbarClientRect.x + state.toolbarClientRect.width / 2 }}>
-					{/* <div className="relative"> */}
-						{/* <div className="absolute bottom-full"> */}
-							<div className="px-2 py-1 bg-gray-100 w-32">
-								Hello, world!
-							</div>
-						{/* </div> */}
-					{/* </div> */}
-				</div>
-			)}
+			<Toolbar clientRect={state.toolbarClientRect} />
 
 			{/* Debugger */}
-			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify(state.toolbarClientRect, null, "\t")}
-			</div>
+			{/* <div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
+			{/* 	{JSON.stringify(state.toolbarClientRect, null, "\t")} */}
+			{/* </div> */}
 
 		</div>
 	)
