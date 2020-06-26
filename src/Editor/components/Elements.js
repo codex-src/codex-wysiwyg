@@ -20,7 +20,7 @@ export const Header = React.memo(({ type, id, children }) => {
 	React.useLayoutEffect(() => {
 		const computeLineHeight = domElement => {
 			const lineHeightPx = window.getComputedStyle(domElement).lineHeight
-			return Number(lineHeightPx.slice(0, -2)) // Removes "px" and converts to a number
+			return +lineHeightPx.slice(0, -2) // Removes "px" and converts to a number
 		}
 		const refLineHeight = computeLineHeight(ref.current)
 		const labelRefLineHeight = computeLineHeight(labelRef.current)
