@@ -79,7 +79,19 @@ const App = () => (
 						</strong>
 						hello
 					</code>{" "}
-					How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today?
+					How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today? How are you doing today?{" "}
+					hello{" "}
+					<code>
+						hello{" "}
+						<strong>
+							hello
+							<em>
+								hello
+							</em>
+							hello
+						</strong>
+						hello
+					</code>
 				</p>
 				<p>
 					<code>
