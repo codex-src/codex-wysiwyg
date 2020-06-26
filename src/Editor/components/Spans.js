@@ -23,7 +23,7 @@ export const Strong = ({ type, children }) => (
 // toolbarClientRect; was py-1 border border-cool-gray-300
 export const Code = ({ type, children }) => (
 	<HOC type={type}>
-		<span className="mx-1 text-sm font-mono text-blue-600" style={{ borderRadius: 0.5, boxShadow: "0 0 0 3px var(--white), 0 0 0 4px var(--cool-gray-300)" }} {...attrs.code}>
+		<span className="mx-1 text-sm font-mono text-blue-600" style={{ borderRadius: `${0.5 / 16}em`, boxShadow: "0 0 0 3px var(--white), 0 0 0 4px var(--cool-gray-300)" }} {...attrs.code}>
 			{children}
 		</span>
 	</HOC>

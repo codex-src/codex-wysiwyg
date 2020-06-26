@@ -35,7 +35,7 @@ const App = () => (
 				</p>
 
 				<h1>
-					Hello, world!
+					Hello, <code>world</code>!
 				</h1>
 				<h2>
 					Hello, world!
