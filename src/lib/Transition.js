@@ -1,5 +1,6 @@
 import React from "react"
 
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Document/transitionend_event
 const Transition = ({
 	on,         // boolean
 	transition, // string e.g. "transition duration-150 ease-in-out"

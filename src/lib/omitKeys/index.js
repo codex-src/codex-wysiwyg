@@ -1,13 +1,13 @@
-// Omits keys from an object.
+// Omits keys from a destructued object.
 function omitKeys(object, ...keys) {
-	const ommitted = { ...object }
+	const destructed = { ...object }
 	for (const each of keys) {
-		if (ommitted[each] === undefined) {
+		if (destructed[each] === undefined) {
 			throw new Error(`omitKeys: no such key=${JSON.stringify(each)})`)
 		}
-		ommitted[each] = undefined
+		destructed[each] = undefined
 	}
-	return ommitted
+	return destructed
 }
 
 export default omitKeys

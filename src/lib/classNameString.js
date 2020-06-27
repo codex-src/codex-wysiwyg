@@ -1,4 +1,4 @@
-// Removes extraneous spaces, "undefined", and "false".
+// Returns a className string.
 function classNameString(str) {
 	const className = str.split(/\s+/).filter(each => (
 		each !== "" &&

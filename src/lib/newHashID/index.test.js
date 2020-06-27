@@ -1,8 +1,8 @@
 import newHashID from "./index"
 
-test("nchars", () => {
-	for (let nchars = 1; nchars < 32; nchars++) {
-		expect(newHashID(nchars).length).toBe(nchars)
+test("len", () => {
+	for (let len = 1; len < 32; len++) {
+		expect(newHashID(len).length).toBe(len)
 	}
 	expect(newHashID().length).toBe(32)
 })

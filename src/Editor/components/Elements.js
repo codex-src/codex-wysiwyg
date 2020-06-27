@@ -17,14 +17,14 @@ export const Header = React.memo(({ type, id, children }) => {
 
 	const [paddingY, setPaddingY] = React.useState(4)
 
-	React.useLayoutEffect(() => {
-		const computeLineHeight = domElement => {
-			const lineHeightPx = window.getComputedStyle(domElement).lineHeight
-			return +lineHeightPx.slice(0, -2) // Removes "px" and converts to a number
-		}
-		const refLineHeight = computeLineHeight(ref.current)
-		const labelRefLineHeight = computeLineHeight(labelRef.current)
-		setPaddingY(refLineHeight - labelRefLineHeight)
+	React.useEffect(() => {
+		// const computeLineHeight = domElement => {
+		// 	const lineHeightPx = window.getComputedStyle(domElement).lineHeight
+		// 	return +lineHeightPx.slice(0, -2) // Removes "px" and converts to a number
+		// }
+		// const refLineHeight = computeLineHeight(ref.current)
+		// const labelRefLineHeight = computeLineHeight(labelRef.current)
+		// setPaddingY(refLineHeight - labelRefLineHeight)
 	}, [ref, labelRef])
 
 	return (

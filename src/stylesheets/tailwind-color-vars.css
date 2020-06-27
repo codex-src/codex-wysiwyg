@@ -1,7 +1,5 @@
 /* https://tailwindcss.com/docs/customizing-colors/#default-color-palette */
 html {
-	--transparent: transparent;
-
 	--white:         #ffffff;
 	--black:         #000000;
 	--gray-50:       #f9fafb;
