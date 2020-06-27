@@ -37,6 +37,8 @@ function toHTML_recurse(domNode, depth = -1) {
 }
 
 // Parses raw data to HTML.
+//
+// TODO: Refactor based on components.js.
 function toHTML(raw) {
 	const article = document.createElement("article")
 	const doc = new DOMParser().parseFromString(raw, "text/html")

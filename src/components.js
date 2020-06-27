@@ -1,5 +1,5 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import ReactDOMServer from "react-dom/server"
 import syncDOM from "./syncDOM"
 import toReact from "./toReact"
 
@@ -18,16 +18,46 @@ const T = ({ type, props, children }) => (
 	})
 )
 
-export const P = React.memo(({ type, id, spans }) => {
-	const tmp = React.useMemo(() => document.createElement("div"), [])
-	const ref = React.useRef(null) // TODO
+// Renders HTML text to HTML.
+function toHTML(text_html) {
+	const fragment = document.createDocumentFragment()
+	const doc = new DOMParser().parseFromString(text_html, "text/html")
+	fragment.append(...doc.body.childNodes)
+	return fragment
+}
 
+function useDOMRenderer(ref, children) {
 	React.useLayoutEffect(() => {
-		const children = toReact(spans) || <br />
-		ReactDOM.render(children, tmp, () => {
-			syncDOM(tmp, ref.current)
-		})
-	}, [spans])
+		if (!ref.current) {
+			// No-op
+			return
+		}
+		const markup = ReactDOMServer.renderToStaticMarkup(children)
+		const fragment = toHTML(markup)
+		// TODO
+		;[...ref.current.childNodes].reverse().map(each => each.remove())
+		ref.current.append(...fragment.childNodes)
+	}, [ref, children])
+}
+
+// const DOMRenderer = ({ forwardedRef, children }) => {
+// 	React.useLayoutEffect(() => {
+// 		if (!forwardedRef.current) {
+// 			// No-op
+// 			return
+// 		}
+// 		const markup = ReactDOMServer.renderToStaticMarkup(children)
+// 		const fragment = toHTML(markup)
+// 		// TODO
+// 		;[...forwardedRef.current.childNodes].reverse().map(each => each.remove())
+// 		forwardedRef.current.append(...fragment.childNodes)
+// 	}, [forwardedRef, children])
+// 	return null
+// }
+
+export const P = React.memo(({ type, id, spans }) => {
+	const ref = React.useRef(null)
+	useDOMRenderer(ref, toReact(spans) || <br />)
 
 	return (
 		<T type={type}>
