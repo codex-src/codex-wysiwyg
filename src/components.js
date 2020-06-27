@@ -13,10 +13,9 @@ const T = ({ type, props, children }) => (
 	})
 )
 
-const Node = React.forwardRef(({ id, style, children }, ref) => {
+const Node = React.forwardRef(({ id, style, children, ...props }, ref) => {
 
 	// NOTE: children are not managed by React.
-	// TODO: Reimplement syncDOM for inline elements
 	React.useLayoutEffect(() => {
 		if (!ref.current) {
 			// No-op
@@ -24,15 +23,18 @@ const Node = React.forwardRef(({ id, style, children }, ref) => {
 		}
 
 		// Renders markup to HTML.
-		function markupToHTML(text_html) { // TODO
+		const markupToHTML = text_html => {
 			const fragment = document.createDocumentFragment()
 			const doc = new DOMParser().parseFromString(text_html, "text/html")
 			fragment.append(...doc.body.childNodes)
 			return fragment
 		}
 
+		// NOTE: renderToStaticMarkup is synchronous;
+		// ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
 		const fragment = markupToHTML(markup)
+
 		// TODO
 		;[...ref.current.childNodes].reverse().map(each => each.remove())
 		ref.current.append(...fragment.childNodes)
@@ -47,6 +49,7 @@ const Node = React.forwardRef(({ id, style, children }, ref) => {
 			whiteSpace: "pre-wrap",
 			overflowWrap: "break-word",
 		},
+		...props,
 	})
 })
 
