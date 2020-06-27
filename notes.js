@@ -1,74 +1,90 @@
-// We should be able to resolve to:
+// <blockquote>
+//   <Node>
+//     <Span>
+//     <Span>
+//   <Node>
+//   <Node>
+//     <Span>
+//     <Span>
+//   <Node>
+// </blockquote>
 //
-// - Plaintext (lists are preserved, are code blocks indented?)
-// - Markdown
-// - HTML
-// - React?
-// - JSON? (probably not)
-
-const elem = {
-	type: typeEnum.p,
-	key: "abc-xyz-123",
-	props: {
-		children: [
-			// <span>
-			// <span>
-			// <span>
-		],
-	},
-}
-
-// The exceptions are:
+// <ul>
+//   <Node> <- <li> (needs props)
+//     <Span>
+//     <Span>
+//   <Node>
+//   <Node>
+//     <Span>
+//     <Span>
+//   <Node>
+// </ul>
 //
-// - ul (incl. checklists)
-// - ol (incl. checklists)
-// - pre
-// - media // TODO
-// - hr    // TODO
+// <pre>
+//   <ul>
+//     <Node> <- <li> (needs props)
+//       <Span>
+//       <Span>
+//     </Node>
+//   </Ul>
+// </pre>
 
-const elem = {
-	type: typeEnum.pre,
-	key: "abc-xyz-123",
-	props: {
-		// filename: "main.go",
-		language: "go", // TODO: Autocompute from filename?
-		children: "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Hello, world!\")\n}\n",
-	},
-}
+// elements[0].nodes[0].spans.insert(2, 7, text)
+// elements[0].nodes[0].spans.format(2, 7, types, props)
+// elements[0].nodes[0].spans.deformat(2, 7, types)
 
-const elem = {
-	type: typeEnum.ul,
-	key: "abc-xyz-123",
-	props: {
-		children: [
+const elements = [
+	{
+		type: ...,
+		key: ...,
+		// ...props
+		nodes: [
 			{
-				type: typeEnum.li,
-				key: "abc-xyz-123-ext?",
-				props: {
-					checked: {
-						value: false,
+				type: "",
+				key: "",
+				// ...props
+				spans: [
+					{
+						types: [..., ...],
+						[types.a]: {
+							// ...
+						},
+						text: ...,
 					},
-					children: [
-						// <span>
-						// <span>
-						// <span>
-					],
-				},
-			},
-			{
-				type: typeEnum.li,
-				key: "abc-xyz-123-ext?",
-				props: {
-					checked: {
-						value: false,
+					{
+						types: [..., ...],
+						[types.a]: {
+							// ...
+						},
+						text: ...,
 					},
-					children: [
-						// <span>
-						// <span>
-						// <span>
-					],
-				},
+				],
 			},
 		],
 	},
-}
+]
+
+// elements[0].spans
+const elements = [
+	{
+		type: ...,
+		key: ...,
+		// ...props
+		spans: [
+			{
+				types: [..., ...],
+				[types.a]: {
+					// ...
+				},
+				text: ...,
+			},
+			{
+				types: [..., ...],
+				[types.a]: {
+					// ...
+				},
+				text: ...,
+			},
+		],
+	},
+]
