@@ -41,6 +41,13 @@ test("ascendElementID", () => {
 	expect(domUtils.ascendElementID(tree2.childNodes[0].childNodes[0])).toBe(tree2)
 })
 
+test("nodeName", () => {
+	expect(domUtils.nodeName(renderDOMTree(<br />))).toBe("br")
+	expect(domUtils.nodeName(renderDOMTree("Hello, world!"))).toBe("#text")
+	expect(domUtils.nodeName(renderDOMTree(<span />))).toBe("span")
+	expect(domUtils.nodeName(renderDOMTree(<div />))).toBe("div")
+})
+
 test("isTextNode", () => {
 	expect(domUtils.isTextNode(renderDOMTree(<br />))).not.toBeTruthy()
 	expect(domUtils.isTextNode(renderDOMTree("Hello, world!"))).toBeTruthy()

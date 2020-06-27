@@ -15,6 +15,9 @@ const domUtils = {
 		}
 		return domElement
 	},
+	nodeName(domNode) {
+		return domNode.nodeName.toLowerCase()
+	},
 	isTextNode(domNode) {
 		return domNode.nodeType === Node.TEXT_NODE
 	},
