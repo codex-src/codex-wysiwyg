@@ -6,35 +6,7 @@ import React from "react"
 // 	document.body.classList.add("debug-css")
 // })()
 
-// const rawStr = `
-// <ul>
-// 	<li>
-// 		Hello,&lt;em&gt;
-// 		<code>
-// 			world
-// 		</code>
-// 		!
-// 	</li>
-// </ul>
-// <ul>
-// 	<li>
-// 		x
-// 	</li>
-// </ul>
-// <hr>
-// <ul>
-// 	<li>
-// 		x
-// 	</li>
-// </ul>
-// <ul>
-// 	<li>
-// 		x
-// 	</li>
-// </ul>
-// `
-
-const rawStr = `
+const raw = `
 <p>
 	Hello, <a><code><strike><strong><em>world</em></strong></strike></code></a>
 </p>
@@ -55,23 +27,150 @@ const rawStr = `
 </p>
 `
 
+// <blockquote>
+//   <Node>
+//     <Span>
+//     <Span>
+//   <Node>
+//   <Node>
+//     <Span>
+//     <Span>
+//   <Node>
+// </blockquote>
+//
+// <ul>
+//   <Node> <- <li> (needs props)
+//     <Span>
+//     <Span>
+//   <Node>
+//   <Node>
+//     <Span>
+//     <Span>
+//   <Node>
+// </ul>
+//
+// <pre>
+//   <ul>
+//     <Node> <- <li> (needs props)
+//       <Span>
+//       <Span>
+//     </Node>
+//   </Ul>
+// </pre>
+
+// elements[0].nodes[0].spans.insert(2, 7, text)
+// elements[0].nodes[0].spans.format(2, 7, formats, props)
+
+// // elements[0].nodes[0].spans
+// const elements = [
+// 	{
+// 		type: ...,
+// 		key: ...,
+// 		// ...props
+// 		nodes: [
+// 			{
+// 				type: "",
+// 				key: "",
+// 				// ...props
+// 				spans: [
+// 					{
+// 						formats: [..., ...],
+// 						[formats.a]: {
+// 							// ...
+// 						},
+// 						text: ...,
+// 					},
+// 					{
+// 						formats: [..., ...],
+// 						[formats.a]: {
+// 							// ...
+// 						},
+// 						text: ...,
+// 					},
+// 				],
+// 			},
+// 		],
+// 	},
+// ]
+//
+// // elements[0].spans
+// const elements = [
+// 	{
+// 		type: ...,
+// 		key: ...,
+// 		// ...props
+// 		spans: [
+// 			{
+// 				formats: [..., ...],
+// 				[formats.a]: {
+// 					// ...
+// 				},
+// 				text: ...,
+// 			},
+// 			{
+// 				formats: [..., ...],
+// 				[formats.a]: {
+// 					// ...
+// 				},
+// 				text: ...,
+// 			},
+// 		],
+// 	},
+// ]
+
+// // elements[0].nodes[0].spans.insert(2, 7, text)
+// // elements[0].nodes[0].spans.format(2, 7, types, props)
+// const elements = [
+// 	{
+// 		type: ...,
+// 		// ...props
+// 		nodes: [
+// 			{
+// 				key: ...,
+// 				// ...props
+// 				spans: {
+// 					// 1. Formats must be ordered based on offsets.
+// 					// 2. Offsets must be discrete.
+// 					formats: [
+// 						{
+// 							formats: ["strong"],
+// 							offsets: [7, 12], // Bounded text;
+// 							[formats.a]: {
+// 								href: "https://google.com",
+// 							},
+// 						},
+// 						{
+// 							typse: ["em"],
+// 							offsets: [14, 37],
+// 							[formats.a]: {
+// 								href: "https://google.com",
+// 							},
+// 						},
+// 					],
+// 					text: "Hello, world! How are you today?",
+// 				},
+// 			},
+// 		],
+// 	},
+// ]
+
 // Recurses on a DOM node; removes extraneous whitespace.
 function toHTML_recurse(domNode, depth = -1) {
 	if (domUtils.isTextNodeOrBrElement(domNode)) {
 		if (domUtils.isTextNode(domNode)) {
 			//
-			// ^                      - BOF
-			//   \n                   - EOL
-			//   \t{depth}            - depth tabs
-			// |                      - OR
-			//   \n                   - EOL
-			//   \t{depth - 1, depth} - depth - 1 to depth tabs
-			// $                      - EOF
+			// ^                     - BOF
+			//   \n                  - EOL
+			//   \t{depth}           - depth tabs
+			// |                     - OR
+			//   \n                  - EOL
+			//   \t{depth - 1,depth} - depth - 1 to depth tabs
+			// $                     - EOF
 			//
 			const tabsRe = new RegExp(`^\\n\\t{${depth}}|\\n\\t{${Math.max(0, depth - 1)},${depth}}?$`, "g")
-			// domNode.nodeValue = unescape(domNode.nodeValue.replace(tabsRe, ""))
-			domNode.nodeValue = domNode.nodeValue.replace(tabsRe, "")
-			if (!domNode.nodeValue) {
+			// domNode.textContent = unescape(domNode.textContent.replace(tabsRe, ""))
+			domNode.textContent = domNode.textContent.replace(tabsRe, "")
+			if (!domNode.textContent) {
 				domNode.remove()
 			}
 		}
@@ -93,15 +192,15 @@ function toHTML_recurse(domNode, depth = -1) {
 	return domNode
 }
 
-// Parse a raw string to HTML.
-function toHTML(rawStr) {
+// Parses raw data to HTML.
+function toHTML(raw) {
 	const article = document.createElement("article")
-	const doc = new DOMParser().parseFromString(rawStr, "text/html")
+	const doc = new DOMParser().parseFromString(raw, "text/html")
 	article.append(...doc.body.children)
 	return toHTML_recurse(article)
 }
 
-console.log(toHTML(rawStr).outerHTML)
+console.log(toHTML(raw).outerHTML)
 
 const App = () => (
 	<div className="px-6 py-24 flex flex-row justify-center">
