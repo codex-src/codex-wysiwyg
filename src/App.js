@@ -1,31 +1,31 @@
 // import Editor from "Editor/Editor"
+// import toHTML from "./toHTML"
+// import toTree from "./toTree"
 import hash from "lib/hash"
 import React from "react"
-import toHTML from "./toHTML"
-import toTree from "./toTree"
 import typeMap from "./typeMap"
 import types from "./types"
 
-const raw = `
-<p>
-	Hello, <a><code><strike><strong><em>world</em></strong></strike></code></a>!
-</p>
-<p>
-	Hello, <code><strike><strong><em>world</em></strong></strike></code>!
-</p>
-<p>
-	Hello, <strike><strong><em>world</em></strong></strike>!
-</p>
-<p>
-	Hello, <strong><em>world</em></strong>!
-</p>
-<p>
-	Hello, <em>world</em>!
-</p>
-<p>
-	Hello, world!
-</p>
-`
+// const raw = `
+// <p>
+// 	Hello, <a><code><strike><strong><em>world</em></strong></strike></code></a>!
+// </p>
+// <p>
+// 	Hello, <code><strike><strong><em>world</em></strong></strike></code>!
+// </p>
+// <p>
+// 	Hello, <strike><strong><em>world</em></strong></strike>!
+// </p>
+// <p>
+// 	Hello, <strong><em>world</em></strong>!
+// </p>
+// <p>
+// 	Hello, <em>world</em>!
+// </p>
+// <p>
+// 	Hello, world!
+// </p>
+// `
 
 // console.log(toHTML(raw).outerHTML)
 

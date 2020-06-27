@@ -1,4 +1,5 @@
 import React from "react"
+import ReactDOM from "react-dom"
 import toReact from "./toReact"
 
 const T = ({ type, props, children }) => (
@@ -18,12 +19,24 @@ const T = ({ type, props, children }) => (
 
 export const P = React.memo(({ type, id, spans }) => {
 	const ref = React.useRef(null) // TODO
+
+	React.useLayoutEffect(() => {
+		const children = (
+			toReact(spans) || (
+				<br />
+			)
+		)
+		ReactDOM.render(children, ref.current, () => {
+			// ...
+		})
+	}, [spans])
+
 	return (
 		<T type={type}>
 			<div ref={ref} id={id}>
-				{toReact(spans) || (
-					<br />
-				)}
+				{/* {toReact(spans) || ( */}
+				{/* 	<br /> */}
+				{/* )} */}
 			</div>
 		</T>
 	)
