@@ -6,7 +6,8 @@ const T = ({ type, props, children }) => (
 		// Enum type:
 		"data-type": type,
 		// JSON-encoded props:
-		"data-props": props && JSON.stringify(props),
+		"data-props": props && JSON.stringify(props, null, " ")
+			.replace(/\s*\n\s*/g, " "),
 	})
 )
 
