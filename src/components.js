@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import syncDOM from "./syncDOM"
 import toReact from "./toReact"
 
 const T = ({ type, props, children }) => (
@@ -18,26 +19,19 @@ const T = ({ type, props, children }) => (
 )
 
 export const P = React.memo(({ type, id, spans }) => {
+	const tmp = React.useMemo(() => document.createElement("div"), [])
 	const ref = React.useRef(null) // TODO
 
 	React.useLayoutEffect(() => {
-		const children = (
-			toReact(spans) || (
-				<br />
-			)
-		)
-		ReactDOM.render(children, ref.current, () => {
-			// ...
+		const children = toReact(spans) || <br />
+		ReactDOM.render(children, tmp, () => {
+			syncDOM(tmp, ref.current)
 		})
 	}, [spans])
 
 	return (
 		<T type={type}>
-			<div ref={ref} id={id}>
-				{/* {toReact(spans) || ( */}
-				{/* 	<br /> */}
-				{/* )} */}
-			</div>
+			<div ref={ref} id={id} />
 		</T>
 	)
 })
