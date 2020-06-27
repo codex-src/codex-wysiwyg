@@ -56,3 +56,5 @@ export function toTree(spans) {
 	}
 	return tree
 }
+
+export default toTree

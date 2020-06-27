@@ -1,8 +1,9 @@
 // import Editor from "Editor/Editor"
-import * as Spans from "./Spans" // TODO
 import hash from "lib/hash"
 import React from "react"
 import toHTML from "./toHTML"
+import toTree from "./toTree"
+import typeMap from "./typeMap"
 import types from "./types"
 
 const raw = `
@@ -43,7 +44,7 @@ const elements = [
 					types: [
 						types.a,
 						types.code,
-						types.strike,
+						// types.strike,
 						types.strong,
 						types.em,
 					],
@@ -56,7 +57,7 @@ const elements = [
 					types: [
 						types.a,
 						types.code,
-						types.strike,
+						// types.strike,
 						types.strong,
 						types.em,
 					],
@@ -74,18 +75,24 @@ const elements = [
 	},
 ]
 
-console.log(JSON.stringify(Spans.toTree(elements[0].props.spans), null, "\t"))
+// console.log(JSON.stringify(toTree(elements[0].props.spans), null, "\t"))
 
-// const Renderer = ({ elements }) => (
-// 	elements.map(each => (
-// 		React.c
-// 	))
-// )
+const ReactRenderer = ({ elements }) => (
+	elements.map(({ type, key, props }) => (
+		React.createElement(typeMap[type], {
+			// NOTE: Passes key as a prop (id).
+			type,
+			key,
+			id: key,
+			...props,
+		})
+	))
+)
 
 const App = () => (
 	<div className="px-6 py-24 flex flex-row justify-center">
 		<div className="w-full max-w-3xl">
-			{/* <Renderer elements={elements} /> */}
+			<ReactRenderer elements={elements} />
 		</div>
 	</div>
 )
