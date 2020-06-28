@@ -24,12 +24,10 @@ const methods = state => ({
 		// 	collapsed[0].key = forcedKey // Updates cursor[1].key because references are shared
 		// }
 
-		console.log(spans)
-
-		// const element = state.elements.find(each => each.key === collapsed[0].key) // TODO
-		// element.props.spans = spans
-		// this.select(collapsed)
-		// this.render()
+		const element = state.elements.find(each => each.key === collapsed[0].key) // TODO
+		element.props.spans = spans
+		this.select(collapsed)
+		this.render()
 	},
 	render() {
 		state.shouldRerender++
