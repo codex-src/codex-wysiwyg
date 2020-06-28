@@ -73,7 +73,7 @@ function useEditor({ markup, children }) {
 			domTree = markupToDOMTree(markup)
 		}
 		decorate(domTree)
-		return Readers.elements(domTree)
+		return Readers.semantic.elements(domTree)
 	}, [markup, children])
 	return useMethods(methods, {}, () => init(elements))
 }

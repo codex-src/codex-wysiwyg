@@ -1,2 +1,2 @@
-export { default as elements } from "./elements"
-export { default as spans } from "./spans"
+// export { default as react } from "./react"
+export { default as semantic } from "./semantic"
