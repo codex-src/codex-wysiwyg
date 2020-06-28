@@ -1,2 +1,2 @@
-export { default as areEqual } from "./areEqual"
-export { default as computeFromCurrentDOMRange } from "./computeFromCurrentDOMRange"
+export { default as componentsAreEqual } from "./componentsAreEqual"
+export { default as compute } from "./compute"

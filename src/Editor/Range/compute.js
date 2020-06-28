@@ -1,4 +1,4 @@
-import areEqual from "./areEqual"
+import componentsAreEqual from "./componentsAreEqual"
 import domUtils from "lib/domUtils"
 
 // Computes a range component from an ID-d DOM element and
@@ -37,7 +37,7 @@ function computeFromDOMRangeComponent(domElementID, [domRangeNode, domRangeOffse
 }
 
 // Computes a range from the current DOM range.
-function computeFromCurrentDOMRange(domTree) {
+function compute(domTree) {
 	// Get the current DOM range:
 	const domSelection = document.getSelection()
 	if (!domSelection.rangeCount) {
@@ -64,7 +64,7 @@ function computeFromCurrentDOMRange(domTree) {
 			[domRange.endContainer, domRange.endOffset]))
 	}
 	/* eslint-enable */
-	return { ...range, collapsed: areEqual(...range) }
+	return { ...range, collapsed: componentsAreEqual(...range) }
 }
 
-export default computeFromCurrentDOMRange
+export default compute

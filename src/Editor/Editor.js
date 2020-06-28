@@ -73,7 +73,7 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
-					const range = Range.computeFromCurrentDOMRange(articleRef.current)
+					const range = Range.compute(articleRef.current)
 					if (!range) {
 						// No-op
 						return
@@ -88,7 +88,7 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={e => {
-					const range = Range.computeFromCurrentDOMRange(articleRef.current)
+					const range = Range.compute(articleRef.current)
 					if (!range) {
 						// No-op
 						return
