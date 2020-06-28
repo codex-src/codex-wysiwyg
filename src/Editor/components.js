@@ -28,6 +28,7 @@ const Node = ({ id, style, children, ...props }) => {
 		style: {
 			// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
 			...style, // Takes precedence
+			caretColor: "#000", // Untested
 			whiteSpace: "pre-wrap",
 			overflowWrap: "break-word",
 		},
