@@ -2,58 +2,58 @@ import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
 
 import {
-	deeplySyncNodes,
-	replaceAttributes,
-	shallowlySyncNodes,
-} from "./syncNodes"
+	deeplySyncDOMTrees,
+	replaceDOMAttributes,
+	shallowlySyncDOMNodes,
+} from "./sync"
 
-describe("replaceAttributes", () => {
+describe("replaceDOMAttributes", () => {
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div className="a" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a" />)
 		const dst = renderDOMTree(<div />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a" />)
 		const dst = renderDOMTree(<div className="a" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a" />)
 		const dst = renderDOMTree(<div className="a b c" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" />)
 		const dst = renderDOMTree(<div className="a" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" />)
 		const dst = renderDOMTree(<div className="a b c" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" tabIndex="0" />)
 		const dst = renderDOMTree(<div id="hello-world" className="a b c" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		// NOTE: Use an ES6 map to compare output because
 		// outerHTML breaks because of order and ES6 maps are
 		// sorted
@@ -77,7 +77,7 @@ describe("replaceAttributes", () => {
 	test("", () => {
 		const dst = renderDOMTree(<div id="hello-world" className="a b c" />)
 		const src = renderDOMTree(<div className="a b c" tabIndex="0" />)
-		replaceAttributes(src, dst)
+		replaceDOMAttributes(src, dst)
 		// NOTE: Use an ES6 map to compare output because
 		// outerHTML breaks because of order and ES6 maps are
 		// sorted
@@ -94,56 +94,56 @@ describe("replaceAttributes", () => {
 	})
 })
 
-describe("shallowlySyncNodes", () => {
+describe("shallowlySyncDOMNodes", () => {
 	// Text nodes:
 	test("", () => {
 		const src = document.createTextNode("")
 		const dst = document.createTextNode("")
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = document.createTextNode("")
 		const dst = document.createTextNode("hello, world!")
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = document.createTextNode("hello, world!")
 		const dst = document.createTextNode("")
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = document.createTextNode("hello, world!")
 		const dst = document.createTextNode("hello, world!")
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	// Elements:
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div />)
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div className="a b c" />)
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" />)
 		const dst = renderDOMTree(<div />)
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" />)
 		const dst = renderDOMTree(<div className="a b c" />)
-		shallowlySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	// Elements and text nodes:
 	//
@@ -164,8 +164,8 @@ describe("shallowlySyncNodes", () => {
 				<p />
 			</div>
 		))
-		shallowlySyncNodes(src.childNodes[0], dst.childNodes[0])
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src.childNodes[0], dst.childNodes[0])
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const dst = renderDOMTree((
@@ -178,8 +178,8 @@ describe("shallowlySyncNodes", () => {
 				<div />
 			</div>
 		))
-		shallowlySyncNodes(src.childNodes[0], dst.childNodes[0])
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src.childNodes[0], dst.childNodes[0])
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -192,8 +192,8 @@ describe("shallowlySyncNodes", () => {
 				hello, world!
 			</div>
 		))
-		shallowlySyncNodes(src.childNodes[0], dst.childNodes[0])
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src.childNodes[0], dst.childNodes[0])
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -206,12 +206,12 @@ describe("shallowlySyncNodes", () => {
 				<div />
 			</div>
 		))
-		shallowlySyncNodes(src.childNodes[0], dst.childNodes[0])
-		expect(dst.isEqualNode(src)).toBe(true)
+		shallowlySyncDOMNodes(src.childNodes[0], dst.childNodes[0])
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 })
 
-describe("deeplySyncNodes", () => {
+describe("deeplySyncDOMTrees", () => {
 	test("", () => {
 		const src = renderDOMTree((
 			<div>
@@ -223,8 +223,8 @@ describe("deeplySyncNodes", () => {
 				{/* ... */}
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -237,8 +237,8 @@ describe("deeplySyncNodes", () => {
 				hello, world!
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -251,8 +251,8 @@ describe("deeplySyncNodes", () => {
 				{/* ... */}
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -265,8 +265,8 @@ describe("deeplySyncNodes", () => {
 				hello, world!
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -281,8 +281,8 @@ describe("deeplySyncNodes", () => {
 				</p>
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -297,8 +297,8 @@ describe("deeplySyncNodes", () => {
 				hello, world!
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -314,8 +314,8 @@ describe("deeplySyncNodes", () => {
 				</p>
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 	test("", () => {
 		const src = renderDOMTree((
@@ -331,7 +331,7 @@ describe("deeplySyncNodes", () => {
 				hello, world!
 			</div>
 		))
-		deeplySyncNodes(src, dst)
-		expect(dst.isEqualNode(src)).toBe(true)
+		deeplySyncDOMTrees(src, dst)
+		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
 })

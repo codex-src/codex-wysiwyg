@@ -1,6 +1,6 @@
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
-import { deeplySyncNodes } from "./syncNodes"
+import { deeplySyncDOMTrees } from "./sync"
 
 // group 1
 //
@@ -26,8 +26,8 @@ describe("group 1", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -42,8 +42,8 @@ describe("group 1", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -58,8 +58,8 @@ describe("group 1", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -74,8 +74,8 @@ describe("group 1", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 })
 
@@ -110,8 +110,8 @@ describe("group 2 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -129,8 +129,8 @@ describe("group 2 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -148,8 +148,8 @@ describe("group 2 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 })
 
@@ -184,8 +184,8 @@ describe("group 2 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -203,8 +203,8 @@ describe("group 2 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -222,8 +222,8 @@ describe("group 2 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 })
 
@@ -270,8 +270,8 @@ describe("group 3 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -293,8 +293,8 @@ describe("group 3 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -316,8 +316,8 @@ describe("group 3 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -339,8 +339,8 @@ describe("group 3 (1 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 })
 
@@ -387,8 +387,8 @@ describe("group 3 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -410,8 +410,8 @@ describe("group 3 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -433,8 +433,8 @@ describe("group 3 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 	test("", () => {
 		const Component1 = props => (
@@ -456,7 +456,7 @@ describe("group 3 (2 of 2)", () => {
 		)
 		const dom1 = renderDOMTree(<Component1 />)
 		const dom2 = renderDOMTree(<Component2 />)
-		deeplySyncNodes(dom1, dom2)
-		expect(dom1.isEqualNode(dom2)).toBe(true)
+		deeplySyncDOMTrees(dom1, dom2)
+		expect(dom1.isEqualNode(dom2)).toBeTruthy()
 	})
 })
