@@ -1,5 +1,6 @@
 import * as keydown from "./keydown"
 import * as Range from "./Range"
+import * as Readers from "./Readers"
 import * as Types from "./Types"
 import classNameString from "lib/classNameString"
 import React from "react"
@@ -105,7 +106,11 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onKeyDown={e => {
-					switch (keydown.detect(e)) {
+					const detected = keydown.detect(e)
+					if (detected) { // DEBUG
+						console.log(detected)
+					}
+					switch (detected) {
 					case keydown.enumerated.characterData:
 						if (!state.range.collapsed) {
 							e.preventDefault()
@@ -168,7 +173,9 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onInput={e => {
-					// ...
+					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
+					const spans = Readers.spans(document.getElementById(collapsed[0].key))
+					dispatch.input(spans, collapsed)
 				}}
 
 				onCut={e => {

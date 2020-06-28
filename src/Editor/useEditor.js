@@ -15,18 +15,22 @@ const methods = state => ({
 	select(range) {
 		state.range = range
 	},
-	// input(element, collapsed) {
-	// 	// Force rerender on <br> to a text node:
-	// 	const y = must(state.elements.findIndex(each => each.key === collapsed[0].key))
-	// 	if (!state.elements[y].props.children.length) {
-	// 		const forcedKey = newHashID(8)
-	// 		element.key = forcedKey
-	// 		collapsed[0].key = forcedKey // Updates cursor[1].key because references are shared
-	// 	}
-	// 	state.elements.splice(y, 1, element)
-	// 	this.select(collapsed)
-	// 	this.render()
-	// },
+	input(spans, collapsed) {
+		// // Force rerender on <br> to a text node:
+		// const y = must(state.elements.findIndex(each => each.key === collapsed[0].key))
+		// if (!state.elements[y].props.children.length) {
+		// 	const forcedKey = newHashID(8)
+		// 	element.key = forcedKey
+		// 	collapsed[0].key = forcedKey // Updates cursor[1].key because references are shared
+		// }
+
+		console.log(spans)
+
+		// const element = state.elements.find(each => each.key === collapsed[0].key) // TODO
+		// element.props.spans = spans
+		// this.select(collapsed)
+		// this.render()
+	},
 	render() {
 		state.shouldRerender++
 	},
