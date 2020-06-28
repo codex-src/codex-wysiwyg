@@ -35,6 +35,7 @@
 	"devDependencies": {
 		"@tailwindcss/ui": "^0.3.0",
 		"debug.css": "https://github.com/codex-src/debug.css",
+		"serve": "^11.3.2",
 		"tailwindcss": "^1.4.6"
 	}
 }

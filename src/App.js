@@ -62,7 +62,7 @@ const elements = [
 						types.em,
 					],
 					[types.a]: {
-						href: "https://g\noogle.com",
+						href: "https://google.com",
 					},
 					text: "worldy",
 				},
@@ -92,7 +92,12 @@ const ReactRenderer = ({ elements }) => (
 const App = () => (
 	<div className="px-6 py-24 flex flex-row justify-center">
 		<div className="w-full max-w-3xl">
-			<ReactRenderer elements={elements} />
+
+			{/* TODO */}
+			<article className="em-context">
+				<ReactRenderer elements={elements} />
+			</article>
+
 		</div>
 	</div>
 )

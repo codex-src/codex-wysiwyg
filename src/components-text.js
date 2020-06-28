@@ -1,15 +1,6 @@
 import attrs from "./attrs"
 import React from "react"
-
-const T = ({ type, props, children }) => (
-	React.cloneElement(children, {
-		// Enum type:
-		"data-type": type,
-		// JSON-encoded props:
-		"data-props": props && JSON.stringify(props, null, " ")
-			.replace(/\s*\n\s*/g, " "),
-	})
-)
+import T from "./T"
 
 export const Em = ({ type, children }) => (
 	<T type={type}>

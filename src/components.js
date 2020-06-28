@@ -1,45 +1,35 @@
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import syncDOM from "./syncDOM"
+import T from "./T"
 import toReact from "./toReact"
 import types from "./types"
 
-const T = ({ type, props, children }) => (
-	React.cloneElement(children, {
-		// Enum type:
-		"data-type": type,
-		// JSON-encoded props:
-		"data-props": props && JSON.stringify(props)
-			.replace(/\s*\n\s*/g, " "),
-	})
-)
+// Renders markup to HTML.
+//
+// NOTE: renderToStaticMarkup is synchronous;
+// ReactDOM.render is asynchronous.
+function markupToHTML(text_html) {
+	const fragment = document.createDocumentFragment()
+	const doc = new DOMParser().parseFromString(text_html, "text/html")
+	fragment.append(...doc.body.childNodes)
+	return fragment
+}
 
-const Node = React.forwardRef(({ id, style, children, ...props }, ref) => {
+const Node = ({ id, style, children, ...props }) => {
+	const ref = React.useRef(null)
 
-	// NOTE: children are not managed by React.
 	React.useLayoutEffect(() => {
 		if (!ref.current) {
 			// No-op
 			return
 		}
-
-		// Renders markup to HTML.
-		const markupToHTML = text_html => {
-			const fragment = document.createDocumentFragment()
-			const doc = new DOMParser().parseFromString(text_html, "text/html")
-			fragment.append(...doc.body.childNodes)
-			return fragment
-		}
-
-		// NOTE: renderToStaticMarkup is synchronous;
-		// ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
 		const fragment = markupToHTML(markup)
-
 		// TODO
 		;[...ref.current.childNodes].reverse().map(each => each.remove())
 		ref.current.append(...fragment.childNodes)
-	}, [ref, children])
+	}, [children])
 
 	return React.createElement("div", {
 		ref,
@@ -52,17 +42,15 @@ const Node = React.forwardRef(({ id, style, children, ...props }, ref) => {
 		},
 		...props,
 	})
-})
+}
 
-export const P = React.memo(({ id, spans }) => {
-	const ref = React.useRef(null)
-	return (
-		<T type={types.p}>
-			<Node ref={ref} id={id}>
-				{toReact(spans) || (
-					<br />
-				)}
-			</Node>
-		</T>
-	)
-})
+// export const P = React.memo(({ id, spans }) => {
+export const P = ({ id, spans }) => (
+	<T type={types.p}>
+		<Node id={id}>
+			{toReact(spans) || (
+				<br />
+			)}
+		</Node>
+	</T>
+)
