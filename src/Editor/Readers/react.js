@@ -3,10 +3,10 @@ import domUtils from "lib/domUtils"
 import hash from "lib/hash"
 import JSONClone from "lib/JSONClone"
 
-// Reader for semantic DOM elements.
+// Reader for React-rendered DOM elements.
 //
-// TODO: Add semantic.nodes?
-const semantic = {
+// TODO: Add react.nodes?
+const react = {
 	spans(domElement) {
 		const spans = []
 		const recurse = (domNode, types = [], props = {}) => {
@@ -25,15 +25,10 @@ const semantic = {
 				const nextProps = JSONClone(props)
 				if (domUtils.isElement(each)) {
 					// Next type:
-					const T = domUtils.nodeName(each)
+					const T = each.getAttribute("data-type")
 					nextTypes.push(T)
 					// Next props:
-					const P = {}
-					for (const attr of each.attributes) {
-						Object.assign(P, {
-							[attr.nodeName]: attr.nodeValue,
-						})
-					}
+					const P = JSON.parse(each.getAttribute("data-props") || "{}")
 					if (Object.keys(P).length) {
 						nextProps[T] = P
 					}
@@ -47,7 +42,7 @@ const semantic = {
 	elements(domTree) {
 		const elements = []
 		for (const each of domTree.children) {
-			switch (domUtils.nodeName(each)) {
+			switch (each.getAttribute("data-type")) {
 			case "p":
 				elements.push({
 					type: Types.enumerated.p,
@@ -66,4 +61,4 @@ const semantic = {
 	},
 }
 
-export default semantic
+export default react
