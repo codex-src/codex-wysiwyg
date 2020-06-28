@@ -43,7 +43,7 @@ function useEditor({ markup, children }) {
 
 	const elements = React.useMemo(() => {
 		if (!(markup !== undefined ^ children !== undefined)) {
-			throw new Error("useEditor: markup or children must not be undefined")
+			throw new Error("useEditor: use markup or children")
 		}
 		let domTree = null
 		if (markup !== undefined) {

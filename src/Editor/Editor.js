@@ -1,106 +1,10 @@
 import classNameString from "lib/classNameString"
-import hash from "lib/hash"
 import React from "react"
 import typeMap from "./typeMap"
-import types from "./types"
 import useEditor from "./useEditor"
 
-// console.log(toHTML(raw).outerHTML)
+const Editor = ({ markup, children }) => {
 
-// Hello, <a><code><strike><strong><em>world</em></strong></strike></code></a>!
-const elements = [
-	{
-		type: types.p,
-		key: hash(8),
-		props: {
-			spans: [
-				{
-					types: [],
-					text: "Hello, ",
-				},
-				{
-					types: [
-						types.a,
-						types.code,
-						// types.strike,
-						types.strong,
-						types.em,
-					],
-					[types.a]: {
-						href: "https://google.com",
-					},
-					text: "worldx",
-				},
-				{
-					types: [
-						types.a,
-						types.code,
-						// types.strike,
-						types.strong,
-						types.em,
-					],
-					[types.a]: {
-						href: "https://google.com",
-					},
-					text: "worldy",
-				},
-				{
-					types: [],
-					text: "!",
-				},
-			],
-		},
-	},
-	{
-		type: types.p,
-		key: hash(8),
-		props: {
-			spans: [
-				{
-					types: [],
-					text: "Hello, ",
-				},
-				{
-					types: [
-						types.a,
-						types.code,
-						// types.strike,
-						types.strong,
-						types.em,
-					],
-					[types.a]: {
-						href: "https://google.com",
-					},
-					text: "worldx",
-				},
-				{
-					types: [
-						types.a,
-						types.code,
-						// types.strike,
-						types.strong,
-						types.em,
-					],
-					[types.a]: {
-						href: "https://google.com",
-					},
-					text: "worldy",
-				},
-				{
-					types: [],
-					text: "!",
-				},
-			],
-		},
-	},
-]
-
-// console.log(JSON.stringify(toTree(elements[0].props.spans), null, "\t"))
-
-const Editor = ({
-	markup,   // Markup
-	children, // React elements
-}) => {
 	// Reference for the container <article> element.
 	const articleRef = React.useRef(null)
 
@@ -180,7 +84,7 @@ const Editor = ({
 				contentEditable
 				suppressContentEditableWarning
 			>
-				{elements.map(({ type: T, key, props }) => (
+				{state.elements.map(({ type: T, key, props }) => (
 					React.createElement(typeMap[T], {
 						key,
 						id: key,
