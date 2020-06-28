@@ -31,7 +31,16 @@ const Editor = ({ markup, children }) => {
 				domSelection.removeAllRanges()
 			}
 			ReactDOM.render(<ReactRerenderer state={state} dispatch={dispatch} />, ref.current, () => {
-				// TODO
+				if (!state.focused) {
+					// No-op
+					return
+				}
+				try {
+					const domRange = Range.toDOMRange(state.range)
+					domSelection.addRange(domRange)
+				} catch (error) {
+					console.error(error)
+				}
 			})
 		}, [state, dispatch]),
 		[state.shouldRerender],
