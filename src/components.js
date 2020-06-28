@@ -1,20 +1,9 @@
+import markupToHTML from "lib/markupToHTML"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import syncDOM from "./syncDOM"
 import T from "./T"
 import toReact from "./toReact"
 import types from "./types"
-
-// Renders markup to HTML.
-//
-// NOTE: renderToStaticMarkup is synchronous;
-// ReactDOM.render is asynchronous.
-function markupToHTML(text_html) {
-	const fragment = document.createDocumentFragment()
-	const doc = new DOMParser().parseFromString(text_html, "text/html")
-	fragment.append(...doc.body.childNodes)
-	return fragment
-}
 
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
@@ -24,6 +13,8 @@ const Node = ({ id, style, children, ...props }) => {
 			// No-op
 			return
 		}
+		// NOTE: renderToStaticMarkup is synchronous;
+		// ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
 		const fragment = markupToHTML(markup)
 		// TODO
@@ -44,7 +35,7 @@ const Node = ({ id, style, children, ...props }) => {
 	})
 }
 
-// export const P = React.memo(({ id, spans }) => {
+// TODO: Use React.memo?
 export const P = ({ id, spans }) => (
 	<T type={types.p}>
 		<Node id={id}>
