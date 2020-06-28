@@ -1,4 +1,4 @@
-import * as Reader from "./Reader"
+import * as Readers from "./Readers"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
@@ -68,7 +68,7 @@ function useEditor({ markup, children }) {
 			const markup = ReactDOMServer.renderToStaticMarkup(children) // Shadows markup
 			domTree = markupToDOMTree(markup)
 		}
-		return Reader.elementsFromDOMTree(domTree)
+		return Readers.elementsFromDOMTree(domTree)
 	}, [markup, children])
 
 	return useMethods(methods, {}, () => init(elements))
