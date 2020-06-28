@@ -1,7 +1,18 @@
 import classNameString from "lib/classNameString"
 import React from "react"
+import ReactDOM from "react-dom"
 import typeMap from "./typeMap"
 import useEditor from "./useEditor"
+
+const ReactRerenderer = ({ state, dispatch }) => (
+	state.elements.map(({ type: T, key, props }) => (
+		React.createElement(typeMap[T], {
+			key,
+			id: key,
+			...props,
+		})
+	))
+)
 
 const Editor = ({ markup, children }) => {
 
@@ -13,6 +24,20 @@ const Editor = ({ markup, children }) => {
 
 	const [state, dispatch] = useEditor({ markup, children })
 
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
+			const domSelection = document.getSelection()
+			if (domSelection.rangeCount) {
+				domSelection.removeAllRanges()
+			}
+			ReactDOM.render(<ReactRerenderer state={state} dispatch={dispatch} />, articleRef.current, () => {
+				// TODO
+			})
+		}, [state, dispatch]),
+		[state.shouldRerender],
+	)
+
 	return (
 		<div>
 
@@ -20,8 +45,9 @@ const Editor = ({ markup, children }) => {
 				ref={articleRef}
 
 				className={classNameString(`
-					em-context
 					subpixel-antialiased
+
+					em-context
 					focus:outline-none
 				`)}
 
@@ -83,15 +109,7 @@ const Editor = ({ markup, children }) => {
 
 				contentEditable
 				suppressContentEditableWarning
-			>
-				{state.elements.map(({ type: T, key, props }) => (
-					React.createElement(typeMap[T], {
-						key,
-						id: key,
-						...props,
-					})
-				))}
-			</article>
+			/>
 
 			{/* Debugger */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
