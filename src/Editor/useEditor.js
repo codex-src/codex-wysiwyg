@@ -1,4 +1,5 @@
 import * as Readers from "./Readers"
+import decorate from "./decorate"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
@@ -56,7 +57,6 @@ function init(elements) {
 }
 
 function useEditor({ markup, children }) {
-
 	const elements = React.useMemo(() => {
 		if (!(markup !== undefined ^ children !== undefined)) {
 			throw new Error("useEditor: use markup or children")
@@ -68,9 +68,9 @@ function useEditor({ markup, children }) {
 			const markup = ReactDOMServer.renderToStaticMarkup(children) // Shadows markup
 			domTree = markupToDOMTree(markup)
 		}
-		return Readers.elementsFromDOMTree(domTree)
+		decorate(domTree)
+		return Readers.elements(domTree)
 	}, [markup, children])
-
 	return useMethods(methods, {}, () => init(elements))
 }
 

@@ -1,23 +1,21 @@
+import * as Types from "../Types"
 import domUtils from "lib/domUtils"
 import hash from "lib/hash"
-import processDOMTree from "./processDOMTree"
-import spansFromDOMElement from "./spansFromDOMElement"
-import types from "../components/types"
+import spans from "./spans"
 
 // Reads an array of elements from a DOM tree.
 //
 // TODO: Add nodesFromDOMElement?
-function elementsFromDOMTree(domTree) {
-	processDOMTree(domTree)
+function exported_elements(domTree) {
 	const elements = []
 	for (const each of domTree.children) {
 		switch (domUtils.nodeName(each)) {
 		case "p":
 			elements.push({
-				type: types.p,
+				type: Types.enumerated.p,
 				key: each.id || hash(8),
 				props: {
-					spans: spansFromDOMElement(each),
+					spans: spans(each),
 				},
 			})
 			break
@@ -28,4 +26,4 @@ function elementsFromDOMTree(domTree) {
 	return elements
 }
 
-export default elementsFromDOMTree
+export default exported_elements

@@ -2,7 +2,7 @@ import domUtils from "lib/domUtils"
 import JSONClone from "lib/JSONClone"
 
 // Reads an array of spans from a DOM element.
-function spansFromDOMElement(domElement) {
+function exported_spans(domElement) {
 	const spans = []
 	const recurse = (domNode, types = [], props = {}) => {
 		if (domUtils.isTextNodeOrBrElement(domNode)) {
@@ -40,4 +40,4 @@ function spansFromDOMElement(domElement) {
 	return spans
 }
 
-export default spansFromDOMElement
+export default exported_spans

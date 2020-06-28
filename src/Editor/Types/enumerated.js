@@ -1,4 +1,4 @@
-const types = {
+const enumerated = {
 	"em":     "em",
 	"strong": "strong",
 	"strike": "strike",
@@ -8,4 +8,4 @@ const types = {
 	"p": "p",
 }
 
-export default types
+export default enumerated

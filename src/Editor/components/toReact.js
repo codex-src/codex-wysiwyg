@@ -1,7 +1,7 @@
+import * as Types from "../Types"
 import React from "react"
 import toArray from "lib/toArray"
 import toTree from "./toTree"
-import typeMap from "./typeMap"
 
 // Converts intermediary tree data structure to renderable
 // React elements.
@@ -13,7 +13,7 @@ function toRenderable(tree) {
 			continue
 		}
 		const { type: T, props } = each
-		renderable.push(React.createElement(typeMap[T], {
+		renderable.push(React.createElement(Types.components[T], {
 			key: renderable.length,
 			...props,
 		}, toRenderable(props.children)))

@@ -1,10 +1,10 @@
+import * as Types from "../Types"
 import attrs from "./attrs"
 import React from "react"
 import T from "./T"
-import types from "./types"
 
 export const Em = ({ children }) => (
-	<T type={types.em}>
+	<T type={Types.enumerated.em}>
 		<span className="italic">
 			{children}
 		</span>
@@ -12,7 +12,7 @@ export const Em = ({ children }) => (
 )
 
 export const Strong = ({ children }) => (
-	<T type={types.strong}>
+	<T type={Types.enumerated.strong}>
 		<span className="font-bold">
 			{children}
 		</span>
@@ -20,7 +20,7 @@ export const Strong = ({ children }) => (
 )
 
 export const Code = ({ children }) => (
-	<T type={types.code}>
+	<T type={Types.enumerated.code}>
 		<span className="mx-px py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
 			{children}
 		</span>
@@ -28,7 +28,7 @@ export const Code = ({ children }) => (
 )
 
 export const Strike = ({ children }) => (
-	<T type={types.strike}>
+	<T type={Types.enumerated.strike}>
 		<span className="line-through text-gray-400">
 			{children}
 		</span>
@@ -36,7 +36,7 @@ export const Strike = ({ children }) => (
 )
 
 export const A = ({ href, children }) => (
-	<T type={types.a} props={{ href }}>
+	<T type={Types.enumerated.a} props={{ href }}>
 		<span className="mx-px underline text-blue-600" {...attrs.a}>
 			{children}
 		</span>

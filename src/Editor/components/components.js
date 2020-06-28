@@ -1,9 +1,9 @@
+import * as Types from "../Types"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import T from "./T"
 import toReact from "./toReact"
-import types from "./types"
 
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
@@ -38,7 +38,7 @@ const Node = ({ id, style, children, ...props }) => {
 
 // TODO: Use React.memo?
 export const P = ({ id, spans }) => (
-	<T type={types.p}>
+	<T type={Types.enumerated.p}>
 		<Node id={id}>
 			{toReact(spans) || (
 				<br />

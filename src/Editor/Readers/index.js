@@ -1,2 +1,2 @@
-export { default as elementsFromDOMTree } from "./elementsFromDOMTree"
-export { default as spansFromDOMElement } from "./spansFromDOMElement"
+export { default as elements } from "./elements"
+export { default as spans } from "./spans"

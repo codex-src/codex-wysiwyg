@@ -1,13 +1,13 @@
 import * as Range from "./Range"
+import * as Types from "./Types"
 import classNameString from "lib/classNameString"
 import React from "react"
 import ReactDOM from "react-dom"
-import typeMap from "./components/typeMap"
 import useEditor from "./useEditor"
 
 const ReactRerenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (
-		React.createElement(typeMap[T], {
+		React.createElement(Types.components[T], {
 			key,
 			id: key,
 			...props,
