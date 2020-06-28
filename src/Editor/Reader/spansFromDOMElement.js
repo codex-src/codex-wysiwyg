@@ -1,12 +1,10 @@
 import domUtils from "lib/domUtils"
-import hash from "lib/hash"
 import JSONClone from "lib/JSONClone"
-import types from "./types"
 
 // Reads an array of spans from a DOM element.
-export function readSpansFromDOMElement(domElement) {
+function spansFromDOMElement(domElement) {
 	const spans = []
-	const recurse = (domNode, types = [], props = {}) => { // Recurses on a DOM node
+	const recurse = (domNode, types = [], props = {}) => {
 		if (domUtils.isTextNodeOrBrElement(domNode)) {
 			if (domUtils.isTextNode(domNode)) {
 				spans.push({
@@ -42,25 +40,4 @@ export function readSpansFromDOMElement(domElement) {
 	return spans
 }
 
-// Reads an array of elements from a DOM tree.
-//
-// TODO: Add readNodesFromDOMElement?
-export function readElementsFromDOMTree(domTree) {
-	const elements = []
-	for (const each of domTree.children) {
-		switch (domUtils.nodeName(each)) {
-		case "p":
-			elements.push({
-				type: types.p,
-				key: each.id || hash(8),
-				props: {
-					spans: readSpansFromDOMElement(each),
-				},
-			})
-			break
-		default:
-			throw new Error("FIXME")
-		}
-	}
-	return elements
-}
+export default spansFromDOMElement

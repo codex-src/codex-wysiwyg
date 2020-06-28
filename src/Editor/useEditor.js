@@ -1,9 +1,8 @@
-import cleanDOMTree from "./cleanDOMTree"
+import * as Reader from "./Reader"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import useMethods from "use-methods"
-import { readElementsFromDOMTree } from "./read"
 
 const methods = state => ({
 	focus() {
@@ -12,10 +11,9 @@ const methods = state => ({
 	blur() {
 		state.focused = false
 	},
-
-	// select(cursors) {
-	// 	state.cursors = cursors
-	// },
+	select(range) {
+		state.range = range
+	},
 	// input(element, collapsed) {
 	// 	// Force rerender on <br> to a text node:
 	// 	const y = must(state.elements.findIndex(each => each.key === collapsed[0].key))
@@ -66,13 +64,11 @@ function useEditor({ markup, children }) {
 		let domTree = null
 		if (markup !== undefined) {
 			domTree = markupToDOMTree(markup)
-			cleanDOMTree(domTree)
 		} else if (children !== undefined) {
 			const markup = ReactDOMServer.renderToStaticMarkup(children) // Shadows markup
 			domTree = markupToDOMTree(markup)
-			cleanDOMTree(domTree)
 		}
-		return readElementsFromDOMTree(domTree)
+		return Reader.elementsFromDOMTree(domTree)
 	}, [markup, children])
 
 	return useMethods(methods, {}, () => init(elements))

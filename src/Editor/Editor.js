@@ -1,7 +1,8 @@
+import * as Range from "./Range"
 import classNameString from "lib/classNameString"
 import React from "react"
 import ReactDOM from "react-dom"
-import typeMap from "./typeMap"
+import typeMap from "./components/typeMap"
 import useEditor from "./useEditor"
 
 const ReactRerenderer = ({ state, dispatch }) => (
@@ -72,12 +73,12 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
-					// const cursors = Cursors.computeFromCurrentRange(articleRef.current)
-					// if (!cursors) {
-					// 	// No-op
-					// 	return
-					// }
-					// dispatch.select(cursors)
+					const range = Range.computeFromCurrentDOMRange(articleRef.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch.select(range)
 				}}
 
 				onPointerUp={e => {
@@ -87,12 +88,12 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={e => {
-					// const cursors = Cursors.computeFromCurrentRange(ref.current)
-					// if (!cursors) {
-					// 	// No-op
-					// 	return
-					// }
-					// dispatch.select(cursors)
+					const range = Range.computeFromCurrentDOMRange(articleRef.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch.select(range)
 				}}
 
 				onKeyDown={e => {

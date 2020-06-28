@@ -8,8 +8,8 @@ import domUtils from "lib/domUtils"
 //   \t{depth - 1,depth} - depth - 1 to depth tabs
 // $                     - EOF
 
-// Cleans extraneous tabs and EOLs from a DOM tree.
-function cleanDOMTree(domNode, depth = -1) { // Recurses on a DOM node
+// Processes a DOM tree; removes extraneous tabs and EOLs.
+function processDOMTree(domNode, depth = -1) {
 	if (domUtils.isTextNodeOrBrElement(domNode)) {
 		if (domUtils.isTextNode(domNode)) {
 			const tabsRe = new RegExp(`^\\n\\t{${depth}}|\\n\\t{${Math.max(0, depth - 1)},${depth}}?$`, "g")
@@ -23,9 +23,8 @@ function cleanDOMTree(domNode, depth = -1) { // Recurses on a DOM node
 	}
 	// NOTE: Uses [...].reverse() because of domNode.remove().
 	for (const each of [...domNode.childNodes].reverse()) {
-		cleanDOMTree(each, depth + 1)
+		processDOMTree(each, depth + 1)
 	}
-	return domNode
 }
 
-export default cleanDOMTree
+export default processDOMTree

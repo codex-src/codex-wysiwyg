@@ -1,13 +1,13 @@
 // DOM node utilities.
 const domUtils = {
-	// Ascends to the closest element.
+	// Ascends to the closest DOM element.
 	ascendElement(domNode) {
 		if (domNode.nodeType === Node.TEXT_NODE && domNode.parentElement) {
 			return domNode.parentElement
 		}
 		return domNode
 	},
-	// Ascends to the closest ID-d element.
+	// Ascends to the closest ID-d DOM element.
 	ascendElementID(domNode) {
 		let domElement = domUtils.ascendElement(domNode)
 		while (domElement.getAttribute("id") === null && domElement.parentElement) {
