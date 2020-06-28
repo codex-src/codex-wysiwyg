@@ -14,8 +14,6 @@ function toRenderable(tree) {
 		}
 		const { type, props } = each
 		renderable.push(React.createElement(typeMap[type], {
-			// NOTE: Passes type as a prop.
-			type,
 			key: renderable.length,
 			...props,
 		}, toRenderable(props.children)))

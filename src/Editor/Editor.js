@@ -77,8 +77,6 @@ const elements = [
 const ReactRenderer = ({ elements }) => (
 	elements.map(({ type, key, props }) => (
 		React.createElement(typeMap[type], {
-			// NOTE: Passes key as a prop (id).
-			type,
 			key,
 			id: key,
 			...props,
