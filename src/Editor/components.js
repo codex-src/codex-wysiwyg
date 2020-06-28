@@ -1,4 +1,4 @@
-import markupToHTML from "lib/markupToHTML"
+import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import T from "./T"
@@ -13,13 +13,13 @@ const Node = ({ id, style, children, ...props }) => {
 			// No-op
 			return
 		}
-		// NOTE: renderToStaticMarkup is synchronous;
-		// ReactDOM.render is asynchronous.
+		// NOTE: Uses ReactDOMServer.renderToStaticMarkup
+		// because ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
-		const fragment = markupToHTML(markup)
+		const domTree = markupToDOMTree(markup)
 		// TODO
 		;[...ref.current.childNodes].reverse().map(each => each.remove())
-		ref.current.append(...fragment.childNodes)
+		ref.current.append(...domTree.childNodes)
 	}, [children])
 
 	return React.createElement("div", {
