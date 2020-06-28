@@ -51,6 +51,14 @@ const Editor = ({ markup, children }) => {
 					focus:outline-none
 				`)}
 
+				onFocus={e => {
+					dispatch.focus()
+				}}
+
+				onBlur={e => {
+					dispatch.blur()
+				}}
+
 				onPointerDown={e => {
 					pointerdownRef.current = true
 				}}
@@ -113,7 +121,10 @@ const Editor = ({ markup, children }) => {
 
 			{/* Debugger */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify(state, null, "\t")}
+				{JSON.stringify({
+					...state,
+					elements: undefined,
+				}, null, "\t")}
 			</div>
 
 		</div>

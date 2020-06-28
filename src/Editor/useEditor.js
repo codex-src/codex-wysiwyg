@@ -6,6 +6,13 @@ import useMethods from "use-methods"
 import { readElementsFromDOMTree } from "./read"
 
 const methods = state => ({
+	focus() {
+		state.focused = true
+	},
+	blur() {
+		state.focused = false
+	},
+
 	// select(cursors) {
 	// 	state.cursors = cursors
 	// },
@@ -28,12 +35,23 @@ const methods = state => ({
 
 function init(elements) {
 	const state = {
+		// Document elements
 		elements,
+		// Is focused?
+		focused: false,
+		// Selection range
 		range: {
-			// 0: Cursors.construct(),
-			// 1: Cursors.construct(),
-			// collapsed: true,
+			0: {
+				key: "",
+				offset: 0,
+			},
+			1: {
+				key: "",
+				offset: 0,
+			},
+			collapsed: true,
 		},
+		// Should rerender (useLayoutEffect)
 		shouldRerender: 0,
 	}
 	return state
