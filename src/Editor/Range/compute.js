@@ -1,9 +1,8 @@
 import componentsAreEqual from "./componentsAreEqual"
 import domUtils from "lib/domUtils"
 
-// Computes a range component from an ID-d DOM element and
-// DOM range component.
-function computeFromDOMRangeComponent(domElementID, [domRangeNode, domRangeOffset]) {
+// Computes a range component.
+function computeComponent(domElementID, [domRangeNode, domRangeOffset]) {
 	if (domRangeOffset && domRangeOffset === domRangeNode.childNodes.length) {
 		domRangeOffset = domRangeNode.childNodes.length - 1
 	}
@@ -55,12 +54,12 @@ function compute(domTree) {
 	//
 	/* eslint-disable */
 	const range = []
-	range.push(computeFromDOMRangeComponent(domUtils.ascendElementID(domRange.startContainer),
+	range.push(computeComponent(domUtils.ascendElementID(domRange.startContainer),
 		[domRange.startContainer, domRange.startOffset]))
 	if (domRange.collapsed) {
 		range.push(range[0])
 	} else {
-		range.push(computeFromDOMRangeComponent(domUtils.ascendElementID(domRange.endContainer),
+		range.push(computeComponent(domUtils.ascendElementID(domRange.endContainer),
 			[domRange.endContainer, domRange.endOffset]))
 	}
 	/* eslint-enable */

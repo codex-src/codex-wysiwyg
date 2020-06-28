@@ -16,9 +16,7 @@ const ReactRerenderer = ({ state, dispatch }) => (
 )
 
 const Editor = ({ markup, children }) => {
-
-	// Reference for the container <article> element.
-	const articleRef = React.useRef(null)
+	const ref = React.useRef(null)
 
 	// Tracks whether the "pointerdown" event is active.
 	const pointerdownRef = React.useRef(false)
@@ -32,7 +30,7 @@ const Editor = ({ markup, children }) => {
 			if (domSelection.rangeCount) {
 				domSelection.removeAllRanges()
 			}
-			ReactDOM.render(<ReactRerenderer state={state} dispatch={dispatch} />, articleRef.current, () => {
+			ReactDOM.render(<ReactRerenderer state={state} dispatch={dispatch} />, ref.current, () => {
 				// TODO
 			})
 		}, [state, dispatch]),
@@ -43,7 +41,7 @@ const Editor = ({ markup, children }) => {
 		<div>
 
 			<article
-				ref={articleRef}
+				ref={ref}
 
 				className={classNameString(`
 					subpixel-antialiased
@@ -73,7 +71,7 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
-					const range = Range.compute(articleRef.current)
+					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -88,7 +86,7 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={e => {
-					const range = Range.compute(articleRef.current)
+					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
 						return
