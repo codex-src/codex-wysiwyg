@@ -97,7 +97,10 @@ const elements = [
 
 // console.log(JSON.stringify(toTree(elements[0].props.spans), null, "\t"))
 
-const Editor = ({ markup, children }) => {
+const Editor = ({
+	markup,   // Markup
+	children, // React elements
+}) => {
 	// Reference for the container <article> element.
 	const articleRef = React.useRef(null)
 
@@ -177,8 +180,8 @@ const Editor = ({ markup, children }) => {
 				contentEditable
 				suppressContentEditableWarning
 			>
-				{elements.map(({ type, key, props }) => (
-					React.createElement(typeMap[type], {
+				{elements.map(({ type: T, key, props }) => (
+					React.createElement(typeMap[T], {
 						key,
 						id: key,
 						...props,

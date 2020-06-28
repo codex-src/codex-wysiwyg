@@ -12,8 +12,8 @@ function toRenderable(tree) {
 			renderable.push(each)
 			continue
 		}
-		const { type, props } = each
-		renderable.push(React.createElement(typeMap[type], {
+		const { type: T, props } = each
+		renderable.push(React.createElement(typeMap[T], {
 			key: renderable.length,
 			...props,
 		}, toRenderable(props.children)))
@@ -28,7 +28,7 @@ function toReact(spans) {
 	const tree = toTree(spans)
 	const renderable = toRenderable(tree)
 	if (!renderable.length) {
-		return null // Prefer null for {... || <br>}
+		return null // Prefer null for {... || <br />}
 	}
 	return renderable
 }

@@ -78,10 +78,10 @@ function useEditor({ markup, children }) {
 					const nextTypes = [...types]
 					const nextProps = JSONClone(props)
 					if (domUtils.isElement(each)) {
-						// Push the next type:
+						// Next type:
 						const T = domUtils.nodeName(each)
 						nextTypes.push(T)
-						// Push the next props:
+						// Next props:
 						const P = {}
 						for (const attr of each.attributes) {
 							Object.assign(P, {
