@@ -64,6 +64,10 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onPointerMove={e => {
+					if (!state.focused) {
+						pointerdownRef.current = false
+						return
+					}
 					if (!pointerdownRef.current) {
 						// No-op
 						return
@@ -77,7 +81,7 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onPointerUp={e => {
-					// pointerdownRef.current = false
+					pointerdownRef.current = false
 				}}
 
 				// TODO: Add COMPAT guard for select-all or prevent
@@ -120,7 +124,7 @@ const Editor = ({ markup, children }) => {
 			/>
 
 			{/* Debugger */}
-			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
+			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify({
 					...state,
 					elements: undefined,
