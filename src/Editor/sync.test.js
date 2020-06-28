@@ -54,15 +54,6 @@ describe("replaceDOMAttributes", () => {
 		const src = renderDOMTree(<div className="a b c" tabIndex="0" />)
 		const dst = renderDOMTree(<div id="hello-world" className="a b c" />)
 		replaceDOMAttributes(src, dst)
-		// NOTE: Use an ES6 map to compare output because
-		// outerHTML breaks because of order and ES6 maps are
-		// sorted
-
-		// const srcMap = new Map()
-		// const dstMap = new Map()
-		// ;[...src.attributes].map(each => srcMap.set(each.nodeName, each.nodeValue)
-		// ;[...dst.attributes].map(eahc => dstMap.set(each.nodeName, each.nodeValue)
-
 		const srcMap = new Map()
 		for (const each of [...src.attributes]) {
 			srcMap.set(each.nodeName, each.nodeValue)
@@ -71,16 +62,12 @@ describe("replaceDOMAttributes", () => {
 		for (const each of [...dst.attributes]) {
 			dstMap.set(each.nodeName, each.nodeValue)
 		}
-		// NOTE: outerHTML breaks because of order
 		expect(srcMap).toStrictEqual(dstMap)
 	})
 	test("", () => {
 		const dst = renderDOMTree(<div id="hello-world" className="a b c" />)
 		const src = renderDOMTree(<div className="a b c" tabIndex="0" />)
 		replaceDOMAttributes(src, dst)
-		// NOTE: Use an ES6 map to compare output because
-		// outerHTML breaks because of order and ES6 maps are
-		// sorted
 		const srcMap = new Map()
 		for (const each of [...src.attributes]) {
 			srcMap.set(each.nodeName, each.nodeValue)
@@ -89,13 +76,11 @@ describe("replaceDOMAttributes", () => {
 		for (const each of [...dst.attributes]) {
 			dstMap.set(each.nodeName, each.nodeValue)
 		}
-		// NOTE: outerHTML breaks because of order
 		expect(srcMap).toStrictEqual(dstMap)
 	})
 })
 
 describe("shallowlySyncDOMNodes", () => {
-	// Text nodes:
 	test("", () => {
 		const src = document.createTextNode("")
 		const dst = document.createTextNode("")
@@ -120,7 +105,6 @@ describe("shallowlySyncDOMNodes", () => {
 		shallowlySyncDOMNodes(src, dst)
 		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
-	// Elements:
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div />)
@@ -145,14 +129,6 @@ describe("shallowlySyncDOMNodes", () => {
 		shallowlySyncDOMNodes(src, dst)
 		expect(dst.isEqualNode(src)).toBeTruthy()
 	})
-	// Elements and text nodes:
-	//
-	// NOTE: Use childNodes[0] so we can compare the new
-	// reference
-	//
-	// const clonedElement = src.cloneNode(true)
-	// dst.replaceWith(clonedElement)
-	//
 	test("", () => {
 		const src = renderDOMTree((
 			<div>
