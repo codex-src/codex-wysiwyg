@@ -1,7 +1,7 @@
 // Renders markup to HTML.
-function markupToHTML(text_html) {
+function markupToHTML(markup) {
 	const fragment = document.createDocumentFragment()
-	const doc = new DOMParser().parseFromString(text_html, "text/html")
+	const doc = new DOMParser().parseFromString(markup, "text/html")
 	fragment.append(...doc.body.childNodes)
 	return fragment
 }

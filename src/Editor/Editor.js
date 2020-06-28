@@ -5,27 +5,6 @@ import typeMap from "./typeMap"
 import types from "./types"
 import useEditor from "./useEditor"
 
-// const raw = `
-// <p>
-// 	Hello, <a><code><strike><strong><em>world</em></strong></strike></code></a>!
-// </p>
-// <p>
-// 	Hello, <code><strike><strong><em>world</em></strong></strike></code>!
-// </p>
-// <p>
-// 	Hello, <strike><strong><em>world</em></strong></strike>!
-// </p>
-// <p>
-// 	Hello, <strong><em>world</em></strong>!
-// </p>
-// <p>
-// 	Hello, <em>world</em>!
-// </p>
-// <p>
-// 	Hello, world!
-// </p>
-// `
-
 // console.log(toHTML(raw).outerHTML)
 
 // Hello, <a><code><strike><strong><em>world</em></strong></strike></code></a>!
@@ -118,14 +97,14 @@ const elements = [
 
 // console.log(JSON.stringify(toTree(elements[0].props.spans), null, "\t"))
 
-const Editor = ({ rawHTML }) => {
+const Editor = ({ markup, children }) => {
 	// Reference for the container <article> element.
 	const articleRef = React.useRef(null)
 
 	// Tracks whether the "pointerdown" event is active.
 	const pointerdownRef = React.useRef(false)
 
-	const [state, dispatch] = useEditor(rawHTML)
+	const [state, dispatch] = useEditor({ markup, children })
 
 	return (
 		<div>
@@ -197,8 +176,6 @@ const Editor = ({ rawHTML }) => {
 
 				contentEditable
 				suppressContentEditableWarning
-
-				data-root
 			>
 				{elements.map(({ type, key, props }) => (
 					React.createElement(typeMap[type], {
