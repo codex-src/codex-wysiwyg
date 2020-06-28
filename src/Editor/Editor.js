@@ -3,15 +3,9 @@ import * as Range from "./Range"
 import * as Readers from "./Readers"
 import * as Types from "./Types"
 import classNameString from "lib/classNameString"
-import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
 import useEditor from "./useEditor"
-
-;(() => {
-	// No-ops redundant text node rerenders.
-	noopTextNodeRerenders()
-})()
 
 const ReactRerenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (

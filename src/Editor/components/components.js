@@ -4,6 +4,7 @@ import React from "react"
 import ReactDOMServer from "react-dom/server"
 import T from "./T"
 import toReact from "./toReact"
+import { deeplySyncDOMTrees } from "../sync"
 
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
@@ -17,9 +18,7 @@ const Node = ({ id, style, children, ...props }) => {
 		// because ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
 		const domTree = markupToDOMTree(markup)
-		// TODO
-		;[...ref.current.childNodes].reverse().map(each => each.remove())
-		ref.current.append(...domTree.childNodes)
+		deeplySyncDOMTrees(domTree, ref.current)
 	}, [children])
 
 	return React.createElement("div", {
