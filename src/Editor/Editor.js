@@ -1,3 +1,4 @@
+import * as keydown from "./keydown"
 import * as Range from "./Range"
 import * as Types from "./Types"
 import classNameString from "lib/classNameString"
@@ -104,7 +105,66 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onKeyDown={e => {
-					// ...
+					switch (keydown.detect(e)) {
+					case keydown.enumerated.characterData:
+						if (!state.range.collapsed) {
+							e.preventDefault()
+							// TODO
+							return
+						}
+						break
+					case keydown.enumerated.characterDataDead:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.tab:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.enter:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.formatEm:
+						e.preventDefault()
+						// // TODO
+						break
+					case keydown.enumerated.formatStrong:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.backspaceRTLRune:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.backspaceRTLWord:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.backspaceRTLLine:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.backspaceLTRRune:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.backspaceLTRWord:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.undo:
+						e.preventDefault()
+						// TODO
+						break
+					case keydown.enumerated.redo:
+						e.preventDefault()
+						// TODO
+						break
+					default:
+						// No-op
+						break
+					}
 				}}
 
 				onInput={e => {
