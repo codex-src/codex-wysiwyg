@@ -4,7 +4,7 @@ import React from "react"
 import T from "./T"
 
 export const Em = ({ children }) => (
-	<T type={Types.enumerated.em}>
+	<T type={Types.enum.em}>
 		<span className="italic">
 			{children}
 		</span>
@@ -12,7 +12,7 @@ export const Em = ({ children }) => (
 )
 
 export const Strong = ({ children }) => (
-	<T type={Types.enumerated.strong}>
+	<T type={Types.enum.strong}>
 		<span className="font-bold">
 			{children}
 		</span>
@@ -20,7 +20,7 @@ export const Strong = ({ children }) => (
 )
 
 export const Code = ({ children }) => (
-	<T type={Types.enumerated.code}>
+	<T type={Types.enum.code}>
 		<span className="mx-px py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
 			{children}
 		</span>
@@ -28,7 +28,7 @@ export const Code = ({ children }) => (
 )
 
 export const Strike = ({ children }) => (
-	<T type={Types.enumerated.strike}>
+	<T type={Types.enum.strike}>
 		<span className="line-through text-gray-400">
 			{children}
 		</span>
@@ -36,7 +36,7 @@ export const Strike = ({ children }) => (
 )
 
 export const A = ({ href, children }) => (
-	<T type={Types.enumerated.a} props={{ href }}>
+	<T type={Types.enum.a} props={{ href }}>
 		<span className="mx-px underline text-blue-600" {...attrs.a}>
 			{children}
 		</span>

@@ -37,7 +37,7 @@ const Node = ({ id, style, children, ...props }) => {
 
 // TODO: Use React.memo?
 export const P = ({ id, spans }) => (
-	<T type={Types.enumerated.p}>
+	<T type={Types.enum.p}>
 		<Node id={id}>
 			{toReact(spans) || (
 				<br />

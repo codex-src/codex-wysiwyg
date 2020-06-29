@@ -1,2 +1,2 @@
 export { default as components } from "./components"
-export { default as enumerated } from "./enumerated"
+export { default as enum } from "./enumerated"

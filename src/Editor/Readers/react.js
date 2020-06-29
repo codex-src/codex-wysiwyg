@@ -45,7 +45,7 @@ const react = {
 			switch (each.getAttribute("data-type")) {
 			case "p":
 				elements.push({
-					type: Types.enumerated.p,
+					type: Types.enum.p,
 					key: each.id || hash(8),
 					props: {
 						// TODO: Add props

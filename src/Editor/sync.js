@@ -3,7 +3,7 @@ import domUtils from "lib/domUtils"
 // Replaces DOM attributes. Returns whether a DOM attribute
 // was replaced and or removed.
 export function replaceDOMAttributes(src, dst) {
-	const attrKeys = new Set()
+	const attrKeys = new Set(/* ... */) // TODO
 	for (const attr of [...src.attributes, ...dst.attributes]) {
 		attrKeys.add(attr.nodeName)
 	}

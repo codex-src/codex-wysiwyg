@@ -111,58 +111,58 @@ const Editor = ({ markup, children }) => {
 						console.log(detected)
 					}
 					switch (detected) {
-					case keydown.enumerated.characterData:
+					case keydown.enum.characterData:
 						if (!state.range.collapsed) {
 							e.preventDefault()
 							// TODO
 							return
 						}
 						break
-					case keydown.enumerated.characterDataDead:
+					case keydown.enum.characterDataDead:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.tab:
+					case keydown.enum.tab:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.enter:
+					case keydown.enum.enter:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.formatEm:
+					case keydown.enum.formatEm:
 						e.preventDefault()
 						// // TODO
 						break
-					case keydown.enumerated.formatStrong:
+					case keydown.enum.formatStrong:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.backspaceRTLRune:
+					case keydown.enum.backspaceRTLRune:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.backspaceRTLWord:
+					case keydown.enum.backspaceRTLWord:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.backspaceRTLLine:
+					case keydown.enum.backspaceRTLLine:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.backspaceLTRRune:
+					case keydown.enum.backspaceLTRRune:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.backspaceLTRWord:
+					case keydown.enum.backspaceLTRWord:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.undo:
+					case keydown.enum.undo:
 						e.preventDefault()
 						// TODO
 						break
-					case keydown.enumerated.redo:
+					case keydown.enum.redo:
 						e.preventDefault()
 						// TODO
 						break

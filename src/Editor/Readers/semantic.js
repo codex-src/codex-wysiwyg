@@ -50,7 +50,7 @@ const semantic = {
 			switch (domUtils.nodeName(each)) {
 			case "p":
 				elements.push({
-					type: Types.enumerated.p,
+					type: Types.enum.p,
 					key: each.id || hash(8),
 					props: {
 						// TODO: Add props
