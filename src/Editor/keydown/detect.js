@@ -7,19 +7,17 @@ const keyCodes = {
 	Tab: 9,
 	Enter: 13,
 
-	I: 73, // Em
-	B: 66, // Strong
-
-	// // TODO
-	// "formatCode":   "formatCode",
-	// "formatStrike": "formatStrike",
-	// "formatA":      "formatA",
+	I: 73, // <em>
+	B: 66, // <strong>
+	// <code>
+	// <strike>
+	// <a>
 
 	Backspace: 8,
 	Delete: 46,
 	D: 68, // macOS
 
-	Y: 89, // Undo (other)
+	Y: 89, // Non-macOS Undo
 	Z: 90, // Redo
 }
 

@@ -1,2 +1,47 @@
-export { default as components } from "./components"
-export { default as enum } from "./enumerated"
+import iota from "lib/iota"
+import { Enum } from "lib/Enums"
+
+import { // Do not sort
+	P,
+} from "../components/components"
+
+import { // Do not sort
+	Em,
+	Strong,
+	Strike,
+	Code,
+	A,
+} from "../components/components-text"
+
+export const enumerated = new Enum(
+	"p",
+
+	"em",
+	"strong",
+	"strike",
+	"code",
+	"a",
+)
+
+export const components = {
+	[enumerated.p]: P,
+
+	[enumerated.em]:     Em,
+	[enumerated.strong]: Strong,
+	[enumerated.strike]: Strike,
+	[enumerated.code]:   Code,
+	[enumerated.a]:      A,
+}
+
+const i = iota()
+
+// Render precedence for components/components-text.
+export const renderPrecedence = {
+	[enumerated.a]:      i(),
+	[enumerated.code]:   i(),
+	[enumerated.strike]: i(),
+	[enumerated.strong]: i(),
+	[enumerated.em]:     i(),
+}
+
+export { enumerated as enum }
