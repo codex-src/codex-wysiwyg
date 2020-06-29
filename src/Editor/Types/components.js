@@ -10,7 +10,6 @@ import { // Do not sort
 
 import { // Do not sort
 	P,
-	// ...
 } from "../components/components"
 
 const components = {

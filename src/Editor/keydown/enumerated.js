@@ -1,24 +1,26 @@
-const enumerated = {
-	"characterData":     "characterData",
-	"characterDataDead": "characterDataDead",
+import { Enum } from "lib/Enums"
 
-	"tab":   "tab",
-	"enter": "enter",
+const enumerated = new Enum(
+	"characterData",
+	"characterDataDead",
 
-	"formatEm":     "formatEm",
-	"formatStrong": "formatStrong",
-	"formatCode":   "formatCode",
-	"formatStrike": "formatStrike",
-	"formatA":      "formatA",
+	"tab",
+	"enter",
 
-	"backspaceRTLRune": "backspaceRTLRune",
-	"backspaceRTLWord": "backspaceRTLWord",
-	"backspaceRTLLine": "backspaceRTLLine",
-	"backspaceLTRRune": "backspaceLTRRune",
-	"backspaceLTRWord": "backspaceLTRWord",
+	"formatEm",
+	"formatStrong",
+	"formatCode",
+	"formatStrike",
+	"formatA",
 
-	"undo": "undo",
-	"redo": "redo",
-}
+	"backspaceRTLRune",
+	"backspaceRTLWord",
+	"backspaceRTLLine",
+	"backspaceLTRRune",
+	"backspaceLTRWord",
+
+	"undo",
+	"redo",
+)
 
 export default enumerated

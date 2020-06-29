@@ -1,11 +1,13 @@
-const enumerated = {
-	"em":     "em",
-	"strong": "strong",
-	"strike": "strike",
-	"code":   "code",
-	"a":      "a",
+import { Enum } from "lib/Enums"
 
-	"p": "p",
-}
+const enumerated = new Enum(
+	"em",
+	"strong",
+	"strike",
+	"code",
+	"a",
+
+	"p",
+)
 
 export default enumerated
