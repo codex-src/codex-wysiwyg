@@ -15,16 +15,58 @@ const methods = state => ({
 	select(range) {
 		state.range = range
 	},
-	input(spans, collapsed) {
-		// // Force rerender on <br> to a text node:
-		// const y = must(state.elements.findIndex(each => each.key === collapsed[0].key))
-		// if (!state.elements[y].props.children.length) {
-		// 	const forcedKey = newHashID(8)
-		// 	element.key = forcedKey
-		// 	collapsed[0].key = forcedKey // Updates cursor[1].key because references are shared
-		// }
+	write(characterData) {
+		if (!state.range.collapsed) {
+			// TODO
+			return
+		}
+		const element = state.elements.find(each => each.key === state.range[0].key)
 
-		const element = state.elements.find(each => each.key === collapsed[0].key) // TODO
+		// Returns the span offsets for an offset.
+		function span_offsets(spans, offset) { // TODO
+			let x = 0
+			for (; x < spans.length; x++) {
+				if (offset - spans[x].text.length <= 0) {
+					return [x, offset]
+				}
+				offset -= spans[x].text.length
+			}
+			return null
+		}
+
+		const offsets = span_offsets(element.props.spans, state.range[0].offset)
+		if (!offsets) {
+			const ref = {
+				types: [], // TODO: Does this work with formatting shortcuts?
+				text: characterData,
+			}
+			element.props.spans.push(ref)
+		} else {
+			const ref = element.props.spans[offsets[0]]
+			ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
+		}
+
+		// state.range[0].offset++
+		// const collapsed = Range.collapse(state.range)
+
+		const collapsed = state.range
+		Object.assign(collapsed, {
+			0: {
+				...state.range[0],
+				offset: state.range[0].offset + 1,
+			},
+			1: {
+				...state.range[1],
+				offset: state.range[0].offset + 1,
+			},
+			collapsed: true,
+		})
+		this.select(collapsed)
+		this.render()
+	},
+	input(spans, collapsed) {
+		// TODO: Add support for nodes? NodeIterator?
+		const element = state.elements.find(each => each.key === collapsed[0].key)
 		element.props.spans = spans
 		this.select(collapsed)
 		this.render()
@@ -34,29 +76,22 @@ const methods = state => ({
 	},
 })
 
-function init(elements) {
-	const state = {
-		// Document elements
-		elements,
-		// Is focused?
-		focused: false,
-		// Selection range
-		range: {
-			0: {
-				key: "",
-				offset: 0,
-			},
-			1: {
-				key: "",
-				offset: 0,
-			},
-			collapsed: true,
+const init = elements => ({
+	elements,
+	focused: false,
+	range: {
+		0: {
+			key: "",
+			offset: 0,
 		},
-		// Should rerender (useLayoutEffect)
-		shouldRerender: 0,
-	}
-	return state
-}
+		1: {
+			key: "",
+			offset: 0,
+		},
+		collapsed: true,
+	},
+	shouldRerender: 0,
+})
 
 function useEditor({ markup, children }) {
 	const elements = React.useMemo(() => {

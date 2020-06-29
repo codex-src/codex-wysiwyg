@@ -1,4 +1,4 @@
-import componentsAreEqual from "./componentsAreEqual"
+import areEqualComponents from "./areEqualComponents"
 import domUtils from "lib/domUtils"
 
 // Computes a range component.
@@ -63,7 +63,7 @@ function compute(domTree) {
 			[domRange.endContainer, domRange.endOffset]))
 	}
 	/* eslint-enable */
-	return { ...range, collapsed: componentsAreEqual(...range) }
+	return { ...range, collapsed: areEqualComponents(...range) }
 }
 
 export default compute

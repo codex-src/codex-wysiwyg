@@ -30,6 +30,7 @@ const Node = ({ id, style, children, ...props }) => {
 				...style, // Takes precedence
 				caretColor: "var(--black)",
 				whiteSpace: "pre-wrap",
+				wordBreak: "break-word", // ??
 				overflowWrap: "break-word",
 			}}
 			{...props}

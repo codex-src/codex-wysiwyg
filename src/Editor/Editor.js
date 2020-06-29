@@ -61,6 +61,11 @@ const Editor = ({ markup, children }) => {
 					focus:outline-none
 				`)}
 
+				// style={{
+				// 	whiteSpace: "pre-wrap",
+				// 	wordBreak: "break-word",
+				// }}
+
 				onFocus={e => {
 					dispatch.focus()
 				}}
@@ -117,58 +122,58 @@ const Editor = ({ markup, children }) => {
 							// TODO
 							return
 						}
-						break
+						return
 					case keydown.enum.characterDataDead:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.tab:
 						e.preventDefault()
-						// TODO
-						break
+						dispatch.write("\t")
+						return
 					case keydown.enum.enter:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.formatEm:
 						e.preventDefault()
 						// // TODO
-						break
+						return
 					case keydown.enum.formatStrong:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.backspaceRTLRune:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.backspaceRTLWord:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.backspaceRTLLine:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.backspaceLTRRune:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.backspaceLTRWord:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.undo:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					case keydown.enum.redo:
 						e.preventDefault()
 						// TODO
-						break
+						return
 					default:
 						// No-op
-						break
+						return
 					}
 				}}
 
