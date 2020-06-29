@@ -1,54 +1,39 @@
 import * as Types from "../Types"
-import domUtils from "lib/domUtils"
 import hash from "lib/hash"
-import JSONClone from "lib/JSONClone"
+import recursers from "./recursers"
+
+function getInfo(elemOrSpan) {
+	const T = elemOrSpan.getAttribute("data-type")
+	const P = JSON.parse(elemOrSpan.getAttribute("data-props") || "{}")
+	return [T, P]
+}
 
 // Reader for React-rendered DOM elements.
-//
-// TODO: Add react.nodes?
 const react = {
 	spans(domElement) {
-		const spans = []
-		const recurse = (domNode, types = [], props = {}) => {
-			if (domUtils.isTextNodeOrBrElement(domNode)) {
-				if (domUtils.isTextNode(domNode)) {
-					spans.push({
-						types,
-						...props,
-						text: domNode.nodeValue,
-					})
-				}
-				return
-			}
-			for (const each of domNode.childNodes) {
-				const nextTypes = [...types]
-				const nextProps = JSONClone(props)
-				if (domUtils.isElement(each)) {
-					// Next type:
-					const T = each.getAttribute("data-type")
-					nextTypes.push(T)
-					// Next props:
-					const P = JSON.parse(each.getAttribute("data-props") || "{}")
-					if (Object.keys(P).length) {
-						nextProps[T] = P
-					}
-				}
-				recurse(each, nextTypes, nextProps)
-			}
-		}
-		recurse(domElement)
-		return spans
+		return recursers.spans(domElement, getInfo)
 	},
 	elements(domTree) {
+		// return recursers.elements(domTree, each => {
+		// 	const T = each.getAttribute("data-type")
+		// 	const P = JSON.parse(each.getAttribute("data-props") || "{}")
+		// 	return [T, P]
+		// }, each => {
+		// 	const T = each.getAttribute("data-type")
+		// 	const P = JSON.parse(each.getAttribute("data-props") || "{}")
+		// 	return [T, P]
+		// })
 		const elements = []
 		for (const each of domTree.children) {
-			switch (each.getAttribute("data-type")) {
+			const T = each.getAttribute("data-type")
+			const P = JSON.parse(each.getAttribute("data-props") || "{}")
+			switch (T) {
 			case "p":
 				elements.push({
-					type: Types.enum.p,
+					type: T,
 					key: each.id || hash(8),
 					props: {
-						// TODO: Add props
+						...P,
 						spans: this.spans(each),
 					},
 				})

@@ -1,48 +1,21 @@
 import * as Types from "../Types"
 import domUtils from "lib/domUtils"
 import hash from "lib/hash"
-import JSONClone from "lib/JSONClone"
+import recursers from "./recursers"
+
+function getInfo(elemOrSpan) {
+	const T = domUtils.nodeName(elemOrSpan)
+	const P = [...elemOrSpan.attributes].reduce((acc, each) => {
+		acc[each.nodeName] = each.nodeValue
+		return acc
+	}, {})
+	return [T, P]
+}
 
 // Reader for semantic DOM elements.
-//
-// TODO: Add semantic.nodes?
 const semantic = {
 	spans(domElement) {
-		const spans = []
-		const recurse = (domNode, types = [], props = {}) => {
-			if (domUtils.isTextNodeOrBrElement(domNode)) {
-				if (domUtils.isTextNode(domNode)) {
-					spans.push({
-						types,
-						...props,
-						text: domNode.nodeValue,
-					})
-				}
-				return
-			}
-			for (const each of domNode.childNodes) {
-				const nextTypes = [...types]
-				const nextProps = JSONClone(props)
-				if (domUtils.isElement(each)) {
-					// Next type:
-					const T = domUtils.nodeName(each)
-					nextTypes.push(T)
-					// Next props:
-					const P = {}
-					for (const attr of each.attributes) {
-						Object.assign(P, {
-							[attr.nodeName]: attr.nodeValue,
-						})
-					}
-					if (Object.keys(P).length) {
-						nextProps[T] = P
-					}
-				}
-				recurse(each, nextTypes, nextProps)
-			}
-		}
-		recurse(domElement)
-		return spans
+		return recursers.spans(domElement, getInfo)
 	},
 	elements(domTree) {
 		const elements = []
@@ -63,6 +36,7 @@ const semantic = {
 			}
 		}
 		return elements
+		// return recursers.elements(domTree, getInfo)
 	},
 }
 
