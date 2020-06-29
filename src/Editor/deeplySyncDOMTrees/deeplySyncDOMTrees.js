@@ -1,9 +1,10 @@
 import shallowlySyncDOMNodes from "./shallowlySyncDOMNodes"
 
-// https://github.com/codex-src/codex-v2-architecture/commit/eb09a03b1845fc59256cdd8cb4037db549cd7dda#diff-eb8dc3a4949f8eff51a88a36f1765af7
-
 // Deeply syncs DOM trees.
+//
+// https://github.com/codex-src/codex-v2-architecture/commit/eb09a03b1845fc59256cdd8cb4037db549cd7dda#diff-eb8dc3a4949f8eff51a88a36f1765af7
 function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
+	// NOTE: Uses src.isEqualNode(dst) to compare childNodes.
 	if (__internalRecursionCount && shallowlySyncDOMNodes(src, dst) && src.isEqualNode(dst)) {
 		// No-op
 		return
