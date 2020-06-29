@@ -17,6 +17,7 @@ const Node = ({ id, style, children, ...props }) => {
 		// NOTE: Uses ReactDOMServer.renderToStaticMarkup
 		// because ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
+		console.log({ markup })
 		const domTree = markupToDOMTree(markup)
 		deeplySyncDOMTrees(domTree, ref.current)
 	}, [children])
@@ -30,7 +31,7 @@ const Node = ({ id, style, children, ...props }) => {
 				...style, // Takes precedence
 				caretColor: "var(--black)",
 				whiteSpace: "pre-wrap",
-				wordBreak: "break-word", // ??
+				// wordBreak: "break-word", // ??
 				overflowWrap: "break-word",
 			}}
 			{...props}
