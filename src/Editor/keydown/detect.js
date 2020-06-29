@@ -115,21 +115,21 @@ const detectors = {
 		)
 		return ok
 	},
+	redoNonMacOS(e) {
+		const ok = (
+			!e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
+			!e.altKey &&
+			e.keyCode === keyCodes.Y
+		)
+		return ok
+	},
 	redoMacOS(e) {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
 			!e.altKey &&
 			e.keyCode === keyCodes.Z
-		)
-		return ok
-	},
-	redoOther(e) {
-		const ok = (
-			!e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			!e.altKey &&
-			e.keyCode === keyCodes.Y
 		)
 		return ok
 	},
@@ -173,8 +173,8 @@ function detect(e) {
 
 	case detectors.undo(e):
 		return enumerated.undo
+	case detectors.redoNonMacOS(e):
 	case detectors.redoMacOS(e):
-	case detectors.redoOther(e):
 		return enumerated.redo
 
 	default:
