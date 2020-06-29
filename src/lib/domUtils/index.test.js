@@ -1,11 +1,11 @@
 import domUtils from "./index"
-import newHashID from "lib/newHashID"
+import hash from "lib/hash"
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
 
 test("ascendElement", () => {
 	const tree1 = renderDOMTree((
-		<div id={newHashID(8)}>
+		<div id={hash(8)}>
 			<span>
 				<br />
 			</span>
@@ -13,7 +13,7 @@ test("ascendElement", () => {
 	))
 	expect(domUtils.ascendElement(tree1.childNodes[0].childNodes[0])).toBe(tree1.childNodes[0].childNodes[0])
 	const tree2 = renderDOMTree((
-		<div id={newHashID(8)}>
+		<div id={hash(8)}>
 			<span>
 				Hello, world!
 			</span>
@@ -24,7 +24,7 @@ test("ascendElement", () => {
 
 test("ascendElementID", () => {
 	const tree1 = renderDOMTree((
-		<div id={newHashID(8)}>
+		<div id={hash(8)}>
 			<span>
 				<br />
 			</span>
@@ -32,7 +32,7 @@ test("ascendElementID", () => {
 	))
 	expect(domUtils.ascendElementID(tree1.childNodes[0].childNodes[0])).toBe(tree1)
 	const tree2 = renderDOMTree((
-		<div id={newHashID(8)}>
+		<div id={hash(8)}>
 			<span>
 				Hello, world!
 			</span>
