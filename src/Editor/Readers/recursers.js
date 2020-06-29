@@ -44,7 +44,7 @@ const recursers = {
 					key: each.id || hash(8),
 					props: {
 						...P,
-						spans: getInfo(each),
+						spans: this.spans(each, getInfo),
 					},
 				})
 				break
