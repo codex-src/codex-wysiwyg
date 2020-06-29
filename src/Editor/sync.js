@@ -1,24 +1,24 @@
 import domUtils from "lib/domUtils"
 
-// Replaces DOM attributes. Returns whether a DOM attribute
-// was replaced and or removed.
-export function replaceDOMAttributes(src, dst) {
-	const attrKeys = new Set(/* ... */) // TODO
+// Syncs DOM element attributes. Returns whether one or more
+// DOM attributes were synced.
+export function syncDOMElementAttributes(src, dst) {
+	const attrKeys = new Set()
 	for (const attr of [...src.attributes, ...dst.attributes]) {
 		attrKeys.add(attr.nodeName)
 	}
 	let replaced = false
-	for (const key of attrKeys) {
-		const value = src.getAttribute(key)
-		if (value === null || value === dst.getAttribute(key)) {
-			if (value === null) {
-				dst.removeAttribute(key)
+	for (const each of attrKeys) {
+		const srcAttr = src.getAttribute(each)
+		if (srcAttr === null || srcAttr === dst.getAttribute(each)) {
+			if (srcAttr === null) {
+				dst.removeAttribute(each)
 				replaced = true
 			}
 			// No-op
 			continue
 		}
-		dst.setAttribute(key, value)
+		dst.setAttribute(each, srcAttr)
 		replaced = true
 	}
 	return replaced
@@ -34,7 +34,7 @@ export function shallowlySyncDOMNodes(src, dst) {
 		dst.nodeValue = src.nodeValue
 		return true
 	} else if (domUtils.isElement(src) && domUtils.isElement(dst) && domUtils.nodeName(src) === domUtils.nodeName(dst)) {
-		if (!replaceDOMAttributes(src, dst)) { // Cannot be assumed to be the same
+		if (!syncDOMElementAttributes(src, dst)) { // Cannot be assumed to be the same
 			return false
 		}
 		return dst.isEqualNode(src)

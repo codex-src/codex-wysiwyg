@@ -3,57 +3,57 @@ import renderDOMTree from "lib/renderDOMTree"
 
 import {
 	deeplySyncDOMTrees,
-	replaceDOMAttributes,
 	shallowlySyncDOMNodes,
+	syncDOMElementAttributes,
 } from "./sync"
 
-describe("replaceDOMAttributes", () => {
+describe("syncDOMElementAttributes", () => {
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div />)
 		const dst = renderDOMTree(<div className="a" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a" />)
 		const dst = renderDOMTree(<div />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a" />)
 		const dst = renderDOMTree(<div className="a" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a" />)
 		const dst = renderDOMTree(<div className="a b c" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" />)
 		const dst = renderDOMTree(<div className="a" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" />)
 		const dst = renderDOMTree(<div className="a b c" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		expect(dst.outerHTML).toBe(src.outerHTML)
 	})
 	test("", () => {
 		const src = renderDOMTree(<div className="a b c" tabIndex="0" />)
 		const dst = renderDOMTree(<div id="hello-world" className="a b c" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		const srcMap = new Map()
 		for (const each of [...src.attributes]) {
 			srcMap.set(each.nodeName, each.nodeValue)
@@ -67,7 +67,7 @@ describe("replaceDOMAttributes", () => {
 	test("", () => {
 		const dst = renderDOMTree(<div id="hello-world" className="a b c" />)
 		const src = renderDOMTree(<div className="a b c" tabIndex="0" />)
-		replaceDOMAttributes(src, dst)
+		syncDOMElementAttributes(src, dst)
 		const srcMap = new Map()
 		for (const each of [...src.attributes]) {
 			srcMap.set(each.nodeName, each.nodeValue)
