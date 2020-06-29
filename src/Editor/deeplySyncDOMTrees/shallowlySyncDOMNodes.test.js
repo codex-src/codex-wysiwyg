@@ -1,6 +1,6 @@
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
-import { shallowlySyncDOMNodes } from "./deeplySyncDOMTrees"
+import shallowlySyncDOMNodes from "./shallowlySyncDOMNodes"
 
 // NOTE: Uses <div>...</div> to persist references.
 test("", () => {

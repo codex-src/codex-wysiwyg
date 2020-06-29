@@ -1,47 +1,10 @@
-import domUtils from "lib/domUtils"
+import shallowlySyncDOMNodes from "./shallowlySyncDOMNodes"
 
-// Syncs attributes between DOM elements.
-export function syncAttrs(src, dst) {
-	const keySet = new Set()
-	for (const each of [...src.attributes, ...dst.attributes]) {
-		keySet.add(each.nodeName)
-	}
-	for (const each of keySet) {
-		const srcValue = src.getAttribute(each)
-		const dstValue = dst.getAttribute(each)
-		if (srcValue === dstValue) {
-			// No-op
-			continue
-		}
-		if (srcValue === null) {
-			dst.removeAttribute(each)
-			continue
-		}
-		dst.setAttribute(each, srcValue)
-	}
-}
-
-// Shallowly syncs DOM nodes.
-export function shallowlySyncDOMNodes(src, dst) {
-	if (dst.isEqualNode(src)) {
-		// No-op
-		return
-	}
-	if (domUtils.isTextNode(src) && domUtils.isTextNode(dst)) {
-		dst.nodeValue = src.nodeValue
-	} else if (domUtils.isElement(src) && domUtils.isElement(dst) && domUtils.nodeName(src) === domUtils.nodeName(dst)) {
-		syncAttrs(src, dst)
-		return
-	}
-	const clonedNode = src.cloneNode(true)
-	dst.replaceWith(clonedNode)
-}
+// https://github.com/codex-src/codex-v2-architecture/commit/eb09a03b1845fc59256cdd8cb4037db549cd7dda#diff-eb8dc3a4949f8eff51a88a36f1765af7
 
 // Deeply syncs DOM trees.
-//
-// https://github.com/codex-src/codex-v2-architecture/commit/eb09a03b1845fc59256cdd8cb4037db549cd7dda#diff-eb8dc3a4949f8eff51a88a36f1765af7
-export function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
-	if (__internalRecursionCount && src.isEqualNode(dst)) { // shallowlySyncDOMNodes(src, dst)) {
+function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
+	if (__internalRecursionCount && shallowlySyncDOMNodes(src, dst) && src.isEqualNode(dst)) {
 		// No-op
 		return
 	}
@@ -78,3 +41,5 @@ export function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
 		}
 	}
 }
+
+export default deeplySyncDOMTrees

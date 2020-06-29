@@ -1,6 +1,6 @@
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
-import { syncAttrs } from "./deeplySyncDOMTrees"
+import syncAttrs from "./syncAttrs"
 
 test("", () => {
 	const src = renderDOMTree(<code />)

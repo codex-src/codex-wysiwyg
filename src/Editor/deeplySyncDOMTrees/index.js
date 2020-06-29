@@ -1,2 +1,1 @@
-export { deeplySyncDOMTrees } from "./deeplySyncDOMTrees"
-export default deeplySyncDOMTrees
+export { default } from "./deeplySyncDOMTrees"

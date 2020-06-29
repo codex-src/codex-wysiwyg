@@ -1,10 +1,10 @@
 import * as Types from "../Types"
+import deeplySyncDOMTrees from "../deeplySyncDOMTrees"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import T from "./T"
 import toReact from "./toReact"
-import { deeplySyncDOMTrees } from "../sync"
 
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
@@ -21,22 +21,24 @@ const Node = ({ id, style, children, ...props }) => {
 		deeplySyncDOMTrees(domTree, ref.current)
 	}, [children])
 
-	return React.createElement("div", {
-		ref,
-		id,
-		style: {
-			// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
-			...style, // Takes precedence
-			caretColor: "#000", // Untested
-			whiteSpace: "pre-wrap",
-			overflowWrap: "break-word",
-		},
-		...props,
-	})
+	return (
+		<div
+			ref={ref}
+			id={id}
+			style={{
+				// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
+				...style, // Takes precedence
+				caretColor: "var(--black)",
+				whiteSpace: "pre-wrap",
+				overflowWrap: "break-word",
+			}}
+			{...props}
+		/>
+	)
 }
 
-// TODO: Use React.memo?
-export const P = ({ id, spans }) => (
+// TODO: Remove React.memo?
+export const P = React.memo(({ id, spans }) => (
 	<T type={Types.enum.p}>
 		<Node id={id}>
 			{toReact(spans) || (
@@ -44,4 +46,4 @@ export const P = ({ id, spans }) => (
 			)}
 		</Node>
 	</T>
-)
+))
