@@ -1,7 +1,7 @@
 import domUtils from "lib/domUtils"
 
-// Syncs DOM attributes between DOM elements.
-export function syncDOMAttributes(src, dst) {
+// Syncs attributes between DOM elements.
+export function syncAttrs(src, dst) {
 	const keySet = new Set()
 	for (const each of [...src.attributes, ...dst.attributes]) {
 		keySet.add(each.nodeName)
@@ -21,31 +21,27 @@ export function syncDOMAttributes(src, dst) {
 	}
 }
 
-// Shallowly syncs DOM nodes. Returns the equivalent of
-// src.isEqualNode(dst) (before syncing).
+// Shallowly syncs DOM nodes.
 export function shallowlySyncDOMNodes(src, dst) {
 	if (dst.isEqualNode(src)) {
-		return true
+		// No-op
+		return
 	}
 	if (domUtils.isTextNode(src) && domUtils.isTextNode(dst)) {
 		dst.nodeValue = src.nodeValue
-		return true
 	} else if (domUtils.isElement(src) && domUtils.isElement(dst) && domUtils.nodeName(src) === domUtils.nodeName(dst)) {
-		if (!syncDOMAttributes(src, dst)) { // Cannot be assumed to be the same
-			return false
-		}
-		return dst.isEqualNode(src)
+		syncAttrs(src, dst)
+		return
 	}
 	const clonedNode = src.cloneNode(true)
 	dst.replaceWith(clonedNode)
-	return true
 }
 
 // Deeply syncs DOM trees.
 //
 // https://github.com/codex-src/codex-v2-architecture/commit/eb09a03b1845fc59256cdd8cb4037db549cd7dda#diff-eb8dc3a4949f8eff51a88a36f1765af7
 export function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
-	if (__internalRecursionCount && shallowlySyncDOMNodes(src, dst)) {
+	if (__internalRecursionCount && src.isEqualNode(dst)) { // shallowlySyncDOMNodes(src, dst)) {
 		// No-op
 		return
 	}
