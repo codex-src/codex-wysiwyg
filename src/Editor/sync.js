@@ -44,8 +44,7 @@ export function shallowlySyncDOMNodes(src, dst) {
 	return true
 }
 
-// Deeply syncs DOM trees. Note that ancestor DOM tree
-// elements are not synced.
+// Deeply syncs DOM trees.
 //
 // https://github.com/codex-src/codex-v2-architecture/commit/eb09a03b1845fc59256cdd8cb4037db549cd7dda#diff-eb8dc3a4949f8eff51a88a36f1765af7
 export function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
@@ -53,27 +52,36 @@ export function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
 		// No-op
 		return
 	}
-	let srcLen = src.childNodes.length
-	let dstLen = dst.childNodes.length
-	for (; srcLen && dstLen; srcLen--, dstLen--) {
-		if (!dst.childNodes[dstLen - 1].isEqualNode(src.childNodes[srcLen - 1])) {
-			deeplySyncDOMTrees(src.childNodes[srcLen - 1], dst.childNodes[dstLen - 1], __internalRecursionCount + 1)
+	let x = 0
+	const min = Math.min(src.childNodes.length, dst.childNodes.length)
+	for (; x < min; x++) {
+		if (!dst.childNodes[x].isEqualNode(src.childNodes[x])) {
+			deeplySyncDOMTrees(src.childNodes[x], dst.childNodes[x], __internalRecursionCount + 1)
+			x++
+			break
 		}
 	}
-	// Append extraneous nodes (LTR):
-	if (srcLen) {
-		for (let x = 0; x < srcLen; x++) {
+	let srcEnd = src.childNodes.length - 1
+	let dstEnd = dst.childNodes.length - 1
+	for (; srcEnd >= x && dstEnd >= x; srcEnd--, dstEnd--) {
+		if (!dst.childNodes[dstEnd].isEqualNode(src.childNodes[srcEnd])) {
+			deeplySyncDOMTrees(src.childNodes[srcEnd], dst.childNodes[dstEnd], __internalRecursionCount + 1)
+		}
+	}
+	// Append extraneous nodes (forwards):
+	if (x <= srcEnd) {
+		for (; x <= srcEnd; x++) {
 			const clonedNode = src.childNodes[x].cloneNode(true)
-			if (x >= dst.childNodes.length) {
+			if (!(x < dst.childNodes.length)) {
 				dst.appendChild(clonedNode)
 				continue
 			}
 			dst.insertBefore(clonedNode, dst.childNodes[x])
 		}
-	// Remove extraneous nodes (RTL):
-	} else if (dstLen) {
-		for (; dstLen; dstLen--) {
-			dst.childNodes[dstLen - 1].remove()
+	// Remove extraneous nodes (backwards):
+	} else if (x <= dstEnd) {
+		for (; x <= dstEnd; dstEnd--) {
+			dst.childNodes[dstEnd].remove()
 		}
 	}
 }
