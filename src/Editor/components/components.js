@@ -6,6 +6,20 @@ import ReactDOMServer from "react-dom/server"
 import T from "./T"
 import toReact from "./toReact"
 
+// React.useLayoutEffect(() => {
+// 	if (!ref.current) {
+// 		// No-op
+// 		return
+// 	}
+// 	// NOTE: Does not use markupToDOMTree because children
+// 	// is not a DOM tree.
+// 	const temp = document.createElement("div")
+// 	ReactDOM.render(children, temp, () => {
+// 		deeplySyncDOMTrees(temp, ref.current)
+// 		temp.remove()
+// 	})
+// }, [children])
+
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
 
@@ -14,11 +28,11 @@ const Node = ({ id, style, children, ...props }) => {
 			// No-op
 			return
 		}
-		// NOTE: Uses ReactDOMServer.renderToStaticMarkup
+		// NOTE (1): Uses ReactDOMServer.renderToStaticMarkup
 		// because ReactDOM.render is asynchronous.
+		// NOTE (2): Uses <div>...</div> to preserve tabs.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
-		console.log({ markup })
-		const domTree = markupToDOMTree(markup)
+		const domTree = markupToDOMTree("<div>" + markup + "</div>")
 		deeplySyncDOMTrees(domTree, ref.current)
 	}, [children])
 
@@ -31,7 +45,7 @@ const Node = ({ id, style, children, ...props }) => {
 				...style, // Takes precedence
 				caretColor: "var(--black)",
 				whiteSpace: "pre-wrap",
-				// wordBreak: "break-word", // ??
+				// wordBreak: "break-word", // TODO?
 				overflowWrap: "break-word",
 			}}
 			{...props}

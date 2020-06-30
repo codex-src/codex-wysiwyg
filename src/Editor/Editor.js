@@ -61,11 +61,6 @@ const Editor = ({ markup, children }) => {
 					focus:outline-none
 				`)}
 
-				// style={{
-				// 	whiteSpace: "pre-wrap",
-				// 	wordBreak: "break-word",
-				// }}
-
 				onFocus={e => {
 					dispatch.focus()
 				}}
