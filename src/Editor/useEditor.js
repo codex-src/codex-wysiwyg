@@ -1,6 +1,7 @@
 import * as Range from "./Range"
 import * as Readers from "./Readers"
 import decorate from "./decorate"
+import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
@@ -29,25 +30,87 @@ const methods = state => ({
 	select(range) {
 		state.range = range
 	},
+	// dispatch.format(Types.enum.strong)
+	format(T, P = {}) {
+		if (state.range.collapsed || state.range[0].key !== state.range[1].key) {
+			// TODO
+			return
+		}
+
+		// Splits a span at an offset.
+		const split = (spans, offset) => {
+			const offsets = span_offsets(spans, offset)
+			if (!offsets[1] || offsets[1] >= spans[offsets[0]].length) {
+				return offsets
+			}
+
+			// spans.splice(offsets[0], 1, {
+			// 	...JSONClone(spans[offsets[0]]),
+			// 	text: copy.text.slice(0, offsets[1]),
+			// }, {
+			// 	...JSONClone(spans[offsets[0]]),
+			// 	text: copy.text.slice(offsets[1]),
+			// })
+
+			const ref = spans[offsets[0]]
+			const start = { ...JSONClone(ref), text: ref.text.slice(0, offsets[1]), }
+			const end = { ...JSONClone(ref), text: ref.text.slice(offsets[1]), }
+			spans.splice(offsets[0], 1, start, end)
+			return [offsets[0] + 1, 0]
+		}
+
+		const element = state.elements.find(each => each.key === state.range[0].key)
+		const [x1] = split(element.props.spans, state.range[0].offset)
+		const [x2] = split(element.props.spans, state.range[1].offset)
+
+		// console.log({ x1, x2 })
+
+		const shouldFormat = !element.props.spans.slice(x1, x2).every(each => each.types.indexOf(T) >= 0)
+		if (shouldFormat) {
+			for (const each of element.props.spans.slice(x1, x2)) {
+				console.log({ each })
+				each.types.push(T)
+				if (Object.keys(P).length) {
+					each[T] = P
+				}
+			}
+		} else {
+			for (const each of element.props.spans.slice(x1, x2)) {
+				const x = each.types.indexOf(T)
+				if (x >= 0) {
+					each.types.splice(x, 1)
+					each[T] = undefined
+				}
+			}
+		}
+		// element.props.spans.map(each => each.types.sort(...))
+
+		console.log(JSONClone(element.props.spans))
+		this.render()
+
+		// getSpans(element.props.spans, state.range[0].offset, state.range[1].offset - state.range[0].offset)
+
+		// const offs1 = span_offsets(element.props.spans, state.range[0].offset)
+		// const offs2 = span_offsets(element.props.spans, state.range[1].offset)
+	},
 	write(characterData) {
 		if (!state.range.collapsed) {
 			// TODO
 			return
 		}
-		// Get the current element and span offsets:
+
 		const element = state.elements.find(each => each.key === state.range[0].key)
-		const offsets = span_offsets(element.props.spans, state.range[0].offset)
-		// Concatenate character data:
+		const offsets = span_offsets(element.props.spans, state.range[0].offset) // TODO: Add must?
 		const ref = element.props.spans[offsets[0]]
 		ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
 		state.range[0].offset++
-		// Rerender:
+
 		const collapsed = Range.collapse(state.range)
 		this.select(collapsed)
 		this.render()
 	},
+	// TODO: Add support for nodes? NodeIterator?
 	input(spans, collapsed) {
-		// TODO: Add support for nodes? NodeIterator?
 		const element = state.elements.find(each => each.key === collapsed[0].key)
 		element.props.spans = spans
 		this.select(collapsed)
@@ -77,7 +140,7 @@ const init = elements => ({
 
 function useEditor({ markup, children }) {
 	const elements = React.useMemo(() => {
-		if (!(markup !== undefined ^ children !== undefined)) {
+		if (!(markup !== undefined ^ children !== undefined)) { // TODO
 			throw new Error("useEditor: use markup or children")
 		}
 		let domTree = null

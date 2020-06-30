@@ -141,7 +141,7 @@ const Editor = ({ markup, children }) => {
 						return
 					case keydown.enum.formatStrong:
 						e.preventDefault()
-						// TODO
+						dispatch.format(Types.enum.strong)
 						return
 					case keydown.enum.backspaceRTLRune:
 						e.preventDefault()

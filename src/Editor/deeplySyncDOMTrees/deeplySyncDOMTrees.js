@@ -29,11 +29,11 @@ function deeplySyncDOMTrees(src, dst, __internalRecursionCount = 0) {
 	if (x <= srcEnd) {
 		for (; x <= srcEnd; x++) {
 			const clonedNode = src.childNodes[x].cloneNode(true)
-			if (!(x < dst.childNodes.length)) {
+			if (x < dst.childNodes.length) {
+				dst.insertBefore(clonedNode, dst.childNodes[x])
+			} else {
 				dst.appendChild(clonedNode)
-				continue
 			}
-			dst.insertBefore(clonedNode, dst.childNodes[x])
 		}
 	// Remove extraneous nodes (backwards):
 	} else if (x <= dstEnd) {
