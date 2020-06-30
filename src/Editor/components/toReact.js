@@ -27,8 +27,9 @@ function toRenderable(tree) {
 function toReact(spans) {
 	const tree = toTree(spans)
 	const renderable = toRenderable(tree)
-	if (!renderable.length) {
-		return null // Prefer null for {... || <br />}
+	// NOTE: Returns null for {... || <br />} case.
+	if (!renderable.length || !renderable[0]) {
+		return null
 	}
 	return renderable
 }

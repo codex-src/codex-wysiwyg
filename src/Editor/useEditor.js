@@ -34,19 +34,14 @@ const methods = state => ({
 			// TODO
 			return
 		}
+		// Get the current element and span offsets:
 		const element = state.elements.find(each => each.key === state.range[0].key)
 		const offsets = span_offsets(element.props.spans, state.range[0].offset)
-		if (!offsets) {
-			const ref = {
-				types: [], // TODO: Does this work with formatting shortcuts?
-				text: characterData,
-			}
-			element.props.spans.push(ref)
-		} else {
-			const ref = element.props.spans[offsets[0]]
-			ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
-		}
+		// Concatenate character data:
+		const ref = element.props.spans[offsets[0]]
+		ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
 		state.range[0].offset++
+		// Rerender:
 		const collapsed = Range.collapse(state.range)
 		this.select(collapsed)
 		this.render()

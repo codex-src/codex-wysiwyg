@@ -36,6 +36,12 @@ const recursers = {
 			}
 		}
 		recurse(domElement)
+		if (!spans.length) {
+			spans.push({
+				types: [],
+				text: "",
+			})
+		}
 		return spans
 	},
 	// Reads an array of elements from a DOM tree.
