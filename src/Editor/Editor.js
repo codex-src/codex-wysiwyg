@@ -152,6 +152,7 @@ const Editor = ({ markup, children }) => {
 						dispatch.format(Types.enum.code)
 						return
 
+						// // TODO: How to add props e.g. { href }?
 						// case keydown.enum.formatA:
 						// 	e.preventDefault()
 						// 	dispatch.format(Types.enum.a)

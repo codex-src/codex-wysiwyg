@@ -37,8 +37,8 @@ const i = iota()
 
 // Render precedence for components/components-text.
 export const sortOrder = {
-	[enumerated.a]:      i(),
-	[enumerated.code]:   i(),
+	[enumerated.a]:      i(), // TODO
+	[enumerated.code]:   i(), // TODO
 	[enumerated.strike]: i(),
 	[enumerated.strong]: i(),
 	[enumerated.em]:     i(),

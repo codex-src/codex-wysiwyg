@@ -6,7 +6,7 @@ const keyCodes = {
 	I: 73, // <em>
 	B: 66, // <strong>
 	C: 67, // <code>
-	S: 83, // <strike>
+	X: 88, // <strike>
 	K: 75, // <a>
 
 	Backspace: 8,

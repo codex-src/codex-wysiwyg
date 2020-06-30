@@ -25,16 +25,17 @@ const format = {
 		return ok
 	},
 	strike(e) {
-		const ok = ( // TODO
-			false
-			// ...
+		const ok = (
+			e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
+			e.keyCode === keyCodes.X
 		)
 		return ok
 	},
 	a(e) {
-		const ok = ( // TODO
-			false
-			// ...
+		const ok = ( // TODO: Untested
+			isCtrlOrMetaKey(e) &&
+			e.keyCode === keyCodes.K
 		)
 		return ok
 	},
