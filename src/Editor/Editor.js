@@ -61,6 +61,11 @@ const Editor = ({ markup, children }) => {
 					focus:outline-none
 				`)}
 
+				style={{
+					MozTabSize: 4,
+					tabSize: 4,
+				}}
+
 				onFocus={e => {
 					dispatch.focus()
 				}}

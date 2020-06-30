@@ -33,7 +33,7 @@ const Node = ({ id, style, children, ...props }) => {
 		// NOTE (2): Uses <div>...</div> to preserve tabs.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
 		const domTree = markupToDOMTree("<div>" + markup + "</div>")
-		deeplySyncDOMTrees(domTree, ref.current)
+		deeplySyncDOMTrees(domTree.childNodes[0], ref.current)
 	}, [children])
 
 	return (
