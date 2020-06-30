@@ -110,72 +110,72 @@ const Editor = ({ markup, children }) => {
 					dispatch.select(range)
 				}}
 
-				onKeyDown={e => {
-					const detected = keydown.detect(e)
-					if (detected) { // DEBUG
-						console.log(detected)
-					}
-					switch (detected) {
-					case keydown.enum.characterData:
-						if (!state.range.collapsed) {
-							e.preventDefault()
-							// TODO
-							return
-						}
-						return
-					case keydown.enum.characterDataDead:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.tab:
-						e.preventDefault()
-						dispatch.write("\t")
-						return
-					case keydown.enum.enter:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.formatEm:
-						e.preventDefault()
-						// // TODO
-						return
-					case keydown.enum.formatStrong:
-						e.preventDefault()
-						dispatch.format(Types.enum.strong)
-						return
-					case keydown.enum.backspaceRTLRune:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.backspaceRTLWord:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.backspaceRTLLine:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.backspaceLTRRune:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.backspaceLTRWord:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.undo:
-						e.preventDefault()
-						// TODO
-						return
-					case keydown.enum.redo:
-						e.preventDefault()
-						// TODO
-						return
-					default:
-						// No-op
-						return
-					}
-				}}
+				// onKeyDown={e => {
+				// 	const type = keydown.detectType(e)
+				// 	if (type) { // DEBUG
+				// 		console.log(type)
+				// 	}
+				// 	switch (type) {
+				// 	case keydown.enum.tab:
+				// 		e.preventDefault()
+				// 		dispatch.write("\t")
+				// 		return
+				// 	case keydown.enum.enter:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.characterData:
+				// 		if (!state.range.collapsed) {
+				// 			e.preventDefault()
+				// 			// TODO
+				// 			return
+				// 		}
+				// 		return
+				// 	case keydown.enum.characterDataDead:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.formatEm:
+				// 		e.preventDefault()
+				// 		dispatch.format(Types.enum.em)
+				// 		return
+				// 	case keydown.enum.formatStrong:
+				// 		e.preventDefault()
+				// 		dispatch.format(Types.enum.strong)
+				// 		return
+				// 	case keydown.enum.backspaceRTLRune:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.backspaceRTLWord:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.backspaceRTLLine:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.backspaceLTRRune:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.backspaceLTRWord:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.undo:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	case keydown.enum.redo:
+				// 		e.preventDefault()
+				// 		// TODO
+				// 		return
+				// 	default:
+				// 		// No-op
+				// 		return
+				// 	}
+				// }}
 
 				onInput={e => {
 					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence

@@ -1,4 +1,4 @@
-import isCtrlOrMetaKey from "./index"
+import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
 
 test("non-macOS", () => {
 	// https://github.com/facebook/jest/issues/717#issuecomment-187017936

@@ -28,17 +28,16 @@ const Node = ({ id, style, children, ...props }) => {
 			// No-op
 			return
 		}
-		// NOTE (1): Uses ReactDOMServer.renderToStaticMarkup
+		// NOTE: Uses ReactDOMServer.renderToStaticMarkup
 		// because ReactDOM.render is asynchronous.
-		// NOTE (2): Uses <div>...</div> to preserve tabs.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
-		const domTree = markupToDOMTree("<div>" + markup + "</div>")
+		const domTree = markupToDOMTree(markup)
 
+		// // TODO
 		// deeplySyncDOMTrees(domTree.childNodes[0], ref.current)
 
 		;[...ref.current.childNodes].reverse().map(each => each.remove())
 		ref.current.append(...domTree.childNodes)
-
 	}, [children])
 
 	return (

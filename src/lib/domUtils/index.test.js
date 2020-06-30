@@ -4,41 +4,41 @@ import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
 
 test("ascendElement", () => {
-	const tree1 = renderDOMTree((
+	const domTree1 = renderDOMTree((
 		<div id={hash(8)}>
 			<span>
 				<br />
 			</span>
 		</div>
 	))
-	expect(domUtils.ascendElement(tree1.childNodes[0].childNodes[0])).toBe(tree1.childNodes[0].childNodes[0])
-	const tree2 = renderDOMTree((
+	expect(domUtils.ascendElement(domTree1.childNodes[0].childNodes[0])).toBe(domTree1.childNodes[0].childNodes[0])
+	const domTree2 = renderDOMTree((
 		<div id={hash(8)}>
 			<span>
 				Hello, world!
 			</span>
 		</div>
 	))
-	expect(domUtils.ascendElement(tree2.childNodes[0].childNodes[0])).toBe(tree2.childNodes[0])
+	expect(domUtils.ascendElement(domTree2.childNodes[0].childNodes[0])).toBe(domTree2.childNodes[0])
 })
 
 test("ascendElementID", () => {
-	const tree1 = renderDOMTree((
+	const domTree1 = renderDOMTree((
 		<div id={hash(8)}>
 			<span>
 				<br />
 			</span>
 		</div>
 	))
-	expect(domUtils.ascendElementID(tree1.childNodes[0].childNodes[0])).toBe(tree1)
-	const tree2 = renderDOMTree((
+	expect(domUtils.ascendElementID(domTree1.childNodes[0].childNodes[0])).toBe(domTree1)
+	const domTree2 = renderDOMTree((
 		<div id={hash(8)}>
 			<span>
 				Hello, world!
 			</span>
 		</div>
 	))
-	expect(domUtils.ascendElementID(tree2.childNodes[0].childNodes[0])).toBe(tree2)
+	expect(domUtils.ascendElementID(domTree2.childNodes[0].childNodes[0])).toBe(domTree2)
 })
 
 test("nodeName", () => {

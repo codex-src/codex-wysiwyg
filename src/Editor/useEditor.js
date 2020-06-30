@@ -39,24 +39,8 @@ const methods = state => ({
 		}
 
 		const element = state.elements.find(each => each.key === state.range[0].key)
+
 		const shouldFormat = !element.props.spans.every(each => each.types.indexOf(T) >= 0)
-
-		// for (const each of element.props.spans) {
-		// 	const x = each.types.indexOf(T)
-		// 	if (shouldFormat) {
-		// 		if (x === -1) {
-		// 			each.types.push(T)
-		// 		}
-		// 		if (Object.keys(P).length) {
-		// 			each[T] = P
-		// 		}
-		// 	} else {
-		// 		if (x >= 0) {
-		// 			each.types.splice(x, 1)
-		// 		}
-		// 	}
-		// }
-
 		if (shouldFormat) {
 			for (const each of element.props.spans) {
 				const x = each.types.indexOf(T)
@@ -198,7 +182,7 @@ const init = elements => ({
 
 function useEditor({ markup, children }) {
 	const elements = React.useMemo(() => {
-		if (!(markup !== undefined ^ children !== undefined)) { // TODO
+		if (!(markup !== undefined ^ children !== undefined)) { // FIXME: Remove !(...)
 			throw new Error("useEditor: use markup or children")
 		}
 		let domTree = null
