@@ -111,12 +111,14 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onKeyDown={e => {
-					const type = keydown.detectType(e)
-					if (type) { // DEBUG
-						console.log(type)
-					}
-					switch (type) {
-
+					// const type = keydown.detectType(e)
+					// if (type) { // DEBUG
+					// 	console.log(type)
+					// }
+					switch (keydown.detectType(e)) {
+					/*
+					 * Format
+					 */
 					case keydown.enum.formatEm:
 						e.preventDefault()
 						dispatch.format(Types.enum.em)
@@ -129,17 +131,14 @@ const Editor = ({ markup, children }) => {
 						e.preventDefault()
 						dispatch.format(Types.enum.strike)
 						return
+					// TODO: Add keydown.enum.formatA?
 					case keydown.enum.formatCode:
 						e.preventDefault()
 						dispatch.format(Types.enum.code)
 						return
-
-						// // TODO: How to add props e.g. { href }?
-						// case keydown.enum.formatA:
-						// 	e.preventDefault()
-						// 	dispatch.format(Types.enum.a)
-						// 	return
-
+					/*
+					 * Character data
+					 */
 					case keydown.enum.tab:
 						e.preventDefault()
 						dispatch.write("\t")
@@ -157,7 +156,9 @@ const Editor = ({ markup, children }) => {
 					case keydown.enum.characterDataDead:
 						e.preventDefault()
 						return
-
+					/*
+					 * Backspace
+					 */
 					case keydown.enum.backspaceRTLRune:
 						e.preventDefault()
 						return
@@ -173,17 +174,18 @@ const Editor = ({ markup, children }) => {
 					case keydown.enum.backspaceLTRWord:
 						e.preventDefault()
 						return
-
+					/*
+					 * Undo, redo
+					 */
 					case keydown.enum.undo:
 						e.preventDefault()
 						return
 					case keydown.enum.redo:
 						e.preventDefault()
 						return
-
 					default:
 						// No-op
-						return
+						break
 					}
 				}}
 
