@@ -1,5 +1,6 @@
 import * as Range from "./Range"
 import * as Readers from "./Readers"
+import * as Types from "./Types"
 import decorate from "./decorate"
 import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
@@ -37,36 +38,85 @@ const methods = state => ({
 			return
 		}
 
-		// Splits a span at an offset.
-		const split = (spans, offset) => {
-			const offsets = span_offsets(spans, offset)
-			if (!offsets[1] || offsets[1] >= spans[offsets[0]].text.length) {
-				return offsets[0]
-			}
-			const ref = spans[offsets[0]]
-			const start = {
-				...JSONClone(ref),
-				text: ref.text.slice(0, offsets[1]),
-			}
-			const end = {
-				...JSONClone(ref),
-				text: ref.text.slice(offsets[1]),
-			}
-			spans.splice(offsets[0], 1, start, end)
-			return offsets[0] + 1
-		}
-
 		const element = state.elements.find(each => each.key === state.range[0].key)
-		const x1 = split(element.props.spans, state.range[0].offset)
-		let x2 = split(element.props.spans, state.range[1].offset)
-		if (x2 === x1) {
-			x2++
+		const shouldFormat = !element.props.spans.every(each => each.types.indexOf(T) >= 0)
+
+		// for (const each of element.props.spans) {
+		// 	const x = each.types.indexOf(T)
+		// 	if (shouldFormat) {
+		// 		if (x === -1) {
+		// 			each.types.push(T)
+		// 		}
+		// 		if (Object.keys(P).length) {
+		// 			each[T] = P
+		// 		}
+		// 	} else {
+		// 		if (x >= 0) {
+		// 			each.types.splice(x, 1)
+		// 		}
+		// 	}
+		// }
+
+		if (shouldFormat) {
+			for (const each of element.props.spans) {
+				const x = each.types.indexOf(T)
+				if (x === -1) {
+					each.types.push(T)
+				}
+				if (Object.keys(P).length) {
+					each[T] = P
+				}
+			}
+		} else {
+			for (const each of element.props.spans) {
+				const x = each.types.indexOf(T)
+				if (x >= 0) {
+					each.types.splice(x, 1)
+				}
+			}
 		}
 
-		const shouldFormat = !element.props.spans
-			.slice(x1, x2)
-			.every(each => each.types.indexOf(T) >= 0)
+		// Compares span types based on render precedence.
+		function compareTypes(T1, T2) {
+			const x1 = Types.sortOrder[T1] // must(sortedTypeMap[T1])
+			const x2 = Types.sortOrder[T2] // must(sortedTypeMap[T2])
+			return x1 - x2
+		}
 
+		element.props.spans.map(each => each.types.sort(compareTypes))
+
+		this.render()
+
+		// // Splits a span at an offset.
+		// const split = (spans, offset) => {
+		// 	const offsets = span_offsets(spans, offset)
+		// 	if (!offsets[1] || offsets[1] >= spans[offsets[0]].text.length) {
+		// 		return offsets[0]
+		// 	}
+		// 	const ref = spans[offsets[0]]
+		// 	const start = {
+		// 		...JSONClone(ref),
+		// 		text: ref.text.slice(0, offsets[1]),
+		// 	}
+		// 	const end = {
+		// 		...JSONClone(ref),
+		// 		text: ref.text.slice(offsets[1]),
+		// 	}
+		// 	spans.splice(offsets[0], 1, start, end)
+		// 	return offsets[0] + 1
+		// }
+		//
+		// const element = state.elements.find(each => each.key === state.range[0].key)
+		// const x1 = split(element.props.spans, state.range[0].offset)
+		// let x2 = split(element.props.spans, state.range[1].offset)
+		// if (x2 === x1) {
+		// 	x2++
+		// }
+		//
+		// const shouldFormat = !element.props.spans
+		// 	.slice(x1, x2)
+		// 	.every(each => each.types.indexOf(T) >= 0)
+		//
 		// if (shouldFormat) {
 		// 	for (const each of element.props.spans.slice(x1, x2)) {
 		// 		const x = each.types.indexOf(T)
@@ -87,28 +137,19 @@ const methods = state => ({
 		// 	}
 		// }
 		// // Spans.defer
-
-		for (const each of element.props.spans.slice(x1, x2)) {
-			const x = each.types.indexOf(T)
-			if (shouldFormat) {
-				if (x === -1) {
-					each.types.push(T)
-					if (Object.keys(P).length) {
-						each[T] = P
-					}
-				}
-			} else {
-				if (x >= 0) {
-					each.types.splice(x, 1)
-					each[T] = undefined
-				}
-			}
-		}
-		// Spans.defer
-
-		console.log({ shouldFormat, x1, x2 })
-		console.log(JSONClone(element.props.spans))
-		this.render()
+		//
+		// // Compares span types based on render precedence.
+		// function compareTypes(T1, T2) {
+		// 	const x1 = Types.sortOrder[T1] // must(sortedTypeMap[T1])
+		// 	const x2 = Types.sortOrder[T2] // must(sortedTypeMap[T2])
+		// 	return x1 - x2
+		// }
+		//
+		// element.props.spans.map(each => each.types.sort(compareTypes))
+		//
+		// console.log({ shouldFormat, x1, x2 })
+		// console.log(JSONClone(element.props.spans))
+		// this.render()
 	},
 	write(characterData) {
 		if (!state.range.collapsed) {

@@ -13,7 +13,7 @@ export const Em = ({ children }) => (
 
 export const Strong = ({ children }) => (
 	<T type={Types.enum.strong}>
-		<span className="font-bold">
+		<span className="font-semibold">
 			{children}
 		</span>
 	</T>
