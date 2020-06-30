@@ -31,7 +31,7 @@ const Node = ({ id, style, children, ...props }) => {
 		// NOTE: Uses ReactDOMServer.renderToStaticMarkup
 		// because ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
-		const domTree = markupToDOMTree(markup)
+		const domTree = markupToDOMTree("<div>" + markup + "</div>")
 
 		// // TODO
 		// deeplySyncDOMTrees(domTree.childNodes[0], ref.current)

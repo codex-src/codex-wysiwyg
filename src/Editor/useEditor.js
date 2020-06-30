@@ -187,10 +187,10 @@ function useEditor({ markup, children }) {
 		}
 		let domTree = null
 		if (markup !== undefined) {
-			domTree = markupToDOMTree(markup)
+			domTree = markupToDOMTree("<div>" + markup + "</div>")
 		} else if (children !== undefined) {
 			const markup = ReactDOMServer.renderToStaticMarkup(children) // Shadows markup
-			domTree = markupToDOMTree(markup)
+			domTree = markupToDOMTree("<div>" + markup + "</div>")
 		}
 		decorate(domTree)
 		return Readers.semantic.elements(domTree)
