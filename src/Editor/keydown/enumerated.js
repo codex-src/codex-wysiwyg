@@ -1,17 +1,16 @@
 import { Enum } from "lib/Enums"
 
 const enumerated = new Enum(
-	"characterData",
-	"characterDataDead",
-
-	"tab",
-	"enter",
-
 	"formatEm",
 	"formatStrong",
 	"formatCode",
 	"formatStrike",
 	"formatA",
+
+	"tab",
+	"enter",
+	"characterData",
+	"characterDataDead",
 
 	"backspaceRTLRune",
 	"backspaceRTLWord",

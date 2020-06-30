@@ -3,6 +3,9 @@ import keyCodes from "./keyCodes"
 
 const format = {
 	em(e) {
+		if (e.key === "_") {
+			return true
+		}
 		const ok = (
 			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodes.I
@@ -10,6 +13,9 @@ const format = {
 		return ok
 	},
 	strong(e) {
+		if (e.key === "*") {
+			return true
+		}
 		const ok = (
 			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodes.B
@@ -17,6 +23,9 @@ const format = {
 		return ok
 	},
 	code(e) {
+		if (e.key === "`") {
+			return true
+		}
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
@@ -25,6 +34,9 @@ const format = {
 		return ok
 	},
 	strike(e) {
+		if (e.key === "~") {
+			return true
+		}
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
@@ -33,7 +45,7 @@ const format = {
 		return ok
 	},
 	a(e) {
-		const ok = ( // TODO: Untested
+		const ok = (
 			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodes.K
 		)

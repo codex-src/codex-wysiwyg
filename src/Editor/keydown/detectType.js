@@ -8,15 +8,6 @@ import history from "./history"
 function detectType(e) {
 	switch (true) {
 
-	case characterData.tab(e):
-		return enumerated.tab
-	case characterData.enter(e):
-		return enumerated.enter
-	case characterData.characterData(e):
-		return enumerated.characterData
-	case characterData.dead(e):
-		return enumerated.characterDataDead
-
 	case format.em(e):
 		return enumerated.formatEm
 	case format.strong(e):
@@ -28,18 +19,25 @@ function detectType(e) {
 	case format.a(e):
 		return enumerated.formatA
 
-	// NOTE: Ordered by precedence.
-	case backspace.RTL.line(e):
+	case characterData.tab(e):
+		return enumerated.tab
+	case characterData.enter(e):
+		return enumerated.enter
+	case characterData.characterData(e):
+		return enumerated.characterData
+	case characterData.dead(e):
+		return enumerated.characterDataDead
+
+	case backspace.RTL.line(e): // Takes precedence
 		return enumerated.backspaceRTLLine
-	case backspace.RTL.word(e):
+	case backspace.RTL.word(e): // Takes precedence
 		return enumerated.backspaceRTLWord
 	case backspace.RTL.rune(e):
 		return enumerated.backspaceRTLRune
 
-	// NOTE: Ordered by precedence.
-	case backspace.LTR.word(e):
+	case backspace.LTR.word(e): // Takes precedence
 		return enumerated.backspaceLTRWord
-	case backspace.LTR.rune(e):
+	case backspace.LTR.rune(e): // Takes precedence
 		return enumerated.backspaceLTRRune
 
 	case history.undo(e):

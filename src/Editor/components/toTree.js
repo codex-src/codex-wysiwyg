@@ -1,16 +1,18 @@
 import areEqualJSON from "lib/areEqualJSON"
+import JSONClone from "lib/JSONClone"
 import omit from "lib/omit"
 import toArray from "lib/toArray"
 
 // Queries the next subtree and non-nested types.
-function queryNextSubtreeAndTypes(tree, span) {
+function queryNext(tree, span) {
 	const types = [...span.types]
 	if (!tree.length || !types.length) {
 		return [tree, types]
 	}
-	let lastRef = tree[tree.length - 1]
+	// Reference the previously current and current elements:
+	let lastRef = toArray(tree).slice(-1)[0]
 	let ref = lastRef
-	for (let T = types[0]; types.length; T = types[0]) {
+	for (let T = types[0]; types.length; types.shift(), T = types[0]) {
 		ref = toArray(ref).slice(-1)[0]
 		if (typeof ref === "string" || ref.type !== T || !areEqualJSON(omit(ref.props, "children"), span[T] || {})) {
 			// No-op
@@ -18,41 +20,42 @@ function queryNextSubtreeAndTypes(tree, span) {
 		}
 		lastRef = ref
 		ref = ref.props.children
-		types.shift()
 	}
-	// No shared types; push types to tree:
 	if (lastRef === ref) {
 		return [tree, types]
 	}
-	lastRef.props.children = toArray(ref)
+	lastRef.props.children = toArray(lastRef.props.children)
 	return [lastRef.props.children, types]
 }
 
+// Creates an element from a span and non-nested types.
+function createElement(span, types) {
+	const element = {}
+	if (!types.length) {
+		return span.text
+	}
+	// Reference the current element:
+	let ref = element
+	for (const [x, T] of types.entries()) {
+		Object.assign(ref, {
+			type: T,
+			props: {
+				...span[T],
+				children: x + 1 < types.length ? {}
+					: span.text,
+			},
+		})
+		ref = ref.props.children
+	}
+	return element
+}
+
 // Converts an array of spans to a tree data structure.
-export function toTree(spans) {
+function toTree(spans) {
 	const tree = []
 	for (const each of spans) {
-		const [subtree, types] = queryNextSubtreeAndTypes(tree, each)
-		if (!types.length) {
-			subtree.push(each.text)
-			continue
-		}
-		const next = {}
-		let lastRef = next
-		let ref = lastRef
-		for (const T of types) {
-			Object.assign(ref, {
-				type: T,
-				props: {
-					...each[T],
-					children: {},
-				},
-			})
-			lastRef = ref
-			ref = ref.props.children
-		}
-		lastRef.props.children = each.text
-		subtree.push(next)
+		const [subtree, types] = queryNext(tree, each)
+		subtree.push(createElement(each, types))
 	}
 	return tree
 }

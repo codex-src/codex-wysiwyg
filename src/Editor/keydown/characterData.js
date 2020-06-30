@@ -16,7 +16,7 @@ const characterData = {
 	enter(e) {
 		return e.keyCode === keyCodes.Enter
 	},
-	characterData(e) {
+	characterData(e) { // characterData.characterData
 		const ok = (
 			!e.ctrlKey &&
 			!e.metaKey &&
