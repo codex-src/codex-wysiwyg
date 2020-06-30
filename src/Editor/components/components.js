@@ -33,11 +33,10 @@ const Node = ({ id, style, children, ...props }) => {
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
 		const domTree = markupToDOMTree("<div>" + markup + "</div>")
 
-		// // TODO
-		// deeplySyncDOMTrees(domTree.childNodes[0], ref.current)
+		// ;[...ref.current.childNodes].reverse().map(each => each.remove())
+		// ref.current.append(...domTree.childNodes)
 
-		;[...ref.current.childNodes].reverse().map(each => each.remove())
-		ref.current.append(...domTree.childNodes)
+		deeplySyncDOMTrees(domTree, ref.current)
 	}, [children])
 
 	return (
