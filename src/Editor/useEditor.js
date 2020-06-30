@@ -40,58 +40,75 @@ const methods = state => ({
 		// Splits a span at an offset.
 		const split = (spans, offset) => {
 			const offsets = span_offsets(spans, offset)
-			if (!offsets[1] || offsets[1] >= spans[offsets[0]].length) {
-				return offsets
+			if (!offsets[1] || offsets[1] >= spans[offsets[0]].text.length) {
+				return offsets[0]
 			}
-
-			// spans.splice(offsets[0], 1, {
-			// 	...JSONClone(spans[offsets[0]]),
-			// 	text: copy.text.slice(0, offsets[1]),
-			// }, {
-			// 	...JSONClone(spans[offsets[0]]),
-			// 	text: copy.text.slice(offsets[1]),
-			// })
-
 			const ref = spans[offsets[0]]
-			const start = { ...JSONClone(ref), text: ref.text.slice(0, offsets[1]), }
-			const end = { ...JSONClone(ref), text: ref.text.slice(offsets[1]), }
+			const start = {
+				...JSONClone(ref),
+				text: ref.text.slice(0, offsets[1]),
+			}
+			const end = {
+				...JSONClone(ref),
+				text: ref.text.slice(offsets[1]),
+			}
 			spans.splice(offsets[0], 1, start, end)
-			return [offsets[0] + 1, 0]
+			return offsets[0] + 1
 		}
 
 		const element = state.elements.find(each => each.key === state.range[0].key)
-		const [x1] = split(element.props.spans, state.range[0].offset)
-		const [x2] = split(element.props.spans, state.range[1].offset)
+		const x1 = split(element.props.spans, state.range[0].offset)
+		let x2 = split(element.props.spans, state.range[1].offset)
+		if (x2 === x1) {
+			x2++
+		}
 
-		// console.log({ x1, x2 })
+		const shouldFormat = !element.props.spans
+			.slice(x1, x2)
+			.every(each => each.types.indexOf(T) >= 0)
 
-		const shouldFormat = !element.props.spans.slice(x1, x2).every(each => each.types.indexOf(T) >= 0)
-		if (shouldFormat) {
-			for (const each of element.props.spans.slice(x1, x2)) {
-				console.log({ each })
-				each.types.push(T)
-				if (Object.keys(P).length) {
-					each[T] = P
+		// if (shouldFormat) {
+		// 	for (const each of element.props.spans.slice(x1, x2)) {
+		// 		const x = each.types.indexOf(T)
+		// 		if (x === -1) {
+		// 			each.types.push(T)
+		// 			if (Object.keys(P).length) {
+		// 				each[T] = P
+		// 			}
+		// 		}
+		// 	}
+		// } else {
+		// 	for (const each of element.props.spans.slice(x1, x2)) {
+		// 		const x = each.types.indexOf(T)
+		// 		if (x >= 0) {
+		// 			each.types.splice(x, 1)
+		// 			each[T] = undefined
+		// 		}
+		// 	}
+		// }
+		// // Spans.defer
+
+		for (const each of element.props.spans.slice(x1, x2)) {
+			const x = each.types.indexOf(T)
+			if (shouldFormat) {
+				if (x === -1) {
+					each.types.push(T)
+					if (Object.keys(P).length) {
+						each[T] = P
+					}
 				}
-			}
-		} else {
-			for (const each of element.props.spans.slice(x1, x2)) {
-				const x = each.types.indexOf(T)
+			} else {
 				if (x >= 0) {
 					each.types.splice(x, 1)
 					each[T] = undefined
 				}
 			}
 		}
-		// element.props.spans.map(each => each.types.sort(...))
+		// Spans.defer
 
+		console.log({ shouldFormat, x1, x2 })
 		console.log(JSONClone(element.props.spans))
 		this.render()
-
-		// getSpans(element.props.spans, state.range[0].offset, state.range[1].offset - state.range[0].offset)
-
-		// const offs1 = span_offsets(element.props.spans, state.range[0].offset)
-		// const offs2 = span_offsets(element.props.spans, state.range[1].offset)
 	},
 	write(characterData) {
 		if (!state.range.collapsed) {
