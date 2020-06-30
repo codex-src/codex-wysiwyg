@@ -1,5 +1,4 @@
 import areEqualJSON from "lib/areEqualJSON"
-import JSONClone from "lib/JSONClone"
 import omit from "lib/omit"
 import toArray from "lib/toArray"
 
