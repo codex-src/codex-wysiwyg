@@ -2,6 +2,7 @@ import * as Types from "../Types"
 import domUtils from "lib/domUtils"
 import hash from "lib/hash"
 import JSONClone from "lib/JSONClone"
+import spanUtils from "../spanUtils"
 
 // Recursers; methods read an array of spans or elements.
 const recursers = {
@@ -42,18 +43,7 @@ const recursers = {
 				text: "",
 			})
 		}
-
-		// Compares span types based on render precedence.
-		//
-		// TODO: Extract
-		function compareTypes(T1, T2) {
-			const x1 = Types.sortOrder[T1] // must(sortedTypeMap[T1])
-			const x2 = Types.sortOrder[T2] // must(sortedTypeMap[T2])
-			return x1 - x2
-		}
-
-		spans.map(each => each.types.sort(compareTypes))
-
+		spanUtils.sort(spans)
 		return spans
 	},
 	// Reads an array of elements from a DOM tree.
@@ -85,12 +75,6 @@ export const semantic = {
 	// Gets the current type and or props for a semantically-
 	// rendered DOM element.
 	getInfo(domElement) {
-
-		// const P = [...domElement.attributes].reduce((acc, each) => {
-		// 	acc[each.nodeName] = each.nodeValue
-		// 	return acc
-		// }, {})
-
 		const T = domUtils.nodeName(domElement)
 		const P = {}
 		for (const attr of domElement.attributes) {

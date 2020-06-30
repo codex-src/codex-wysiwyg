@@ -6,20 +6,6 @@ import ReactDOMServer from "react-dom/server"
 import T from "./T"
 import toReact from "./toReact"
 
-// React.useLayoutEffect(() => {
-// 	if (!ref.current) {
-// 		// No-op
-// 		return
-// 	}
-// 	// NOTE: Does not use markupToDOMTree because children
-// 	// is not a DOM tree.
-// 	const temp = document.createElement("div")
-// 	ReactDOM.render(children, temp, () => {
-// 		deeplySyncDOMTrees(temp, ref.current)
-// 		temp.remove()
-// 	})
-// }, [children])
-
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
 
@@ -56,7 +42,6 @@ const Node = ({ id, style, children, ...props }) => {
 	)
 }
 
-// TODO: Remove React.memo?
 export const P = React.memo(({ id, spans }) => (
 	<T type={Types.enum.p}>
 		<Node id={id}>
