@@ -143,6 +143,20 @@ const Editor = ({ markup, children }) => {
 						e.preventDefault()
 						dispatch.format(Types.enum.strong)
 						return
+					case keydown.enum.formatStrike:
+						e.preventDefault()
+						dispatch.format(Types.enum.strike)
+						return
+					case keydown.enum.formatCode:
+						e.preventDefault()
+						dispatch.format(Types.enum.code)
+						return
+
+						// case keydown.enum.formatA:
+						// 	e.preventDefault()
+						// 	dispatch.format(Types.enum.a)
+						// 	return
+
 					case keydown.enum.backspaceRTLRune:
 						e.preventDefault()
 						// TODO

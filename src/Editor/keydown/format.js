@@ -17,9 +17,10 @@ const format = {
 		return ok
 	},
 	code(e) {
-		const ok = ( // TODO
-			false
-			// ...
+		const ok = (
+			e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
+			e.keyCode === keyCodes.C
 		)
 		return ok
 	},
