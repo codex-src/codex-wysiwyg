@@ -33,14 +33,24 @@ const methods = state => ({
 	},
 	// TODO
 	format(T, P = {}) {
-		if (/* state.range.collapsed || */ state.range[0].key !== state.range[1].key) {
-			// TODO
-			return
+
+		function getSpans(elements, range) {
+			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
+			const x2 = state.range.collapsed ? x1
+				: state.elements.findIndex(each => each.key === state.range[1].key)
+
+			const spans = []
+			for (let x = x1; x <= x2; x++) {
+				spans.push(...state.elements[x].props.spans)
+			}
+			return spans
 		}
-		const element = state.elements.find(each => each.key === state.range[0].key)
-		const shouldFormat = !element.props.spans.every(each => each.types.indexOf(T) >= 0)
+
+		const spans = getSpans(state.elements, state.range)
+		const shouldFormat = !spans.every(each => each.types.indexOf(T) >= 0)
+
 		if (shouldFormat) {
-			for (const each of element.props.spans) {
+			for (const each of spans) {
 				const x = each.types.indexOf(T)
 				if (x === -1) {
 					each.types.push(T)
@@ -50,15 +60,46 @@ const methods = state => ({
 				}
 			}
 		} else {
-			for (const each of element.props.spans) {
+			for (const each of spans) {
 				const x = each.types.indexOf(T)
 				if (x >= 0) {
 					each.types.splice(x, 1)
 				}
 			}
 		}
-		spanUtils.sort(element.props.spans)
+
+		spanUtils.sort(spans)
 		this.render()
+
+		// console.log(JSONClone(spans), shouldFormat)
+
+
+		// if (/* state.range.collapsed || */ state.range[0].key !== state.range[1].key) {
+		// 	// TODO
+		// 	return
+		// }
+		// const element = state.elements.find(each => each.key === state.range[0].key)
+		// const shouldFormat = !element.props.spans.every(each => each.types.indexOf(T) >= 0)
+		// if (shouldFormat) {
+		// 	for (const each of element.props.spans) {
+		// 		const x = each.types.indexOf(T)
+		// 		if (x === -1) {
+		// 			each.types.push(T)
+		// 		}
+		// 		if (Object.keys(P).length) {
+		// 			each[T] = P
+		// 		}
+		// 	}
+		// } else {
+		// 	for (const each of element.props.spans) {
+		// 		const x = each.types.indexOf(T)
+		// 		if (x >= 0) {
+		// 			each.types.splice(x, 1)
+		// 		}
+		// 	}
+		// }
+		// spanUtils.sort(element.props.spans)
+		// this.render()
 	},
 	// TODO
 	write(characterData) {

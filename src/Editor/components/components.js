@@ -30,8 +30,10 @@ const Node = ({ id, style, children, ...props }) => {
 			ref={ref}
 			id={id}
 			style={{
-				// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
 				...style, // Takes precedence
+				minHeight: "calc(var(--line-height) * 1em)",
+
+				// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
 				caretColor: "var(--black)",
 				whiteSpace: "pre-wrap",
 				// wordBreak: "break-word", // TODO?
@@ -44,7 +46,7 @@ const Node = ({ id, style, children, ...props }) => {
 
 export const P = React.memo(({ id, spans }) => (
 	<T type={Types.enum.p}>
-		<Node id={id}>
+		<Node id={id} style={{ "--line-height": 1.5 }}>
 			{toReact(spans) || (
 				<br />
 			)}
