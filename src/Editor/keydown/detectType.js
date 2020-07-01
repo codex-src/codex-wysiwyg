@@ -1,24 +1,24 @@
 import backspace from "./backspace"
 import characterData from "./characterData"
 import enumerated from "./enumerated"
-import format from "./format"
+import formatting from "./formatting"
 import history from "./history"
 
 // Detects a keydown enum type.
 function detectType(e) {
 	switch (true) {
 
-	case format.plaintext(e):
+	case formatting.plaintext(e):
 		return enumerated.formatPlaintext
-	case format.em(e):
+	case formatting.em(e):
 		return enumerated.formatEm
-	case format.strong(e):
+	case formatting.strong(e):
 		return enumerated.formatStrong
-	case format.strike(e):
+	case formatting.strike(e):
 		return enumerated.formatStrike
-	case format.code(e):
+	case formatting.code(e):
 		return enumerated.formatCode
-	case format.a(e):
+	case formatting.a(e):
 		return enumerated.formatA
 
 	case characterData.tab(e):
