@@ -1,7 +1,7 @@
 import { Enum } from "lib/Enums"
 
 const enumerated = new Enum(
-	"deformat",
+	"formatPlaintext",
 	"formatEm",
 	"formatStrong",
 	"formatCode",

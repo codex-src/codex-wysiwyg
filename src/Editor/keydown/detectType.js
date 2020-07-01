@@ -8,8 +8,8 @@ import history from "./history"
 function detectType(e) {
 	switch (true) {
 
-	case format.deformat(e):
-		return enumerated.deformat
+	case format.plaintext(e):
+		return enumerated.formatPlaintext
 	case format.em(e):
 		return enumerated.formatEm
 	case format.strong(e):

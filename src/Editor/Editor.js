@@ -121,9 +121,9 @@ const Editor = ({ markup, children }) => {
 					/*
 					 * Format
 					 */
-					case keydown.enum.deformat:
+					case keydown.enum.formatPlaintext:
 						e.preventDefault()
-						dispatch.deformat()
+						dispatch.format("plaintext")
 						return
 					case keydown.enum.formatEm:
 						e.preventDefault()

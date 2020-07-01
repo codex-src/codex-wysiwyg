@@ -48,7 +48,7 @@ const backspace = {
 			return false
 		},
 		rune(e) {
-			// Both:
+			// Both non-macOS and macOS:
 			if (e.keyCode === keyCodes.Delete) {
 				return true
 			}

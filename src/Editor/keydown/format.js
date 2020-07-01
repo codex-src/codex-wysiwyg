@@ -2,11 +2,11 @@ import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
 import keyCodes from "./keyCodes"
 
 const format = {
-	deformat(e) {
+	plaintext(e) {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.p
+			e.keyCode === keyCodes.P
 		)
 		return ok
 	},

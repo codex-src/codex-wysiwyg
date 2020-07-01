@@ -35,6 +35,7 @@ const methods = state => ({
 		// TODO
 	},
 	format(T, P = {}) {
+
 		function getSpans(elements, range) {
 			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
 			const x2 = state.range.collapsed ? x1
@@ -48,9 +49,25 @@ const methods = state => ({
 		}
 
 		const spans = getSpans(state.elements, state.range)
-		const shouldFormat = !spans.every(each => each.types.indexOf(T) >= 0)
 
-		if (shouldFormat) {
+		// Should deformat (plaintext):
+		if (T === "plaintext") {
+			for (const each of spans) {
+				for (const T of each.types) {
+					each[T] = undefined
+				}
+				each.types.splice(0)
+			}
+		// Should not format:
+		} else if (spans.every(each => each.types.indexOf(T) >= 0)) {
+			for (const each of spans) {
+				const x = each.types.indexOf(T)
+				if (x >= 0) {
+					each.types.splice(x, 1)
+				}
+			}
+		// Should format:
+		} else {
 			for (const each of spans) {
 				const x = each.types.indexOf(T)
 				if (x === -1) {
@@ -60,20 +77,12 @@ const methods = state => ({
 					each[T] = P
 				}
 			}
-		} else {
-			for (const each of spans) {
-				const x = each.types.indexOf(T)
-				if (x >= 0) {
-					each.types.splice(x, 1)
-				}
-			}
 		}
 
 		spanUtils.sort(spans)
 		this.render()
 
 		// console.log(JSONClone(spans), shouldFormat)
-
 
 		// if (/* state.range.collapsed || */ state.range[0].key !== state.range[1].key) {
 		// 	// TODO
