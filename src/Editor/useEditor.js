@@ -33,7 +33,6 @@ const methods = state => ({
 	},
 	// TODO
 	format(T, P = {}) {
-
 		function getSpans(elements, range) {
 			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
 			const x2 = state.range.collapsed ? x1

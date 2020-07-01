@@ -37,12 +37,12 @@ const recursers = {
 			}
 		}
 		recurse(domElement)
-		if (!spans.length) {
-			spans.push({
-				types: [],
-				text: "",
-			})
-		}
+		// if (!spans.length) {
+		// 	spans.push({
+		// 		types: [],
+		// 		text: "",
+		// 	})
+		// }
 		spanUtils.sort(spans)
 		return spans
 	},

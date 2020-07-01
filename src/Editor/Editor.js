@@ -131,10 +131,13 @@ const Editor = ({ markup, children }) => {
 						e.preventDefault()
 						dispatch.format(Types.enum.strike)
 						return
-					// TODO: Add keydown.enum.formatA?
 					case keydown.enum.formatCode:
 						e.preventDefault()
 						dispatch.format(Types.enum.code)
+						return
+					case keydown.enum.formatA:
+						e.preventDefault()
+						dispatch.format(Types.enum.a, { href: "https://google.com" })
 						return
 					/*
 					 * Character data
