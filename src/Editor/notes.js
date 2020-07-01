@@ -1,6 +1,6 @@
 import useMethods from "use-methods"
 
-// NOTE: The following imports are intentionally not sorted.
+// NOTE: The following imports are intentionally unsorted.
 import {
 	lock,
 	unlock,
@@ -183,8 +183,7 @@ const init = ({ markup, children }) => ({
 })
 
 function useEditor({ markup, children }) {
-	// const ...
-	// return ...
+	// ...
 }
 
 export default useEditor

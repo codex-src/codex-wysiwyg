@@ -77,9 +77,9 @@ const recursers = {
 export const semantic = {
 	// Scans the current type and props.
 	scanner(domElement) {
-		// Guard <i> and <b>:
+		// Guard <i>, <u>, and <b>:
 		const nodeName = domUtils.nodeName(domElement)
-		if (!domElement.id && nodeName === "i") {
+		if (!domElement.id && (nodeName === "i" || nodeName === "u")) {
 			return [Types.enum.em, {}]
 		} else if (!domElement.id && nodeName === "b") {
 			return [Types.enum.strong, {}]
@@ -109,9 +109,9 @@ export const semantic = {
 export const rendered = {
 	// Scans the current type and props.
 	scanner(domElement) {
-		// Guard <i> and <b>:
+		// Guard <i>, <u>, and <b>:
 		const nodeName = domUtils.nodeName(domElement)
-		if (!domElement.id && nodeName === "i") {
+		if (!domElement.id && (nodeName === "i" || nodeName === "u")) {
 			return [Types.enum.em, {}]
 		} else if (!domElement.id && nodeName === "b") {
 			return [Types.enum.strong, {}]
