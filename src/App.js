@@ -3,13 +3,13 @@ import React from "react"
 
 const markup = `
 <p>
-	<code>Lorem ipsum dolor sit amet</code>, <strong>consectetur adipiscing elit</strong>. Duis aliquam quam ac justo aliquet vestibulum nec a eros. <em>Nullam malesuada eros eros</em>, a fringilla orci tincidunt vehicula. <strike>Etiam sed tristique ipsum,</strike> quis egestas turpis. Sed placerat nunc sit amet sagittis ullamcorper. <a href="https://google.com">Nam urna nisl, laoreet vitae lectus nec, convallis ultricies tellus.</a> Nullam ante nibh, dictum at dui at, sodales pellentesque neque. Nunc nec convallis massa, vitae volutpat mauris. Vestibulum euismod ligula et felis sodales, ac vestibulum est tincidunt. Nulla id ex sodales sem posuere ultricies. Vestibulum quis nunc nulla. Cras scelerisque elit sed tortor pellentesque sollicitudin.
+	<code>Go</code> is </strong>expressive, concise, clean, and efficient</strong>. Its <a href="https://google.com">concurrency mechanisms</a> make it easy to write programs that get the most out of <code>multicore and networked machines</code>, while its novel type system enables <em>flexible and modular</em> program construction. Go compiles quickly to machine code yet has the convenience of <strike>garbage</strike> collection and the power of run-time reflection. It's a fast, statically typed, <em>compiled language</em> that feels like a <em>dynamically typed, interpreted language</em>.
 </p>
 <p>
 	<br>
 </p>
 <p>
-	<code>Lorem ipsum dolor sit amet</code>, <strong>consectetur adipiscing elit</strong>. Duis aliquam quam ac justo aliquet vestibulum nec a eros. <em>Nullam malesuada eros eros</em>, a fringilla orci tincidunt vehicula. <strike>Etiam sed tristique ipsum,</strike> quis egestas turpis. Sed placerat nunc sit amet sagittis ullamcorper. <a href="https://google.com">Nam urna nisl, laoreet vitae lectus nec, convallis ultricies tellus.</a> Nullam ante nibh, dictum at dui at, sodales pellentesque neque. Nunc nec convallis massa, vitae volutpat mauris. Vestibulum euismod ligula et felis sodales, ac vestibulum est tincidunt. Nulla id ex sodales sem posuere ultricies. Vestibulum quis nunc nulla. Cras scelerisque elit sed tortor pellentesque sollicitudin.
+	<code>Go</code> is </strong>expressive, concise, clean, and efficient</strong>. Its <a href="https://google.com">concurrency mechanisms</a> make it easy to write programs that get the most out of <code>multicore and networked machines</code>, while its novel type system enables <em>flexible and modular</em> program construction. Go compiles quickly to machine code yet has the convenience of <strike>garbage</strike> collection and the power of run-time reflection. It's a fast, statically typed, <em>compiled language</em> that feels like a <em>dynamically typed, interpreted language</em>.
 </p>
 `
 

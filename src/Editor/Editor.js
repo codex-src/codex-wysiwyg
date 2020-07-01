@@ -7,11 +7,13 @@ import React from "react"
 import ReactDOM from "react-dom"
 import useEditor from "./useEditor"
 
+import "./Editor.css"
+
 const ReactRerenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (
 		React.createElement(Types.components[T], {
 			key,
-			id: key,
+			id: key, // Passes key as id
 			...props,
 		})
 	))

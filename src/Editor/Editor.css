@@ -1,0 +1,3 @@
+[data-root='true'][contenteditable='true'] {
+	caret-color: var(--black);
+}
