@@ -119,6 +119,10 @@ const Editor = ({ markup, children }) => {
 					/*
 					 * Format
 					 */
+					case keydown.enum.deformat:
+						e.preventDefault()
+						dispatch.deformat()
+						return
 					case keydown.enum.formatEm:
 						e.preventDefault()
 						dispatch.format(Types.enum.em)
@@ -194,7 +198,7 @@ const Editor = ({ markup, children }) => {
 
 				onInput={e => {
 					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
-					const spans = Readers.react.spans(document.getElementById(collapsed[0].key))
+					const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
 					dispatch.input(spans, collapsed)
 				}}
 

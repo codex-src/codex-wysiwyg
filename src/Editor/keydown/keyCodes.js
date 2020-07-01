@@ -3,6 +3,7 @@ const keyCodes = {
 	Enter: 13,
 	Dead: 229,
 
+	P: 80, // deformat
 	I: 73, // <em>
 	B: 66, // <strong>
 	C: 67, // <code>

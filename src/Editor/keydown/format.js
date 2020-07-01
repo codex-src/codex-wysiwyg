@@ -2,6 +2,14 @@ import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
 import keyCodes from "./keyCodes"
 
 const format = {
+	deformat(e) {
+		const ok = (
+			e.shiftKey &&
+			isCtrlOrMetaKey(e) &&
+			e.keyCode === keyCodes.p
+		)
+		return ok
+	},
 	em(e) {
 		if (e.key === "_") {
 			return true

@@ -31,7 +31,9 @@ const methods = state => ({
 	select(range) {
 		state.range = range
 	},
-	// TODO
+	deformat() {
+		// TODO
+	},
 	format(T, P = {}) {
 		function getSpans(elements, range) {
 			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
