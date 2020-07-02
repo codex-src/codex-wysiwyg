@@ -35,8 +35,9 @@ const methods = state => ({
 		// TODO
 	},
 	format(T, P = {}) {
-		// Splits an array of spans at an offset.
-		const split = spans => offset => {
+		// Returns the offset of an array of spans at an offset.
+		const spanUtils_offset = spans => offset => {
+			// Compute the span and text offsets:
 			let x = 0
 			for (; x < spans.length; x++) {
 				if (offset - spans[x].text.length <= 0) {
@@ -45,11 +46,14 @@ const methods = state => ({
 				}
 				offset -= spans[x].text.length
 			}
+			// Return the current offset:
 			if (!offset) {
 				return x
 			} else if (offset === spans[x].text.length) {
 				return x + 1
 			}
+			// Cannot return the current offset; create new spans
+			// and return the end offset:
 			const start = {
 				...JSONClone(spans[x]),
 				text: spans[x].text.slice(0, offset),
@@ -62,12 +66,11 @@ const methods = state => ({
 			return x + 1
 		}
 
-		// Aggregates an array of spans based on the current
-		// range.
-		const aggregateSpans = state => {
-			if (state.range.collapsed) {
-				return null
-			}
+		// Gets the spans at the current range.
+		const getCurrentRangeSpans = state => () => {
+			// if (state.range.collapsed) {
+			// 	return null
+			// }
 
 			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
 			const x2 = state.range[0].key === state.range[1].key ? x1
@@ -76,16 +79,16 @@ const methods = state => ({
 			const spans = []
 			for (const each of state.elements.slice(x1, (x2 - x1) + 1)) {
 				if (each.key === state.range[0].key && each.key === state.range[1].key) {
-					const x1 = split(each.props.spans)(state.range[0].offset)
-					const x2 = split(each.props.spans)(state.range[1].offset)
+					const x1 = spanUtils_offset(each.props.spans)(state.range[0].offset)
+					const x2 = spanUtils_offset(each.props.spans)(state.range[1].offset)
 					spans.push(...each.props.spans.slice(x1, x2))
 					continue
 				} else if (each.key === state.range[0].key) {
-					const x = split(each.props.spans)(state.range[0].offset)
+					const x = spanUtils_offset(each.props.spans)(state.range[0].offset)
 					spans.push(...each.props.spans.slice(x))
 					continue
 				} else if (each.key === state.range[1].key) {
-					const x = split(each.props.spans)(state.range[1].offset)
+					const x = spanUtils_offset(each.props.spans)(state.range[1].offset)
 					spans.push(...each.props.spans.slice(x))
 					continue
 				}
@@ -94,39 +97,61 @@ const methods = state => ({
 			return spans
 		}
 
-		const spans = aggregateSpans(state)
-		if (spans) {
-			// Should deformat (plaintext):
+		// Get the current spans:
+		const spans = getCurrentRangeSpans(state)()
+		if (!spans) {
+			// No-op
+			return
+		}
+
+		// Returns whether to format as plaintext (-1), remove
+		// format T (0), or add format T (1).
+		const shouldFormat = (() => {
 			if (T === "plaintext") {
-				for (const each of spans) {
-					for (const T of each.types) {
-						each[T] = undefined
-					}
-					each.types.splice(0)
+				return -1
+			}
+			const every = spans.every(each => each.types.indexOf(T) >= 0)
+			return Number(!every)
+		})()
+
+		switch (shouldFormat) {
+		case -1:
+			for (const each of spans) {
+				for (const T of each.types) {
+					each[T] = undefined
 				}
-			// Should not format:
-			} else if (spans.every(each => each.types.indexOf(T) >= 0)) {
-				for (const each of spans) {
-					const x = each.types.indexOf(T)
-					if (x >= 0) {
-						each.types.splice(x, 1)
-					}
-				}
-			// Should format:
-			} else {
-				for (const each of spans) {
-					const x = each.types.indexOf(T)
-					if (x === -1) {
-						each.types.push(T)
-					}
-					if (Object.keys(P).length) {
-						each[T] = P
-					}
+				each.types.splice(0)
+			}
+			break
+		case 0:
+			for (const each of spans) {
+				const x = each.types.indexOf(T)
+				if (x >= 0) {
+					each.types.splice(x, 1)
 				}
 			}
-			spanUtils.sort(spans)
-			this.render()
+			break
+		case 1:
+			for (const each of spans) {
+				const x = each.types.indexOf(T)
+				if (x === -1) {
+					each.types.push(T)
+				}
+				if (Object.keys(P).length) {
+					each[T] = P
+				}
+			}
+			break
+		default:
+			// No-op
+			break
 		}
+
+		// spanUtils.offset(spans)(array)
+		// spanUtils.defer(spans)()
+
+		spanUtils.sort(spans) // TODO: Change to defer
+		this.render()
 
 		// console.log(JSONClone(spans))
 
