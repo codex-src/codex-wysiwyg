@@ -114,93 +114,77 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onKeyDown={e => {
-					// const type = keydown.detectType(e)
-					// if (type) { // DEBUG
-					// 	console.log(type)
-					// }
-					switch (keydown.detectType(e)) {
-					/*
-					 * Format
-					 */
-					case keydown.enum.formatPlaintext:
+					const keydownT = keydown.detectType(e)
+					if (keydownT) {
+						console.log({ keydownT })
+					}
+
+					switch (keydownT) {
+					case keydown.enum.applyFormatPlaintext:
 						e.preventDefault()
 						dispatch.applyFormatPlaintext()
 						return
-					case keydown.enum.formatEm:
+					case keydown.enum.applyFormatEm:
 						e.preventDefault()
 						dispatch.applyFormatEm()
 						return
-					case keydown.enum.formatStrong:
+					case keydown.enum.applyFormatStrong:
 						e.preventDefault()
 						dispatch.applyFormatStrong()
 						return
-					case keydown.enum.formatCode:
+					case keydown.enum.applyFormatCode:
 						e.preventDefault()
 						dispatch.applyFormatCode()
 						return
-					case keydown.enum.formatStrike:
+					case keydown.enum.applyFormatStrike:
 						e.preventDefault()
 						dispatch.applyFormatStrike()
 						return
-					case keydown.enum.formatA:
+					case keydown.enum.applyFormatA:
 						e.preventDefault()
-						dispatch.applyFormatA("https://google.com")
+						dispatch.applyFormatA("https://google.com") // TODO
 						return
-					/*
-					 * Character data
-					 */
-					case keydown.enum.tab:
+					case keydown.enum.insertTextTab:
 						e.preventDefault()
-						dispatch.write("\t")
+						dispatch.insertTextTab()
 						return
-					case keydown.enum.enter:
+					case keydown.enum.insertTextEnter:
 						e.preventDefault()
-						// dispatch.write("\n") // TODO: Or use dispatch.enter()?
+						dispatch.insertTextEnter()
 						return
-					case keydown.enum.characterData:
-						// TODO
-						if (!state.range.collapsed) {
-							e.preventDefault()
-							// TODO
-							return
-						}
-						return
-					case keydown.enum.characterDataDead:
+
+					// case keydown.enum.insertText:
+					// 	e.preventDefault()
+					// 	dispatch.insertText()
+					// 	return
+
+					case keydown.enum.backspaceRune:
 						e.preventDefault()
-						// TODO
+						dispatch.backspaceRune()
 						return
-					/*
-					 * Backspace
-					 */
-					// TODO: Refactor to dispatch.backspace(dir, boundary)?
-					case keydown.enum.backspaceRTLRune:
+					case keydown.enum.backspaceWord:
 						e.preventDefault()
-						// TODO
+						dispatch.backspaceWord()
 						return
-					case keydown.enum.backspaceRTLWord:
+					case keydown.enum.backspaceLine:
 						e.preventDefault()
-						// TODO
+						dispatch.backspaceLine()
 						return
-					case keydown.enum.backspaceRTLLine:
+					case keydown.enum.deleteRune:
 						e.preventDefault()
-						// TODO
+						dispatch.deleteRune()
 						return
-					case keydown.enum.backspaceLTRRune:
+					case keydown.enum.deleteWord:
 						e.preventDefault()
-						// TODO
+						dispatch.deleteWord()
 						return
-					case keydown.enum.backspaceLTRWord:
+					case keydown.enum.historyUndo:
 						e.preventDefault()
-						// TODO
+						dispatch.historyUndo()
 						return
-					/*
-					 * Undo, redo
-					 */
-					case keydown.enum.undo:
+					case keydown.enum.historyRedo:
 						e.preventDefault()
-						return
-					case keydown.enum.redo:
-						e.preventDefault()
+						dispatch.historyRedo()
 						return
 					default:
 						// No-op

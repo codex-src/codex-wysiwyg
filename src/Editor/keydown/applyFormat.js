@@ -1,7 +1,7 @@
 import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
 import keyCodes from "./keyCodes"
 
-const formatting = {
+const applyFormat = {
 	plaintext(e) {
 		const ok = (
 			e.shiftKey &&
@@ -61,4 +61,4 @@ const formatting = {
 	},
 }
 
-export default formatting
+export default applyFormat

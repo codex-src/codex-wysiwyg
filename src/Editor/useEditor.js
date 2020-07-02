@@ -87,29 +87,29 @@ const uncontrolledInputHandler = state => () => {
 
 // Backspaces on the current range by one rune. Note that
 // emojis are expected to be backspaced only once.
-const backspaceByRune = state => () => {
-	// backspaceByRune(state)()
+const backspaceRune = state => () => {
+	// backspaceRune(state)()
 }
 
 // Backspaces on the current range by one word.
-const backspaceByWord = state => () => {
-	// backspaceByWord(state)()
+const backspaceWord = state => () => {
+	// backspaceWord(state)()
 }
 
 // Backspaces on the current range by one line (paragraph).
-const backspaceByLine = state => () => {
-	// backspaceByLine(state)()
+const backspaceLine = state => () => {
+	// backspaceLine(state)()
 }
 
 // Deletes on the current range by one rune. Note that
 // emojis are expected to be deleted only once.
-const deleteByRune = state => () => {
-	// deleteByRune(state)()
+const deleteRune = state => () => {
+	// deleteRune(state)()
 }
 
 // Deletes on the current range by one word.
-const deleteByWord = state => () => {
-	// deleteByWord(state)()
+const deleteWord = state => () => {
+	// deleteWord(state)()
 }
 
 // Cuts the current range as plaintext, HTML, and GitHub
@@ -348,20 +348,20 @@ const methods = state => ({
 	uncontrolledInputHandler() {
 		uncontrolledInputHandler(state)()
 	},
-	backspaceByRune() {
-		backspaceByRune(state)()
+	backspaceRune() {
+		backspaceRune(state)()
 	},
-	backspaceByWord() {
-		backspaceByWord(state)()
+	backspaceWord() {
+		backspaceWord(state)()
 	},
-	backspaceByLine() {
-		backspaceByLine(state)()
+	backspaceLine() {
+		backspaceLine(state)()
 	},
-	deleteByRune() {
-		deleteByRune(state)()
+	deleteRune() {
+		deleteRune(state)()
 	},
-	deleteByWord() {
-		deleteByWord(state)()
+	deleteWord() {
+		deleteWord(state)()
 	},
 	cut() {
 		cut(state)()

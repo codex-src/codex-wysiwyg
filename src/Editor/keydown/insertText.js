@@ -5,7 +5,7 @@ function runeCount(str) {
 	return [...str].length
 }
 
-const characterData = {
+const insertText = {
 	tab(e) {
 		const ok = (
 			!e.ctrlKey && // Negates browser shortcuts (ctrl-tab and shift-ctrl-tab)
@@ -16,7 +16,7 @@ const characterData = {
 	enter(e) {
 		return e.keyCode === keyCodes.Enter
 	},
-	characterData(e) { // characterData.characterData
+	insertText(e) {
 		const ok = (
 			!e.ctrlKey &&
 			!e.metaKey &&
@@ -24,9 +24,9 @@ const characterData = {
 		)
 		return ok
 	},
-	dead(e) {
-		return e.keyCode === keyCodes.Dead
-	},
+	// dead(e) {
+	// 	return e.keyCode === keyCodes.Dead
+	// },
 }
 
-export default characterData
+export default insertText

@@ -1,23 +1,23 @@
 import { Enum } from "lib/Enums"
 
 const enumerated = new Enum(
-	"formatPlaintext",
-	"formatEm",
-	"formatStrong",
-	"formatCode",
-	"formatStrike",
-	"formatA",
+	"applyFormatPlaintext",
+	"applyFormatEm",
+	"applyFormatStrong",
+	"applyFormatCode",
+	"applyFormatStrike",
+	"applyFormatA",
 
-	"tab",
-	"enter",
-	"characterData",
-	"characterDataDead",
+	"insertTextTab",
+	"insertTextEnter",
+	"insertText",
 
-	"backspaceRTLRune",
-	"backspaceRTLWord",
-	"backspaceRTLLine",
-	"backspaceLTRRune",
-	"backspaceLTRWord",
+	"backspaceRune",
+	"backspaceWord",
+	"backspaceLine",
+
+	"deleteRune",
+	"deleteWord",
 
 	"undo",
 	"redo",
