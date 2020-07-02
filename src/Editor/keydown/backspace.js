@@ -1,22 +1,22 @@
-import AAPL from "./AAPL"
-import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
-import keyCodes from "./keyCodes"
+import AAPL from "lib/AAPL"
+import getKeyCode from "lib/getKeyCode"
+import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
 const backspace = {
 	rune(e) {
-		return e.keyCode === keyCodes.Backspace
+		return e.keyCode === getKeyCode("Backspace")
 	},
 	word(e) {
 		if (!AAPL) {
 			const ok = (
 				isCtrlOrMetaKey(e) &&
-				e.keyCode === keyCodes.Backspace
+				e.keyCode === getKeyCode("Backspace")
 			)
 			return ok
 		} else {
 			const ok = (
 				e.altKey &&
-				e.keyCode === keyCodes.Backspace
+				e.keyCode === getKeyCode("Backspace")
 			)
 			return ok
 		}
@@ -27,7 +27,7 @@ const backspace = {
 		if (AAPL) {
 			const ok = (
 				isCtrlOrMetaKey(e) &&
-				e.keyCode === keyCodes.Backspace
+				e.keyCode === getKeyCode("Backspace")
 			)
 			return ok
 		}

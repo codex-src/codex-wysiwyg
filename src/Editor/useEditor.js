@@ -201,7 +201,7 @@ const applyFormat = state => (T, P = {}) => {
 			: state.elements.findIndex(each => each.key === state.range[1].key)
 
 		const spans = []
-		for (const each of state.elements.slice(x1, (x2 - x1) + 1)) {
+		for (const each of state.elements.slice(x1, x2 + 1)) {
 			if (each.key === state.range[0].key && each.key === state.range[1].key) {
 				const x1 = spanUtils_offset(each.props.spans)(state.range[0].offset)
 				const x2 = spanUtils_offset(each.props.spans)(state.range[1].offset)
@@ -223,6 +223,7 @@ const applyFormat = state => (T, P = {}) => {
 
 	// Get the current spans:
 	const spans = getCurrentRangeSpans(state)()
+	console.log(JSONClone(spans))
 	if (!spans) {
 		// No-op
 		return

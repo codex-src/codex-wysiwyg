@@ -122,12 +122,6 @@ const Editor = ({ markup, children }) => {
 				})}
 
 				onKeyDown={unlockedHandler(e => {
-
-					// const keydownT = keydown.detectType(e)
-					// if (keydownT) {
-					// 	console.log({ keydownT })
-					// }
-
 					switch (keydown.detectType(e)) {
 					case keydown.enum.applyFormatPlaintext:
 						e.preventDefault()

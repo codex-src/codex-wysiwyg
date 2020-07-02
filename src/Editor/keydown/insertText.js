@@ -1,4 +1,4 @@
-import keyCodes from "./keyCodes"
+import getKeyCode from "lib/getKeyCode"
 
 // Returns the UTF-8 decoded rune count.
 function runeCount(str) {
@@ -9,12 +9,12 @@ const insertText = {
 	tab(e) {
 		const ok = (
 			!e.ctrlKey && // Negates browser shortcuts (ctrl-tab and shift-ctrl-tab)
-			e.keyCode === keyCodes.Tab
+			e.keyCode === getKeyCode("Tab")
 		)
 		return ok
 	},
 	enter(e) {
-		return e.keyCode === keyCodes.Enter
+		return e.keyCode === getKeyCode("Enter")
 	},
 	insertText(e) {
 		const ok = (
@@ -24,9 +24,6 @@ const insertText = {
 		)
 		return ok
 	},
-	// dead(e) {
-	// 	return e.keyCode === keyCodes.Dead
-	// },
 }
 
 export default insertText

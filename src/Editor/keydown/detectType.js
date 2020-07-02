@@ -41,7 +41,7 @@ function detectType(e) {
 
 	case $delete.word(e): // Takes precedence
 		return enumerated.deleteWord
-	case $delete.rune(e): // Takes precedence
+	case $delete.rune(e):
 		return enumerated.deleteRune
 
 	case history.undo(e):

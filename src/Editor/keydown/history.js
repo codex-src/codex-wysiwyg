@@ -1,12 +1,12 @@
-import AAPL from "./AAPL"
-import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
-import keyCodes from "./keyCodes"
+import AAPL from "lib/AAPL"
+import getKeyCode from "lib/getKeyCode"
+import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
 const history = {
 	undo(e) {
 		const ok = (
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.Z
+			e.keyCode === getKeyCode("Z")
 		)
 		return ok
 	},
@@ -14,14 +14,14 @@ const history = {
 		if (!AAPL) {
 			const ok = (
 				isCtrlOrMetaKey(e) &&
-				e.keyCode === keyCodes.Y
+				e.keyCode === getKeyCode("Y")
 			)
 			return ok
 		} else {
 			const ok = (
 				e.shiftKey &&
 				isCtrlOrMetaKey(e) &&
-				e.keyCode === keyCodes.Z
+				e.keyCode === getKeyCode("Z")
 			)
 			return ok
 		}

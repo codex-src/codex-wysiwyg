@@ -1,4 +1,4 @@
-import { Enum } from "lib/Enums"
+import Enum from "lib/Enum"
 
 const enumerated = new Enum(
 	"applyFormatPlaintext",

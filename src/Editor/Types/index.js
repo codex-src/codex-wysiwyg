@@ -1,5 +1,5 @@
+import Enum from "lib/Enum"
 import iota from "lib/iota"
-import { Enum } from "lib/Enums"
 
 import { // Do not sort
 	P,

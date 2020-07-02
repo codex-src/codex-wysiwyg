@@ -1,12 +1,12 @@
-import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
-import keyCodes from "./keyCodes"
+import getKeyCode from "lib/getKeyCode"
+import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
 const applyFormat = {
 	plaintext(e) {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.P
+			e.keyCode === getKeyCode("P")
 		)
 		return ok
 	},
@@ -16,7 +16,7 @@ const applyFormat = {
 		}
 		const ok = (
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.I
+			e.keyCode === getKeyCode("I")
 		)
 		return ok
 	},
@@ -26,7 +26,7 @@ const applyFormat = {
 		}
 		const ok = (
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.B
+			e.keyCode === getKeyCode("B")
 		)
 		return ok
 	},
@@ -37,7 +37,7 @@ const applyFormat = {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.C
+			e.keyCode === getKeyCode("C")
 		)
 		return ok
 	},
@@ -48,14 +48,14 @@ const applyFormat = {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.X
+			e.keyCode === getKeyCode("X")
 		)
 		return ok
 	},
 	a(e) {
 		const ok = (
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodes.K
+			e.keyCode === getKeyCode("K")
 		)
 		return ok
 	},

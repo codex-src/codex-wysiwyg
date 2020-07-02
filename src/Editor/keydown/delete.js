@@ -1,17 +1,17 @@
-import AAPL from "./AAPL"
-import isCtrlOrMetaKey from "./isCtrlOrMetaKey"
-import keyCodes from "./keyCodes"
+import AAPL from "lib/AAPL"
+import getKeyCode from "lib/getKeyCode"
+import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
 const $delete = {
 	rune(e) {
 		// Both non-macOS and macOS:
-		if (e.keyCode === keyCodes.Delete) {
+		if (e.keyCode === getKeyCode("Delete")) {
 			return true
 		}
 		if (AAPL) {
 			const ok = (
-				isCtrlOrMetaKey(e) &&
-				e.keyCode === keyCodes.D
+				e.ctrlKey && // Do not use isCtrlOrMetaKey
+				e.keyCode === getKeyCode("D")
 			)
 			return ok
 		}
@@ -21,7 +21,7 @@ const $delete = {
 		if (AAPL) {
 			const ok = (
 				e.altKey &&
-				e.keyCode === keyCodes.Delete
+				e.keyCode === getKeyCode("Delete")
 			)
 			return ok
 		}
