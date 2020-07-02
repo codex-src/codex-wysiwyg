@@ -1,11 +1,12 @@
 import Enum from "lib/Enum"
 import iota from "lib/iota"
 
-import { // Do not sort
+// NOTE: Imports are intentionally unsorted.
+import {
 	P,
 } from "../components/components"
 
-import { // Do not sort
+import {
 	Em,
 	Strong,
 	Strike,
@@ -37,11 +38,11 @@ export const components = {
 
 const i = iota()
 
-// Maps types to precomputed sort orders; render
+// Maps types to sort orders for text components; render
 // precedence for components/components-text.
 export const sortOrder = {
-	[enumerated.code]:   i(), // TODO
-	[enumerated.a]:      i(), // TODO
+	[enumerated.code]:   i(),
+	[enumerated.a]:      i(),
 	[enumerated.strike]: i(),
 	[enumerated.strong]: i(),
 	[enumerated.em]:     i(),

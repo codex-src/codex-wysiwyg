@@ -1,6 +1,6 @@
 import useMethods from "use-methods"
 
-// NOTE: The following imports are intentionally unsorted.
+// NOTE: Imports are intentionally unsorted.
 import {
 	lock,
 	unlock,
