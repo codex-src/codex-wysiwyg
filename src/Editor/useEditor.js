@@ -279,7 +279,7 @@ const methods = state => ({
 })
 
 const init = elements => ({
-	locked: false,
+	locked: true,
 	elements,
 	focused: false,
 	range: {

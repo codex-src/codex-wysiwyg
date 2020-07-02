@@ -50,6 +50,7 @@ const Editor = ({ markup, children }) => {
 		[state.shouldRerender],
 	)
 
+	// TODO: Add unlockedHandler pattern
 	return (
 		<div>
 
@@ -229,8 +230,8 @@ const Editor = ({ markup, children }) => {
 					e.preventDefault()
 				}}
 
-				contentEditable
-				suppressContentEditableWarning
+				contentEditable={!state.locked}
+				suppressContentEditableWarning={!state.locked}
 			/>
 
 			{/* Debugger */}
