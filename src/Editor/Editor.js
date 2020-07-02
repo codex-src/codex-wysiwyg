@@ -50,7 +50,15 @@ const Editor = ({ markup, children }) => {
 		[state.shouldRerender],
 	)
 
-	// TODO: Add unlockedHandler pattern
+	// Exclusively returns a handler when the editor is
+	// unlocked; returns undefined when the editor is locked.
+	const unlockedHandler = handler => {
+		if (state.locked) {
+			return undefined
+		}
+		return handler
+	}
+
 	return (
 		<div>
 
@@ -69,19 +77,19 @@ const Editor = ({ markup, children }) => {
 					tabSize: 4,
 				}}
 
-				onFocus={e => {
+				onFocus={unlockedHandler(e => {
 					dispatch.focus()
-				}}
+				})}
 
-				onBlur={e => {
+				onBlur={unlockedHandler(e => {
 					dispatch.blur()
-				}}
+				})}
 
-				onPointerDown={e => {
+				onPointerDown={unlockedHandler(e => {
 					pointerdownRef.current = true
-				}}
+				})}
 
-				onPointerMove={e => {
+				onPointerMove={unlockedHandler(e => {
 					if (!state.focused) {
 						pointerdownRef.current = false
 						return
@@ -96,24 +104,24 @@ const Editor = ({ markup, children }) => {
 						return
 					}
 					dispatch.select(range)
-				}}
+				})}
 
-				onPointerUp={e => {
+				onPointerUp={unlockedHandler(e => {
 					pointerdownRef.current = false
-				}}
+				})}
 
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
-				onSelect={e => {
+				onSelect={unlockedHandler(e => {
 					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
 						return
 					}
 					dispatch.select(range)
-				}}
+				})}
 
-				onKeyDown={e => {
+				onKeyDown={unlockedHandler(e => {
 
 					// const keydownT = keydown.detectType(e)
 					// if (keydownT) {
@@ -191,33 +199,33 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						break
 					}
-				}}
+				})}
 
-				onInput={e => {
+				onInput={unlockedHandler(e => {
 					// const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
 					// const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
 					// dispatch.input(spans, collapsed)
 					dispatch.uncontrolledInputHandler()
-				}}
+				})}
 
-				onCut={e => {
+				onCut={unlockedHandler(e => {
 					e.preventDefault()
 					// TODO: dispatch.cut()
-				}}
+				})}
 
-				onCopy={e => {
+				onCopy={unlockedHandler(e => {
 					e.preventDefault()
 					// TODO: dispatch.copy()
-				}}
+				})}
 
-				onPaste={e => {
+				onPaste={unlockedHandler(e => {
 					e.preventDefault()
 					// TODO: dispatch.paste(mimeType)
-				}}
+				})}
 
-				onDragStart={e => {
+				onDragStart={unlockedHandler(e => {
 					e.preventDefault()
-				}}
+				})}
 
 				contentEditable={!state.locked}
 				suppressContentEditableWarning={!state.locked}

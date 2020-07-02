@@ -408,7 +408,7 @@ const init = elements => ({
 		},
 		collapsed: true,
 	},
-	clipboard: {
+	clipboard: { // TODO: Deprecate?
 		"text/plaintext": "",
 		"text/html": "",
 		"text/gfm": "",
