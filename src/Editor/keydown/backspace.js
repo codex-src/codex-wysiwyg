@@ -2,6 +2,7 @@ import AAPL from "lib/AAPL"
 import getKeyCode from "lib/getKeyCode"
 import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
+// Tests a keydown event for backspace hotkeys.
 const backspace = {
 	rune(e) {
 		return e.keyCode === getKeyCode("Backspace")

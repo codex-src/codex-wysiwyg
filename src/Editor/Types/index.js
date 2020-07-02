@@ -13,6 +13,7 @@ import { // Do not sort
 	A,
 } from "../components/components-text"
 
+// Enumerates types.
 export const enumerated = new Enum(
 	"p",
 
@@ -23,6 +24,7 @@ export const enumerated = new Enum(
 	"a",
 )
 
+// Maps types to components.
 export const components = {
 	[enumerated.p]: P,
 
@@ -35,7 +37,8 @@ export const components = {
 
 const i = iota()
 
-// Render precedence for components/components-text.
+// Maps types to precomputed sort orders; render
+// precedence for components/components-text.
 export const sortOrder = {
 	[enumerated.code]:   i(), // TODO
 	[enumerated.a]:      i(), // TODO

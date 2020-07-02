@@ -1,5 +1,6 @@
 import Enum from "lib/Enum"
 
+// Enumerates keydown types.
 const enumerated = new Enum(
 	"applyFormatPlaintext",
 	"applyFormatEm",

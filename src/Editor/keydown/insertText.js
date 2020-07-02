@@ -5,6 +5,7 @@ function runeCount(str) {
 	return [...str].length
 }
 
+// Tests a keydown event for insert-text hotkeys.
 const insertText = {
 	tab(e) {
 		const ok = (

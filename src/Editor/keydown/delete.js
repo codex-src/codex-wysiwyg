@@ -2,6 +2,7 @@ import AAPL from "lib/AAPL"
 import getKeyCode from "lib/getKeyCode"
 import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
+// Tests a keydown event for delete hotkeys.
 const $delete = {
 	rune(e) {
 		// Both non-macOS and macOS:

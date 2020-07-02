@@ -1,6 +1,7 @@
 import getKeyCode from "lib/getKeyCode"
 import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 
+// Tests a keydown event for formatting hotkeys.
 const applyFormat = {
 	plaintext(e) {
 		const ok = (

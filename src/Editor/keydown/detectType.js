@@ -5,7 +5,7 @@ import enumerated from "./enumerated"
 import history from "./history"
 import insertText from "./insertText"
 
-// Detects a keydown enum type.
+// Detects a keydown type.
 function detectType(e) {
 	switch (true) {
 
@@ -28,9 +28,6 @@ function detectType(e) {
 		return enumerated.insertTextEnter
 	case insertText.insertText(e):
 		return enumerated.insertText
-
-	// case insertText.dead(e):
-	// 	return enumerated.characterDataDead
 
 	case backspace.line(e): // Takes precedence
 		return enumerated.backspaceLine
