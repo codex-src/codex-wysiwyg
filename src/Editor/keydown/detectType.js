@@ -14,10 +14,10 @@ function detectType(e) {
 		return enumerated.formatEm
 	case formatting.strong(e):
 		return enumerated.formatStrong
-	case formatting.strike(e):
-		return enumerated.formatStrike
 	case formatting.code(e):
 		return enumerated.formatCode
+	case formatting.strike(e):
+		return enumerated.formatStrike
 	case formatting.a(e):
 		return enumerated.formatA
 

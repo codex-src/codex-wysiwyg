@@ -1,5 +1,6 @@
 import * as Range from "./Range"
 import * as Readers from "./Readers"
+import * as Types from "./Types"
 import decorate from "./decorate"
 import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
@@ -8,24 +9,28 @@ import ReactDOMServer from "react-dom/server"
 import spanUtils from "./spanUtils"
 import useMethods from "use-methods"
 
-// Locks the editor; disables future edits.
+// Locks the editor; disables future edits. Unlike blur,
+// lock is expected to remove the DOM attribute
+// contenteditable from the DOM tree.
 const lock = state => () => {
 	state.locked = true
 }
 
-// Unlocks the editor; enables future edits.
+// Unlocks the editor; enables future edits. Unlike focus,
+// unlock is expected to add the DOM attribute
+// contenteditable to the DOM tree.
 const unlock = state => () => {
 	state.locked = false
 }
 
 // Focuses the editor. When the editor is focused, editing
-// operations are expected to work.
+// operations **are** expected to work.
 const focus = state => () => {
 	state.focused = true
 }
 
 // Blurs the editor. When the editor is blurred, editing
-// operations are not expected to work.
+// operations **are not** expected to work.
 const blur = state => () => {
 	state.focused = false
 }
@@ -36,9 +41,169 @@ const select = state => range => {
 	state.range = range
 }
 
+// Applies formatting to the current range.
+const applyFormatPlaintext = state => () => {
+	applyFormat(state)("plaintext")
+}
+
+// Applies formatting to the current range. If the current
+// range is already formatted as such, said formatting is
+// expected to be removed.
+const applyFormatEm = state => () => {
+	applyFormat(state)(Types.enum.em)
+}
+
+// Applies formatting to the current range. If the current
+// range is already formatted as such, said formatting is
+// expected to be removed.
+const applyFormatStrong = state => () => {
+	applyFormat(state)(Types.enum.strong)
+}
+
+// Applies formatting to the current range. If the current
+// range is already formatted as such, said formatting is
+// expected to be removed.
+const applyFormatCode = state => () => {
+	applyFormat(state)(Types.enum.code)
+}
+
+// Applies formatting to the current range. If the current
+// range is already formatted as such, said formatting is
+// expected to be removed.
+const applyFormatStrike = state => () => {
+	applyFormat(state)(Types.enum.strike)
+}
+
+// Applies formatting to the current range. If the current
+// range is already formatted as such, said formatting is
+// expected to be removed.
+const applyFormatA = state => href => {
+	applyFormat(state)(Types.enum.a, { href })
+}
+
 // Schedules the editor for immediate rerendering.
 const render = state => () => {
 	state.shouldRerender++
+}
+
+// ...
+
+const applyFormat = state => (T, P = {}) => {
+	// Returns the offset of an array of spans at an offset.
+	const spanUtils_offset = spans => offset => {
+		// Compute the span and text offsets:
+		let x = 0
+		for (; x < spans.length; x++) {
+			if (offset - spans[x].text.length <= 0) {
+				// No-op
+				break
+			}
+			offset -= spans[x].text.length
+		}
+		// Return the current offset:
+		if (!offset) {
+			return x
+		} else if (offset === spans[x].text.length) {
+			return x + 1
+		}
+		// Cannot return the current offset; create new spans
+		// and return the end offset:
+		const start = {
+			...JSONClone(spans[x]),
+			text: spans[x].text.slice(0, offset),
+		}
+		const end = {
+			...JSONClone(spans[x]),
+			text: spans[x].text.slice(offset),
+		}
+		spans.splice(x, 1, start, end)
+		return x + 1
+	}
+
+	// Gets the spans at the current range.
+	const getCurrentRangeSpans = state => () => {
+		// if (state.range.collapsed) {
+		// 	return null
+		// }
+
+		const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
+		const x2 = state.range[0].key === state.range[1].key ? x1
+			: state.elements.findIndex(each => each.key === state.range[1].key)
+
+		const spans = []
+		for (const each of state.elements.slice(x1, (x2 - x1) + 1)) {
+			if (each.key === state.range[0].key && each.key === state.range[1].key) {
+				const x1 = spanUtils_offset(each.props.spans)(state.range[0].offset)
+				const x2 = spanUtils_offset(each.props.spans)(state.range[1].offset)
+				spans.push(...each.props.spans.slice(x1, x2))
+				continue
+			} else if (each.key === state.range[0].key) {
+				const x = spanUtils_offset(each.props.spans)(state.range[0].offset)
+				spans.push(...each.props.spans.slice(x))
+				continue
+			} else if (each.key === state.range[1].key) {
+				const x = spanUtils_offset(each.props.spans)(state.range[1].offset)
+				spans.push(...each.props.spans.slice(x))
+				continue
+			}
+			spans.push(...each.props.spans)
+		}
+		return spans
+	}
+
+	// Get the current spans:
+	const spans = getCurrentRangeSpans(state)()
+	if (!spans) {
+		// No-op
+		return
+	}
+
+	// Returns whether to format as plaintext (-1), remove
+	// format T (0), or add format T (1).
+	const shouldFormat = (() => {
+		if (T === "plaintext") {
+			return -1
+		}
+		const every = spans.every(each => each.types.indexOf(T) >= 0)
+		return Number(!every)
+	})()
+
+	switch (shouldFormat) {
+	case -1:
+		for (const each of spans) {
+			for (const T of each.types) {
+				each[T] = undefined
+			}
+			each.types.splice(0)
+		}
+		break
+	case 0:
+		for (const each of spans) {
+			const x = each.types.indexOf(T)
+			if (x >= 0) {
+				each.types.splice(x, 1)
+			}
+		}
+		break
+	case 1:
+		for (const each of spans) {
+			const x = each.types.indexOf(T)
+			if (x === -1) {
+				each.types.push(T)
+			}
+			if (Object.keys(P).length) {
+				each[T] = P
+			}
+		}
+		break
+	default:
+		// No-op
+		break
+	}
+
+	// TODO: Change to spanUtils.defer
+	spanUtils.sort(spans)
+	render(state)()
 }
 
 // Returns the span and character offsets for a span and a
@@ -70,126 +235,25 @@ const methods = state => ({
 	select(range) {
 		select(state)(range)
 	},
-	deformat() {
-		// TODO
+	applyFormatPlaintext() {
+		applyFormatPlaintext(state)()
 	},
-	format(T, P = {}) {
-		// Returns the offset of an array of spans at an offset.
-		const spanUtils_offset = spans => offset => {
-			// Compute the span and text offsets:
-			let x = 0
-			for (; x < spans.length; x++) {
-				if (offset - spans[x].text.length <= 0) {
-					// No-op
-					break
-				}
-				offset -= spans[x].text.length
-			}
-			// Return the current offset:
-			if (!offset) {
-				return x
-			} else if (offset === spans[x].text.length) {
-				return x + 1
-			}
-			// Cannot return the current offset; create new spans
-			// and return the end offset:
-			const start = {
-				...JSONClone(spans[x]),
-				text: spans[x].text.slice(0, offset),
-			}
-			const end = {
-				...JSONClone(spans[x]),
-				text: spans[x].text.slice(offset),
-			}
-			spans.splice(x, 1, start, end)
-			return x + 1
-		}
-
-		// Gets the spans at the current range.
-		const getCurrentRangeSpans = state => () => {
-			// if (state.range.collapsed) {
-			// 	return null
-			// }
-
-			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
-			const x2 = state.range[0].key === state.range[1].key ? x1
-				: state.elements.findIndex(each => each.key === state.range[1].key)
-
-			const spans = []
-			for (const each of state.elements.slice(x1, (x2 - x1) + 1)) {
-				if (each.key === state.range[0].key && each.key === state.range[1].key) {
-					const x1 = spanUtils_offset(each.props.spans)(state.range[0].offset)
-					const x2 = spanUtils_offset(each.props.spans)(state.range[1].offset)
-					spans.push(...each.props.spans.slice(x1, x2))
-					continue
-				} else if (each.key === state.range[0].key) {
-					const x = spanUtils_offset(each.props.spans)(state.range[0].offset)
-					spans.push(...each.props.spans.slice(x))
-					continue
-				} else if (each.key === state.range[1].key) {
-					const x = spanUtils_offset(each.props.spans)(state.range[1].offset)
-					spans.push(...each.props.spans.slice(x))
-					continue
-				}
-				spans.push(...each.props.spans)
-			}
-			return spans
-		}
-
-		// Get the current spans:
-		const spans = getCurrentRangeSpans(state)()
-		if (!spans) {
-			// No-op
-			return
-		}
-
-		// Returns whether to format as plaintext (-1), remove
-		// format T (0), or add format T (1).
-		const shouldFormat = (() => {
-			if (T === "plaintext") {
-				return -1
-			}
-			const every = spans.every(each => each.types.indexOf(T) >= 0)
-			return Number(!every)
-		})()
-
-		switch (shouldFormat) {
-		case -1:
-			for (const each of spans) {
-				for (const T of each.types) {
-					each[T] = undefined
-				}
-				each.types.splice(0)
-			}
-			break
-		case 0:
-			for (const each of spans) {
-				const x = each.types.indexOf(T)
-				if (x >= 0) {
-					each.types.splice(x, 1)
-				}
-			}
-			break
-		case 1:
-			for (const each of spans) {
-				const x = each.types.indexOf(T)
-				if (x === -1) {
-					each.types.push(T)
-				}
-				if (Object.keys(P).length) {
-					each[T] = P
-				}
-			}
-			break
-		default:
-			// No-op
-			break
-		}
-
-		// TODO: Change to spanUtils.defer
-		spanUtils.sort(spans)
-		render(state)()
+	applyFormatEm() {
+		applyFormatEm(state)()
 	},
+	applyFormatStrong() {
+		applyFormatStrong(state)()
+	},
+	applyFormatCode() {
+		applyFormatCode(state)()
+	},
+	applyFormatStrike() {
+		applyFormatStrike(state)()
+	},
+	applyFormatA(href) {
+		applyFormatA(state)(href)
+	},
+
 	// TODO
 	write(characterData) {
 		if (!state.range.collapsed) {

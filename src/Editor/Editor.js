@@ -123,27 +123,27 @@ const Editor = ({ markup, children }) => {
 					 */
 					case keydown.enum.formatPlaintext:
 						e.preventDefault()
-						dispatch.format("plaintext")
+						dispatch.applyFormatPlaintext()
 						return
 					case keydown.enum.formatEm:
 						e.preventDefault()
-						dispatch.format(Types.enum.em)
+						dispatch.applyFormatEm()
 						return
 					case keydown.enum.formatStrong:
 						e.preventDefault()
-						dispatch.format(Types.enum.strong)
-						return
-					case keydown.enum.formatStrike:
-						e.preventDefault()
-						dispatch.format(Types.enum.strike)
+						dispatch.applyFormatStrong()
 						return
 					case keydown.enum.formatCode:
 						e.preventDefault()
-						dispatch.format(Types.enum.code)
+						dispatch.applyFormatCode()
+						return
+					case keydown.enum.formatStrike:
+						e.preventDefault()
+						dispatch.applyFormatStrike()
 						return
 					case keydown.enum.formatA:
 						e.preventDefault()
-						dispatch.format(Types.enum.a, { href: "https://google.com" })
+						dispatch.applyFormatA("https://google.com")
 						return
 					/*
 					 * Character data
