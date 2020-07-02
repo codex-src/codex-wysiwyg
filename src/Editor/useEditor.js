@@ -46,27 +46,32 @@ const applyFormatPlaintext = state => () => {
 	applyFormat(state)("plaintext")
 }
 
-// Applies formatting to the current range.
+// Applies formatting to the current range. Formatting is
+// toggled when previously applied.
 const applyFormatEm = state => () => {
 	applyFormat(state)(Types.enum.em)
 }
 
-// Applies formatting to the current range.
+// Applies formatting to the current range. Formatting is
+// toggled when previously applied.
 const applyFormatStrong = state => () => {
 	applyFormat(state)(Types.enum.strong)
 }
 
-// Applies formatting to the current range.
+// Applies formatting to the current range. Formatting is
+// toggled when previously applied.
 const applyFormatCode = state => () => {
 	applyFormat(state)(Types.enum.code)
 }
 
-// Applies formatting to the current range.
+// Applies formatting to the current range. Formatting is
+// toggled when previously applied.
 const applyFormatStrike = state => () => {
 	applyFormat(state)(Types.enum.strike)
 }
 
-// Applies formatting to the current range.
+// Applies formatting to the current range. Formatting is
+// toggled when previously applied.
 const applyFormatA = state => href => {
 	applyFormat(state)(Types.enum.a, { href })
 }
@@ -363,6 +368,8 @@ const methods = state => ({
 	deleteWord() {
 		deleteWord(state)()
 	},
+	// NOTE: Clipboard events may need to be processed in
+	// their handler counterparts
 	cut() {
 		cut(state)()
 	},
