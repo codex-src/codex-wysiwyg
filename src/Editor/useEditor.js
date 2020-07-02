@@ -8,6 +8,39 @@ import ReactDOMServer from "react-dom/server"
 import spanUtils from "./spanUtils"
 import useMethods from "use-methods"
 
+// Locks the editor; disables future edits.
+const lock = state => () => {
+	state.locked = true
+}
+
+// Unlocks the editor; enables future edits.
+const unlock = state => () => {
+	state.locked = false
+}
+
+// Focuses the editor. When the editor is focused, editing
+// operations are expected to work.
+const focus = state => () => {
+	state.focused = true
+}
+
+// Blurs the editor. When the editor is blurred, editing
+// operations are not expected to work.
+const blur = state => () => {
+	state.focused = false
+}
+
+// Selects a range. Note that the current range persists
+// when the editor is locked or blurred.
+const select = state => range => {
+	state.range = range
+}
+
+// Schedules the editor for immediate rerendering.
+const render = state => () => {
+	state.shouldRerender++
+}
+
 // Returns the span and character offsets for a span and a
 // range component offset.
 function span_offsets(spans, offset) { // TODO
@@ -22,14 +55,20 @@ function span_offsets(spans, offset) { // TODO
 }
 
 const methods = state => ({
+	lock() {
+		lock(state)()
+	},
+	unlock() {
+		unlock(state)()
+	},
 	focus() {
-		state.focused = true
+		focus(state)()
 	},
 	blur() {
-		state.focused = false
+		blur(state)()
 	},
 	select(range) {
-		state.range = range
+		select(state)(range)
 	},
 	deformat() {
 		// TODO
@@ -147,58 +186,9 @@ const methods = state => ({
 			break
 		}
 
-		// spanUtils.offset(spans)(array)
-		// spanUtils.defer(spans)()
-
-		spanUtils.sort(spans) // TODO: Change to defer
-		this.render()
-
-		// console.log(JSONClone(spans))
-
-		// spanUtils.defer(spans)
-		// this.render()
-
-		// function getSpans(elements, range) {
-		// 	const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
-		// 	const x2 = state.range.collapsed ? x1
-		// 		: state.elements.findIndex(each => each.key === state.range[1].key)
-		// 	const spans = []
-		// 	for (let x = x1; x <= x2; x++) {
-		// 		spans.push(...state.elements[x].props.spans)
-		// 	}
-		// 	return spans
-		// }
-		// const spans = getSpans(state.elements, state.range)
-		// // Should deformat (plaintext):
-		// if (T === "plaintext") {
-		// 	for (const each of spans) {
-		// 		for (const T of each.types) {
-		// 			each[T] = undefined
-		// 		}
-		// 		each.types.splice(0)
-		// 	}
-		// // Should not format:
-		// } else if (spans.every(each => each.types.indexOf(T) >= 0)) {
-		// 	for (const each of spans) {
-		// 		const x = each.types.indexOf(T)
-		// 		if (x >= 0) {
-		// 			each.types.splice(x, 1)
-		// 		}
-		// 	}
-		// // Should format:
-		// } else {
-		// 	for (const each of spans) {
-		// 		const x = each.types.indexOf(T)
-		// 		if (x === -1) {
-		// 			each.types.push(T)
-		// 		}
-		// 		if (Object.keys(P).length) {
-		// 			each[T] = P
-		// 		}
-		// 	}
-		// }
-		// spanUtils.sort(spans)
-		// this.render()
+		// TODO: Change to spanUtils.defer
+		spanUtils.sort(spans)
+		render(state)()
 	},
 	// TODO
 	write(characterData) {
@@ -213,21 +203,19 @@ const methods = state => ({
 		state.range[0].offset++
 		const collapsed = Range.collapse(state.range)
 		this.select(collapsed)
-		this.render()
+		render(state)()
 	},
 	// TODO: Add support for nodes? elemUtils.find?
 	input(spans, collapsed) {
 		const element = state.elements.find(each => each.key === collapsed[0].key)
 		element.props.spans = spans
 		this.select(collapsed)
-		this.render()
-	},
-	render() {
-		state.shouldRerender++
+		render(state)()
 	},
 })
 
 const init = elements => ({
+	locked: false,
 	elements,
 	focused: false,
 	range: {
