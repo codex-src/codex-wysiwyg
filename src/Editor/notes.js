@@ -23,15 +23,15 @@ import {
 
 import {
 	insert,
-	nativeInputHandler,
+	uncontrolledInputHandler,
 } from "./insert"
 
 import {
-	deleteRTLRune,
-	deleteRTLWord,
-	deleteRTLLine,
-	deleteLTRRune,
-	deleteLTRWord,
+	backspaceByRune,
+	backspaceByWord,
+	backspaceByLine,
+	deleteByRune,
+	deleteByWord,
 } from "./delete-dir"
 
 import {
@@ -82,85 +82,85 @@ const dispatch = state => ({
 	applyPlaintext() {
 		applyPlaintext(state)()
 	},
-	// Applies <em> formatting to the current range. If the
-	// current range is already formatted as such, said
+	// Applies emphasis formatting to the current range. If
+	// the current range is already formatted as such, said
 	// formatting is expected to be removed.
 	applyEm() {
 		applyEm(state)()
 	},
-	// Applies <strong> formatting to the current range. If
-	// the current range is already formatted as such, said
+	// Applies strong formatting to the current range. If the
+	// current range is already formatted as such, said
 	// formatting is expected to be removed.
 	applyStrong() {
 		applyStrong(state)()
 	},
-	// Applies <code> formatting to the current range. If the
+	// Applies code formatting to the current range. If the
 	// current range is already formatted as such, said
 	// formatting is expected to be removed.
 	applyCode() {
 		applyCode(state)()
 	},
-	// Applies <strike> formatting to the current range. If
-	// the current range is already formatted as such, said
+	// Applies strikethrough formatting to the current range.
+	// If the current range is already formatted as such, said
 	// formatting is expected to be removed.
 	applyStrike() {
 		applyStrike(state)()
 	},
-	// Applies <a> formatting to the current range. If the
+	// Applies anchor formatting to the current range. If the
 	// current range is already formatted as such, said
 	// formatting is expected to be removed.
 	applyA(href) {
 		applyA(state)(href)
 	},
-	// Inserts data of a MIME-type at the current range.
-	// mimeType can be "text/plaintext", "text/html", or
-	// "text/gfm".
+	// Inserts plaintext, HTML, or GitHub Flavored Markdown at
+	// the current range. mimeType can be "text/plaintext",
+	// "text/html", or "text/gfm".
 	insert(data, mimeType) {
 		insert(state)(data, mimeType)
-	}
-	// Handler for native input events. Note that native input
-	// events cannot be prevented.
-	nativeInputHandler() {
-		nativeInputHandler(state)()
-	}
-	// Deletes right-to-left (RTL) on the current range by one
-	// rune. RTL deletes are also known as backspace.
-	deleteRTLRune() {
-		deleteRTLRune(state)()
 	},
-	// Deletes right-to-left (RTL) on the current range by one
-	// word. RTL deletes are also known as backspace.
-	deleteRTLWord() {
-		deleteRTLWord(state)()
+	// Handler for uncontrolled input events. Uncontrolled
+	// means the event cannot be prevented.
+	uncontrolledInputHandler() {
+		uncontrolledInputHandler(state)()
 	},
-	// Deletes right-to-left (RTL) on the current range by one
-	// line. RTL deletes are also known as backspace.
-	deleteRTLLine() {
-		deleteRTLLine(state)()
+	// Backspaces (deletes right-to-left) on the current range
+	// by one rune.
+	backspaceByRune() {
+		backspaceByRune(state)()
 	},
-	// Deletes left-to-right (LTR) on the current range by one
-	// rune.
-	deleteLTRRune() {
-		deleteLTRRune(state)()
+	// Backspaces (deletes right-to-left) on the current range
+	// by one word.
+	backspaceByWord() {
+		backspaceByWord(state)()
 	},
-	// Deletes left-to-right (LTR) on the current range by one
-	// word.
-	deleteLTRWord() {
-		deleteLTRWord(state)()
+	// Backspaces (deletes right-to-left) on the current range
+	// by one line.
+	backspaceByLine() {
+		backspaceByLine(state)()
+	},
+	// Deletes (deletes left-to-right) on the current range by
+	// one rune.
+	deleteByRune() {
+		deleteByRune(state)()
+	},
+	// Deletes (deletes left-to-right) on the current range by
+	// one word.
+	deleteByWord() {
+		deleteByWord(state)()
 	},
 	// Cuts the current range as plaintext, HTML, and GitHub
 	// Flavored Markdown to the editor clipboard.
 	cut() {
 		cut(state)()
-	}
+	},
 	// Copies the current range as plaintext, HTML, and GitHub
 	// Flavored Markdown to the editor clipboard.
 	copy() {
 		copy(state)()
 	},
-	// Pastes data of a MIME-type at the current range.
-	// mimeType can be "text/plaintext", "text/html", or
-	// "text/gfm".
+	// Pastes plaintext, HTML, or GitHub Flavored Markdown at
+	// the current range. mimeType can be "text/plaintext",
+	// "text/html", or "text/gfm".
 	paste(mimeType) {
 		paste(state)()
 	},
@@ -168,11 +168,11 @@ const dispatch = state => ({
 	pushUndoState(undoState) {
 		pushUndoState(state)(undoState)
 	},
-	// Undos the editor state once.
+	// Undos the editor history state stack once.
 	undo() {
 		undo(state)()
 	},
-	// Redos the editor state once.
+	// Redos the editor history state stack once.
 	redo() {
 		redo(state)()
 	},
