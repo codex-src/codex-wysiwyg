@@ -32,7 +32,7 @@ import {
 	backspaceByLine,
 	deleteByRune,
 	deleteByWord,
-} from "./delete-dir"
+} from "./backspace-delete"
 
 import {
 	cut,

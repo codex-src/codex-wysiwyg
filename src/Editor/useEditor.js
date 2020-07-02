@@ -35,63 +35,134 @@ const methods = state => ({
 		// TODO
 	},
 	format(T, P = {}) {
+		// Splits an array of spans at an offset.
+		const split = spans => offset => {
+			let x = 0
+			for (; x < spans.length; x++) {
+				if (offset - spans[x].text.length <= 0) {
+					// No-op
+					break
+				}
+				offset -= spans[x].text.length
+			}
+			if (!offset) {
+				return x
+			} else if (offset === spans[x].text.length) {
+				return x + 1
+			}
+			const start = {
+				...JSONClone(spans[x]),
+				text: spans[x].text.slice(0, offset),
+			}
+			const end = {
+				...JSONClone(spans[x]),
+				text: spans[x].text.slice(offset),
+			}
+			spans.splice(x, 1, start, end)
+			return x + 1
+		}
 
-		function getSpans(elements, range) {
+		// Aggregates an array of spans based on the current
+		// range.
+		const aggregateSpans = state => {
+			if (state.range.collapsed) {
+				return null
+			}
+
 			const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
-			const x2 = state.range.collapsed ? x1
+			const x2 = state.range[0].key === state.range[1].key ? x1
 				: state.elements.findIndex(each => each.key === state.range[1].key)
 
 			const spans = []
-			for (let x = x1; x <= x2; x++) {
-				spans.push(...state.elements[x].props.spans)
+			for (const each of state.elements.slice(x1, (x2 - x1) + 1)) {
+				if (each.key === state.range[0].key && each.key === state.range[1].key) {
+					const x1 = split(each.props.spans)(state.range[0].offset)
+					const x2 = split(each.props.spans)(state.range[1].offset)
+					spans.push(...each.props.spans.slice(x1, x2))
+					continue
+				} else if (each.key === state.range[0].key) {
+					const x = split(each.props.spans)(state.range[0].offset)
+					spans.push(...each.props.spans.slice(x))
+					continue
+				} else if (each.key === state.range[1].key) {
+					const x = split(each.props.spans)(state.range[1].offset)
+					spans.push(...each.props.spans.slice(x))
+					continue
+				}
+				spans.push(...each.props.spans)
 			}
 			return spans
 		}
 
-		const spans = getSpans(state.elements, state.range)
-
-		// Should deformat (plaintext):
-		if (T === "plaintext") {
-			for (const each of spans) {
-				for (const T of each.types) {
-					each[T] = undefined
+		const spans = aggregateSpans(state)
+		if (spans) {
+			// Should deformat (plaintext):
+			if (T === "plaintext") {
+				for (const each of spans) {
+					for (const T of each.types) {
+						each[T] = undefined
+					}
+					each.types.splice(0)
 				}
-				each.types.splice(0)
+			// Should not format:
+			} else if (spans.every(each => each.types.indexOf(T) >= 0)) {
+				for (const each of spans) {
+					const x = each.types.indexOf(T)
+					if (x >= 0) {
+						each.types.splice(x, 1)
+					}
+				}
+			// Should format:
+			} else {
+				for (const each of spans) {
+					const x = each.types.indexOf(T)
+					if (x === -1) {
+						each.types.push(T)
+					}
+					if (Object.keys(P).length) {
+						each[T] = P
+					}
+				}
 			}
-		// Should not format:
-		} else if (spans.every(each => each.types.indexOf(T) >= 0)) {
-			for (const each of spans) {
-				const x = each.types.indexOf(T)
-				if (x >= 0) {
-					each.types.splice(x, 1)
-				}
-			}
-		// Should format:
-		} else {
-			for (const each of spans) {
-				const x = each.types.indexOf(T)
-				if (x === -1) {
-					each.types.push(T)
-				}
-				if (Object.keys(P).length) {
-					each[T] = P
-				}
-			}
+			spanUtils.sort(spans)
+			this.render()
 		}
 
-		spanUtils.sort(spans)
-		this.render()
+		// console.log(JSONClone(spans))
 
-		// console.log(JSONClone(spans), shouldFormat)
+		// spanUtils.defer(spans)
+		// this.render()
 
-		// if (/* state.range.collapsed || */ state.range[0].key !== state.range[1].key) {
-		// 	// TODO
-		// 	return
+		// function getSpans(elements, range) {
+		// 	const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
+		// 	const x2 = state.range.collapsed ? x1
+		// 		: state.elements.findIndex(each => each.key === state.range[1].key)
+		// 	const spans = []
+		// 	for (let x = x1; x <= x2; x++) {
+		// 		spans.push(...state.elements[x].props.spans)
+		// 	}
+		// 	return spans
 		// }
-		// const element = state.elements.find(each => each.key === state.range[0].key)
-		// const shouldFormat = !element.props.spans.every(each => each.types.indexOf(T) >= 0)
-		// if (shouldFormat) {
-		// 	for (const each of element.props.spans) {
+		// const spans = getSpans(state.elements, state.range)
+		// // Should deformat (plaintext):
+		// if (T === "plaintext") {
+		// 	for (const each of spans) {
+		// 		for (const T of each.types) {
+		// 			each[T] = undefined
+		// 		}
+		// 		each.types.splice(0)
+		// 	}
+		// // Should not format:
+		// } else if (spans.every(each => each.types.indexOf(T) >= 0)) {
+		// 	for (const each of spans) {
+		// 		const x = each.types.indexOf(T)
+		// 		if (x >= 0) {
+		// 			each.types.splice(x, 1)
+		// 		}
+		// 	}
+		// // Should format:
+		// } else {
+		// 	for (const each of spans) {
 		// 		const x = each.types.indexOf(T)
 		// 		if (x === -1) {
 		// 			each.types.push(T)
@@ -100,15 +171,8 @@ const methods = state => ({
 		// 			each[T] = P
 		// 		}
 		// 	}
-		// } else {
-		// 	for (const each of element.props.spans) {
-		// 		const x = each.types.indexOf(T)
-		// 		if (x >= 0) {
-		// 			each.types.splice(x, 1)
-		// 		}
-		// 	}
 		// }
-		// spanUtils.sort(element.props.spans)
+		// spanUtils.sort(spans)
 		// this.render()
 	},
 	// TODO
