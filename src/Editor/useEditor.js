@@ -36,7 +36,7 @@ const blur = state => () => {
 }
 
 // Selects a range. Note that the current range persists
-// when the editor is locked or blurred.
+// even when the editor is locked or blurred.
 const select = state => range => {
 	state.range = range
 }
@@ -46,42 +46,107 @@ const applyFormatPlaintext = state => () => {
 	applyFormat(state)("plaintext")
 }
 
-// Applies formatting to the current range. If the current
-// range is already formatted as such, said formatting is
-// expected to be removed.
+// Applies formatting to the current range.
 const applyFormatEm = state => () => {
 	applyFormat(state)(Types.enum.em)
 }
 
-// Applies formatting to the current range. If the current
-// range is already formatted as such, said formatting is
-// expected to be removed.
+// Applies formatting to the current range.
 const applyFormatStrong = state => () => {
 	applyFormat(state)(Types.enum.strong)
 }
 
-// Applies formatting to the current range. If the current
-// range is already formatted as such, said formatting is
-// expected to be removed.
+// Applies formatting to the current range.
 const applyFormatCode = state => () => {
 	applyFormat(state)(Types.enum.code)
 }
 
-// Applies formatting to the current range. If the current
-// range is already formatted as such, said formatting is
-// expected to be removed.
+// Applies formatting to the current range.
 const applyFormatStrike = state => () => {
 	applyFormat(state)(Types.enum.strike)
 }
 
-// Applies formatting to the current range. If the current
-// range is already formatted as such, said formatting is
-// expected to be removed.
+// Applies formatting to the current range.
 const applyFormatA = state => href => {
 	applyFormat(state)(Types.enum.a, { href })
 }
 
-// Schedules the editor for immediate rerendering.
+// Inserts plaintext, HTML, or GitHub Flavored Markdown on
+// the current range. mimeType can be "text/plaintext",
+// "text/html", or "text/gfm".
+const insert = state => (data, mimeType) => {
+	// insert(state)(data, mimeType)
+}
+
+// Handler for uncontrolled input events. Note that
+// uncontrolled events cannot be prevented; most events are
+// controlled.
+const uncontrolledInputHandler = state => () => {
+	// uncontrolledInputHandler(state)()
+}
+
+// Backspaces on the current range by one rune. Note that
+// emojis are expected to be backspaced only once.
+const backspaceByRune = state => () => {
+	// backspaceByRune(state)()
+}
+
+// Backspaces on the current range by one word.
+const backspaceByWord = state => () => {
+	// backspaceByWord(state)()
+}
+
+// Backspaces on the current range by one line (paragraph).
+const backspaceByLine = state => () => {
+	// backspaceByLine(state)()
+}
+
+// Deletes on the current range by one rune. Note that
+// emojis are expected to be deleted only once.
+const deleteByRune = state => () => {
+	// deleteByRune(state)()
+}
+
+// Deletes on the current range by one word.
+const deleteByWord = state => () => {
+	// deleteByWord(state)()
+}
+
+// Cuts the current range as plaintext, HTML, and GitHub
+// Flavored Markdown to the editor clipboard.
+const cut = state => () => {
+	// cut(state)()
+}
+
+// Copies the current range as plaintext, HTML, and GitHub
+// Flavored Markdown to the editor clipboard.
+const copy = state => () => {
+	// copy(state)()
+}
+
+// Pastes plaintext, HTML, or GitHub Flavored Markdown on
+// the current range. mimeType can be "text/plaintext",
+// "text/html", or "text/gfm".
+const paste = state => mimeType => {
+	// paste(state)()
+}
+
+// Pushes an undo state onto the history state stack.
+const pushUndoState = state => undoState => {
+	// pushUndoState(state)(undoState)
+}
+
+// Undos the editor history state stack once.
+const undo = state => () => {
+	// undo(state)()
+}
+
+// Redos the editor history state stack once.
+const redo = state => () => {
+	// redo(state)()
+}
+
+// Schedules the editor for an immediate rerender.
 const render = state => () => {
 	state.shouldRerender++
 }
@@ -219,6 +284,29 @@ function span_offsets(spans, offset) { // TODO
 	return null
 }
 
+// // TODO
+// write(characterData) {
+// 	if (!state.range.collapsed) {
+// 		// TODO
+// 		return
+// 	}
+// 	const element = state.elements.find(each => each.key === state.range[0].key)
+// 	const offsets = span_offsets(element.props.spans, state.range[0].offset)
+// 	const ref = element.props.spans[offsets[0]]
+// 	ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
+// 	state.range[0].offset++
+// 	const collapsed = Range.collapse(state.range)
+// 	this.select(collapsed)
+// 	render(state)()
+// },
+// // TODO: Add support for nodes? elemUtils.find?
+// input(spans, collapsed) {
+// 	const element = state.elements.find(each => each.key === collapsed[0].key)
+// 	element.props.spans = spans
+// 	this.select(collapsed)
+// 	render(state)()
+// },
+
 const methods = state => ({
 	lock() {
 		lock(state)()
@@ -253,33 +341,53 @@ const methods = state => ({
 	applyFormatA(href) {
 		applyFormatA(state)(href)
 	},
-
-	// TODO
-	write(characterData) {
-		if (!state.range.collapsed) {
-			// TODO
-			return
-		}
-		const element = state.elements.find(each => each.key === state.range[0].key)
-		const offsets = span_offsets(element.props.spans, state.range[0].offset)
-		const ref = element.props.spans[offsets[0]]
-		ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
-		state.range[0].offset++
-		const collapsed = Range.collapse(state.range)
-		this.select(collapsed)
-		render(state)()
+	insert(data, mimeType) {
+		insert(state)(data, mimeType)
 	},
-	// TODO: Add support for nodes? elemUtils.find?
-	input(spans, collapsed) {
-		const element = state.elements.find(each => each.key === collapsed[0].key)
-		element.props.spans = spans
-		this.select(collapsed)
+	// TODO: Add spans, collapsed?
+	uncontrolledInputHandler() {
+		uncontrolledInputHandler(state)()
+	},
+	backspaceByRune() {
+		backspaceByRune(state)()
+	},
+	backspaceByWord() {
+		backspaceByWord(state)()
+	},
+	backspaceByLine() {
+		backspaceByLine(state)()
+	},
+	deleteByRune() {
+		deleteByRune(state)()
+	},
+	deleteByWord() {
+		deleteByWord(state)()
+	},
+	cut() {
+		cut(state)()
+	},
+	copy() {
+		copy(state)()
+	},
+	paste(mimeType) {
+		paste(state)(mimeType)
+	},
+	pushUndoState(undoState) {
+		pushUndoState(state)(undoState)
+	},
+	undo() {
+		undo(state)()
+	},
+	redo() {
+		redo(state)()
+	},
+	render() {
 		render(state)()
 	},
 })
 
 const init = elements => ({
-	locked: true,
+	locked: false,
 	elements,
 	focused: false,
 	range: {
@@ -293,6 +401,15 @@ const init = elements => ({
 		},
 		collapsed: true,
 	},
+	clipboard: {
+		"text/plaintext": "",
+		"text/html": "",
+		"text/gfm": "",
+	},
+	// history: {
+	// 	stack: [],
+	// 	index: 0,
+	// },
 	shouldRerender: 0,
 })
 
