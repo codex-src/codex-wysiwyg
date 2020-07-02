@@ -114,12 +114,13 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onKeyDown={e => {
-					const keydownT = keydown.detectType(e)
-					if (keydownT) {
-						console.log({ keydownT })
-					}
 
-					switch (keydownT) {
+					// const keydownT = keydown.detectType(e)
+					// if (keydownT) {
+					// 	console.log({ keydownT })
+					// }
+
+					switch (keydown.detectType(e)) {
 					case keydown.enum.applyFormatPlaintext:
 						e.preventDefault()
 						dispatch.applyFormatPlaintext()
@@ -146,17 +147,17 @@ const Editor = ({ markup, children }) => {
 						return
 					case keydown.enum.insertTextTab:
 						e.preventDefault()
-						dispatch.insertTextTab()
+						dispatch.insert("\t", "text/plain")
 						return
 					case keydown.enum.insertTextEnter:
 						e.preventDefault()
-						dispatch.insertTextEnter()
+						dispatch.insert("\n", "text/plain")
 						return
 
-					// case keydown.enum.insertText:
-					// 	e.preventDefault()
-					// 	dispatch.insertText()
-					// 	return
+						// case keydown.enum.insertText:
+						// 	e.preventDefault()
+						// 	dispatch.insertText()
+						// 	return
 
 					case keydown.enum.backspaceRune:
 						e.preventDefault()
@@ -178,13 +179,13 @@ const Editor = ({ markup, children }) => {
 						e.preventDefault()
 						dispatch.deleteWord()
 						return
-					case keydown.enum.historyUndo:
+					case keydown.enum.undo:
 						e.preventDefault()
-						dispatch.historyUndo()
+						dispatch.undo()
 						return
-					case keydown.enum.historyRedo:
+					case keydown.enum.redo:
 						e.preventDefault()
-						dispatch.historyRedo()
+						dispatch.redo()
 						return
 					default:
 						// No-op
@@ -201,14 +202,17 @@ const Editor = ({ markup, children }) => {
 
 				onCut={e => {
 					e.preventDefault()
+					// TODO: dispatch.cut()
 				}}
 
 				onCopy={e => {
 					e.preventDefault()
+					// TODO: dispatch.copy()
 				}}
 
 				onPaste={e => {
 					e.preventDefault()
+					// TODO: dispatch.paste(mimeType)
 				}}
 
 				onDragStart={e => {
