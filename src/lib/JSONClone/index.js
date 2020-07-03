@@ -1,5 +1,4 @@
-// JSON-encodes and decodes a value; not recommended for
-// deep objects.
+// JSON-encodes and decodes a value.
 function JSONClone(value) {
 	return JSON.parse(JSON.stringify(value))
 }
