@@ -156,56 +156,49 @@ const render = state => () => {
 	state.shouldRerender++
 }
 
-// ...
-
-const applyFormat = state => (T, P = {}) => {
-
-	// Computes the span-offset at an offset.
-	const offset = spans => offset => {
-		if (!offset) {
-			return 0
-		} else if (offset === -1) {
-			console.log(JSONClone(spans), spans.length)
-			return spans.length
-		}
-
-		// Compute the span-offset and text-offset:
-		let x = 0
-		let each = null
-		for ([x, each] of spans.entries()) {
-			if (offset - each.text.length <= 0) {
-				// No-op
-				break
-			}
-			offset -= each.text.length
-		}
-		// Return the current span-offset:
-		if (!offset) { // TODO?
-			return x
-		// Return the next span-offset:
-		} else if (offset === each.text.length) {
-			return x + 1
-		}
-		// Create new spans and return the next span-offset:
-		const start = {
-			...JSONClone(each),
-			text: each.text.slice(0, offset),
-		}
-		const end = {
-			...JSONClone(each),
-			text: each.text.slice(offset),
-		}
-		spans.splice(x, 1, start, end)
-		return x + 1
+// Computes the span-offset at an offset.
+const getSpanOffset = spans => offset => {
+	if (!offset) {
+		return 0
+	} else if (offset === -1) {
+		return spans.length
 	}
 
+	// Compute the span-offset and text-offset:
+	let x = 0
+	let each = null
+	for ([x, each] of spans.entries()) {
+		if (offset - each.text.length <= 0) {
+			// No-op
+			break
+		}
+		offset -= each.text.length
+	}
+	// Return the next span-offset:
+	if (offset === each.text.length) {
+		return x + 1
+	}
+	// Create new spans and return the next span-offset:
+	const start = {
+		...JSONClone(each),
+		text: each.text.slice(0, offset),
+	}
+	const end = {
+		...JSONClone(each),
+		text: each.text.slice(offset),
+	}
+	spans.splice(x, 1, start, end)
+	return x + 1
+}
+
+// format
+// delete
+// write...
+const getCurrentCollection = state => () => {
 	const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
 	const x2 = state.range[0].key === state.range[1].key ? x1
 		: state.elements.findIndex(each => each.key === state.range[1].key)
 
-	// format
-	// delete
-	// write...
 	const collection = []
 	for (let x = x1; x <= x2; x++) {
 		// Compute the corrected range offsets:
@@ -218,194 +211,59 @@ const applyFormat = state => (T, P = {}) => {
 			offset2 = state.range[1].offset
 		}
 		// Compute the span offsets:
-		const s1 = offset(state.elements[x].props.spans)(offset1)
-		const s2 = offset(state.elements[x].props.spans)(offset2)
+		const s1 = getSpanOffset(state.elements[x].props.spans)(offset1)
+		const s2 = getSpanOffset(state.elements[x].props.spans)(offset2)
 		collection.push({ ref: state.elements[x], spans: state.elements[x].props.spans.slice(s1, s2) })
 	}
 
-	// Applies a format to a collection.
-	const applyFormat = collection => (T, P = {}) => {
-
-		// Tests what to do:
-		const shouldApply = T === "plaintext" ? -1
-			: Number(!collection.every(each => each.spans.every(each => each.types.indexOf(T) >= 0)))
-
-		if (shouldApply === -1) {
-			for (const c of collection) {
-				for (const s of c.spans) {
-					for (const T of s.types) {
-						s[T] = undefined
-					}
-					s.types.splice(0)
-				}
-				spanUtils.sort(c.spans)
-			}
-		} else if (shouldApply === 0) {
-			for (const c of collection) {
-				for (const s of c.spans) {
-					const x = s.types.indexOf(T)
-					if (x >= 0) {
-						s.types.splice(x, 1)
-						s[T] = undefined
-					}
-				}
-				spanUtils.sort(c.spans)
-			}
-		} else if (shouldApply === 1) {
-			for (const c of collection) {
-				for (const s of c.spans) {
-					const x = s.types.indexOf(T)
-					if (x === -1) {
-						s.types.push(T)
-						if (Object.keys(P).length) {
-							s[T] = P
-						}
-					}
-				}
-				spanUtils.sort(c.spans)
-			}
-		}
-	}
-
-	applyFormat(collection)(T)
-	render(state)()
-
-	// for (const each of collection) {
-	// 	applyFormat(each)
-	// }
-
-	// console.log(JSONClone(collection))
-	// mapCollection(collection, applyFormat("strong"))
-
-	//	// Returns the offset of an array of spans at an offset.
-	//	const spanUtils_offset = spans => offset => {
-	//		// Compute the span and text offsets:
-	//		let x = 0
-	//		for (; x < spans.length; x++) {
-	//			if (offset - spans[x].text.length <= 0) {
-	//				// No-op
-	//				break
-	//			}
-	//			offset -= spans[x].text.length
-	//		}
-	//		// Return the current offset:
-	//		if (!offset) {
-	//			return x
-	//		} else if (offset === spans[x].text.length) {
-	//			return x + 1
-	//		}
-	//		// Cannot return the current offset; create new spans
-	//		// and return the end offset:
-	//		const start = {
-	//			...JSONClone(spans[x]),
-	//			text: spans[x].text.slice(0, offset),
-	//		}
-	//		const end = {
-	//			...JSONClone(spans[x]),
-	//			text: spans[x].text.slice(offset),
-	//		}
-	//		spans.splice(x, 1, start, end)
-	//		return x + 1
-	//	}
-	//
-	//	// Gets the spans at the current range.
-	//	const getCurrentRangeSpans = state => () => {
-	//		// if (state.range.collapsed) {
-	//		// 	return null
-	//		// }
-	//
-	//		const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
-	//		const x2 = state.range[0].key === state.range[1].key ? x1
-	//			: state.elements.findIndex(each => each.key === state.range[1].key)
-	//
-	//		const spans = []
-	//		for (const each of state.elements.slice(x1, x2 + 1)) {
-	//			if (each.key === state.range[0].key && each.key === state.range[1].key) {
-	//				const x1 = spanUtils_offset(each.props.spans)(state.range[0].offset)
-	//				const x2 = spanUtils_offset(each.props.spans)(state.range[1].offset)
-	//				spans.push(...each.props.spans.slice(x1, x2))
-	//				continue
-	//			} else if (each.key === state.range[0].key) {
-	//				const x = spanUtils_offset(each.props.spans)(state.range[0].offset)
-	//				spans.push(...each.props.spans.slice(x))
-	//				continue
-	//			} else if (each.key === state.range[1].key) {
-	//				const x = spanUtils_offset(each.props.spans)(state.range[1].offset)
-	//				spans.push(...each.props.spans.slice(x))
-	//				continue
-	//			}
-	//			spans.push(...each.props.spans)
-	//		}
-	//		return spans
-	//	}
-	//
-	//	// Get the current spans:
-	//	const spans = getCurrentRangeSpans(state)()
-	//	console.log(JSONClone(spans))
-	//	if (!spans) {
-	//		// No-op
-	//		return
-	//	}
-	//
-	//	// Returns whether to format as plaintext (-1), remove
-	//	// format T (0), or add format T (1).
-	//	const shouldFormat = (() => {
-	//		if (T === "plaintext") {
-	//			return -1
-	//		}
-	//		const every = spans.every(each => each.types.indexOf(T) >= 0)
-	//		return Number(!every)
-	//	})()
-	//
-	//	switch (shouldFormat) {
-	//	case -1:
-	//		for (const each of spans) {
-	//			for (const T of each.types) {
-	//				each[T] = undefined
-	//			}
-	//			each.types.splice(0)
-	//		}
-	//		break
-	//	case 0:
-	//		for (const each of spans) {
-	//			const x = each.types.indexOf(T)
-	//			if (x >= 0) {
-	//				each.types.splice(x, 1)
-	//			}
-	//		}
-	//		break
-	//	case 1:
-	//		for (const each of spans) {
-	//			const x = each.types.indexOf(T)
-	//			if (x === -1) {
-	//				each.types.push(T)
-	//			}
-	//			if (Object.keys(P).length) {
-	//				each[T] = P
-	//			}
-	//		}
-	//		break
-	//	default:
-	//		// No-op
-	//		break
-	//	}
-	//
-	//	// TODO: Change to spanUtils.defer
-	//	spanUtils.sort(spans)
-	//	render(state)()
+	return collection
 }
 
-// Returns the span and character offsets for a span and a
-// range component offset.
-function span_offsets(spans, offset) { // TODO
-	let x = 0
-	for (; x < spans.length; x++) {
-		if (offset - spans[x].text.length <= 0) {
-			return [x, offset]
+// Applies a format to a collection.
+const applyFormat = state => (T, P = {}) => {
+	const collection = getCurrentCollection(state)()
+
+	// Tests what to do:
+	const shouldApply = T === "plaintext" ? -1
+		: Number(!collection.every(each => each.spans.every(each => each.types.indexOf(T) >= 0)))
+
+	if (shouldApply === -1) {
+		for (const c of collection) {
+			for (const s of c.spans) {
+				for (const T of s.types) {
+					s[T] = undefined
+				}
+				s.types.splice(0)
+			}
+			spanUtils.sort(c.spans)
 		}
-		offset -= spans[x].text.length
+	} else if (shouldApply === 0) {
+		for (const c of collection) {
+			for (const s of c.spans) {
+				const x = s.types.indexOf(T)
+				if (x >= 0) {
+					s.types.splice(x, 1)
+					s[T] = undefined
+				}
+			}
+			spanUtils.sort(c.spans)
+		}
+	} else if (shouldApply === 1) {
+		for (const c of collection) {
+			for (const s of c.spans) {
+				const x = s.types.indexOf(T)
+				if (x === -1) {
+					s.types.push(T)
+					if (Object.keys(P).length) {
+						s[T] = P
+					}
+				}
+			}
+			spanUtils.sort(c.spans)
+		}
 	}
-	return null
+
+	render(state)()
 }
 
 // // TODO
