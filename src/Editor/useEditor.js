@@ -162,8 +162,11 @@ const applyFormat = state => (T, P = {}) => {
 
 	// Computes the span-offset at an offset.
 	const offset = spans => offset => {
-		if (offset === -1) {
-			offset = spans.reduce((acc, each) => acc += each.text.length, 0)
+		if (!offset) {
+			return 0
+		} else if (offset === -1) {
+			console.log(JSONClone(spans), spans.length)
+			return spans.length
 		}
 
 		// Compute the span-offset and text-offset:
@@ -177,7 +180,7 @@ const applyFormat = state => (T, P = {}) => {
 			offset -= each.text.length
 		}
 		// Return the current span-offset:
-		if (!offset) {
+		if (!offset) { // TODO?
 			return x
 		// Return the next span-offset:
 		} else if (offset === each.text.length) {
@@ -464,6 +467,15 @@ const methods = state => ({
 	insert(data, mimeType) {
 		insert(state)(data, mimeType)
 	},
+
+	// TODO: Add support for nodes? elemUtils.find?
+	input(spans, collapsed) {
+		const element = state.elements.find(each => each.key === collapsed[0].key)
+		element.props.spans = spans
+		this.select(collapsed)
+		render(state)()
+	},
+
 	// TODO: Add spans, collapsed?
 	uncontrolledInputHandler() {
 		uncontrolledInputHandler(state)()
