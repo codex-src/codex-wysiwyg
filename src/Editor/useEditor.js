@@ -94,6 +94,44 @@ const uncontrolledInputHandler = state => () => {
 // emojis are expected to be backspaced only once.
 const backspaceRune = state => () => {
 	// backspaceRune(state)()
+
+	const collection = getCurrentCollection(state)()
+	// console.log(collection)
+
+	// TODO: Remove empty elements
+	for (const c of collection) {
+		for (const s of c.spans) {
+			const x = c.ref.props.spans.indexOf(s) // TODO: Add throw?
+			c.ref.props.spans.splice(x, 1)
+		}
+		// spanUtils.sort(c.spans)
+	}
+
+	if (collection.length > 1) {
+		const x1 = state.elements.indexOf(collection[0].ref) // TODO: Add throw?
+		const x2 = state.elements.indexOf(collection[collection.length - 1].ref) // TODO: Add throw?
+		state.elements.splice(x1, (x2 - x1) + 1, {
+			...collection[0].ref,
+			props: {
+				...collection[0].ref.props,
+				spans: [...collection[0].ref.props.spans, ...collection[collection.length - 1].ref.props.spans],
+			}
+		})
+		console.log(JSONClone(state.elements))
+
+		// for (const c of collection.slice(1)) { // TODO: Reverse order?
+		// 	if (!c.ref.props.spans.length) {
+		// 		const x = state.elements.indexOf(c.ref) // TODO: Add throw?
+		// 		state.elements.splice(x, 1)
+		// 	}
+		// }
+		// collection[0].ref.props.spans.push(...collection.slice(-1)[0].ref.props.spans)
+	}
+
+	// state.range[1] = state.range[0]
+	const collapsed = Range.collapse(state.range)
+	select(state)(collapsed)
+	render(state)()
 }
 
 // Backspaces on the current range by one word.
@@ -214,6 +252,7 @@ const getCurrentCollection = state => () => {
 		const s1 = getSpanOffset(state.elements[x].props.spans)(offset1)
 		const s2 = getSpanOffset(state.elements[x].props.spans)(offset2)
 		collection.push({ ref: state.elements[x], spans: state.elements[x].props.spans.slice(s1, s2) })
+		// collection.push({ x, s1, s2 })
 	}
 
 	return collection
