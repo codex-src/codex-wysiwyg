@@ -233,8 +233,10 @@ const applyFormat = state => (T, P = {}) => {
 		if (shouldApply === -1) {
 			for (const c of collection) {
 				for (const s of c.spans) {
+					for (const T of s.types) {
+						s[T] = undefined
+					}
 					s.types.splice(0)
-					s[T] = undefined
 				}
 				spanUtils.sort(c.spans)
 			}
