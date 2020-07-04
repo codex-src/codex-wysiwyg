@@ -6,7 +6,6 @@ import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import spanUtils from "../spanUtils"
 import useMethods from "use-methods"
 
 // Locks the editor; disables future edits. Unlike blur,
@@ -107,7 +106,6 @@ const backspaceRune = state => () => {
 			const x = c.ref.props.spans.indexOf(s) // TODO: Add throw?
 			c.ref.props.spans.splice(x, 1)
 		}
-		// spanUtils.sort(c.spans)
 	}
 
 	// TODO: Forward-delete is effectively the same but we
@@ -121,7 +119,7 @@ const backspaceRune = state => () => {
 			props: {
 				...collection[0].ref.props,
 				spans: [...collection[0].ref.props.spans, ...collection[collection.length - 1].ref.props.spans],
-			}
+			},
 		})
 		console.log(JSONClone(state.elements))
 
@@ -161,39 +159,39 @@ const deleteWord = state => () => {
 	// deleteWord(state)()
 }
 
-// Cuts the current range as plaintext, HTML, and GitHub
-// Flavored Markdown to the editor clipboard.
-const cut = state => () => {
-	// cut(state)()
-}
-
-// Copies the current range as plaintext, HTML, and GitHub
-// Flavored Markdown to the editor clipboard.
-const copy = state => () => {
-	// copy(state)()
-}
-
-// Pastes plaintext, HTML, or GitHub Flavored Markdown on
-// the current range. mimeType can be "text/plaintext",
-// "text/html", or "text/gfm".
-const paste = state => mimeType => {
-	// paste(state)()
-}
-
-// Pushes an undo state onto the history state stack.
-const pushUndoState = state => undoState => {
-	// pushUndoState(state)(undoState)
-}
-
-// Undos the editor history state stack once.
-const undo = state => () => {
-	// undo(state)()
-}
-
-// Redos the editor history state stack once.
-const redo = state => () => {
-	// redo(state)()
-}
+// // Cuts the current range as plaintext, HTML, and GitHub
+// // Flavored Markdown to the editor clipboard.
+// const cut = state => () => {
+// 	// cut(state)()
+// }
+//
+// // Copies the current range as plaintext, HTML, and GitHub
+// // Flavored Markdown to the editor clipboard.
+// const copy = state => () => {
+// 	// copy(state)()
+// }
+//
+// // Pastes plaintext, HTML, or GitHub Flavored Markdown on
+// // the current range. mimeType can be "text/plaintext",
+// // "text/html", or "text/gfm".
+// const paste = state => mimeType => {
+// 	// paste(state)()
+// }
+//
+// // Pushes an undo state onto the history state stack.
+// const pushUndoState = state => undoState => {
+// 	// pushUndoState(state)(undoState)
+// }
+//
+// // Undos the editor history state stack once.
+// const undo = state => () => {
+// 	// undo(state)()
+// }
+//
+// // Redos the editor history state stack once.
+// const redo = state => () => {
+// 	// redo(state)()
+// }
 
 // Schedules the editor for an immediate rerender.
 const render = state => () => {
@@ -286,7 +284,7 @@ const applyFormat = state => (T, P = {}) => {
 				}
 				s.types.splice(0)
 			}
-			spanUtils.sort(c.spans)
+			c.spans(each => Types.sort(each))
 		}
 	} else if (shouldApply === 0) {
 		for (const c of collection) {
@@ -297,7 +295,7 @@ const applyFormat = state => (T, P = {}) => {
 					s[T] = undefined
 				}
 			}
-			spanUtils.sort(c.spans)
+			c.spans(each => Types.sort(each))
 		}
 	} else if (shouldApply === 1) {
 		for (const c of collection) {
@@ -310,7 +308,7 @@ const applyFormat = state => (T, P = {}) => {
 					}
 				}
 			}
-			spanUtils.sort(c.spans)
+			c.spans(each => Types.sort(each))
 		}
 	}
 

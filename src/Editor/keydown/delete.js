@@ -1,5 +1,4 @@
 import getKeyCode from "lib/getKeyCode"
-import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
 import userAgent from "lib/userAgent"
 
 // Tests a keydown event for delete hotkeys.

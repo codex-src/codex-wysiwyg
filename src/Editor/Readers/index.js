@@ -4,7 +4,6 @@ import domUtils from "lib/domUtils"
 import hash from "lib/hash"
 import JSONClone from "lib/JSONClone"
 import omit from "lib/omit"
-import spanUtils from "../spanUtils"
 
 // Recursers; methods read an array of spans or elements.
 const recursers = {
@@ -52,7 +51,7 @@ const recursers = {
 			}
 		}
 		recurse(domElement)
-		spanUtils.sort(spans)
+		spans.map(each => Types.sort(each))
 		return spans
 	},
 	// Reads an array of elements from a DOM tree.
@@ -131,6 +130,3 @@ export const rendered = {
 		return recursers.elements(domTree, this.scanner)
 	},
 }
-
-
-
