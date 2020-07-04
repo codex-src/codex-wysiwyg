@@ -1,6 +1,7 @@
 import * as Range from "../Range"
 import * as Readers from "../Readers"
 import * as Types from "../Types"
+import applyFormat from "./applyFormat"
 import decorate from "../decorate"
 import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
@@ -43,37 +44,49 @@ const select = state => range => {
 
 // Applies formatting to the current range.
 const applyFormatPlaintext = state => () => {
-	applyFormat(state)("plaintext")
+	const collection = queryCollection(state)()
+	applyFormat(collection)("plaintext")
+	render(state)()
 }
 
 // Applies formatting to the current range. Formatting is
 // toggled when previously applied.
 const applyFormatEm = state => () => {
-	applyFormat(state)(Types.enum.em)
+	const collection = queryCollection(state)()
+	applyFormat(collection)(Types.enum.em)
+	render(state)()
 }
 
 // Applies formatting to the current range. Formatting is
 // toggled when previously applied.
 const applyFormatStrong = state => () => {
-	applyFormat(state)(Types.enum.strong)
+	const collection = queryCollection(state)()
+	applyFormat(collection)(Types.enum.strong)
+	render(state)()
 }
 
 // Applies formatting to the current range. Formatting is
 // toggled when previously applied.
 const applyFormatCode = state => () => {
-	applyFormat(state)(Types.enum.code)
+	const collection = queryCollection(state)()
+	applyFormat(collection)(Types.enum.code)
+	render(state)()
 }
 
 // Applies formatting to the current range. Formatting is
 // toggled when previously applied.
 const applyFormatStrike = state => () => {
-	applyFormat(state)(Types.enum.strike)
+	const collection = queryCollection(state)()
+	applyFormat(collection)(Types.enum.strike)
+	render(state)()
 }
 
 // Applies formatting to the current range. Formatting is
 // toggled when previously applied.
 const applyFormatA = state => href => {
-	applyFormat(state)(Types.enum.a, { href })
+	const collection = queryCollection(state)()
+	applyFormat(collection)(Types.enum.a, { href })
+	render(state)()
 }
 
 // Inserts plaintext, HTML, or GitHub Flavored Markdown on
@@ -100,7 +113,8 @@ const uncontrolledInputHandler = state => (spans, collapsed) => {
 const backspaceRune = state => () => {
 	// backspaceRune(state)()
 
-	const collection = queryCollection(state)
+	// State.queryCollection(state)()
+	const collection = queryCollection(state)()
 	// console.log(collection)
 
 	// TODO: Remove empty elements
@@ -201,52 +215,7 @@ const render = state => () => {
 	state.shouldRerender++
 }
 
-// Applies a format to a collection.
-const applyFormat = state => (T, P = {}) => {
-	const collection = queryCollection(state)
 
-	// Tests what to do:
-	const shouldApply = T === "plaintext" ? -1
-		: Number(!collection.every(each => each.spans.every(each => each.types.indexOf(T) >= 0)))
-
-	if (shouldApply === -1) {
-		for (const c of collection) {
-			for (const s of c.spans) {
-				for (const T of s.types) {
-					s[T] = undefined
-				}
-				s.types.splice(0)
-			}
-			c.spans.map(each => Types.sort(each))
-		}
-	} else if (shouldApply === 0) {
-		for (const c of collection) {
-			for (const s of c.spans) {
-				const x = s.types.indexOf(T)
-				if (x >= 0) {
-					s.types.splice(x, 1)
-					s[T] = undefined
-				}
-			}
-			c.spans.map(each => Types.sort(each))
-		}
-	} else if (shouldApply === 1) {
-		for (const c of collection) {
-			for (const s of c.spans) {
-				const x = s.types.indexOf(T)
-				if (x === -1) {
-					s.types.push(T)
-					if (Object.keys(P).length) {
-						s[T] = P
-					}
-				}
-			}
-			c.spans.map(each => Types.sort(each))
-		}
-	}
-
-	render(state)()
-}
 
 // // TODO
 // write(characterData) {
