@@ -1,7 +1,7 @@
 import offset from "./offset"
 
 // Queries a collection based on the current range.
-const queryCollection = state => () => {
+function queryCollection(state) {
 	const e1 = state.elements.findIndex(each => each.key === state.range[0].key)
 	const e2 = state.elements.findIndex(each => each.key === state.range[1].key)
 

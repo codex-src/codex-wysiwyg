@@ -1,6 +1,5 @@
 import $delete from "./delete"
 import applyFormat from "./applyFormat"
-import React from "react"
 
 // TODO: Add findElementOrNode API or equivalent?
 const methods = state => ({
@@ -33,7 +32,6 @@ const methods = state => ({
 	// Applies a format to the current range.
 	applyFormat(T, P) {
 		applyFormat(state)(T, P)
-		this.render()
 	},
 	// Inserts plaintext, HTML, or GitHub Flavored Markdown on
 	// the current range. mimeType can be "text/plaintext",
@@ -57,7 +55,6 @@ const methods = state => ({
 	// expected to be deleted as graphemes.
 	delete(dir, boundary) {
 		$delete(state)(dir, boundary)
-		this.render()
 	},
 	// Cuts the current range as plaintext, HTML, and GitHub
 	// Flavored Markdown to the editor clipboard.
@@ -90,8 +87,7 @@ const methods = state => ({
 	// TODO: Add comment
 	render() {
 		state.shouldRender++
-	}
+	},
 })
 
 export default methods
-

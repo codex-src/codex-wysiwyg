@@ -1,13 +1,11 @@
+import * as Range from "../Range"
 import JSONClone from "lib/JSONClone"
 import methods from "./methods"
 import queryCollection from "./queryCollection"
 
-const $delete = state => () => {
-	// backspaceRune(state)()
-
-	// State.queryCollection(state)()
-	const collection = queryCollection(state)()
-	// console.log(collection)
+// Deletes a boundary (in a direction) on the current range.
+const $delete = state => (dir, boundary) => {
+	const collection = queryCollection(state)
 
 	// TODO: Remove empty elements
 	for (const c of collection) {
@@ -41,9 +39,9 @@ const $delete = state => () => {
 		// collection[0].ref.props.spans.push(...collection.slice(-1)[0].ref.props.spans)
 	}
 
-	// state.range[1] = state.range[0]
 	const collapsed = Range.collapse(state.range)
 	methods(state).select(collapsed)
+	methods(state).render()
 }
 
 export default $delete

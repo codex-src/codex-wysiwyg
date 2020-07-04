@@ -22,8 +22,8 @@ const testShouldApply = collection => (T, P = {}) => {
 }
 
 // Applies a format to the current range.
-const internalApplyFormat = state => (T, P = {}) => {
-	const collection = queryCollection(state)()
+const applyFormat = state => (T, P = {}) => {
+	const collection = queryCollection(state)
 
 	const shouldApply = testShouldApply(collection)(T, P)
 	switch (shouldApply) {
@@ -74,4 +74,4 @@ const internalApplyFormat = state => (T, P = {}) => {
 	methods(state).render()
 }
 
-export default internalApplyFormat
+export default applyFormat

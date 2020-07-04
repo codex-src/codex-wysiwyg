@@ -43,11 +43,7 @@ const init = elements => ({
 		},
 		collapsed: true,
 	},
-	// history: {
-	// 	stack: [],
-	// 	index: 0,
-	// },
-	shouldRerender: 0,
+	shouldRender: 0,
 })
 
 // TODO
