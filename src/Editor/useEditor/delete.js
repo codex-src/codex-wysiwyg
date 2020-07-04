@@ -7,7 +7,7 @@ import queryCollection from "./queryCollection"
 // Reducer for an array of spans; concatenates text.
 const reducer = (acc, each) => acc += each.text
 
-// Creates a right-to-left range component based on the
+// Computes a right-to-left range component based on the
 // current collapsed range and a boundary.
 const nextRTL = state => boundary => {
 	const x = state.elements.findIndex(each => each.key === state.range[0].key)
@@ -27,7 +27,7 @@ const nextRTL = state => boundary => {
 	return component
 }
 
-// Creates a left-to-right range component based on the
+// Computes a left-to-right range component based on the
 // current collapsed range and a boundary.
 const nextLTR = state => boundary => {
 	const x = state.elements.findIndex(each => each.key === state.range[0].key)
@@ -47,28 +47,34 @@ const nextLTR = state => boundary => {
 	return component
 }
 
+// Computes the next range based on the current collapsed
+// range and a boundary.
+const next = state => (dir, boundary) => {
+	const next = {}
+	if (dir === "rtl" && dir !== "ltr") {
+		const component = nextRTL(state)(boundary)
+		Object.assign(next, {
+			...[component, state.range[0]],
+			collapsed: Range.areEqualComponents(component, state.range[0]),
+		})
+	} else {
+		const component = nextLTR(state)(boundary)
+		Object.assign(next, {
+			...[state.range[0], component],
+			collapsed: Range.areEqualComponents(state.range[0], component),
+		})
+	}
+	return next
+}
+
 // Deletes on the current range. If the cursor is collapsed,
 // a synthetic range is computed based on dir and boundary.
 //
 // TODO: Remove empty spans
 const $delete = state => (dir, boundary) => {
-
-	// Compute the next range component:
-	if (state.range.collapsed && dir === "rtl") {
-		const component = nextRTL(state)(boundary)
-		Object.assign(state.range, {
-			...[component, state.range[0]],
-			collapsed: Range.areEqualComponents(component, state.range[0]),
-		})
-	} else if (state.range.collapsed && dir === "ltr") {
-		const component = nextLTR(state)(boundary)
-		Object.assign(state.range, {
-			...[state.range[0], component],
-			collapsed: Range.areEqualComponents(state.range[0], component),
-		})
+	if (state.range.collapsed && (dir === "rtl" || dir === "ltr")) {
+		Object.assign(state.range, next(state)(dir, boundary))
 	}
-
-	console.log(JSONClone(state.range))
 
 	const collection = queryCollection(state)
 
