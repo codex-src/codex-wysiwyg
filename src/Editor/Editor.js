@@ -150,7 +150,7 @@ const Editor = ({ markup, children }) => {
 						return
 					case keydown.enum.applyFormatA:
 						e.preventDefault()
-						dispatch.applyFormat(Types.enum.strike, { href: "https://google.com" })
+						dispatch.applyFormat(Types.enum.a, { href: "https://google.com" })
 						return
 
 						// case keydown.enum.insertTextTab:

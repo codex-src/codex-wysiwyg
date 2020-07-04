@@ -71,6 +71,8 @@ const applyFormat = state => (T, P = {}) => {
 		// No-op
 		break
 	}
+
+	// Done -- render:
 	methods(state).render()
 }
 
