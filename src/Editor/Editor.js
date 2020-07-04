@@ -149,11 +149,12 @@ const Editor = ({ markup, children }) => {
 						return
 					case keydown.enum.insertTextTab:
 						e.preventDefault()
-						dispatch.insert("\t", "text/plain") // TODO
+						dispatch.insertText("\t", "text/plain") // TODO
 						return
 					case keydown.enum.insertTextEnter:
 						e.preventDefault()
-						dispatch.insert("\n", "text/plain") // TODO
+						// TODO: Add insertParagraph?
+						dispatch.insertText("\n", "text/plain") // TODO
 						return
 
 						// case keydown.enum.insertText:

@@ -78,8 +78,10 @@ const applyFormatA = state => href => {
 // Inserts plaintext, HTML, or GitHub Flavored Markdown on
 // the current range. mimeType can be "text/plaintext",
 // "text/html", or "text/gfm".
-const insert = state => (data, mimeType) => {
-	// insert(state)(data, mimeType)
+//
+// TODO: Redo comment
+const insertText = state => (data, mimeType) => {
+	// insertText(state)(data, mimeType)
 }
 
 // Handler for uncontrolled input events. Note that
@@ -284,7 +286,7 @@ const applyFormat = state => (T, P = {}) => {
 				}
 				s.types.splice(0)
 			}
-			c.spans(each => Types.sort(each))
+			c.spans.map(each => Types.sort(each))
 		}
 	} else if (shouldApply === 0) {
 		for (const c of collection) {
@@ -295,7 +297,7 @@ const applyFormat = state => (T, P = {}) => {
 					s[T] = undefined
 				}
 			}
-			c.spans(each => Types.sort(each))
+			c.spans.map(each => Types.sort(each))
 		}
 	} else if (shouldApply === 1) {
 		for (const c of collection) {
@@ -308,7 +310,7 @@ const applyFormat = state => (T, P = {}) => {
 					}
 				}
 			}
-			c.spans(each => Types.sort(each))
+			c.spans.map(each => Types.sort(each))
 		}
 	}
 
@@ -372,9 +374,8 @@ const methods = state => ({
 	applyFormatA(href) {
 		applyFormatA(state)(href)
 	},
-	// TODO: Change to insertText?
-	insert(data, mimeType) {
-		insert(state)(data, mimeType)
+	insertText(data, mimeType) {
+		insertText(state)(data, mimeType)
 	},
 	uncontrolledInputHandler(spans, collapsed) {
 		uncontrolledInputHandler(state)(spans, collapsed)
