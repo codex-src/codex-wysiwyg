@@ -1,7 +1,7 @@
 import * as Types from "../Types"
 import iota from "lib/iota"
+import methods from "./methods"
 import queryCollection from "./queryCollection"
-import { render } from "./implementation"
 
 const i = iota(-1)
 
@@ -71,8 +71,7 @@ const internalApplyFormat = state => (T, P = {}) => {
 		// No-op
 		break
 	}
-
-	render(state)()
+	methods(state).render()
 }
 
 export default internalApplyFormat

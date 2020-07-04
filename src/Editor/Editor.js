@@ -9,6 +9,7 @@ import useEditor from "./useEditor"
 
 import "./Editor.css"
 
+// React renderer for the current state.
 const ReactRerenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (
 		React.createElement(Types.components[T], {
@@ -47,7 +48,7 @@ const Editor = ({ markup, children }) => {
 				}
 			})
 		}, [state, dispatch]),
-		[state.shouldRerender],
+		[state.shouldRender],
 	)
 
 	// Exclusively returns a handler when the editor is
@@ -122,11 +123,14 @@ const Editor = ({ markup, children }) => {
 				})}
 
 				onKeyDown={newUnlockedHandler(e => {
-					switch (keydown.detectType(e)) {
-					// TODO: Change Types to Formats?
+					const keydownT = keydown.detectType(e)
+					if (keydownT) {
+						console.log(keydownT)
+					}
+					switch (keydownT) {
 					case keydown.enum.applyFormatPlaintext:
 						e.preventDefault()
-						dispatch.applyFormat("plaintext") // TODO
+						dispatch.applyFormat("plaintext")
 						return
 					case keydown.enum.applyFormatEm:
 						e.preventDefault()
@@ -148,15 +152,16 @@ const Editor = ({ markup, children }) => {
 						e.preventDefault()
 						dispatch.applyFormat(Types.enum.strike, { href: "https://google.com" })
 						return
-					case keydown.enum.insertTextTab:
-						e.preventDefault()
-						dispatch.insertText("\t", "text/plain") // TODO
-						return
-					case keydown.enum.insertTextEnter:
-						e.preventDefault()
-						// TODO: Add insertParagraph?
-						dispatch.insertText("\n", "text/plain") // TODO
-						return
+
+						// case keydown.enum.insertTextTab:
+						// 	e.preventDefault()
+						// 	dispatch.insertText("\t", "text/plain") // TODO
+						// 	return
+						// case keydown.enum.insertTextEnter:
+						// 	e.preventDefault()
+						// 	// TODO: Add insertParagraph?
+						// 	dispatch.insertText("\n", "text/plain") // TODO
+						// 	return
 
 					case keydown.enum.insertText:
 						if (state.range.collapsed) {

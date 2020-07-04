@@ -1,23 +1,10 @@
 import * as Readers from "../Readers"
 import decorate from "../decorate"
 import markupToDOMTree from "lib/markupToDOMTree"
+import methods from "./methods"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import useMethods from "use-methods"
-
-// NOTE: Imports are intentionally unsorted.
-import {
-	lock,
-	unlock,
-	focus,
-	blur,
-	select,
-	applyFormat,
-	insertText,
-	uncontrolledInputHandler,
-	$delete,
-	render,
-} from "./implementation"
 
 // // TODO
 // write(characterData) {
@@ -41,75 +28,6 @@ import {
 // 	render(state)()
 // },
 
-// TODO: Add findElementOrNode API or equivalent?
-const methods = state => ({
-	lock() {
-		lock(state)()
-	},
-	unlock() {
-		unlock(state)()
-	},
-	focus() {
-		focus(state)()
-	},
-	blur() {
-		blur(state)()
-	},
-	select(range) {
-		select(state)(range)
-	},
-	applyFormat(T, P = {}) {
-		applyFormat(state)(T, P)
-	},
-	insertText(data, mimeType) {
-		insertText(state)(data, mimeType)
-	},
-	uncontrolledInputHandler(spans, collapsed) {
-		uncontrolledInputHandler(state)(spans, collapsed)
-	},
-	delete(dir, boundary) {
-		$delete(state)(dir, boundary)
-	},
-
-	// backspaceRune() {
-	// 	backspaceRune(state)()
-	// },
-	// backspaceWord() {
-	// 	backspaceWord(state)()
-	// },
-	// backspaceLine() {
-	// 	backspaceLine(state)()
-	// },
-	// deleteRune() {
-	// 	deleteRune(state)()
-	// },
-	// deleteWord() {
-	// 	deleteWord(state)()
-	// },
-
-	// cut() {
-	// 	cut(state)()
-	// },
-	// copy() {
-	// 	copy(state)()
-	// },
-	// paste(mimeType) {
-	// 	paste(state)(mimeType)
-	// },
-	// pushUndoState(undoState) {
-	// 	pushUndoState(state)(undoState)
-	// },
-	// undo() {
-	// 	undo(state)()
-	// },
-	// redo() {
-	// 	redo(state)()
-	// },
-	render() {
-		render(state)()
-	},
-})
-
 const init = elements => ({
 	locked: false,
 	elements,
@@ -132,6 +50,7 @@ const init = elements => ({
 	shouldRerender: 0,
 })
 
+// TODO
 function useEditor({ markup, children }) {
 	const elements = React.useMemo(() => {
 		if ((!markup && !children) || (markup && children)) {
@@ -151,3 +70,4 @@ function useEditor({ markup, children }) {
 }
 
 export default useEditor
+

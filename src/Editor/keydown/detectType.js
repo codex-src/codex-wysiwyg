@@ -34,6 +34,7 @@ function detectType(e) {
 		return enumerated.deleteRTLWord
 	case $delete.rtl.rune(e):
 		return enumerated.deleteRTLRune
+
 	case $delete.ltr.word(e): // Takes precedence
 		return enumerated.deleteLTRWord
 	case $delete.ltr.rune(e):
