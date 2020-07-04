@@ -20,7 +20,7 @@ function queryCollection(state) {
 			refs: {
 				element: each,
 				spans: each.props.spans.slice(s1, s2),
-				// text: each.props.spans.reduce((acc, each) => acc += each, "").slice(t1, t2),
+				// text: each.props.spans.reduce((acc, each) => acc += each.text, "").slice(t1, t2),
 			},
 			offsets: {
 				element: x,

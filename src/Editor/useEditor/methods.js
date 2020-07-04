@@ -46,7 +46,7 @@ const methods = state => ({
 		// TODO
 		const element = state.elements.find(each => each.key === collapsed[0].key)
 		element.props.spans.splice(0, element.props.spans.length, ...spans)
-		this.select(state)(collapsed)
+		this.select(collapsed)
 		this.render()
 	},
 	// Deletes a boundary (in a direction) on the current
