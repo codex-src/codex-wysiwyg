@@ -6,7 +6,9 @@ import JSONClone from "lib/JSONClone"
 function offset(spans, offset) {
 	if (!offset) {
 		return 0
-	}
+	} // else if (offset === -1) {
+	// 	return spans.length
+	// }
 	let x = 0
 	let each = null
 	for ([x, each] of spans.entries()) {

@@ -4,7 +4,7 @@ import * as Types from "../Types"
 import decorate from "../decorate"
 import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
-import offset from "./offset"
+import queryCollection from "./queryCollection"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import useMethods from "use-methods"
@@ -100,7 +100,7 @@ const uncontrolledInputHandler = state => (spans, collapsed) => {
 const backspaceRune = state => () => {
 	// backspaceRune(state)()
 
-	const collection = getCurrentCollection(state)()
+	const collection = queryCollection(state)
 	// console.log(collection)
 
 	// TODO: Remove empty elements
@@ -201,44 +201,9 @@ const render = state => () => {
 	state.shouldRerender++
 }
 
-// format
-// delete
-// write...
-const getCurrentCollection = state => () => {
-	const x1 = state.elements.findIndex(each => each.key === state.range[0].key)
-	const x2 = state.range[0].key === state.range[1].key ? x1
-		: state.elements.findIndex(each => each.key === state.range[1].key)
-
-	const collection = []
-	for (let x = x1; x <= x2; x++) {
-		// Compute the corrected range offsets:
-		let offset1 = 0
-		if (x === x1) {
-			offset1 = state.range[0].offset
-		}
-		let offset2 = state.elements[x].props.spans.reduce((acc, each) => acc += each.text.length, 0)
-		if (x === x2) {
-			offset2 = state.range[1].offset
-		}
-		// Compute the span offsets:
-		const s1 = offset(state.elements[x].props.spans, offset1)
-		const s2 = offset(state.elements[x].props.spans, offset2)
-		collection.push({ ref: state.elements[x], spans: state.elements[x].props.spans.slice(s1, s2) })
-		// TODO: Add support for offsets;
-		//
-		// collection.offsets.elems
-		// collection.offsets.nodes
-		// collection.offsets.spans
-		//
-		// collection.push({ x, s1, s2 })
-	}
-
-	return collection
-}
-
 // Applies a format to a collection.
 const applyFormat = state => (T, P = {}) => {
-	const collection = getCurrentCollection(state)()
+	const collection = queryCollection(state)
 
 	// Tests what to do:
 	const shouldApply = T === "plaintext" ? -1

@@ -157,10 +157,14 @@ const Editor = ({ markup, children }) => {
 						dispatch.insertText("\n", "text/plain") // TODO
 						return
 
-						// case keydown.enum.insertText:
-						// 	e.preventDefault()
-						// 	dispatch.insertText()
-						// 	return
+					case keydown.enum.insertText:
+						if (state.range.collapsed) {
+							// No-op
+							return
+						}
+						e.preventDefault()
+						// dispatch.insertText()
+						return
 
 					case keydown.enum.backspaceRune:
 						e.preventDefault()
