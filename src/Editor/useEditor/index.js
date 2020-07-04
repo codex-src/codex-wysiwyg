@@ -4,6 +4,7 @@ import * as Types from "../Types"
 import decorate from "../decorate"
 import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
+import offset from "./offset"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import useMethods from "use-methods"
@@ -200,41 +201,6 @@ const render = state => () => {
 	state.shouldRerender++
 }
 
-// Computes the span-offset at an offset.
-const getSpanOffset = spans => offset => {
-	if (!offset) {
-		return 0
-	} else if (offset === -1) {
-		return spans.length
-	}
-
-	// Compute the span-offset and text-offset:
-	let x = 0
-	let each = null
-	for ([x, each] of spans.entries()) {
-		if (offset - each.text.length <= 0) {
-			// No-op
-			break
-		}
-		offset -= each.text.length
-	}
-	// Return the next span-offset:
-	if (offset === each.text.length) {
-		return x + 1
-	}
-	// Create new spans and return the next span-offset:
-	const start = {
-		...JSONClone(each),
-		text: each.text.slice(0, offset),
-	}
-	const end = {
-		...JSONClone(each),
-		text: each.text.slice(offset),
-	}
-	spans.splice(x, 1, start, end)
-	return x + 1
-}
-
 // format
 // delete
 // write...
@@ -250,13 +216,13 @@ const getCurrentCollection = state => () => {
 		if (x === x1) {
 			offset1 = state.range[0].offset
 		}
-		let offset2 = -1
+		let offset2 = state.elements[x].props.spans.reduce((acc, each) => acc += each.text.length, 0)
 		if (x === x2) {
 			offset2 = state.range[1].offset
 		}
 		// Compute the span offsets:
-		const s1 = getSpanOffset(state.elements[x].props.spans)(offset1)
-		const s2 = getSpanOffset(state.elements[x].props.spans)(offset2)
+		const s1 = offset(state.elements[x].props.spans, offset1)
+		const s2 = offset(state.elements[x].props.spans, offset2)
 		collection.push({ ref: state.elements[x], spans: state.elements[x].props.spans.slice(s1, s2) })
 		// TODO: Add support for offsets;
 		//
