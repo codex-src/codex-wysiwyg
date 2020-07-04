@@ -1,6 +1,6 @@
 import offset from "./offset"
 
-// State function; queries the current collection.
+// Queries a collection based on the current range.
 const queryCollection = state => () => {
 	const e1 = state.elements.findIndex(each => each.key === state.range[0].key)
 	const e2 = state.elements.findIndex(each => each.key === state.range[1].key)

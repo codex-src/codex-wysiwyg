@@ -7,8 +7,8 @@
 // i() // 2
 // i() // 3
 //
-function iota() {
-	let epoch = 0
+function iota(start = 0) {
+	let epoch = start
 	const i = () => {
 		const value = epoch
 		epoch++

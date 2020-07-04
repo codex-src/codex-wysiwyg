@@ -1,26 +1,29 @@
 import * as Types from "../Types"
+import iota from "lib/iota"
 
-// Collection function; test whether to apply formatting.
-//
-// -1: Plaintext
-//  0: Should not apply
-//  1: Should apply
-//
-const testShouldApply = collection => (T, P = {}) => {
-	if (T === "plaintext") {
-		return -1
-	}
-	const applied = collection.every(each => each.spans.every(each => each.types.indexOf(T) >= 0))
-	return applied ? 0 : 1
+const i = iota(-1)
+
+const enumerated = {
+	plaintext:      i(),
+	shouldNotApply: i(),
+	shouldApply:    i(),
 }
 
-// Collection function; applies a format to a collection.
-const applyFormat = collection => (T, P = {}) => {
-	// Tests whether to apply formatting:
-	const shouldApply = testShouldApply(collection)(T, P)
+// Tests whether formatting should be applied.
+const testShouldApply = collection => (T, P = {}) => {
+	if (T === "plaintext") {
+		return enumerated.plaintext
+	}
+	const didApply = collection.every(each => each.spans.every(each => each.types.indexOf(T) >= 0))
+	return didApply ? enumerated.shouldNotApply : enumerated.shouldApply
+}
 
+// Applies a format to a collection.
+const applyFormat = collection => (T, P = {}) => {
+	const shouldApply = testShouldApply(collection)(T, P)
+	switch (shouldApply) {
 	// Plaintext:
-	if (shouldApply === -1) {
+	case enumerated.plaintext:
 		for (const c of collection) {
 			for (const s of c.spans) {
 				for (const T of s.types) {
@@ -30,8 +33,9 @@ const applyFormat = collection => (T, P = {}) => {
 			}
 			c.spans.map(each => Types.sort(each))
 		}
+		break
 	// Should not apply:
-	} else if (shouldApply === 0) {
+	case enumerated.shouldNotApply:
 		for (const c of collection) {
 			for (const s of c.spans) {
 				const x = s.types.indexOf(T)
@@ -42,8 +46,9 @@ const applyFormat = collection => (T, P = {}) => {
 			}
 			c.spans.map(each => Types.sort(each))
 		}
+		break
 	// Should apply:
-	} else if (shouldApply === 1) {
+	case enumerated.shouldApply:
 		for (const c of collection) {
 			for (const s of c.spans) {
 				const x = s.types.indexOf(T)
@@ -56,6 +61,10 @@ const applyFormat = collection => (T, P = {}) => {
 			}
 			c.spans.map(each => Types.sort(each))
 		}
+		break
+	default:
+		// No-op
+		break
 	}
 }
 
