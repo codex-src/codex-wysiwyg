@@ -13,12 +13,11 @@ const enumerated = new Enum(
 	"insertTextEnter",
 	"insertText",
 
-	"backspaceRune",
-	"backspaceWord",
-	"backspaceLine",
-
-	"deleteRune",
-	"deleteWord",
+	"deleteRTLRune",
+	"deleteRTLWord",
+	"deleteRTLLine",
+	"deleteLTRRune",
+	"deleteLTRWord",
 
 	"undo",
 	"redo",

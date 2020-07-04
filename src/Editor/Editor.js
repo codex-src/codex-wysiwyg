@@ -123,29 +123,30 @@ const Editor = ({ markup, children }) => {
 
 				onKeyDown={newUnlockedHandler(e => {
 					switch (keydown.detectType(e)) {
+					// TODO: Change Types to Formats?
 					case keydown.enum.applyFormatPlaintext:
 						e.preventDefault()
-						dispatch.applyFormatPlaintext()
+						dispatch.applyFormat("plaintext") // TODO
 						return
 					case keydown.enum.applyFormatEm:
 						e.preventDefault()
-						dispatch.applyFormatEm()
+						dispatch.applyFormat(Types.enum.em)
 						return
 					case keydown.enum.applyFormatStrong:
 						e.preventDefault()
-						dispatch.applyFormatStrong()
+						dispatch.applyFormat(Types.enum.strong)
 						return
 					case keydown.enum.applyFormatCode:
 						e.preventDefault()
-						dispatch.applyFormatCode()
+						dispatch.applyFormat(Types.enum.code)
 						return
 					case keydown.enum.applyFormatStrike:
 						e.preventDefault()
-						dispatch.applyFormatStrike()
+						dispatch.applyFormat(Types.enum.strike)
 						return
 					case keydown.enum.applyFormatA:
 						e.preventDefault()
-						dispatch.applyFormatA("https://google.com") // TODO
+						dispatch.applyFormat(Types.enum.strike, { href: "https://google.com" })
 						return
 					case keydown.enum.insertTextTab:
 						e.preventDefault()
@@ -166,25 +167,25 @@ const Editor = ({ markup, children }) => {
 						// dispatch.insertText()
 						return
 
-					case keydown.enum.backspaceRune:
+					case keydown.enum.deleteRTLRune:
 						e.preventDefault()
-						dispatch.backspaceRune()
+						dispatch.delete("rtl", "rune")
 						return
-					case keydown.enum.backspaceWord:
+					case keydown.enum.deleteRTLWord:
 						e.preventDefault()
-						dispatch.backspaceWord()
+						dispatch.delete("rtl", "word")
 						return
-					case keydown.enum.backspaceLine:
+					case keydown.enum.deleteRTLLine:
 						e.preventDefault()
-						dispatch.backspaceLine()
+						dispatch.delete("rtl", "line")
 						return
-					case keydown.enum.deleteRune:
+					case keydown.enum.deleteLTRRune:
 						e.preventDefault()
-						dispatch.deleteRune()
+						dispatch.delete("ltr", "rune")
 						return
-					case keydown.enum.deleteWord:
+					case keydown.enum.deleteLTRWord:
 						e.preventDefault()
-						dispatch.deleteWord()
+						dispatch.delete("ltr", "word")
 						return
 
 						// case keydown.enum.undo:

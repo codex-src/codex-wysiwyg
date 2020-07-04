@@ -1,15 +1,18 @@
 import * as Types from "../Types"
 import iota from "lib/iota"
+import queryCollection from "./queryCollection"
+import { render } from "./implementation"
 
 const i = iota(-1)
 
+// Enumerates whether to apply a format.
 const enumerated = {
 	plaintext:      i(),
 	shouldNotApply: i(),
 	shouldApply:    i(),
 }
 
-// Tests whether formatting should be applied.
+// Tests whether to apply a format.
 const testShouldApply = collection => (T, P = {}) => {
 	if (T === "plaintext") {
 		return enumerated.plaintext
@@ -18,8 +21,10 @@ const testShouldApply = collection => (T, P = {}) => {
 	return didApply ? enumerated.shouldNotApply : enumerated.shouldApply
 }
 
-// Applies a format to a collection.
-const applyFormat = collection => (T, P = {}) => {
+// Applies a format to the current range.
+const internalApplyFormat = state => (T, P = {}) => {
+	const collection = queryCollection(state)()
+
 	const shouldApply = testShouldApply(collection)(T, P)
 	switch (shouldApply) {
 	// Plaintext:
@@ -66,6 +71,8 @@ const applyFormat = collection => (T, P = {}) => {
 		// No-op
 		break
 	}
+
+	render(state)()
 }
 
-export default applyFormat
+export default internalApplyFormat

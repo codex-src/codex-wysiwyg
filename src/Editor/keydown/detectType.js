@@ -1,6 +1,5 @@
 import $delete from "./delete"
 import applyFormat from "./applyFormat"
-import backspace from "./backspace"
 import enumerated from "./enumerated"
 import history from "./history"
 import insertText from "./insertText"
@@ -29,17 +28,16 @@ function detectType(e) {
 	case insertText.insertText(e):
 		return enumerated.insertText
 
-	case backspace.line(e): // Takes precedence
-		return enumerated.backspaceLine
-	case backspace.word(e): // Takes precedence
-		return enumerated.backspaceWord
-	case backspace.rune(e):
-		return enumerated.backspaceRune
-
-	case $delete.word(e): // Takes precedence
-		return enumerated.deleteWord
-	case $delete.rune(e):
-		return enumerated.deleteRune
+	case $delete.rtl.line(e): // Takes precedence
+		return enumerated.deleteRTLLine
+	case $delete.rtl.word(e): // Takes precedence
+		return enumerated.deleteRTLWord
+	case $delete.rtl.rune(e):
+		return enumerated.deleteRTLRune
+	case $delete.ltr.word(e): // Takes precedence
+		return enumerated.deleteLTRWord
+	case $delete.ltr.rune(e):
+		return enumerated.deleteLTRRune
 
 	case history.undo(e):
 		return enumerated.undo
