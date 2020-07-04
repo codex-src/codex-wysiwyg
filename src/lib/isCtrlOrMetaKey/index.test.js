@@ -1,8 +1,8 @@
 import isCtrlOrMetaKey from "./index"
 
+// https://github.com/facebook/jest/issues/717#issuecomment-187017936
+// https://stackoverflow.com/a/25518045
 test("non-macOS", () => {
-	// https://github.com/facebook/jest/issues/717#issuecomment-187017936
-	// https://stackoverflow.com/a/25518045
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "...",
 		configurable: true,
@@ -16,8 +16,6 @@ test("non-macOS", () => {
 })
 
 test("macOS", () => {
-	// https://github.com/facebook/jest/issues/717#issuecomment-187017936
-	// https://stackoverflow.com/a/25518045
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "... Mac OS X ...",
 		configurable: true,

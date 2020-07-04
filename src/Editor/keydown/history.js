@@ -1,6 +1,6 @@
-import AAPL from "lib/AAPL"
 import getKeyCode from "lib/getKeyCode"
 import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
+import userAgent from "lib/userAgent"
 
 // Tests a keydown event for history hotkeys.
 const history = {
@@ -12,7 +12,7 @@ const history = {
 		return ok
 	},
 	redo(e) {
-		if (!AAPL) {
+		if (!userAgent.AAPL) {
 			const ok = (
 				isCtrlOrMetaKey(e) &&
 				e.keyCode === getKeyCode("Y")

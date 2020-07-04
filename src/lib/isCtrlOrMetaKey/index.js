@@ -1,10 +1,12 @@
+import userAgent from "lib/userAgent"
+
 // Returns whether a key down event exclusively uses the
 // control key or meta (command on macOS) key.
 //
 // https://css-tricks.com/snippets/javascript/test-mac-pc-javascript
 function isCtrlOrMetaKey(e) {
-	// NOTE: Cannot use lib/AAPL because of tests.
-	const AAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
+	const AAPL = process.env.NODE_ENV === "test" ? navigator.userAgent.indexOf("Mac OS X") >= 0 :
+		userAgent.AAPL
 	if (!AAPL) {
 		const ok = (
 			e.ctrlKey &&

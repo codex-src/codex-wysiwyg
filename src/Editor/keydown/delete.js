@@ -1,15 +1,14 @@
-import AAPL from "lib/AAPL"
 import getKeyCode from "lib/getKeyCode"
 import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
+import userAgent from "lib/userAgent"
 
 // Tests a keydown event for delete hotkeys.
 const $delete = {
 	rune(e) {
-		// Both non-macOS and macOS:
 		if (e.keyCode === getKeyCode("Delete")) {
 			return true
 		}
-		if (AAPL) {
+		if (userAgent.AAPL) {
 			const ok = (
 				e.ctrlKey && // Do not use isCtrlOrMetaKey
 				e.keyCode === getKeyCode("D")
@@ -19,7 +18,7 @@ const $delete = {
 		return false
 	},
 	word(e) {
-		if (AAPL) {
+		if (userAgent.AAPL) {
 			const ok = (
 				e.altKey &&
 				e.keyCode === getKeyCode("Delete")

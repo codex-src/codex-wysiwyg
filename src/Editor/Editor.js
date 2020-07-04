@@ -52,7 +52,7 @@ const Editor = ({ markup, children }) => {
 
 	// Exclusively returns a handler when the editor is
 	// unlocked; returns undefined when the editor is locked.
-	const unlockedHandler = handler => {
+	const newUnlockedHandler = handler => {
 		if (state.locked) {
 			return undefined
 		}
@@ -77,19 +77,19 @@ const Editor = ({ markup, children }) => {
 					tabSize: 4,
 				}}
 
-				onFocus={unlockedHandler(e => {
+				onFocus={newUnlockedHandler(e => {
 					dispatch.focus()
 				})}
 
-				onBlur={unlockedHandler(e => {
+				onBlur={newUnlockedHandler(e => {
 					dispatch.blur()
 				})}
 
-				onPointerDown={unlockedHandler(e => {
+				onPointerDown={newUnlockedHandler(e => {
 					pointerdownRef.current = true
 				})}
 
-				onPointerMove={unlockedHandler(e => {
+				onPointerMove={newUnlockedHandler(e => {
 					if (!state.focused) {
 						pointerdownRef.current = false
 						return
@@ -106,13 +106,13 @@ const Editor = ({ markup, children }) => {
 					dispatch.select(range)
 				})}
 
-				onPointerUp={unlockedHandler(e => {
+				onPointerUp={newUnlockedHandler(e => {
 					pointerdownRef.current = false
 				})}
 
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
-				onSelect={unlockedHandler(e => {
+				onSelect={newUnlockedHandler(e => {
 					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
@@ -121,7 +121,7 @@ const Editor = ({ markup, children }) => {
 					dispatch.select(range)
 				})}
 
-				onKeyDown={unlockedHandler(e => {
+				onKeyDown={newUnlockedHandler(e => {
 					switch (keydown.detectType(e)) {
 					case keydown.enum.applyFormatPlaintext:
 						e.preventDefault()
@@ -149,11 +149,11 @@ const Editor = ({ markup, children }) => {
 						return
 					case keydown.enum.insertTextTab:
 						e.preventDefault()
-						dispatch.insert("\t", "text/plain")
+						dispatch.insert("\t", "text/plain") // TODO
 						return
 					case keydown.enum.insertTextEnter:
 						e.preventDefault()
-						dispatch.insert("\n", "text/plain")
+						dispatch.insert("\n", "text/plain") // TODO
 						return
 
 						// case keydown.enum.insertText:
@@ -181,42 +181,44 @@ const Editor = ({ markup, children }) => {
 						e.preventDefault()
 						dispatch.deleteWord()
 						return
-					case keydown.enum.undo:
-						e.preventDefault()
-						dispatch.undo()
-						return
-					case keydown.enum.redo:
-						e.preventDefault()
-						dispatch.redo()
-						return
+
+						// case keydown.enum.undo:
+						// 	e.preventDefault()
+						// 	dispatch.undo()
+						// 	return
+						// case keydown.enum.redo:
+						// 	e.preventDefault()
+						// 	dispatch.redo()
+						// 	return
+
 					default:
 						// No-op
 						break
 					}
 				})}
 
-				onInput={unlockedHandler(e => {
+				onInput={newUnlockedHandler(e => {
 					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
 					const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
 					dispatch.uncontrolledInputHandler(spans, collapsed)
 				})}
 
-				onCut={unlockedHandler(e => {
+				onCut={newUnlockedHandler(e => {
 					e.preventDefault()
-					// TODO: dispatch.cut()
+					// TODO: e.clipboardData.setData("text/plain", ...)
 				})}
 
-				onCopy={unlockedHandler(e => {
+				onCopy={newUnlockedHandler(e => {
 					e.preventDefault()
-					// TODO: dispatch.copy()
+					// TODO: e.clipboardData.setData("text/plain", ...)
 				})}
 
-				onPaste={unlockedHandler(e => {
+				onPaste={newUnlockedHandler(e => {
 					e.preventDefault()
-					// TODO: dispatch.paste(mimeType)
+					// TODO: e.clipboardData.getData("text/plain")
 				})}
 
-				onDragStart={unlockedHandler(e => {
+				onDragStart={newUnlockedHandler(e => {
 					e.preventDefault()
 				})}
 

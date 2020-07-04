@@ -1,12 +1,12 @@
-import * as Range from "./Range"
-import * as Readers from "./Readers"
-import * as Types from "./Types"
-import decorate from "./decorate"
+import * as Range from "../Range"
+import * as Readers from "../Readers"
+import * as Types from "../Types"
+import decorate from "../decorate"
 import JSONClone from "lib/JSONClone"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import spanUtils from "./spanUtils"
+import spanUtils from "../spanUtils"
 import useMethods from "use-methods"
 
 // Locks the editor; disables future edits. Unlike blur,
@@ -332,7 +332,6 @@ const applyFormat = state => (T, P = {}) => {
 // 	this.select(collapsed)
 // 	render(state)()
 // },
-// // TODO: Add support for nodes? elemUtils.find?
 // input(spans, collapsed) {
 // 	const element = state.elements.find(each => each.key === collapsed[0].key)
 // 	element.props.spans = spans
@@ -340,6 +339,7 @@ const applyFormat = state => (T, P = {}) => {
 // 	render(state)()
 // },
 
+// TODO: Add findElementOrNode API or equivalent?
 const methods = state => ({
 	lock() {
 		lock(state)()
@@ -374,6 +374,7 @@ const methods = state => ({
 	applyFormatA(href) {
 		applyFormatA(state)(href)
 	},
+	// TODO: Change to insertText?
 	insert(data, mimeType) {
 		insert(state)(data, mimeType)
 	},
@@ -395,26 +396,24 @@ const methods = state => ({
 	deleteWord() {
 		deleteWord(state)()
 	},
-	// NOTE: Clipboard events may need to be processed in
-	// their handler counterparts
-	cut() {
-		cut(state)()
-	},
-	copy() {
-		copy(state)()
-	},
-	paste(mimeType) {
-		paste(state)(mimeType)
-	},
-	pushUndoState(undoState) {
-		pushUndoState(state)(undoState)
-	},
-	undo() {
-		undo(state)()
-	},
-	redo() {
-		redo(state)()
-	},
+	// cut() {
+	// 	cut(state)()
+	// },
+	// copy() {
+	// 	copy(state)()
+	// },
+	// paste(mimeType) {
+	// 	paste(state)(mimeType)
+	// },
+	// pushUndoState(undoState) {
+	// 	pushUndoState(state)(undoState)
+	// },
+	// undo() {
+	// 	undo(state)()
+	// },
+	// redo() {
+	// 	redo(state)()
+	// },
 	render() {
 		render(state)()
 	},
@@ -435,11 +434,6 @@ const init = elements => ({
 		},
 		collapsed: true,
 	},
-	clipboard: { // TODO: Deprecate?
-		"text/plaintext": "",
-		"text/html": "",
-		"text/gfm": "",
-	},
 	// history: {
 	// 	stack: [],
 	// 	index: 0,
@@ -450,7 +444,7 @@ const init = elements => ({
 function useEditor({ markup, children }) {
 	const elements = React.useMemo(() => {
 		if ((!markup && !children) || (markup && children)) {
-			throw new Error("useEditor: must use markup=string or children=React.ReactElement[]")
+			throw new Error("useEditor: FIXME")
 		}
 		let domTree = null
 		if (markup !== undefined) {
