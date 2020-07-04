@@ -198,8 +198,7 @@ const Editor = ({ markup, children }) => {
 				onInput={unlockedHandler(e => {
 					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
 					const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
-					dispatch.input(spans, collapsed)
-					// dispatch.uncontrolledInputHandler()
+					dispatch.uncontrolledInputHandler(spans, collapsed)
 				})}
 
 				onCut={unlockedHandler(e => {

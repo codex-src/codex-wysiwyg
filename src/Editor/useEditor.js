@@ -86,8 +86,11 @@ const insert = state => (data, mimeType) => {
 // Handler for uncontrolled input events. Note that
 // uncontrolled events cannot be prevented; most events are
 // controlled.
-const uncontrolledInputHandler = state => () => {
-	// uncontrolledInputHandler(state)()
+const uncontrolledInputHandler = state => (spans, collapsed) => {
+	const element = state.elements.find(each => each.key === collapsed[0].key)
+	element.props.spans.splice(0, element.props.spans.length, ...spans)
+	select(state)(collapsed)
+	render(state)()
 }
 
 // Backspaces on the current range by one rune. Note that
@@ -107,6 +110,9 @@ const backspaceRune = state => () => {
 		// spanUtils.sort(c.spans)
 	}
 
+	// TODO: Forward-delete is effectively the same but we
+	// swap out the order of collection[0] and
+	// collection[collection.length - 1]
 	if (collection.length > 1) {
 		const x1 = state.elements.indexOf(collection[0].ref) // TODO: Add throw?
 		const x2 = state.elements.indexOf(collection[collection.length - 1].ref) // TODO: Add throw?
@@ -252,6 +258,12 @@ const getCurrentCollection = state => () => {
 		const s1 = getSpanOffset(state.elements[x].props.spans)(offset1)
 		const s2 = getSpanOffset(state.elements[x].props.spans)(offset2)
 		collection.push({ ref: state.elements[x], spans: state.elements[x].props.spans.slice(s1, s2) })
+		// TODO: Add support for offsets;
+		//
+		// collection.offsets.elems
+		// collection.offsets.nodes
+		// collection.offsets.spans
+		//
 		// collection.push({ x, s1, s2 })
 	}
 
@@ -329,7 +341,6 @@ const applyFormat = state => (T, P = {}) => {
 // },
 
 const methods = state => ({
-	// "lock": lock(state),
 	lock() {
 		lock(state)()
 	},
@@ -366,18 +377,8 @@ const methods = state => ({
 	insert(data, mimeType) {
 		insert(state)(data, mimeType)
 	},
-
-	// TODO: Add support for nodes? elemUtils.find?
-	input(spans, collapsed) {
-		const element = state.elements.find(each => each.key === collapsed[0].key)
-		element.props.spans = spans
-		this.select(collapsed)
-		render(state)()
-	},
-
-	// TODO: Add spans, collapsed?
-	uncontrolledInputHandler() {
-		uncontrolledInputHandler(state)()
+	uncontrolledInputHandler(spans, collapsed) {
+		uncontrolledInputHandler(state)(spans, collapsed)
 	},
 	backspaceRune() {
 		backspaceRune(state)()
