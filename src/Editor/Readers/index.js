@@ -13,7 +13,8 @@ const recursers = {
 		const recurse = (domNode, types = [], props = {}) => {
 			if (domUtils.isTextNodeOrBrElement(domNode)) {
 				if (domUtils.isTextNode(domNode)) {
-					// Concatenate (types and props must be equal):
+					// Concatenate (types and props must be deeply
+					// equal):
 					//
 					// TODO
 					if (spans.length && areEqualJSON(omit(spans[spans.length - 1], "text"), { types, ...props })) {
@@ -30,7 +31,6 @@ const recursers = {
 				return
 			}
 			for (const each of domNode.childNodes) {
-				// No-op <br> elements:
 				if (domUtils.isBrElement(each)) {
 					// No-op
 					continue

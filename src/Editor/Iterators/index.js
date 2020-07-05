@@ -1,7 +1,8 @@
 import * as emojiTrie from "emoji-trie"
 import * as UTF8 from "lib/encoding/UTF8"
 
-// Iterates right-to-left; returns a substring.
+// Iterates a string right-to-left; returns the iterated
+// substring.
 export const rtl = {
 	rune(str) {
 		const info = emojiTrie.atEnd(str)
@@ -25,7 +26,7 @@ export const rtl = {
 		// the next rune:
 		const rune = this.rune(str.slice(0, offset))
 		if (!rune) {
-			// No-op; defer to end
+			// No-op; defer
 		// Iterate alphanumerics:
 		} else if (UTF8.isAlphanum(rune)) {
 			while (offset) {
@@ -69,7 +70,8 @@ export const rtl = {
 	},
 }
 
-// Iterates left-to-right; returns a substring.
+// Iterates a string left-to-right; returns the iterated
+// substring.
 export const ltr = {
 	rune(str) {
 		const info = emojiTrie.atStart(str)
@@ -93,7 +95,7 @@ export const ltr = {
 		// the next rune:
 		const rune = this.rune(str.slice(offset))
 		if (!rune) {
-			// No-op; defer to end
+			// No-op; defer
 		// Iterate alphanumerics:
 		} else if (UTF8.isAlphanum(rune)) {
 			while (offset < str.length) {
