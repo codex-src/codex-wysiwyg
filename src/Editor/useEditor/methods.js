@@ -2,13 +2,16 @@ import $delete from "./delete"
 import applyFormat from "./applyFormat"
 
 const methods = state => ({
+	DOMContentLoaded() {
+		state.DOMContentLoaded = true
+	},
 	// Enables read-only mode; disables future edits.
 	enableReadOnlyMode() {
-		state.readOnly = true
+		state.readOnlyMode = true
 	},
 	// Disables read-only mode; enables future edits.
 	disableReadOnlyMode() {
-		state.readOnly = false
+		state.readOnlyMode = false
 	},
 	// Focuses the editor. When the editor is focused, editing
 	// operations are expected to work.

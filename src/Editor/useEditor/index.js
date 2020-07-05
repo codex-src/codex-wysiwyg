@@ -23,9 +23,8 @@ import useMethods from "use-methods"
 // },
 
 const init = elements => ({
-	// NOTE: The DOM event "DOMContentLoaded" fires
-	// dispatch.enableReadOnlyMode.
-	readOnly: true,
+	DOMContentLoaded: false,
+	readOnlyMode: false,
 	elements,
 	focused: false,
 	range: {

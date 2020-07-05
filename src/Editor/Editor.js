@@ -22,20 +22,15 @@ const ReactRerenderer = ({ state, dispatch }) => (
 
 const Editor = ({ markup, children }) => {
 	const ref = React.useRef(null)
-
-	// Tracks whether the "pointerdown" event is active.
 	const pointerdownRef = React.useRef(false)
 
 	const [state, dispatch] = useEditor({ markup, children })
 
 	// Disables read-only mode on DOMContentLoaded.
 	React.useEffect(() => {
-		const handler = e => {
-			dispatch.disableReadOnlyMode()
-		}
-		document.addEventListener("DOMContentLoaded", handler)
+		document.addEventListener("DOMContentLoaded", dispatch.DOMContentLoaded)
 		return () => {
-			document.removeEventListener("DOMContentLoaded", handler)
+			document.removeEventListener("DOMContentLoaded", dispatch.DOMContentLoaded)
 		}
 	}, [dispatch])
 
@@ -66,9 +61,10 @@ const Editor = ({ markup, children }) => {
 		[state.shouldRender],
 	)
 
-	// Exclusively returns a handler when state.readOnly=true.
+	// Exclusively returns a handler when
+	// DOMContentLoaded=true and readOnlyMode=false.
 	const newReadWriteHandler = handler => {
-		if (state.readOnly) {
+		if (!(state.DOMContentLoaded && !state.readOnlyMode)) {
 			return undefined
 		}
 		return handler
@@ -247,8 +243,8 @@ const Editor = ({ markup, children }) => {
 					e.preventDefault()
 				})}
 
-				contentEditable={!state.readOnly}
-				suppressContentEditableWarning={!state.readOnly}
+				contentEditable={state.DOMContentLoaded && !state.readOnlyMode}
+				suppressContentEditableWarning={state.DOMContentLoaded && !state.readOnlyMode}
 			/>
 
 			{/* Debugger */}

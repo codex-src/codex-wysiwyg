@@ -4,10 +4,16 @@ import domUtils from "lib/domUtils"
 function computeDOMRangeComponent(component) {
 	component = { ...component } // Copy
 
-	const domRangeComponent = [null, 0]
+	const domRangeComponent = {
+		domNode: null,
+		offset: 0,
+	}
 	const recurse = domNode => {
 		if (domUtils.isTextNodeOrBrElement(domNode) && component.offset - (domNode.nodeValue || "").length <= 0) {
-			domRangeComponent.splice(0, 2, domNode, component.offset)
+			Object.assign(domRangeComponent, {
+				domNode,
+				offset: component.offset,
+			})
 			return true
 		}
 		for (const each of domNode.childNodes) {
@@ -20,7 +26,7 @@ function computeDOMRangeComponent(component) {
 		return false
 	}
 	recurse(document.getElementById(component.key))
-	return domRangeComponent
+	return [domRangeComponent.domNode, domRangeComponent.offset]
 }
 
 // Converts a range to an array of DOM range components.
