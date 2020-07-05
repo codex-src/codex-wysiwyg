@@ -15,7 +15,7 @@ import {
 } from "../components/components-text"
 
 // Enumerates types.
-export const enumerated = new Enum(
+const enumerated = new Enum(
 	"p",
 
 	"em",
@@ -36,7 +36,6 @@ export const components = {
 	[enumerated.a]:      A,
 }
 
-// TODO: Use NumberEnum
 const i = iota()
 
 // Maps types to sort orders for text components; render
@@ -54,5 +53,5 @@ export function sort(span) {
 	span.types.sort((T1, T2) => sortOrder[T1] - sortOrder[T2])
 }
 
-// Re-exports as enumerated as enum for Types.enum.
+// Exports enumerated as Types.enum.
 export { enumerated as enum }
