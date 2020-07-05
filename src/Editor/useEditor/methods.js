@@ -1,19 +1,14 @@
 import $delete from "./delete"
 import applyFormat from "./applyFormat"
 
-// TODO: Add findElementOrNode API or equivalent?
 const methods = state => ({
-	// Locks the editor; disables future edits. Unlike blur,
-	// lock is expected to remove the DOM attribute
-	// contenteditable.
-	lock() {
-		state.locked = true
+	// Enables read-only mode; disables future edits.
+	enableReadOnlyMode() {
+		state.readOnly = true
 	},
-	// Unlocks the editor; enables future edits. Unlike focus,
-	// unlock is expected to add the DOM attribute
-	// contenteditable.
-	unlock() {
-		state.locked = false
+	// Disables read-only mode; enables future edits.
+	disableReadOnlyMode() {
+		state.readOnly = false
 	},
 	// Focuses the editor. When the editor is focused, editing
 	// operations are expected to work.

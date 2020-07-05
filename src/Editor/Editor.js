@@ -28,6 +28,18 @@ const Editor = ({ markup, children }) => {
 
 	const [state, dispatch] = useEditor({ markup, children })
 
+	// Disables read-only mode on DOMContentLoaded.
+	React.useEffect(() => {
+		const handler = e => {
+			dispatch.disableReadOnlyMode()
+		}
+		document.addEventListener("DOMContentLoaded", handler)
+		return () => {
+			document.removeEventListener("DOMContentLoaded", handler)
+		}
+	}, [dispatch])
+
+	// Renders on state.shouldRender.
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
@@ -44,17 +56,19 @@ const Editor = ({ markup, children }) => {
 					const domRange = Range.toDOMRange(state.range)
 					domSelection.addRange(domRange)
 				} catch (error) {
-					console.error(error)
+					console.error({
+						range: state.range,
+						error,
+					})
 				}
 			})
 		}, [state, dispatch]),
 		[state.shouldRender],
 	)
 
-	// Exclusively returns a handler when the editor is
-	// unlocked; returns undefined when the editor is locked.
-	const newUnlockedHandler = handler => {
-		if (state.locked) {
+	// Exclusively returns a handler when state.readOnly=true.
+	const newReadWriteHandler = handler => {
+		if (state.readOnly) {
 			return undefined
 		}
 		return handler
@@ -78,19 +92,19 @@ const Editor = ({ markup, children }) => {
 					tabSize: 4,
 				}}
 
-				onFocus={newUnlockedHandler(e => {
+				onFocus={newReadWriteHandler(e => {
 					dispatch.focus()
 				})}
 
-				onBlur={newUnlockedHandler(e => {
+				onBlur={newReadWriteHandler(e => {
 					dispatch.blur()
 				})}
 
-				onPointerDown={newUnlockedHandler(e => {
+				onPointerDown={newReadWriteHandler(e => {
 					pointerdownRef.current = true
 				})}
 
-				onPointerMove={newUnlockedHandler(e => {
+				onPointerMove={newReadWriteHandler(e => {
 					if (!state.focused) {
 						pointerdownRef.current = false
 						return
@@ -107,13 +121,13 @@ const Editor = ({ markup, children }) => {
 					dispatch.select(range)
 				})}
 
-				onPointerUp={newUnlockedHandler(e => {
+				onPointerUp={newReadWriteHandler(e => {
 					pointerdownRef.current = false
 				})}
 
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
-				onSelect={newUnlockedHandler(e => {
+				onSelect={newReadWriteHandler(e => {
 					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
@@ -122,7 +136,7 @@ const Editor = ({ markup, children }) => {
 					dispatch.select(range)
 				})}
 
-				onKeyDown={newUnlockedHandler(e => {
+				onKeyDown={newReadWriteHandler(e => {
 					const keydownT = keydown.detectType(e)
 					if (keydownT) {
 						console.log(keydownT)
@@ -208,33 +222,33 @@ const Editor = ({ markup, children }) => {
 					}
 				})}
 
-				onInput={newUnlockedHandler(e => {
+				onInput={newReadWriteHandler(e => {
 					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
 					const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
 					dispatch.uncontrolledInputHandler(spans, collapsed)
 				})}
 
-				onCut={newUnlockedHandler(e => {
+				onCut={newReadWriteHandler(e => {
 					e.preventDefault()
 					// TODO: e.clipboardData.setData("text/plain", ...)
 				})}
 
-				onCopy={newUnlockedHandler(e => {
+				onCopy={newReadWriteHandler(e => {
 					e.preventDefault()
 					// TODO: e.clipboardData.setData("text/plain", ...)
 				})}
 
-				onPaste={newUnlockedHandler(e => {
+				onPaste={newReadWriteHandler(e => {
 					e.preventDefault()
 					// TODO: e.clipboardData.getData("text/plain")
 				})}
 
-				onDragStart={newUnlockedHandler(e => {
+				onDragStart={newReadWriteHandler(e => {
 					e.preventDefault()
 				})}
 
-				contentEditable={!state.locked}
-				suppressContentEditableWarning={!state.locked}
+				contentEditable={!state.readOnly}
+				suppressContentEditableWarning={!state.readOnly}
 			/>
 
 			{/* Debugger */}

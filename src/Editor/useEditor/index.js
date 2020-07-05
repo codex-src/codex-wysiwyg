@@ -21,15 +21,11 @@ import useMethods from "use-methods"
 // 	this.select(collapsed)
 // 	render(state)()
 // },
-// input(spans, collapsed) {
-// 	const element = state.elements.find(each => each.key === collapsed[0].key)
-// 	element.props.spans = spans
-// 	this.select(collapsed)
-// 	render(state)()
-// },
 
 const init = elements => ({
-	locked: false,
+	// NOTE: The DOM event "DOMContentLoaded" fires
+	// dispatch.enableReadOnlyMode.
+	readOnly: true,
 	elements,
 	focused: false,
 	range: {
