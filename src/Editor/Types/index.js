@@ -1,4 +1,4 @@
-import Enum from "lib/Enum"
+import Enum from "lib/enums/Enum"
 import iota from "lib/iota"
 
 // NOTE: Imports are intentionally unsorted.
@@ -36,6 +36,7 @@ export const components = {
 	[enumerated.a]:      A,
 }
 
+// TODO: Use NumberEnum
 const i = iota()
 
 // Maps types to sort orders for text components; render

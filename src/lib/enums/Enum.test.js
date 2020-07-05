@@ -1,6 +1,6 @@
-import Enum from "./index"
+import Enum from "./Enum"
 
-test("Enum", () => {
+test("", () => {
 	const daysOfTheWeekEnum = new Enum(
 		"Monday",
 		"Tuesday",
@@ -16,7 +16,7 @@ test("Enum", () => {
 	expect(daysOfTheWeekEnum.Thursday).toBe("Thursday")
 	expect(daysOfTheWeekEnum.Friday).toBe("Friday")
 	expect(daysOfTheWeekEnum.Saturday).toBe("Saturday")
-	expect(daysOfTheWeekEnum.Saturday).toBe("Saturday")
+	expect(daysOfTheWeekEnum.Sunday).toBe("Sunday")
 
 	// TypeError: Cannot assign to read only property 'Wednesday' of object '#<Enum>'
 	expect(() => daysOfTheWeekEnum.Wednesday = "Humpday").toThrow()

@@ -1,16 +1,14 @@
 import * as Types from "../Types"
-import iota from "lib/iota"
 import methods from "./methods"
+import NumberEnum from "lib/enums/NumberEnum"
 import queryCollection from "./queryCollection"
 
-const i = iota(-1)
-
-// Enumerates whether to apply a format.
-const enumerated = {
-	plaintext:      i(),
-	shouldNotApply: i(),
-	shouldApply:    i(),
-}
+// Enumerates how to apply a format.
+const enumerated = new NumberEnum(
+	"plaintext",
+	"shouldNotApply",
+	"shouldApply",
+)
 
 // Tests whether to apply a format.
 const testShouldApply = collection => (T, P = {}) => {

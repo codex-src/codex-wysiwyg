@@ -1,4 +1,4 @@
-import Enum from "lib/Enum"
+import Enum from "lib/enums/Enum"
 
 // Enumerates keydown types.
 const enumerated = new Enum(

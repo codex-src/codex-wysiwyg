@@ -1,6 +1,5 @@
 import * as Iterators from "../Iterators"
 import * as Range from "../Range"
-import JSONClone from "lib/JSONClone"
 import methods from "./methods"
 import queryCollection from "./queryCollection"
 
