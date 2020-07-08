@@ -142,34 +142,40 @@ const Editor = ({ markup, children }) => {
 				// 	}
 				// 	switch (keydownType) {
 				// 	case "apply-format-plaintext":
+				// 	case "apply-format-markdown-plaintext":
 				// 		e.preventDefault()
 				// 		dispatch.applyFormat("plaintext")
 				// 		return
 				// 	case "apply-format-em":
+				// 	case "apply-format-markdown-em":
 				// 		e.preventDefault()
 				// 		dispatch.applyFormat(types.enum.em)
 				// 		return
 				// 	case "apply-format-strong":
+				// 	case "apply-format-markdown-strong":
 				// 		e.preventDefault()
 				// 		dispatch.applyFormat(types.enum.strong)
 				// 		return
 				// 	case "apply-format-code":
+				// 	case "apply-format-markdown-code":
 				// 		e.preventDefault()
 				// 		dispatch.applyFormat(types.enum.code)
 				// 		return
 				// 	case "apply-format-strike":
+				// 	case "apply-format-markdown-strike":
 				// 		e.preventDefault()
 				// 		dispatch.applyFormat(types.enum.strike)
 				// 		return
 				// 	case "apply-format-a":
+				// 	case "apply-format-markdown-a":
 				// 		e.preventDefault()
 				// 		dispatch.applyFormat(types.enum.a, { href: "https://google.com" })
 				// 		return
 				//
-				// 	// "insert-text"
-				// 	// "insert-tab"
-				// 	// "insert-soft-paragraph"
-				// 	// "insert-paragraph"
+				// 		// "insert-text"
+				// 		// "insert-tab"
+				// 		// "insert-soft-paragraph"
+				// 		// "insert-paragraph"
 				//
 				// 	case "backspace-rune":
 				// 		e.preventDefault()

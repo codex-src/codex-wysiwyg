@@ -9,25 +9,31 @@ import insertText from "./insertText"
 function detectKeydownType(e) {
 	switch (true) {
 
-	// TODO: Add "apply-format-plaintext-markdown", etc.?
 	case applyFormat.plaintext(e):
-	case applyFormatMarkdown.plaintext(e):
 		return "apply-format-plaintext"
 	case applyFormat.em(e):
-	case applyFormatMarkdown.em(e):
 		return "apply-format-em"
 	case applyFormat.strong(e):
-	case applyFormatMarkdown.strong(e):
 		return "apply-format-strong"
 	case applyFormat.code(e):
-	case applyFormatMarkdown.code(e):
 		return "apply-format-code"
 	case applyFormat.strike(e):
-	case applyFormatMarkdown.strike(e):
 		return "apply-format-strike"
 	case applyFormat.a(e):
-	case applyFormatMarkdown.a(e):
 		return "apply-format-a"
+
+	case applyFormatMarkdown.plaintext(e):
+		return "apply-format-markdown-plaintext"
+	case applyFormatMarkdown.em(e):
+		return "apply-format-markdown-em"
+	case applyFormatMarkdown.strong(e):
+		return "apply-format-markdown-strong"
+	case applyFormatMarkdown.code(e):
+		return "apply-format-markdown-code"
+	case applyFormatMarkdown.strike(e):
+		return "apply-format-markdown-strike"
+	case applyFormatMarkdown.a(e):
+		return "apply-format-markdown-a"
 
 	case insertText.insertText(e):
 		return "insert-text"
