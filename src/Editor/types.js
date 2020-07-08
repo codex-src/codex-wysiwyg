@@ -1,18 +1,17 @@
 import Enum from "lib/enums/Enum"
 import iota from "lib/iota"
 
-// NOTE: Imports are intentionally unsorted.
-import {
+import { // Unsorted
 	P,
-} from "../components/components"
+} from "./components/components"
 
-import {
+import { // Unsorted
 	Em,
 	Strong,
 	Strike,
 	Code,
 	A,
-} from "../components/components-text"
+} from "./components/components-text"
 
 // Enumerates types.
 const enumerated = new Enum(
@@ -53,5 +52,5 @@ export function sort(span) {
 	span.types.sort((T1, T2) => ordered[T1] - ordered[T2])
 }
 
-// Exports enumerated as Types.enum.
+// Exports enumerated as enum.
 export { enumerated as enum }

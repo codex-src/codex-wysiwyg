@@ -1,4 +1,4 @@
-import * as Types from "../Types"
+import * as types from "../types"
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
 
@@ -11,25 +11,25 @@ describe("semantic", () => {
 	test("<i>", () => {
 		const domTree = renderDOMTree(<i>Hello, world!</i>)
 		const [T, P] = semantic.scanner(domTree)
-		expect(T).toBe(Types.enum.em)
+		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<em>", () => {
 		const domTree = renderDOMTree(<em>Hello, world!</em>)
 		const [T, P] = semantic.scanner(domTree)
-		expect(T).toBe(Types.enum.em)
+		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<b>", () => {
 		const domTree = renderDOMTree(<b>Hello, world!</b>)
 		const [T, P] = semantic.scanner(domTree)
-		expect(T).toBe(Types.enum.strong)
+		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<strong>", () => {
 		const domTree = renderDOMTree(<strong>Hello, world!</strong>)
 		const [T, P] = semantic.scanner(domTree)
-		expect(T).toBe(Types.enum.strong)
+		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<a>...</a><a>...</a> (1 of 1)", () => {
@@ -129,25 +129,25 @@ describe("rendered", () => {
 	test("<i>", () => {
 		const domTree = renderDOMTree(<i>Hello, world!</i>)
 		const [T, P] = rendered.scanner(domTree)
-		expect(T).toBe(Types.enum.em)
+		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<span data-type='em'>", () => {
 		const domTree = renderDOMTree(<span data-type="em">Hello, world!</span>)
 		const [T, P] = rendered.scanner(domTree)
-		expect(T).toBe(Types.enum.em)
+		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<b>", () => {
 		const domTree = renderDOMTree(<b>Hello, world!</b>)
 		const [T, P] = rendered.scanner(domTree)
-		expect(T).toBe(Types.enum.strong)
+		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<span data-type='strong'>", () => {
 		const domTree = renderDOMTree(<span data-type="strong">Hello, world!</span>)
 		const [T, P] = rendered.scanner(domTree)
-		expect(T).toBe(Types.enum.strong)
+		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<span data-type='a'>...</span><span data-type='a'>...</span> (1 of 2)", () => {

@@ -1,4 +1,4 @@
-import * as Types from "../Types"
+import * as types from "../types"
 import methods from "./methods"
 import queryCollection from "./queryCollection"
 
@@ -27,7 +27,7 @@ const applyFormat = state => (T, P = {}) => {
 				s.types.splice(0)
 			}
 			// deferSpans(c.refs.spans)
-			c.refs.spans.map(each => Types.sort(each))
+			c.refs.spans.map(each => types.sort(each))
 		}
 		break
 	// Should not apply a format:
@@ -41,7 +41,7 @@ const applyFormat = state => (T, P = {}) => {
 				}
 			}
 			// deferSpans(c.refs.spans)
-			c.refs.spans.map(each => Types.sort(each))
+			c.refs.spans.map(each => types.sort(each))
 		}
 		break
 	// Should apply a format:
@@ -57,7 +57,7 @@ const applyFormat = state => (T, P = {}) => {
 				}
 			}
 			// deferSpans(c.refs.spans)
-			c.refs.spans.map(each => Types.sort(each))
+			c.refs.spans.map(each => types.sort(each))
 		}
 		break
 	default:

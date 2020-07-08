@@ -1,4 +1,4 @@
-import * as Types from "../Types"
+import * as types from "../types"
 import React from "react"
 import toArray from "lib/toArray"
 import toTree from "./toTree"
@@ -13,7 +13,7 @@ function toRenderable(tree) {
 			continue
 		}
 		const { type: T, props } = each
-		renderable.push(React.createElement(Types.components[T], {
+		renderable.push(React.createElement(types.components[T], {
 			key: renderable.length,
 			...props,
 		}, toRenderable(props.children)))

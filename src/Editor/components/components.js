@@ -1,4 +1,4 @@
-import * as Types from "../Types"
+import * as types from "../types"
 import deeplySyncDOMTrees from "../deeplySyncDOMTrees"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
@@ -43,7 +43,7 @@ const Node = ({ id, style, children, ...props }) => {
 }
 
 export const P = React.memo(({ id, spans }) => (
-	<T type={Types.enum.p}>
+	<T type={types.enum.p}>
 		<Node id={id}>
 			{toReact(spans) || (
 				<br />

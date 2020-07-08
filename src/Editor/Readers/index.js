@@ -1,4 +1,4 @@
-import * as Types from "../Types"
+import * as types from "../types"
 import areEqualJSON from "lib/areEqualJSON"
 import domUtils from "lib/domUtils"
 import hash from "lib/hash"
@@ -38,21 +38,21 @@ const recursers = {
 				// NOTE: Do not uses types = [...types] or
 				// props = JSONClone(props); does not work as
 				// expected.
-				const nextTypes = [...types]
+				const nexttypes = [...types]
 				const nextProps = JSONClone(props)
 				if (domUtils.isElement(each)) {
 					const [T, P] = scanner(each)
-					nextTypes.push(T)
+					nexttypes.push(T)
 					if (Object.keys(P).length) {
 						nextProps[T] = P
 					}
 				}
-				recurse(each, nextTypes, nextProps)
+				recurse(each, nexttypes, nextProps)
 			}
 		}
 		recurse(domElement)
 		// deferSpans(spans)
-		spans.map(each => Types.sort(each))
+		spans.map(each => types.sort(each))
 		return spans
 	},
 	// Reads an array of elements from a DOM tree.
@@ -80,13 +80,13 @@ export const semantic = {
 		// Guard <i>, <u>, and <b>:
 		const nodeName = domUtils.nodeName(domElement)
 		if (!domElement.id && (nodeName === "i" || nodeName === "u")) {
-			return [Types.enum.em, {}]
+			return [types.enum.em, {}]
 		} else if (!domElement.id && nodeName === "b") {
-			return [Types.enum.strong, {}]
+			return [types.enum.strong, {}]
 		}
 
 		const T = nodeName
-		if (Types.enum[T] === undefined) {
+		if (types.enum[T] === undefined) {
 			throw new Error(`Readers.semantic.scanner: no such type; T=${T}`)
 		}
 		const P = {}
@@ -112,13 +112,13 @@ export const rendered = {
 		// Guard <i>, <u>, and <b>:
 		const nodeName = domUtils.nodeName(domElement)
 		if (!domElement.id && (nodeName === "i" || nodeName === "u")) {
-			return [Types.enum.em, {}]
+			return [types.enum.em, {}]
 		} else if (!domElement.id && nodeName === "b") {
-			return [Types.enum.strong, {}]
+			return [types.enum.strong, {}]
 		}
 
 		const T = domElement.getAttribute("data-type")
-		if (Types.enum[T] === undefined) {
+		if (types.enum[T] === undefined) {
 			throw new Error(`Readers.rendered.scanner: no such type; T=${T}`)
 		}
 		const P = JSON.parse(domElement.getAttribute("data-props") || "{}")

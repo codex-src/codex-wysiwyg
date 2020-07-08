@@ -1,6 +1,6 @@
 import * as keydown from "./keydown"
 import * as Readers from "./Readers"
-import * as Types from "./Types"
+import * as types from "./types"
 import React from "react"
 import ReactDOM from "react-dom"
 import useDOMContentLoaded from "lib/useDOMContentLoaded"
@@ -12,7 +12,7 @@ import "./Editor.css"
 // React renderer for the current state.
 const ReactRenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (
-		React.createElement(Types.components[T], {
+		React.createElement(types.components[T], {
 			key,
 			id: key, // Propagate key as id
 			...props,
@@ -147,23 +147,23 @@ const Editor = ({ markup, children }) => {
 				//						return
 				//					case keydown.enum.applyFormatEm:
 				//						e.preventDefault()
-				//						dispatch.applyFormat(Types.enum.em)
+				//						dispatch.applyFormat(types.enum.em)
 				//						return
 				//					case keydown.enum.applyFormatStrong:
 				//						e.preventDefault()
-				//						dispatch.applyFormat(Types.enum.strong)
+				//						dispatch.applyFormat(types.enum.strong)
 				//						return
 				//					case keydown.enum.applyFormatCode:
 				//						e.preventDefault()
-				//						dispatch.applyFormat(Types.enum.code)
+				//						dispatch.applyFormat(types.enum.code)
 				//						return
 				//					case keydown.enum.applyFormatStrike:
 				//						e.preventDefault()
-				//						dispatch.applyFormat(Types.enum.strike)
+				//						dispatch.applyFormat(types.enum.strike)
 				//						return
 				//					case keydown.enum.applyFormatA:
 				//						e.preventDefault()
-				//						dispatch.applyFormat(Types.enum.a, { href: "https://google.com" })
+				//						dispatch.applyFormat(types.enum.a, { href: "https://google.com" })
 				//						return
 				//
 				//						// case keydown.enum.insertTextTab:
