@@ -1,15 +1,15 @@
 import domUtils from "lib/domUtils"
 import { immerable } from "immer"
 
-// Describes a virtual range position.
-class VirtualRangePosition {
+// Describes a synthetic range position.
+class SyntheticRangePosition {
 	[immerable] = true
 
 	key = ""
 	offset = 0
 
-	// Computes a virtual range position from a range position
-	// object literal.
+	// Computes a synthetic range position from a range
+	// position object literal.
 	static fromRangePositionLiteral(range) {
 		let { node, offset } = range
 
@@ -50,7 +50,7 @@ class VirtualRangePosition {
 		return created
 	}
 
-	// Compares whether virtual range positions are equal.
+	// Compares whether synthetic range positions are equal.
 	static areEqual(c1, c2) {
 		const ok = (
 			c1.key === c2.key &&
@@ -59,8 +59,8 @@ class VirtualRangePosition {
 		return ok
 	}
 
-	// Converts the virtual range position to a range position
-	// object literal.
+	// Converts the synthetic range position to a range
+	// position object literal.
 	toRangePositionLiteral() {
 		let { key, offset } = this
 
@@ -95,4 +95,4 @@ class VirtualRangePosition {
 	}
 }
 
-export default VirtualRangePosition
+export default SyntheticRangePosition

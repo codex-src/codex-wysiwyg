@@ -1,4 +1,4 @@
-import VirtualRange from "./VirtualRange"
+import SyntheticRange from "./SyntheticRange"
 
 import {
 	immerable,
@@ -13,7 +13,7 @@ class Editor {
 	focused = false
 
 	elements = [] // new VirtualElements()
-	range = new VirtualRange()
+	range = new SyntheticRange()
 
 	renderCount = 0
 

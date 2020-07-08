@@ -1,5 +1,5 @@
 import domUtils from "lib/domUtils"
-import VirtualRangePosition from "./VirtualRangePosition"
+import SyntheticRangePosition from "./SyntheticRangePosition"
 
 import {
 	immerable,
@@ -11,15 +11,15 @@ function isContentEditableDisabled(node) {
 	return domUtils.ascendElement(node).closest("[contenteditable='false']")
 }
 
-// Describes a virtual range.
-class VirtualRange {
+// Describes a synthetic range.
+class SyntheticRange {
 	[immerable] = true
 
-	pos1 = new VirtualRangePosition()
-	pos2 = new VirtualRangePosition()
+	start = new SyntheticRangePosition()
+	end = new SyntheticRangePosition()
 
-	// Gets the current virtual range. The current range must
-	// be scoped to the tree.
+	// Gets the current synthetic range. The current range
+	// must be scoped to the tree.
 	static getCurrent(tree) {
 		// Compute the current range:
 		const selection = document.getSelection()
@@ -36,14 +36,14 @@ class VirtualRange {
 			return null
 		}
 
-		// Compute pos1 and pos2:
-		const pos1 = VirtualRangePosition.fromRangePositionLiteral({
+		// Compute start and end:
+		const start = SyntheticRangePosition.fromRangePositionLiteral({
 			node: range.startContainer,
 			offset: range.startOffset,
 		})
-		let pos2 = pos1
+		let end = start
 		if (!range.collapsed) {
-			pos2 = VirtualRangePosition.fromRangePositionLiteral({
+			end = SyntheticRangePosition.fromRangePositionLiteral({
 				node: range.endContainer,
 				offset: range.endOffset,
 			})
@@ -52,45 +52,45 @@ class VirtualRange {
 		// Done:
 		const created = new this()
 		Object.assign(created, {
-			pos1,
-			pos2,
+			start,
+			end,
 		})
 		return created
 	}
 
-	// Returns whether the virtual range is collapsed.
+	// Returns whether the synthetic range is collapsed.
 	get collapsed() {
-		return VirtualRangePosition.areEqual(this.pos1, this.pos2)
+		return SyntheticRangePosition.areEqual(this.start, this.end)
 	}
 
-	// Collapses the virtual range to the start virtual range
-	// position (pos1).
+	// Collapses the synthetic range to the start synthetic
+	// range position.
 	collapseToStart() {
 		return produce(this, draft => {
-			draft.pos2 = draft.pos1
+			draft.end = draft.start
 		})
 	}
 
-	// Collapses the virtual range to the end virtual range
-	// position (pos2).
+	// Collapses the synthetic range to the end synthetic
+	// range position.
 	collapseToEnd() {
 		return produce(this, draft => {
-			draft.pos1 = draft.pos2
+			draft.start = draft.end
 		})
 	}
 
-	// Converts the virtual range to a range.
+	// Converts the synthetic range to a range.
 	toRange() {
-		const rp1 = this.pos1.toRangePositionLiteral().toArray()
-		let rp2 = rp1
+		const pos1 = this.start.toRangePositionLiteral().toArray()
+		let pos2 = pos1
 		if (!this.collapsed) {
-			rp2 = this.pos2.toRangePositionLiteral().toArray()
+			pos2 = this.end.toRangePositionLiteral().toArray()
 		}
 		const range = document.createRange()
-		range.setStart(...rp1)
-		range.setEnd(...rp2)
+		range.setStart(...pos1)
+		range.setEnd(...pos2)
 		return range
 	}
 }
 
-export default VirtualRange
+export default SyntheticRange

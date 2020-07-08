@@ -4,12 +4,6 @@ import Editor from "./model/Editor"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import VirtualRange from "./model/VirtualRange"
-
-import {
-	immerable,
-	produce,
-} from "immer"
 
 function EditorReducer(state, action) {
 	switch (action.type) {

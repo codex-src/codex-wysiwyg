@@ -5,7 +5,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import useEditor from "./useEditor2"
-import VirtualRange from "./useEditor2/model/VirtualRange"
+import SyntheticRange from "./useEditor2/model/SyntheticRange"
 
 import "./Editor.css"
 
@@ -106,7 +106,7 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
-					const range = VirtualRange.getCurrent(ref.current)
+					const range = SyntheticRange.getCurrent(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -124,7 +124,7 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={readWriteHandler(e => {
-					const range = VirtualRange.getCurrent(ref.current)
+					const range = SyntheticRange.getCurrent(ref.current)
 					if (!range) {
 						// No-op
 						return
