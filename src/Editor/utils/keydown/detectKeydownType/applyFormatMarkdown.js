@@ -1,13 +1,13 @@
 import keyCodeFor from "../keyCodeFor"
 
 const applyFormatMarkdown = {
-	plaintext(e) {
-		const ok = (
-			!e.shiftKey &&
-			e.keyCode === keyCodeFor("\\")
-		)
-		return ok
-	},
+	// plaintext(e) {
+	// 	const ok = (
+	// 		!e.shiftKey &&
+	// 		e.keyCode === keyCodeFor("\\")
+	// 	)
+	// 	return ok
+	// },
 	em(e) {
 		const ok = (
 			e.shiftKey &&

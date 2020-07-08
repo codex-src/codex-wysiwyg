@@ -22,8 +22,9 @@ function detectKeydownType(e) {
 	case applyFormat.a(e):
 		return "apply-format-a"
 
-	case applyFormatMarkdown.plaintext(e):
-		return "apply-format-markdown-plaintext"
+	// case applyFormatMarkdown.plaintext(e):
+	// 	return "apply-format-markdown-plaintext"
+
 	case applyFormatMarkdown.em(e):
 		return "apply-format-markdown-em"
 	case applyFormatMarkdown.strong(e):
