@@ -8,20 +8,9 @@ class VRangeComponent {
 	key = ""
 	offset = 0
 
-	// Constructs a new virtual range component.
-	constructor({ key, offset } = { key: "", offset: 0 }) {
-		Object.assign(this, {
-			key,
-			offset,
-		})
-	}
-
 	// Creates a new virtual range component from a range
 	// component.
 	static fromRangeComponent({ node, offset }) {
-		// Compute ascended:
-		const ascended = domUtils.ascendElementID(node)
-
 		// Guard node and offset:
 		while (!domUtils.isTextNodeOrBrElement(node)) {
 			if (offset && offset === node.childNodes.length) { // offset must be 1 or more
@@ -31,30 +20,32 @@ class VRangeComponent {
 			offset = 0
 		}
 
-		const computed = {
-			key: "",
-			offset: 0,
-		}
+		// Compute key and offset:
+		let key = ""
+		let offset2 = 0 // Does not shadow offset
 		const recurse = on => {
 			if (on === node) {
-				Object.assign(computed, {
-					key: ascended.id,
-					offset: computed.offset + offset,
-				})
+				key = domUtils.ascendElementID(on).id
+				offset2 += offset
 				return true
 			}
 			for (const each of on.childNodes) {
 				if (recurse(each)) {
 					return true
 				}
-				computed.offset += domUtils.isTextNode(each) &&
-					each.nodeValue.length
+				offset += domUtils.isTextNode(each) && each.nodeValue.length
 			}
 			return false
 		}
-		recurse(ascended)
+		recurse(domUtils.ascendElementID(node))
 
-		return new this(computed)
+		// Create a new virtual range component:
+		const created = new this()
+		Object.assign(created, {
+			key,
+			offset: offset2,
+		})
+		return created
 	}
 
 	// Compares whether virtual range components are equal.
@@ -71,8 +62,7 @@ class VRangeComponent {
 	toRangeComponent() {
 		let { key, offset } = this
 
-		// const ascended = document.getElementById(key)
-
+		// TODO
 		const computed = {
 			node: null,
 			offset: 0,

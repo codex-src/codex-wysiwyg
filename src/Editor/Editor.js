@@ -6,6 +6,8 @@ import filterTemplated from "lib/filterTemplated"
 import React from "react"
 import ReactDOM from "react-dom"
 import useEditor from "./useEditor"
+import useEditor2 from "./useEditor2"
+import VRange from "./classes/VRange"
 
 import "./Editor.css"
 
@@ -25,6 +27,7 @@ const Editor = ({ markup, children }) => {
 	const pointerdownRef = React.useRef(false)
 
 	const [state, dispatch] = useEditor({ markup, children })
+	const [state2, dispatch2] = useEditor2()
 
 	// Disables read-only mode on DOMContentLoaded.
 	React.useEffect(() => {
@@ -78,6 +81,11 @@ const Editor = ({ markup, children }) => {
 	return (
 		<div>
 
+			{/* DEBUG */}
+			<div className="!mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
+				{JSON.stringify(state2, null, "\t")}
+			</div>
+
 			<article
 				ref={ref}
 
@@ -129,6 +137,16 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={newReadWriteHandler(e => {
+					const range2 = VRange.getCurrent(ref.current)
+					if (!range2) {
+						// No-op
+						return
+					}
+					dispatch2({
+						type: "SELECT",
+						range: range2,
+					})
+
 					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
@@ -252,7 +270,7 @@ const Editor = ({ markup, children }) => {
 				suppressContentEditableWarning={state.DOMContentLoaded && !state.readOnlyMode}
 			/>
 
-			{/* Debugger */}
+			{/* DEBUG */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify({
 					...state,

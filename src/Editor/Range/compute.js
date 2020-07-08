@@ -38,8 +38,6 @@ function computeComponent(domElementID, [domRangeNode, domRangeOffset]) {
 
 // Computes a range from the current DOM range.
 function compute(domTree) {
-	console.log(VRange.getCurrent(domTree), VRange.getCurrent(domTree).toRange())
-
 	// Get the current DOM range:
 	const domSelection = document.getSelection()
 	if (!domSelection.rangeCount) {
