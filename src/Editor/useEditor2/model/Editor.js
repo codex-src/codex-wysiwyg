@@ -12,7 +12,7 @@ class Editor {
 	readOnlyModeEnabled = true // DOMContentLoaded disables read-only mode
 	focused = false
 
-	elements = [] // new VirtualElements()
+	elements = [] // new SyntheticElements()
 	range = new SyntheticRange()
 
 	renderCount = 0
@@ -47,7 +47,7 @@ class Editor {
 			draft.focused = false
 		})
 	}
-	// Selects a virtual range.
+	// Selects a synthetic range.
 	select(range) {
 		return produce(this, draft => {
 			draft.range = range
