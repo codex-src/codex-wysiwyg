@@ -5,6 +5,7 @@ import * as Types from "./Types"
 import filterTemplated from "lib/filterTemplated"
 import React from "react"
 import ReactDOM from "react-dom"
+import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import useEditor from "./useEditor"
 import useEditor2 from "./useEditor2"
 import VirtualRange from "./model/VirtualRange"
@@ -30,12 +31,18 @@ const Editor = ({ markup, children }) => {
 	const [state2, dispatch2] = useEditor2()
 
 	// Disables read-only mode on DOMContentLoaded.
+	const DOMContentLoaded = useDOMContentLoaded()
 	React.useEffect(() => {
-		document.addEventListener("DOMContentLoaded", dispatch.DOMContentLoaded)
-		return () => {
-			document.removeEventListener("DOMContentLoaded", dispatch.DOMContentLoaded)
+		console.log({ DOMContentLoaded })
+		if (!DOMContentLoaded) {
+			// No-op
+			return
 		}
-	}, [dispatch])
+		// TODO: Deprecate
+		dispatch.DOMContentLoaded()
+
+		dispatch2({ type: "DISABLE_READ_ONLY_MODE" })
+	}, [DOMContentLoaded, dispatch, dispatch2])
 
 	// Renders on state.shouldRender.
 	React.useLayoutEffect(
@@ -102,11 +109,17 @@ const Editor = ({ markup, children }) => {
 				}}
 
 				onFocus={newReadWriteHandler(e => {
+					// TODO: Deprecate
 					dispatch.focus()
+
+					dispatch2({ type: "FOCUS" })
 				})}
 
 				onBlur={newReadWriteHandler(e => {
+					// TODO: Deprecate
 					dispatch.blur()
+
+					dispatch2({ type: "BLUR" })
 				})}
 
 				onPointerDown={newReadWriteHandler(e => {

@@ -1,5 +1,40 @@
+// import reducerTypes as t from "./reducerTypes"
 import VirtualRange from "../model/VirtualRange"
 import { useImmerReducer } from "use-immer"
+
+// Disables read-only mode; enables future edits.
+function DISABLE_READ_ONLY_MODE(draft) {
+	const closure = () => {
+		draft.readOnlyMode = false
+	}
+	return closure
+}
+
+// Enables read-only mode; disables future edits.
+function ENABLE_READ_ONLY_MODE(draft) {
+	const closure = () => {
+		draft.readOnlyMode = true
+	}
+	return closure
+}
+
+// Focuses the editor. When the editor is focused, editing
+// operations **are** expected to work.
+function FOCUS(draft) {
+	const closure = () => {
+		draft.focused = true
+	}
+	return closure
+}
+
+// Blurs the editor. When the editor is blurred, editing
+// operations **are not** expected to work.
+function BLUR(draft) {
+	const closure = () => {
+		draft.focused = false
+	}
+	return closure
+}
 
 // Selects a virtual range.
 function SELECT(draft) {
@@ -12,18 +47,21 @@ function SELECT(draft) {
 // useEditor reducer.
 function reducer(draft, action) {
 	switch (action.type) {
+	case "DISABLE_READ_ONLY_MODE":
+		DISABLE_READ_ONLY_MODE(draft)()
+		return
+	case "ENABLE_READ_ONLY_MODE":
+		ENABLE_READ_ONLY_MODE(draft)()
+		return
+	case "FOCUS":
+		FOCUS(draft)()
+		return
+	case "BLUR":
+		BLUR(draft)()
+		return
 	case "SELECT":
 		SELECT(draft)(action.range)
 		return
-	// case "UPDATE_TODO":
-	// 	UPDATE_TODO(draft)({ id: action.id, text: action.text })
-	// 	return
-	// case "REMOVE_TODO":
-	// 	REMOVE_TODO(draft)({ id: action.id })
-	// 	return
-	// case "APPEND_TODO":
-	// 	APPEND_TODO(draft)()
-	// 	return
 	default:
 		throw new Error(`useEditor.reducer: type mismatch; type=${action.type}`)
 	}
@@ -48,6 +86,8 @@ function reducer(draft, action) {
 
 function useEditor(opts /* TODO */) {
 	return useImmerReducer(reducer, null, () => ({
+		readOnlyMode: true,
+		focused: false,
 		range: new VirtualRange(),
 	}))
 }
