@@ -7,7 +7,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import useEditor from "./useEditor"
 import useEditor2 from "./useEditor2"
-import VirtualRange from "./classes/VirtualRange"
+import VirtualRange from "./model/VirtualRange"
 
 import "./Editor.css"
 

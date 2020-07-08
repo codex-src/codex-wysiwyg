@@ -1,4 +1,4 @@
-import VirtualRange from "../classes/VirtualRange"
+import VirtualRange from "../model/VirtualRange"
 import { useImmerReducer } from "use-immer"
 
 // Selects a virtual range.
