@@ -1,4 +1,4 @@
-import deeplySyncDOMTrees from "../deeplySyncDOMTrees"
+import deeplySyncTrees from "../utils/deeplySyncTrees"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
@@ -22,7 +22,7 @@ const Node = ({ id, style, children, ...props }) => {
 		// ;[...ref.current.childNodes].reverse().map(each => each.remove())
 		// ref.current.append(...domTree.childNodes)
 
-		deeplySyncDOMTrees(domTree, ref.current)
+		deeplySyncTrees(domTree, ref.current)
 	}, [children])
 
 	return (

@@ -1,4 +1,4 @@
-import deeplySyncDOMTrees from "./deeplySyncDOMTrees"
+import deeplySyncTrees from "./deeplySyncTrees"
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
 
@@ -13,7 +13,7 @@ test("", () => {
 			{/* ... */}
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -28,7 +28,7 @@ test("", () => {
 			{/* ... */}
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -43,7 +43,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -58,7 +58,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -73,7 +73,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -88,7 +88,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -103,7 +103,7 @@ test("", () => {
 			Hello, world!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -122,7 +122,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -141,7 +141,7 @@ test("", () => {
 			!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -164,7 +164,7 @@ test("", () => {
 			!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -185,7 +185,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -206,7 +206,7 @@ test("", () => {
 			!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -233,7 +233,7 @@ test("", () => {
 			!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -254,7 +254,7 @@ test("", () => {
 			<br />
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -275,7 +275,7 @@ test("", () => {
 			!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
 
@@ -302,6 +302,6 @@ test("", () => {
 			!
 		</div>
 	))
-	deeplySyncDOMTrees(src, dst)
+	deeplySyncTrees(src, dst)
 	expect(src.isEqualNode(dst)).toBeTruthy()
 })
