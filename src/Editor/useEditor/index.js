@@ -1,49 +1,30 @@
 import * as Readers from "../Readers"
 import decorate from "../decorate"
+import Editor from "./model/Editor"
 import markupToDOMTree from "lib/markupToDOMTree"
-import methods from "./methods"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import useMethods from "use-methods"
 
-// // TODO
-// write(characterData) {
-// 	if (!state.range.collapsed) {
-// 		// TODO
-// 		return
-// 	}
-// 	const element = state.elements.find(each => each.key === state.range[0].key)
-// 	const offsets = span_offsets(element.props.spans, state.range[0].offset)
-// 	const ref = element.props.spans[offsets[0]]
-// 	ref.text = ref.text.slice(0, offsets[1]) + characterData + ref.text.slice(offsets[1])
-// 	state.range[0].offset++
-// 	const collapsed = Range.collapse(state.range)
-// 	this.select(collapsed)
-// 	render(state)()
-// },
+function EditorReducer(state, action) {
+	switch (action.type) {
+	case "DISABLE_READ_ONLY_MODE":
+		return state.disableReadOnlyMode()
+	case "ENABLE_READ_ONLY_MODE":
+		return state.enableReadOnlyMode()
+	case "FOCUS":
+		return state.focus()
+	case "BLUR":
+		return state.blur()
+	case "SELECT":
+		return state.select(action.range)
+	default:
+		throw new Error(`useEditor.EditorReducer: type mismatch; action.type=${action.type}`)
+	}
+}
 
-const init = elements => ({
-	DOMContentLoaded: false,
-	readOnlyMode: false,
-	elements,
-	focused: false,
-	range: {
-		0: {
-			key: "",
-			offset: 0,
-		},
-		1: {
-			key: "",
-			offset: 0,
-		},
-		collapsed: true,
-	},
-	shouldRender: 0,
-})
-
-// TODO
 function useEditor({ markup, children }) {
-	const elements = React.useMemo(() => {
+	// TODO
+	const initialState = React.useMemo(() => {
 		if ((!markup && !children) || (markup && children)) {
 			throw new Error("useEditor: FIXME")
 		}
@@ -57,8 +38,8 @@ function useEditor({ markup, children }) {
 		decorate(domTree)
 		return Readers.semantic.elements(domTree)
 	}, [markup, children])
-	return useMethods(methods, {}, () => init(elements))
+
+	return React.useReducer(EditorReducer, null, () => new Editor(initialState))
 }
 
 export default useEditor
-

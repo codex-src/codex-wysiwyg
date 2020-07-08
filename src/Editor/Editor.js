@@ -2,10 +2,10 @@ import * as Readers from "./Readers"
 import detectKeydownType from "./utils/keydown/detectKeydownType"
 import React from "react"
 import ReactDOM from "react-dom"
-import SyntheticRange from "./useEditor2/model/SyntheticRange"
+import SyntheticRange from "./useEditor/model/SyntheticRange"
 import types from "./types"
 import useDOMContentLoaded from "lib/useDOMContentLoaded"
-import useEditor from "./useEditor2"
+import useEditor from "./useEditor"
 
 import "./Editor.css"
 
