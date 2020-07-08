@@ -9,7 +9,7 @@ class VRangeComponent {
 	offset = 0
 
 	// Constructs a new virtual range component.
-	constructor({ key, offset }) {
+	constructor({ key, offset } = { key: "", offset: 0 }) {
 		Object.assign(this, {
 			key,
 			offset,

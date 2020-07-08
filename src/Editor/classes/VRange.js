@@ -1,29 +1,19 @@
+import domUtils from "lib/domUtils"
+import JSONClone from "lib/JSONClone"
 import VRangeComponent from "./VRangeComponent"
 
 import {
 	immerable,
 	produce,
-} from from "immer"
-
-// // Returns whether a node is a contenteditable descendant.
-// function isContentEditableDescendant(node) {
-// 	const element = domUtils.ascendElement(node)
-// 	return element.closest("[contenteditable='true']")
-// }
+} from "immer"
 
 // Describes a virtual range.
-class VRange {
+class VRange extends Array {
 	[immerable] = true
 
-	[0] = new VRangeComponent()
-	[1] = new VRangeComponent()
-
 	// Constructs a new virtual range.
-	constructor({ [0]: start, [1]: end }) {
-		Object.assign(this, {
-			[0]: start,
-			[1]: end,
-		})
+	constructor(...arr) {
+		super(...arr)
 	}
 
 	// Creates a new virtual range from a tree and a range.
@@ -33,24 +23,29 @@ class VRange {
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		// Guard non-contenteditable descendants:
-		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='true']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='true']")) {
+		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
 			return null
 		}
-
+		/* eslint-disable */
 		const computed = []
-		computed.push(VRangeComponent.fromRangeComponent({
-			node: range.startContainer,
-			offset: range.startOffset,
-		}))
+		computed.push(
+			VRangeComponent.fromRangeComponent({
+				node: range.startContainer,
+				offset: range.startOffset,
+			}),
+		)
 		if (range.collapsed) {
 			computed.push(computed[0])
 		} else {
-			computed.pushVRangeComponent.fromRangeComponent({
-				node: range.endContainer,
-				offset: range.endOffset,
-			})
+			computed.push(
+				VRangeComponent.fromRangeComponent({
+					node: range.endContainer,
+					offset: range.endOffset,
+				}),
+			)
 		}
-		return new this(computed[0], computed[1])
+		/* eslint-enable */
+		return new this(...computed)
 	}
 
 	// Getter for whether the virtual range is collapsed.
@@ -58,9 +53,10 @@ class VRange {
 		return VRangeComponent.areEqual(this[0], this[1])
 	}
 
-	// Collapses the virtual range.
+	// Collapses the virtual range to the start virtual range
+	// component.
 	collapse() {
-		produce(this, draft => {
+		return produce(this, draft => {
 			draft[1] = draft[0]
 		})
 	}
