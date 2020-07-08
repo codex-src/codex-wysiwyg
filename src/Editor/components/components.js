@@ -1,10 +1,10 @@
-import * as types from "../types"
 import deeplySyncDOMTrees from "../deeplySyncDOMTrees"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import T from "./T"
 import toReact from "./toReact"
+import types from "../types"
 
 const Node = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)

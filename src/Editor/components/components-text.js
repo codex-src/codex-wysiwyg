@@ -1,7 +1,7 @@
-import * as types from "../types"
 import attrs from "./attrs"
 import React from "react"
 import T from "./T"
+import types from "../types"
 
 export const Em = ({ children }) => (
 	<T type={types.enum.em}>

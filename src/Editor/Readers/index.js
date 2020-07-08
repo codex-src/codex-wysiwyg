@@ -1,9 +1,9 @@
-import * as types from "../types"
 import areEqualJSON from "lib/areEqualJSON"
 import domUtils from "lib/domUtils"
 import hash from "lib/hash"
 import JSONClone from "lib/JSONClone"
 import omit from "lib/omit"
+import types from "../types"
 
 // Recursers; methods read an array of spans or elements.
 const recursers = {

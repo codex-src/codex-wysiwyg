@@ -1,6 +1,6 @@
-import * as types from "../types"
 import methods from "./methods"
 import queryCollection from "./queryCollection"
+import types from "../types"
 
 // Tests whether to apply a format.
 const testShouldApply = collection => (T, P = {}) => {

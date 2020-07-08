@@ -1,6 +1,6 @@
-import * as types from "../types"
 import React from "react"
 import renderDOMTree from "lib/renderDOMTree"
+import types from "../types"
 
 import {
 	rendered,

@@ -1,11 +1,11 @@
 import * as keydown from "./keydown"
 import * as Readers from "./Readers"
-import * as types from "./types"
 import React from "react"
 import ReactDOM from "react-dom"
+import SyntheticRange from "./useEditor2/model/SyntheticRange"
+import types from "./types"
 import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import useEditor from "./useEditor2"
-import SyntheticRange from "./useEditor2/model/SyntheticRange"
 
 import "./Editor.css"
 
@@ -248,6 +248,7 @@ const Editor = ({ markup, children }) => {
 
 				contentEditable={!state.readOnlyModeEnabled}
 				suppressContentEditableWarning={!state.readOnlyModeEnabled}
+				data-root
 			/>
 
 			{/* DEBUG */}

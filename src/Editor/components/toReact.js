@@ -1,7 +1,7 @@
-import * as types from "../types"
 import React from "react"
 import toArray from "lib/toArray"
 import toTree from "./toTree"
+import types from "../types"
 
 // Converts intermediary tree data structure to renderable
 // React elements.
