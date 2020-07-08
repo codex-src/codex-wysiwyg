@@ -66,10 +66,37 @@ class VRangeComponent {
 		return ok
 	}
 
-	// // Converts to a Range component.
-	// toRangeComponent() {
-	// 	// ...
-	// }
+	// Converts a virutal range component to a range
+	// component.
+	toRangeComponent() {
+		let { key, offset } = this
+
+		// const ascended = document.getElementById(key)
+
+		const computed = {
+			node: null,
+			offset: 0,
+		}
+		const recurse = on => {
+			if (domUtils.isTextNodeOrBrElement(on) && offset - (on.nodeValue || "").length <= 0) {
+				Object.assign(computed, {
+					node: on,
+					offset,
+				})
+				return true
+			}
+			for (const each of on.childNodes) {
+				if (recurse(each)) {
+					return true
+				}
+				offset -= domUtils.isTextNode(each) &&
+					each.nodeValue.length
+			}
+			return false
+		}
+		recurse(document.getElementById(key))
+		return computed
+	}
 }
 
 export default VRangeComponent

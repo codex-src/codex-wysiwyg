@@ -1,7 +1,6 @@
 import areEqualComponents from "./areEqualComponents"
 import domUtils from "lib/domUtils"
 import VRange from "../classes/VRange"
-import VRangeComponent from "../classes/VRangeComponent"
 
 // Computes a range component.
 function computeComponent(domElementID, [domRangeNode, domRangeOffset]) {
@@ -39,6 +38,8 @@ function computeComponent(domElementID, [domRangeNode, domRangeOffset]) {
 
 // Computes a range from the current DOM range.
 function compute(domTree) {
+	console.log(VRange.getCurrent(domTree), VRange.getCurrent(domTree).toRange())
+
 	// Get the current DOM range:
 	const domSelection = document.getSelection()
 	if (!domSelection.rangeCount) {
@@ -46,9 +47,6 @@ function compute(domTree) {
 	}
 	// Guard non-root element descendants:
 	const domRange = domSelection.getRangeAt(0)
-
-	console.log(VRange.fromRange(domTree, domRange).collapse())
-
 	if (!domTree.contains(domRange.startContainer) || !domTree.contains(domRange.endContainer)) {
 		return null
 	// Guard non-contenteditable descendants:

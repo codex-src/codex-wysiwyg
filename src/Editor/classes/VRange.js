@@ -1,5 +1,4 @@
 import domUtils from "lib/domUtils"
-import JSONClone from "lib/JSONClone"
 import VRangeComponent from "./VRangeComponent"
 
 import {
@@ -11,15 +10,19 @@ import {
 class VRange extends Array {
 	[immerable] = true
 
-	// Constructs a new virtual range.
-	constructor(...arr) {
-		super(...arr)
-	}
+	// // Constructs a new virtual range.
+	// constructor(...arr) {
+	// 	super(...arr)
+	// }
 
-	// Creates a new virtual range from a tree and a range.
-	// The range must be scoped to the tree.
-	static fromRange(tree, range) {
+	// Gets the current virtual range, scoped to a tree.
+	static getCurrent(tree) {
+		const selection = document.getSelection()
+		if (!selection.rangeCount) {
+			return null
+		}
 		// Guard non-tree descendants:
+		const range = selection.getRangeAt(0)
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		// Guard non-contenteditable descendants:
@@ -55,16 +58,36 @@ class VRange extends Array {
 
 	// Collapses the virtual range to the start virtual range
 	// component.
-	collapse() {
+	collapseToStart() {
 		return produce(this, draft => {
 			draft[1] = draft[0]
 		})
 	}
 
-	// // Converts the range to a DOM range.
-	// toDOMRange() {
-	// 	// ...
-	// }
+	// Collapses the virtual range to the end virtual range
+	// component.
+	collapseToEnd() {
+		return produce(this, draft => {
+			draft[0] = draft[1]
+		})
+	}
+
+	// Converts a virtual range to a range.
+	toRange() {
+		const range = document.createRange()
+		range.setStart(...toArray(this[0].toRangeComponent()))
+		if (this.collapsed) {
+			range.collapse()
+		} else {
+			range.setEnd(...toArray(this[1].toRangeComponent()))
+		}
+		return range
+	}
+}
+
+// Converts a range component to an array.
+function toArray({ node, offset }) {
+	return [node, offset]
 }
 
 export default VRange
