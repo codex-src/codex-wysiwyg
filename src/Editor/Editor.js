@@ -1,12 +1,11 @@
 import * as keydown from "./keydown"
 import * as Readers from "./Readers"
 import * as Types from "./Types"
-import filterTemplated from "lib/filterTemplated"
 import React from "react"
 import ReactDOM from "react-dom"
 import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import useEditor from "./useEditor2"
-import VirtualRange from "./model/VirtualRange"
+import VirtualRange from "./useEditor2/model/VirtualRange"
 
 import "./Editor.css"
 
@@ -54,12 +53,12 @@ const Editor = ({ markup, children }) => {
 					// No-op
 					return
 				}
-				try {
-					const range = state.range.toRange(state.range)
-					selection.addRange(range)
-				} catch (error) {
-					console.error(error)
-				}
+				// try {
+				const range = state.range.toRange(state.range)
+				selection.addRange(range)
+				// } catch (error) {
+				// 	console.error(error)
+				// }
 			})
 		}, [state, dispatch]),
 		[state.shouldRender],
@@ -107,7 +106,7 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
-					const range = VirtualRange.computeCurrent(ref.current)
+					const range = VirtualRange.getCurrent(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -125,7 +124,7 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={readWriteHandler(e => {
-					const range = VirtualRange.computeCurrent(ref.current)
+					const range = VirtualRange.getCurrent(ref.current)
 					if (!range) {
 						// No-op
 						return

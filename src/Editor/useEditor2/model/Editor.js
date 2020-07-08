@@ -1,0 +1,58 @@
+import VirtualRange from "./VirtualRange"
+
+import {
+	immerable,
+	produce,
+} from "immer"
+
+// Describes an editor.
+class Editor {
+	[immerable] = true
+
+	readOnlyModeEnabled = true // DOMContentLoaded disables read-only mode
+	focused = false
+
+	elements = [] // new VirtualElements()
+	range = new VirtualRange()
+
+	renderCount = 0
+
+	constructor(initialState /* elements */) {
+		Object.assign(this, {
+			elements: initialState,
+		})
+	}
+
+	// Disables read-only mode; disables future edits.
+	disableReadOnlyMode() {
+		return produce(this, draft => {
+			draft.readOnlyModeEnabled = false
+		})
+	}
+	// Enables read-only mode; enables future edits.
+	enableReadOnlyMode() {
+		return produce(this, draft => {
+			draft.readOnlyModeEnabled = true
+		})
+	}
+	// Focuses the editor.
+	focus() {
+		return produce(this, draft => {
+			draft.focused = true
+		})
+	}
+	// Blurs the editor.
+	blur() {
+		return produce(this, draft => {
+			draft.focused = false
+		})
+	}
+	// Selects a virtual range.
+	select(range) {
+		return produce(this, draft => {
+			draft.range = range
+		})
+	}
+}
+
+export default Editor

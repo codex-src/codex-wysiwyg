@@ -18,8 +18,9 @@ class VirtualRange {
 	pos1 = new VirtualRangePosition()
 	pos2 = new VirtualRangePosition()
 
-	// Computes the current virtual range, scoped to a tree.
-	static computeCurrent(tree) {
+	// Gets the current virtual range. The current range must
+	// be scoped to the tree.
+	static getCurrent(tree) {
 		// Compute the current range:
 		const selection = document.getSelection()
 		if (!selection.rangeCount) {

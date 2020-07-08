@@ -1,63 +1,15 @@
 import * as Readers from "../Readers"
 import decorate from "../decorate"
+import Editor from "./model/Editor"
 import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import VirtualRange from "../model/VirtualRange"
+import VirtualRange from "./model/VirtualRange"
 
 import {
 	immerable,
 	produce,
 } from "immer"
-
-class Editor {
-	[immerable] = true
-
-	readOnlyModeEnabled = true // DOMContentLoaded disables read-only mode
-	focused = false
-
-	elements = [] // new VirtualElements()
-	range = new VirtualRange()
-
-	renderCount = 0
-
-	constructor(initialState /* elements */) {
-		Object.assign(this, {
-			elements: initialState,
-		})
-	}
-
-	// Disables read-only mode; disables future edits.
-	disableReadOnlyMode() {
-		return produce(this, draft => {
-			draft.readOnlyModeEnabled = false
-		})
-	}
-	// Enables read-only mode; enables future edits.
-	enableReadOnlyMode() {
-		return produce(this, draft => {
-			draft.readOnlyModeEnabled = true
-		})
-	}
-	// Focuses the editor.
-	focus() {
-		return produce(this, draft => {
-			draft.focused = true
-		})
-	}
-	// Blurs the editor.
-	blur() {
-		return produce(this, draft => {
-			draft.focused = false
-		})
-	}
-	// Selects a virtual range.
-	select(range) {
-		return produce(this, draft => {
-			draft.range = range
-		})
-	}
-}
 
 function EditorReducer(state, action) {
 	switch (action.type) {
