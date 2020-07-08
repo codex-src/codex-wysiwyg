@@ -1,11 +1,15 @@
-// import reducerTypes as t from "./reducerTypes"
+import * as Readers from "../Readers"
+import decorate from "../decorate"
+import markupToDOMTree from "lib/markupToDOMTree"
+import React from "react"
+import ReactDOMServer from "react-dom/server"
 import VirtualRange from "../model/VirtualRange"
 import { useImmerReducer } from "use-immer"
 
 // Disables read-only mode; enables future edits.
 function DISABLE_READ_ONLY_MODE(draft) {
 	const closure = () => {
-		draft.readOnlyMode = false
+		draft.readOnlyModeEnabled = false
 	}
 	return closure
 }
@@ -13,7 +17,7 @@ function DISABLE_READ_ONLY_MODE(draft) {
 // Enables read-only mode; disables future edits.
 function ENABLE_READ_ONLY_MODE(draft) {
 	const closure = () => {
-		draft.readOnlyMode = true
+		draft.readOnlyModeEnabled = true
 	}
 	return closure
 }
@@ -68,7 +72,7 @@ function reducer(draft, action) {
 }
 
 // DOMContentLoaded: false,
-// readOnlyMode: false,
+// readOnlyModeEnabled: false,
 // elements,
 // focused: false,
 // range: {
@@ -84,12 +88,38 @@ function reducer(draft, action) {
 // },
 // shouldRender: 0,
 
-function useEditor(opts /* TODO */) {
-	return useImmerReducer(reducer, null, () => ({
-		readOnlyMode: true,
-		focused: false,
-		range: new VirtualRange(),
-	}))
+// Return a stateful editor initializer.
+//
+// TODO: Create an immerable class?
+const init = initialState => () => ({
+	// Read-only mode and focused states.
+	readOnlyModeEnabled: true,
+	focused: false,
+	// Elements and range.
+	elements: initialState,
+	range: new VirtualRange(),
+	// Etc.
+	shouldRender: 0,
+})
+
+function useEditor({ markup, children }) {
+	// TODO
+	const initialState = React.useMemo(() => {
+		if ((!markup && !children) || (markup && children)) {
+			throw new Error("useEditor: FIXME")
+		}
+		let domTree = null
+		if (markup !== undefined) {
+			domTree = markupToDOMTree("<div>" + markup + "</div>")
+		} else if (children !== undefined) {
+			const markup = ReactDOMServer.renderToStaticMarkup(children) // Shadows markup
+			domTree = markupToDOMTree("<div>" + markup + "</div>")
+		}
+		decorate(domTree)
+		return Readers.semantic.elements(domTree)
+	}, [markup, children])
+
+	return useImmerReducer(reducer, null, init(initialState))
 }
 
 export default useEditor
