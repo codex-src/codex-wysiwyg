@@ -50,6 +50,8 @@ function createElement(span, types) {
 }
 
 // Converts an array of spans to a tree data structure.
+//
+// TODO: Move to useEditor/model/Spans
 function toTree(spans) {
 	const tree = []
 	for (const each of spans) {

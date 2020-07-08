@@ -24,6 +24,8 @@ function toRenderable(tree) {
 // Converts an array of spans to an intermediary tree data
 // structure to renderable React elements. Uses an
 // intermediary step because React elements are read-only.
+//
+// TODO: Move to useEditor/model/Spans
 function toReact(spans) {
 	const tree = toTree(spans)
 	const renderable = toRenderable(tree)

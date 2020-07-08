@@ -2,16 +2,14 @@ import Enum from "lib/enums/Enum"
 import iota from "lib/iota"
 
 import { // Unsorted
-	P,
-} from "./components/components"
-
-import { // Unsorted
 	Em,
 	Strong,
 	Strike,
 	Code,
 	A,
-} from "./components/components-text"
+
+	P,
+} from "./components"
 
 // Enumerates types.
 const enumerated = new Enum(
@@ -63,6 +61,3 @@ const types = {
 // }
 
 export default types
-
-
-
