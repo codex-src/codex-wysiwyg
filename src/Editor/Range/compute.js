@@ -58,6 +58,7 @@ function compute(domTree) {
 	range.push(computeComponent(domUtils.ascendElementID(domRange.startContainer),
 		[domRange.startContainer, domRange.startOffset]))
 
+	// TODO
 	console.log(VRangeComponent.fromRangeComponent({ node: domRange.startContainer, offset: domRange.startOffset }))
 
 	if (domRange.collapsed) {
@@ -65,6 +66,9 @@ function compute(domTree) {
 	} else {
 		range.push(computeComponent(domUtils.ascendElementID(domRange.endContainer),
 			[domRange.endContainer, domRange.endOffset]))
+
+		// TODO
+		console.log(VRangeComponent.fromRangeComponent({ node: domRange.endContainer, offset: domRange.endOffset }))
 	}
 	/* eslint-enable */
 	return { ...range, collapsed: areEqualComponents(...range) }

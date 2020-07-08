@@ -16,7 +16,7 @@ class VRangeComponent {
 		})
 	}
 
-	// Creates a new virtual range component from a Range
+	// Creates a new virtual range component from a range
 	// component.
 	static fromRangeComponent({ node, offset }) {
 		// Compute ascended:
@@ -53,6 +53,7 @@ class VRangeComponent {
 			return false
 		}
 		recurse(ascended)
+
 		return new this(computed)
 	}
 
