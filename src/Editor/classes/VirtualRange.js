@@ -6,6 +6,11 @@ import {
 	produce,
 } from "immer"
 
+// Returns whether a node is contenteditable-disabled.
+function isContentEditableDisabled(node) {
+	return domUtils.ascendElement(node).closest("[contenteditable='false']")
+}
+
 // Describes a virtual range.
 class VirtualRange {
 	[immerable] = true
@@ -26,7 +31,7 @@ class VirtualRange {
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		// Guard non-contenteditable descendants:
-		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
+		} else if (isContentEditableDisabled(range.startContainer) || isContentEditableDisabled(range.endContainer)) {
 			return null
 		}
 
@@ -57,23 +62,32 @@ class VirtualRange {
 		return VirtualRangePosition.areEqual(this.pos1, this.pos2)
 	}
 
-	// Collapses the virtual range.
-	collapse() {
+	// Collapses the virtual range to the start virtual range
+	// position (pos1).
+	collapseToStart() {
 		return produce(this, draft => {
 			draft.pos2 = draft.pos1
 		})
 	}
 
+	// Collapses the virtual range to the end virtual range
+	// position (pos2).
+	collapseToEnd() {
+		return produce(this, draft => {
+			draft.pos1 = draft.pos2
+		})
+	}
+
 	// Converts the virtual range to a range.
 	toRange() {
-		const r1 = this.pos1.toRangePositionLiteral().toArray()
-		let r2 = r1
+		const rp1 = this.pos1.toRangePositionLiteral().toArray()
+		let rp2 = rp1
 		if (!this.collapsed) {
-			r2 = this.pos2.toRangePositionLiteral().toArray()
+			rp2 = this.pos2.toRangePositionLiteral().toArray()
 		}
 		const range = document.createRange()
-		range.setStart(...r1)
-		range.setEnd(...r2)
+		range.setStart(...rp1)
+		range.setEnd(...rp2)
 		return range
 	}
 }
