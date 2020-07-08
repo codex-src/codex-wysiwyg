@@ -6,7 +6,8 @@ import {
 	produce,
 } from "immer"
 
-// Describes a virtual range.
+// Describes a virtual range. A virtual range describes the
+// start and end cursors.
 class VirtualRange {
 	[immerable] = true
 
@@ -28,7 +29,6 @@ class VirtualRange {
 		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
 			return null
 		}
-		// Compute the start and end virtual range positions:
 		const start = VirtualRangePosition.fromRangePosition({
 			node: range.startContainer,
 			offset: range.startOffset,
@@ -73,19 +73,14 @@ class VirtualRange {
 	// Converts a virtual range to a range.
 	toRange() {
 		const range = document.createRange()
-		range.setStart(...toArray(this.start.toRangePosition()))
+		range.setStart(...this.start.toRangePosition().toArray())
 		if (this.collapsed) {
 			range.collapse()
 		} else {
-			range.setEnd(...toArray(this.end.toRangePosition()))
+			range.setEnd(...this.end.toRangePosition().toArray())
 		}
 		return range
 	}
-}
-
-// Converts a range position to an array.
-function toArray({ node, offset }) {
-	return [node, offset]
 }
 
 export default VirtualRange

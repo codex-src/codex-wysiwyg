@@ -51,8 +51,8 @@ class VirtualRangePosition {
 	// Compares whether virtual range positions are equal.
 	static areEqual(c1, c2) {
 		const ok = (
-			c1[0] === c2[0] &&
-			c1[1] === c2[1]
+			c1.key === c2.key &&
+			c1.offset === c2.offset
 		)
 		return ok
 	}
@@ -79,10 +79,16 @@ class VirtualRangePosition {
 			return false
 		}
 		recurse(document.getElementById(key))
-		return {
+
+		// Done:
+		const range = {
 			node,
 			offset: offset2,
+			toArray() {
+				return [this.node, this.offset]
+			},
 		}
+		return range
 	}
 }
 

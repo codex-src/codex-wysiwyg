@@ -161,6 +161,7 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
+					console.log(range2.toRange())
 					dispatch2({
 						type: "SELECT",
 						range: range2,
