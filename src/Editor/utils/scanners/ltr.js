@@ -1,7 +1,7 @@
 import * as emojiTrie from "emoji-trie"
 import * as UTF8 from "lib/encoding/UTF8"
 
-// Scans a rune, left-to-right.
+// Scans the next left-to-right rune.
 export function rune(str) {
 	const info = emojiTrie.atStart(str)
 	if (info) {
@@ -10,7 +10,7 @@ export function rune(str) {
 	return UTF8.atStart(str)
 }
 
-// Scans a word, left-to-right.
+// Scans the next left-to-right word.
 export function word(str) {
 	// Spaces:
 	let offset = 0
