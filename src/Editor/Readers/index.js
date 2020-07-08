@@ -51,6 +51,7 @@ const recursers = {
 			}
 		}
 		recurse(domElement)
+		// deferSpans(spans)
 		spans.map(each => Types.sort(each))
 		return spans
 	},

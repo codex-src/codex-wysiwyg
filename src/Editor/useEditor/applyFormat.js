@@ -26,6 +26,7 @@ const applyFormat = state => (T, P = {}) => {
 				}
 				s.types.splice(0)
 			}
+			// deferSpans(c.refs.spans)
 			c.refs.spans.map(each => Types.sort(each))
 		}
 		break
@@ -39,6 +40,7 @@ const applyFormat = state => (T, P = {}) => {
 					s[T] = undefined
 				}
 			}
+			// deferSpans(c.refs.spans)
 			c.refs.spans.map(each => Types.sort(each))
 		}
 		break
@@ -54,6 +56,7 @@ const applyFormat = state => (T, P = {}) => {
 					}
 				}
 			}
+			// deferSpans(c.refs.spans)
 			c.refs.spans.map(each => Types.sort(each))
 		}
 		break

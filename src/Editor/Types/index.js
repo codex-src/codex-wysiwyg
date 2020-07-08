@@ -40,7 +40,7 @@ const i = iota()
 
 // Maps types to sort orders for text components; render
 // precedence for components/components-text.
-const sortOrder = {
+const ordered = {
 	[enumerated.code]:   i(),
 	[enumerated.a]:      i(),
 	[enumerated.strike]: i(),
@@ -50,7 +50,7 @@ const sortOrder = {
 
 // Sorts span.types based on render precedence.
 export function sort(span) {
-	span.types.sort((T1, T2) => sortOrder[T1] - sortOrder[T2])
+	span.types.sort((T1, T2) => ordered[T1] - ordered[T2])
 }
 
 // Exports enumerated as Types.enum.

@@ -14,7 +14,7 @@ const ReactRerenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (
 		React.createElement(Types.components[T], {
 			key,
-			id: key, // Passes key as id
+			id: key, // Propagate key as id
 			...props,
 		})
 	))
@@ -37,6 +37,11 @@ const Editor = ({ markup, children }) => {
 	// Renders on state.shouldRender.
 	React.useLayoutEffect(
 		React.useCallback(() => {
+			if (!ref.current) {
+				// No-op
+				return
+			}
+
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
 			const domSelection = document.getSelection()
 			if (domSelection.rangeCount) {

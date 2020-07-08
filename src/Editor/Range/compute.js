@@ -1,5 +1,6 @@
 import areEqualComponents from "./areEqualComponents"
 import domUtils from "lib/domUtils"
+import VRangeComponent from "../classes/VRangeComponent"
 
 // Computes a range component.
 function computeComponent(domElementID, [domRangeNode, domRangeOffset]) {
@@ -56,6 +57,9 @@ function compute(domTree) {
 	const range = []
 	range.push(computeComponent(domUtils.ascendElementID(domRange.startContainer),
 		[domRange.startContainer, domRange.startOffset]))
+
+	console.log(VRangeComponent.fromRangeComponent({ node: domRange.startContainer, offset: domRange.startOffset }))
+
 	if (domRange.collapsed) {
 		range.push(range[0])
 	} else {

@@ -19,7 +19,7 @@ export const Strong = ({ children }) => (
 	</T>
 )
 
-// px-1 py-px text-sm font-mono text-blue-600 border border-cool-gray-300 rounded
+// mx-px px-1 py-px font-mono text-sm text-blue-600 bg-white border border-cool-gray-300 rounded
 export const Code = ({ children }) => (
 	<T type={Types.enum.code}>
 		<span className="mx-px py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>

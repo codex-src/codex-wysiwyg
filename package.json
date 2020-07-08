@@ -2,10 +2,12 @@
 	"name": "codex-wysiwyg",
 	"dependencies": {
 		"emoji-trie": "https://github.com/codex-src/emoji-trie.js",
+		"immer": "^7.0.5",
 		"lodash": "^4.17.15",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-scripts": "3.4.1",
+		"use-immer": "^0.4.0",
 		"use-methods": "^0.5.1",
 		"uuidv4": "^6.1.0"
 	},

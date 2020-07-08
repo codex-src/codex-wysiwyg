@@ -8,8 +8,11 @@ import noopTextNodeRerenders from "./noopTextNodeRerenders"
 import React from "react"
 import ReactDOM from "react-dom"
 import Renderer from "./Renderer"
+import Rnage2 from "./Range2"
 import Toolbar from "./Toolbar"
 import useEditor from "./useEditor"
+
+console.log(Range2)
 
 import "./Editor.css"
 
