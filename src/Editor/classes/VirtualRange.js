@@ -13,23 +13,21 @@ class VirtualRange {
 	start = new VirtualRangePosition()
 	end = new VirtualRangePosition()
 
-	// Gets the current virtual range, scoped to a tree.
-	static getCurrent(tree) {
-		// Get the current range:
+	// Computes the current virtual range, scoped to a tree.
+	static computeCurrent(tree) {
+		// Compute the current range:
 		const selection = document.getSelection()
 		if (!selection.rangeCount) {
 			return null
 		}
-		const range = selection.getRangeAt(0)
-
 		// Guard non-tree descendants:
+		const range = selection.getRangeAt(0)
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		// Guard non-contenteditable descendants:
 		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
 			return null
 		}
-
 		// Compute the start and end virtual range positions:
 		const start = VirtualRangePosition.fromRangePosition({
 			node: range.startContainer,
@@ -42,7 +40,6 @@ class VirtualRange {
 				offset: range.endOffset,
 			})
 		}
-
 		// Done:
 		const created = new this()
 		Object.assign(created, {

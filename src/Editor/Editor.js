@@ -130,7 +130,7 @@ const Editor = ({ markup, children }) => {
 					}
 					dispatch.select(range)
 
-					const range2 = VirtualRange.getCurrent(ref.current)
+					const range2 = VirtualRange.computeCurrent(ref.current)
 					if (!range2) {
 						// No-op
 						return
@@ -156,7 +156,7 @@ const Editor = ({ markup, children }) => {
 					}
 					dispatch.select(range)
 
-					const range2 = VirtualRange.getCurrent(ref.current)
+					const range2 = VirtualRange.computeCurrent(ref.current)
 					if (!range2) {
 						// No-op
 						return
