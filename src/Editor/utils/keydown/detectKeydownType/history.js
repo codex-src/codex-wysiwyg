@@ -6,24 +6,22 @@ const history = {
 	undo(e) {
 		const ok = (
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("z")
+			e.keyCode === keyCodeFor("Z")
 		)
 		return ok
 	},
 	redo(e) {
-		// Non-macOS:
 		if (!userAgent.isAAPL) {
 			const ok = (
 				e.ctrlKey &&
-				e.keyCode === keyCodeFor("y")
+				e.keyCode === keyCodeFor("Y")
 			)
 			return ok
-		// macOS:
 		} else {
 			const ok = (
 				e.shiftKey &&
 				e.metaKey &&
-				e.keyCode === keyCodeFor("z")
+				e.keyCode === keyCodeFor("Z")
 			)
 			return ok
 		}

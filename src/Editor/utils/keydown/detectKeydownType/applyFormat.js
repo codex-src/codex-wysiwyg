@@ -1,12 +1,13 @@
 import isCtrlOrMetaKey from "../isCtrlOrMetaKey"
 import keyCodeFor from "../keyCodeFor"
 
+// https://slack.com/intl/en-kr/help/articles/201374536-Slack-keyboard-shortcuts#format-messages
 const applyFormat = {
 	plaintext(e) {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("p")
+			e.keyCode === keyCodeFor("P")
 		)
 		return ok
 	},
@@ -14,7 +15,7 @@ const applyFormat = {
 		const ok = (
 			!e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("i")
+			e.keyCode === keyCodeFor("I")
 		)
 		return ok
 	},
@@ -22,25 +23,23 @@ const applyFormat = {
 		const ok = (
 			!e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("b")
+			e.keyCode === keyCodeFor("B")
 		)
 		return ok
 	},
-	// https://slack.com/intl/en-kr/help/articles/201374536-Slack-keyboard-shortcuts#format-messages
 	code(e) {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("c")
+			e.keyCode === keyCodeFor("C")
 		)
 		return ok
 	},
-	// https://slack.com/intl/en-kr/help/articles/201374536-Slack-keyboard-shortcuts#format-messages
 	strike(e) {
 		const ok = (
 			e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("x")
+			e.keyCode === keyCodeFor("X")
 		)
 		return ok
 	},
@@ -48,7 +47,7 @@ const applyFormat = {
 		const ok = (
 			!e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("k")
+			e.keyCode === keyCodeFor("K")
 		)
 		return ok
 	},

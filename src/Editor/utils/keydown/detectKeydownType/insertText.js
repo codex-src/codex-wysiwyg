@@ -28,6 +28,7 @@ const insertText = {
 		)
 		return ok
 	},
+	// TODO: Add insertHardParagraph or insertLineBreak?
 	insertParagraph(e) {
 		const ok = (
 			!e.shiftKey &&

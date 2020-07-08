@@ -17,6 +17,7 @@ class Editor {
 
 	renderCount = 0
 
+	// TODO: Change to syntheticElements?
 	constructor(initialState /* elements */) {
 		Object.assign(this, {
 			elements: initialState,
