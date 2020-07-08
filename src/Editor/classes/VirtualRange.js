@@ -1,5 +1,5 @@
 import domUtils from "lib/domUtils"
-import VRangeComponent from "./VRangeComponent"
+import VirtualRangePosition from "./VirtualRangePosition"
 
 import {
 	immerable,
@@ -7,52 +7,58 @@ import {
 } from "immer"
 
 // Describes a virtual range.
-class VRange {
+class VirtualRange {
 	[immerable] = true
 
-	start = new VRangeComponent()
-	end = new VRangeComponent()
+	start = new VirtualRangePosition()
+	end = new VirtualRangePosition()
 
 	// Gets the current virtual range, scoped to a tree.
 	static getCurrent(tree) {
+		// Get the current range:
 		const selection = document.getSelection()
 		if (!selection.rangeCount) {
 			return null
 		}
-		// Guard non-tree descendants:
 		const range = selection.getRangeAt(0)
+
+		// Guard non-tree descendants:
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		// Guard non-contenteditable descendants:
 		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
 			return null
 		}
-		const start = VRangeComponent.fromRangeComponent({
+
+		// Compute the start and end virtual range positions:
+		const start = VirtualRangePosition.fromRangePosition({
 			node: range.startContainer,
 			offset: range.startOffset,
 		})
 		let end = start
 		if (!range.collapsed) {
-			end = VRangeComponent.fromRangeComponent({
+			end = VirtualRangePosition.fromRangePosition({
 				node: range.endContainer,
 				offset: range.endOffset,
 			})
 		}
+
+		// Done:
 		const created = new this()
 		Object.assign(created, {
 			start,
-			end
+			end,
 		})
 		return created
 	}
 
 	// Getter for whether the virtual range is collapsed.
 	get collapsed() {
-		return VRangeComponent.areEqual(this.start, this.end)
+		return VirtualRangePosition.areEqual(this.start, this.end)
 	}
 
 	// Collapses the virtual range to the start virtual range
-	// component.
+	// position.
 	collapseToStart() {
 		return produce(this, draft => {
 			draft.end = draft.start
@@ -60,7 +66,7 @@ class VRange {
 	}
 
 	// Collapses the virtual range to the end virtual range
-	// component.
+	// position.
 	collapseToEnd() {
 		return produce(this, draft => {
 			draft.start = draft.end
@@ -70,19 +76,19 @@ class VRange {
 	// Converts a virtual range to a range.
 	toRange() {
 		const range = document.createRange()
-		range.setStart(...toArray(this.start.toRangeComponent()))
+		range.setStart(...toArray(this.start.toRangePosition()))
 		if (this.collapsed) {
 			range.collapse()
 		} else {
-			range.setEnd(...toArray(this.end.toRangeComponent()))
+			range.setEnd(...toArray(this.end.toRangePosition()))
 		}
 		return range
 	}
 }
 
-// Converts a range component to an array.
+// Converts a range position to an array.
 function toArray({ node, offset }) {
 	return [node, offset]
 }
 
-export default VRange
+export default VirtualRange

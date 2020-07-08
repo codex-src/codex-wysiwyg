@@ -1,4 +1,4 @@
-import VRange from "../classes/VRange"
+import VirtualRange from "../classes/VirtualRange"
 import { useImmerReducer } from "use-immer"
 
 // Selects a virtual range.
@@ -48,7 +48,7 @@ function reducer(draft, action) {
 
 function useEditor(opts /* TODO */) {
 	return useImmerReducer(reducer, null, () => ({
-		range: new VRange(),
+		range: new VirtualRange(),
 	}))
 }
 

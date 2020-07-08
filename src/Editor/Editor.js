@@ -7,7 +7,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import useEditor from "./useEditor"
 import useEditor2 from "./useEditor2"
-import VRange from "./classes/VRange"
+import VirtualRange from "./classes/VirtualRange"
 
 import "./Editor.css"
 
@@ -122,12 +122,23 @@ const Editor = ({ markup, children }) => {
 						// No-op
 						return
 					}
+					// TODO: Deprecate
 					const range = Range.compute(ref.current)
 					if (!range) {
 						// No-op
 						return
 					}
 					dispatch.select(range)
+
+					const range2 = VirtualRange.getCurrent(ref.current)
+					if (!range2) {
+						// No-op
+						return
+					}
+					dispatch2({
+						type: "SELECT",
+						range: range2,
+					})
 				})}
 
 				onPointerUp={newReadWriteHandler(e => {
@@ -137,7 +148,15 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={newReadWriteHandler(e => {
-					const range2 = VRange.getCurrent(ref.current)
+					// TODO: Deprecate
+					const range = Range.compute(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch.select(range)
+
+					const range2 = VirtualRange.getCurrent(ref.current)
 					if (!range2) {
 						// No-op
 						return
@@ -146,13 +165,6 @@ const Editor = ({ markup, children }) => {
 						type: "SELECT",
 						range: range2,
 					})
-
-					const range = Range.compute(ref.current)
-					if (!range) {
-						// No-op
-						return
-					}
-					dispatch.select(range)
 				})}
 
 				onKeyDown={newReadWriteHandler(e => {
