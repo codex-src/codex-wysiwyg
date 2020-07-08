@@ -8,9 +8,11 @@ class VirtualRangePosition {
 	key = ""
 	offset = 0
 
-	// Creates a new virtual range position from a range
-	// position.
-	static fromRangePosition({ node, offset }) {
+	// Computes a virtual range position from a range position
+	// object literal.
+	static fromRangePositionLiteral(range) {
+		let { node, offset } = range
+
 		// Guard node and offset:
 		while (!domUtils.isTextNodeOrBrElement(node)) {
 			if (offset && offset === node.childNodes.length) { // offset must be 1 or more
@@ -57,11 +59,12 @@ class VirtualRangePosition {
 		return ok
 	}
 
-	// Converts a virtual range position to a range position
-	// object (node, offset).
-	toRangePosition() {
+	// Converts the virtual range position to a range position
+	// object literal.
+	toRangePositionLiteral() {
 		let { key, offset } = this
 
+		// Compute node and offset (offset2):
 		let node = null
 		let offset2 = 0 // Do not shadow offset
 		const recurse = on => {
