@@ -4,103 +4,77 @@ import markupToDOMTree from "lib/markupToDOMTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import VirtualRange from "../model/VirtualRange"
-import { useImmerReducer } from "use-immer"
 
-// Disables read-only mode; enables future edits.
-function DISABLE_READ_ONLY_MODE(draft) {
-	const closure = () => {
-		draft.readOnlyModeEnabled = false
+import {
+	immerable,
+	produce,
+} from "immer"
+
+class Editor {
+	[immerable] = true
+
+	readOnlyModeEnabled = true // DOMContentLoaded disables read-only mode
+	focused = false
+
+	elements = [] // new VirtualElements()
+	range = new VirtualRange()
+
+	renderCount = 0
+
+	constructor(initialState /* elements */) {
+		Object.assign(this, {
+			elements: initialState,
+		})
 	}
-	return closure
+
+	// Disables read-only mode; disables future edits.
+	disableReadOnlyMode() {
+		return produce(this, draft => {
+			draft.readOnlyModeEnabled = false
+		})
+	}
+	// Enables read-only mode; enables future edits.
+	enableReadOnlyMode() {
+		return produce(this, draft => {
+			draft.readOnlyModeEnabled = true
+		})
+	}
+	// Focuses the editor.
+	focus() {
+		return produce(this, draft => {
+			draft.focused = true
+		})
+	}
+	// Blurs the editor.
+	blur() {
+		return produce(this, draft => {
+			draft.focused = false
+		})
+	}
+	// Selects a virtual range.
+	select(range) {
+		return produce(this, draft => {
+			draft.range = range
+		})
+	}
 }
 
-// Enables read-only mode; disables future edits.
-function ENABLE_READ_ONLY_MODE(draft) {
-	const closure = () => {
-		draft.readOnlyModeEnabled = true
-	}
-	return closure
-}
-
-// Focuses the editor. When the editor is focused, editing
-// operations **are** expected to work.
-function FOCUS(draft) {
-	const closure = () => {
-		draft.focused = true
-	}
-	return closure
-}
-
-// Blurs the editor. When the editor is blurred, editing
-// operations **are not** expected to work.
-function BLUR(draft) {
-	const closure = () => {
-		draft.focused = false
-	}
-	return closure
-}
-
-// Selects a virtual range.
-function SELECT(draft) {
-	const closure = range => {
-		draft.range = range
-	}
-	return closure
-}
-
-// useEditor reducer.
-function reducer(draft, action) {
+function EditorReducer(state, action) {
 	switch (action.type) {
 	case "DISABLE_READ_ONLY_MODE":
-		DISABLE_READ_ONLY_MODE(draft)()
-		return
+		return state.disableReadOnlyMode()
 	case "ENABLE_READ_ONLY_MODE":
-		ENABLE_READ_ONLY_MODE(draft)()
-		return
+		return state.enableReadOnlyMode()
 	case "FOCUS":
-		FOCUS(draft)()
-		return
+		return state.focus()
 	case "BLUR":
-		BLUR(draft)()
-		return
+		return state.blur()
 	case "SELECT":
-		SELECT(draft)(action.range)
-		return
+		return state.select(action.range)
 	default:
-		throw new Error(`useEditor.reducer: type mismatch; type=${action.type}`)
+		throw new Error(`useEditor.EditorReducer: type mismatch; action.type=${action.type}`)
 	}
 }
-
-// DOMContentLoaded: false,
-// readOnlyModeEnabled: false,
-// elements,
-// focused: false,
-// range: {
-// 	0: {
-// 		key: "",
-// 		offset: 0,
-// 	},
-// 	1: {
-// 		key: "",
-// 		offset: 0,
-// 	},
-// 	collapsed: true,
-// },
-// shouldRender: 0,
-
-// Return a stateful editor initializer.
-//
-// TODO: Create an immerable class?
-const init = initialState => () => ({
-	// Read-only mode and focused states.
-	readOnlyModeEnabled: true,
-	focused: false,
-	// Elements and range.
-	elements: initialState,
-	range: new VirtualRange(),
-	// Etc.
-	shouldRender: 0,
-})
 
 function useEditor({ markup, children }) {
 	// TODO
@@ -119,7 +93,7 @@ function useEditor({ markup, children }) {
 		return Readers.semantic.elements(domTree)
 	}, [markup, children])
 
-	return useImmerReducer(reducer, null, init(initialState))
+	return React.useReducer(EditorReducer, null, () => new Editor(initialState))
 }
 
 export default useEditor
