@@ -1,5 +1,5 @@
-import * as keydown from "./keydown"
 import * as Readers from "./Readers"
+import detectKeydownType from "./utils/keydown/detectKeydownType"
 import React from "react"
 import ReactDOM from "react-dom"
 import SyntheticRange from "./useEditor2/model/SyntheticRange"
@@ -135,116 +135,102 @@ const Editor = ({ markup, children }) => {
 					})
 				})}
 
-				//				onKeyDown={readWriteHandler(e => {
-				//					const keydownT = keydown.detectType(e)
-				//					if (keydownT) {
-				//						console.log(keydownT)
-				//					}
-				//					switch (keydownT) {
-				//					case keydown.enum.applyFormatPlaintext:
-				//						e.preventDefault()
-				//						dispatch.applyFormat("plaintext")
-				//						return
-				//					case keydown.enum.applyFormatEm:
-				//						e.preventDefault()
-				//						dispatch.applyFormat(types.enum.em)
-				//						return
-				//					case keydown.enum.applyFormatStrong:
-				//						e.preventDefault()
-				//						dispatch.applyFormat(types.enum.strong)
-				//						return
-				//					case keydown.enum.applyFormatCode:
-				//						e.preventDefault()
-				//						dispatch.applyFormat(types.enum.code)
-				//						return
-				//					case keydown.enum.applyFormatStrike:
-				//						e.preventDefault()
-				//						dispatch.applyFormat(types.enum.strike)
-				//						return
-				//					case keydown.enum.applyFormatA:
-				//						e.preventDefault()
-				//						dispatch.applyFormat(types.enum.a, { href: "https://google.com" })
-				//						return
+				// onKeyDown={readWriteHandler(e => {
+				// 	const keydownType = detectKeydownType(e)
+				// 	if (keydownType) {
+				// 		console.log(keydownType)
+				// 	}
+				// 	switch (keydownType) {
+				// 	case "apply-format-plaintext":
+				// 		e.preventDefault()
+				// 		dispatch.applyFormat("plaintext")
+				// 		return
+				// 	case "apply-format-em":
+				// 		e.preventDefault()
+				// 		dispatch.applyFormat(types.enum.em)
+				// 		return
+				// 	case "apply-format-strong":
+				// 		e.preventDefault()
+				// 		dispatch.applyFormat(types.enum.strong)
+				// 		return
+				// 	case "apply-format-code":
+				// 		e.preventDefault()
+				// 		dispatch.applyFormat(types.enum.code)
+				// 		return
+				// 	case "apply-format-strike":
+				// 		e.preventDefault()
+				// 		dispatch.applyFormat(types.enum.strike)
+				// 		return
+				// 	case "apply-format-a":
+				// 		e.preventDefault()
+				// 		dispatch.applyFormat(types.enum.a, { href: "https://google.com" })
+				// 		return
 				//
-				//						// case keydown.enum.insertTextTab:
-				//						// 	e.preventDefault()
-				//						// 	dispatch.insertText("\t", "text/plain") // TODO
-				//						// 	return
-				//						// case keydown.enum.insertTextEnter:
-				//						// 	e.preventDefault()
-				//						// 	// TODO: Add insertParagraph?
-				//						// 	dispatch.insertText("\n", "text/plain") // TODO
-				//						// 	return
+				// 	// "insert-text"
+				// 	// "insert-tab"
+				// 	// "insert-soft-paragraph"
+				// 	// "insert-paragraph"
 				//
-				//					case keydown.enum.insertText:
-				//						if (state.range.collapsed) {
-				//							// No-op
-				//							return
-				//						}
-				//						e.preventDefault()
-				//						// dispatch.insertText()
-				//						return
+				// 	case "backspace-rune":
+				// 		e.preventDefault()
+				// 		dispatch.backspaceRune()
+				// 		return
+				// 	case "backspace-word":
+				// 		e.preventDefault()
+				// 		dispatch.backspaceWord()
+				// 		return
+				// 	case "backspace-line":
+				// 		e.preventDefault()
+				// 		dispatch.backspaceLine()
+				// 		return
+				// 	case "delete-rune":
+				// 		e.preventDefault()
+				// 		dispatch.deleteRune()
+				// 		return
+				// 	case "delete-word":
+				// 		e.preventDefault()
+				// 		dispatch.deleteWord()
+				// 		return
 				//
-				//					case keydown.enum.deleteRTLRune:
-				//						e.preventDefault()
-				//						dispatch.delete("rtl", "rune")
-				//						return
-				//					case keydown.enum.deleteRTLWord:
-				//						e.preventDefault()
-				//						dispatch.delete("rtl", "word")
-				//						return
-				//					case keydown.enum.deleteRTLLine:
-				//						e.preventDefault()
-				//						dispatch.delete("rtl", "line")
-				//						return
-				//					case keydown.enum.deleteLTRRune:
-				//						e.preventDefault()
-				//						dispatch.delete("ltr", "rune")
-				//						return
-				//					case keydown.enum.deleteLTRWord:
-				//						e.preventDefault()
-				//						dispatch.delete("ltr", "word")
-				//						return
+				// 	case "undo":
+				// 		e.preventDefault()
+				// 		dispatch.undo()
+				// 		return
+				// 	case "redo":
+				// 		e.preventDefault()
+				// 		dispatch.redo()
+				// 		return
 				//
-				//						// case keydown.enum.undo:
-				//						// 	e.preventDefault()
-				//						// 	dispatch.undo()
-				//						// 	return
-				//						// case keydown.enum.redo:
-				//						// 	e.preventDefault()
-				//						// 	dispatch.redo()
-				//						// 	return
-				//
-				//					default:
-				//						// No-op
-				//						break
-				//					}
-				//				})}
-				//
-				//				onInput={readWriteHandler(e => {
-				//					const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
-				//					const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
-				//					dispatch.uncontrolledInputHandler(spans, collapsed)
-				//				})}
-				//
-				//				onCut={readWriteHandler(e => {
-				//					e.preventDefault()
-				//					// TODO: e.clipboardData.setData("text/plain", ...)
-				//				})}
-				//
-				//				onCopy={readWriteHandler(e => {
-				//					e.preventDefault()
-				//					// TODO: e.clipboardData.setData("text/plain", ...)
-				//				})}
-				//
-				//				onPaste={readWriteHandler(e => {
-				//					e.preventDefault()
-				//					// TODO: e.clipboardData.getData("text/plain")
-				//				})}
-				//
-				//				onDragStart={readWriteHandler(e => {
-				//					e.preventDefault()
-				//				})}
+				// 	default:
+				// 		// No-op
+				// 		break
+				// 	}
+				// })}
+
+				// onInput={readWriteHandler(e => {
+				// 	const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
+				// 	const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
+				// 	dispatch.uncontrolledInputHandler(spans, collapsed)
+				// })}
+
+				// onCut={readWriteHandler(e => {
+				// 	e.preventDefault()
+				// 	// TODO: e.clipboardData.setData("text/plain", ...)
+				// })}
+
+				// onCopy={readWriteHandler(e => {
+				// 	e.preventDefault()
+				// 	// TODO: e.clipboardData.setData("text/plain", ...)
+				// })}
+
+				// onPaste={readWriteHandler(e => {
+				// 	e.preventDefault()
+				// 	// TODO: e.clipboardData.getData("text/plain")
+				// })}
+
+				// onDragStart={readWriteHandler(e => {
+				// 	e.preventDefault()
+				// })}
 
 				contentEditable={!state.readOnlyModeEnabled}
 				suppressContentEditableWarning={!state.readOnlyModeEnabled}

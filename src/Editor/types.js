@@ -1,5 +1,4 @@
 import Enum from "lib/enums/Enum"
-import iota from "lib/iota"
 
 import { // Unsorted
 	Em,

@@ -1,40 +1,40 @@
-// NOTE: Does not use lib/userAgent because of tests.
+// NOTE: Does not use userAgent.* because of test runner.
 
 // https://stackoverflow.com/a/25518045
-describe("AAPL", () => {
+describe("isAAPL", () => {
 	test("", () => {
 		Object.defineProperty(window.navigator, "userAgent", {
 			value: "...",
 			configurable: true,
 		})
-		const AAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
-		expect(AAPL).not.toBeTruthy()
+		const isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
+		expect(isAAPL).not.toBeTruthy()
 	})
 	test("", () => {
 		Object.defineProperty(window.navigator, "userAgent", {
 			value: "... Mac OS X ...",
 			configurable: true,
 		})
-		const AAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
-		expect(AAPL).toBeTruthy()
+		const isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
+		expect(isAAPL).toBeTruthy()
 	})
 })
 
-describe("GOOGE", () => {
+describe("isGOOG", () => {
 	test("", () => {
 		Object.defineProperty(window.navigator, "userAgent", {
 			value: "...",
 			configurable: true,
 		})
-		const GOOG = navigator.userAgent.indexOf("Android") >= 0
-		expect(GOOG).not.toBeTruthy()
+		const isGOOG = navigator.userAgent.indexOf("Android") >= 0
+		expect(isGOOG).not.toBeTruthy()
 	})
 	test("", () => {
 		Object.defineProperty(window.navigator, "userAgent", {
 			value: "... Android ...",
 			configurable: true,
 		})
-		const GOOG = navigator.userAgent.indexOf("Android") >= 0
-		expect(GOOG).toBeTruthy()
+		const isGOOG = navigator.userAgent.indexOf("Android") >= 0
+		expect(isGOOG).toBeTruthy()
 	})
 })

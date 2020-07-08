@@ -1,28 +1,29 @@
-import getKeyCode from "lib/getKeyCode"
-import isCtrlOrMetaKey from "lib/isCtrlOrMetaKey"
+import isCtrlOrMetaKey from "../isCtrlOrMetaKey"
+import keyCodeFor from "../keyCodeFor"
 import userAgent from "lib/userAgent"
 
-// Tests a keydown event for history hotkeys.
 const history = {
 	undo(e) {
 		const ok = (
 			isCtrlOrMetaKey(e) &&
-			e.keyCode === getKeyCode("Z")
+			e.keyCode === keyCodeFor("z")
 		)
 		return ok
 	},
 	redo(e) {
-		if (!userAgent.AAPL) {
+		// Non-macOS:
+		if (!userAgent.isAAPL) {
 			const ok = (
-				isCtrlOrMetaKey(e) &&
-				e.keyCode === getKeyCode("Y")
+				e.ctrlKey &&
+				e.keyCode === keyCodeFor("y")
 			)
 			return ok
+		// macOS:
 		} else {
 			const ok = (
 				e.shiftKey &&
-				isCtrlOrMetaKey(e) &&
-				e.keyCode === getKeyCode("Z")
+				e.metaKey &&
+				e.keyCode === keyCodeFor("z")
 			)
 			return ok
 		}

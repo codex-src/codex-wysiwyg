@@ -1,16 +1,15 @@
 // Tests the user agent for a substring.
 //
 // https://css-tricks.com/snippets/javascript/test-mac-pc-javascript
-function testUA(substr) {
+function testUserAgent(substr) {
 	return navigator.userAgent.indexOf(substr) >= 0
 }
 
 const userAgent = {
 	// https://apple.com
-	AAPL: testUA("Mac OS X"),
-
+	isAAPL: testUserAgent("Mac OS X"),
 	// https://google.com
-	GOOG: testUA("Android"),
+	isGOOG: testUserAgent("Android"),
 }
 
 export default userAgent

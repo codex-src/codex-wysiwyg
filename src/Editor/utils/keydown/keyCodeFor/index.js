@@ -1,7 +1,7 @@
 // Maps en-US keyboard keys to key codes.
 //
 // https://keycode.info
-const keyMap = {
+const keyMap = Object.freeze({
 	"Escape":     27,
 
 	"`":          192,
@@ -116,7 +116,7 @@ const keyMap = {
 	"ArrowUp":    38,
 	"ArrowDown":  40,
 	"ArrowRight": 39,
-}
+})
 
 // Returns the key code for an en-US keyboard key.
 function keyCodeFor(key) {
