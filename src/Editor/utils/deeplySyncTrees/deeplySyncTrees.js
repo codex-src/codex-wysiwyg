@@ -1,7 +1,7 @@
 import domUtils from "lib/domUtils"
 import shallowlySyncNodes from "./shallowlySyncNodes"
 
-// Deeply syncs trees. Note that roots **are not** synced.
+// Deeply syncs trees.
 function deeplySyncTrees(src, dst) {
 	const recurse = (recursed = false) => {
 		if (recursed) {
@@ -21,13 +21,13 @@ function deeplySyncTrees(src, dst) {
 			}
 			sync(src.childNodes[x1], dst.childNodes[x1])
 		}
-		// Remove extraneous end-to-start:
+		// Remove extraneous nodes (end-to-start):
 		if (x2 < dst.childNodes.length) {
 			const domNodes = [...dst.childNodes].slice(x2).reverse()
 			for (const each of domNodes) {
 				each.remove()
 			}
-		// Append extraneous end-to-start:
+		// Append extraneous nodes (end-to-start):
 		} else if (x2 < src.childNodes.length) {
 			const domNodes = [...src.childNodes].slice(x2).map(each => each.cloneNode(true))
 			for (const each of domNodes) {
@@ -35,7 +35,7 @@ function deeplySyncTrees(src, dst) {
 			}
 		}
 	}
-	return recurse(src, dst)
+	recurse(src, dst)
 }
 
 export default deeplySyncTrees

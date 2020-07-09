@@ -1,10 +1,9 @@
 import attrs from "./attrs"
 import React from "react"
 import T from "./T"
-import types from "../types"
 
 export const Em = ({ children }) => (
-	<T type={types.enum.em}>
+	<T type="em">
 		<span className="italic">
 			{children}
 		</span>
@@ -12,7 +11,7 @@ export const Em = ({ children }) => (
 )
 
 export const Strong = ({ children }) => (
-	<T type={types.enum.strong}>
+	<T type="strong">
 		<span className="font-semibold">
 			{children}
 		</span>
@@ -21,7 +20,7 @@ export const Strong = ({ children }) => (
 
 // mx-px px-1 py-px font-mono text-sm text-blue-600 bg-white border border-cool-gray-300 rounded
 export const Code = ({ children }) => (
-	<T type={types.enum.code}>
+	<T type="code">
 		<span className="mx-px py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
 			{children}
 		</span>
@@ -29,7 +28,7 @@ export const Code = ({ children }) => (
 )
 
 export const Strike = ({ children }) => (
-	<T type={types.enum.strike}>
+	<T type="strike">
 		<span className="line-through text-gray-400">
 			{children}
 		</span>
@@ -37,7 +36,7 @@ export const Strike = ({ children }) => (
 )
 
 export const A = ({ href, children }) => (
-	<T type={types.enum.a} props={{ href }}>
+	<T type="a" props={{ href }}>
 		<span className="mx-px underline text-blue-600" {...attrs.a}>
 			{children}
 		</span>
