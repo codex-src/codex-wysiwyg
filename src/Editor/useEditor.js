@@ -1,5 +1,8 @@
-import Editor from "./model/Editor"
+import decorator from "./utils/decorator"
+import Editor from "./model/Editor/Editor"
+import parseTree from "lib/parseTree"
 import React from "react"
+import SemanticScanner from "./model/Scanners/SemanticScanner"
 
 function EditorReducer(state, action) {
 	switch (action.type) {
@@ -20,8 +23,9 @@ function EditorReducer(state, action) {
 
 function useEditor(html) {
 	const initialState = React.useMemo(() => {
-		const r = new HTMLReader().read(html)
-		const elements = r.read(html)
+		const tree = parseTree("<div>" + html.trim() + "</div>", decorator)
+		const scanner = new SemanticScanner()
+		const elements = scanner.scan(tree)
 		return new Editor(elements)
 	}, [html])
 	return React.useReducer(EditorReducer, initialState)

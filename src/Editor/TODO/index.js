@@ -1,9 +1,9 @@
 import * as Readers from "../Readers"
 import decorate from "../decorate"
 import methods from "./methods"
+import parseTree from "lib/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import renderMarkupTree from "lib/renderMarkupTree"
 import useMethods from "use-methods"
 
 // // TODO
@@ -49,10 +49,10 @@ function useEditor({ markup, children }) {
 		}
 		let domTree = null
 		if (markup !== undefined) {
-			domTree = renderMarkupTree("<div>" + markup + "</div>")
+			domTree = parseTree("<div>" + markup + "</div>")
 		} else if (children !== undefined) {
 			const markup = ReactDOMServer.renderToStaticMarkup(children) // Shadows markup
-			domTree = renderMarkupTree("<div>" + markup + "</div>")
+			domTree = parseTree("<div>" + markup + "</div>")
 		}
 		decorate(domTree)
 		return Readers.semantic.elements(domTree)

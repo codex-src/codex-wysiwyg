@@ -1,7 +1,7 @@
 import deeplySyncTrees from "../utils/deeplySyncTrees"
+import parseTree from "lib/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import renderMarkupTree from "lib/renderMarkupTree"
 import T from "./T"
 import toReact from "./toReact"
 import types from "../types"
@@ -17,12 +17,12 @@ const Node = ({ id, style, children, ...props }) => {
 		// NOTE: Uses ReactDOMServer.renderToStaticMarkup
 		// because ReactDOM.render is asynchronous.
 		const markup = ReactDOMServer.renderToStaticMarkup(children)
-		const domTree = renderMarkupTree("<div>" + markup + "</div>")
+		const tree = parseTree("<div>" + markup + "</div>")
 
 		// ;[...ref.current.childNodes].reverse().map(each => each.remove())
-		// ref.current.append(...domTree.childNodes)
+		// ref.current.append(...tree.childNodes)
 
-		deeplySyncTrees(domTree, ref.current)
+		deeplySyncTrees(tree, ref.current)
 	}, [children])
 
 	return (
