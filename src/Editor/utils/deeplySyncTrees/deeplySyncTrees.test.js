@@ -1,29 +1,14 @@
 import deeplySyncTrees from "./deeplySyncTrees"
 import React from "react"
-import renderDOMTree from "lib/renderDOMTree"
+import renderTree from "lib/renderTree"
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			{/* ... */}
 		</div>
 	))
-	const dst = renderDOMTree((
-		<div>
-			{/* ... */}
-		</div>
-	))
-	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
-})
-
-test("", () => {
-	const src = renderDOMTree((
-		<div>
-			<br />
-		</div>
-	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			{/* ... */}
 		</div>
@@ -33,12 +18,27 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
+		<div>
+			<br />
+		</div>
+	))
+	const dst = renderTree((
 		<div>
 			{/* ... */}
 		</div>
 	))
-	const dst = renderDOMTree((
+	deeplySyncTrees(src, dst)
+	expect(src.isEqualNode(dst)).toBeTruthy()
+})
+
+test("", () => {
+	const src = renderTree((
+		<div>
+			{/* ... */}
+		</div>
+	))
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -48,12 +48,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			<br />
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -63,12 +63,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			Hello, world!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -78,12 +78,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			Hello, world!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -93,12 +93,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			Hello, world!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			Hello, world!
 		</div>
@@ -108,7 +108,7 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			Hello,{" "}
 			<code>
@@ -117,7 +117,7 @@ test("", () => {
 			!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -127,35 +127,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			<br />
 		</div>
 	))
-	const dst = renderDOMTree((
-		<div>
-			Hello,{" "}
-			<code>
-				world
-			</code>
-			!
-		</div>
-	))
-	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
-})
-
-test("", () => {
-	const src = renderDOMTree((
-		<div>
-			Hello,{" "}
-			<code>
-				world
-			</code>
-			!
-		</div>
-	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			Hello,{" "}
 			<code>
@@ -169,7 +146,30 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
+		<div>
+			Hello,{" "}
+			<code>
+				world
+			</code>
+			!
+		</div>
+	))
+	const dst = renderTree((
+		<div>
+			Hello,{" "}
+			<code>
+				world
+			</code>
+			!
+		</div>
+	))
+	deeplySyncTrees(src, dst)
+	expect(src.isEqualNode(dst)).toBeTruthy()
+})
+
+test("", () => {
+	const src = renderTree((
 		<div>
 			Hello,{" "}
 			<a href="https://google.com">
@@ -180,7 +180,7 @@ test("", () => {
 			!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -190,39 +190,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			<br />
 		</div>
 	))
-	const dst = renderDOMTree((
-		<div>
-			Hello,{" "}
-			<a href="https://google.com">
-				<code>
-					world
-				</code>
-			</a>
-			!
-		</div>
-	))
-	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
-})
-
-test("", () => {
-	const src = renderDOMTree((
-		<div>
-			Hello,{" "}
-			<a href="https://google.com">
-				<code>
-					world
-				</code>
-			</a>
-			!
-		</div>
-	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			Hello,{" "}
 			<a href="https://google.com">
@@ -238,7 +211,34 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
+		<div>
+			Hello,{" "}
+			<a href="https://google.com">
+				<code>
+					world
+				</code>
+			</a>
+			!
+		</div>
+	))
+	const dst = renderTree((
+		<div>
+			Hello,{" "}
+			<a href="https://google.com">
+				<code>
+					world
+				</code>
+			</a>
+			!
+		</div>
+	))
+	deeplySyncTrees(src, dst)
+	expect(src.isEqualNode(dst)).toBeTruthy()
+})
+
+test("", () => {
+	const src = renderTree((
 		<div>
 			Hello,{" "}
 			<a href="https://google.com">
@@ -249,7 +249,7 @@ test("", () => {
 			!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			<br />
 		</div>
@@ -259,12 +259,12 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			<br />
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			Hello,{" "}
 			<a href="https://google.com">
@@ -280,7 +280,7 @@ test("", () => {
 })
 
 test("", () => {
-	const src = renderDOMTree((
+	const src = renderTree((
 		<div>
 			Hello,{" "}
 			<a href="https://google.com">
@@ -291,7 +291,7 @@ test("", () => {
 			!
 		</div>
 	))
-	const dst = renderDOMTree((
+	const dst = renderTree((
 		<div>
 			Hello,{" "}
 			<a href="https://google.com">

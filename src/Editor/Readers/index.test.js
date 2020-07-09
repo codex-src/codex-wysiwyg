@@ -1,5 +1,5 @@
 import React from "react"
-import renderDOMTree from "lib/renderDOMTree"
+import renderTree from "lib/renderTree"
 import types from "../types"
 
 import {
@@ -9,31 +9,31 @@ import {
 
 describe("semantic", () => {
 	test("<i>", () => {
-		const domTree = renderDOMTree(<i>Hello, world!</i>)
+		const domTree = renderTree(<i>Hello, world!</i>)
 		const [T, P] = semantic.scanner(domTree)
 		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<em>", () => {
-		const domTree = renderDOMTree(<em>Hello, world!</em>)
+		const domTree = renderTree(<em>Hello, world!</em>)
 		const [T, P] = semantic.scanner(domTree)
 		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<b>", () => {
-		const domTree = renderDOMTree(<b>Hello, world!</b>)
+		const domTree = renderTree(<b>Hello, world!</b>)
 		const [T, P] = semantic.scanner(domTree)
 		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<strong>", () => {
-		const domTree = renderDOMTree(<strong>Hello, world!</strong>)
+		const domTree = renderTree(<strong>Hello, world!</strong>)
 		const [T, P] = semantic.scanner(domTree)
 		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<a>...</a><a>...</a> (1 of 1)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<a href="a">
@@ -53,7 +53,7 @@ describe("semantic", () => {
 		])
 	})
 	test("<a>...</a><a>...</a> (2 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<a href="a">
@@ -74,7 +74,7 @@ describe("semantic", () => {
 		])
 	})
 	test("* (1 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<em>
@@ -99,7 +99,7 @@ describe("semantic", () => {
 		])
 	})
 	test("* (2 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<code>
@@ -127,31 +127,31 @@ describe("semantic", () => {
 
 describe("rendered", () => {
 	test("<i>", () => {
-		const domTree = renderDOMTree(<i>Hello, world!</i>)
+		const domTree = renderTree(<i>Hello, world!</i>)
 		const [T, P] = rendered.scanner(domTree)
 		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<span data-type='em'>", () => {
-		const domTree = renderDOMTree(<span data-type="em">Hello, world!</span>)
+		const domTree = renderTree(<span data-type="em">Hello, world!</span>)
 		const [T, P] = rendered.scanner(domTree)
 		expect(T).toBe(types.enum.em)
 		expect(P).toEqual({})
 	})
 	test("<b>", () => {
-		const domTree = renderDOMTree(<b>Hello, world!</b>)
+		const domTree = renderTree(<b>Hello, world!</b>)
 		const [T, P] = rendered.scanner(domTree)
 		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<span data-type='strong'>", () => {
-		const domTree = renderDOMTree(<span data-type="strong">Hello, world!</span>)
+		const domTree = renderTree(<span data-type="strong">Hello, world!</span>)
 		const [T, P] = rendered.scanner(domTree)
 		expect(T).toBe(types.enum.strong)
 		expect(P).toEqual({})
 	})
 	test("<span data-type='a'>...</span><span data-type='a'>...</span> (1 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<span data-type="a" data-props={JSON.stringify({ href: "a" })}>
@@ -171,7 +171,7 @@ describe("rendered", () => {
 		])
 	})
 	test("<span data-type='a'>...</span><span data-type='a'>...</span> (2 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<span data-type="a" data-props={JSON.stringify({ href: "a" })}>
@@ -192,7 +192,7 @@ describe("rendered", () => {
 		])
 	})
 	test("* (1 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<span data-type="em">
@@ -217,7 +217,7 @@ describe("rendered", () => {
 		])
 	})
 	test("* (1 of 2)", () => {
-		const domTree = renderDOMTree((
+		const domTree = renderTree((
 			<div>
 				Hello,{" "}
 				<span data-type="code">
