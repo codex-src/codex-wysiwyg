@@ -1,5 +1,5 @@
-// Describes a position.
-class Position {
+// Describes a range position.
+class RangePosition {
 	key = ""
 	offset = ""
 
@@ -8,8 +8,8 @@ class Position {
 		// ...
 	}
 
-	// Compares positions; compares shallowly then deeply.
-	isEqual(pos2) {
+	// Compares shallowly (references) and deeply.
+	isEqualTo(pos2) {
 		const pos1 = this
 		const ok = (
 			pos1 === pos2 ||
@@ -26,8 +26,8 @@ class Position {
 
 // Describes a range.
 class Range {
-	start = new Position()
-	end = new Position()
+	start = new RangePosition()
+	end = new RangePosition()
 
 	// Constructs from a DOM literal.
 	static fromDOMLiteral({ start, end }) {
@@ -42,9 +42,9 @@ class Range {
 		// return fromDOMLiteral({ start, end })
 	}
 
-	// Returns whether positions are collapsed.
+	// Returns whether range positions are collapsed.
 	get collapsed() {
-		return this.start.isEqual(this.end)
+		return this.start.isEqualTo(this.end)
 	}
 
 	// Converts to a DOM literal.
