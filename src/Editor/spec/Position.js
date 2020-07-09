@@ -3,8 +3,8 @@ import {
 	produce,
 } from "immer"
 
-// Describes a range position.
-class RangePosition {
+// Describes a position.
+class Position {
 	[immerable] = true
 
 	key = ""
@@ -15,12 +15,11 @@ class RangePosition {
 		// ...
 	}
 
-	// Compares shallowly (references) and deeply.
-	isEqualTo(pos2) {
-		const pos1 = this
+	// Compares shallowly and deeply.
+	isEqualTo(pos) {
 		const ok = (
-			pos1 === pos2 ||
-			(pos1.key === pos2.key && pos1.offset === pos2.offset)
+			this === pos ||
+			(this.key === pos.key && this.offset === pos.offset)
 		)
 		return ok
 	}
@@ -31,4 +30,4 @@ class RangePosition {
 	}
 }
 
-export default RangePosition
+export default Position

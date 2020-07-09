@@ -1,3 +1,5 @@
+import Position from "./Position"
+
 import {
 	immerable,
 	produce,
@@ -7,13 +9,13 @@ import {
 class Range {
 	[immerable] = true
 
-	start = new RangePosition()
-	end = new RangePosition()
+	start = new Position()
+	end = new Position()
 
-	// Constructs from a DOM literal.
-	static fromDOMLiteral({ start, end }) {
-		// ...
-	}
+	// // Constructs from a DOM literal.
+	// static fromDOMLiteral({ start, end }) {
+	// 	// ...
+	// }
 
 	// Constructs from the current DOM range, scoped to a tree
 	// and [contenteditable="true"] descendants.
@@ -23,19 +25,19 @@ class Range {
 		// return fromDOMLiteral({ start, end })
 	}
 
-	// Returns whether range positions are collapsed.
+	// Returns whether positions are collapsed.
 	get collapsed() {
 		return this.start.isEqualTo(this.end)
 	}
 
-	// Collapses end-to-start.
+	// Collapses to the start position.
 	collapseToStart() {
 		return produce(this, draft => {
 			draft.end = draft.start
 		})
 	}
 
-	// Collapses start-to-end.
+	// Collapses to the end position.
 	collapseToEnd() {
 		return produce(this, draft => {
 			draft.start = draft.end
