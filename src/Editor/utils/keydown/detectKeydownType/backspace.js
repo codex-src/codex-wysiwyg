@@ -5,7 +5,10 @@ import userAgent from "lib/userAgent"
 // order because of precedence.
 const backspace = {
 	rune(e) {
-		return e.keyCode === keyCodeFor("Backspace")
+		const ok = (
+			e.keyCode === keyCodeFor("Backspace")
+		)
+		return ok
 	},
 	word(e) {
 		if (!userAgent.isAAPL) {
