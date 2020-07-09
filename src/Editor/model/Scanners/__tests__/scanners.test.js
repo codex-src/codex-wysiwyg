@@ -1,9 +1,9 @@
 import * as scanners from "../scanners"
+import InlineElement from "../../Editor/InlineElement"
 import React from "react"
 import RenderedScanner from "../RenderedScanner"
 import renderTree from "lib/renderTree"
 import SemanticScanner from "../SemanticScanner"
-import VirtualInlineElement from "../../Editor/VirtualInlineElement"
 
 describe("semantic", () => {
 	test("<i>", () => {
@@ -52,11 +52,11 @@ describe("semantic", () => {
 		const scanner = new SemanticScanner()
 		const children = scanner.scanChildren(tree)
 		expect(children).toEqual([
-			new VirtualInlineElement({ value: "Hello," }),
-			new VirtualInlineElement({ value: " " }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldy" }),
-			new VirtualInlineElement({ value: "!" }),
+			new InlineElement({ value: "Hello," }),
+			new InlineElement({ value: " " }),
+			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
+			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldy" }),
+			new InlineElement({ value: "!" }),
 		])
 	})
 	test("<a><a> (2 of 2)", () => {
@@ -75,11 +75,11 @@ describe("semantic", () => {
 		const scanner = new SemanticScanner()
 		const children = scanner.scanChildren(tree)
 		expect(children).toEqual([
-			new VirtualInlineElement({ value: "Hello," }),
-			new VirtualInlineElement({ value: " " }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "b" } }, value: "worldy" }),
-			new VirtualInlineElement({ value: "!" }),
+			new InlineElement({ value: "Hello," }),
+			new InlineElement({ value: " " }),
+			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
+			new InlineElement({ types: ["a"], props: { a: { href: "b" } }, value: "worldy" }),
+			new InlineElement({ value: "!" }),
 		])
 	})
 	test("*", () => {
@@ -103,10 +103,10 @@ describe("semantic", () => {
 		const scanner = new SemanticScanner()
 		const children = scanner.scanChildren(tree)
 		expect(children).toEqual([
-			new VirtualInlineElement({ value: "Hello," }),
-			new VirtualInlineElement({ value: " " }),
-			new VirtualInlineElement({ types: ["code", "a", "strike", "strong", "em"], props: { a: { href: "https://google.com" } }, value: "world" }),
-			new VirtualInlineElement({ value: "!" }),
+			new InlineElement({ value: "Hello," }),
+			new InlineElement({ value: " " }),
+			new InlineElement({ types: ["code", "a", "strike", "strong", "em"], props: { a: { href: "https://google.com" } }, value: "world" }),
+			new InlineElement({ value: "!" }),
 		])
 	})
 })
@@ -158,11 +158,11 @@ describe("rendered", () => {
 		const scanner = new RenderedScanner()
 		const children = scanner.scanChildren(tree)
 		expect(children).toEqual([
-			new VirtualInlineElement({ value: "Hello," }),
-			new VirtualInlineElement({ value: " " }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldy" }),
-			new VirtualInlineElement({ value: "!" }),
+			new InlineElement({ value: "Hello," }),
+			new InlineElement({ value: " " }),
+			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
+			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldy" }),
+			new InlineElement({ value: "!" }),
 		])
 	})
 	test("<span data-type='a'><span data-type='a'> (2 of 2)", () => {
@@ -181,11 +181,11 @@ describe("rendered", () => {
 		const scanner = new RenderedScanner()
 		const children = scanner.scanChildren(tree)
 		expect(children).toEqual([
-			new VirtualInlineElement({ value: "Hello," }),
-			new VirtualInlineElement({ value: " " }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new VirtualInlineElement({ types: ["a"], props: { a: { href: "b" } }, value: "worldy" }),
-			new VirtualInlineElement({ value: "!" }),
+			new InlineElement({ value: "Hello," }),
+			new InlineElement({ value: " " }),
+			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
+			new InlineElement({ types: ["a"], props: { a: { href: "b" } }, value: "worldy" }),
+			new InlineElement({ value: "!" }),
 		])
 	})
 	test("*", () => {
@@ -209,10 +209,10 @@ describe("rendered", () => {
 		const scanner = new RenderedScanner(tree)
 		const children = scanner.scanChildren(tree)
 		expect(children).toEqual([
-			new VirtualInlineElement({ value: "Hello," }),
-			new VirtualInlineElement({ value: " " }),
-			new VirtualInlineElement({ types: ["code", "a", "strike", "strong", "em"], props: { a: { href: "https://google.com" } }, value: "world" }),
-			new VirtualInlineElement({ value: "!" }),
+			new InlineElement({ value: "Hello," }),
+			new InlineElement({ value: " " }),
+			new InlineElement({ types: ["code", "a", "strike", "strong", "em"], props: { a: { href: "https://google.com" } }, value: "world" }),
+			new InlineElement({ value: "!" }),
 		])
 	})
 })

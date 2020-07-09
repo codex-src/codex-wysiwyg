@@ -9,8 +9,9 @@ import AbstractScanner from "./AbstractScanner"
 class RenderedScanner extends AbstractScanner {
 	constructor() {
 		super()
+		const scanner = scanners.rendered
 		Object.assign(this, {
-			scanner: scanners.rendered,
+			scanner,
 		})
 	}
 }

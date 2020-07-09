@@ -8,7 +8,7 @@ import toReact from "./toReact"
 const Element = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
 
-	// NOTE: React **does not** manage rendered children.
+	// NOTE: React does not manage rendered children.
 	React.useLayoutEffect(() => {
 		if (!ref.current) {
 			// No-op

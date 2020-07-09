@@ -1,15 +1,15 @@
 import Editor from "../Editor"
-import VirtualElement from "../VirtualElement"
-import VirtualInlineElement from "../VirtualInlineElement"
-import VirtualMultilineElement from "../VirtualMultilineElement"
-import VirtualPosition from "../VirtualPosition"
-import VirtualRange from "../VirtualRange"
+import Element from "../Element"
+import InlineElement from "../InlineElement"
+import MultilineElement from "../MultilineElement"
+import Position from "../Position"
+import Range from "../Range"
 
 describe("", () => {
 	test("", () => expect(new Editor() instanceof Editor).toBeTruthy())
-	test("", () => expect(new VirtualElement() instanceof VirtualElement).toBeTruthy())
-	test("", () => expect(new VirtualInlineElement() instanceof VirtualInlineElement).toBeTruthy())
-	test("", () => expect(new VirtualMultilineElement() instanceof VirtualMultilineElement).toBeTruthy())
-	test("", () => expect(new VirtualPosition() instanceof VirtualPosition).toBeTruthy())
-	test("", () => expect(new VirtualRange() instanceof VirtualRange).toBeTruthy())
+	test("", () => expect(new Element() instanceof Element).toBeTruthy())
+	test("", () => expect(new InlineElement() instanceof InlineElement).toBeTruthy())
+	test("", () => expect(new MultilineElement() instanceof MultilineElement).toBeTruthy())
+	test("", () => expect(new Position() instanceof Position).toBeTruthy())
+	test("", () => expect(new Range() instanceof Range).toBeTruthy())
 })

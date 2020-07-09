@@ -9,8 +9,9 @@ import AbstractScanner from "./AbstractScanner"
 class SemanticScanner extends AbstractScanner {
 	constructor() {
 		super()
+		const scanner = scanners.semantic
 		Object.assign(this, {
-			scanner: scanners.semantic,
+			scanner,
 		})
 	}
 }

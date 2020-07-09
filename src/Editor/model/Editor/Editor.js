@@ -1,21 +1,15 @@
-import VirtualRange from "./VirtualRange"
+import Range from "./Range"
 import { immerable } from "immer"
 
 // Describes an editor.
 class Editor {
 	[immerable] = true
 
-	// Is read-only mode enabled?
-	//
 	// NOTE: DOMContentLoaded disables read-only mode.
 	isReadOnlyModeEnabled = true
-	// Is the active element?
 	isActiveElement = false
-	// Virtual elements.
 	elements = []
-	// Virtual range.
-	range = new VirtualRange()
-	// Render counter; use as an effect dependency.
+	range = new Range()
 	shouldRerender = 0
 
 	constructor(elements) {

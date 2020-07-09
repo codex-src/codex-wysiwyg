@@ -3,8 +3,9 @@ import {
 	produce,
 } from "immer"
 
-// Describes a virtual position.
-class VirtualPosition {
+// Describes a position; a start and end position compose a
+// range.
+class Position {
 	[immerable] = true
 
 	key = ""
@@ -30,4 +31,4 @@ class VirtualPosition {
 	}
 }
 
-export default VirtualPosition
+export default Position

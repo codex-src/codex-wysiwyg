@@ -1,21 +1,19 @@
 import domUtils from "lib/domUtils"
+import Element from "../Editor/Element"
+import InlineElement from "../Editor/InlineElement"
 import JSONClone from "lib/JSONClone"
-import VirtualElement from "../Editor/VirtualElement"
-import VirtualInlineElement from "../Editor/VirtualInlineElement"
 
-// Describes an abstract scanner; a scanner implements scan
-// to scan virtual elements and children.
+// Describes an abstract scanner.
 class AbstractScanner {
 	// Scans types and props.
 	scanner = null
 
-	// Scans virtual children from an element.
 	scanChildren(element) {
 		const children = []
 		const recurse = (on, types = [], props = {}) => {
 			if (domUtils.isTextNode(on)) {
 				const value = on.nodeValue
-				children.push(new VirtualInlineElement({ types, props, value }))
+				children.push(new InlineElement({ types, props, value }))
 				return
 			}
 			for (const each of on.childNodes) {
@@ -36,14 +34,13 @@ class AbstractScanner {
 		return children
 	}
 
-	// Scans virtual elements from a tree.
 	scan(tree) {
 		const elements = []
 		for (const each of tree.children) {
 			const [T, P] = this.scanner(each)
 			switch (T) {
 			case "p":
-				elements.push(new VirtualElement({
+				elements.push(new Element({
 					type: T,
 					key: each.id,
 					props: {
