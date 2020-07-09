@@ -1,24 +1,22 @@
-import * as Readers from "./Readers"
-import detectKeydownType from "./utils/keydown/detectKeydownType"
+// import * as Readers from "./Readers" // TODO
+// import detectKeydownType from "./utils/keydown/detectKeydownType"
+// import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import React from "react"
 import ReactDOM from "react-dom"
-import SyntheticRange from "./useEditor/model/SyntheticRange"
-import types from "./types"
-import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import useEditor from "./useEditor"
 
 import "./Editor.css"
 
-// React renderer for the current state.
-const ReactRenderer = ({ state, dispatch }) => (
-	state.elements.map(({ type: T, key, props }) => (
-		React.createElement(types.components[T], {
-			key,
-			id: key, // Propagate key as id
-			...props,
-		})
-	))
-)
+// // React renderer for the current state.
+// const ReactRenderer = ({ state, dispatch }) => (
+// 	state.elements.map(({ type: T, key, props }) => (
+// 		React.createElement(types.components[T], {
+// 			key,
+// 			id: key, // Propagate key as id
+// 			...props,
+// 		})
+// 	))
+// )
 
 const Editor = ({ markup, children }) => {
 	const ref = React.useRef(null)
@@ -26,47 +24,47 @@ const Editor = ({ markup, children }) => {
 
 	const [state, dispatch] = useEditor({ markup, children })
 
-	// Disables read-only mode on DOMContentLoaded.
-	const DOMContentLoaded = useDOMContentLoaded()
-	React.useEffect(() => {
-		if (!DOMContentLoaded) {
-			// No-op
-			return
-		}
-		dispatch({ type: "DISABLE_READ_ONLY_MODE" })
-	}, [DOMContentLoaded, dispatch])
+	// // Disables read-only mode on DOMContentLoaded.
+	// const DOMContentLoaded = useDOMContentLoaded()
+	// React.useEffect(() => {
+	// 	if (!DOMContentLoaded) {
+	// 		// No-op
+	// 		return
+	// 	}
+	// 	dispatch({ type: "DISABLE_READ_ONLY_MODE" })
+	// }, [DOMContentLoaded, dispatch])
 
-	// Renders on state.shouldRender.
-	React.useLayoutEffect(
-		React.useCallback(() => {
-			if (!ref.current) {
-				// No-op
-				return
-			}
-			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
-			const selection = document.getSelection()
-			if (selection.rangeCount) {
-				selection.removeAllRanges()
-			}
-			ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
-				if (!state.focused) {
-					// No-op
-					return
-				}
-				// try {
-				const range = state.range.toRange(state.range)
-				selection.addRange(range)
-				// } catch (error) {
-				// 	console.error(error)
-				// }
-			})
-		}, [state, dispatch]),
-		[state.shouldRender],
-	)
+	// // Rerenders on state.shouldRender.
+	// React.useLayoutEffect(
+	// 	React.useCallback(() => {
+	// 		if (!ref.current) {
+	// 			// No-op
+	// 			return
+	// 		}
+	// 		// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
+	// 		const selection = document.getSelection()
+	// 		if (selection.rangeCount) {
+	// 			selection.removeAllRanges()
+	// 		}
+	// 		ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
+	// 			if (!state.focused) {
+	// 				// No-op
+	// 				return
+	// 			}
+	// 			// try {
+	// 			const range = state.range.toRange(state.range)
+	// 			selection.addRange(range)
+	// 			// } catch (error) {
+	// 			// 	console.error(error)
+	// 			// }
+	// 		})
+	// 	}, [state, dispatch]),
+	// 	[state.shouldRender],
+	// )
 
-	// Returns a handler when state.readOnlyModeEnabled=false.
+	// Returns a handler when read-only mode is disabled.
 	const readWriteHandler = handler => {
-		if (state.readOnlyModeEnabled) {
+		if (state.isReadOnlyModeEnabled) {
 			return undefined
 		}
 		return handler
@@ -78,62 +76,58 @@ const Editor = ({ markup, children }) => {
 			<article
 				ref={ref}
 
-				className="subpixel-antialiased em-context focus:outline-none"
+				// TODO: Change focus:outline-none to inline-styles?
+				className="em-context focus:outline-none"
 
-				style={{
-					MozTabSize: 4,
-					tabSize: 4,
-				}}
+				// onFocus={readWriteHandler(e => {
+				// 	dispatch({ type: "FOCUS" })
+				// })}
 
-				onFocus={readWriteHandler(e => {
-					dispatch({ type: "FOCUS" })
-				})}
+				// onBlur={readWriteHandler(e => {
+				// 	dispatch({ type: "BLUR" })
+				// })}
 
-				onBlur={readWriteHandler(e => {
-					dispatch({ type: "BLUR" })
-				})}
+				// onPointerDown={readWriteHandler(e => {
+				// 	pointerdownRef.current = true
+				// })}
 
-				onPointerDown={readWriteHandler(e => {
-					pointerdownRef.current = true
-				})}
+				// onPointerMove={readWriteHandler(e => {
+				// 	if (!state.focused) {
+				// 		pointerdownRef.current = false
+				// 		return
+				// 	}
+				// 	if (!pointerdownRef.current) {
+				// 		// No-op
+				// 		return
+				// 	}
+				// 	const range = SyntheticRange.getCurrent(ref.current)
+				// 	if (!range) {
+				// 		// No-op
+				// 		return
+				// 	}
+				// 	dispatch({
+				// 		type: "SELECT",
+				// 		range,
+				// 	})
+				// })}
 
-				onPointerMove={readWriteHandler(e => {
-					if (!state.focused) {
-						pointerdownRef.current = false
-						return
-					}
-					if (!pointerdownRef.current) {
-						// No-op
-						return
-					}
-					const range = SyntheticRange.getCurrent(ref.current)
-					if (!range) {
-						// No-op
-						return
-					}
-					dispatch({
-						type: "SELECT",
-						range,
-					})
-				})}
+				// onPointerUp={readWriteHandler(e => {
+				// 	pointerdownRef.current = false
+				// })}
 
-				onPointerUp={readWriteHandler(e => {
-					pointerdownRef.current = false
-				})}
-
-				// TODO: Add COMPAT guard for select-all or prevent
-				// default?
-				onSelect={readWriteHandler(e => {
-					const range = SyntheticRange.getCurrent(ref.current)
-					if (!range) {
-						// No-op
-						return
-					}
-					dispatch({
-						type: "SELECT",
-						range,
-					})
-				})}
+				// // TODO: Add COMPAT guard for select-all or prevent
+				// // default?
+				// onSelect={readWriteHandler(e => {
+				// 	const range = SyntheticRange.getCurrent(ref.current)
+				// 	if (!range) {
+				// 		// No-op
+				// 		return
+				// 	}
+				// 	dispatch({
+				// 		type: "SELECT",
+				// 		range,
+				// 	})
+				// })}
 
 				// onKeyDown={readWriteHandler(e => {
 				// 	const keydownType = detectKeydownType(e)
@@ -238,17 +232,14 @@ const Editor = ({ markup, children }) => {
 				// 	e.preventDefault()
 				// })}
 
-				contentEditable={!state.readOnlyModeEnabled}
-				suppressContentEditableWarning={!state.readOnlyModeEnabled}
+				contentEditable={!state.isReadOnlyModeEnabled}
+				suppressContentEditableWarning={!state.isReadOnlyModeEnabled}
 				data-root
 			/>
 
 			{/* DEBUG */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify({
-					...state,
-					elements: undefined,
-				}, null, "\t")}
+				{JSON.stringify(state, null, "\t")}
 			</div>
 
 		</div>

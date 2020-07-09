@@ -1,3 +1,10 @@
-[data-root="true"][contenteditable="true"] {
+[data-root="true"] {
+	/* subpixel-antialiased */
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
+
+	moz-tab-size: 4;
+	tab-size: 4;
+
 	caret-color: var(--black);
 }

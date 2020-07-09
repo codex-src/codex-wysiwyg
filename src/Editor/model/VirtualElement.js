@@ -1,14 +1,14 @@
 import hash from "lib/hash"
 import { immerable } from "immer"
 
-// Describes an element that renders to multiple lines.
-class MultilineElement {
+// Describes a virtual element.
+class VirtualElement {
 	[immerable] = true
 
 	type = ""
 	key = hash(6)
 	props = {
-		elements: [],
+		children: [],
 	}
 
 	constructor({ type, key, props } = {}) {
@@ -16,10 +16,10 @@ class MultilineElement {
 			type: type || "",
 			key: key || hash(),
 			props: props || {
-				elements: [],
+				children: [],
 			},
 		})
 	}
 }
 
-export default MultilineElement
+export default VirtualElement

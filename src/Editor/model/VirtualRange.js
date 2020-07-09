@@ -1,16 +1,16 @@
-import Position from "./Position"
+import VirtualPosition from "./VirtualPosition"
 
 import {
 	immerable,
 	produce,
 } from "immer"
 
-// Describes a range.
+// Describes a virtual range.
 class Range {
 	[immerable] = true
 
-	start = new Position()
-	end = new Position()
+	start = new VirtualPosition()
+	end = new VirtualPosition()
 
 	// // Constructs from a DOM literal.
 	// static fromDOMLiteral({ start, end }) {

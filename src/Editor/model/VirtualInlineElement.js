@@ -1,5 +1,5 @@
-// Describes an inline element.
-class InlineElement {
+// Describes a virtual inline element.
+class VirtualInlineElement {
 	// Zero or more types.
 	types = []
 	// Zero or more props.
@@ -21,4 +21,4 @@ class InlineElement {
 	}
 }
 
-export default InlineElement
+export default VirtualInlineElement
