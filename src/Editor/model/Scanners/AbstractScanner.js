@@ -4,12 +4,12 @@ import VirtualElement from "../Editor/VirtualElement"
 import VirtualInlineElement from "../Editor/VirtualInlineElement"
 
 // Describes an abstract scanner; a scanner implements scan
-// to scan virtual elements and inline elements.
+// to scan virtual elements and children.
 class AbstractScanner {
 	// Scans types and props.
 	scanner = null
 
-	// Scans virtual inline elements from an element.
+	// Scans virtual children from an element.
 	scanChildren(element) {
 		const children = []
 		const recurse = (on, types = [], props = {}) => {

@@ -14,7 +14,7 @@ class VirtualMultilineElement {
 	constructor({ type, key, props } = {}) {
 		Object.assign(this, {
 			type: type || "",
-			key: key || hash(),
+			key: key || hash(6),
 			props: props || {
 				elements: [],
 			},

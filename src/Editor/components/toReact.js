@@ -3,13 +3,6 @@ import toArray from "lib/toArray"
 import toTree from "./toTree"
 import types from "../types"
 
-// // Describes an array of inline elements.
-// class InlineElements extends Array {
-// 	// Converts to intermediary React elements.
-// 	toIntermediaryReact() {
-// 		// ...
-// 	}
-//
 // 	// Converts to React elements. Uses an intermediary step
 // 	// because React elements are read-only.
 // 	toReact() {
@@ -22,8 +15,6 @@ import types from "../types"
 // 		// ...
 // 	}
 // }
-//
-// export default InlineElements
 
 // Converts intermediary tree data structure to renderable
 // React elements.

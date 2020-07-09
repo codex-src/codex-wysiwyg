@@ -23,6 +23,7 @@ const Editor = ({ html }) => {
 	const pointerdownRef = React.useRef(false)
 
 	const [state, dispatch] = useEditor(html)
+	console.log(state)
 
 	// // Disables read-only mode on DOMContentLoaded.
 	// const DOMContentLoaded = useDOMContentLoaded()
