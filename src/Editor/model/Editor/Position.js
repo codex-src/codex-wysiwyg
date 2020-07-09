@@ -3,16 +3,16 @@ import {
 	produce,
 } from "immer"
 
-// Describes a position; a start and end position compose a
-// range.
+// Describes a position. A position corresponds to a user
+// insertion point.
 class Position {
 	[immerable] = true
 
 	key = ""
 	offset = ""
 
-	// Constructs from a position literal.
-	static fromLiteral({ node, offset }) {
+	// Constructs from a user literal.
+	static fromUserLiteral({ node, offset }) {
 		// ...
 	}
 
@@ -25,8 +25,8 @@ class Position {
 		return ok
 	}
 
-	// Converts to a position literal.
-	toLiteral() {
+	// Resolves to a user literal.
+	toUserLiteral() {
 		// ...
 	}
 }

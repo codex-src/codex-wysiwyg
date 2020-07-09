@@ -3,7 +3,8 @@ import Element from "../Editor/Element"
 import InlineElement from "../Editor/InlineElement"
 import JSONClone from "lib/JSONClone"
 
-// Describes an abstract scanner.
+// Describes an abstract scanner. AbstractScanner relies on
+// SemanticScanner and RenderedScanner.
 class AbstractScanner {
 	// Scans types and props.
 	scanner = null

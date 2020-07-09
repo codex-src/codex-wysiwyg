@@ -1,7 +1,6 @@
 import Range from "./Range"
 import { immerable } from "immer"
 
-// Describes an editor.
 class Editor {
 	[immerable] = true
 

@@ -1,7 +1,6 @@
 import hash from "lib/hash"
 import { immerable } from "immer"
 
-// Describes an element.
 class Element {
 	[immerable] = true
 

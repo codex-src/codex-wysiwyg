@@ -1,6 +1,6 @@
 import domUtils from "lib/domUtils"
 
-// Scanner for a rendered element; scans types and props.
+// Scanner for a rendered element; scans type and props.
 export function rendered(element) {
 	let T = ""
 	let P = {}
@@ -26,7 +26,7 @@ export function rendered(element) {
 	return [T, P]
 }
 
-// Scanner for a semantic element; scans types and props.
+// Scanner for a semantic element; scans type and props.
 export function semantic(element) {
 	let T = ""
 	let P = {}

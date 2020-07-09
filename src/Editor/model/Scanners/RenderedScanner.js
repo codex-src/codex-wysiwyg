@@ -1,7 +1,7 @@
 import * as scanners from "./scanners"
 import AbstractScanner from "./AbstractScanner"
 
-// Describes a rendered reader; implements scan.
+// Describes a rendered scanner; implements scan.
 //
 // const scanner = new RenderedScanner()
 // scanner.scan(tree)
