@@ -10,8 +10,8 @@ class VirtualPosition {
 	key = ""
 	offset = ""
 
-	// Constructs from a DOM literal.
-	static fromDOMLiteral({ node, offset }) {
+	// Constructs from a position literal.
+	static fromLiteral({ node, offset }) {
 		// ...
 	}
 
@@ -24,8 +24,8 @@ class VirtualPosition {
 		return ok
 	}
 
-	// Converts to a DOM literal.
-	toDOMLiteral() {
+	// Converts to a position literal.
+	toLiteral() {
 		// ...
 	}
 }

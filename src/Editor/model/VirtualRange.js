@@ -12,40 +12,26 @@ class Range {
 	start = new VirtualPosition()
 	end = new VirtualPosition()
 
-	// // Constructs from a DOM literal.
-	// static fromDOMLiteral({ start, end }) {
-	// 	// ...
-	// }
-
-	// Constructs from the current DOM range, scoped to a tree
-	// and [contenteditable="true"] descendants.
+	// Constructs from the current range, scoped to a tree and
+	// [contenteditable="true"] descendants.
 	static getCurrent(tree) {
-		// const start = { ... }
-		// const end = { ... }
-		// return fromDOMLiteral({ start, end })
+		// ...
 	}
 
-	// Returns whether positions are collapsed.
+	// Returns whether virtual positions are collapsed.
 	get collapsed() {
 		return this.start.isEqualTo(this.end)
 	}
 
-	// Collapses to the start position.
-	collapseToStart() {
+	// Collapses virtual positions.
+	collapse() {
 		return produce(this, draft => {
 			draft.end = draft.start
 		})
 	}
 
-	// Collapses to the end position.
-	collapseToEnd() {
-		return produce(this, draft => {
-			draft.start = draft.end
-		})
-	}
-
-	// Converts to a DOM literal.
-	toDOMLiteral() {
+	// Converts to a range literal.
+	toRangeLiteral() {
 		// ...
 	}
 }

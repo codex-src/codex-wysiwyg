@@ -18,10 +18,12 @@ function EditorReducer(state, action) {
 	}
 }
 
-function useEditor(serializedHTML) {
+function useEditor(html) {
 	const initialState = React.useMemo(() => {
-		return new Editor(serializedHTML)
-	}, [serializedHTML])
+		const r = new HTMLReader().read(html)
+		const elements = r.read(html)
+		return new Editor(elements)
+	}, [html])
 	return React.useReducer(EditorReducer, initialState)
 }
 

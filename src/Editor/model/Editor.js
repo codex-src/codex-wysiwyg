@@ -18,9 +18,10 @@ class Editor {
 	// Render counter; use as an effect dependency.
 	shouldRerender = 0
 
-	// Constructs from serialized HTML.
-	static fromSerializedHTML(serializedHTML) {
-		// deserializeHTML(serializedHTML)
+	constructor(elements) {
+		Object.assign(this, {
+			elements: elements || [],
+		})
 	}
 
 	// Enables read-only mode.

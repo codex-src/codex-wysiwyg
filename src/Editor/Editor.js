@@ -18,11 +18,11 @@ import "./Editor.css"
 // 	))
 // )
 
-const Editor = ({ markup, children }) => {
+const Editor = ({ html }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
-	const [state, dispatch] = useEditor({ markup, children })
+	const [state, dispatch] = useEditor(html)
 
 	// // Disables read-only mode on DOMContentLoaded.
 	// const DOMContentLoaded = useDOMContentLoaded()

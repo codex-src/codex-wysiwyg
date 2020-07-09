@@ -1,8 +1,8 @@
 // Describes a virtual inline element.
 class VirtualInlineElement {
-	// Zero or more types.
+	// Zero-to-many types.
 	types = []
-	// Zero or more props.
+	// Zero-to-many props.
 	props = {}
 	// Character data.
 	value = ""
@@ -13,11 +13,6 @@ class VirtualInlineElement {
 			props: props || {},
 			value: value || "",
 		})
-	}
-
-	// Defer-all function.
-	defer() {
-		// ...
 	}
 }
 
