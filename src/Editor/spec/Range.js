@@ -1,31 +1,12 @@
-// Describes a range position.
-class RangePosition {
-	key = ""
-	offset = ""
-
-	// Constructs from a DOM literal.
-	static fromDOMLiteral({ node, offset }) {
-		// ...
-	}
-
-	// Compares shallowly (references) and deeply.
-	isEqualTo(pos2) {
-		const pos1 = this
-		const ok = (
-			pos1 === pos2 ||
-			(pos1.key === pos2.key && pos1.offset === pos2.offset)
-		)
-		return ok
-	}
-
-	// Converts to a DOM literal.
-	toDOMLiteral() {
-		// ...
-	}
-}
+import {
+	immerable,
+	produce,
+} from "immer"
 
 // Describes a range.
 class Range {
+	[immerable] = true
+
 	start = new RangePosition()
 	end = new RangePosition()
 
@@ -47,8 +28,24 @@ class Range {
 		return this.start.isEqualTo(this.end)
 	}
 
+	// Collapses end-to-start.
+	collapseToStart() {
+		return produce(this, draft => {
+			draft.end = draft.start
+		})
+	}
+
+	// Collapses start-to-end.
+	collapseToEnd() {
+		return produce(this, draft => {
+			draft.start = draft.end
+		})
+	}
+
 	// Converts to a DOM literal.
 	toDOMLiteral() {
 		// ...
 	}
 }
+
+export default Range
