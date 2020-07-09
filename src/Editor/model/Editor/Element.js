@@ -1,6 +1,8 @@
 import hash from "lib/hash"
 import { immerable } from "immer"
 
+// Describes an element. Unlike multiline elements, elements
+// cannot render further sub-elements.
 class Element {
 	[immerable] = true
 

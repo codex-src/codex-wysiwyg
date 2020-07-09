@@ -1,12 +1,13 @@
 import Range from "./Range"
 import { immerable } from "immer"
 
+// Describes an editor.
 class Editor {
 	[immerable] = true
 
 	// NOTE: DOMContentLoaded disables read-only mode.
-	isReadOnlyModeEnabled = true
-	isActiveElement = false
+	readOnlyModeEnabled = true
+	focused = false
 	elements = []
 	range = new Range()
 	shouldRerender = 0
@@ -42,6 +43,7 @@ class Editor {
 		// ..
 	}
 
+	// Resolves to serialized HTML.
 	toSerializedHTML() {
 		// ..
 	}

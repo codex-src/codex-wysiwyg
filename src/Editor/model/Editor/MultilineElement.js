@@ -1,8 +1,8 @@
 import hash from "lib/hash"
 import { immerable } from "immer"
 
-// Describes an element that renders one or more sub-
-// elements, such as <pre>, <ul>, and <ol>.
+// Describes an element. Unlike elements, multiline elements
+// can render further sub-elements.
 class MultilineElement {
 	[immerable] = true
 

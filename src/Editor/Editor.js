@@ -65,7 +65,7 @@ const Editor = ({ html }) => {
 
 	// Returns a handler when read-only mode is disabled.
 	const readWriteHandler = handler => {
-		if (state.isReadOnlyModeEnabled) {
+		if (state.readOnlyModeEnabled) {
 			return undefined
 		}
 		return handler
@@ -233,8 +233,8 @@ const Editor = ({ html }) => {
 				// 	e.preventDefault()
 				// })}
 
-				contentEditable={!state.isReadOnlyModeEnabled}
-				suppressContentEditableWarning={!state.isReadOnlyModeEnabled}
+				contentEditable={!state.readOnlyModeEnabled}
+				suppressContentEditableWarning={!state.readOnlyModeEnabled}
 				data-root
 			/>
 
