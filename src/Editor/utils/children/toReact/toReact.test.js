@@ -1,7 +1,7 @@
-import InlineElement from "../../../../model/Editor/InlineElement"
+import InlineElement from "../../../model/Editor/InlineElement"
 import JSONEqual from "lib/json/JSONEqual"
 import React from "react"
-import toReact from "../toReact"
+import toReact from "./toReact"
 
 import { // Unsorted
 	Em,
@@ -9,7 +9,7 @@ import { // Unsorted
 	Code,
 	Strike,
 	A,
-} from "../../../../components/components-text"
+} from "../../../components/components-text"
 
 // https://github.com/facebook/jest/issues/8475#issuecomment-656629010
 const throwMsg = "serializes to the same string"

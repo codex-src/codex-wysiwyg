@@ -1,6 +1,6 @@
-import toArray from "./index"
+import toArray from "./toArray"
 
-test("toArray", () => {
+test("", () => {
 	expect(toArray(undefined)).toEqual([undefined])
 	expect(toArray(null)).toEqual([null])
 	expect(toArray(1)).toEqual([1])

@@ -1,6 +1,6 @@
 import JSONEqual from "lib/json/JSONEqual"
 import omit from "lib/omit"
-import toArray from "lib/toArray"
+import toArray from "./toArray"
 
 // Queries intermediary React elements for the next
 // container and non-nested types.

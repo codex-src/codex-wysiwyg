@@ -1,6 +1,6 @@
 import React from "react"
 import renderMap from "../../../components/renderMap"
-import toArray from "lib/toArray"
+import toArray from "./toArray"
 import toIntermediary from "./toIntermediary"
 
 // Converts intermediary React elements to React elements.
