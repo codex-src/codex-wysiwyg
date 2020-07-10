@@ -5,7 +5,7 @@ import {
 	produce,
 } from "immer"
 
-// Describes a range. A range corresponds to the user
+// Describes a range. A range corresponds to a user
 // insertion point or selection.
 class Range {
 	[immerable] = true

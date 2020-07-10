@@ -64,11 +64,11 @@ const Editor = ({ html }) => {
 	// )
 
 	// Returns a handler when read-only mode is disabled.
-	const readWriteHandler = handler => {
-		if (state.readOnlyModeEnabled) {
-			return undefined
+	const readWriteOnlyHandler = handler => {
+		if (!state.readOnlyModeEnabled) {
+			return handler
 		}
-		return handler
+		return undefined
 	}
 
 	return (
@@ -80,19 +80,19 @@ const Editor = ({ html }) => {
 				// TODO: Change focus:outline-none to inline-styles?
 				className="em-context focus:outline-none"
 
-				// onFocus={readWriteHandler(e => {
+				// onFocus={readWriteOnlyHandler(e => {
 				// 	dispatch({ type: "FOCUS" })
 				// })}
 
-				// onBlur={readWriteHandler(e => {
+				// onBlur={readWriteOnlyHandler(e => {
 				// 	dispatch({ type: "BLUR" })
 				// })}
 
-				// onPointerDown={readWriteHandler(e => {
+				// onPointerDown={readWriteOnlyHandler(e => {
 				// 	pointerdownRef.current = true
 				// })}
 
-				// onPointerMove={readWriteHandler(e => {
+				// onPointerMove={readWriteOnlyHandler(e => {
 				// 	if (!state.focused) {
 				// 		pointerdownRef.current = false
 				// 		return
@@ -112,13 +112,13 @@ const Editor = ({ html }) => {
 				// 	})
 				// })}
 
-				// onPointerUp={readWriteHandler(e => {
+				// onPointerUp={readWriteOnlyHandler(e => {
 				// 	pointerdownRef.current = false
 				// })}
 
 				// // TODO: Add COMPAT guard for select-all or prevent
 				// // default?
-				// onSelect={readWriteHandler(e => {
+				// onSelect={readWriteOnlyHandler(e => {
 				// 	const range = SyntheticRange.getCurrent(ref.current)
 				// 	if (!range) {
 				// 		// No-op
@@ -130,7 +130,7 @@ const Editor = ({ html }) => {
 				// 	})
 				// })}
 
-				// onKeyDown={readWriteHandler(e => {
+				// onKeyDown={readWriteOnlyHandler(e => {
 				// 	const keydownType = detectKeydownType(e)
 				// 	if (keydownType) {
 				// 		console.log(keydownType)
@@ -208,28 +208,28 @@ const Editor = ({ html }) => {
 				// 	}
 				// })}
 
-				// onInput={readWriteHandler(e => {
+				// onInput={readWriteOnlyHandler(e => {
 				// 	const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
 				// 	const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
 				// 	dispatch.uncontrolledInputHandler(spans, collapsed)
 				// })}
 
-				// onCut={readWriteHandler(e => {
+				// onCut={readWriteOnlyHandler(e => {
 				// 	e.preventDefault()
 				// 	// TODO: e.clipboardData.setData("text/plain", ...)
 				// })}
 
-				// onCopy={readWriteHandler(e => {
+				// onCopy={readWriteOnlyHandler(e => {
 				// 	e.preventDefault()
 				// 	// TODO: e.clipboardData.setData("text/plain", ...)
 				// })}
 
-				// onPaste={readWriteHandler(e => {
+				// onPaste={readWriteOnlyHandler(e => {
 				// 	e.preventDefault()
 				// 	// TODO: e.clipboardData.getData("text/plain")
 				// })}
 
-				// onDragStart={readWriteHandler(e => {
+				// onDragStart={readWriteOnlyHandler(e => {
 				// 	e.preventDefault()
 				// })}
 
