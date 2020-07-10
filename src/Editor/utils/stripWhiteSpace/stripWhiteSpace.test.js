@@ -1,16 +1,6 @@
 import parseTree from "lib/parseTree"
 import stripWhiteSpace from "./stripWhiteSpace"
 
-test("<!-- ... -->", () => {
-	const tree = parseTree(`
-<div>
-	<!-- ... -->
-</div>
-`)
-	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><!-- ... --></div>")
-})
-
 test("<p><!-- ... --></p>", () => {
 	const tree = parseTree(`
 <div>
@@ -35,11 +25,25 @@ test("<p><br></p>", () => {
 	expect(tree.outerHTML).toBe("<div><p><br></p></div>")
 })
 
-test("<p>...</p>", () => {
+test("<p>...</p> (1 of 2)", () => {
 	const tree = parseTree(`
 <div>
 	<p>
 		Hello, world!
+	</p>
+</div>
+`)
+	stripWhiteSpace(tree)
+	expect(tree.outerHTML).toBe("<div><p>Hello, world!</p></div>")
+})
+
+test("<p>...</p> (2 of 2)", () => {
+	const tree = parseTree(`
+<div>
+	<p>
+		Hello,\u0020
+		world
+		!
 	</p>
 </div>
 `)
@@ -52,17 +56,23 @@ test("<p>...</p><ul><li>...</li></ul><p>...</p>", () => {
 <div>
 	<p>
 		Hello,\u0020
+		world
+		!
 	</p>
 	<ul>
 		<li>
+			Hello,\u0020
 			world
+			!
 		</li>
 	</ul>
 	<p>
+		Hello,\u0020
+		world
 		!
 	</p>
 </div>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p>Hello, </p><ul><li>world</li></ul><p>!</p></div>")
+	expect(tree.outerHTML).toBe("<div><p>Hello, world!</p><ul><li>Hello, world!</li></ul><p>Hello, world!</p></div>")
 })
