@@ -20,7 +20,7 @@ function decorator(tree) {
 			}
 			return
 		}
-		// NOTE: Uses reverse because of remove.
+		// NOTE: Uses reverse() because of remove().
 		for (const each of [...on.childNodes].reverse()) {
 			recurse(each, depth + 1)
 		}
