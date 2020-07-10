@@ -3,12 +3,12 @@ import Element from "../Editor/Element"
 import InlineElement from "../Editor/InlineElement"
 import JSONClone from "lib/json/JSONClone"
 
-// Describes an abstract scanner. AbstractScanner relies on
-// SemanticScanner and RenderedScanner.
+// Describes an abstract scanner.
 class AbstractScanner {
-	// Scans types and props.
+	// Scanner; scans types and props.
 	scanner = null
 
+	// Scans children.
 	scanChildren(element) {
 		const children = []
 		const recurse = (on, types = [], props = {}) => {
@@ -35,6 +35,7 @@ class AbstractScanner {
 		return children
 	}
 
+	// Scans elements.
 	scan(tree) {
 		const elements = []
 		for (const each of tree.children) {
