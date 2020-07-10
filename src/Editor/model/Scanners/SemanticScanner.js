@@ -1,5 +1,5 @@
-import * as scanners from "./scanners"
 import AbstractScanner from "./AbstractScanner"
+import semantic from "./semantic"
 
 // Describes a semantic scanner; implements scan.
 //
@@ -9,7 +9,7 @@ import AbstractScanner from "./AbstractScanner"
 class SemanticScanner extends AbstractScanner {
 	constructor() {
 		super()
-		const scanner = scanners.semantic
+		const scanner = semantic
 		Object.assign(this, {
 			scanner,
 		})

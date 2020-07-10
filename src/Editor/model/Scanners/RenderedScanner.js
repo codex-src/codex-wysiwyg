@@ -1,5 +1,5 @@
-import * as scanners from "./scanners"
 import AbstractScanner from "./AbstractScanner"
+import rendered from "./rendered"
 
 // Describes a rendered scanner; implements scan.
 //
@@ -9,7 +9,7 @@ import AbstractScanner from "./AbstractScanner"
 class RenderedScanner extends AbstractScanner {
 	constructor() {
 		super()
-		const scanner = scanners.rendered
+		const scanner = rendered
 		Object.assign(this, {
 			scanner,
 		})
