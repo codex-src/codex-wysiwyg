@@ -4,112 +4,112 @@ import renderTree from "lib/renderTree"
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			{/* ... */}
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			{/* ... */}
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			<br />
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			{/* ... */}
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			{/* ... */}
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			<br />
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello, world!
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello, world!
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello, world!
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello, world!
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello,{" "}
 			<code>
 				world
@@ -118,22 +118,22 @@ test("", () => {
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			<br />
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello,{" "}
 			<code>
 				world
@@ -142,12 +142,12 @@ test("", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello,{" "}
 			<code>
 				world
@@ -156,7 +156,7 @@ test("", () => {
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello,{" "}
 			<code>
 				world
@@ -165,12 +165,12 @@ test("", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code>
@@ -181,22 +181,22 @@ test("", () => {
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			<br />
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code>
@@ -207,12 +207,12 @@ test("", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code>
@@ -223,7 +223,7 @@ test("", () => {
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code>
@@ -234,12 +234,12 @@ test("", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code autoCapitalize="off" autoComplete="off" autoCorrect="off" spellCheck="false">
@@ -250,22 +250,22 @@ test("", () => {
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			<br />
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			<br />
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code autoCapitalize="off" autoComplete="off" autoCorrect="off" spellCheck="false">
@@ -276,12 +276,12 @@ test("", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })
 
 test("", () => {
 	const src = renderTree((
-		<div>
+		<div id="a">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code autoCapitalize="off" autoComplete="off" autoCorrect="off" spellCheck="false">
@@ -292,7 +292,7 @@ test("", () => {
 		</div>
 	))
 	const dst = renderTree((
-		<div>
+		<div id="b">
 			Hello,{" "}
 			<a href="https://google.com">
 				<code autoCapitalize="off" autoComplete="off" autoCorrect="off" spellCheck="false">
@@ -303,5 +303,5 @@ test("", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.isEqualNode(dst)).toBeTruthy()
+	expect(src.innerHTML).toEqual(dst.innerHTML)
 })

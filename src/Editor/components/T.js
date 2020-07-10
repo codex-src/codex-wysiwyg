@@ -1,10 +1,9 @@
 import React from "react"
 
+// Adds data-type and data-props to props.children.
 const T = ({ type: T, props, children }) => (
 	React.cloneElement(children, {
-		// Enum type:
 		"data-type": T,
-		// JSON-encoded props:
 		"data-props": props && JSON.stringify(props, null, " ")
 			.replace(/\s*\n\s*/g, " "),
 	})
