@@ -19,11 +19,11 @@ const ReactRenderer = ({ state, dispatch }) => (
 	))
 )
 
-const Editor = ({ html }) => {
+const Editor = ({ markup, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
-	const [state, dispatch] = useEditor(html)
+	const [state, dispatch] = useEditor({ markup, children })
 	console.log(state)
 
 	// // Disables read-only mode on DOMContentLoaded.

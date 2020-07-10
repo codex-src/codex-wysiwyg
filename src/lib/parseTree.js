@@ -1,11 +1,9 @@
 // Parses markup to a tree. A decorator can be used to
 // decorate the parsed tree.
-function parseTree(markup, decorator = null) {
+function parseTree(markup, decorator = tree => {}) {
 	const doc = new DOMParser().parseFromString(markup, "text/html")
 	const tree = doc.body.childNodes[0]
-	if (decorator) {
-		decorator(tree)
-	}
+	decorator(tree)
 	return tree
 }
 

@@ -42,13 +42,15 @@ test("<p>...</p> (2 of 2)", () => {
 <div>
 	<p>
 		Hello,\u0020
-		world
+		<a href="https://google.com">
+			world
+		</a>
 		!
 	</p>
 </div>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p>Hello, world!</p></div>")
+	expect(tree.outerHTML).toBe("<div><p>Hello, <a href=\"https://google.com\">world</a>!</p></div>")
 })
 
 test("<p>...</p><ul><li>...</li></ul><p>...</p>", () => {
@@ -56,23 +58,35 @@ test("<p>...</p><ul><li>...</li></ul><p>...</p>", () => {
 <div>
 	<p>
 		Hello,\u0020
-		world
+		<a href="https://google.com">
+			world
+		</a>
 		!
 	</p>
 	<ul>
 		<li>
 			Hello,\u0020
-			world
+			<a href="https://google.com">
+				world
+			</a>
 			!
 		</li>
 	</ul>
 	<p>
 		Hello,\u0020
-		world
+		<a href="https://google.com">
+			world
+		</a>
 		!
 	</p>
 </div>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p>Hello, world!</p><ul><li>Hello, world!</li></ul><p>Hello, world!</p></div>")
+	expect(tree.outerHTML).toBe((
+		"<div>" +
+			"<p>Hello, <a href=\"https://google.com\">world</a>!</p>" +
+			"<ul><li>Hello, <a href=\"https://google.com\">world</a>!</li></ul>" +
+			"<p>Hello, <a href=\"https://google.com\">world</a>!</p>" +
+		"</div>"
+	))
 })
