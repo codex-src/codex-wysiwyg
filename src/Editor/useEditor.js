@@ -4,6 +4,24 @@ import React from "react"
 import SemanticScanner from "./model/Scanners/SemanticScanner"
 import stripWhiteSpace from "./utils/stripWhiteSpace"
 
+// Parses elements from markup or children.
+function parseElements({ markup, children }) {
+	if ((!markup && !children) || (markup && children)) {
+		throw new Error("useEditor.parseElements: use markup or props.children")
+	}
+	const elements = []
+	if (markup) {
+		const tree = parseTree(html, stripWhiteSpace)
+		const scanner = new SemanticScanner()
+		elements.push(...scanner.scan(tree))
+	} else if (children) {
+		const tree = renderTree(children)
+		const scanner = new SemanticScanner()
+		elements.push(...scanner.scan(tree))
+	}
+	return elements
+}
+
 function EditorReducer(state, action) {
 	switch (action.type) {
 	case "DISABLE_READ_ONLY_MODE":
@@ -21,13 +39,11 @@ function EditorReducer(state, action) {
 	}
 }
 
-function useEditor(html) {
+function useEditor({ markup, children }) {
 	const initialState = React.useMemo(() => {
-		const tree = parseTree(html, stripWhiteSpace)
-		const scanner = new SemanticScanner()
-		const elements = scanner.scan(tree)
+		const elements = parseElements({ markup, children })
 		return new Editor(elements)
-	}, [html])
+	}, [markup, children])
 	return React.useReducer(EditorReducer, initialState)
 }
 
