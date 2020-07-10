@@ -3,20 +3,21 @@
 // import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import React from "react"
 import ReactDOM from "react-dom"
+import renderMap from "./components/renderMap"
 import useEditor from "./useEditor"
 
 import "./Editor.css"
 
-// // React renderer for the current state.
-// const ReactRenderer = ({ state, dispatch }) => (
-// 	state.elements.map(({ type: T, key, props }) => (
-// 		React.createElement(types.components[T], {
-// 			key,
-// 			id: key, // Propagate key as id
-// 			...props,
-// 		})
-// 	))
-// )
+// React renderer for the current state.
+const ReactRenderer = ({ state, dispatch }) => (
+	state.elements.map(({ type: T, key, props }) => (
+		React.createElement(renderMap[T], {
+			key,
+			id: key,
+			...props,
+		})
+	))
+)
 
 const Editor = ({ html }) => {
 	const ref = React.useRef(null)
@@ -35,33 +36,33 @@ const Editor = ({ html }) => {
 	// 	dispatch({ type: "DISABLE_READ_ONLY_MODE" })
 	// }, [DOMContentLoaded, dispatch])
 
-	// // Rerenders on state.shouldRender.
-	// React.useLayoutEffect(
-	// 	React.useCallback(() => {
-	// 		if (!ref.current) {
-	// 			// No-op
-	// 			return
-	// 		}
-	// 		// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
-	// 		const selection = document.getSelection()
-	// 		if (selection.rangeCount) {
-	// 			selection.removeAllRanges()
-	// 		}
-	// 		ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
-	// 			if (!state.focused) {
-	// 				// No-op
-	// 				return
-	// 			}
-	// 			// try {
-	// 			const range = state.range.toRange(state.range)
-	// 			selection.addRange(range)
-	// 			// } catch (error) {
-	// 			// 	console.error(error)
-	// 			// }
-	// 		})
-	// 	}, [state, dispatch]),
-	// 	[state.shouldRender],
-	// )
+	// Rerenders on state.shouldRender.
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			if (!ref.current) {
+				// No-op
+				return
+			}
+			// // https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
+			// const selection = document.getSelection()
+			// if (selection.rangeCount) {
+			// 	selection.removeAllRanges()
+			// }
+			ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
+				// if (!state.focused) {
+				// 	// No-op
+				// 	return
+				// }
+				// // try {
+				// const range = state.range.toRange(state.range)
+				// selection.addRange(range)
+				// // } catch (error) {
+				// // 	console.error(error)
+				// // }
+			})
+		}, [state, dispatch]),
+		[state.shouldRender],
+	)
 
 	// Returns a handler when read-only mode is disabled.
 	const readWriteOnlyHandler = handler => {

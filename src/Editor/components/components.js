@@ -3,7 +3,7 @@ import parseTree from "lib/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import T from "./T"
-import toReact from "./toReact"
+import toReact from "../utils/children/toReact"
 
 const Element = ({ id, style, children, ...props }) => {
 	const ref = React.useRef(null)
@@ -21,15 +21,14 @@ const Element = ({ id, style, children, ...props }) => {
 		deeplySyncTrees(tree, ref.current)
 	}, [children])
 
-	// Imperative styles:
-	const style = {
+	const imperativeStyles = {
 		// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
 		...style, // Takes precedence
 		whiteSpace: "pre-wrap",
 		overflowWrap: "break-word",
 	}
 
-	return <div ref={ref} id={id} style={style} {...props} />
+	return <div ref={ref} id={id} style={imperativeStyles} {...props} />
 }
 
 export const P = React.memo(({ id, children }) => (
