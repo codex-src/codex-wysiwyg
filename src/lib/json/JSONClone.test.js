@@ -1,4 +1,4 @@
-import JSONClone from "./index"
+import JSONClone from "./JSONClone"
 
 const value = "Hello, world!"
 

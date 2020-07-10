@@ -13,9 +13,16 @@ function toReactHandler(intermediary) {
 		}
 		const { type: T, props } = each
 		renderable.push(React.createElement(renderMap[T], {
+			...props, // Takes precedence
 			key: renderable.length,
-			...props,
 		}, toReactHandler(props.children)))
+	}
+	// Guard: [] -> null:
+	if (!renderable.length || (typeof renderable[0] === "string" && !renderable[0])) {
+		return null
+	// Guard: [{ ... }] -> { ... }
+	} else if (renderable.length === 1) {
+		return renderable[0]
 	}
 	return renderable
 }
@@ -24,11 +31,7 @@ function toReactHandler(intermediary) {
 // step because React elements are read-only.
 function toReact(children) {
 	const intermediary = toIntermediary(children)
-	const renderable = toReactHandler(intermediary)
-	if (!renderable.length || !renderable[0]) {
-		return null // -> {... || <br />}
-	}
-	return renderable
+	return toReactHandler(intermediary)
 }
 
 export default toReact

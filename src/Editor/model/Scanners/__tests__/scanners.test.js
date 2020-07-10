@@ -36,52 +36,6 @@ describe("semantic", () => {
 		expect(T).toBe("strong")
 		expect(P).toEqual({})
 	})
-	test("<a><a> (1 of 1)", () => {
-		const tree = renderTree((
-			<div>
-				Hello,{" "}
-				<a href="a">
-					worldx
-				</a>
-				<a href="a">
-					worldy
-				</a>
-				!
-			</div>
-		))
-		const scanner = new SemanticScanner()
-		const children = scanner.scanChildren(tree)
-		expect(children).toEqual([
-			new InlineElement({ value: "Hello," }),
-			new InlineElement({ value: " " }),
-			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldy" }),
-			new InlineElement({ value: "!" }),
-		])
-	})
-	test("<a><a> (2 of 2)", () => {
-		const tree = renderTree((
-			<div>
-				Hello,{" "}
-				<a href="a">
-					worldx
-				</a>
-				<a href="b">
-					worldy
-				</a>
-				!
-			</div>
-		))
-		const scanner = new SemanticScanner()
-		const children = scanner.scanChildren(tree)
-		expect(children).toEqual([
-			new InlineElement({ value: "Hello," }),
-			new InlineElement({ value: " " }),
-			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new InlineElement({ types: ["a"], props: { a: { href: "b" } }, value: "worldy" }),
-			new InlineElement({ value: "!" }),
-		])
-	})
 	test("*", () => {
 		const tree = renderTree((
 			<div>
@@ -141,52 +95,6 @@ describe("rendered", () => {
 		const [T, P] = scanners.rendered(tree)
 		expect(T).toBe("strong")
 		expect(P).toEqual({})
-	})
-	test("<span data-type='a'><span data-type='a'> (1 of 2)", () => {
-		const tree = renderTree((
-			<div>
-				Hello,{" "}
-				<span data-type="a" data-props={JSON.stringify({ href: "a" })}>
-					worldx
-				</span>
-				<span data-type="a" data-props={JSON.stringify({ href: "a" })}>
-					worldy
-				</span>
-				!
-			</div>
-		))
-		const scanner = new RenderedScanner()
-		const children = scanner.scanChildren(tree)
-		expect(children).toEqual([
-			new InlineElement({ value: "Hello," }),
-			new InlineElement({ value: " " }),
-			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldy" }),
-			new InlineElement({ value: "!" }),
-		])
-	})
-	test("<span data-type='a'><span data-type='a'> (2 of 2)", () => {
-		const tree = renderTree((
-			<div>
-				Hello,{" "}
-				<span data-type="a" data-props={JSON.stringify({ href: "a" })}>
-					worldx
-				</span>
-				<span data-type="a" data-props={JSON.stringify({ href: "b" })}>
-					worldy
-				</span>
-				!
-			</div>
-		))
-		const scanner = new RenderedScanner()
-		const children = scanner.scanChildren(tree)
-		expect(children).toEqual([
-			new InlineElement({ value: "Hello," }),
-			new InlineElement({ value: " " }),
-			new InlineElement({ types: ["a"], props: { a: { href: "a" } }, value: "worldx" }),
-			new InlineElement({ types: ["a"], props: { a: { href: "b" } }, value: "worldy" }),
-			new InlineElement({ value: "!" }),
-		])
 	})
 	test("*", () => {
 		const tree = renderTree((

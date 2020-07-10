@@ -1,4 +1,4 @@
-import areEqualJSON from "lib/areEqualJSON"
+import JSONEqual from "lib/json/JSONEqual"
 import omit from "lib/omit"
 import toArray from "lib/toArray"
 
@@ -12,7 +12,7 @@ function query(intermediary, { types, props }) {
 	let ref = lastRef
 	for (let T = types[0]; types.length; types.shift(), T = types[0]) {
 		ref = toArray(ref).slice(-1)[0]
-		if (typeof ref === "string" || ref.type !== T || !areEqualJSON(omit(ref.props, "children"), props)) {
+		if (typeof ref === "string" || ref.type !== T || !JSONEqual(omit(ref.props, "children"), props)) {
 			// No-op
 			break
 		}
@@ -38,7 +38,7 @@ function createElement(child, types) {
 		Object.assign(ref, {
 			type: T,
 			props: {
-				...child[T],
+				...child.props[T],
 				children: x + 1 < types.length ? {}
 					: child.value,
 			},

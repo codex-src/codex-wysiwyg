@@ -1,7 +1,7 @@
 import domUtils from "lib/domUtils"
 import Element from "../Editor/Element"
 import InlineElement from "../Editor/InlineElement"
-import JSONClone from "lib/JSONClone"
+import JSONClone from "lib/json/JSONClone"
 
 // Describes an abstract scanner. AbstractScanner relies on
 // SemanticScanner and RenderedScanner.
