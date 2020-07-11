@@ -28,12 +28,8 @@ class Range {
 		if (!selection.rangeCount) {
 			return null
 		}
-		// Guard non-tree descendants:
 		const range = selection.getRangeAt(0)
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
-			return null
-		// Guard non-contenteditable descendants:
-		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
 			return null
 		}
 		const start = Position.fromUserLiteral({
@@ -55,17 +51,24 @@ class Range {
 		return this.start.isEqualTo(this.end)
 	}
 
+	// // Collapses end-to-start.
+	// collapseToStart() {
+	// 	return produce(this, draft => {
+	// 		draft.end = draft.start
+	// 	})
+	// }
+	//
+	// // Collapses start-to-end.
+	// collapseToEnd() {
+	// 	return produce(this, draft => {
+	// 		draft.start = draft.end
+	// 	})
+	// }
+
 	// Collapses end-to-start.
-	collapseToStart() {
+	collapse() {
 		return produce(this, draft => {
 			draft.end = draft.start
-		})
-	}
-
-	// Collapses start-to-end.
-	collapseToEnd() {
-		return produce(this, draft => {
-			draft.start = draft.end
 		})
 	}
 

@@ -18,6 +18,9 @@ class Position {
 
 	// Constructs from a user literal.
 	static fromUserLiteral({ node, offset: originalOffset }) {
+		if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
+			return null
+		}
 		while (!domUtils.isTextNodeOrBrElement(node)) {
 			if (originalOffset && originalOffset === node.childNodes.length) {
 				originalOffset = node.childNodes.length - 1
