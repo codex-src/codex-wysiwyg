@@ -3,7 +3,7 @@ import React from "react"
 import RenderedScanner from "./RenderedScanner"
 import renderTree from "lib/renderTree"
 
-test("Hello, <a href='foo'>world</a>!", () => {
+test("'Hello, <a href='foo'>world</a>!'", () => {
 	const tree = renderTree((
 		<div>
 			Hello,{" "}

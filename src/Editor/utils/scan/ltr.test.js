@@ -1,34 +1,31 @@
-import { // Unsorted
-	rune,
-	word,
-} from "./ltr"
+import * as ltr from "./ltr"
 
-test("rune(...)", () => {
-	expect(rune("\n\n😀 !dlrow ,olleH\n\n")).toBe("\n")
-	expect(rune("\n😀 !dlrow ,olleH\n\n")).toBe("\n")
-	expect(rune("😀 !dlrow ,olleH\n\n")).toBe("😀")
-	expect(rune(" !dlrow ,olleH\n\n")).toBe(" ")
-	expect(rune("!dlrow ,olleH\n\n")).toBe("!")
-	expect(rune("dlrow ,olleH\n\n")).toBe("d")
-	expect(rune(" ,olleH\n\n")).toBe(" ")
-	expect(rune(",olleH\n\n")).toBe(",")
-	expect(rune("olleH\n\n")).toBe("o")
-	expect(rune("\n\n")).toBe("\n")
-	expect(rune("\n")).toBe("\n")
-	expect(rune("")).toBe("")
+test("ltr.rune(...)", () => {
+	expect(ltr.rune("\n\n😀 !dlrow ,olleH\n\n")).toBe("\n")
+	expect(ltr.rune("\n😀 !dlrow ,olleH\n\n")).toBe("\n")
+	expect(ltr.rune("😀 !dlrow ,olleH\n\n")).toBe("😀")
+	expect(ltr.rune(" !dlrow ,olleH\n\n")).toBe(" ")
+	expect(ltr.rune("!dlrow ,olleH\n\n")).toBe("!")
+	expect(ltr.rune("dlrow ,olleH\n\n")).toBe("d")
+	expect(ltr.rune(" ,olleH\n\n")).toBe(" ")
+	expect(ltr.rune(",olleH\n\n")).toBe(",")
+	expect(ltr.rune("olleH\n\n")).toBe("o")
+	expect(ltr.rune("\n\n")).toBe("\n")
+	expect(ltr.rune("\n")).toBe("\n")
+	expect(ltr.rune("")).toBe("")
 })
 
-test("word(...)", () => {
-	expect(word("\n\n😀 !dlrow ,olleH\n\n")).toBe("\n")
-	expect(word("\n😀 !dlrow ,olleH\n\n")).toBe("\n")
-	expect(word("😀 !dlrow ,olleH\n\n")).toBe("😀")
-	expect(word(" !dlrow ,olleH\n\n")).toBe(" !")
-	expect(word("!dlrow ,olleH\n\n")).toBe("!")
-	expect(word("dlrow ,olleH\n\n")).toBe("dlrow")
-	expect(word(" ,olleH\n\n")).toBe(" ,")
-	expect(word(",olleH\n\n")).toBe(",")
-	expect(word("olleH\n\n")).toBe("olleH")
-	expect(word("\n\n")).toBe("\n")
-	expect(word("\n")).toBe("\n")
-	expect(word("")).toBe("")
+test("ltr.word(...)", () => {
+	expect(ltr.word("\n\n😀 !dlrow ,olleH\n\n")).toBe("\n")
+	expect(ltr.word("\n😀 !dlrow ,olleH\n\n")).toBe("\n")
+	expect(ltr.word("😀 !dlrow ,olleH\n\n")).toBe("😀")
+	expect(ltr.word(" !dlrow ,olleH\n\n")).toBe(" !")
+	expect(ltr.word("!dlrow ,olleH\n\n")).toBe("!")
+	expect(ltr.word("dlrow ,olleH\n\n")).toBe("dlrow")
+	expect(ltr.word(" ,olleH\n\n")).toBe(" ,")
+	expect(ltr.word(",olleH\n\n")).toBe(",")
+	expect(ltr.word("olleH\n\n")).toBe("olleH")
+	expect(ltr.word("\n\n")).toBe("\n")
+	expect(ltr.word("\n")).toBe("\n")
+	expect(ltr.word("")).toBe("")
 })
