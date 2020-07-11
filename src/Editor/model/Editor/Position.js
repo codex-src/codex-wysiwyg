@@ -1,3 +1,4 @@
+import domUtils from "lib/domUtils"
 import { immerable } from "immer"
 
 // Describes a position. A position corresponds to a user
@@ -6,11 +7,42 @@ class Position {
 	[immerable] = true
 
 	key = ""
-	offset = ""
+	offset = 0
+
+	constructor({ key, offset } = {}) {
+		Object.assign(this, {
+			key: key || "",
+			offset: offset || 0,
+		})
+	}
 
 	// Constructs from a user literal.
-	static fromUserLiteral({ node, offset }) {
-		// ...
+	static fromUserLiteral({ node, offset: originalOffset }) {
+		while (!domUtils.isTextNodeOrBrElement(node)) {
+			if (originalOffset && originalOffset === node.childNodes.length) {
+				originalOffset = node.childNodes.length - 1
+			}
+			node = node.childNodes[originalOffset]
+			originalOffset = 0
+		}
+		let key = ""
+		let offset = 0
+		const recurse = on => {
+			if (on === node) {
+				key = domUtils.ascendElementID(on).id
+				offset += originalOffset
+				return true
+			}
+			for (const each of on.childNodes) {
+				if (recurse(each)) {
+					return true
+				}
+				offset += domUtils.isTextNode(each) && each.nodeValue.length
+			}
+			return false
+		}
+		recurse(domUtils.ascendElementID(node))
+		return new this({ key, offset })
 	}
 
 	// Compares shallowly and deeply.

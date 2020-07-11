@@ -1,6 +1,7 @@
 // import * as Readers from "./Readers" // TODO
 // import detectKeydownType from "./utils/keydown/detectKeydownType"
 // import useDOMContentLoaded from "lib/useDOMContentLoaded"
+import Range from "./model/Editor/Range"
 import React from "react"
 import ReactDOM from "react-dom"
 import renderMap from "./components/renderMap"
@@ -25,7 +26,6 @@ const Editor = ({ markup, children }) => {
 	const pointerdownRef = React.useRef(false)
 
 	const [state, dispatch] = useEditor({ markup, children })
-	console.log(state)
 
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(() => {
@@ -77,55 +77,61 @@ const Editor = ({ markup, children }) => {
 				// TODO: Change focus:outline-none to inline-styles?
 				className="em-context focus:outline-none"
 
-				// onFocus={readWriteOnlyHandler(e => {
-				// 	dispatch({ type: "FOCUS" })
-				// })}
+				onFocus={readWriteOnlyHandler(e => {
+					dispatch({ type: "FOCUS" })
+				})}
 
-				// onBlur={readWriteOnlyHandler(e => {
-				// 	dispatch({ type: "BLUR" })
-				// })}
+				onBlur={readWriteOnlyHandler(e => {
+					dispatch({ type: "BLUR" })
+				})}
 
-				// onPointerDown={readWriteOnlyHandler(e => {
-				// 	pointerdownRef.current = true
-				// })}
+				onPointerDown={readWriteOnlyHandler(e => {
+					pointerdownRef.current = true
+				})}
 
-				// onPointerMove={readWriteOnlyHandler(e => {
-				// 	if (!state.focused) {
-				// 		pointerdownRef.current = false
-				// 		return
-				// 	}
-				// 	if (!pointerdownRef.current) {
-				// 		// No-op
-				// 		return
-				// 	}
-				// 	const range = SyntheticRange.getCurrent(ref.current)
-				// 	if (!range) {
-				// 		// No-op
-				// 		return
-				// 	}
-				// 	dispatch({
-				// 		type: "SELECT",
-				// 		range,
-				// 	})
-				// })}
+				onPointerMove={readWriteOnlyHandler(e => {
+					// if (!state.focused) {
+					// 	pointerdownRef.current = false
+					// 	return
+					// }
+					// if (!pointerdownRef.current) {
+					// 	// No-op
+					// 	return
+					// }
+					if (!state.focused || !pointerdownRef.current) {
+						if (!state.focused && pointerdownRef.current) {
+							pointerdownRef.current = false
+						}
+						return
+					}
+					const range = Range.getCurrent(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch({
+						type: "SELECT",
+						range,
+					})
+				})}
 
-				// onPointerUp={readWriteOnlyHandler(e => {
-				// 	pointerdownRef.current = false
-				// })}
+				onPointerUp={readWriteOnlyHandler(e => {
+					pointerdownRef.current = false
+				})}
 
-				// // TODO: Add COMPAT guard for select-all or prevent
-				// // default?
-				// onSelect={readWriteOnlyHandler(e => {
-				// 	const range = SyntheticRange.getCurrent(ref.current)
-				// 	if (!range) {
-				// 		// No-op
-				// 		return
-				// 	}
-				// 	dispatch({
-				// 		type: "SELECT",
-				// 		range,
-				// 	})
-				// })}
+				// TODO: Add COMPAT guard for select-all or prevent
+				// default?
+				onSelect={readWriteOnlyHandler(e => {
+					const range = Range.getCurrent(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch({
+						type: "SELECT",
+						range,
+					})
+				})}
 
 				// onKeyDown={readWriteOnlyHandler(e => {
 				// 	const keydownType = detectKeydownType(e)
@@ -237,7 +243,10 @@ const Editor = ({ markup, children }) => {
 
 			{/* DEBUG */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify(state, null, "\t")}
+				{JSON.stringify({
+					...state,
+					elements: undefined,
+				}, null, "\t")}
 			</div>
 
 		</div>

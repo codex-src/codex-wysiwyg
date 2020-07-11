@@ -25,14 +25,14 @@ class Editor {
 	// Enables read-only mode.
 	enableReadOnlyMode() {
 		return produce(this, draft => {
-			draft.readOnlyModeEnabled = false
+			draft.readOnlyModeEnabled = true
 		})
 	}
 
 	// Disables read-only mode.
 	disableReadOnlyMode() {
 		return produce(this, draft => {
-			draft.readOnlyModeEnabled = true
+			draft.readOnlyModeEnabled = false
 		})
 	}
 

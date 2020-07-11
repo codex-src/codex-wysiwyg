@@ -1,3 +1,4 @@
+import domUtils from "lib/domUtils"
 import Position from "./Position"
 
 import {
@@ -13,10 +14,40 @@ class Range {
 	start = new Position()
 	end = new Position()
 
+	constructor({ start, end } = {}) {
+		Object.assign(this, {
+			start: start || new Position(),
+			end: end || new Position(),
+		})
+	}
+
 	// Constructs from the current range, scoped to a tree and
 	// [contenteditable="true"] descendants.
 	static getCurrent(tree) {
-		// ...
+		const selection = document.getSelection()
+		if (!selection.rangeCount) {
+			return null
+		}
+		// Guard non-tree descendants:
+		const range = selection.getRangeAt(0)
+		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
+			return null
+		// Guard non-contenteditable descendants:
+		} else if (domUtils.ascendElement(range.startContainer).closest("[contenteditable='false']") || domUtils.ascendElement(range.endContainer).closest("[contenteditable='false']")) {
+			return null
+		}
+		const start = Position.fromUserLiteral({
+			node: range.startContainer,
+			offset: range.startOffset,
+		})
+		let end = start
+		if (!range.collapsed) {
+			end = Position.fromUserLiteral({
+				node: range.endContainer,
+				offset: range.endOffset,
+			})
+		}
+		return new this({ start, end })
 	}
 
 	// Computes whether the positions are collapsed.
