@@ -1,23 +1,27 @@
 import Element from "../../../model/Editor/Element"
-import findElement from "./findElement"
+import findElement from "./index"
 import MultilineElement from "../../../model/Editor/MultilineElement"
 
 test("elements[^]", () => {
 	const elements = [
-		new Element(),
+		new Element(), // <-
 		new Element(),
 	]
 	const el = elements[0]
 	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(el.props).toBeTruthy()
+	expect(el.props.children).toBeTruthy()
 })
 
 test("elements[$]", () => {
 	const elements = [
 		new Element(),
-		new Element(),
+		new Element(), // <-
 	]
 	const el = elements.slice(-1)[0]
 	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(el.props).toBeTruthy()
+	expect(el.props.children).toBeTruthy()
 })
 
 test("elements[^].props.elements[^]", () => {
@@ -26,7 +30,7 @@ test("elements[^].props.elements[^]", () => {
 			type: "ul",
 			props: {
 				elements: [
-					new Element({ type: "li" }),
+					new Element({ type: "li" }), // <-
 					new Element({ type: "li" }),
 				],
 			},
@@ -43,6 +47,8 @@ test("elements[^].props.elements[^]", () => {
 	]
 	const el = elements[0].props.elements[0]
 	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(el.props).toBeTruthy()
+	expect(el.props.children).toBeTruthy()
 })
 
 test("elements[$].props.elements[$]", () => {
@@ -61,11 +67,13 @@ test("elements[$].props.elements[$]", () => {
 			props: {
 				elements: [
 					new Element({ type: "li" }),
-					new Element({ type: "li" }),
+					new Element({ type: "li" }), // <-
 				],
 			},
 		}),
 	]
 	const el = elements.slice(-1)[0].props.elements.slice(-1)[0]
 	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(el.props).toBeTruthy()
+	expect(el.props.children).toBeTruthy()
 })

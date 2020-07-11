@@ -1,3 +1,4 @@
+import findElement from "../../utils/elements/findElement"
 import Range from "./Range"
 
 import {
@@ -60,10 +61,8 @@ class Editor {
 	// Uncontrolled input handler.
 	uncontrolledInput(children, range) {
 		return produce(this, draft => {
-			// TODO: Add findElement API to utils/elements;
-			// findElement(draft.elements, each => )
-			const el = draft.elements.find(each => each.key === range.start.key) // TODO
-			el.props.children = children // TODO
+			const el = findElement(draft.elements, each => each.key === range.start.key)
+			el.props.children = children
 			draft.range = range
 		})
 	}
