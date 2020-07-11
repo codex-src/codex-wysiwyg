@@ -1,40 +1,42 @@
 // NOTE: Does not use userAgent.* because of test runner.
 
 // https://stackoverflow.com/a/25518045
-describe("isAAPL", () => {
-	test("", () => {
-		Object.defineProperty(window.navigator, "userAgent", {
-			value: "...",
-			configurable: true,
-		})
-		const isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
-		expect(isAAPL).not.toBeTruthy()
+test("userAgent.isAAPL === false", () => {
+	Object.defineProperty(window.navigator, "userAgent", {
+		value: "...",
+		configurable: true,
 	})
-	test("", () => {
-		Object.defineProperty(window.navigator, "userAgent", {
-			value: "... Mac OS X ...",
-			configurable: true,
-		})
-		const isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
-		expect(isAAPL).toBeTruthy()
-	})
+	const isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
+	const userAgent = { isAAPL }
+	expect(userAgent.isAAPL).not.toBeTruthy()
 })
 
-describe("isGOOG", () => {
-	test("", () => {
-		Object.defineProperty(window.navigator, "userAgent", {
-			value: "...",
-			configurable: true,
-		})
-		const isGOOG = navigator.userAgent.indexOf("Android") >= 0
-		expect(isGOOG).not.toBeTruthy()
+test("userAgent.isAAPL === true", () => {
+	Object.defineProperty(window.navigator, "userAgent", {
+		value: "... Mac OS X ...",
+		configurable: true,
 	})
-	test("", () => {
-		Object.defineProperty(window.navigator, "userAgent", {
-			value: "... Android ...",
-			configurable: true,
-		})
-		const isGOOG = navigator.userAgent.indexOf("Android") >= 0
-		expect(isGOOG).toBeTruthy()
+	const isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
+	const userAgent = { isAAPL }
+	expect(userAgent.isAAPL).toBeTruthy()
+})
+
+test("userAgent.isGOOG === false", () => {
+	Object.defineProperty(window.navigator, "userAgent", {
+		value: "...",
+		configurable: true,
 	})
+	const isGOOG = navigator.userAgent.indexOf("Android") >= 0
+	const userAgent = { isGOOG }
+	expect(userAgent.isGOOG).not.toBeTruthy()
+})
+
+test("userAgent.isGOOG === true", () => {
+	Object.defineProperty(window.navigator, "userAgent", {
+		value: "... Android ...",
+		configurable: true,
+	})
+	const isGOOG = navigator.userAgent.indexOf("Android") >= 0
+	const userAgent = { isGOOG }
+	expect(userAgent.isGOOG).toBeTruthy()
 })

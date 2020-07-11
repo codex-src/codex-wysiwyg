@@ -5,11 +5,15 @@ function testUserAgent(substr) {
 	return navigator.userAgent.indexOf(substr) >= 0
 }
 
+// https://apple.com
+const isAAPL = testUserAgent("Mac OS X")
+
+// https://android.com
+const isGOOG = testUserAgent("Android")
+
 const userAgent = {
-	// https://apple.com
-	isAAPL: testUserAgent("Mac OS X"),
-	// https://google.com
-	isGOOG: testUserAgent("Android"),
+	isAAPL,
+	isGOOG,
 }
 
 export default userAgent

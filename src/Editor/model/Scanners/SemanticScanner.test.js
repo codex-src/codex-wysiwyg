@@ -3,7 +3,7 @@ import React from "react"
 import renderTree from "lib/renderTree"
 import SemanticScanner from "./SemanticScanner"
 
-test("'Hello, <a href='foo'>world</a>!'", () => {
+test("Hello, <a href='foo'>world</a>!", () => {
 	const tree = renderTree((
 		<div>
 			Hello,{" "}

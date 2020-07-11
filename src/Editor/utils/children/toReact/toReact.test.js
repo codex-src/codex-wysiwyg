@@ -19,21 +19,14 @@ test("(empty)", () => {
 	expect(toReact(children)).toEqual(null)
 })
 
-test("''", () => {
-	const children = [
-		new InlineElement({ value: "" }),
-	]
-	expect(toReact(children)).toEqual(null)
-})
-
-test("'Hello, world!'", () => {
+test("Hello, world!", () => {
 	const children = [
 		new InlineElement({ value: "Hello, world!" }),
 	]
 	expect(toReact(children)).toEqual("Hello, world!")
 })
 
-test("'Hello, <a href='foo'>world</a>!'", () => {
+test("Hello, <a href='foo'>world</a>!", () => {
 	const children = [
 		new InlineElement({ value: "Hello, " }),
 		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "world" }),

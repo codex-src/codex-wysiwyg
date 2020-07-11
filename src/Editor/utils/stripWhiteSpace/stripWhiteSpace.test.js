@@ -25,7 +25,7 @@ test("<p><br></p>", () => {
 	expect(tree.outerHTML).toBe("<div><p><br></p></div>")
 })
 
-test("<p>...</p> (1 of 2)", () => {
+test("<p>Hello, world!</p>", () => {
 	const tree = parseTree(`
 <div>
 	<p>
@@ -37,12 +37,12 @@ test("<p>...</p> (1 of 2)", () => {
 	expect(tree.outerHTML).toBe("<div><p>Hello, world!</p></div>")
 })
 
-test("<p>...</p> (2 of 2)", () => {
+test("<p>Hello, <a href='foo'>world</a>!</p>", () => {
 	const tree = parseTree(`
 <div>
 	<p>
 		Hello,\u0020
-		<a href="https://google.com">
+		<a href="foo">
 			world
 		</a>
 		!
@@ -50,43 +50,23 @@ test("<p>...</p> (2 of 2)", () => {
 </div>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p>Hello, <a href=\"https://google.com\">world</a>!</p></div>")
+	expect(tree.outerHTML).toBe("<div><p>Hello, <a href=\"foo\">world</a>!</p></div>")
 })
 
-test("<p>...</p><ul><li>...</li></ul><p>...</p>", () => {
+test("<ul><li>Hello, <a href='foo'>world</a>!</li></ul>", () => {
 	const tree = parseTree(`
 <div>
-	<p>
-		Hello,\u0020
-		<a href="https://google.com">
-			world
-		</a>
-		!
-	</p>
 	<ul>
 		<li>
 			Hello,\u0020
-			<a href="https://google.com">
+			<a href="foo">
 				world
 			</a>
 			!
 		</li>
 	</ul>
-	<p>
-		Hello,\u0020
-		<a href="https://google.com">
-			world
-		</a>
-		!
-	</p>
 </div>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe((
-		"<div>" +
-			"<p>Hello, <a href=\"https://google.com\">world</a>!</p>" +
-			"<ul><li>Hello, <a href=\"https://google.com\">world</a>!</li></ul>" +
-			"<p>Hello, <a href=\"https://google.com\">world</a>!</p>" +
-		"</div>"
-	))
+	expect(tree.outerHTML).toBe("<div><ul><li>Hello, <a href=\"foo\">world</a>!</li></ul></div>")
 })
