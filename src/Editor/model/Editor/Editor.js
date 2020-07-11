@@ -1,5 +1,9 @@
 import Range from "./Range"
-import { immerable } from "immer"
+
+import {
+	immerable,
+	produce,
+} from "immer"
 
 // Describes an editor.
 class Editor {
@@ -20,32 +24,42 @@ class Editor {
 
 	// Enables read-only mode.
 	enableReadOnlyMode() {
-		// ..
+		return produce(this, draft => {
+			draft.readOnlyModeEnabled = false
+		})
 	}
 
 	// Disables read-only mode.
 	disableReadOnlyMode() {
-		// ..
+		return produce(this, draft => {
+			draft.readOnlyModeEnabled = true
+		})
 	}
 
 	// Focuses the editor.
 	focus() {
-		// ..
+		return produce(this, draft => {
+			draft.focused = true
+		})
 	}
 
 	// Blurs the editor.
 	blur() {
-		// ...
+		return produce(this, draft => {
+			draft.focused = false
+		})
 	}
 
 	// Selects a range.
 	select(range) {
-		// ..
+		return produce(this, draft => {
+			draft.range = range
+		})
 	}
 
 	// Resolves to serialized HTML.
 	toSerializedHTML() {
-		// ..
+		// TODO
 	}
 }
 
