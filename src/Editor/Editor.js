@@ -4,6 +4,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import renderMap from "./components/renderMap"
+import useDOMContentLoadedCallback from "lib/useDOMContentLoadedCallback"
 import useEditor from "./useEditor"
 
 import "./Editor.css"
@@ -26,15 +27,10 @@ const Editor = ({ markup, children }) => {
 	const [state, dispatch] = useEditor({ markup, children })
 	console.log(state)
 
-	// // Disables read-only mode on DOMContentLoaded.
-	// const DOMContentLoaded = useDOMContentLoaded()
-	// React.useEffect(() => {
-	// 	if (!DOMContentLoaded) {
-	// 		// No-op
-	// 		return
-	// 	}
-	// 	dispatch({ type: "DISABLE_READ_ONLY_MODE" })
-	// }, [DOMContentLoaded, dispatch])
+	// Disables read-only mode on DOMContentLoaded.
+	useDOMContentLoadedCallback(() => {
+		dispatch({ type: "DISABLE_READ_ONLY_MODE" })
+	})
 
 	// Rerenders on state.shouldRender.
 	React.useLayoutEffect(

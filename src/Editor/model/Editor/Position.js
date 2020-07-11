@@ -1,7 +1,4 @@
-import {
-	immerable,
-	produce,
-} from "immer"
+import { immerable } from "immer"
 
 // Describes a position. A position corresponds to a user
 // insertion point.
