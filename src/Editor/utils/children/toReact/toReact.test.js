@@ -19,23 +19,30 @@ test("(empty)", () => {
 	expect(toReact(children)).toEqual(null)
 })
 
-test("Hello, world!", () => {
+test("''", () => {
+	const children = [
+		new InlineElement({ value: "" }),
+	]
+	expect(toReact(children)).toEqual(null)
+})
+
+test("'Hello, world!'", () => {
 	const children = [
 		new InlineElement({ value: "Hello, world!" }),
 	]
 	expect(toReact(children)).toEqual("Hello, world!")
 })
 
-test("Hello, <a href='https://google.com'>world</a>!", () => {
+test("'Hello, <a href='foo'>world</a>!'", () => {
 	const children = [
 		new InlineElement({ value: "Hello, " }),
-		new InlineElement({ types: ["a"], props: { a: { href: "https://google.com" } }, value: "world" }),
+		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "world" }),
 		new InlineElement({ value: "!" }),
 	]
 	expect(() => {
 		expect(toReact(children)).toEqual([
 			"Hello, ",
-			<A href="https://google.com">
+			<A href="foo">
 				world
 			</A>,
 			"!",
@@ -43,7 +50,7 @@ test("Hello, <a href='https://google.com'>world</a>!", () => {
 	}).toThrow(throwMsg)
 })
 
-test("non-nested", () => {
+test("stress test; non-nested", () => {
 	const children = [
 		new InlineElement({ types: ["em"], value: "foo" }),
 		new InlineElement({ types: ["strong", "em"], value: "bar" }),
@@ -70,7 +77,7 @@ test("non-nested", () => {
 	}).toThrow(throwMsg)
 })
 
-test("nested", () => {
+test("stress test; nested", () => {
 	const children = [
 		new InlineElement({ types: ["code"], value: "foo" }),
 		new InlineElement({ types: ["code", "a"], value: "bar" }),
