@@ -1,24 +1,36 @@
 import hash from "./index"
 
-test("len", () => {
-	for (let len = 1; len < 32; len++) {
-		expect(hash(len).length).toBe(len)
-	}
-	expect(hash().length).toBe(32)
-})
-
-test("hex", () => {
-	const hex = "0123456789abcdef"
-	for (const char of hash()) {
-		expect(hex.indexOf(char) >= 0).toBeTruthy()
-	}
-})
-
-test("seen[id]", () => {
-	const seen = {}
-	for (let x = 0; x < 1e3; x++) {
-		const id = hash()
-		expect(seen[id]).toBe(undefined)
-		seen[id] = true
-	}
+test("hash(...).length", () => {
+	expect(() => hash(0x00).length).toThrow()
+	expect(hash(0x01).length).toBe(0x01)
+	expect(hash(0x02).length).toBe(0x02)
+	expect(hash(0x03).length).toBe(0x03)
+	expect(hash(0x04).length).toBe(0x04)
+	expect(hash(0x05).length).toBe(0x05)
+	expect(hash(0x06).length).toBe(0x06)
+	expect(hash(0x07).length).toBe(0x07)
+	expect(hash(0x08).length).toBe(0x08)
+	expect(hash(0x09).length).toBe(0x09)
+	expect(hash(0x0a).length).toBe(0x0a)
+	expect(hash(0x0b).length).toBe(0x0b)
+	expect(hash(0x0c).length).toBe(0x0c)
+	expect(hash(0x0d).length).toBe(0x0d)
+	expect(hash(0x0e).length).toBe(0x0e)
+	expect(hash(0x0f).length).toBe(0x0f)
+	expect(hash(0x10).length).toBe(0x10)
+	expect(hash(0x11).length).toBe(0x11)
+	expect(hash(0x12).length).toBe(0x12)
+	expect(hash(0x13).length).toBe(0x13)
+	expect(hash(0x14).length).toBe(0x14)
+	expect(hash(0x15).length).toBe(0x15)
+	expect(hash(0x16).length).toBe(0x16)
+	expect(hash(0x17).length).toBe(0x17)
+	expect(hash(0x18).length).toBe(0x18)
+	expect(hash(0x19).length).toBe(0x19)
+	expect(hash(0x1a).length).toBe(0x1a)
+	expect(hash(0x1b).length).toBe(0x1b)
+	expect(hash(0x1c).length).toBe(0x1c)
+	expect(hash(0x1d).length).toBe(0x1d)
+	expect(hash(0x1e).length).toBe(0x1e)
+	expect(hash(0x1f).length).toBe(0x1f)
 })
