@@ -1,6 +1,6 @@
 import { isWhiteSpace } from "./whitespace"
 
-test("isWhiteSpace", () => {
+test("isWhiteSpace(...)", () => {
 	expect(isWhiteSpace("")).not.toBeTruthy()
 	expect(isWhiteSpace("\u0009")).toBeTruthy() // \t
 	expect(isWhiteSpace("\u0020")).toBeTruthy() // \n

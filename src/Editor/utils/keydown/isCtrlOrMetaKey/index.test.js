@@ -1,7 +1,7 @@
 import isCtrlOrMetaKey from "./index"
 
-// https://github.com/facebook/jest/issues/717#issuecomment-187017936
-// https://stackoverflow.com/a/25518045
+// https://github.com/facebook/jest/issues/717#issuecomment-369872760
+
 test("non-macOS", () => {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "...",

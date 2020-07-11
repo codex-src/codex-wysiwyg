@@ -3,7 +3,7 @@ import hash from "lib/hash"
 import React from "react"
 import renderTree from "lib/renderTree"
 
-test("domUtils.ascendElement(...)", () => {
+test("ascendElement(...)", () => {
 	const domTree1 = renderTree((
 		<div id={hash(8)}>
 			<span>
@@ -22,7 +22,7 @@ test("domUtils.ascendElement(...)", () => {
 	expect(domUtils.ascendElement(domTree2.childNodes[0].childNodes[0])).toBe(domTree2.childNodes[0])
 })
 
-test("domUtils.ascendElementID(...)", () => {
+test("ascendElementID(...)", () => {
 	const domTree1 = renderTree((
 		<div id={hash(8)}>
 			<span>
@@ -41,35 +41,35 @@ test("domUtils.ascendElementID(...)", () => {
 	expect(domUtils.ascendElementID(domTree2.childNodes[0].childNodes[0])).toBe(domTree2)
 })
 
-test("domUtils.nodeName(...)", () => {
+test("nodeName(...)", () => {
 	expect(domUtils.nodeName(renderTree(<br />))).toBe("br")
 	expect(domUtils.nodeName(renderTree("Hello, world!"))).toBe("#text")
 	expect(domUtils.nodeName(renderTree(<span />))).toBe("span")
 	expect(domUtils.nodeName(renderTree(<div />))).toBe("div")
 })
 
-test("domUtils.isTextNode(...)", () => {
+test("isTextNode(...)", () => {
 	expect(domUtils.isTextNode(renderTree(<br />))).not.toBeTruthy()
 	expect(domUtils.isTextNode(renderTree("Hello, world!"))).toBeTruthy()
 	expect(domUtils.isTextNode(renderTree(<span />))).not.toBeTruthy()
 	expect(domUtils.isTextNode(renderTree(<div />))).not.toBeTruthy()
 })
 
-test("domUtils.isElement(...)", () => {
+test("isElement(...)", () => {
 	expect(domUtils.isElement(renderTree(<br />))).toBeTruthy()
 	expect(domUtils.isElement(renderTree("Hello, world!"))).not.toBeTruthy()
 	expect(domUtils.isElement(renderTree(<span />))).toBeTruthy()
 	expect(domUtils.isElement(renderTree(<div />))).toBeTruthy()
 })
 
-test("domUtils.isBrElement(...)", () => {
+test("isBrElement(...)", () => {
 	expect(domUtils.isBrElement(renderTree(<br />))).toBeTruthy()
 	expect(domUtils.isBrElement(renderTree("Hello, world!"))).not.toBeTruthy()
 	expect(domUtils.isBrElement(renderTree(<span />))).not.toBeTruthy()
 	expect(domUtils.isBrElement(renderTree(<div />))).not.toBeTruthy()
 })
 
-test("domUtils.isTextNodeOrBrElement(...)", () => {
+test("isTextNodeOrBrElement(...)", () => {
 	expect(domUtils.isTextNodeOrBrElement(renderTree(<br />))).toBeTruthy()
 	expect(domUtils.isTextNodeOrBrElement(renderTree("Hello, world!"))).toBeTruthy()
 	expect(domUtils.isTextNodeOrBrElement(renderTree(<span />))).not.toBeTruthy()

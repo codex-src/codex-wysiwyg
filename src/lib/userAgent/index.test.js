@@ -1,7 +1,7 @@
-// NOTE: Does not use userAgent.* because of test runner.
+// NOTE: import userAgent from "..." breaks the test runner.
 
 // https://stackoverflow.com/a/25518045
-test("userAgent.isAAPL === false", () => {
+test("isAAPL=false", () => {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "...",
 		configurable: true,
@@ -11,7 +11,7 @@ test("userAgent.isAAPL === false", () => {
 	expect(userAgent.isAAPL).not.toBeTruthy()
 })
 
-test("userAgent.isAAPL === true", () => {
+test("isAAPL=true", () => {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "... Mac OS X ...",
 		configurable: true,
@@ -21,7 +21,7 @@ test("userAgent.isAAPL === true", () => {
 	expect(userAgent.isAAPL).toBeTruthy()
 })
 
-test("userAgent.isGOOG === false", () => {
+test("isGOOG=false", () => {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "...",
 		configurable: true,
@@ -31,7 +31,7 @@ test("userAgent.isGOOG === false", () => {
 	expect(userAgent.isGOOG).not.toBeTruthy()
 })
 
-test("userAgent.isGOOG === true", () => {
+test("isGOOG=true", () => {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "... Android ...",
 		configurable: true,
