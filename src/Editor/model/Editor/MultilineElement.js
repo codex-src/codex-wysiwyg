@@ -1,8 +1,9 @@
 import hash from "lib/hash"
+import must from "lib/must"
 import { immerable } from "immer"
 
 // Describes an element. Unlike elements, multiline elements
-// can render further sub-elements.
+// can render further nested elements.
 class MultilineElement {
 	[immerable] = true
 
@@ -14,7 +15,7 @@ class MultilineElement {
 
 	constructor({ type, key, props } = {}) {
 		Object.assign(this, {
-			type: type || "",
+			type: must(type),
 			key: key || hash(6),
 			props: props || {
 				elements: [],

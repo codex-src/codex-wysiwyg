@@ -2,11 +2,11 @@ import hash from "lib/hash"
 import { immerable } from "immer"
 
 // Describes an element. Unlike multiline elements, elements
-// cannot render further sub-elements.
+// cannot render further nested elements.
 class Element {
 	[immerable] = true
 
-	type = ""
+	type = "p"
 	key = hash(6)
 	props = {
 		children: [],
@@ -14,7 +14,7 @@ class Element {
 
 	constructor({ type, key, props } = {}) {
 		Object.assign(this, {
-			type: type || "",
+			type: type || "p",
 			key: key || hash(6),
 			props: props || {
 				children: [],

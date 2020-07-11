@@ -9,7 +9,7 @@ import MultilineElement from "../../../model/Editor/MultilineElement"
 function findElement(elements, callback) {
 	for (const element of elements) {
 		if (element instanceof MultilineElement) {
-			const found = findElement(element.elements, callback)
+			const found = findElement(element.props.elements, callback)
 			if (found) {
 				return found
 			}
