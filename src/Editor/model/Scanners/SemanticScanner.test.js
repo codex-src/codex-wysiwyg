@@ -3,12 +3,12 @@ import React from "react"
 import renderTree from "lib/renderTree"
 import SemanticScanner from "./SemanticScanner"
 
-test("", () => {
+test("Hello, <a href='foo'>world</a>!", () => {
 	const tree = renderTree((
 		<div>
 			Hello,{" "}
 			<code>
-				<a href="https://google.com">
+				<a href="foo">
 					<strike>
 						<strong>
 							<em>
@@ -26,7 +26,7 @@ test("", () => {
 	expect(children).toEqual([
 		new InlineElement({ value: "Hello," }),
 		new InlineElement({ value: " " }),
-		new InlineElement({ types: ["code", "a", "strike", "strong", "em"], props: { a: { href: "https://google.com" } }, value: "world" }),
+		new InlineElement({ types: ["code", "a", "strike", "strong", "em"], props: { a: { href: "foo" } }, value: "world" }),
 		new InlineElement({ value: "!" }),
 	])
 })

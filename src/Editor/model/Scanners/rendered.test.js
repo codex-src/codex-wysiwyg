@@ -37,9 +37,9 @@ test("<span data-type='strong'>", () => {
 	expect(P).toEqual({})
 })
 
-test("<span data-type='a' data-props='{ href: 'https://google.com' }'>", () => {
-	const tree = renderTree(<span data-type="a" data-props={JSON.stringify({ href: "https://google.com" })}>Hello, world!</span>)
+test("<span data-type='a' data-props='{ 'href': 'foo' }'>", () => {
+	const tree = renderTree(<span data-type="a" data-props={JSON.stringify({ href: "foo" })}>Hello, world!</span>)
 	const [T, P] = rendered(tree)
 	expect(T).toBe("a")
-	expect(P).toEqual({ href: "https://google.com" })
+	expect(P).toEqual({ href: "foo" })
 })

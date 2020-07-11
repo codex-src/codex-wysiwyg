@@ -37,9 +37,9 @@ test("<strong>", () => {
 	expect(P).toEqual({})
 })
 
-test("<a href='https://google.com'>", () => {
-	const tree = renderTree(<a href="https://google.com">Hello, world!</a>)
+test("<a href='foo'>", () => {
+	const tree = renderTree(<a href="foo">Hello, world!</a>)
 	const [T, P] = semantic(tree)
 	expect(T).toBe("a")
-	expect(P).toEqual({ href: "https://google.com" })
+	expect(P).toEqual({ href: "foo" })
 })
