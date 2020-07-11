@@ -1,11 +1,8 @@
 import AbstractScanner from "./AbstractScanner"
 import semantic from "./semantic"
 
-// Describes a semantic scanner; implements scan.
-//
-// const scanner = new SemanticScanner()
-// scanner.scan(tree)
-//
+// Describes a semantic scanner; implements scanChildren and
+// scanElements.
 class SemanticScanner extends AbstractScanner {
 	constructor() {
 		super()

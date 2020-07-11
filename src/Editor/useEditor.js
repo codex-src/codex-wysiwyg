@@ -15,7 +15,7 @@ function parseElements({ markup, children }) {
 	}
 	const tree = parseTree("<article>" + markup.trim() + "</article>", stripWhiteSpace)
 	const scanner = new SemanticScanner()
-	return scanner.scan(tree)
+	return scanner.scanElements(tree)
 }
 
 function EditorReducer(state, action) {
@@ -30,6 +30,8 @@ function EditorReducer(state, action) {
 		return state.blur()
 	case "SELECT":
 		return state.select(action.range)
+	case "UNCONTROLLED_INPUT":
+		return state.uncontrolledInput(action.children, action.range)
 	default:
 		throw new Error(`useEditor.EditorReducer: type mismatch; action.type=${action.type}`)
 	}

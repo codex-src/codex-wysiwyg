@@ -1,4 +1,3 @@
-import domUtils from "lib/domUtils"
 import Position from "./Position"
 
 import {
@@ -71,6 +70,19 @@ class Range {
 			draft.end = draft.start
 		})
 	}
+
+	// // Converts the synthetic range to a range.
+	// toRange() {
+	// 	const pos1 = this.start.toRangePositionLiteral().toArray()
+	// 	let pos2 = pos1
+	// 	if (!this.collapsed) {
+	// 		pos2 = this.end.toRangePositionLiteral().toArray()
+	// 	}
+	// 	const range = document.createRange()
+	// 	range.setStart(...pos1)
+	// 	range.setEnd(...pos2)
+	// 	return range
+	// }
 
 	// Resolves to a user literal.
 	toUserLiteral() {

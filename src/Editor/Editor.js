@@ -1,9 +1,11 @@
 // import * as Readers from "./Readers" // TODO
 // import detectKeydownType from "./utils/keydown/detectKeydownType"
 // import useDOMContentLoaded from "lib/useDOMContentLoaded"
+import defer from "./utils/children/defer"
 import Range from "./model/Editor/Range"
 import React from "react"
 import ReactDOM from "react-dom"
+import RenderedScanner from "./model/Scanners/RenderedScanner"
 import renderMap from "./components/renderMap"
 import useDOMContentLoadedCallback from "lib/useDOMContentLoadedCallback"
 import useEditor from "./useEditor"
@@ -25,6 +27,10 @@ const Editor = ({ markup, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
+	const rscanner = React.useMemo(() => {
+		return new RenderedScanner()
+	}, [])
+
 	const [state, dispatch] = useEditor({ markup, children })
 
 	// Disables read-only mode on DOMContentLoaded.
@@ -39,11 +45,11 @@ const Editor = ({ markup, children }) => {
 				// No-op
 				return
 			}
-			// // https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
-			// const selection = document.getSelection()
-			// if (selection.rangeCount) {
-			// 	selection.removeAllRanges()
-			// }
+			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
+			const selection = document.getSelection()
+			if (selection.rangeCount) {
+				selection.removeAllRanges()
+			}
 			ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
 				// if (!state.focused) {
 				// 	// No-op
@@ -211,33 +217,40 @@ const Editor = ({ markup, children }) => {
 				// 	}
 				// })}
 
-				// onInput={readWriteOnlyHandler(e => {
-				// 	const collapsed = Range.collapse(Range.compute(ref.current)) // Takes precedence
-				// 	const spans = Readers.rendered.spans(document.getElementById(collapsed[0].key))
-				// 	dispatch.uncontrolledInputHandler(spans, collapsed)
-				// })}
+				onInput={readWriteOnlyHandler(e => {
+					const range = Range.getCurrent(ref.current).collapse()
+					const children = rscanner.scanChildren(document.getElementById(range.start.key))
+					defer(children)
+					dispatch({
+						type: "UNCONTROLLED_INPUT",
+						children,
+						range,
+					})
+				})}
 
-				// onCut={readWriteOnlyHandler(e => {
-				// 	e.preventDefault()
-				// 	// TODO: e.clipboardData.setData("text/plain", ...)
-				// })}
+				onCut={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// ...
+				})}
 
-				// onCopy={readWriteOnlyHandler(e => {
-				// 	e.preventDefault()
-				// 	// TODO: e.clipboardData.setData("text/plain", ...)
-				// })}
+				onCopy={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// ...
+				})}
 
-				// onPaste={readWriteOnlyHandler(e => {
-				// 	e.preventDefault()
-				// 	// TODO: e.clipboardData.getData("text/plain")
-				// })}
+				onPaste={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// ...
+				})}
 
-				// onDragStart={readWriteOnlyHandler(e => {
-				// 	e.preventDefault()
-				// })}
+				onDragStart={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// ...
+				})}
 
 				contentEditable={!state.readOnlyModeEnabled}
 				suppressContentEditableWarning={!state.readOnlyModeEnabled}
+
 				data-root
 			/>
 
@@ -245,7 +258,7 @@ const Editor = ({ markup, children }) => {
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify({
 					...state,
-					elements: undefined,
+					// elements: undefined,
 				}, null, "\t")}
 			</div>
 

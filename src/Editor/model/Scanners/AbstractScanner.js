@@ -5,7 +5,7 @@ import JSONClone from "lib/json/JSONClone"
 
 // Describes an abstract scanner.
 class AbstractScanner {
-	// Scanner; scans types and props.
+	// Scanner; scans the current type and props.
 	scanner = null
 
 	// Scans children.
@@ -36,7 +36,7 @@ class AbstractScanner {
 	}
 
 	// Scans elements.
-	scan(tree) {
+	scanElements(tree) {
 		const elements = []
 		for (const each of tree.children) {
 			const [T, P] = this.scanner(each)

@@ -1,11 +1,8 @@
 import AbstractScanner from "./AbstractScanner"
 import rendered from "./rendered"
 
-// Describes a rendered scanner; implements scan.
-//
-// const scanner = new RenderedScanner()
-// scanner.scan(tree)
-//
+// Describes a rendered scanner; implements scanChildren and
+// scanElements.
 class RenderedScanner extends AbstractScanner {
 	constructor() {
 		super()
