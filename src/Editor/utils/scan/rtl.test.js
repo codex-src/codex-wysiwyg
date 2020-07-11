@@ -4,7 +4,7 @@ import { // Unsorted
 	line,
 } from "./rtl"
 
-test("scans right-to-left runes", () => {
+test("rune(...)", () => {
 	expect(rune("")).toBe("")
 	expect(rune("\n")).toBe("\n")
 	expect(rune("\n\n")).toBe("\n")
@@ -19,7 +19,7 @@ test("scans right-to-left runes", () => {
 	expect(rune("\n\nHello, world! 😀\n\n")).toBe("\n")
 })
 
-test("scans right-to-left words", () => {
+test("word(...)", () => {
 	expect(word("")).toBe("")
 	expect(word("\n")).toBe("\n")
 	expect(word("\n\n")).toBe("\n")
@@ -34,7 +34,7 @@ test("scans right-to-left words", () => {
 	expect(word("\n\nHello, world! 😀\n\n")).toBe("\n")
 })
 
-test("scans right-to-left lines", () => {
+test("line(...)", () => {
 	expect(line("")).toBe("")
 	expect(line("\n")).toBe("\n")
 	expect(line("\n\n")).toBe("\n")

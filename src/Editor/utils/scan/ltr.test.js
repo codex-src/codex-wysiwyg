@@ -3,7 +3,7 @@ import { // Unsorted
 	word,
 } from "./ltr"
 
-test("scans left-to-right runes", () => {
+test("rune(...)", () => {
 	expect(rune("\n\n😀 !dlrow ,olleH\n\n")).toBe("\n")
 	expect(rune("\n😀 !dlrow ,olleH\n\n")).toBe("\n")
 	expect(rune("😀 !dlrow ,olleH\n\n")).toBe("😀")
@@ -18,7 +18,7 @@ test("scans left-to-right runes", () => {
 	expect(rune("")).toBe("")
 })
 
-test("scans left-to-right words", () => {
+test("word(...)", () => {
 	expect(word("\n\n😀 !dlrow ,olleH\n\n")).toBe("\n")
 	expect(word("\n😀 !dlrow ,olleH\n\n")).toBe("\n")
 	expect(word("😀 !dlrow ,olleH\n\n")).toBe("😀")
