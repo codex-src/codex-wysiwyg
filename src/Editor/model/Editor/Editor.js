@@ -88,7 +88,7 @@ class Editor {
 		return produce(this, draft => {
 			const k = new DblLinkedElementList(draft.elements).find(each => each.key === draft.range.start.key)
 
-			// Right-to-left:
+			// Extend right-to-left:
 			let substr = ""
 			if (dir === "rtl") {
 				substr = k.current.value.slice(0, draft.range.start.offset)
@@ -101,10 +101,8 @@ class Editor {
 				} else {
 					draft.range.start.offset -= runes.length
 				}
-			}
-
-			// Left-to-right:
-			if (dir === "ltr") {
+			// Extend left-to-right:
+			} else if (dir === "ltr") {
 				substr = k.current.value.slice(draft.range.end.offset)
 				const runes = scan.ltr[boundary](substr)
 				if (!runes && k.next) {
