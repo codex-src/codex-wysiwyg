@@ -42,7 +42,7 @@ class DblLinkedElementList {
 		Object.assign(this, dbl)
 	}
 
-	// Find an element link based on a callback.
+	// Find an element link based on the return of a callback.
 	find(callback) {
 		let ref = this
 		while (ref === this || ref.next) {

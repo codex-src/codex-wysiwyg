@@ -13,7 +13,12 @@ function parseElements({ markup, children }) {
 	if (children) {
 		markup = ReactDOMServer.renderToStaticMarkup(children)
 	}
-	const tree = parseTree("<article>" + markup.trim() + "</article>", stripWhiteSpace)
+	const tree = parseTree(
+		"<article>" +
+			markup.split("\n").map(each => "\t" + each).join("\n") +
+		"</article>",
+		stripWhiteSpace,
+	)
 	const scanner = new SemanticScanner()
 	return scanner.scanElements(tree)
 }

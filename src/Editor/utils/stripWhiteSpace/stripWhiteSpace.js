@@ -3,8 +3,10 @@ import domUtils from "lib/domUtils"
 // Creates a new whitespace regex based on the current depth.
 function newWhiteSpaceRe(currentDepth) {
 	const d = currentDepth
-	return new RegExp(`\\n\\t{${d}}|\\n\\t{${d - 1},${d}}`, "g")
+	return new RegExp(`\\n\\t{${d - 1},${d}}`, "g")
 }
+
+// on.nodeValue = on.nodeValue.replace(/\n\t*/g, "")
 
 // Strips whitespace from a tree.
 //
