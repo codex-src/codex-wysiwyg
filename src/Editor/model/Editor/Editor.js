@@ -1,12 +1,28 @@
 import * as scan from "../../utils/scan"
+import DblLinkedElementList from "../../utils/elements/DblLinkedElementList"
 import ElementList from "../../utils/elements/ElementList"
+import Position from "./Position"
 import Range from "./Range"
-import toDblLinkedList from "../../utils/elements/toDblLinkedList"
 
 import {
 	immerable,
 	produce,
 } from "immer"
+
+// // Computes a direction and a boundary from a description.
+// function descToDirAndBoundary(desc) {
+// 	let dir = "rtl"
+// 	if (desc.startsWith("delete")) {
+// 		dir = "ltr"
+// 	}
+// 	let boundary = "rune"
+// 	if (desc.endsWith("word")) {
+// 		boundary = "word"
+// 	} else if (desc.endsWith("line")) {
+// 		boundary = "line"
+// 	}
+// 	return [dir, boundary]
+// }
 
 // Describes an editor.
 class Editor {
@@ -70,53 +86,53 @@ class Editor {
 	// "word", or "line".
 	extend(dir, boundary) {
 		return produce(this, draft => {
-			// console.log(toDblLinkedList(draft.elements))
+			const k = new DblLinkedElementList(draft.elements).find(each => each.key === draft.range.start.key)
 
-			// let pos = null
-			// // Right-to-left:
-			// if (dir === "rtl") {
-			// 	pos = draft.range.start
-			// 	const el = findElement(draft.elements, each => each.key === pos.key)
-			// 	// if (!pos.offset) {
-			// 	// 	...
-			// 	// } else {
-			// 	const substr = el.value.slice(0, pos.offset)
-			// 	pos.offset -= scan.rtl[boundary](substr).length
-			// 	// }
-			// // Left-to-right:
-			// } else if (dir === "ltr") {
-			// 	pos = draft.range.end
-			// 	const el = findElement(draft.elements, each => each.key === pos.key)
-			// 	const substr = el.value.slice(pos.offset)
-			// 	pos.offset += scan.ltr[boundary](substr).length
-			// }
-			// // if (dir === "rtl") {
-			// // 	draft.start
-			// // } else if (dir === "ltr") {
-			// // 	// draft.end = ...
-			// // }
+			// Right-to-left:
+			let substr = ""
+			if (dir === "rtl") {
+				substr = k.current.value.slice(0, draft.range.start.offset)
+				const runes = scan.rtl[boundary](substr)
+				if (!runes && k.prev) {
+					draft.range.start = new Position({
+						key: k.prev.current.key,
+						offset: k.prev.current.value.length,
+					})
+				} else {
+					draft.range.start.offset -= runes.length
+				}
+			// Left-to-right:
+			} else if (dir === "ltr") {
+				substr = k.current.value.slice(draft.range.end.offset)
+				const runes = scan.ltr[boundary](substr)
+				if (!runes && k.next) {
+					draft.range.end = new Position({
+						key: k.next.current.key,
+						offset: 0,
+					})
+				} else {
+					draft.range.end.offset += runes.length
+				}
+			}
 		})
 	}
 
 	// Controlled delete handler.
 	controlledDeleteHandler(desc) {
-		let dir = "rtl"
-		if (desc.startsWith("delete")) {
-			dir = "ltr"
-		}
-		let boundary = "rune"
-		if (desc.endsWith("word")) {
-			boundary = "word"
-		} else if (desc.endsWith("line")) {
-			boundary = "line"
-		}
 		return produce(this, draft => {
+			const [lhs, rhs] = desc.split("-")
+			const dir = {
+				"backspace": "rtl",
+				"delete": "ltr"
+			}[lhs]
+			const boundary = rhs
+			console.log({ dir, boundary })
 			if (draft.range.collapsed) {
-				// draft = draft.extend(dir, boundary)
-				draft.extend(dir, boundary)
+				Object.assign(draft, draft.extend(dir, boundary))
 			}
-			// draft.range = draft.range.collapse()
-			// state.shouldRerender++
+			// ...
+			// // draft.range = draft.range.collapse()
+			draft.shouldRerender++
 		})
 	}
 
@@ -125,7 +141,8 @@ class Editor {
 	// no-op at the beginning and at the end
 	// always collapses and rerenders
 
-	// Uncontrolled input handler.
+	// Uncontrolled input handler. Note that the range is
+	// expected to be collapsed.
 	uncontrolledInputHandler(children, range) {
 		return produce(this, draft => {
 			const el = new ElementList(...draft.elements).find(each => each.key === range.start.key)
