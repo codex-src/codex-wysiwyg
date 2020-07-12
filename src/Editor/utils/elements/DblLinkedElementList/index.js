@@ -35,4 +35,24 @@ function toDblLinkedList(elements) {
 	return start
 }
 
-export default toDblLinkedList
+// Describes a doubly linked list of elements.
+class DblLinkedElementList {
+	constructor(elements) {
+		const dbl = toDblLinkedList(elements)
+		Object.assign(this, dbl)
+	}
+
+	// Find an element link based on a callback.
+	find(callback) {
+		let ref = this
+		while (ref === this || ref.next) {
+			if (callback(ref.current)) {
+				return ref
+			}
+			ref = ref.next
+		}
+		return null
+	}
+}
+
+export default DblLinkedElementList

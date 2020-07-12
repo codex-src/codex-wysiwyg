@@ -4,7 +4,7 @@ import MultilineElement from "../../../model/Editor/MultilineElement"
 
 test("Element; start", () => {
 	const elements = [
-		new Element(), // <-
+		new Element(),
 		new Element(),
 	]
 	const el = elements[0]
@@ -16,7 +16,7 @@ test("Element; start", () => {
 test("Element; end", () => {
 	const elements = [
 		new Element(),
-		new Element(), // <-
+		new Element(),
 	]
 	const el = elements.slice(-1)[0]
 	expect(findElement(elements, each => each.key === el.key)).toBe(el)
@@ -30,7 +30,7 @@ test("MultilineElement; start", () => {
 			type: "ul",
 			props: {
 				elements: [
-					new Element({ type: "li" }), // <-
+					new Element({ type: "li" }),
 					new Element({ type: "li" }),
 				],
 			},
@@ -67,7 +67,7 @@ test("MultilineElement; end", () => {
 			props: {
 				elements: [
 					new Element({ type: "li" }),
-					new Element({ type: "li" }), // <-
+					new Element({ type: "li" }),
 				],
 			},
 		}),

@@ -1,6 +1,7 @@
 import * as scan from "../../utils/scan"
 import findElement from "../../utils/elements/findElement"
 import Range from "./Range"
+import toDblLinkedList from "../../utils/elements/toDblLinkedList"
 
 import {
 	immerable,
@@ -69,30 +70,31 @@ class Editor {
 	// "word", or "line".
 	extend(dir, boundary) {
 		return produce(this, draft => {
-			let pos = null
-			// Right-to-left:
-			if (dir === "rtl") {
-				pos = draft.range.start
-				const el = findElement(draft.elements, each => each.key === pos.key)
-				// if (!pos.offset) {
-				// 	...
-				// } else {
-				const substr = el.value.slice(0, pos.offset)
-				pos.offset -= scan.rtl[boundary](substr).length
-				// }
-			// Left-to-right:
-			} else if (dir === "ltr") {
-				pos = draft.range.end
-				const el = findElement(draft.elements, each => each.key === pos.key)
-				const substr = el.value.slice(pos.offset)
-				pos.offset += scan.ltr[boundary](substr).length
-			}
+			console.log(toDblLinkedList(draft.elements))
 
+			// let pos = null
+			// // Right-to-left:
 			// if (dir === "rtl") {
-			// 	draft.start
+			// 	pos = draft.range.start
+			// 	const el = findElement(draft.elements, each => each.key === pos.key)
+			// 	// if (!pos.offset) {
+			// 	// 	...
+			// 	// } else {
+			// 	const substr = el.value.slice(0, pos.offset)
+			// 	pos.offset -= scan.rtl[boundary](substr).length
+			// 	// }
+			// // Left-to-right:
 			// } else if (dir === "ltr") {
-			// 	// draft.end = ...
+			// 	pos = draft.range.end
+			// 	const el = findElement(draft.elements, each => each.key === pos.key)
+			// 	const substr = el.value.slice(pos.offset)
+			// 	pos.offset += scan.ltr[boundary](substr).length
 			// }
+			// // if (dir === "rtl") {
+			// // 	draft.start
+			// // } else if (dir === "ltr") {
+			// // 	// draft.end = ...
+			// // }
 		})
 	}
 
