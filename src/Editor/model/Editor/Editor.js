@@ -101,8 +101,10 @@ class Editor {
 				} else {
 					draft.range.start.offset -= runes.length
 				}
+			}
+
 			// Left-to-right:
-			} else if (dir === "ltr") {
+			if (dir === "ltr") {
 				substr = k.current.value.slice(draft.range.end.offset)
 				const runes = scan.ltr[boundary](substr)
 				if (!runes && k.next) {
@@ -123,7 +125,7 @@ class Editor {
 			const [lhs, rhs] = desc.split("-")
 			const dir = {
 				"backspace": "rtl",
-				"delete": "ltr"
+				"delete": "ltr",
 			}[lhs]
 			const boundary = rhs
 			console.log({ dir, boundary })

@@ -22,7 +22,9 @@ function semantic(element) {
 		throw new Error(`Scanners/semantic: no such type; nodeName=${nodeName}`)
 	}
 	const P = [...element.attributes].reduce((acc, each) => {
-		acc[each.nodeName] = each.nodeValue
+		if (each.nodeName !== "id") {
+			acc[each.nodeName] = each.nodeValue
+		}
 		return acc
 	}, {})
 	return [T, P]

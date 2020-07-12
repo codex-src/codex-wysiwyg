@@ -3,43 +3,43 @@ import stripWhiteSpace from "./stripWhiteSpace"
 
 test("<p><!-- ... --></p>", () => {
 	const tree = parseTree(`
-<div>
+<article>
 	<p>
 		<!-- ... -->
 	</p>
-</div>
+</article>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p><!-- ... --></p></div>")
+	expect(tree.outerHTML).toBe("<article><p><!-- ... --></p></article>")
 })
 
 test("<p><br></p>", () => {
 	const tree = parseTree(`
-<div>
+<article>
 	<p>
 		<br>
 	</p>
-</div>
+</article>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p><br></p></div>")
+	expect(tree.outerHTML).toBe("<article><p><br></p></article>")
 })
 
 test("<p>Hello, world!</p>", () => {
 	const tree = parseTree(`
-<div>
+<article>
 	<p>
 		Hello, world!
 	</p>
-</div>
+</article>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p>Hello, world!</p></div>")
+	expect(tree.outerHTML).toBe("<article><p>Hello, world!</p></article>")
 })
 
 test("<p>Hello, <a href='foo'>world</a>!</p>", () => {
 	const tree = parseTree(`
-<div>
+<article>
 	<p>
 		Hello,\u0020
 		<a href="foo">
@@ -47,15 +47,15 @@ test("<p>Hello, <a href='foo'>world</a>!</p>", () => {
 		</a>
 		!
 	</p>
-</div>
+</article>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><p>Hello, <a href=\"foo\">world</a>!</p></div>")
+	expect(tree.outerHTML).toBe("<article><p>Hello, <a href=\"foo\">world</a>!</p></article>")
 })
 
 test("<ul><li>Hello, <a href='foo'>world</a>!</li></ul>", () => {
 	const tree = parseTree(`
-<div>
+<article>
 	<ul>
 		<li>
 			Hello,\u0020
@@ -65,8 +65,8 @@ test("<ul><li>Hello, <a href='foo'>world</a>!</li></ul>", () => {
 			!
 		</li>
 	</ul>
-</div>
+</article>
 `)
 	stripWhiteSpace(tree)
-	expect(tree.outerHTML).toBe("<div><ul><li>Hello, <a href=\"foo\">world</a>!</li></ul></div>")
+	expect(tree.outerHTML).toBe("<article><ul><li>Hello, <a href=\"foo\">world</a>!</li></ul></article>")
 })
