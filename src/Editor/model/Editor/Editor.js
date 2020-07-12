@@ -1,5 +1,5 @@
 import * as scan from "../../utils/scan"
-import findElement from "../../utils/elements/findElement"
+import ElementList from "../../utils/elements/ElementList"
 import Range from "./Range"
 import toDblLinkedList from "../../utils/elements/toDblLinkedList"
 
@@ -70,7 +70,7 @@ class Editor {
 	// "word", or "line".
 	extend(dir, boundary) {
 		return produce(this, draft => {
-			console.log(toDblLinkedList(draft.elements))
+			// console.log(toDblLinkedList(draft.elements))
 
 			// let pos = null
 			// // Right-to-left:
@@ -128,7 +128,7 @@ class Editor {
 	// Uncontrolled input handler.
 	uncontrolledInputHandler(children, range) {
 		return produce(this, draft => {
-			const el = findElement(draft.elements, each => each.key === range.start.key)
+			const el = new ElementList(...draft.elements).find(each => each.key === range.start.key)
 			el.props.children = children
 			draft.range = range
 			draft.shouldRerender++

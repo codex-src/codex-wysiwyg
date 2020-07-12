@@ -1,5 +1,5 @@
 import Element from "../../../model/Editor/Element"
-import findElement from "./index"
+import ElementList from "./index"
 import MultilineElement from "../../../model/Editor/MultilineElement"
 
 test("Element; start", () => {
@@ -8,7 +8,7 @@ test("Element; start", () => {
 		new Element(),
 	]
 	const el = elements[0]
-	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(new ElementList(...elements).find(each => each.key === el.key)).toBe(el)
 	expect(el.props).toBeTruthy()
 	expect(el.props.children).toBeTruthy()
 })
@@ -19,7 +19,7 @@ test("Element; end", () => {
 		new Element(),
 	]
 	const el = elements.slice(-1)[0]
-	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(new ElementList(...elements).find(each => each.key === el.key)).toBe(el)
 	expect(el.props).toBeTruthy()
 	expect(el.props.children).toBeTruthy()
 })
@@ -46,7 +46,7 @@ test("MultilineElement; start", () => {
 		}),
 	]
 	const el = elements[0].props.elements[0]
-	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(new ElementList(...elements).find(each => each.key === el.key)).toBe(el)
 	expect(el.props).toBeTruthy()
 	expect(el.props.children).toBeTruthy()
 })
@@ -73,7 +73,7 @@ test("MultilineElement; end", () => {
 		}),
 	]
 	const el = elements.slice(-1)[0].props.elements.slice(-1)[0]
-	expect(findElement(elements, each => each.key === el.key)).toBe(el)
+	expect(new ElementList(...elements).find(each => each.key === el.key)).toBe(el)
 	expect(el.props).toBeTruthy()
 	expect(el.props.children).toBeTruthy()
 })
