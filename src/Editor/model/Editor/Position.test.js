@@ -17,7 +17,7 @@ test("contenteditable=false", () => {
 			{/* ... */}
 		</div>
 	))
-	const literal = { node: tree, offset: 0 }
+	const literal = [tree, 0]
 	expect(Position.fromUserLiteral(literal)).toBe(null)
 })
 
@@ -30,7 +30,7 @@ test("node=[<p><br></p>] offset=0", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0], offset: 0 }
+		const literal = [tree.children[0], 0]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 0 }))
 	}).toThrow(throwMsg)
 })
@@ -44,7 +44,7 @@ test("node=<p>[<br>]</p> offset=0", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[0], offset: 0 }
+		const literal = [tree.children[0].childNodes[0], 0]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 0 }))
 	}).toThrow(throwMsg)
 })
@@ -63,7 +63,7 @@ test("node=<p>[Hello, ]<code>world</code>!</p> offset=0", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[0], offset: 0 }
+		const literal = [tree.children[0].childNodes[0], 0]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 0 }))
 	}).toThrow(throwMsg)
 })
@@ -81,7 +81,7 @@ test("node=<p>[Hello, ]<code>world</code>!</p> offset=7", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[0], offset: 7 }
+		const literal = [tree.children[0].childNodes[0], 7]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 7 }))
 	}).toThrow(throwMsg)
 })
@@ -99,7 +99,7 @@ test("node=<p>Hello, <code>[world]</code>!</p> offset=0", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[1].childNodes[0], offset: 0 }
+		const literal = [tree.children[0].childNodes[1].childNodes[0], 0]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 7 }))
 	}).toThrow(throwMsg)
 })
@@ -117,7 +117,7 @@ test("node=<p>Hello, <code>[world]</code>!</p> offset=5", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[1].childNodes[0], offset: 5 }
+		const literal = [tree.children[0].childNodes[1].childNodes[0], 5]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 12 }))
 	}).toThrow(throwMsg)
 })
@@ -135,7 +135,7 @@ test("node=<p>Hello, <code>world</code>[!]</p> offset=0", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[2], offset: 0 }
+		const literal = [tree.children[0].childNodes[2], 0]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 12 }))
 	}).toThrow(throwMsg)
 })
@@ -153,7 +153,7 @@ test("node=<p>Hello, <code>world</code>[!]</p> offset=1", () => {
 		</div>
 	))
 	expect(() => {
-		const literal = { node: tree.children[0].childNodes[2], offset: 1 }
+		const literal = [tree.children[0].childNodes[2], 1]
 		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 13 }))
 	}).toThrow(throwMsg)
 })

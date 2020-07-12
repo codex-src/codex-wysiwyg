@@ -31,16 +31,16 @@ class Range {
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		}
-		const start = Position.fromUserLiteral({
-			node: range.startContainer,
-			offset: range.startOffset,
-		})
+		const start = Position.fromUserLiteral([
+			range.startContainer,
+			range.startOffset,
+		])
 		let end = start
 		if (!range.collapsed) {
-			end = Position.fromUserLiteral({
-				node: range.endContainer,
-				offset: range.endOffset,
-			})
+			end = Position.fromUserLiteral([
+				range.endContainer,
+				range.endOffset,
+			])
 		}
 		return new this({ start, end })
 	}
@@ -50,20 +50,6 @@ class Range {
 		return this.start.isEqualTo(this.end)
 	}
 
-	// // Collapses end-to-start.
-	// collapseToStart() {
-	// 	return produce(this, draft => {
-	// 		draft.end = draft.start
-	// 	})
-	// }
-	//
-	// // Collapses start-to-end.
-	// collapseToEnd() {
-	// 	return produce(this, draft => {
-	// 		draft.start = draft.end
-	// 	})
-	// }
-
 	// Collapses end-to-start.
 	collapse() {
 		return produce(this, draft => {
@@ -71,22 +57,17 @@ class Range {
 		})
 	}
 
-	// // Converts the synthetic range to a range.
-	// toRange() {
-	// 	const pos1 = this.start.toRangePositionLiteral().toArray()
-	// 	let pos2 = pos1
-	// 	if (!this.collapsed) {
-	// 		pos2 = this.end.toRangePositionLiteral().toArray()
-	// 	}
-	// 	const range = document.createRange()
-	// 	range.setStart(...pos1)
-	// 	range.setEnd(...pos2)
-	// 	return range
-	// }
-
 	// Resolves to a user literal.
 	toUserLiteral() {
-		// ...
+		const p1 = this.start.toUserLiteral()
+		let p2 = p1
+		if (!this.collapsed) {
+			p2 = this.end.toUserLiteral()
+		}
+		const range = document.createRange()
+		range.setStart(...p1)
+		range.setEnd(...p2)
+		return range
 	}
 }
 

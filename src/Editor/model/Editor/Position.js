@@ -17,7 +17,7 @@ class Position {
 	}
 
 	// Constructs from a user literal.
-	static fromUserLiteral({ node, offset: originalOffset }) {
+	static fromUserLiteral([node, originalOffset]) {
 		if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
 			return null
 		}
@@ -40,7 +40,8 @@ class Position {
 				if (recurse(each)) {
 					return true
 				}
-				offset += domUtils.isTextNode(each) && each.nodeValue.length
+				offset += domUtils.isTextNode(each) &&
+					each.nodeValue.length
 			}
 			return false
 		}
@@ -57,44 +58,29 @@ class Position {
 		return ok
 	}
 
-	// // Converts the synthetic range position to a range
-	// // position object literal.
-	// toRangePositionLiteral() {
-	// 	let { key, offset } = this
-	//
-	// 	// Compute node and offset (offset2):
-	// 	let node = null
-	// 	let offset2 = 0 // Do not shadow offset
-	// 	const recurse = on => {
-	// 		if (domUtils.isTextNodeOrBrElement(on) && offset - (on.nodeValue || "").length <= 0) {
-	// 			node = on
-	// 			offset2 = offset
-	// 			return true
-	// 		}
-	// 		for (const each of on.childNodes) {
-	// 			if (recurse(each)) {
-	// 				return true
-	// 			}
-	// 			offset -= domUtils.isTextNode(each) && each.nodeValue.length
-	// 		}
-	// 		return false
-	// 	}
-	// 	recurse(document.getElementById(key))
-	//
-	// 	// Done:
-	// 	const range = {
-	// 		node,
-	// 		offset: offset2,
-	// 		toArray() {
-	// 			return [this.node, this.offset]
-	// 		},
-	// 	}
-	// 	return range
-	// }
-
 	// Resolves to a user literal.
 	toUserLiteral() {
-		// ...
+		let { key, offset: originalOffset } = this
+
+		let node = null
+		let offset = 0
+		const recurse = on => {
+			if (domUtils.isTextNodeOrBrElement(on) && originalOffset - (on.nodeValue || "").length <= 0) {
+				node = on
+				offset = originalOffset
+				return true
+			}
+			for (const each of on.childNodes) {
+				if (recurse(each)) {
+					return true
+				}
+				originalOffset -= domUtils.isTextNode(each) &&
+					each.nodeValue.length
+			}
+			return false
+		}
+		recurse(document.getElementById(key))
+		return [node, offset]
 	}
 }
 

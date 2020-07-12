@@ -23,6 +23,11 @@ class Editor {
 		})
 	}
 
+	// // Computes the serialized HTML.
+	// get serializedHTML() {
+	// 	// ...
+	// }
+
 	// Enables read-only mode.
 	enableReadOnlyMode() {
 		return produce(this, draft => {
@@ -64,13 +69,9 @@ class Editor {
 			const el = findElement(draft.elements, each => each.key === range.start.key)
 			el.props.children = children
 			draft.range = range
+			draft.shouldRerender++
 		})
 	}
-
-	// // Resolves to serialized HTML.
-	// toSerializedHTML() {
-	// 	// TODO
-	// }
 }
 
 export default Editor

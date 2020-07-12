@@ -38,7 +38,7 @@ const Editor = ({ markup, children }) => {
 		dispatch({ type: "DISABLE_READ_ONLY_MODE" })
 	})
 
-	// Rerenders on state.shouldRender.
+	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			if (!ref.current) {
@@ -51,19 +51,19 @@ const Editor = ({ markup, children }) => {
 				selection.removeAllRanges()
 			}
 			ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
-				// if (!state.focused) {
-				// 	// No-op
-				// 	return
-				// }
-				// // try {
-				// const range = state.range.toRange(state.range)
-				// selection.addRange(range)
-				// // } catch (error) {
-				// // 	console.error(error)
-				// // }
+				if (state.readOnlyModeEnabled || !state.focused) {
+					// No-op
+					return
+				}
+				try {
+					const range = state.range.toUserLiteral(state.range)
+					selection.addRange(range)
+				} catch (error) {
+					console.error(error)
+				}
 			})
 		}, [state, dispatch]),
-		[state.shouldRender],
+		[state.shouldRerender],
 	)
 
 	// Returns a handler when read-only mode is disabled.
@@ -73,6 +73,8 @@ const Editor = ({ markup, children }) => {
 		}
 		return undefined
 	}
+
+	console.log(state)
 
 	return (
 		<div>
