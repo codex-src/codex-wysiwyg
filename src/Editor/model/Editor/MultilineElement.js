@@ -8,7 +8,7 @@ class MultilineElement {
 	[immerable] = true
 
 	type = ""
-	key = hash(6)
+	key = hash()
 	props = {
 		elements: [],
 	}
@@ -16,7 +16,7 @@ class MultilineElement {
 	constructor({ type, key, props } = {}) {
 		Object.assign(this, {
 			type: must(type),
-			key: key || hash(6),
+			key: key || hash(),
 			props: props || {
 				elements: [],
 			},

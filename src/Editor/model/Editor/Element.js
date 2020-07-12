@@ -7,7 +7,7 @@ class Element {
 	[immerable] = true
 
 	type = "p"
-	key = hash(6)
+	key = hash()
 	props = {
 		children: [],
 	}
@@ -15,7 +15,7 @@ class Element {
 	constructor({ type, key, props } = {}) {
 		Object.assign(this, {
 			type: type || "p",
-			key: key || hash(6),
+			key: key || hash(),
 			props: props || {
 				children: [],
 			},

@@ -5,7 +5,7 @@ import renderTree from "lib/renderTree"
 
 test("ascendElement(...)", () => {
 	const domTree1 = renderTree((
-		<div id={hash(8)}>
+		<div id={hash()}>
 			<span>
 				<br />
 			</span>
@@ -13,7 +13,7 @@ test("ascendElement(...)", () => {
 	))
 	expect(domUtils.ascendElement(domTree1.childNodes[0].childNodes[0])).toBe(domTree1.childNodes[0].childNodes[0])
 	const domTree2 = renderTree((
-		<div id={hash(8)}>
+		<div id={hash()}>
 			<span>
 				Hello, world!
 			</span>
@@ -24,7 +24,7 @@ test("ascendElement(...)", () => {
 
 test("ascendElementID(...)", () => {
 	const domTree1 = renderTree((
-		<div id={hash(8)}>
+		<div id={hash()}>
 			<span>
 				<br />
 			</span>
@@ -32,7 +32,7 @@ test("ascendElementID(...)", () => {
 	))
 	expect(domUtils.ascendElementID(domTree1.childNodes[0].childNodes[0])).toBe(domTree1)
 	const domTree2 = renderTree((
-		<div id={hash(8)}>
+		<div id={hash()}>
 			<span>
 				Hello, world!
 			</span>
