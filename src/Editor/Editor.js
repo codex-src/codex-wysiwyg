@@ -1,7 +1,5 @@
-// import * as Readers from "./Readers" // TODO
-// import detectKeydownType from "./utils/keydown/detectKeydownType"
-// import useDOMContentLoaded from "lib/useDOMContentLoaded"
 import defer from "./utils/children/defer"
+import detectKeydownType from "./utils/keydown/detectKeydownType"
 import Range from "./model/Editor/Range"
 import React from "react"
 import ReactDOM from "react-dom"
@@ -12,7 +10,7 @@ import useEditor from "./useEditor"
 
 import "./Editor.css"
 
-// React renderer for the current state.
+// React renderer.
 const ReactRenderer = ({ state, dispatch }) => (
 	state.elements.map(({ type: T, key, props }) => (
 		React.createElement(renderMap[T], {
@@ -141,90 +139,83 @@ const Editor = ({ markup, children }) => {
 					})
 				})}
 
-				// onKeyDown={readWriteOnlyHandler(e => {
-				// 	const keydownType = detectKeydownType(e)
-				// 	if (keydownType) {
-				// 		console.log(keydownType)
-				// 	}
-				// 	switch (keydownType) {
-				// 	case "apply-format-plaintext":
-				// 	case "apply-format-markdown-plaintext":
-				// 		e.preventDefault()
-				// 		dispatch.applyFormat("plaintext")
-				// 		return
-				// 	case "apply-format-em":
-				// 	case "apply-format-markdown-em":
-				// 		e.preventDefault()
-				// 		dispatch.applyFormat(types.enum.em)
-				// 		return
-				// 	case "apply-format-strong":
-				// 	case "apply-format-markdown-strong":
-				// 		e.preventDefault()
-				// 		dispatch.applyFormat(types.enum.strong)
-				// 		return
-				// 	case "apply-format-code":
-				// 	case "apply-format-markdown-code":
-				// 		e.preventDefault()
-				// 		dispatch.applyFormat(types.enum.code)
-				// 		return
-				// 	case "apply-format-strike":
-				// 	case "apply-format-markdown-strike":
-				// 		e.preventDefault()
-				// 		dispatch.applyFormat(types.enum.strike)
-				// 		return
-				// 	case "apply-format-a":
-				// 	case "apply-format-markdown-a":
-				// 		e.preventDefault()
-				// 		dispatch.applyFormat(types.enum.a, { href: "https://google.com" })
-				// 		return
-				//
-				// 		// "insert-text"
-				// 		// "insert-tab"
-				// 		// "insert-soft-paragraph"
-				// 		// "insert-paragraph"
-				//
-				// 	case "backspace-rune":
-				// 		e.preventDefault()
-				// 		dispatch.backspaceRune()
-				// 		return
-				// 	case "backspace-word":
-				// 		e.preventDefault()
-				// 		dispatch.backspaceWord()
-				// 		return
-				// 	case "backspace-line":
-				// 		e.preventDefault()
-				// 		dispatch.backspaceLine()
-				// 		return
-				// 	case "delete-rune":
-				// 		e.preventDefault()
-				// 		dispatch.deleteRune()
-				// 		return
-				// 	case "delete-word":
-				// 		e.preventDefault()
-				// 		dispatch.deleteWord()
-				// 		return
-				//
-				// 	case "undo":
-				// 		e.preventDefault()
-				// 		dispatch.undo()
-				// 		return
-				// 	case "redo":
-				// 		e.preventDefault()
-				// 		dispatch.redo()
-				// 		return
-				//
-				// 	default:
-				// 		// No-op
-				// 		break
-				// 	}
-				// })}
+				onKeyDown={readWriteOnlyHandler(e => {
+					// const keydownType = detectKeydownType(e)
+					// if (keydownType) {
+					// 	console.log(keydownType)
+					// }
+					const desc = detectKeydownType(e)
+					switch (desc) {
+
+					// case "apply-format-plaintext":
+					// case "apply-format-markdown-plaintext":
+					// 	e.preventDefault()
+					// 	dispatch.applyFormat("plaintext")
+					// 	return
+					// case "apply-format-em":
+					// case "apply-format-markdown-em":
+					// 	e.preventDefault()
+					// 	dispatch.applyFormat(types.enum.em)
+					// 	return
+					// case "apply-format-strong":
+					// case "apply-format-markdown-strong":
+					// 	e.preventDefault()
+					// 	dispatch.applyFormat(types.enum.strong)
+					// 	return
+					// case "apply-format-code":
+					// case "apply-format-markdown-code":
+					// 	e.preventDefault()
+					// 	dispatch.applyFormat(types.enum.code)
+					// 	return
+					// case "apply-format-strike":
+					// case "apply-format-markdown-strike":
+					// 	e.preventDefault()
+					// 	dispatch.applyFormat(types.enum.strike)
+					// 	return
+					// case "apply-format-a":
+					// case "apply-format-markdown-a":
+					// 	e.preventDefault()
+					// 	dispatch.applyFormat(types.enum.a, { href: "https://google.com" })
+					// 	return
+
+					// "insert-text"
+					// "insert-tab"
+					// "insert-soft-paragraph"
+					// "insert-paragraph"
+
+					case "backspace-rune":
+					case "backspace-word":
+					case "backspace-line":
+					case "delete-rune":
+					case "delete-word":
+						e.preventDefault()
+						dispatch({
+							type: "CONTROLLED_DELETE_HANDLER",
+							desc,
+						})
+						return
+
+						// case "undo":
+						// 	e.preventDefault()
+						// 	dispatch.undo()
+						// 	return
+						// case "redo":
+						// 	e.preventDefault()
+						// 	dispatch.redo()
+						// 	return
+
+					default:
+						// No-op
+						break
+					}
+				})}
 
 				onInput={readWriteOnlyHandler(e => {
 					const range = Range.getCurrent(ref.current).collapse()
 					const children = rscanner.scanChildren(document.getElementById(range.start.key))
 					defer(children)
 					dispatch({
-						type: "UNCONTROLLED_INPUT",
+						type: "UNCONTROLLED_INPUT_HANDLER",
 						children,
 						range,
 					})

@@ -30,8 +30,10 @@ function EditorReducer(state, action) {
 		return state.blur()
 	case "SELECT":
 		return state.select(action.range)
-	case "UNCONTROLLED_INPUT":
-		return state.uncontrolledInput(action.children, action.range)
+	case "CONTROLLED_DELETE_HANDLER":
+		return state.controlledDeleteHandler(action.desc)
+	case "UNCONTROLLED_INPUT_HANDLER":
+		return state.uncontrolledInputHandler(action.children, action.range)
 	default:
 		throw new Error(`useEditor.EditorReducer: type mismatch; action.type=${action.type}`)
 	}

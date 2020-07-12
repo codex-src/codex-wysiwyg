@@ -34,7 +34,6 @@ class Editor {
 			draft.readOnlyModeEnabled = true
 		})
 	}
-
 	// Disables read-only mode.
 	disableReadOnlyMode() {
 		return produce(this, draft => {
@@ -48,7 +47,6 @@ class Editor {
 			draft.focused = true
 		})
 	}
-
 	// Blurs the editor.
 	blur() {
 		return produce(this, draft => {
@@ -63,8 +61,41 @@ class Editor {
 		})
 	}
 
+	// Controlled delete handler.
+	controlledDeleteHandler(desc) {
+		return produce(this, draft => {
+			console.log({ desc })
+			// draft.shouldRerender++
+		})
+	}
+
+	// // Deletes right-to-left by one word.
+	// deleteRTLWord() {
+	// 	return produce(this, draft => {
+	// 		controlledDelete(draft, "rtl", "word")
+	// 	})
+	// }
+	// // Deletes right-to-left by one line.
+	// deleteRTLLine() {
+	// 	return produce(this, draft => {
+	// 		controlledDelete(draft, "rtl", "line")
+	// 	})
+	// }
+	// // Deletes left-to-right by one rune.
+	// deleteLTRRune() {
+	// 	return produce(this, draft => {
+	// 		controlledDelete(draft, "rtl", "rune")
+	// 	})
+	// }
+	// // Deletes left-to-right by one rune.
+	// deleteLTRWord() {
+	// 	return produce(this, draft => {
+	// 		controlledDelete(draft, "rtl", "rune")
+	// 	})
+	// }
+
 	// Uncontrolled input handler.
-	uncontrolledInput(children, range) {
+	uncontrolledInputHandler(children, range) {
 		return produce(this, draft => {
 			const el = findElement(draft.elements, each => each.key === range.start.key)
 			el.props.children = children
