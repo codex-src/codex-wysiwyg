@@ -4,8 +4,7 @@ import MultilineElement from "../../../model/Editor/MultilineElement"
 // Describes a list of elements.
 class ElementList extends Array {
 
-	// Finds an element using a callback. An element is must
-	// implement props.children.
+	// Find an element based on a callback.
 	find(callback) {
 		for (const each of this) {
 			if (each instanceof Element) {
