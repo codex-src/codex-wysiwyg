@@ -32,6 +32,7 @@ const Editor = ({ markup, children }) => {
 	}, [])
 
 	const [state, dispatch] = useEditor({ markup, children })
+	// console.log(state)
 
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(() => {
@@ -50,6 +51,7 @@ const Editor = ({ markup, children }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
+			console.log("ReactDOM.render")
 			ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
 				if (state.readOnlyModeEnabled || !state.focused) {
 					// No-op
@@ -73,8 +75,6 @@ const Editor = ({ markup, children }) => {
 		}
 		return undefined
 	}
-
-	console.log(state)
 
 	return (
 		<div>
