@@ -3,157 +3,300 @@ import Position from "./Position"
 import React from "react"
 import renderTree from "lib/renderTree"
 
-// https://github.com/facebook/jest/issues/8475#issuecomment-656629010
-const throwMsg = "serializes to the same string"
-
-const contenteditable = {
+const contentEditable = {
 	contentEditable: true,
 	suppressContentEditableWarning: true,
 }
 
-test("contenteditable=false", () => {
-	const tree = renderTree((
-		<div contentEditable={false}>
-			{/* ... */}
-		</div>
-	))
-	const literal = [tree, 0]
-	expect(Position.fromUserLiteral(literal)).toBe(null)
+afterEach(() => {
+	document.body.innerHTML = ""
 })
 
-test("node=[<p><br></p>] offset=0", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				<br />
-			</div>
-		</div>
+test("[contenteditable='false']", () => {
+	document.body.append((
+		renderTree((
+			<article contentEditable={false}>
+				<div id={hash()} data-type="p">
+					<br />
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0], 0]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 0 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({ node: p, offset: 0 })
+	expect(pos).toBe(null)
 })
 
-test("node=<p>[<br>]</p> offset=0", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				<br />
-			</div>
-		</div>
+test("[<p><br></p>]", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					<br />
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[0], 0]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 0 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p,
+		offset: 0,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 0,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.querySelector("br"),
+		offset: 0,
+	})
 })
 
-// NOTE: Does not use Hello{" "}; creates an extra text node.
-test("node=<p>[Hello, ]<code>world</code>!</p> offset=0", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				{"Hello, "}
-				<code>
-					world
-				</code>
-				!
-			</div>
-		</div>
+test("<p><br></p>[]", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					<br />
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[0], 0]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 0 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p,
+		offset: 1,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 0,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.querySelector("br"),
+		offset: 0,
+	})
 })
 
-test("node=<p>[Hello, ]<code>world</code>!</p> offset=7", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				{"Hello, "}
-				<code>
-					world
-				</code>
-				!
-			</div>
-		</div>
+test("<p>[<br>]</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					<br />
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[0], 7]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 7 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.querySelector("br"),
+		offset: 0,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 0,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.querySelector("br"),
+		offset: 0,
+	})
 })
 
-test("node=<p>Hello, <code>[world]</code>!</p> offset=0", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				{"Hello, "}
-				<code>
-					world
-				</code>
-				!
-			</div>
-		</div>
+test("<p><br>[]</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					<br />
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[1].childNodes[0], 0]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 7 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.querySelector("br"),
+		offset: 1,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 0,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.querySelector("br"),
+		offset: 0,
+	})
 })
 
-test("node=<p>Hello, <code>[world]</code>!</p> offset=5", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				{"Hello, "}
-				<code>
-					world
-				</code>
-				!
-			</div>
-		</div>
+test("<p>[]Hello, <code>world</code>!</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					Hello,{" "}
+					<code>
+						world
+					</code>
+					!
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[1].childNodes[0], 5]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 12 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.childNodes[0],
+		offset: 0,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 0,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.childNodes[0],
+		offset: 0,
+	})
 })
 
-test("node=<p>Hello, <code>world</code>[!]</p> offset=0", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				{"Hello, "}
-				<code>
-					world
-				</code>
-				!
-			</div>
-		</div>
+test("<p>Hello, []<code>world</code>!</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					{"Hello, "}
+					<code>
+						world
+					</code>
+					!
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[2], 0]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 12 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.childNodes[0],
+		offset: 7,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 7,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.childNodes[0],
+		offset: 7,
+	})
 })
 
-test("node=<p>Hello, <code>world</code>[!]</p> offset=1", () => {
-	const tree = renderTree((
-		<div {...contenteditable}>
-			<div id={hash(6)} data-type="p">
-				{"Hello, "}
-				<code>
-					world
-				</code>
-				!
-			</div>
-		</div>
+test("<p>Hello, <code>[]world</code>!</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					{"Hello, "}
+					<code>
+						world
+					</code>
+					!
+				</div>
+			</article>
+		))
 	))
-	expect(() => {
-		const literal = [tree.children[0].childNodes[2], 1]
-		expect(Position.fromUserLiteral(literal)).toBe(new Position({ key: tree.children[0].id, offset: 13 }))
-	}).toThrow(throwMsg)
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.childNodes[1],
+		offset: 0,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 7,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.childNodes[0],
+		offset: 7,
+	})
+})
+
+test("<p>Hello, <code>world[]</code>!</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					{"Hello, "}
+					<code>
+						world
+					</code>
+					!
+				</div>
+			</article>
+		))
+	))
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.querySelector("code").childNodes[0],
+		offset: 5,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 12,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.querySelector("code").childNodes[0],
+		offset: 5,
+	})
+})
+
+test("<p>Hello, <code>world</code>[]!</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					Hello,{" "}
+					<code>
+						world
+					</code>
+					!
+				</div>
+			</article>
+		))
+	))
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.childNodes[3],
+		offset: 0,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 12,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.querySelector("code").childNodes[0],
+		offset: 5,
+	})
+})
+
+test("<p>Hello, <code>world</code>![]</p>", () => {
+	document.body.append((
+		renderTree((
+			<article {...contentEditable}>
+				<div id={hash()} data-type="p">
+					Hello,{" "}
+					<code>
+						world
+					</code>
+					!
+				</div>
+			</article>
+		))
+	))
+	const p = document.querySelector("[data-type='p']")
+	const pos = Position.fromUserLiteral({
+		node: p.childNodes[3],
+		offset: 1,
+	})
+	expect(pos).toEqual(new Position({
+		key: p.id,
+		offset: 13,
+	}))
+	expect(pos.toUserLiteral()).toEqual({
+		node: p.childNodes[3],
+		offset: 1,
+	})
 })

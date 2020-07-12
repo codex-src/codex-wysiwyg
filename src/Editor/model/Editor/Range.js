@@ -5,6 +5,10 @@ import {
 	produce,
 } from "immer"
 
+function toArray({ node, offset }) {
+	return [node, offset]
+}
+
 // Describes a range. A range corresponds to a user
 // insertion point or selection.
 class Range {
@@ -31,16 +35,16 @@ class Range {
 		if (!tree.contains(range.startContainer) || !tree.contains(range.endContainer)) {
 			return null
 		}
-		const start = Position.fromUserLiteral([
-			range.startContainer,
-			range.startOffset,
-		])
+		const start = Position.fromUserLiteral({
+			node: range.startContainer,
+			offset: range.startOffset,
+		})
 		let end = start
 		if (!range.collapsed) {
-			end = Position.fromUserLiteral([
-				range.endContainer,
-				range.endOffset,
-			])
+			end = Position.fromUserLiteral({
+				node: range.endContainer,
+				offset: range.endOffset,
+			})
 		}
 		return new this({ start, end })
 	}
@@ -59,10 +63,10 @@ class Range {
 
 	// Resolves to a user literal.
 	toUserLiteral() {
-		const p1 = this.start.toUserLiteral()
+		const p1 = toArray(this.start.toUserLiteral())
 		let p2 = p1
 		if (!this.collapsed) {
-			p2 = this.end.toUserLiteral()
+			p2 = toArray(this.end.toUserLiteral())
 		}
 		const range = document.createRange()
 		range.setStart(...p1)

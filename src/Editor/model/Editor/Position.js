@@ -17,16 +17,22 @@ class Position {
 	}
 
 	// Constructs from a user literal.
-	static fromUserLiteral([node, originalOffset]) {
+	static fromUserLiteral({ node, offset: originalOffset }) {
+		// Guard non-contenteditable descendants:
 		if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
 			return null
 		}
+		// Guard node and originalOffset (1 of 2):
 		while (!domUtils.isTextNodeOrBrElement(node)) {
 			if (originalOffset && originalOffset === node.childNodes.length) {
 				originalOffset = node.childNodes.length - 1
 			}
 			node = node.childNodes[originalOffset]
 			originalOffset = 0
+		}
+		// Guard originalOffset (2 of 2):
+		if (originalOffset > (node.nodeValue || "").length) {
+			originalOffset = Math.max(0, (node.nodeValue || "").length)
 		}
 		let key = ""
 		let offset = 0
@@ -80,7 +86,7 @@ class Position {
 			return false
 		}
 		recurse(document.getElementById(key))
-		return [node, offset]
+		return { node, offset }
 	}
 }
 

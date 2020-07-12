@@ -1,7 +1,7 @@
 import uuidv4 from "uuid/v4"
 
 // Returns a new variable-length hash ID.
-function hash(length = 32) {
+function hash(length = 6) {
 	if (length < 1 || length > 32) {
 		throw new Error(`hash: length=${JSON.stringify(length)} must be 1-32`)
 	}
