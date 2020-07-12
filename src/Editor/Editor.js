@@ -145,6 +145,9 @@ const Editor = ({ markup, children }) => {
 					// 	console.log(keydownType)
 					// }
 					const desc = detectKeydownType(e)
+					if (desc) {
+						console.log({ desc })
+					}
 					switch (desc) {
 
 					// case "apply-format-plaintext":

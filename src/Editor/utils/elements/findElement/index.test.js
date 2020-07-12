@@ -2,7 +2,7 @@ import Element from "../../../model/Editor/Element"
 import findElement from "./index"
 import MultilineElement from "../../../model/Editor/MultilineElement"
 
-test("elements[^]", () => {
+test("Element; start", () => {
 	const elements = [
 		new Element(), // <-
 		new Element(),
@@ -13,7 +13,7 @@ test("elements[^]", () => {
 	expect(el.props.children).toBeTruthy()
 })
 
-test("elements[$]", () => {
+test("Element; end", () => {
 	const elements = [
 		new Element(),
 		new Element(), // <-
@@ -24,7 +24,7 @@ test("elements[$]", () => {
 	expect(el.props.children).toBeTruthy()
 })
 
-test("elements[^].props.elements[^]", () => {
+test("MultilineElement; start", () => {
 	const elements = [
 		new MultilineElement({
 			type: "ul",
@@ -51,7 +51,7 @@ test("elements[^].props.elements[^]", () => {
 	expect(el.props.children).toBeTruthy()
 })
 
-test("elements[$].props.elements[$]", () => {
+test("MultilineElement; end", () => {
 	const elements = [
 		new MultilineElement({
 			type: "ul",

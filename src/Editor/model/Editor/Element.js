@@ -21,6 +21,12 @@ class Element {
 			},
 		})
 	}
+
+	// Computes text for props.children.
+	get value() {
+		// return this.props.children.reduce((acc, each) => acc += each.value, "")
+		return this.props.children.map(each => each.value).join("")
+	}
 }
 
 export default Element

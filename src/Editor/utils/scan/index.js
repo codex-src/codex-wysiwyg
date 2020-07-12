@@ -3,5 +3,10 @@
 // scan.rtl.rune(...)
 // scan.ltr.rune(...)
 //
-export * as rtl from "./rtl" // Unsorted
-export * as ltr from "./ltr"
+import * as rtl from "./rtl" // Unsorted
+import * as ltr from "./ltr"
+
+// const exports = { rtl, ltr }
+// export exports
+
+export { rtl, ltr }
