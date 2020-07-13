@@ -130,7 +130,6 @@ class Editor {
 			if (draft.range.collapsed) {
 				Object.assign(draft, draft.extend(dir, boundary))
 			}
-			// ...
 			// // draft.range = draft.range.collapse()
 			draft.shouldRerender++
 		})
