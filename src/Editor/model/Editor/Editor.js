@@ -9,21 +9,6 @@ import {
 	produce,
 } from "immer"
 
-// // Computes a direction and a boundary from a description.
-// function descToDirAndBoundary(desc) {
-// 	let dir = "rtl"
-// 	if (desc.startsWith("delete")) {
-// 		dir = "ltr"
-// 	}
-// 	let boundary = "rune"
-// 	if (desc.endsWith("word")) {
-// 		boundary = "word"
-// 	} else if (desc.endsWith("line")) {
-// 		boundary = "line"
-// 	}
-// 	return [dir, boundary]
-// }
-
 // Describes an editor.
 class Editor {
 	[immerable] = true
