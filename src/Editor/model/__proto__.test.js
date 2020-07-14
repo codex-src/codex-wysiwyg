@@ -1,33 +1,31 @@
-import __prototype from "./__prototype"
+import __proto__ from "./__proto__"
 import { immerable } from "immer"
 
 class Class {
 	__internal = true
 }
 
-function __static__constructor() {
+function __constructor__constructor() {
 	return new this()
 }
-function __get__get() {
+function __computed__computed() {
 	return this.__internal
 }
 function method() {
 	return true
 }
 
-;(() => {
-	__prototype(Class, {
-		__static__constructor,
-		__get__get,
-		method,
-	})
-})()
+__proto__(Class, {
+	__constructor__constructor,
+	__computed__computed,
+	method,
+})
 
-test("__prototype(...)", () => {
+test("__proto__(...)", () => {
 	expect(Class[immerable]).toBe(true)
 
 	const c = Class.constructor()
 	expect(c instanceof Class).toBeTruthy()
-	expect(c.get).toBeTruthy()
+	expect(c.computed).toBeTruthy()
 	expect(c.method()).toBeTruthy()
 })

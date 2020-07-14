@@ -4,7 +4,7 @@ import { produce } from "immer"
 
 // Constructs from the current range, scoped to a tree and
 // [contenteditable="true"] descendants.
-export function __static__fromCurrent(tree) {
+export function __constructor__fromCurrent(tree) {
 	const selection = document.getSelection()
 	if (!selection.rangeCount) {
 		return null
@@ -28,7 +28,7 @@ export function __static__fromCurrent(tree) {
 }
 
 // Computes whether the positions are collapsed.
-export function __get__collapsed() {
+export function __computed__collapsed() {
 	return JSONEqual(this.start, this.end)
 }
 

@@ -1,6 +1,6 @@
 import * as PositionMethods from "./methods/Position"
 import * as RangeMethods from "./methods/Range"
-import __prototype from "./__prototype"
+import __proto__ from "./__proto__"
 import hash from "lib/hash"
 import JSONEqual from "lib/json/JSONEqual"
 import { immerable } from "immer"
@@ -121,7 +121,5 @@ export class WYSIWYGEditor {
 	// }
 }
 
-;(() => {
-	__prototype(Position, PositionMethods)
-	__prototype(Range, RangeMethods)
-})()
+__proto__(Position, PositionMethods)
+__proto__(Range, RangeMethods)
