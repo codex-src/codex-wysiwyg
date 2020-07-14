@@ -190,7 +190,7 @@ const Editor = ({ markup, children }) => {
 				data-root
 			>
 				<ReactRenderer
-					tree={ref}
+					tree={ref.current}
 					state={state}
 					dispatch={dispatch}
 				/>

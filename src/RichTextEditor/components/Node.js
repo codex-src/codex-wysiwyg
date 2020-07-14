@@ -1,6 +1,7 @@
 import deeplySyncTrees from "lib/DOM/deeplySyncTrees"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
+import ReactDOMServer from "react-dom/server"
 
 // Renders an element. Note that props.children are not
 // managed by React.

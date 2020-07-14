@@ -1,5 +1,6 @@
 import helpers from "lib/DOM/helpers"
 import JSONClone from "lib/JSON/JSONClone"
+import newHash from "lib/x/newHash"
 import parseRendered from "./parseRendered"
 import parseSemantic from "./parseSemantic"
 
@@ -38,7 +39,7 @@ function parseElements(tree, parser) {
 		case "p":
 			elements.push({
 				type,
-				key: each.id,
+				key: each.id || newHash(),
 				props: {
 					...props,
 					children: parseChildren(each, parser),
