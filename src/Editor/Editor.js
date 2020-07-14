@@ -1,6 +1,7 @@
 import defer from "./utils/children/defer"
 import detectKeydownType from "./utils/keydown/detectKeydownType"
-import Range from "./model/Editor/Range"
+// import Range from "./model/Editor/Range"
+import { Range } from "./model/model"
 import React from "react"
 import ReactDOM from "react-dom"
 import RenderedScanner from "./model/Scanners/RenderedScanner"
@@ -254,7 +255,7 @@ const Editor = ({ markup, children }) => {
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify({
 					...state,
-					// elements: undefined,
+					elements: undefined,
 				}, null, "\t")}
 			</div>
 

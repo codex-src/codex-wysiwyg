@@ -1,8 +1,11 @@
 import * as scan from "../../utils/scan"
 import DblLinkedElementList from "../../utils/elements/DblLinkedElementList"
 import ElementList from "../../utils/elements/ElementList"
-import Position from "./Position"
-import Range from "./Range"
+
+import {
+	Position,
+	Range,
+} from "../model"
 
 import {
 	immerable,
