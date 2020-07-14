@@ -1,10 +1,26 @@
 // import SemanticScanner from "./model/Scanners/SemanticScanner"
 import Editor from "./model/Editor/Editor"
-import newEum from "lib/x/enum"
+import newEnum from "lib/x/newEnum"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import stripWhitespace from "lib/DOM/stripWhitespace"
+
+const actionEnums = newEnum(
+	"enable-read-only-mode",
+	"disable-read-only-mode",
+	"enable-display-markdown-mode",
+	"disable-display-markdown-mode",
+	"focus",
+	"blur",
+	"select",
+	"backspace-rune",
+	"backspace-word",
+	"backspace-line",
+	"delete-rune",
+	"delete-word",
+	"input",
+)
 
 // Creates a new initial state.
 const newInitialState = elements => ({
@@ -29,71 +45,52 @@ const newInitialState = elements => ({
 	},
 })
 
-const actionEnums = newEnum(
-	"enable-read-only-mode",
-	"disable-read-only-mode",
-	"enable-display-markdown-mode",
-	"disable-display-markdown-mode",
-	"focus",
-	"blur",
-	"uncontrolled-select",
-	"delete",
-	"uncontrolled-input",
-)
-
 const methods = state => ({
-	registerAction(actionName) {
-
+	registerAction(action) {
+		if (actionEnums[action] === undefined) {
+			throw new Error(`useRichTextEditor.methods: action mismatch; action=${action}`)
+		}
+		state.lastUserActionTimestamp = Date.now()
+		state.lastUserAction = action
 	},
 
 	// Modes:
 	enableReadOnlyMode() {
+		this.registerAction("enable-read-only-mode")
 		state.readOnlyModeEnabled = true
 	},
 	disableReadOnlyMode() {
+		this.registerAction("disable-read-only-mode")
 		state.readOnlyModeEnabled = false
 	},
 	enableDisplayMarkdownMode() {
+		this.registerAction("enable-display-markdown-mode")
 		state.displayMarkdownModeEnabled = true
 	},
 	disableDisplayMarkdownMode() {
+		this.registerAction("disable-display-markdown-mode")
 		state.displayMarkdownModeEnabled = false
 	},
-	// Handlers:
-	focusHandler() {
-		Editor(state).focusHandler(arguments)
+	focus() {
+		this.registerAction("focus")
+		Editor(state).focus(arguments)
 	},
-	blurHandler() {
-		Editor(state).blurHandler(arguments)
+	blur() {
+		this.registerAction("blur")
+		Editor(state).blur(arguments)
 	},
-	uncontrolledSelectHandler(range) {
-		Editor(state).uncontrolledSelectHandler(arguments)
+	select(range) {
+		this.registerAction("select")
+		Editor(state).select(arguments)
 	},
-	deleteHandler(desc) {
+	deleteHandler(enumKey) {
+		this.registerAction(enumKey)
 		Editor(state).deleteHandler(arguments)
 	},
-	uncontrolledInputHandler(children, range) {
-		Editor(state).uncontrolledInputHandler(arguments)
+	uncontrolledInput(children, range) {
+		this.registerAction("input")
+		Editor(state).uncontrolledInput(arguments)
 	},
-
-	// switch (action.type) {
-	// case "DISABLE_READ_ONLY_MODE":
-	// 	return state.disableReadOnlyMode()
-	// case "ENABLE_READ_ONLY_MODE":
-	// 	return state.enableReadOnlyMode()
-	// case "FOCUS":
-	// 	return state.focus()
-	// case "BLUR":
-	// 	return state.blur()
-	// case "SELECT":
-	// 	return state.select(action.range)
-	// case "CONTROLLED_DELETE_HANDLER":
-	// 	return state.controlledDeleteHandler(action.desc)
-	// case "UNCONTROLLED_INPUT_HANDLER":
-	// 	return state.uncontrolledInputHandler(action.children, action.range)
-	// default:
-	// 	throw new Error(`useRichTextEditor.EditorReducer: type mismatch; action.type=${action.type}`)
-	// }
 })
 
 // Indents markup; adds one tab before each paragraph.
