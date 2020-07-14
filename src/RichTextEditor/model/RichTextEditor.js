@@ -16,6 +16,7 @@ const actionEnums = newEnum(
 	"input",
 )
 
+// Return stateful methods for a rich text editor.
 const RichTextEditor = state => ({
 	// Registers an action.
 	registerAction(action) {
@@ -35,58 +36,41 @@ const RichTextEditor = state => ({
 		this.registerAction("disable-read-only-mode")
 		state.readOnlyModeEnabled = false
 	},
-	// Enables display markdown mode; enables read-only mode and
-	// renders markdown syntax.
+	// Enables display markdown mode; enables read-only mode.
 	enableDisplayMarkdownMode() {
 		this.registerAction("enable-display-markdown-mode")
 		state.readOnlyModeEnabled = true
 		state.displayMarkdownModeEnabled = true
 	},
-	// Disables display markdown mode; disables read-only mode
-	// and obscures markdown syntax.
+	// Disables display markdown mode; disables read-only mode.
 	disableDisplayMarkdownMode() {
 		this.registerAction("disable-display-markdown-mode")
 		state.readOnlyModeEnabled = false
 		state.displayMarkdownModeEnabled = false
 	},
+	// Focuses the editor.
 	focus() {
 		this.registerAction("focus")
 		state.focused = true
 	},
+	// Blurs the editor.
 	blur() {
 		this.registerAction("blur")
 		state.focused = false
 	},
-	// select(range) {
-	// 	this.registerAction("select")
-	// },
+	// Selects a range.
+	select(range) {
+		this.registerAction("select")
+		state.range = range
+	},
 	// deleteHandler(enumKey) {
 	// 	this.registerAction(enumKey)
+	// 	// ...
 	// },
 	// uncontrolledInput(children, range) {
 	// 	this.registerAction("input")
+	// 	// ...
 	// },
 })
-
-// focus() {
-// 	this.registerAction("focus")
-// 	Editor(state).focus(arguments)
-// },
-// blur() {
-// 	this.registerAction("blur")
-// 	Editor(state).blur(arguments)
-// },
-// select(range) {
-// 	this.registerAction("select")
-// 	Editor(state).select(arguments)
-// },
-// deleteHandler(enumKey) {
-// 	this.registerAction(enumKey)
-// 	Editor(state).deleteHandler(arguments)
-// },
-// uncontrolledInput(children, range) {
-// 	this.registerAction("input")
-// 	Editor(state).uncontrolledInput(arguments)
-// },
 
 export default RichTextEditor

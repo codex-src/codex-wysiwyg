@@ -1,13 +1,17 @@
 import React from "react"
 
-// Accepts a callback for DOMContentLoaded.
-function useDOMContentLoadedCallback(callback) {
+// Accepts a handler for DOMContentLoaded.
+function useDOMContentLoadedCallback(handler) {
 	React.useEffect(() => {
-		document.addEventListener("DOMContentLoaded", callback)
-		return () => {
-			document.removeEventListener("DOMContentLoaded", callback)
+		if (document.readyState === "interactive") {
+			handler()
+			return
 		}
-	}, [callback])
+		document.addEventListener("DOMContentLoaded", handler)
+		return () => {
+			document.removeEventListener("DOMContentLoaded", handler)
+		}
+	}, [handler])
 }
 
 export default useDOMContentLoadedCallback

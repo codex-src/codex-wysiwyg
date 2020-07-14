@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
 
 // // React renderer.
@@ -18,12 +19,13 @@ const Editor = ({ markup, children }) => {
 	const pointerdownRef = React.useRef(false)
 
 	const [state, dispatch] = useRichTextEditor({ markup, children })
-	console.log(state, dispatch)
 
-	// // Disables read-only mode on DOMContentLoaded.
-	// useDOMContentLoadedCallback(() => {
-	// 	dispatch({ type: "DISABLE_READ_ONLY_MODE" })
-	// })
+	// React.useEffect(() => {
+	// 	dispatch.disableReadOnlyMode()
+	// }, [])
+
+	// Disables read-only mode on DOMContentLoaded.
+	useDOMContentLoadedCallback(dispatch.disableReadOnlyMode)
 
 	// // Rerenders on state.shouldRerender.
 	// React.useLayoutEffect(

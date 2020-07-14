@@ -8,9 +8,9 @@ import useMethods from "use-methods"
 import { parseSemanticTree } from "./parsers"
 
 const newInitialState = elements => ({
-	lastActionTimestamp: "",
-	lastAction: "",
-	readOnlyModeEnabled: false,
+	lastActionTimestamp: "init",
+	lastAction: Date.now(),
+	readOnlyModeEnabled: true, // DOMContentLoaded disables read-only mode
 	displayMarkdownModeEnabled: false,
 	elements,
 	range: {
