@@ -1,4 +1,3 @@
-import JSONEqual from "lib/json/JSONEqual"
 import { Position } from "../model"
 import { produce } from "immer"
 
@@ -34,10 +33,13 @@ export function collapse() {
 	})
 }
 
+// Converts a user literal to an array.
+function convArray({ node, offset }) {
+	return [node, offset]
+}
+
 // Resolves to a user literal.
 export function toUserLiteral() {
-	// Converts a user literal to an array.
-	const convArray = ({ node, offset }) => [node, offset]
 	const p1 = convArray(this.start.toUserLiteral())
 	let p2 = p1
 	if (!this.collapsed) {

@@ -1,5 +1,5 @@
-import * as PositionImpl from "./implementation/Position"
-import * as RangeImpl from "./implementation/Range"
+import * as PositionMethods from "./methods/Position"
+import * as RangeMethods from "./methods/Range"
 import hash from "lib/hash"
 import JSONEqual from "lib/json/JSONEqual"
 import { immerable } from "immer"
@@ -79,10 +79,6 @@ export class Element {
 // Describes an element list.
 export class ElementList extends Array {}
 
-/*
- * Position
- */
-
 // Describes a position.
 export class Position {
 	key = ""
@@ -95,19 +91,6 @@ export class Position {
 		})
 	}
 }
-
-Position[immerable] = true
-
-Position.fromUserLiteral = function() {
-	return PositionImpl.fromUserLiteral.apply(this, arguments)
-}
-Position.toUserLiteral = function() {
-	return PositionImpl.toUserLiteral.apply(this, arguments)
-}
-
-/*
- * Range
- */
 
 // Describes a range.
 export class Range {
@@ -126,14 +109,17 @@ export class Range {
 	}
 }
 
-Range[immerable] = true
+// Prototypes methods to a class.
+function Prototype(Class, methods) {
+	Class[immerable] = true
+	Object.keys(methods).map(each => {
+		if (each.startsWith("from")) {
+			Class[each] = methods[each]
+			continue
+		}
+		Class.prototype[each] = methods[each]
+	})
+}
 
-Range.fromCurrent = function() {
-	return RangeImpl.fromCurrent.apply(this, arguments)
-}
-Range.prototype.collapse = function() {
-	return RangeImpl.collapse.apply(this, arguments)
-}
-Range.prototype.toUserLiteral = function() {
-	return RangeImpl.toUserLiteral.apply(this, arguments)
-}
+Prototype(Position, PositionMethods)
+Prototype(Range, RangeMethods)
