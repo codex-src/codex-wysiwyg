@@ -1,5 +1,6 @@
 import * as PositionMethods from "./methods/Position"
 import * as RangeMethods from "./methods/Range"
+import __prototype from "./__prototype"
 import hash from "lib/hash"
 import JSONEqual from "lib/json/JSONEqual"
 import { immerable } from "immer"
@@ -120,25 +121,7 @@ export class WYSIWYGEditor {
 	// }
 }
 
-// Prototypes methods to a class. Supports __static__ and
-// __get__ methods.
-function Prototype(Class, methods) {
-	Class[immerable] = true
-	for (const each of Object.keys(methods)) {
-		if (each.startsWith("__static__")) {
-			Class[each.slice("__static__".length)] = methods[each]
-			continue
-		} else if (each.startsWith("__get__")) {
-			Object.defineProperty(Class.prototype, each.slice("__get__".length), {
-				get: methods[each],
-			})
-			continue
-		}
-		Class.prototype[each] = methods[each]
-	}
-}
-
 ;(() => {
-	Prototype(Position, PositionMethods)
-	Prototype(Range, RangeMethods)
+	__prototype(Position, PositionMethods)
+	__prototype(Range, RangeMethods)
 })()
