@@ -108,18 +108,29 @@ export class Range {
 
 // Describes a WYSIWYG editor.
 export class WYSIWYGEditor {
-	// NOTE: DOMContentLoaded disables read-only mode.
 	readOnlyModeEnabled = true
 	readOnlyMarkdownModeEnabled = false
 	focused = false
+
+	// The document elements and range.
 	elements = new ElementList()
 	range = new Range()
-	#renderCounter = 0
 
-	// get shouldComponentUpdate() {
-	// 	return this.#renderCounter
-	// }
+	// Counts the number of renders; used as a dependency for
+	// useLayoutEffect.
+	renderCounter = 0
 }
 
-__proto__(Position, PositionMethods)
-__proto__(Range, RangeMethods)
+// __proto(Emphasis, EmphasisMethods)
+// __proto(Strong, StrongMethods)
+// __proto(Code, CodeMethods)
+// __proto(Strikethrough, StrikethroughMethods)
+// __proto(Anchor, AnchorMethods)
+// __proto(InlineElementTypeList, InlineElementTypeListMethods)
+// __proto(InlineElement, InlineElementMethods)
+// __proto(InlineElementList, InlineElementListMethods)
+// __proto(Element, ElementMethods)
+// __proto(ElementList, ElementListMethods)
+__proto(Position, PositionMethods)
+__proto(Range, RangeMethods)
+// __proto(WYSIWYGEditor, WYSIWYGEditorMethods)
