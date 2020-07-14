@@ -101,22 +101,10 @@ export class Position {
 			offset: offset || 0,
 		})
 	}
-
-	static fromUserLiteral({ node, offset }) {
-		return PositionMethods.__static_fromUserLiteral.apply(this, arguments)
-	}
-	isEqualTo(pos) {
-		return PositionMethods.isEqualTo.apply(this, arguments)
-	}
-	toUserLiteral() {
-		return PositionMethods.toUserLiteral.apply(this, arguments)
-	}
 }
 
 // Describes a range.
 export class Range {
-	[immerable] = true
-
 	start = new Position()
 	end = new Position()
 
@@ -127,16 +115,38 @@ export class Range {
 		})
 	}
 
-	static getCurrent(tree) {
-		return RangeMethods.__static_getCurrent.apply(this, arguments)
-	}
+	// Computes whether the positions are collapsed.
 	get collapsed() {
-		return RangeMethods.__get_collapsed.apply(this, arguments)
+		return this.start.isEqualTo(this.end)
 	}
-	collapse() {
-		return RangeMethods.collapse.apply(this, arguments)
-	}
-	toUserLiteral() {
-		return RangeMethods.toUserLiteral.apply(this, arguments)
-	}
+}
+
+/*
+ * Position
+ */
+Position[immerable] = true
+
+Position.fromUserLiteral = function({ node, offset }) {
+	return PositionMethods.fromUserLiteral.apply(this, arguments)
+}
+Position.prototype.isEqualTo = function(pos) {
+	return PositionMethods.isEqualTo.apply(this, arguments)
+}
+Position.prototype.toUserLiteral = function() {
+	return PositionMethods.toUserLiteral.apply(this, arguments)
+}
+
+/*
+ * Range
+ */
+Range[immerable] = true
+
+Range.fromCurrent = function(tree) {
+	return RangeMethods.fromCurrent.apply(this, arguments)
+}
+Range.prototype.collapse = function() {
+	return RangeMethods.collapse.apply(this, arguments)
+}
+Range.prototype.toUserLiteral = function() {
+	return RangeMethods.toUserLiteral.apply(this, arguments)
 }

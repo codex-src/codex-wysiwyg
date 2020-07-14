@@ -1,7 +1,7 @@
 import domUtils from "lib/domUtils"
 
 // Constructs from a user literal.
-export function __static_fromUserLiteral({ node, offset: originalOffset }) {
+export function fromUserLiteral({ node, offset: originalOffset }) {
 	// Guard non-contenteditable descendants:
 	if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
 		return null

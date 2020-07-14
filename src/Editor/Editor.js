@@ -111,7 +111,7 @@ const Editor = ({ markup, children }) => {
 						}
 						return
 					}
-					const range = Range.getCurrent(ref.current)
+					const range = Range.fromCurrent(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -129,7 +129,7 @@ const Editor = ({ markup, children }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={readWriteOnlyHandler(e => {
-					const range = Range.getCurrent(ref.current)
+					const range = Range.fromCurrent(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -215,7 +215,7 @@ const Editor = ({ markup, children }) => {
 				})}
 
 				onInput={readWriteOnlyHandler(e => {
-					const range = Range.getCurrent(ref.current).collapse()
+					const range = Range.fromCurrent(ref.current).collapse()
 					const children = rscanner.scanChildren(document.getElementById(range.start.key))
 					defer(children)
 					dispatch({

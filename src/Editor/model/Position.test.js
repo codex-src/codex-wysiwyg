@@ -1,7 +1,7 @@
 import hash from "lib/hash"
-import Position from "./Position"
 import React from "react"
 import renderTree from "lib/renderTree"
+import { Position } from "./model"
 
 const contentEditable = {
 	contentEditable: true,
