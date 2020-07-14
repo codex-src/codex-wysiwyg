@@ -19,7 +19,7 @@ function parseRendered(element) {
 		type = dataType
 		break
 	default:
-		throw new Error(`parse.parseRendered: no such type; dataType=${dataType}`)
+		throw new Error(`parsers.parseRendered: no such type; dataType=${dataType}`)
 	}
 	const props = JSON.parse(element.getAttribute("data-props"))
 	return { type, props }

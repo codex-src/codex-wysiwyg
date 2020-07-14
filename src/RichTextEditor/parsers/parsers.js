@@ -46,7 +46,7 @@ function parseElements(tree, parser) {
 			})
 			break
 		default:
-			throw new Error(`parseElements.scan: type mismatch; type=${type}`)
+			throw new Error(`parsers.parseElements: type mismatch; type=${type}`)
 		}
 	}
 	return elements
