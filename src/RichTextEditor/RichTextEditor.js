@@ -1,18 +1,7 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import ReactRenderer from "./ReactRenderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
-
-// // React renderer.
-// const ReactRenderer = ({ state, dispatch }) => (
-// 	state.elements.map(({ type: T, key, props }) => (
-// 		React.createElement(renderMap[T], {
-// 			key,
-// 			id: key,
-// 			...props,
-// 		})
-// 	))
-// )
 
 const Editor = ({ markup, children }) => {
 	const ref = React.useRef(null)
@@ -20,41 +9,8 @@ const Editor = ({ markup, children }) => {
 
 	const [state, dispatch] = useRichTextEditor({ markup, children })
 
-	// React.useEffect(() => {
-	// 	dispatch.disableReadOnlyMode()
-	// }, [])
-
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(dispatch.disableReadOnlyMode)
-
-	// // Rerenders on state.shouldRerender.
-	// React.useLayoutEffect(
-	// 	React.useCallback(() => {
-	// 		if (!ref.current) {
-	// 			// No-op
-	// 			return
-	// 		}
-	// 		// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
-	// 		const selection = document.getSelection()
-	// 		if (selection.rangeCount) {
-	// 			selection.removeAllRanges()
-	// 		}
-	// 		console.log("ReactDOM.render")
-	// 		ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, ref.current, () => {
-	// 			if (state.readOnlyModeEnabled || !state.focused) {
-	// 				// No-op
-	// 				return
-	// 			}
-	// 			try {
-	// 				const range = state.range.toUserLiteral(state.range)
-	// 				selection.addRange(range)
-	// 			} catch (error) {
-	// 				console.error(error)
-	// 			}
-	// 		})
-	// 	}, [state, dispatch]),
-	// 	[state.shouldRerender],
-	// )
 
 	// Returns a handler when read-only mode is disabled.
 	const readWriteOnlyHandler = handler => {
@@ -73,12 +29,10 @@ const Editor = ({ markup, children }) => {
 				className="em-context focus:outline-none"
 
 				onFocus={readWriteOnlyHandler(e => {
-					console.log("onFocus")
 					dispatch.focus()
 				})}
 
 				onBlur={readWriteOnlyHandler(e => {
-					console.log("onBlur")
 					dispatch.blur()
 				})}
 
@@ -235,14 +189,18 @@ const Editor = ({ markup, children }) => {
 
 				data-root
 			>
-				Hello
+				<ReactRenderer
+					tree={ref}
+					state={state}
+					dispatch={dispatch}
+				/>
 			</article>
 
 			{/* DEBUG */}
 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify({
 					...state,
-					elements: undefined,
+					// elements: undefined,
 				}, null, "\t")}
 			</div>
 

@@ -48,10 +48,7 @@ test("<p>Hello, <code>world</code>!</p>", () => {
 					{ types: [], props: { children: " " } },
 					{
 						types: [
-							{
-								type: "code",
-								props: null,
-							},
+							{ type: "code", props: null },
 						],
 						props: {
 							children: "world",
