@@ -1,6 +1,7 @@
-import * as PositionMethods from "./PositionMethods"
-import * as RangeMethods from "./RangeMethods"
+import * as PositionImpl from "./implementation/Position"
+import * as RangeImpl from "./implementation/Range"
 import hash from "lib/hash"
+import JSONEqual from "lib/json/JSONEqual"
 import { immerable } from "immer"
 
 // Describes <em>.
@@ -42,14 +43,10 @@ export class Anchor {
 }
 
 // Describes an inline element type list.
-export class InlineElementTypeList extends Array {
-	[immerable] = true
-}
+export class InlineElementTypeList extends Array {}
 
 // Describes an inline element.
 export class InlineElement {
-	[immerable] = true
-
 	types = new InlineElementTypeList()
 	props = {
 		children: "",
@@ -58,14 +55,10 @@ export class InlineElement {
 
 // Describes an inline element list; colloquially referred
 // to as children.
-export class InlineElementList extends Array {
-	[immerable] = true
-}
+export class InlineElementList extends Array {}
 
 // Describes an element.
 export class Element {
-	[immerable] = true
-
 	type = ""
 	key = hash()
 	props = {
@@ -84,14 +77,14 @@ export class Element {
 }
 
 // Describes an element list.
-export class ElementList extends Array {
-	[immerable] = true
-}
+export class ElementList extends Array {}
+
+/*
+ * Position
+ */
 
 // Describes a position.
 export class Position {
-	[immerable] = true
-
 	key = ""
 	offset = 0
 
@@ -102,6 +95,19 @@ export class Position {
 		})
 	}
 }
+
+Position[immerable] = true
+
+Position.fromUserLiteral = function() {
+	return PositionImpl.fromUserLiteral.apply(this, arguments)
+}
+Position.toUserLiteral = function() {
+	return PositionImpl.toUserLiteral.apply(this, arguments)
+}
+
+/*
+ * Range
+ */
 
 // Describes a range.
 export class Range {
@@ -115,38 +121,19 @@ export class Range {
 		})
 	}
 
-	// Computes whether the positions are collapsed.
 	get collapsed() {
-		return this.start.isEqualTo(this.end)
+		return JSONEqual(this.start, this.end)
 	}
 }
 
-/*
- * Position
- */
-Position[immerable] = true
-
-Position.fromUserLiteral = function({ node, offset }) {
-	return PositionMethods.fromUserLiteral.apply(this, arguments)
-}
-Position.prototype.isEqualTo = function(pos) {
-	return PositionMethods.isEqualTo.apply(this, arguments)
-}
-Position.prototype.toUserLiteral = function() {
-	return PositionMethods.toUserLiteral.apply(this, arguments)
-}
-
-/*
- * Range
- */
 Range[immerable] = true
 
-Range.fromCurrent = function(tree) {
-	return RangeMethods.fromCurrent.apply(this, arguments)
+Range.fromCurrent = function() {
+	return RangeImpl.fromCurrent.apply(this, arguments)
 }
 Range.prototype.collapse = function() {
-	return RangeMethods.collapse.apply(this, arguments)
+	return RangeImpl.collapse.apply(this, arguments)
 }
 Range.prototype.toUserLiteral = function() {
-	return RangeMethods.toUserLiteral.apply(this, arguments)
+	return RangeImpl.toUserLiteral.apply(this, arguments)
 }

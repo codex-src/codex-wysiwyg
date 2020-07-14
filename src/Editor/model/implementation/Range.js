@@ -1,4 +1,5 @@
-import { Position } from "./model"
+import JSONEqual from "lib/json/JSONEqual"
+import { Position } from "../model"
 import { produce } from "immer"
 
 // Constructs from the current range, scoped to a tree and

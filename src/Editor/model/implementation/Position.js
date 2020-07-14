@@ -39,15 +39,6 @@ export function fromUserLiteral({ node, offset: originalOffset }) {
 	return new this({ key, offset })
 }
 
-// Compares shallowly and deeply.
-export function isEqualTo(pos) {
-	const ok = (
-		this === pos ||
-		(this.key === pos.key && this.offset === pos.offset)
-	)
-	return ok
-}
-
 // Resolves to a user literal.
 export function toUserLiteral() {
 	let { key, offset: originalOffset } = this
