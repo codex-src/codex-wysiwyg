@@ -132,6 +132,7 @@ test("stress test; non-nested", () => {
 			},
 		},
 	]
+
 	// expect(() => {
 	// 	expect(toReact(children)).toEqual([
 	// 		<Em>foo</Em>,
@@ -145,6 +146,7 @@ test("stress test; non-nested", () => {
 	// 		<Em>garply</Em>,
 	// 	])
 	// }).toThrow(throwMsg)
+
 	expect(() => {
 		expect(toReact(children)).toEqual([
 			<Em>
