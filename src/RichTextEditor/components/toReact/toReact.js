@@ -13,7 +13,7 @@ function toReactHandler(intermediary) {
 		}
 		const { type, props } = each
 		renderable.push(React.createElement(componentMap[type], {
-			...props, // Takes precedence
+			...props,
 			key: renderable.length,
 		}, toReactHandler(props.children)))
 	}

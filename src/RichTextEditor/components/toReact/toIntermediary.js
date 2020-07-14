@@ -3,17 +3,43 @@ import JSONEqual from "lib/JSON/JSONEqual"
 import obscure from "lib/Object/obscure"
 import toArray from "lib/Array/toArray"
 
+// // Queries intermediary React elements for the next parent
+// // element and and non-nested types.
+// function query(intermediary, { types }) {
+// 	if (!intermediary.length || !types.length) {
+// 		return [intermediary, types]
+// 	}
+// 	let lastRef = toArray(intermediary).slice(-1)[0]
+// 	let ref = lastRef
+// 	let x = 0
+// 	let type = null
+// 	for ([x, type] of types.entries()) {
+// 		ref = toArray(ref).slice(-1)[0]
+// 		if (typeof ref === "string" || ref.type !== type.type || !JSONEqual(obscure(ref.props, "children"), type.props)) {
+// 			// No-op
+// 			break
+// 		}
+// 		lastRef = ref
+// 		ref = ref.props.children
+// 	}
+// 	if (lastRef === ref) {
+// 		return [intermediary, types]
+// 	}
+// 	lastRef.props.children = toArray(lastRef.props.children)
+// 	return [lastRef.props.children, types.slice(x)]
+// }
+
 // Queries intermediary React elements for the next parent
 // element and and non-nested types.
-function query(intermediary, child) {
-	const types = JSONClone(child.types) // TODO
-
+function query(intermediary, { types }) {
 	if (!intermediary.length || !types.length) {
 		return [intermediary, types]
 	}
 	let lastRef = toArray(intermediary).slice(-1)[0]
 	let ref = lastRef
-	for (let type = types[0]; types.length; types.shift(), type = types[0]) { // TODO
+	let x = 0
+	for (; x < types.length; x++) {
+		const type = types[x]
 		ref = toArray(ref).slice(-1)[0]
 		if (typeof ref === "string" || ref.type !== type.type || !JSONEqual(obscure(ref.props, "children"), type.props)) {
 			// No-op
@@ -26,7 +52,7 @@ function query(intermediary, child) {
 		return [intermediary, types]
 	}
 	lastRef.props.children = toArray(lastRef.props.children)
-	return [lastRef.props.children, types]
+	return [lastRef.props.children, types.slice(x)]
 }
 
 // Creates an intermediary React element from an inline
