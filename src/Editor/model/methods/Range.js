@@ -1,9 +1,10 @@
+import JSONEqual from "lib/json/JSONEqual"
 import { Position } from "../model"
 import { produce } from "immer"
 
 // Constructs from the current range, scoped to a tree and
 // [contenteditable="true"] descendants.
-export function fromCurrent(tree) {
+export function __static__fromCurrent(tree) {
 	const selection = document.getSelection()
 	if (!selection.rangeCount) {
 		return null
@@ -24,6 +25,11 @@ export function fromCurrent(tree) {
 		})
 	}
 	return new this({ start, end })
+}
+
+// Computes whether the positions are collapsed.
+export function __get__collapsed() {
+	return JSONEqual(this.start, this.end)
 }
 
 // Collapses to the start position.

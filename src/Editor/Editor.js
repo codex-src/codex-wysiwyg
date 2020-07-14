@@ -31,7 +31,7 @@ const Editor = ({ markup, children }) => {
 	}, [])
 
 	const [state, dispatch] = useEditor({ markup, children })
-	// console.log(state)
+	console.log(state)
 
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(() => {

@@ -103,23 +103,42 @@ export class Range {
 			end: end || new Position(),
 		})
 	}
-
-	get collapsed() {
-		return JSONEqual(this.start, this.end)
-	}
 }
 
-// Prototypes methods to a class.
+// Describes a WYSIWYG editor.
+export class WYSIWYGEditor {
+	// NOTE: DOMContentLoaded disables read-only mode.
+	readOnlyModeEnabled = true
+	readOnlyMarkdownModeEnabled = false
+	focused = false
+	elements = new ElementList()
+	range = new Range()
+	#renderCounter = 0
+
+	// get shouldComponentUpdate() {
+	// 	return this.#renderCounter
+	// }
+}
+
+// Prototypes methods to a class. Supports __static__ and
+// __get__ methods.
 function Prototype(Class, methods) {
 	Class[immerable] = true
-	Object.keys(methods).map(each => {
-		if (each.startsWith("from")) {
-			Class[each] = methods[each]
+	for (const each of Object.keys(methods)) {
+		if (each.startsWith("__static__")) {
+			Class[each.slice("__static__".length)] = methods[each]
+			continue
+		} else if (each.startsWith("__get__")) {
+			Object.defineProperty(Class.prototype, each.slice("__get__".length), {
+				get: methods[each],
+			})
 			continue
 		}
 		Class.prototype[each] = methods[each]
-	})
+	}
 }
 
-Prototype(Position, PositionMethods)
-Prototype(Range, RangeMethods)
+;(() => {
+	Prototype(Position, PositionMethods)
+	Prototype(Range, RangeMethods)
+})()
