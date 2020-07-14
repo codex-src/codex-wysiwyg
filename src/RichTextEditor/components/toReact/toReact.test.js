@@ -132,17 +132,80 @@ test("stress test; non-nested", () => {
 			},
 		},
 	]
+	// expect(() => {
+	// 	expect(toReact(children)).toEqual([
+	// 		<Em>foo</Em>,
+	// 		<Strong><Em>bar</Em></Strong>,
+	// 		<Strike><Strong><Em>baz</Em></Strong></Strike>,
+	// 		<A><Strike><Strong><Em>qux</Em></Strong></Strike></A>,
+	// 		<Code><A><Strike><Strong><Em>quux</Em></Strong></Strike></A></Code>,
+	// 		<A><Strike><Strong><Em>quuz</Em></Strong></Strike></A>,
+	// 		<Strike><Strong><Em>corge</Em></Strong></Strike>,
+	// 		<Strong><Em>grault</Em></Strong>,
+	// 		<Em>garply</Em>,
+	// 	])
+	// }).toThrow(throwMsg)
 	expect(() => {
 		expect(toReact(children)).toEqual([
-			<Em>foo</Em>,
-			<Strong><Em>bar</Em></Strong>,
-			<Strike><Strong><Em>baz</Em></Strong></Strike>,
-			<A><Strike><Strong><Em>qux</Em></Strong></Strike></A>,
-			<Code><A><Strike><Strong><Em>quux</Em></Strong></Strike></A></Code>,
-			<A><Strike><Strong><Em>quuz</Em></Strong></Strike></A>,
-			<Strike><Strong><Em>corge</Em></Strong></Strike>,
-			<Strong><Em>grault</Em></Strong>,
-			<Em>garply</Em>,
+			<Em>
+				foo
+			</Em>,
+			<Strong>
+				<Em>
+					bar
+				</Em>
+			</Strong>,
+			<Strike>
+				<Strong>
+					<Em>
+						baz
+					</Em>
+				</Strong>
+			</Strike>,
+			<A>
+				<Strike>
+					<Strong>
+						<Em>
+							qux
+						</Em>
+					</Strong>
+				</Strike>
+			</A>,
+			<Code>
+				<A>
+					<Strike>
+						<Strong>
+							<Em>
+								quux
+							</Em>
+						</Strong>
+					</Strike>
+				</A>
+			</Code>,
+			<A>
+				<Strike>
+					<Strong>
+						<Em>
+							quuz
+						</Em>
+					</Strong>
+				</Strike>
+			</A>,
+			<Strike>
+				<Strong>
+					<Em>
+						corge
+					</Em>
+				</Strong>
+			</Strike>,
+			<Strong>
+				<Em>
+					grault
+				</Em>
+			</Strong>,
+			<Em>
+				garply
+			</Em>,
 		])
 	}).toThrow(throwMsg)
 })
