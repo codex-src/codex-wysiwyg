@@ -1,9 +1,10 @@
+import Debugger from "./components/Debugger"
 import React from "react"
-import ReactRenderer from "./ReactRenderer"
+import Renderer from "./components/Renderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
 
-const Editor = ({ markup, children }) => {
+const RichTextEditor = ({ markup, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -189,23 +190,20 @@ const Editor = ({ markup, children }) => {
 
 				data-root
 			>
-				<ReactRenderer
-					tree={ref.current}
+				<Renderer
+					forwardedRef={ref}
 					state={state}
 					dispatch={dispatch}
 				/>
 			</article>
 
-			{/* DEBUG */}
-			<div className="mt-6 whitespace-pre-wrap text-xs font-mono select-none" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify({
-					...state,
-					// elements: undefined,
-				}, null, "\t")}
-			</div>
+			<Debugger
+				state={state}
+				dispatch={dispatch}
+			/>
 
 		</div>
 	)
 }
 
-export default Editor
+export default RichTextEditor

@@ -1,13 +1,22 @@
-import componentMap from "./components/componentMap"
+import componentMap from "./componentMap"
 import React from "react"
 import ReactDOM from "react-dom"
 
-// Renders the current state.
-const ReactRenderer = ({ tree, state, dispatch }) => {
+const Elements = ({ state, dispatch }) => (
+	state.elements.map(({ type, key, props }) => (
+		React.createElement(componentMap[type], {
+			key,
+			id: key,
+			...props,
+		})
+	))
+)
 
+// Rerenders the current state on state.shouldRerender.
+const ReactRenderer = ({ forwardedRef, state, dispatch }) => {
 	React.useLayoutEffect(
 		React.useCallback(() => {
-			if (!tree) {
+			if (!forwardedRef.current) {
 				// No-op
 				return
 			}
@@ -16,8 +25,7 @@ const ReactRenderer = ({ tree, state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			console.log("ReactDOM.render")
-			ReactDOM.render(<ReactRenderer state={state} dispatch={dispatch} />, tree, () => {
+			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, forwardedRef.current, () => {
 				if (state.readOnlyModeEnabled || !state.focused) {
 					// No-op
 					return
@@ -29,19 +37,10 @@ const ReactRenderer = ({ tree, state, dispatch }) => {
 					console.error(error)
 				}
 			})
-		}, [tree, state, dispatch]),
-		[state.shouldRerender],
+		}, [forwardedRef, state, dispatch]),
+		[forwardedRef.current, state.shouldRerender],
 	)
-
-	return (
-		state.elements.map(({ type: T, key, props }) => (
-			React.createElement(componentMap[T], {
-				key,
-				id: key,
-				...props,
-			})
-		))
-	)
+	return null
 }
 
 export default ReactRenderer

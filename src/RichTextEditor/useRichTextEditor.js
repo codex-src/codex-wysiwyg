@@ -1,8 +1,8 @@
+import * as RichTextEditor from "./methods/RichTextEditor"
 import JSONEqual from "lib/JSON/JSONEqual"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
-import RichTextEditor from "./model/RichTextEditor"
 import stripWhitespace from "lib/DOM/stripWhitespace"
 import useMethods from "use-methods"
 import { parseSemanticTree } from "./parsers"
@@ -12,6 +12,7 @@ const newInitialState = elements => ({
 	lastAction: Date.now(),
 	readOnlyModeEnabled: true, // DOMContentLoaded disables read-only mode
 	displayMarkdownModeEnabled: false,
+	focused: false,
 	elements,
 	range: {
 		start: {
@@ -26,7 +27,13 @@ const newInitialState = elements => ({
 			return JSONEqual(this.start, this.end)
 		},
 	},
+	shouldRerender: 0,
 })
+
+const methods = state => Object.keys(RichTextEditor).reduce((acc, each) => {
+	acc[each] = RichTextEditor[each](state)
+	return acc
+}, {})
 
 // Parses elements from markup or children.
 function parseElements({ markup, children }) {
@@ -50,7 +57,7 @@ function useRichTextEditor({ markup, children }) {
 		const elements = parseElements({ markup, children })
 		return newInitialState(elements)
 	}, [markup, children])
-	return useMethods(state => RichTextEditor(state), initialState)
+	return useMethods(methods, initialState)
 }
 
 export default useRichTextEditor
