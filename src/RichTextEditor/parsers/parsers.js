@@ -18,8 +18,14 @@ function parseChildren(element, parser) {
 			return
 		}
 		for (const each of on.childNodes) {
+			// Guard <br> and <... contenteditable="false">:
+			if (helpers.isElement(each) && (helpers.isBrElement(each) ||
+					each.getAttribute("contenteditable") === "false")) {
+				// No-op
+				continue
+			}
 			const nextTypes = JSONClone(types)
-			if (helpers.isElement(each) && !helpers.isBrElement(each)) {
+			if (helpers.isElement(each)) {
 				const { type, props } = parser(each)
 				nextTypes.push({ type, props })
 			}
