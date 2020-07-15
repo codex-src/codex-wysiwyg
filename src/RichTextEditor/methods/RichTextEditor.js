@@ -1,71 +1,71 @@
 import newEnum from "lib/x/newEnum"
 
-const actionEnums = newEnum(
-	"enable-read-only-mode",
-	"disable-read-only-mode",
-	"enable-display-markdown-mode",
-	"disable-display-markdown-mode",
-	"focus",
-	"blur",
-	"select",
-	"backspace-rune",
-	"backspace-word",
-	"backspace-line",
-	"delete-rune",
-	"delete-word",
-	"input",
+const actionEnum = newEnum(
+	"ENABLE_READ_ONLY_MODE",
+	"DISABLE_READ_ONLY_MODE",
+	"ENABLE_DISPLAY_MARKDOWN_MODE",
+	"DISABLE_DISPLAY_MARKDOWN_MODE",
+	"FOCUS",
+	"BLUR",
+	"SELECT",
+	"BACKSPACE_RUNE",
+	"BACKSPACE_WORD",
+	"BACKSPACE_LINE",
+	"DELETE_RUNE",
+	"DELETE_WORD",
+	"INPUT",
 )
 
 // Registers an action.
 export const registerAction = e => action => {
-	if (!actionEnums[action]) {
-		throw new Error(`RichTextEditor: action mismatch; action=${action}`)
-	}
+	// if (!actionEnum[action]) {
+	// 	throw new Error(`RichTextEditor: action mismatch; action=${action}`)
+	// }
 	e.lastActionTimestamp = Date.now()
 	e.lastAction = action
 }
 
 // Enables read-only mode.
 export const enableReadOnlyMode = e => () => {
-	registerAction(e)("enable-read-only-mode")
+	registerAction(e)(actionEnum.ENABLE_READ_ONLY_MODE)
 	e.readOnlyModeEnabled = true
 }
 
 // Disables read-only mode.
 export const disableReadOnlyMode = e => () => {
-	registerAction(e)("disable-read-only-mode")
+	registerAction(e)(actionEnum.DISABLE_READ_ONLY_MODE)
 	e.readOnlyModeEnabled = false
 }
 
 // Enables display markdown mode; enables read-only mode.
 export const enableDisplayMarkdownMode = e => () => {
-	registerAction(e)("enable-display-markdown-mode")
+	registerAction(e)(actionEnum.ENABLE_DISPLAY_MARKDOWN_MODE)
 	e.readOnlyModeEnabled = true
 	e.displayMarkdownModeEnabled = true
 }
 
 // Disables display markdown mode; disables read-only mode.
 export const disableDisplayMarkdownMode = e => () => {
-	registerAction(e)("disable-display-markdown-mode")
+	registerAction(e)(actionEnum.DISABLE_DISPLAY_MARKDOWN_MODE)
 	e.readOnlyModeEnabled = false
 	e.displayMarkdownModeEnabled = false
 }
 
 // Focuses the editor.
 export const focus = e => () => {
-	registerAction(e)("focus")
+	registerAction(e)(actionEnum.FOCUS)
 	e.focused = true
 }
 
 // Blurs the editor.
 export const blur = e => () => {
-	registerAction(e)("blur")
+	registerAction(e)(actionEnum.BLUR)
 	e.focused = false
 }
 
 // Selects a range.
 export const select = e => range => {
-	registerAction(e)("select")
+	registerAction(e)(actionEnum.SELECT)
 	e.range = range
 }
 
