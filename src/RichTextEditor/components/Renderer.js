@@ -3,7 +3,7 @@ import componentMap from "./componentMap"
 import React from "react"
 import ReactDOM from "react-dom"
 
-const Document = ({ state, dispatch }) => (
+const Elements = ({ state, dispatch }) => (
 	state.elements.map(({ type, key, props }) => (
 		React.createElement(componentMap[type], {
 			key,
@@ -14,7 +14,7 @@ const Document = ({ state, dispatch }) => (
 )
 
 // Rerenders the current state on state.shouldRerender.
-const DocumentRenderer = ({ forwardedRef, state, dispatch }) => {
+const Renderer = ({ forwardedRef, state, dispatch }) => {
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			if (!forwardedRef.current) {
@@ -26,7 +26,7 @@ const DocumentRenderer = ({ forwardedRef, state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<Document state={state} dispatch={dispatch} />, forwardedRef.current, () => {
+			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, forwardedRef.current, () => {
 				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
 					// No-op
 					return
@@ -44,4 +44,4 @@ const DocumentRenderer = ({ forwardedRef, state, dispatch }) => {
 	return null
 }
 
-export default DocumentRenderer
+export default Renderer

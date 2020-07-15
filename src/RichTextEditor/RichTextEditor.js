@@ -1,7 +1,7 @@
 import * as Range from "./methods/Range"
 import Debugger from "./components/Debugger"
-import DocumentRenderer from "./components/DocumentRenderer"
 import React from "react"
+import Renderer from "./components/Renderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
 import { parseRenderedChildren } from "./parsers"
@@ -174,16 +174,25 @@ const RichTextEditor = ({ markup, children }) => {
 
 				data-root
 			>
-				<DocumentRenderer
+				<Renderer
 					forwardedRef={ref}
 					state={state}
 					dispatch={dispatch}
 				/>
 			</article>
 
+			{/* DEBUG */}
 			<Debugger
 				state={state}
 				dispatch={dispatch}
+				// lastActionTimestamp
+				// lastAction
+				// readOnlyModeEnabled
+				// displayMarkdownModeEnabled
+				// focused
+				// elements
+				// range
+				// shouldRerender
 			/>
 
 		</div>
