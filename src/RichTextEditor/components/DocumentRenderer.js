@@ -31,13 +31,12 @@ const DocumentRenderer = ({ forwardedRef, state, dispatch }) => {
 					// No-op
 					return
 				}
-				// try {
-				// 	const range = Range.toUserLiteral(state.range)()
-				// 	console.log(range)
-				// 	selection.addRange(range)
-				// } catch (error) {
-				// 	console.error(error)
-				// }
+				try {
+					const range = Range.toUserLiteral(state.range)()
+					selection.addRange(range)
+				} catch (error) {
+					console.error(error)
+				}
 			})
 		}, [forwardedRef, state, dispatch]),
 		[forwardedRef.current, state.shouldRerender],

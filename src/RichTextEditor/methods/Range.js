@@ -53,14 +53,13 @@ function conv({ node, offset }) {
 
 // Resolves to a user literal.
 export const toUserLiteral = r => () => {
-	console.log(r)
-	// const pos1 = conv(Position.toUserLiteral(r.start)())
-	// let pos2 = pos1
-	// if (!r.collapsed) {
-	// 	pos2 = conv(Position.toUserLiteral(r.end)())
-	// }
-	// const range = document.createRange()
-	// range.setStart(...pos1)
-	// range.setEnd(...pos2)
-	// return range
+	const pos1 = conv(Position.toUserLiteral(r.start)())
+	let pos2 = pos1
+	if (!r.collapsed) {
+		pos2 = conv(Position.toUserLiteral(r.end)())
+	}
+	const range = document.createRange()
+	range.setStart(...pos1)
+	range.setEnd(...pos2)
+	return range
 }
