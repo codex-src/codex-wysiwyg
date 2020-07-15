@@ -22,7 +22,12 @@ const actionEnum = newEnum(
 
 // Registers an action.
 export const registerAction = e => action => {
-	e.lastActionTimestamp = Date.now()
+	const now = Date.now()
+	if (now - e.lastActionTimestamp < 200) {
+		// No-op
+		return
+	}
+	e.lastActionTimestamp = now
 	e.lastAction = action
 }
 
