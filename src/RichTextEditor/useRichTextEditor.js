@@ -23,9 +23,10 @@ const newInitialState = elements => ({
 			key: "",
 			offset: 0,
 		},
-		get collapsed() {
-			return JSONEqual(this.start, this.end)
-		},
+		// get collapsed() {
+		// 	return JSONEqual(this.start, this.end)
+		// },
+		collapsed: true,
 	},
 	shouldRerender: 0,
 })

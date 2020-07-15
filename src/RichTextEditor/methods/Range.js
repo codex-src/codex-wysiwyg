@@ -25,22 +25,24 @@ export function getCurrent(tree) {
 	const computed = {
 		start,
 		end,
-		get collapsed() {
-			return JSONEqual(start, end)
-		},
+		collapsed: JSONEqual(start, end),
 	}
 	return computed
 }
 
 // Collapses end-to-start.
-export const collapseStart = r => () => {
-	r.end = r.start
-}
+export const collapseStart = r => () => ({
+	...r,
+	end: r.start,
+	collapsed: true,
+})
 
 // Collapses start-to-end.
-export const collapseEnd = r => () => {
-	r.start = r.end
-}
+export const collapseEnd = r => () => ({
+	...r,
+	start: r.end,
+	collapsed: true,
+})
 
 // Converts a user literal to an array.
 function conv({ node, offset }) {

@@ -4,6 +4,7 @@ import React from "react"
 import Renderer from "./components/Renderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
+import { parseRenderedElement } from "./parsers"
 
 const RichTextEditor = ({ markup, children }) => {
 	const ref = React.useRef(null)
@@ -141,16 +142,12 @@ const RichTextEditor = ({ markup, children }) => {
 				// 	}
 				// })}
 
-				// onInput={readWriteOnlyHandler(e => {
-				// 	const range = Range.getCurrent(ref.current).collapse()
-				// 	const children = rscanner.scanChildren(document.getElementById(range.start.key))
-				// 	defer(children)
-				// 	dispatch({
-				// 		type: "UNCONTROLLED_INPUT_HANDLER",
-				// 		children,
-				// 		range,
-				// 	})
-				// })}
+				onInput={readWriteOnlyHandler(e => {
+					const range = Range.collapseStart(Range.getCurrent(ref.current))()
+					const children = parseRenderedElement(document.getElementById(range.start.key))
+					// defer(children)
+					dispatch.uncontrolledInput(children, range)
+				})}
 
 				// onCut={readWriteOnlyHandler(e => {
 				// 	e.preventDefault()
