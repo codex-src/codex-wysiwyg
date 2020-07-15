@@ -1,3 +1,4 @@
+import * as Range from "./methods/Range"
 import Debugger from "./components/Debugger"
 import React from "react"
 import Renderer from "./components/Renderer"
@@ -41,49 +42,35 @@ const RichTextEditor = ({ markup, children }) => {
 					pointerdownRef.current = true
 				})}
 
-				// onPointerMove={readWriteOnlyHandler(e => {
-				// 	// if (!state.focused) {
-				// 	// 	pointerdownRef.current = false
-				// 	// 	return
-				// 	// }
-				// 	// if (!pointerdownRef.current) {
-				// 	// 	// No-op
-				// 	// 	return
-				// 	// }
-				// 	if (!state.focused || !pointerdownRef.current) {
-				// 		if (!state.focused && pointerdownRef.current) {
-				// 			pointerdownRef.current = false
-				// 		}
-				// 		return
-				// 	}
-				// 	const range = Range.fromCurrent(ref.current)
-				// 	if (!range) {
-				// 		// No-op
-				// 		return
-				// 	}
-				// 	dispatch({
-				// 		type: "SELECT",
-				// 		range,
-				// 	})
-				// })}
+				onPointerMove={readWriteOnlyHandler(e => {
+					if (!state.focused || !pointerdownRef.current) {
+						if (!state.focused && pointerdownRef.current) {
+							pointerdownRef.current = false
+						}
+						return
+					}
+					const range = Range.getCurrent(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch.select(range)
+				})}
 
-				// onPointerUp={readWriteOnlyHandler(e => {
-				// 	pointerdownRef.current = false
-				// })}
+				onPointerUp={readWriteOnlyHandler(e => {
+					pointerdownRef.current = false
+				})}
 
-				// // TODO: Add COMPAT guard for select-all or prevent
-				// // default?
-				// onSelect={readWriteOnlyHandler(e => {
-				// 	const range = Range.fromCurrent(ref.current)
-				// 	if (!range) {
-				// 		// No-op
-				// 		return
-				// 	}
-				// 	dispatch({
-				// 		type: "SELECT",
-				// 		range,
-				// 	})
-				// })}
+				// TODO: Add COMPAT guard for select-all or prevent
+				// default?
+				onSelect={readWriteOnlyHandler(e => {
+					const range = Range.getCurrent(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch.select(range)
+				})}
 
 				// onKeyDown={readWriteOnlyHandler(e => {
 				// 	// const keydownType = detectKeydownType(e)
@@ -155,7 +142,7 @@ const RichTextEditor = ({ markup, children }) => {
 				// })}
 
 				// onInput={readWriteOnlyHandler(e => {
-				// 	const range = Range.fromCurrent(ref.current).collapse()
+				// 	const range = Range.getCurrent(ref.current).collapse()
 				// 	const children = rscanner.scanChildren(document.getElementById(range.start.key))
 				// 	defer(children)
 				// 	dispatch({

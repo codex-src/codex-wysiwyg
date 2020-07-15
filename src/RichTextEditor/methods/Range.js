@@ -1,5 +1,5 @@
 import * as Position from "./Position"
-import JSONEqual from "lib/json/JSONEqual"
+import JSONEqual from "lib/JSON/JSONEqual"
 
 // Gets the current range. Range must be scoped to a tree.
 export function getCurrent(tree) {

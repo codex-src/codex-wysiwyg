@@ -16,11 +16,12 @@ const actionEnum = newEnum(
 	"INPUT",
 )
 
+// if (!actionEnum[action]) {
+// 	throw new Error(`RichTextEditor: action mismatch; action=${action}`)
+// }
+
 // Registers an action.
 export const registerAction = e => action => {
-	// if (!actionEnum[action]) {
-	// 	throw new Error(`RichTextEditor: action mismatch; action=${action}`)
-	// }
 	e.lastActionTimestamp = Date.now()
 	e.lastAction = action
 }
