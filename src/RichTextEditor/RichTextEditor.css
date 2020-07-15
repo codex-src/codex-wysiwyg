@@ -1,29 +1,4 @@
 [data-root] {
-	--font-sans:
-			"-apple-system",
-			"BlinkMacSystemFont",
-			"Inter",
-			"system-ui",
-			"-apple-system",
-			"BlinkMacSystemFont",
-			"Segoe UI",
-			"Roboto",
-			"Helvetica Neue",
-			"Arial",
-			"Noto Sans",
-			"sans-serif",
-			"Apple Color Emoji",
-			"Segoe UI Emoji",
-			"Segoe UI Symbol",
-			"Noto Color Emoji";
-	--font-mono:
-			"Menlo",
-			"Monaco",
-			"Consolas",
-			"Liberation Mono",
-			"Courier New",
-			"monospace";
-
 	-webkit-font-smoothing: auto;
 	-moz-osx-font-smoothing: auto;
 
@@ -33,31 +8,10 @@
 	caret-color: var(--black);
 }
 
-/* Displays markdown syntax as pseudo elements (1 of 2). */
-[data-display-markdown-mode="true"] [data-type="em"]::before,
-[data-display-markdown-mode="true"] [data-type="strong"]::before,
-[data-display-markdown-mode="true"] [data-type="code"]::before,
-[data-display-markdown-mode="true"] [data-type="strike"]::before,
-[data-display-markdown-mode="true"] [data-type="a"]::before {
-	content: attr(data-markdown-start);
-  --text-opacity: 1;
-  color: #1c64f2;
-  color: rgba(28, 100, 242, var(--text-opacity));
+[data-display-markdown-mode="false"] [data-type="markdown"] {
+	display: none;
 }
-/* Displays markdown syntax as pseudo elements (2 of 2). */
-[data-display-markdown-mode="true"] [data-type="em"]::after,
-[data-display-markdown-mode="true"] [data-type="strong"]::after,
-[data-display-markdown-mode="true"] [data-type="code"]::after,
-[data-display-markdown-mode="true"] [data-type="strike"]::after,
-[data-display-markdown-mode="true"] [data-type="a"]::after {
-	content: attr(data-markdown-end);
-  --text-opacity: 1;
-  color: #1c64f2;
-  color: rgba(28, 100, 242, var(--text-opacity));
-}
-
-/* <strike> .text-blue-600 -> <strike> .text-gray-400 */
-[data-display-markdown-mode="true"] [data-type="strike"] .text-blue-600 {
+[data-display-markdown-mode="true"] [data-type="strike"] [data-type="markdown"] {
 	--text-opacity: 1;
 	color: #9fa6b2;
 	color: rgba(159, 166, 178, var(--text-opacity));

@@ -1,49 +1,59 @@
-// import Markdown from "./Markdown"
 import attrs from "./attrs"
+import Markdown from "./Markdown"
 import React from "react"
 import T from "./T"
 
-// Renders <em>.
+// <em>
 export const Em = ({ children }) => (
-	<T type="em" markdown="_">
+	<T type="em">
 		<span className="italic">
-			{children}
+			<Markdown syntax="_">
+				{children}
+			</Markdown>
 		</span>
 	</T>
 )
 
-// Renders <strong>.
+// <strong>
 export const Strong = ({ children }) => (
-	<T type="strong" markdown="**">
+	<T type="strong">
 		<span className="font-semibold">
-			{children}
+			<Markdown syntax="**">
+				{children}
+			</Markdown>
 		</span>
 	</T>
 )
 
-// Renders <code>.
+// <code>
 export const Code = ({ children }) => (
-	<T type="code" markdown="`">
+	<T type="code">
 		<span className="mx-px py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
-			{children}
+			<Markdown syntax="`">
+				{children}
+			</Markdown>
 		</span>
 	</T>
 )
 
-// Renders <strike>.
+// <strike>
 export const Strike = ({ children }) => (
-	<T type="strike" markdown="~~">
+	<T type="strike">
 		<span className="line-through text-gray-400">
-			{children}
+			<Markdown syntax="~~">
+				{children}
+			</Markdown>
 		</span>
 	</T>
 )
 
-// Renders <a href="...">.
+// <a href="...">
 export const A = ({ href, children }) => (
-	<T type="a" props={{ href }} markdown={["[", "](" + href + ")"]}>
+	<T type="a" props={{ href }}>
 		<span className="mx-px underline text-blue-600" {...attrs.a}>
-			{children}
+			<Markdown syntax={["[", "](" + href + ")"]}>
+				{children}
+			</Markdown>
 		</span>
 	</T>
 )

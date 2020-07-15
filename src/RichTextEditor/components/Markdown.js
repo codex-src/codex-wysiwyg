@@ -1,8 +1,14 @@
 import React from "react"
 import toArray from "lib/Array/toArray"
 
-const Syntax = ({ children }) => (
-	<span className="text-sm font-mono text-blue-600" data-type="markdown" contentEditable={false}>
+const Syntax = ({ className, style, children }) => (
+	<span
+		// className={className || "text-sm font-mono text-blue-600"}
+		className={className || "text-blue-600"}
+		style={style}
+		data-type="markdown"
+		contentEditable={false}
+	>
 		{children}
 	</span>
 )
