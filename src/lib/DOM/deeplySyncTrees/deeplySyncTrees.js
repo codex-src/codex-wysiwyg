@@ -3,7 +3,7 @@ import shallowlySyncNodes from "./shallowlySyncNodes"
 
 // Deeply syncs trees.
 function deeplySyncTrees(src, dst) {
-	const recurse = (recursed = false) => {
+	const recurse = (src, dst, recursed = false) => {
 		if (recursed) {
 			// NOTE: shallowlySyncNodes **does not** sync
 			// node.childNodes.
@@ -35,7 +35,7 @@ function deeplySyncTrees(src, dst) {
 			}
 		}
 	}
-	recurse()
+	recurse(src, dst)
 }
 
 export default deeplySyncTrees

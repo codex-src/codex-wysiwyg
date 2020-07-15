@@ -1,11 +1,10 @@
 import * as RichTextEditor from "./methods/RichTextEditor"
-import JSONEqual from "lib/JSON/JSONEqual"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import stripWhitespace from "lib/DOM/stripWhitespace"
 import useMethods from "use-methods"
-import { parseSemanticTree } from "./parsers"
+import { parseSemanticElements } from "./parsers"
 
 const newInitialState = elements => ({
 	lastActionTimestamp: "init",
@@ -23,6 +22,7 @@ const newInitialState = elements => ({
 			key: "",
 			offset: 0,
 		},
+		// // TODO
 		// get collapsed() {
 		// 	return JSONEqual(this.start, this.end)
 		// },
@@ -50,7 +50,7 @@ function parseElements({ markup, children }) {
 		"</article>",
 		stripWhitespace,
 	)
-	return parseSemanticTree(tree)
+	return parseSemanticElements(tree)
 }
 
 function useRichTextEditor({ markup, children }) {

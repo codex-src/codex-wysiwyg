@@ -1,8 +1,9 @@
+import * as Range from "../methods/Range"
 import componentMap from "./componentMap"
 import React from "react"
 import ReactDOM from "react-dom"
 
-const Elements = ({ state, dispatch }) => (
+const Document = ({ state, dispatch }) => (
 	state.elements.map(({ type, key, props }) => (
 		React.createElement(componentMap[type], {
 			key,
@@ -13,7 +14,7 @@ const Elements = ({ state, dispatch }) => (
 )
 
 // Rerenders the current state on state.shouldRerender.
-const ReactRenderer = ({ forwardedRef, state, dispatch }) => {
+const DocumentRenderer = ({ forwardedRef, state, dispatch }) => {
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			if (!forwardedRef.current) {
@@ -25,17 +26,18 @@ const ReactRenderer = ({ forwardedRef, state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, forwardedRef.current, () => {
-				if (state.readOnlyModeEnabled || !state.focused) {
+			ReactDOM.render(<Document state={state} dispatch={dispatch} />, forwardedRef.current, () => {
+				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
 					// No-op
 					return
 				}
-				try {
-					const range = state.range.toUserLiteral(state.range)
-					selection.addRange(range)
-				} catch (error) {
-					console.error(error)
-				}
+				// try {
+				// 	const range = Range.toUserLiteral(state.range)()
+				// 	console.log(range)
+				// 	selection.addRange(range)
+				// } catch (error) {
+				// 	console.error(error)
+				// }
 			})
 		}, [forwardedRef, state, dispatch]),
 		[forwardedRef.current, state.shouldRerender],
@@ -43,4 +45,4 @@ const ReactRenderer = ({ forwardedRef, state, dispatch }) => {
 	return null
 }
 
-export default ReactRenderer
+export default DocumentRenderer

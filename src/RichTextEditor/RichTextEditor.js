@@ -1,10 +1,10 @@
 import * as Range from "./methods/Range"
 import Debugger from "./components/Debugger"
+import DocumentRenderer from "./components/DocumentRenderer"
 import React from "react"
-import Renderer from "./components/Renderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
-import { parseRenderedElement } from "./parsers"
+import { parseRenderedChildren } from "./parsers"
 
 const RichTextEditor = ({ markup, children }) => {
 	const ref = React.useRef(null)
@@ -144,7 +144,7 @@ const RichTextEditor = ({ markup, children }) => {
 
 				onInput={readWriteOnlyHandler(e => {
 					const range = Range.collapseStart(Range.getCurrent(ref.current))()
-					const children = parseRenderedElement(document.getElementById(range.start.key))
+					const children = parseRenderedChildren(document.getElementById(range.start.key))
 					// defer(children)
 					dispatch.uncontrolledInput(children, range)
 				})}
@@ -174,7 +174,7 @@ const RichTextEditor = ({ markup, children }) => {
 
 				data-root
 			>
-				<Renderer
+				<DocumentRenderer
 					forwardedRef={ref}
 					state={state}
 					dispatch={dispatch}

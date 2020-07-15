@@ -1,18 +1,18 @@
 import newHash from "lib/x/newHash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"
-import { parseSemanticTree } from "./parsers"
+import { parseRenderedElements } from "./parsers"
 
 test("<p><br></p>", () => {
 	const id = newHash()
 	const tree = renderTree((
 		<article>
-			<p id={id}>
+			<div id={id} data-type="p">
 				<br />
-			</p>
+			</div>
 		</article>
 	))
-	const elements = parseSemanticTree(tree)
+	const elements = parseRenderedElements(tree)
 	expect(elements).toEqual([
 		{
 			type: "p",
@@ -28,16 +28,16 @@ test("<p>Hello, <code>world</code>!</p>", () => {
 	const id = newHash()
 	const tree = renderTree((
 		<article>
-			<p id={id}>
+			<div id={id} data-type="p">
 				Hello,{" "}
-				<code>
+				<span data-type="code">
 					world
-				</code>
+				</span>
 				!
-			</p>
+			</div>
 		</article>
 	))
-	const elements = parseSemanticTree(tree)
+	const elements = parseRenderedElements(tree)
 	expect(elements).toEqual([
 		{
 			type: "p",
@@ -65,24 +65,24 @@ test("<p>Hello, <code><a href='foo'><strike><strong><em>world</em></strong></str
 	const id = newHash()
 	const tree = renderTree((
 		<article>
-			<p id={id}>
+			<div id={id} data-type="p">
 				Hello,{" "}
-				<code>
-					<a href="foo">
-						<strike>
-							<strong>
-								<em>
+				<span data-type="code">
+					<span data-type="a" data-props={JSON.stringify({ href: "foo" })}>
+						<span data-type="strike">
+							<span data-type="strong">
+								<span data-type="em">
 									world
-								</em>
-							</strong>
-						</strike>
-					</a>
-				</code>
+								</span>
+							</span>
+						</span>
+					</span>
+				</span>
 				!
-			</p>
+			</div>
 		</article>
 	))
-	const elements = parseSemanticTree(tree)
+	const elements = parseRenderedElements(tree)
 	expect(elements).toEqual([
 		{
 			type: "p",

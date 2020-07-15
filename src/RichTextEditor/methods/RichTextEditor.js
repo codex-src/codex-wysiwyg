@@ -73,11 +73,13 @@ export const select = e => range => {
 // Uncontrolled input handler.
 export const uncontrolledInput = e => (children, range) => {
 	registerAction(e)(actionEnum.INPUT)
-	const el = e.find(each => each.key === range.start.key) // TODO: Add support for nested elements
+	const el = e.elements.find(each => each.key === range.start.key) // TODO: Add support for nested elements
 	el.props.children = children
 	e.range = range
 	e.shouldRerender++
 }
+
+// TODO: Add render?
 
 // deleteHandler(enumKey) {
 // 	this.registerAction(enumKey)

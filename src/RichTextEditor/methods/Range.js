@@ -1,5 +1,7 @@
 import * as Position from "./Position"
-import JSONEqual from "lib/JSON/JSONEqual"
+
+// const collapsed = start === end
+// return { start, end, collapsed }
 
 // Gets the current range. Range must be scoped to a tree.
 export function getCurrent(tree) {
@@ -25,7 +27,7 @@ export function getCurrent(tree) {
 	const computed = {
 		start,
 		end,
-		collapsed: JSONEqual(start, end),
+		collapsed: start === end,
 	}
 	return computed
 }
@@ -51,13 +53,14 @@ function conv({ node, offset }) {
 
 // Resolves to a user literal.
 export const toUserLiteral = r => () => {
-	const pos1 = conv(r.start.toUserLiteral())
-	let pos2 = pos1
-	if (!r.collapsed) {
-		pos2 = conv(r.end.toUserLiteral())
-	}
-	const range = document.createRange()
-	range.setStart(...pos1)
-	range.setEnd(...pos2)
-	return range
+	console.log(r)
+	// const pos1 = conv(Position.toUserLiteral(r.start)())
+	// let pos2 = pos1
+	// if (!r.collapsed) {
+	// 	pos2 = conv(Position.toUserLiteral(r.end)())
+	// }
+	// const range = document.createRange()
+	// range.setStart(...pos1)
+	// range.setEnd(...pos2)
+	// return range
 }

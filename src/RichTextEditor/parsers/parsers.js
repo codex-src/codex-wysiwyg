@@ -54,21 +54,21 @@ function parseElements(tree, parser) {
 }
 
 // Parses elements from a rendered tree.
-export function parseRenderedTree(tree) {
+export function parseRenderedElements(tree) {
 	return parseElements(tree, parseRendered)
 }
 
 // Parses children from a rendered element.
-export function parseRenderedElement(element) {
-	return parseElements(element, parseRendered)
+export function parseRenderedChildren(element) {
+	return parseChildren(element, parseRendered)
 }
 
 // Parses elements from a semantic tree.
-export function parseSemanticTree(tree) {
+export function parseSemanticElements(tree) {
 	return parseElements(tree, parseSemantic)
 }
 
 // Parses children from a semantic element.
-export function parseSemanticElement(element) {
-	return parseElements(element, parseSemantic)
+export function parseSemanticChildren(element) {
+	return parseChildren(element, parseSemantic)
 }

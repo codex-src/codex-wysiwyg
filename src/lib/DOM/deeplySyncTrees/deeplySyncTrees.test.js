@@ -14,7 +14,8 @@ test("<div>{/* ... */}</div>", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div><br></div> (1 of 3)", () => {
@@ -29,7 +30,8 @@ test("<div><br></div> (1 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div><br></div> (2 of 3)", () => {
@@ -44,7 +46,8 @@ test("<div><br></div> (2 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div><br></div> (3 of 3)", () => {
@@ -59,7 +62,8 @@ test("<div><br></div> (3 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, world!</div> (1 of 3)", () => {
@@ -74,7 +78,8 @@ test("<div>Hello, world!</div> (1 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, world!</div> (2 of 3)", () => {
@@ -89,7 +94,8 @@ test("<div>Hello, world!</div> (2 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, world!</div> (3 of 3)", () => {
@@ -104,7 +110,8 @@ test("<div>Hello, world!</div> (3 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <code>world</code> (1 of 3)", () => {
@@ -123,7 +130,8 @@ test("<div>Hello, <code>world</code> (1 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <code>world</code> (2 of 3)", () => {
@@ -142,7 +150,8 @@ test("<div>Hello, <code>world</code> (2 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <code>world</code> (3 of 3)", () => {
@@ -165,7 +174,8 @@ test("<div>Hello, <code>world</code> (3 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <a href='foo'><code>world</code></a>!</div> (1 of 3)", () => {
@@ -186,7 +196,8 @@ test("<div>Hello, <a href='foo'><code>world</code></a>!</div> (1 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <a href='foo'><code>world</code></a>!</div> (2 of 3)", () => {
@@ -207,7 +218,8 @@ test("<div>Hello, <a href='foo'><code>world</code></a>!</div> (2 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <a href='foo'><code>world</code></a>!</div> (3 of 3)", () => {
@@ -234,7 +246,8 @@ test("<div>Hello, <a href='foo'><code>world</code></a>!</div> (3 of 3)", () => {
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <a href='foo'><code ...>world</code></a>!</div> (1 of 3)", () => {
@@ -255,7 +268,8 @@ test("<div>Hello, <a href='foo'><code ...>world</code></a>!</div> (1 of 3)", () 
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <a href='foo'><code ...>world</code></a>!</div> (2 of 3)", () => {
@@ -276,7 +290,8 @@ test("<div>Hello, <a href='foo'><code ...>world</code></a>!</div> (2 of 3)", () 
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
 
 test("<div>Hello, <a href='foo'><code ...>world</code></a>!</div> (3 of 3)", () => {
@@ -303,5 +318,6 @@ test("<div>Hello, <a href='foo'><code ...>world</code></a>!</div> (3 of 3)", () 
 		</div>
 	))
 	deeplySyncTrees(src, dst)
-	expect(src.innerHTML).toEqual(dst.innerHTML)
+	expect(src.outerHTML).not.toBe(dst.outerHTML)
+	expect(src.innerHTML).toBe(dst.innerHTML)
 })
