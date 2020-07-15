@@ -12,7 +12,7 @@ const Debugger = ({
 	range,
 	shouldRerender,
 }) => (
-	<div className="mt-6 whitespace-pre-wrap font-mono text-xs" style={{ MozTabSize: 2, tabSize: 2 }}>
+	<div className="mt-6 whitespace-pre-wrap text-sm font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
 		{JSON.stringify(
 			{
 				...state,

@@ -14,10 +14,10 @@ const Elements = ({ state, dispatch }) => (
 )
 
 // Rerenders the current state on state.shouldRerender.
-const Renderer = ({ forwardedRef, state, dispatch }) => {
+const Renderer = ({ forwardedRef: tree, state, dispatch }) => {
 	React.useLayoutEffect(
 		React.useCallback(() => {
-			if (!forwardedRef.current) {
+			if (!tree.current) {
 				// No-op
 				return
 			}
@@ -26,7 +26,7 @@ const Renderer = ({ forwardedRef, state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, forwardedRef.current, () => {
+			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, tree.current, () => {
 				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
 					// No-op
 					return
@@ -38,8 +38,8 @@ const Renderer = ({ forwardedRef, state, dispatch }) => {
 					console.error(error)
 				}
 			})
-		}, [forwardedRef, state, dispatch]),
-		[forwardedRef.current, state.shouldRerender],
+		}, [tree, state, dispatch]),
+		[tree.current, state.shouldRerender],
 	)
 	return null
 }

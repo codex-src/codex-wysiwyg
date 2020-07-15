@@ -1,10 +1,13 @@
 import * as Range from "./methods/Range"
 import Debugger from "./components/Debugger"
+import isCtrlOrMetaKey from "lib/Client/isCtrlOrMetaKey"
 import React from "react"
 import Renderer from "./components/Renderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import useRichTextEditor from "./useRichTextEditor"
 import { parseRenderedChildren } from "./parsers"
+
+import "./RichTextEditor.css"
 
 const RichTextEditor = ({ markup, children }) => {
 	const ref = React.useRef(null)
@@ -14,6 +17,28 @@ const RichTextEditor = ({ markup, children }) => {
 
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(dispatch.disableReadOnlyMode)
+
+	// Binds ctrl-/ or cmd-/ to toggle display display
+	// markdown mode. Does not use onKeyDown because of the
+	// readWriteOnlyHandler pattern.
+	React.useEffect(
+		React.useCallback(() => {
+			const handler = e => {
+				if (isCtrlOrMetaKey(e) && e.key === "/") {
+					let toggle = dispatch.enableDisplayMarkdownMode
+					if (state.displayMarkdownModeEnabled) {
+						toggle = dispatch.disableDisplayMarkdownMode
+					}
+					toggle()
+				}
+			}
+			document.addEventListener("keydown", handler)
+			return () => {
+				document.removeEventListener("keydown", handler)
+			}
+		}, [state, dispatch]),
+		[state.displayMarkdownModeEnabled],
+	)
 
 	// Returns a handler when read-only mode is disabled.
 	const readWriteOnlyHandler = handler => {
@@ -173,6 +198,8 @@ const RichTextEditor = ({ markup, children }) => {
 				suppressContentEditableWarning={!state.readOnlyModeEnabled}
 
 				data-root
+				data-read-only-mode={state.readOnlyModeEnabled}
+				data-display-markdown-mode={state.displayMarkdownModeEnabled}
 			>
 				<Renderer
 					forwardedRef={ref}
@@ -190,8 +217,8 @@ const RichTextEditor = ({ markup, children }) => {
 				// readOnlyModeEnabled
 				// displayMarkdownModeEnabled
 				// focused
-				// elements
-				// range
+				elements
+				range
 				// shouldRerender
 			/>
 

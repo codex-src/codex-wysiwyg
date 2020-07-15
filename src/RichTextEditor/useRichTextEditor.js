@@ -53,6 +53,8 @@ function parseElements({ markup, children }) {
 	return parseSemanticElements(tree)
 }
 
+// TODO: Add support for read-only mode enabled and display
+// markdown mode enabled
 function useRichTextEditor({ markup, children }) {
 	const initialState = React.useMemo(() => {
 		const elements = parseElements({ markup, children })

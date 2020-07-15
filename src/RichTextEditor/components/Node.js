@@ -22,7 +22,7 @@ const Node = ({ id, style, children, ...props }) => {
 
 	// https://github.com/codex-src/codex-wysiwyg/commit/f0755661d24e900804ab43b9657ec584c00bbbca
 	const imperativeStyles = {
-		...style, // Takes precedence
+		...style,
 		whiteSpace: "pre-wrap",
 		overflowWrap: "break-word",
 	}
