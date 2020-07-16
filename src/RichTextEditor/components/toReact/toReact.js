@@ -15,7 +15,7 @@ function toReactHandler(intermediary) {
 		renderable.push(React.createElement(componentMap[type], {
 			...props,
 			key: renderable.length,
-		}, toReactHandler(props.children)))
+		}, props.children && toReactHandler(props.children)))
 	}
 	if (!renderable.length || (typeof renderable[0] === "string" && !renderable[0])) {
 		return null
