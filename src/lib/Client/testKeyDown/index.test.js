@@ -1,6 +1,11 @@
 import testKeyDown from "./index"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
+import { // Unsorted
+	mockNonMacOS,
+	mockMacOS,
+} from "lib/Client/mockUserAgent"
+
 test("testKeyDown(...)", () => {
 	const e = {
 		shiftKey: false,
@@ -69,6 +74,36 @@ test(".metaKey(...)", () => {
 	expect(testKeyDown(e).forShift().forCtrl().forAlt().forMeta().check()).toBeTruthy()
 })
 
+test(".ctrlOrMetaKey(...); non-macOS", () => {
+	mockNonMacOS()
+	const e = {
+		shiftKey: false,
+		ctrlKey: true,
+		altKey: false,
+		metaKey: false,
+		keyCode: 0,
+		key: "",
+	}
+	expect(testKeyDown(e).check()).not.toBeTruthy()
+	expect(testKeyDown(e).forCtrlOrMeta({ passthrough: true }).check()).toBeTruthy()
+	expect(testKeyDown(e).forCtrlOrMeta().check()).toBeTruthy()
+})
+
+test(".ctrlOrMetaKey(...); macOS", () => {
+	mockMacOS()
+	const e = {
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: false,
+		metaKey: true,
+		keyCode: 0,
+		key: "",
+	}
+	expect(testKeyDown(e).check()).not.toBeTruthy()
+	expect(testKeyDown(e).forCtrlOrMeta({ passthrough: true }).check()).toBeTruthy()
+	expect(testKeyDown(e).forCtrlOrMeta().check()).toBeTruthy()
+})
+
 test(".keyCode(...)", () => {
 	const e = {
 		shiftKey: true,
@@ -93,19 +128,4 @@ test(".key(...)", () => {
 	}
 	expect(testKeyDown(e).check()).not.toBeTruthy()
 	expect(testKeyDown(e).forShift().forCtrl().forAlt().forMeta().forKey("A").check()).toBeTruthy()
-})
-
-test(".keyCode(...).key(...)", () => {
-	const e = {
-		shiftKey: true,
-		ctrlKey: true,
-		altKey: true,
-		metaKey: true,
-		keyCode: keyCodeFor("A"),
-		key: "A",
-	}
-	expect(testKeyDown(e).check()).not.toBeTruthy()
-	expect(() => (
-		testKeyDown(e).forShift().forCtrl().forAlt().forMeta().forKeyCode(keyCodeFor("A")).forKey("A").check()
-	)).toThrow()
 })

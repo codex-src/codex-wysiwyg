@@ -1,4 +1,5 @@
 import keyCodeFor from "lib/Client/keyCodeFor"
+import testKeyDown from "lib/Client/testKeyDown"
 
 // Returns the UTF-8 decoded rune count.
 function runeCount(str) {
@@ -8,9 +9,7 @@ function runeCount(str) {
 const insertText = {
 	insertText(e) {
 		const ok = (
-			!e.shiftKey &&
 			!e.ctrlKey && // Non-command or macro
-			(!e.altKey || e.altKey) &&
 			!e.metaKey && // Non-command or macro
 			runeCount(e.key) === 1
 		)
@@ -18,9 +17,7 @@ const insertText = {
 	},
 	insertTab(e) {
 		const ok = (
-			(!e.shiftKey || e.shiftKey) &&
 			!e.ctrlKey && // Negates browser shortcuts
-			!e.altKey &&
 			!e.metaKey && // Negates operating system shortcuts
 			e.keyCode === keyCodeFor("Tab")
 		)
@@ -29,32 +26,21 @@ const insertText = {
 	insertSoftParagraph(e) {
 		const ok = (
 			e.shiftKey &&
-			!e.ctrlKey &&
-			!e.altKey &&
-			!e.metaKey &&
 			e.keyCode === keyCodeFor("Enter")
 		)
 		return ok
 	},
 	insertHardParagraph(e) {
-		const ok = (
-			!e.shiftKey &&
-			!e.ctrlKey &&
-			!e.altKey &&
-			!e.metaKey &&
-			e.keyCode === keyCodeFor("Enter")
-		)
-		return ok
+		return testKeyDown(e)
+			.forKeyCode(keyCodeFor("Enter"))
+			.check()
 	},
-	insertHorizontalRule(e) {
-		const ok = (
-			!e.shiftKey &&
-			!e.altKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("Enter")
-		)
-		return ok
-	},
+	// insertHorizontalRule(e) {
+	// 	return testKeyDown(e)
+	// 		.ctrlOrMetaKey()
+	// 		.forKeyCode(keyCodeFor("Enter"))
+	// 		.check()
+	// }
 }
 
 export default insertText
