@@ -1,4 +1,4 @@
-import keyCodeFor from "../keyCodeFor"
+import keyCodeFor from "lib/Client/keyCodeFor"
 
 // Returns the UTF-8 decoded rune count.
 function runeCount(str) {
@@ -16,7 +16,8 @@ const insertText = {
 	},
 	insertTab(e) {
 		const ok = (
-			!e.ctrlKey && // Negates browser shortcuts shift-ctrl-tab and ctrl-tab
+			!e.ctrlKey && // Negates browser shortcuts
+			!e.metaKey && // Negates operating system shortcuts
 			e.keyCode === keyCodeFor("Tab")
 		)
 		return ok
