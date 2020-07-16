@@ -5,6 +5,7 @@ import userAgent from "lib/Client/userAgent"
 const history = {
 	undo(e) {
 		const ok = (
+			!e.shiftKey &&
 			isCtrlOrMetaKey(e) &&
 			e.keyCode === keyCodeFor("Z")
 		)

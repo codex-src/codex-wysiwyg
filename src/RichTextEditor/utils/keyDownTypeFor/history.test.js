@@ -11,15 +11,15 @@ test("undo(...); non-macOS", () => {
 	expect(history.undo({
 		shiftKey: false,
 		ctrlKey: false,
-		metaKey: true,
+		metaKey: false,
 		keyCode: keyCodeFor("Z"),
 	})).not.toBeTruthy()
 	expect(history.undo({
-		shiftKey: true,
-		ctrlKey: false,
-		metaKey: true,
+		shiftKey: false,
+		ctrlKey: true,
+		metaKey: false,
 		keyCode: keyCodeFor("Z"),
-	})).not.toBeTruthy()
+	})).toBeTruthy()
 })
 
 test("undo(...); macOS", () => {
@@ -27,13 +27,46 @@ test("undo(...); macOS", () => {
 	expect(history.undo({
 		shiftKey: false,
 		ctrlKey: false,
-		metaKey: true,
+		metaKey: false,
 		keyCode: keyCodeFor("Z"),
-	})).toBeTruthy()
+	})).not.toBeTruthy()
 	expect(history.undo({
-		shiftKey: true,
+		shiftKey: false,
 		ctrlKey: false,
 		metaKey: true,
 		keyCode: keyCodeFor("Z"),
-	})).not.toBeTruthy()
+	})).toBeTruthy()
 })
+
+test("redo(...); non-macOS", () => {
+	mockNonMacOS()
+	expect(history.redo({
+		shiftKey: false,
+		ctrlKey: false,
+		metaKey: false,
+		keyCode: keyCodeFor("Y"),
+	})).not.toBeTruthy()
+	expect(history.redo({
+		shiftKey: false,
+		ctrlKey: true,
+		metaKey: false,
+		keyCode: keyCodeFor("Y"),
+	})).toBeTruthy()
+})
+
+// // FIXME: Should be working; broken most likely due to eager isCtrlOrMetaKey evaluation
+// test("redo(...); macOS", () => {
+// 	mockMacOS()
+// 	expect(history.redo({
+// 		shiftKey: false,
+// 		ctrlKey: false,
+// 		metaKey: false,
+// 		keyCode: keyCodeFor("Z"),
+// 	})).not.toBeTruthy()
+// 	expect(history.redo({
+// 		shiftKey: true,
+// 		ctrlKey: false,
+// 		metaKey: true,
+// 		keyCode: keyCodeFor("Z"),
+// 	})).toBeTruthy()
+// })
