@@ -4,24 +4,6 @@ import renderTree from "lib/DOM/renderTree"
 import toArray from "lib/Array/toArray"
 import { parseSemanticElements } from "./parsers"
 
-const Syntax = ({ children }) => (
-	<span data-type="markdown" contentEditable={false}>
-		{children}
-	</span>
-)
-
-const Markdown = ({ syntax, children }) => (
-	<React.Fragment>
-		<Syntax>
-			{toArray(syntax)[0]}
-		</Syntax>
-		{children}
-		<Syntax>
-			{toArray(syntax).slice(-1)[0]}
-		</Syntax>
-	</React.Fragment>
-)
-
 test("<p><br></p>", () => {
 	const id = newHash()
 	const tree = renderTree((
@@ -50,9 +32,7 @@ test("<p>Hello, <code>world</code>!</p>", () => {
 			<p id={id}>
 				Hello,{" "}
 				<code>
-					<Markdown syntax="`">
-						world
-					</Markdown>
+					world
 				</code>
 				!
 			</p>
@@ -89,25 +69,15 @@ test("<p>Hello, <code><a href='foo'><strike><strong><em>world</em></strong></str
 			<p id={id}>
 				Hello,{" "}
 				<code>
-					<Markdown syntax="`">
-						<a href="foo">
-							<Markdown syntax={["[", "](foo)"]}>
-								<strike>
-									<Markdown syntax="~~">
-										<strong>
-											<Markdown syntax="**">
-												<em>
-													<Markdown syntax="**">
-														world
-													</Markdown>
-												</em>
-											</Markdown>
-										</strong>
-									</Markdown>
-								</strike>
-							</Markdown>
-						</a>
-					</Markdown>
+					<a href="foo">
+						<strike>
+							<strong>
+								<em>
+									world
+								</em>
+							</strong>
+						</strike>
+					</a>
 				</code>
 				!
 			</p>

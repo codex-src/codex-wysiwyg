@@ -6,21 +6,19 @@ const Debugger = ({
 	lastActionTimestamp,
 	lastAction,
 	readOnlyModeEnabled,
-	displayMarkdownModeEnabled,
 	focused,
 	elements,
 	range,
 	shouldRerender,
 }) => (
  	process.env.NODE_ENV !== "production" && (
-		<div className="mt-6 whitespace-pre-wrap text-sm font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
+		<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
 			{JSON.stringify(
 				{
 					...state,
 					lastActionTimestamp: lastActionTimestamp && state.lastActionTimestamp,
 					lastAction: lastAction && state.lastAction,
 					readOnlyModeEnabled: readOnlyModeEnabled && state.readOnlyModeEnabled,
-					displayMarkdownModeEnabled: displayMarkdownModeEnabled && state.displayMarkdownModeEnabled,
 					focused: focused && state.focused,
 					elements: elements && state.elements,
 					range: range && state.range,

@@ -3,8 +3,6 @@ import newEnum from "lib/x/newEnum"
 const actionEnum = newEnum(
 	"ENABLE_READ_ONLY_MODE",
 	"DISABLE_READ_ONLY_MODE",
-	"ENABLE_DISPLAY_MARKDOWN_MODE",
-	"DISABLE_DISPLAY_MARKDOWN_MODE",
 	"FOCUS",
 	"BLUR",
 	"SELECT",
@@ -41,20 +39,6 @@ export const enableReadOnlyMode = e => () => {
 export const disableReadOnlyMode = e => () => {
 	registerAction(e)(actionEnum.DISABLE_READ_ONLY_MODE)
 	e.readOnlyModeEnabled = false
-}
-
-// Enables display markdown mode; enables read-only mode.
-export const enableDisplayMarkdownMode = e => () => {
-	registerAction(e)(actionEnum.ENABLE_DISPLAY_MARKDOWN_MODE)
-	e.readOnlyModeEnabled = true
-	e.displayMarkdownModeEnabled = true
-}
-
-// Disables display markdown mode; disables read-only mode.
-export const disableDisplayMarkdownMode = e => () => {
-	registerAction(e)(actionEnum.DISABLE_DISPLAY_MARKDOWN_MODE)
-	e.readOnlyModeEnabled = false
-	e.displayMarkdownModeEnabled = false
 }
 
 // Focuses the editor.

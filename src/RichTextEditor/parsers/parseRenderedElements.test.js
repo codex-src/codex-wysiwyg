@@ -4,24 +4,6 @@ import renderTree from "lib/DOM/renderTree"
 import toArray from "lib/Array/toArray"
 import { parseRenderedElements } from "./parsers"
 
-const Syntax = ({ children }) => (
-	<span data-type="markdown" contentEditable={false}>
-		{children}
-	</span>
-)
-
-const Markdown = ({ syntax, children }) => (
-	<React.Fragment>
-		<Syntax>
-			{toArray(syntax)[0]}
-		</Syntax>
-		{children}
-		<Syntax>
-			{toArray(syntax).slice(-1)[0]}
-		</Syntax>
-	</React.Fragment>
-)
-
 test("<p><br></p>", () => {
 	const id = newHash()
 	const tree = renderTree((
@@ -50,9 +32,7 @@ test("<p>Hello, <code>world</code>!</p>", () => {
 			<div id={id} data-type="p">
 				Hello,{" "}
 				<span data-type="code">
-					<Markdown syntax="`">
-						world
-					</Markdown>
+					world
 				</span>
 				!
 			</div>
@@ -89,25 +69,15 @@ test("<p>Hello, <code><a href='foo'><strike><strong><em>world</em></strong></str
 			<div id={id} data-type="p">
 				Hello,{" "}
 				<span data-type="code">
-					<Markdown syntax="`">
-						<span data-type="a" data-props={JSON.stringify({ href: "foo" })}>
-							<Markdown syntax={["[", "](foo)"]}>
-								<span data-type="strike">
-									<Markdown syntax="~~">
-										<span data-type="strong">
-											<Markdown syntax="**">
-												<span data-type="em">
-													<Markdown syntax="**">
-														world
-													</Markdown>
-												</span>
-											</Markdown>
-										</span>
-									</Markdown>
+					<span data-type="a" data-props={JSON.stringify({ href: "foo" })}>
+						<span data-type="strike">
+							<span data-type="strong">
+								<span data-type="em">
+									world
 								</span>
-							</Markdown>
+							</span>
 						</span>
-					</Markdown>
+					</span>
 				</span>
 				!
 			</div>
