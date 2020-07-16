@@ -1,4 +1,4 @@
-// Mocks a non-macOS user agent.
+// Mocks a non-macOS user agent; for testing purposes.
 export function mockNonMacOS() {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "...",
@@ -6,7 +6,7 @@ export function mockNonMacOS() {
 	})
 }
 
-// Mocks a macOS user agent.
+// Mocks a macOS user agent; for testing purposes.
 export function mockMacOS() {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "... Mac OS X ...",

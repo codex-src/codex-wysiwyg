@@ -5,6 +5,8 @@ function testUserAgent(substr) {
 	return navigator.userAgent.indexOf(substr) >= 0
 }
 
+// TODO: Add testedAppleDevice?
+// TODO: Add testedAndroidDevice?
 const userAgent = {
 	// https://apple.com
 	isAAPL: testUserAgent("Mac OS X"),

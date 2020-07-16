@@ -1,20 +1,9 @@
 import isCtrlOrMetaKey from "./index"
 
-// Mocks a non-macOS user agent.
-function mockNonMacOS() {
-	Object.defineProperty(window.navigator, "userAgent", {
-		value: "...",
-		configurable: true,
-	})
-}
-
-// Mocks a macOS user agent.
-function mockMacOS() {
-	Object.defineProperty(window.navigator, "userAgent", {
-		value: "... Mac OS X ...",
-		configurable: true,
-	})
-}
+import { // Unsorted
+	mockNonMacOS,
+	mockMacOS,
+} from "lib/Client/mockUserAgent"
 
 test("non-macOS", () => {
 	mockNonMacOS()
