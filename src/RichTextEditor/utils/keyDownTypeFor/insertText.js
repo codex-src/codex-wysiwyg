@@ -8,39 +8,42 @@ function runeCount(str) {
 
 const insertText = {
 	insertText(e) {
-		const ok = (
-			!e.ctrlKey && // Non-command or macro
-			!e.metaKey && // Non-command or macro
-			runeCount(e.key) === 1
-		)
-		return ok
+		// const ok = (
+		// 	!e.ctrlKey && // Non-command or macro
+		// 	!e.metaKey && // Non-command or macro
+		// 	runeCount(e.key) === 1
+		// )
+		// return ok
+
+		return testKeyDown(e)
+			.forShift({ passthrough: true })
+			.forAlt({ passthrough: true })
+			.forKey([...e.key][0])
+			.check()
 	},
 	insertTab(e) {
-		const ok = (
-			!e.ctrlKey && // Negates browser shortcuts
-			!e.metaKey && // Negates operating system shortcuts
-			e.keyCode === keyCodeFor("Tab")
-		)
-		return ok
+		return testKeyDown(e)
+			.forShift({ passthrough: true })
+			.forKeyCode(keyCodeFor("Tab"))
+			.check()
 	},
 	insertSoftParagraph(e) {
-		const ok = (
-			e.shiftKey &&
-			e.keyCode === keyCodeFor("Enter")
-		)
-		return ok
+		return testKeyDown(e)
+			.forShift()
+			.forKeyCode(keyCodeFor("Enter"))
+			.check()
 	},
 	insertHardParagraph(e) {
 		return testKeyDown(e)
 			.forKeyCode(keyCodeFor("Enter"))
 			.check()
 	},
-	// insertHorizontalRule(e) {
-	// 	return testKeyDown(e)
-	// 		.ctrlOrMetaKey()
-	// 		.forKeyCode(keyCodeFor("Enter"))
-	// 		.check()
-	// }
+	insertHorizontalRule(e) {
+		return testKeyDown(e)
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("Enter"))
+			.check()
+	}
 }
 
 export default insertText
