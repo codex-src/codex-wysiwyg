@@ -54,19 +54,18 @@ test("redo(...); non-macOS", () => {
 	})).toBeTruthy()
 })
 
-// // FIXME: Should be working; broken most likely due to eager isCtrlOrMetaKey evaluation
-// test("redo(...); macOS", () => {
-// 	mockMacOS()
-// 	expect(history.redo({
-// 		shiftKey: false,
-// 		ctrlKey: false,
-// 		metaKey: false,
-// 		keyCode: keyCodeFor("Z"),
-// 	})).not.toBeTruthy()
-// 	expect(history.redo({
-// 		shiftKey: true,
-// 		ctrlKey: false,
-// 		metaKey: true,
-// 		keyCode: keyCodeFor("Z"),
-// 	})).toBeTruthy()
-// })
+test("redo(...); macOS", () => {
+	mockMacOS()
+	expect(history.redo({
+		shiftKey: false,
+		ctrlKey: false,
+		metaKey: false,
+		keyCode: keyCodeFor("Z"),
+	})).not.toBeTruthy()
+	expect(history.redo({
+		shiftKey: true,
+		ctrlKey: false,
+		metaKey: true,
+		keyCode: keyCodeFor("Z"),
+	})).toBeTruthy()
+})
