@@ -13,6 +13,7 @@ test("rune(...)", () => {
 	expect(deleteRTL.rune({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
@@ -26,7 +27,7 @@ test("word(...); non-macOS", () => {
 	expect(deleteRTL.word({
 		shiftKey: false,
 		ctrlKey: true,
-		altKey: false, // TODO
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
@@ -36,7 +37,7 @@ test("word(...); macOS", () => {
 	expect(deleteRTL.word({
 		shiftKey: false,
 		ctrlKey: false,
-		altKey: true, // TODO
+		altKey: true,
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
@@ -45,11 +46,12 @@ test("word(...); macOS", () => {
 /*
  * line
  */
-test("line(...)", () => {
+test("line(...); macOS", () => {
+	mockMacOS()
 	expect(deleteRTL.line({
 		shiftKey: false,
 		ctrlKey: false,
-		altKey: false, // TODO
+		altKey: false,
 		metaKey: true,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()

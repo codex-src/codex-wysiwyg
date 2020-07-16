@@ -14,12 +14,14 @@ test("undo(...); non-macOS", () => {
 	expect(history.undo({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Z"),
 	})).not.toBeTruthy()
 	expect(history.undo({
 		shiftKey: false,
 		ctrlKey: true,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()
@@ -29,12 +31,14 @@ test("undo(...); macOS", () => {
 	expect(history.undo({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Z"),
 	})).not.toBeTruthy()
 	expect(history.undo({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: true,
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()
@@ -48,12 +52,14 @@ test("redo(...); non-macOS", () => {
 	expect(history.redo({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Y"),
 	})).not.toBeTruthy()
 	expect(history.redo({
 		shiftKey: false,
 		ctrlKey: true,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Y"),
 	})).toBeTruthy()
@@ -63,12 +69,14 @@ test("redo(...); macOS", () => {
 	expect(history.redo({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Z"),
 	})).not.toBeTruthy()
 	expect(history.redo({
 		shiftKey: true,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: true,
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()

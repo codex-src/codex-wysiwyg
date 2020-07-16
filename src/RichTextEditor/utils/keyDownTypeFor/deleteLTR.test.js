@@ -13,6 +13,7 @@ test("rune(...); non-macOS and macOS", () => {
 	expect(deleteLTR.rune({
 		shiftKey: false,
 		ctrlKey: false,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
@@ -22,6 +23,7 @@ test("rune(...); macOS", () => {
 	expect(deleteLTR.rune({
 		shiftKey: false,
 		ctrlKey: true,
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("D"),
 	})).toBeTruthy()
@@ -35,7 +37,7 @@ test("word(...); non-macOS", () => {
 	expect(deleteLTR.word({
 		shiftKey: false,
 		ctrlKey: true,
-		altKey: false, // TODO
+		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
@@ -45,7 +47,7 @@ test("word(...); macOS", () => {
 	expect(deleteLTR.word({
 		shiftKey: false,
 		ctrlKey: true,
-		altKey: true, // TODO
+		altKey: true,
 		metaKey: false,
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
