@@ -78,76 +78,22 @@ function testKeyDown(e) {
 			flags.key = key
 			return this
 		},
-		// /*
-		//  * Computed
-		//  */
-		get shiftKey() {
-			const ok = (
-				flags.shiftKey === undefined ||
-				e.shiftKey === flags.shiftKey
-			)
-			return ok
-		},
-		get ctrlKey() {
-			const ok = (
-				flags.ctrlKey === undefined ||
-				e.ctrlKey === flags.ctrlKey
-			)
-			return ok
-		},
-		get altKey() {
-			const ok = (
-				flags.altKey === undefined ||
-				e.altKey === flags.altKey
-			)
-			return ok
-		},
-		get metaKey() {
-			const ok = (
-				flags.metaKey === undefined ||
-				e.metaKey === flags.metaKey
-			)
-			return ok
-		},
-		get keyCode() {
-			return e.keyCode === flags.keyCode
-		},
-		get key() {
-			return e.key === flags.key
-		},
-		// /*
-		//  * check(...)
-		//  */
 		check() {
-			// console.log({
-			// 	shiftKey: this.shiftKey,
-			// 	ctrlKey: this.ctrlKey,
-			// 	altKey: this.altKey,
-			// 	metaKey: this.metaKey,
-			// 	keyCode: this.keyCode,
-			// 	key: this.key,
-			// })
+			for (const each of ["shiftKey", "ctrlKey", "altKey", "metaKey"]) {
+				if (flags[each] !== undefined) {
+					if (e[each] !== flags[each]) {
+						return false
+					}
+				}
+			}
 			const ok = (
-				this.shiftKey &&
-				this.ctrlKey &&
-				this.altKey &&
-				this.metaKey &&
-				this.keyCode &&
-				this.key
+				e.keyCode === flags.keyCode ||
+				e.key === flags.key
 			)
 			return ok
 		},
 	}
 	return state
 }
-
-// get metaKey() {
-// 	const ok = (
-// 		flags.ctrlOrMetaKey === undefined ||
-// 		flags.metaKey === undefined ||
-// 		e.metaKey === flags.metaKey
-// 	)
-// 	return ok
-// },
 
 export default testKeyDown
