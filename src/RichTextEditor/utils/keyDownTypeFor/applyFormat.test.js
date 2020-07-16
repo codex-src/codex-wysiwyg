@@ -12,20 +12,20 @@ import { // Unsorted
 test("em(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(applyFormat.em({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("I"),
 	})).toBeTruthy()
 })
 test("em(...); macOS", () => {
 	mockMacOS()
 	expect(applyFormat.em({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("I"),
 	})).toBeTruthy()
 })
@@ -36,20 +36,20 @@ test("em(...); macOS", () => {
 test("strong(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(applyFormat.strong({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("B"),
 	})).toBeTruthy()
 })
 test("strong(...); macOS", () => {
 	mockMacOS()
 	expect(applyFormat.strong({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("B"),
 	})).toBeTruthy()
 })
@@ -60,20 +60,20 @@ test("strong(...); macOS", () => {
 test("code(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(applyFormat.code({
-		shiftKey: true,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 1,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("C"),
 	})).toBeTruthy()
 })
 test("code(...); macOS", () => {
 	mockMacOS()
 	expect(applyFormat.code({
-		shiftKey: true,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("C"),
 	})).toBeTruthy()
 })
@@ -84,20 +84,20 @@ test("code(...); macOS", () => {
 test("strike(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(applyFormat.strike({
-		shiftKey: true,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 1,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("X"),
 	})).toBeTruthy()
 })
 test("strike(...); macOS", () => {
 	mockMacOS()
 	expect(applyFormat.strike({
-		shiftKey: true,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("X"),
 	})).toBeTruthy()
 })
@@ -108,20 +108,20 @@ test("strike(...); macOS", () => {
 test("a(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(applyFormat.a({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("K"),
 	})).toBeTruthy()
 })
 test("a(...); macOS", () => {
 	mockMacOS()
 	expect(applyFormat.a({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("K"),
 	})).toBeTruthy()
 })

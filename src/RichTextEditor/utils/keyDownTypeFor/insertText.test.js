@@ -3,124 +3,138 @@ import keyCodeFor from "lib/Client/keyCodeFor"
 
 test("insertText(...)", () => {
 	expect(insertText.insertText({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		key: "a",
 	})).toBeTruthy()
 	expect(insertText.insertText({
-		shiftKey: true,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		key: "A",
 	})).toBeTruthy()
 	expect(insertText.insertText({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
+		key: "foo",
+	})).not.toBeTruthy()
+	expect(insertText.insertText({
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
+		key: "FOO",
+	})).not.toBeTruthy()
+	expect(insertText.insertText({
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		key: "a",
 	})).not.toBeTruthy()
 	expect(insertText.insertText({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		key: "a",
 	})).not.toBeTruthy()
 })
 
 test("insertTab(...)", () => {
 	expect(insertText.insertTab({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Tab"),
 	})).toBeTruthy()
 	expect(insertText.insertTab({
-		shiftKey: true,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Tab"),
 	})).toBeTruthy()
 	expect(insertText.insertTab({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Tab"),
 	})).not.toBeTruthy()
 	expect(insertText.insertTab({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("Tab"),
 	})).not.toBeTruthy()
 })
 
 test("insertSoftParagraph(...)", () => {
 	expect(insertText.insertSoftParagraph({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Enter"),
 	})).not.toBeTruthy()
 	expect(insertText.insertSoftParagraph({
-		shiftKey: true,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Enter"),
 	})).toBeTruthy()
 	expect(insertText.insertSoftParagraph({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Enter"),
 	})).not.toBeTruthy()
 	expect(insertText.insertSoftParagraph({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("Enter"),
 	})).not.toBeTruthy()
 })
 
 test("insertHardParagraph(...)", () => {
 	expect(insertText.insertHardParagraph({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Enter"),
 	})).toBeTruthy()
 	expect(insertText.insertHardParagraph({
-		shiftKey: true,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 1,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Enter"),
 	})).not.toBeTruthy()
 	expect(insertText.insertHardParagraph({
-		shiftKey: false,
-		ctrlKey: true,
-		altKey: false,
-		metaKey: false,
+		shiftKey: 0,
+		ctrlKey: 1,
+		altKey: 0,
+		metaKey: 0,
 		keyCode: keyCodeFor("Enter"),
 	})).toBeTruthy()
 	expect(insertText.insertHardParagraph({
-		shiftKey: false,
-		ctrlKey: false,
-		altKey: false,
-		metaKey: true,
+		shiftKey: 0,
+		ctrlKey: 0,
+		altKey: 0,
+		metaKey: 1,
 		keyCode: keyCodeFor("Enter"),
 	})).toBeTruthy()
 })
