@@ -6,6 +6,9 @@ import { // Unsorted
 	mockMacOS,
 } from "lib/Client/mockUserAgent"
 
+/*
+ * undo
+ */
 test("undo(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(history.undo({
@@ -21,7 +24,6 @@ test("undo(...); non-macOS", () => {
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()
 })
-
 test("undo(...); macOS", () => {
 	mockMacOS()
 	expect(history.undo({
@@ -38,6 +40,9 @@ test("undo(...); macOS", () => {
 	})).toBeTruthy()
 })
 
+/*
+ * redo
+ */
 test("redo(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(history.redo({
@@ -53,7 +58,6 @@ test("redo(...); non-macOS", () => {
 		keyCode: keyCodeFor("Y"),
 	})).toBeTruthy()
 })
-
 test("redo(...); macOS", () => {
 	mockMacOS()
 	expect(history.redo({
