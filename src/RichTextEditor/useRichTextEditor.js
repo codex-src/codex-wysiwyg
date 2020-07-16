@@ -10,7 +10,6 @@ const newInitialState = elements => ({
 	lastActionTimestamp: "init",
 	lastAction: Date.now(),
 	readOnlyModeEnabled: true, // DOMContentLoaded disables read-only mode
-	displayMarkdownModeEnabled: false,
 	focused: false,
 	elements,
 	range: {
@@ -49,14 +48,21 @@ function parseElements({ markup, children }) {
 	return parseSemanticElements(tree)
 }
 
-// TODO: Add support for read-only mode enabled and display
-// markdown mode enabled
-function useRichTextEditor({ markup, children }) {
+// Instantiates from markup.
+export function useRichTextEditorFromMarkup(markup) {
 	const initialState = React.useMemo(() => {
-		const elements = parseElements({ markup, children })
+		const elements = parseElements({ markup })
 		return newInitialState(elements)
-	}, [markup, children])
+	}, [markup])
 	return useMethods(methods, initialState)
 }
 
-export default useRichTextEditor
+// Instantiates from React children. Note that children is
+// expected to be an array of React elements.
+export function useRichTextEditorFromChildren(children) {
+	const initialState = React.useMemo(() => {
+		const elements = parseElements({ children })
+		return newInitialState(elements)
+	}, [children])
+	return useMethods(methods, initialState)
+}

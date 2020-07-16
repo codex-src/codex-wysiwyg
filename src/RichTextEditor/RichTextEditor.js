@@ -3,16 +3,13 @@ import Debugger from "./components/Debugger"
 import React from "react"
 import Renderer from "./components/Renderer"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
-import useRichTextEditor from "./useRichTextEditor"
 import { parseRenderedChildren } from "./parsers"
 
 import "./RichTextEditor.css"
 
-const RichTextEditor = ({ markup, children }) => {
+const RichTextEditor = ({ state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
-
-	const [state, dispatch] = useRichTextEditor({ markup, children })
 
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(dispatch.disableReadOnlyMode)
