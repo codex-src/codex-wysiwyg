@@ -1,12 +1,23 @@
 import isCtrlOrMetaKey from "./index"
 
-// https://github.com/facebook/jest/issues/717#issuecomment-369872760
-
-test("non-macOS", () => {
+// Mocks a non-macOS user agent.
+function mockNonMacOS() {
 	Object.defineProperty(window.navigator, "userAgent", {
 		value: "...",
 		configurable: true,
 	})
+}
+
+// Mocks a macOS user agent.
+function mockMacOS() {
+	Object.defineProperty(window.navigator, "userAgent", {
+		value: "... Mac OS X ...",
+		configurable: true,
+	})
+}
+
+test("non-macOS", () => {
+	mockNonMacOS()
 	/* eslint-disable no-multi-spaces */
 	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: false })).not.toBeTruthy()
 	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: true  })).toBeTruthy()
@@ -16,10 +27,7 @@ test("non-macOS", () => {
 })
 
 test("macOS", () => {
-	Object.defineProperty(window.navigator, "userAgent", {
-		value: "... Mac OS X ...",
-		configurable: true,
-	})
+	mockMacOS()
 	/* eslint-disable no-multi-spaces */
 	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: false })).not.toBeTruthy()
 	expect(isCtrlOrMetaKey({ metaKey: false, ctrlKey: true  })).not.toBeTruthy()

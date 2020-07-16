@@ -1,6 +1,6 @@
-import isCtrlOrMetaKey from "../isCtrlOrMetaKey"
-import keyCodeFor from "../keyCodeFor"
-import userAgent from "lib/userAgent"
+import isCtrlOrMetaKey from "lib/Client/isCtrlOrMetaKey"
+import keyCodeFor from "lib/Client/keyCodeFor"
+import userAgent from "lib/Client/userAgent"
 
 const history = {
 	undo(e) {

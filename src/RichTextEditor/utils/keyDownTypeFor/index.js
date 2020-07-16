@@ -1,1 +1,1 @@
-export { default } from "./detectKeydownType"
+export { default } from "./keyDownTypeFor"
