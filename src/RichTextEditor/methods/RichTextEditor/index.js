@@ -47,74 +47,55 @@ export const select = e => range => {
 // Controlled delete handler; deletes the next right-to-left
 // or left-to-right rune, word, or line.
 export const controlledDelete = e => keyDownType => {
+	recordAction(e)(keyDownType)
 
-	// Object.assign(e.range.start, {
-	// 	key: "",
-	// 	offset: 0,
-	// })
-	console.log(e.range.collapsed())
+	const [dir, boundary] = {
+		"delete-rtl-rune": ["rtl", "rune"],
+		"delete-rtl-word": ["rtl", "word"],
+		"delete-rtl-line": ["rtl", "line"],
+		"delete-ltr-rune": ["ltr", "rune"],
+		"delete-ltr-word": ["ltr", "word"],
+	}[keyDownType]
 
-	//	recordAction(e)(keyDownType)
-	//
-	//	const [dir, boundary] = {
-	//		"delete-rtl-rune": ["rtl", "rune"],
-	//		"delete-rtl-word": ["rtl", "word"],
-	//		"delete-rtl-line": ["rtl", "line"],
-	//		"delete-ltr-rune": ["ltr", "rune"],
-	//		"delete-ltr-word": ["ltr", "word"],
-	//	}[keyDownType]
-	//
-	//	const ll = LinkedElementList.fromElements(e.elements)
-	//	if (e.range.collapsed) {
-	//
-	//		// Extend right-to-left:
-	//		let substr = ""
-	//		if (dir === "rtl") {
-	//			substr = ll.current.value.slice(0, e.range.start.offset)
-	//			const runes = iterate.rtl[boundary](substr)
-	//			if (!runes && ll.prev) {
-	//				// e.range.start.key = ll.prev.current.key
-	//				// e.range.start.offset = ll.prev.current.props.children.reduce((acc, each) => acc += each.props.children, "").length
-	//				// e.range.start.collapsed = false
-	//				Object.assign(e.range, {
-	//					...e.range,
-	//					start: {
-	//						key: ll.prev.current.key,
-	//						offset: ll.prev.current.props.children.reduce((acc, each) => acc += each.props.children, "").length,
-	//					},
-	//					collapsed: true,
-	//				})
-	//			} else {
-	//				Object.assign(e.range, {
-	//
-	//				})
-	//				e.range.start.offset -= runes.length
-	//			}
-	//
-	//		// Extend left-to-right:
-	//		} else if (dir === "ltr") {
-	//			substr = ll.current.value.slice(e.range.end.offset)
-	//			const runes = iterate.ltr[boundary](substr)
-	//			if (!runes && ll.next) {
-	//				// e.range.start.key = ll.next.current.key
-	//				// e.range.start.offset = 0
-	//				// e.range.start.collapsed = false
-	//				Object.assign(e.range, {
-	//					...e.range,
-	//					start: {
-	//						key: ll.next.current.key,
-	//						offset: 0,
-	//					},
-	//					collapsed: true,
-	//				})
-	//			} else {
-	//				e.range.end.offset += runes.length
-	//			}
-	//		}
-	//
-	//	}
-	//
-	//	rerender(e)()
+	// Reads the text content.
+	const textContent = children => {
+		return children.reduce((acc, each) => acc += each.props.children, "")
+	}
+
+	const ll = LinkedElementList.fromElements(e.elements)
+	if (e.range.collapsed) {
+
+		// Extend the range right-to-left:
+		if (dir === "rtl") {
+			const substr = textContent(ll.current.props.children).slice(0, e.range.start.offset)
+			const itd = iterate.rtl[boundary](substr)
+			if (!itd && ll.prev) {
+				e.range.start = {
+					key: ll.prev.current.key,
+					offset: textContent(ll.prev.current.props.children).length,
+				}
+			} else {
+				e.range.start.offset -= itd.length
+			}
+		}
+
+		// Extend the range left-to-right:
+		if (dir === "ltr") {
+			const substr = textContent(ll.current.props.children).slice(e.range.end.offset)
+			const itd = iterate.ltr[boundary](substr)
+			if (!itd && ll.next) {
+				e.range.end = {
+					key: ll.next.current.key,
+					offset: 0,
+				}
+			} else {
+				e.range.end.offset += itd.length
+			}
+		}
+
+	}
+
+	rerender(e)()
 }
 
 // Uncontrolled input handler.
