@@ -1,4 +1,4 @@
-import * as Position from "./Position"
+import * as Position from "../Position"
 
 // const collapsed = start === end
 // return { start, end, collapsed }

@@ -1,4 +1,4 @@
-import * as Position from "./Position"
+import * as Position from "./index"
 import newHash from "lib/x/newHash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"

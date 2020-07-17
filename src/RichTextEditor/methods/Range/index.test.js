@@ -1,4 +1,4 @@
-import * as Range from "./Range"
+import * as Range from "./index"
 import newHash from "lib/x/newHash"
 
 test("collapseStart(...)", () => {
