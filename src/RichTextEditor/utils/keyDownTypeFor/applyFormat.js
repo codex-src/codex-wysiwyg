@@ -1,6 +1,13 @@
 import keyCodeFor from "lib/Client/keyCodeFor"
 import testKeyDown from "lib/Client/testKeyDown"
 
+// const ok = testKeyDown(e, {
+// 	shiftKey: true,
+// 	ctrlOrMetaKey: true,
+// 	keyCode: keyCodeFor("P"),
+// })
+// return ok
+
 // https://slack.com/intl/en-kr/help/articles/201374536-Slack-keyboard-shortcuts#format-messages
 const applyFormat = {
 	plaintext(e) {

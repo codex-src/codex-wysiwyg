@@ -8,7 +8,6 @@ import insertText from "./insertText"
 // Returns a keydown type for a keydown event.
 function keyDownTypeFor(e) {
 	switch (true) {
-
 	case applyFormat.plaintext(e):
 		return "apply-format-plaintext"
 	case applyFormat.em(e):
@@ -21,7 +20,6 @@ function keyDownTypeFor(e) {
 		return "apply-format-strike"
 	case applyFormat.a(e):
 		return "apply-format-a"
-
 	case applyFormatMarkdown.em(e):
 		return "apply-format-markdown-em"
 	case applyFormatMarkdown.strong(e):
@@ -32,7 +30,6 @@ function keyDownTypeFor(e) {
 		return "apply-format-markdown-strike"
 	case applyFormatMarkdown.a(e):
 		return "apply-format-markdown-a"
-
 	case insertText.insertText(e):
 		return "insert-text"
 	case insertText.insertTab(e):
@@ -43,24 +40,20 @@ function keyDownTypeFor(e) {
 		return "insert-hard-paragraph"
 	case insertText.insertHorizontalRule(e):
 		return "insert-horizontal-rule"
-
 	case deleteRTL.line(e): // Takes precedence
 		return "delete-rtl-line"
 	case deleteRTL.word(e): // Takes precedence
 		return "delete-rtl-word"
 	case deleteRTL.rune(e):
 		return "delete-rtl-rune"
-
 	case deleteLTR.word(e): // Takes precedence
 		return "delete-ltr-word"
 	case deleteLTR.rune(e):
 		return "delete-ltr-rune"
-
 	case history.undo(e):
 		return "undo"
 	case history.redo(e):
 		return "redo"
-
 	default:
 		// No-op
 		break
