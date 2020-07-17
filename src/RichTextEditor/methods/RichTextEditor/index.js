@@ -55,13 +55,15 @@ export const controlledDelete = e => keyDownType => {
 	recordAction(e)(keyDownType)
 
 	// Get the direction and boundary:
-	const [dir, boundary] = {
-		"delete-rtl-rune": ["rtl", "rune"],
-		"delete-rtl-word": ["rtl", "word"],
-		"delete-rtl-line": ["rtl", "line"],
-		"delete-ltr-rune": ["ltr", "rune"],
-		"delete-ltr-word": ["ltr", "word"],
-	}[keyDownType]
+	const [dir, boundary] = keyDownType.split("-").slice(1)
+
+	// const [dir, boundary] = {
+	// 	"delete-rtl-rune": ["rtl", "rune"],
+	// 	"delete-rtl-word": ["rtl", "word"],
+	// 	"delete-rtl-line": ["rtl", "line"],
+	// 	"delete-ltr-rune": ["ltr", "rune"],
+	// 	"delete-ltr-word": ["ltr", "word"],
+	// }[keyDownType]
 
 	// Get the current element link:
 	const ll = LinkedElementList.fromElements(e.elements)
@@ -70,13 +72,11 @@ export const controlledDelete = e => keyDownType => {
 		// Extend the range right-to-left:
 		if (dir === "rtl") {
 			const substr = textContent(k.current.props.children).slice(0, e.range.start.offset)
-			if (!e.range.start.offset) {
-				if (k.prev) {
-					e.range.start = {
-						key: k.prev.current.key,
-						offset: textContent(k.prev.current.props.children).length,
-					}
-				}
+			if (!substr && k.prev) {
+				Object.assign(e.range.start, {
+					key: k.prev.current.key,
+					offset: textContent(k.prev.current.props.children).length,
+				})
 			} else {
 				const itd = iterate.rtl[boundary](substr)
 				e.range.start.offset -= itd.length
@@ -84,13 +84,12 @@ export const controlledDelete = e => keyDownType => {
 		// Extend the range left-to-right:
 		} else if (dir === "ltr") {
 			const substr = textContent(k.current.props.children).slice(e.range.end.offset)
-			if (e.range.end.offset === substr.length) {
-				if (k.next) {
-					e.range.end = {
-						key: k.next.current.key,
-						offset: 0,
-					}
-				}
+			if (!substr && k.next) {
+				console.log(k)
+				// Object.assign(e.range.end, {
+				// 	key: k.next.current.key,
+				// 	offset: 0,
+				// })
 			} else {
 				const itd = iterate.ltr[boundary](substr)
 				e.range.end.offset += itd.length

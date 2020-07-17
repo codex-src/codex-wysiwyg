@@ -13,7 +13,7 @@ export const fromElements = elements => {
 	for (const each of elements) {
 		if (each.props.children) {
 			Object.assign(ref, {
-				current: each, // prev is intentionally omitted
+				current: each,
 				next: {
 					prev: ref,
 					current: null,
@@ -21,21 +21,25 @@ export const fromElements = elements => {
 				},
 			})
 			ref = ref.next
-		} else if (each.props.elements) {
-			const { current, next } = fromElements(each.props.elements)
-			Object.assign(ref, {
-				current,
-				next,
-			})
-			const x = 0
-			while (ref.next) {
-				// Patch once:
-				if (!x) {
-					ref.next.prev = ref
-				}
-				ref = ref.next
-			}
+		// } else if (each.props.elements) {
+		// 	const { current, next } = fromElements(each.props.elements)
+		// 	Object.assign(ref, {
+		// 		current,
+		// 		next,
+		// 	})
+		// 	const x = 0
+		// 	while (ref.next) {
+		// 		// Patch once:
+		// 		if (!x) {
+		// 			ref.next.prev = ref
+		// 		}
+		// 		ref = ref.next
+		// 	}
 		}
+	}
+	// Patch ref.prev.next:
+	if (ref !== start) {
+		ref.prev.next = null
 	}
 	return start
 }
@@ -43,7 +47,7 @@ export const fromElements = elements => {
 // Find an element link based on the return of a callback.
 export const find = e => callback => {
 	let ref = e
-	while (ref === e || ref.next) {
+	while (ref) {
 		if (callback(ref.current)) {
 			return ref
 		}
