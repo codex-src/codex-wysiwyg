@@ -1,4 +1,2 @@
-import * as rtl from "./rtl" // Unsorted
-import * as ltr from "./ltr"
-
-export { rtl, ltr }
+export { default as rtl } from "./rtl" // Unsorted
+export { default as ltr } from "./ltr"
