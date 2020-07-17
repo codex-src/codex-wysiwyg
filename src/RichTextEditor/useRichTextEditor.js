@@ -21,7 +21,13 @@ const newInitialState = elements => ({
 			key: "",
 			offset: 0,
 		},
-		collapsed: true,
+		collapsed() {
+			const ok = (
+				this.start === this.end ||
+				(this.start.key === this.end.key && this.start.offset === this.end.offset)
+			)
+			return ok
+		},
 	},
 	shouldRerender: 0,
 })

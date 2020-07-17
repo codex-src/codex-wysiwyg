@@ -1,8 +1,5 @@
 import * as Position from "../Position"
 
-// const collapsed = start === end
-// return { start, end, collapsed }
-
 // Gets the current range. Range must be scoped to a tree.
 export function getCurrent(tree) {
 	const selection = document.getSelection()
@@ -27,7 +24,13 @@ export function getCurrent(tree) {
 	const computed = {
 		start,
 		end,
-		collapsed: start === end,
+		collapsed() {
+			const ok = (
+				this.start === this.end ||
+				(this.start.key === this.end.key && this.start.offset === this.end.offset)
+			)
+			return ok
+		},
 	}
 	return computed
 }
@@ -36,14 +39,12 @@ export function getCurrent(tree) {
 export const collapseStart = r => () => ({
 	...r,
 	end: r.start,
-	collapsed: true,
 })
 
 // Collapses start-to-end.
 export const collapseEnd = r => () => ({
 	...r,
 	start: r.end,
-	collapsed: true,
 })
 
 // Converts a user literal to an array.
@@ -55,7 +56,7 @@ function conv({ node, offset }) {
 export const toUserLiteral = r => () => {
 	const pos1 = conv(Position.toUserLiteral(r.start)())
 	let pos2 = pos1
-	if (!r.collapsed) {
+	if (!r.collapsed()) {
 		pos2 = conv(Position.toUserLiteral(r.end)())
 	}
 	const range = document.createRange()
