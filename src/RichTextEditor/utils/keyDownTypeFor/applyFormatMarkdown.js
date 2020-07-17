@@ -1,38 +1,20 @@
-import keyCodeFor from "lib/Client/keyCodeFor"
-
 const applyFormatMarkdown = {
 	em(e) {
-		const ok = (
-			e.shiftKey &&
-			e.keyCode === keyCodeFor("_")
-		)
-		return ok
+		return e.key === "_"
 	},
 	strong(e) {
-		const ok = (
-			e.shiftKey &&
-			e.keyCode === keyCodeFor("*")
-		)
-		return ok
+		return e.key === "*"
 	},
 	code(e) {
-		const ok = (
-			!e.shiftKey &&
-			e.keyCode === keyCodeFor("`")
-		)
-		return ok
+		return e.key === "`"
 	},
 	strike(e) {
-		const ok = (
-			e.shiftKey &&
-			e.keyCode === keyCodeFor("~")
-		)
-		return ok
+		return e.key === "~"
 	},
 	a(e) {
 		const ok = (
-			(!e.shiftKey && e.keyCode === keyCodeFor("[")) ||
-			(!e.shiftKey && e.keyCode === keyCodeFor("]"))
+			e.key === "[" ||
+			e.key === "]"
 		)
 		return ok
 	},
