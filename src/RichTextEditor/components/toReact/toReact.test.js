@@ -1,6 +1,4 @@
-import JSONEqual from "lib/JSON/JSONEqual"
 import React from "react"
-import renderTree from "lib/DOM/renderTree"
 import toReact from "./toReact"
 
 import { // Unsorted

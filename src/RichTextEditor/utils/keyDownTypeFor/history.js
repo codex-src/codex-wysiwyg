@@ -1,4 +1,3 @@
-import isCtrlOrMetaKey from "lib/Client/isCtrlOrMetaKey"
 import keyCodeFor from "lib/Client/keyCodeFor"
 import testKeyDown from "lib/Client/testKeyDown"
 import userAgent from "lib/Client/userAgent"

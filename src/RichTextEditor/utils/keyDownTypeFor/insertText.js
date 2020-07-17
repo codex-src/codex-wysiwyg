@@ -31,7 +31,7 @@ const insertText = {
 			.forCtrlOrMeta()
 			.forKeyCode(keyCodeFor("Enter"))
 			.check()
-	}
+	},
 }
 
 export default insertText

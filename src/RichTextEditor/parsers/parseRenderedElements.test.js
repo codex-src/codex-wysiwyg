@@ -1,7 +1,6 @@
 import newHash from "lib/x/newHash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"
-import toArray from "lib/Array/toArray"
 import { parseRenderedElements } from "./parsers"
 
 test("<p><br></p>", () => {

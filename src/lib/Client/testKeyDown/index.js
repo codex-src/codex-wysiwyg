@@ -1,4 +1,3 @@
-import isCtrlOrMetaKey from "lib/Client/isCtrlOrMetaKey"
 import userAgent from "lib/Client/userAgent"
 
 // Tests a keydown event.
@@ -34,14 +33,6 @@ function testKeyDown(e) {
 				return this
 			}
 			flags.altKey = true
-			return this
-		},
-		forMeta({ passthrough } = {}) {
-			if (passthrough) {
-				flags.metaKey = undefined
-				return this
-			}
-			flags.metaKey = true
 			return this
 		},
 		forMeta({ passthrough } = {}) {

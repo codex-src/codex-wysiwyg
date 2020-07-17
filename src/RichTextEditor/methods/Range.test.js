@@ -1,5 +1,4 @@
 import * as Range from "./Range"
-import JSONEqual from "lib/JSON/JSONEqual"
 import newHash from "lib/x/newHash"
 
 test("collapseStart(...)", () => {

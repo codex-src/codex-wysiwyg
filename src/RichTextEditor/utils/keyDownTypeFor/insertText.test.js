@@ -1,11 +1,6 @@
 import insertText from "./insertText"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
-import { // Unsorted
-	mockNonMacOS,
-	mockMacOS,
-} from "lib/Client/mockUserAgent"
-
 test("insertText(...)", () => {
 	const e = {
 		shiftKey: false,
