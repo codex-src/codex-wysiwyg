@@ -74,11 +74,9 @@ const RichTextEditor = ({ state, dispatch }) => {
 				})}
 
 				onKeyDown={readWriteOnlyHandler(e => {
-					const keydownType = keyDownTypeFor(e)
-					if (keydownType) {
-						console.log({ "keydown-type": keydownType })
-					}
-					switch (keydownType) {
+					const keyDownType = keyDownTypeFor(e)
+					switch (keyDownType) {
+
 					case "apply-format-plaintext":
 					case "apply-format-em":
 					case "apply-format-strong":
@@ -90,28 +88,43 @@ const RichTextEditor = ({ state, dispatch }) => {
 					case "apply-format-markdown-code":
 					case "apply-format-markdown-strike":
 					case "apply-format-markdown-a":
+						console.log(keyDownType)
 						e.preventDefault()
+						// TODO
 						break
+
 					// case "insert-text":
 					case "insert-tab":
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":
-					case "delete-rtl-line":
-					case "delete-rtl-word":
+						console.log(keyDownType)
+						e.preventDefault()
+						// TODO
+						break
+
 					case "delete-rtl-rune":
-					case "delete-ltr-word":
+					case "delete-rtl-word":
+					case "delete-rtl-line":
 					case "delete-ltr-rune":
+					case "delete-ltr-word":
+						console.log(keyDownType)
+						e.preventDefault()
+						dispatch.controlledDelete(keyDownType)
+						break
+
 					case "undo":
 					case "redo":
+						console.log(keyDownType)
 						e.preventDefault()
+						// TODO
 						break
+
 					default:
 						// No-op
 						break
 					}
 				})}
-
 
 				onInput={readWriteOnlyHandler(e => {
 					const range = Range.collapseStart(Range.getCurrent(ref.current))()
@@ -158,8 +171,8 @@ const RichTextEditor = ({ state, dispatch }) => {
 			<Debugger
 				state={state}
 				dispatch={dispatch}
-				// lastActionTimestamp
-				// lastAction
+				lastActionTimestamp
+				lastAction
 				// readOnlyModeEnabled
 				// focused
 				// elements
