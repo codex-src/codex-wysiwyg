@@ -54,20 +54,10 @@ const textContent = children => {
 export const controlledDelete = e => keyDownType => {
 	recordAction(e)(keyDownType)
 
-	// Get the direction and boundary:
 	const [dir, boundary] = keyDownType.split("-").slice(1)
-
-	// const [dir, boundary] = {
-	// 	"delete-rtl-rune": ["rtl", "rune"],
-	// 	"delete-rtl-word": ["rtl", "word"],
-	// 	"delete-rtl-line": ["rtl", "line"],
-	// 	"delete-ltr-rune": ["ltr", "rune"],
-	// 	"delete-ltr-word": ["ltr", "word"],
-	// }[keyDownType]
-
-	// Get the current element link:
 	const ll = LinkedElementList.fromElements(e.elements)
 	const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
+
 	if (e.range.collapsed()) {
 		// Extend the range right-to-left:
 		if (dir === "rtl") {
@@ -85,11 +75,10 @@ export const controlledDelete = e => keyDownType => {
 		} else if (dir === "ltr") {
 			const substr = textContent(k.current.props.children).slice(e.range.end.offset)
 			if (!substr && k.next) {
-				console.log(k)
-				// Object.assign(e.range.end, {
-				// 	key: k.next.current.key,
-				// 	offset: 0,
-				// })
+				Object.assign(e.range.end, {
+					key: k.next.current.key,
+					offset: 0,
+				})
 			} else {
 				const itd = iterate.ltr[boundary](substr)
 				e.range.end.offset += itd.length
@@ -107,6 +96,9 @@ export const controlledDelete = e => keyDownType => {
 // TODO: Add support for nested elements
 export const uncontrolledInput = e => (children, range) => {
 	recordAction(e)("input")
+	// const ll = LinkedElementList.fromElements(e.elements)
+	// const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
+	// k.current.props.children = children
 	const el = e.elements.find(each => each.key === range.start.key)
 	el.props.children = children
 	e.range = range
