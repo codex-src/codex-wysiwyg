@@ -27,6 +27,7 @@ const deleteRTL = {
 		} else {
 			return testKeyDown(e)
 				.forShift({ passthrough: true })
+				.forCtrl({ passthrough: true }) // Edge case
 				.forAlt()
 				.forKeyCode(keyCodeFor("Backspace"))
 				.check()

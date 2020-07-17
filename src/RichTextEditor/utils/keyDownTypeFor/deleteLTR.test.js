@@ -32,7 +32,7 @@ test("rune(...); macOS", () => {
 		keyCode: keyCodeFor("D"),
 	}
 	expect(deleteLTR.rune(e)).toBeTruthy()
-	expect(deleteLTR.rune({ ...e, shiftKey: true })).toBeTruthy()
+	// expect(deleteLTR.rune({ ...e, shiftKey: true })).toBeTruthy()
 })
 
 /*

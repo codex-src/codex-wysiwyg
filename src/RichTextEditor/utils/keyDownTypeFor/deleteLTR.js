@@ -9,7 +9,7 @@ const deleteLTR = {
 		}
 		if (userAgent.isAAPL) {
 			return testKeyDown(e)
-				.forShift({ passthrough: true })
+				// .forShift({ passthrough: true }) // Edge case (commented out)
 				.forCtrl()
 				.forKeyCode(keyCodeFor("D"))
 				.check()

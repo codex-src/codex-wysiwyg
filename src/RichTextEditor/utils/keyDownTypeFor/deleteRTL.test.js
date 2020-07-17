@@ -49,6 +49,7 @@ test("word(...); macOS", () => {
 		keyCode: keyCodeFor("Backspace"),
 	}
 	expect(deleteRTL.word(e)).toBeTruthy()
+	expect(deleteRTL.word({ ...e, ctrlKey: true })).toBeTruthy()
 	expect(deleteRTL.word({ ...e, shiftKey: true })).toBeTruthy()
 })
 
