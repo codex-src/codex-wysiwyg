@@ -25,7 +25,8 @@ const applyFormatMarkdown = {
 			.check()
 	},
 	a(e) {
-		return testKeyDown(e).forKey("[").check() || testKeyDown(e).forKey("]").check()
+		return testKeyDown(e).forKey("[").check() ||
+			testKeyDown(e).forKey("]").check()
 	},
 }
 

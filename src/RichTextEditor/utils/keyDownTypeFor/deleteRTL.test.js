@@ -12,10 +12,10 @@ import { // Unsorted
 
 test("rune(...)", () => {
 	expect(deleteRTL.rune({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
 })
@@ -27,10 +27,10 @@ test("rune(...)", () => {
 test("word(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(deleteRTL.word({
-		shiftKey: 0,
-		ctrlKey: 1,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: true,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
 })
@@ -38,10 +38,10 @@ test("word(...); non-macOS", () => {
 test("word(...); macOS", () => {
 	mockMacOS()
 	expect(deleteRTL.word({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 1,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: true,
+		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
 })
@@ -53,10 +53,10 @@ test("word(...); macOS", () => {
 test("line(...); macOS", () => {
 	mockMacOS()
 	expect(deleteRTL.line({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 1,
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: false,
+		metaKey: true,
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
 })

@@ -86,11 +86,8 @@ function testKeyDown(e) {
 					}
 				}
 			}
-			const ok = (
-				e.keyCode === flags.keyCode ||
+			return e.keyCode === flags.keyCode ||
 				e.key === flags.key
-			)
-			return ok
 		},
 	}
 	return state

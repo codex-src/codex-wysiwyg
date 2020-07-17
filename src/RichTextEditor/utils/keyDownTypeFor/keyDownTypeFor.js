@@ -1,5 +1,5 @@
-// import applyFormatMarkdown from "./applyFormatMarkdown"
 import applyFormat from "./applyFormat"
+import applyFormatMarkdown from "./applyFormatMarkdown"
 import deleteLTR from "./deleteLTR"
 import deleteRTL from "./deleteRTL"
 import history from "./history"
@@ -22,16 +22,16 @@ function keyDownTypeFor(e) {
 	case applyFormat.a(e):
 		return "apply-format-a"
 
-		// case applyFormatMarkdown.em(e):
-		// 	return "apply-format-markdown-em"
-		// case applyFormatMarkdown.strong(e):
-		// 	return "apply-format-markdown-strong"
-		// case applyFormatMarkdown.code(e):
-		// 	return "apply-format-markdown-code"
-		// case applyFormatMarkdown.strike(e):
-		// 	return "apply-format-markdown-strike"
-		// case applyFormatMarkdown.a(e):
-		// 	return "apply-format-markdown-a"
+	case applyFormatMarkdown.em(e):
+		return "apply-format-markdown-em"
+	case applyFormatMarkdown.strong(e):
+		return "apply-format-markdown-strong"
+	case applyFormatMarkdown.code(e):
+		return "apply-format-markdown-code"
+	case applyFormatMarkdown.strike(e):
+		return "apply-format-markdown-strike"
+	case applyFormatMarkdown.a(e):
+		return "apply-format-markdown-a"
 
 	case insertText.insertText(e):
 		return "insert-text"
@@ -41,6 +41,8 @@ function keyDownTypeFor(e) {
 		return "insert-soft-paragraph"
 	case insertText.insertHardParagraph(e):
 		return "insert-hard-paragraph"
+	case insertText.insertHorizontalRule(e):
+		return "insert-horizontal-rule"
 
 	case deleteRTL.line(e): // Takes precedence
 		return "delete-rtl-line"

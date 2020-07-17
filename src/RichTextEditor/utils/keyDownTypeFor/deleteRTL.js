@@ -1,39 +1,36 @@
 import keyCodeFor from "lib/Client/keyCodeFor"
+import testKeyDown from "lib/Client/testKeyDown"
 import userAgent from "lib/Client/userAgent"
 
-// TODO
 const deleteRTL = {
 	rune(e) {
-		const ok = (
-			e.keyCode === keyCodeFor("Backspace")
-		)
-		return ok
+		return testKeyDown(e)
+			.forKeyCode(keyCodeFor("Backspace"))
+			.check()
 	},
 	word(e) {
 		if (!userAgent.isAAPL) {
-			const ok = (
-				e.ctrlKey &&
-				e.keyCode === keyCodeFor("Backspace")
-			)
-			return ok
+			return testKeyDown(e)
+				.forCtrl()
+				.forKeyCode(keyCodeFor("Backspace"))
+				.check()
 		} else {
-			const ok = (
-				e.altKey &&
-				e.keyCode === keyCodeFor("Backspace")
-			)
-			return ok
+			return testKeyDown(e)
+				.forAlt()
+				.forKeyCode(keyCodeFor("Backspace"))
+				.check()
 		}
 		// eslint-disable-next-line no-unreachable
 		return false
 	},
 	line(e) {
 		if (userAgent.isAAPL) {
-			const ok = (
-				e.metaKey &&
-				e.keyCode === keyCodeFor("Backspace")
-			)
-			return ok
+			return testKeyDown(e)
+				.forMeta()
+				.forKeyCode(keyCodeFor("Backspace"))
+				.check()
 		}
+		// eslint-disable-next-line no-unreachable
 		return false
 	},
 }
