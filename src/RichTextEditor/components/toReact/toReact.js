@@ -1,6 +1,6 @@
 import componentMap from "../componentMap"
 import React from "react"
-import toArray from "lib/Array/toArray"
+import toArray from "lib/x/toArray"
 import toIntermediary from "./toIntermediary"
 
 // Converts intermediary React elements to React elements.

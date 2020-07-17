@@ -1,5 +1,5 @@
 import JSONEqual from "lib/JSON/JSONEqual"
-import toArray from "lib/Array/toArray"
+import toArray from "lib/x/toArray"
 
 // Compares rendered and non-rendered props.
 function propsAreEqual(ref, tprops) {
