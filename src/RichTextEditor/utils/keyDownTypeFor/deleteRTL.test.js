@@ -11,13 +11,15 @@ import { // Unsorted
  */
 
 test("rune(...)", () => {
-	expect(deleteRTL.rune({
+	const e = {
 		shiftKey: false,
 		ctrlKey: false,
 		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
-	})).toBeTruthy()
+	}
+	expect(deleteRTL.rune(e)).toBeTruthy()
+	expect(deleteRTL.rune({ ...e, shiftKey: true })).toBeTruthy()
 })
 
 /*
@@ -26,24 +28,28 @@ test("rune(...)", () => {
 
 test("word(...); non-macOS", () => {
 	mockNonMacOS()
-	expect(deleteRTL.word({
+	const e = {
 		shiftKey: false,
 		ctrlKey: true,
 		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
-	})).toBeTruthy()
+	}
+	expect(deleteRTL.word(e)).toBeTruthy()
+	expect(deleteRTL.word({ ...e, shiftKey: true })).toBeTruthy()
 })
 
 test("word(...); macOS", () => {
 	mockMacOS()
-	expect(deleteRTL.word({
+	const e = {
 		shiftKey: false,
 		ctrlKey: false,
 		altKey: true,
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
-	})).toBeTruthy()
+	}
+	expect(deleteRTL.word(e)).toBeTruthy()
+	expect(deleteRTL.word({ ...e, shiftKey: true })).toBeTruthy()
 })
 
 /*
@@ -52,11 +58,13 @@ test("word(...); macOS", () => {
 
 test("line(...); macOS", () => {
 	mockMacOS()
-	expect(deleteRTL.line({
+	const e = {
 		shiftKey: false,
 		ctrlKey: false,
 		altKey: false,
 		metaKey: true,
 		keyCode: keyCodeFor("Backspace"),
-	})).toBeTruthy()
+	}
+	expect(deleteRTL.line(e)).toBeTruthy()
+	expect(deleteRTL.line({ ...e, shiftKey: true })).toBeTruthy()
 })

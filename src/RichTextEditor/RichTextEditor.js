@@ -73,12 +73,6 @@ const RichTextEditor = ({ state, dispatch }) => {
 					dispatch.select(range)
 				})}
 
-				// case "apply-format-markdown-em":
-				// case "apply-format-markdown-strong":
-				// case "apply-format-markdown-code":
-				// case "apply-format-markdown-strike":
-				// case "apply-format-markdown-a":
-
 				onKeyDown={readWriteOnlyHandler(e => {
 					const keydownType = keyDownTypeFor(e)
 					if (keydownType) {
@@ -91,11 +85,14 @@ const RichTextEditor = ({ state, dispatch }) => {
 					case "apply-format-code":
 					case "apply-format-strike":
 					case "apply-format-a":
+					case "apply-format-markdown-em":
+					case "apply-format-markdown-strong":
+					case "apply-format-markdown-code":
+					case "apply-format-markdown-strike":
+					case "apply-format-markdown-a":
 						e.preventDefault()
 						break
-					case "insert-text":
-						// TODO
-						break
+					// case "insert-text":
 					case "insert-tab":
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":

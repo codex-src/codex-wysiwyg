@@ -4,11 +4,12 @@ import userAgent from "lib/Client/userAgent"
 
 const deleteLTR = {
 	rune(e) {
-		if (testKeyDown(e).forKeyCode(keyCodeFor("Delete")).check()) {
+		if (testKeyDown(e).forShift({ passthrough: true }).forKeyCode(keyCodeFor("Delete")).check()) {
 			return true
 		}
 		if (userAgent.isAAPL) {
 			return testKeyDown(e)
+				.forShift({ passthrough: true })
 				.forCtrl()
 				.forKeyCode(keyCodeFor("D"))
 				.check()
@@ -19,11 +20,13 @@ const deleteLTR = {
 	word(e) {
 		if (!userAgent.isAAPL) {
 			return testKeyDown(e)
+				.forShift({ passthrough: true })
 				.forCtrl()
 				.forKeyCode(keyCodeFor("Delete"))
 				.check()
 		} else {
 			return testKeyDown(e)
+				.forShift({ passthrough: true })
 				.forAlt()
 				.forKeyCode(keyCodeFor("Delete"))
 				.check()
