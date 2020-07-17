@@ -12,34 +12,20 @@ import { // Unsorted
 test("undo(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(history.undo({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 0,
-		keyCode: keyCodeFor("Z"),
-	})).not.toBeTruthy()
-	expect(history.undo({
-		shiftKey: 0,
-		ctrlKey: 1,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: true,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()
 })
 test("undo(...); macOS", () => {
 	mockMacOS()
 	expect(history.undo({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 0,
-		keyCode: keyCodeFor("Z"),
-	})).not.toBeTruthy()
-	expect(history.undo({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 1,
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: false,
+		metaKey: true,
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()
 })
@@ -50,34 +36,20 @@ test("undo(...); macOS", () => {
 test("redo(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(history.redo({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 0,
-		keyCode: keyCodeFor("Y"),
-	})).not.toBeTruthy()
-	expect(history.redo({
-		shiftKey: 0,
-		ctrlKey: 1,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: true,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("Y"),
 	})).toBeTruthy()
 })
 test("redo(...); macOS", () => {
 	mockMacOS()
 	expect(history.redo({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 0,
-		keyCode: keyCodeFor("Z"),
-	})).not.toBeTruthy()
-	expect(history.redo({
-		shiftKey: 1,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 1,
+		shiftKey: true,
+		ctrlKey: false,
+		altKey: false,
+		metaKey: true,
 		keyCode: keyCodeFor("Z"),
 	})).toBeTruthy()
 })

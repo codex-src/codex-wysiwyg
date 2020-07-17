@@ -11,20 +11,20 @@ import { // Unsorted
  */
 test("rune(...); non-macOS and macOS", () => {
 	expect(deleteLTR.rune({
-		shiftKey: 0,
-		ctrlKey: 0,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
 })
 test("rune(...); macOS", () => {
 	mockMacOS()
 	expect(deleteLTR.rune({
-		shiftKey: 0,
-		ctrlKey: 1,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: true,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("D"),
 	})).toBeTruthy()
 })
@@ -35,20 +35,20 @@ test("rune(...); macOS", () => {
 test("word(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(deleteLTR.word({
-		shiftKey: 0,
-		ctrlKey: 1,
-		altKey: 0,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: true,
+		altKey: false,
+		metaKey: false,
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
 })
 test("word(...); macOS", () => {
 	mockMacOS()
 	expect(deleteLTR.word({
-		shiftKey: 0,
-		ctrlKey: 1,
-		altKey: 1,
-		metaKey: 0,
+		shiftKey: false,
+		ctrlKey: false,
+		altKey: true,
+		metaKey: false,
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
 })
