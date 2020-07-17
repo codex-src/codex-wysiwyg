@@ -9,6 +9,7 @@ import { // Unsorted
 /*
  * rune
  */
+
 test("rune(...); non-macOS and macOS", () => {
 	expect(deleteLTR.rune({
 		shiftKey: false,
@@ -18,6 +19,7 @@ test("rune(...); non-macOS and macOS", () => {
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
 })
+
 test("rune(...); macOS", () => {
 	mockMacOS()
 	expect(deleteLTR.rune({
@@ -32,6 +34,7 @@ test("rune(...); macOS", () => {
 /*
  * word
  */
+
 test("word(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(deleteLTR.word({
@@ -42,6 +45,7 @@ test("word(...); non-macOS", () => {
 		keyCode: keyCodeFor("Delete"),
 	})).toBeTruthy()
 })
+
 test("word(...); macOS", () => {
 	mockMacOS()
 	expect(deleteLTR.word({

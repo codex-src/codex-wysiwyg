@@ -9,6 +9,7 @@ import { // Unsorted
 /*
  * rune
  */
+
 test("rune(...)", () => {
 	expect(deleteRTL.rune({
 		shiftKey: 0,
@@ -22,6 +23,7 @@ test("rune(...)", () => {
 /*
  * word
  */
+
 test("word(...); non-macOS", () => {
 	mockNonMacOS()
 	expect(deleteRTL.word({
@@ -32,6 +34,7 @@ test("word(...); non-macOS", () => {
 		keyCode: keyCodeFor("Backspace"),
 	})).toBeTruthy()
 })
+
 test("word(...); macOS", () => {
 	mockMacOS()
 	expect(deleteRTL.word({
@@ -46,6 +49,7 @@ test("word(...); macOS", () => {
 /*
  * line
  */
+
 test("line(...); macOS", () => {
 	mockMacOS()
 	expect(deleteRTL.line({

@@ -1,22 +1,31 @@
+import testKeyDown from "lib/Client/testKeyDown"
+
 const applyFormatMarkdown = {
 	em(e) {
-		return e.key === "_"
+		return testKeyDown(e)
+			.forShift()
+			.forKey("_")
+			.check()
 	},
 	strong(e) {
-		return e.key === "*"
+		return testKeyDown(e)
+			.forShift()
+			.forKey("*")
+			.check()
 	},
 	code(e) {
-		return e.key === "`"
+		return testKeyDown(e)
+			.forKey("`")
+			.check()
 	},
 	strike(e) {
-		return e.key === "~"
+		return testKeyDown(e)
+			.forShift()
+			.forKey("~")
+			.check()
 	},
 	a(e) {
-		const ok = (
-			e.key === "[" ||
-			e.key === "]"
-		)
-		return ok
+		return testKeyDown(e).forKey("[").check() || testKeyDown(e).forKey("]").check()
 	},
 }
 

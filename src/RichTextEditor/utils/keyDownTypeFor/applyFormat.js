@@ -1,55 +1,47 @@
 import isCtrlOrMetaKey from "lib/Client/isCtrlOrMetaKey"
 import keyCodeFor from "lib/Client/keyCodeFor"
+import testKeyDown from "lib/Client/testKeyDown"
 
 // https://slack.com/intl/en-kr/help/articles/201374536-Slack-keyboard-shortcuts#format-messages
 const applyFormat = {
 	plaintext(e) {
-		const ok = (
-			e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("P")
-		)
-		return ok
+		return testKeyDown(e)
+			.forShift()
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("P"))
+			.check()
 	},
 	em(e) {
-		const ok = (
-			!e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("I")
-		)
-		return ok
+		return testKeyDown(e)
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("I"))
+			.check()
 	},
 	strong(e) {
-		const ok = (
-			!e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("B")
-		)
-		return ok
+		return testKeyDown(e)
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("B"))
+			.check()
 	},
 	code(e) {
-		const ok = (
-			e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("C")
-		)
-		return ok
+		return testKeyDown(e)
+			.forShift()
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("C"))
+			.check()
 	},
 	strike(e) {
-		const ok = (
-			e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("X")
-		)
-		return ok
+		return testKeyDown(e)
+			.forShift()
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("X"))
+			.check()
 	},
 	a(e) {
-		const ok = (
-			!e.shiftKey &&
-			isCtrlOrMetaKey(e) &&
-			e.keyCode === keyCodeFor("K")
-		)
-		return ok
+		return testKeyDown(e)
+			.forCtrlOrMeta()
+			.forKeyCode(keyCodeFor("K"))
+			.check()
 	},
 }
 

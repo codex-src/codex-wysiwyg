@@ -35,34 +35,31 @@ test("insertTab(...)", () => {
 })
 
 test("insertSoftParagraph(...)", () => {
-	const e = {
+	expect(insertText.insertSoftParagraph({
 		shiftKey: true,
 		ctrlKey: false,
 		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Enter"),
-	}
-	expect(insertText.insertSoftParagraph(e)).toBeTruthy()
+	})).toBeTruthy()
 })
 
 test("insertHardParagraph(...)", () => {
-	const e = {
+	expect(insertText.insertHardParagraph({
 		shiftKey: false,
 		ctrlKey: false,
 		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Enter"),
-	}
-	expect(insertText.insertHardParagraph(e)).toBeTruthy()
+	})).toBeTruthy()
 })
 
 test("insertHorizontalRule(...)", () => {
-	const e = {
+	expect(insertText.insertHorizontalRule({
 		shiftKey: false,
 		ctrlKey: true,
 		altKey: false,
 		metaKey: false,
 		keyCode: keyCodeFor("Enter"),
-	}
-	expect(insertText.insertHorizontalRule(e)).toBeTruthy()
+	})).toBeTruthy()
 })
