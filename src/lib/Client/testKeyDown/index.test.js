@@ -7,15 +7,14 @@ import { // Unsorted
 } from "lib/Client/mockUserAgent"
 
 test("testKeyDown(...)", () => {
-	const e = {
+	expect(testKeyDown({
 		shiftKey: false,
 		ctrlKey: false,
 		altKey: false,
 		metaKey: false,
 		keyCode: 0,
 		key: "",
-	}
-	expect(testKeyDown(e).check()).toBeTruthy()
+	}).check()).toBeTruthy()
 })
 
 test(".shiftKey(...)", () => {
