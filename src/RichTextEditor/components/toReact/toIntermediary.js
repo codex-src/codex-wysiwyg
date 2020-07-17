@@ -1,5 +1,4 @@
 import JSONEqual from "lib/JSON/JSONEqual"
-import obscure from "lib/Object/obscure"
 import toArray from "lib/Array/toArray"
 
 // Queries intermediary React elements for the next
@@ -14,7 +13,9 @@ function query(intermediary, { types }) {
 	for (; x < types.length; x++) {
 		const type = types[x]
 		ref = toArray(ref).slice(-1)[0]
-		if (typeof ref === "string" || ref.type !== type.type || !JSONEqual(obscure(ref.props, "children"), type.props)) {
+		// NOTE: Uses type.props || {} so JSONCompare does not
+		// compare null.
+		if (typeof ref === "string" || ref.type !== type.type || !JSONEqual({ ...ref.props, children: undefined }, type.props || {})) {
 			// No-op
 			break
 		}
