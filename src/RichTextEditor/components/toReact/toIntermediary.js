@@ -1,6 +1,12 @@
 import JSONEqual from "lib/JSON/JSONEqual"
 import toArray from "lib/Array/toArray"
 
+// Compares rendered and non-rendered props.
+function propsAreEqual(ref, tprops) {
+	const rprops = { ...ref.props, children: undefined }
+	return JSONEqual(rprops, tprops || {})
+}
+
 // Queries intermediary React elements for the next
 // container and non-nested types.
 function query(intermediary, { types }) {
@@ -13,9 +19,7 @@ function query(intermediary, { types }) {
 	for (; x < types.length; x++) {
 		const type = types[x]
 		ref = toArray(ref).slice(-1)[0]
-		// NOTE: Uses type.props || {} so JSONCompare does not
-		// compare null.
-		if (typeof ref === "string" || ref.type !== type.type || !JSONEqual({ ...ref.props, children: undefined }, type.props || {})) {
+		if (typeof ref === "string" || ref.type !== type.type || !propsAreEqual(ref.props, type.props)) {
 			// No-op
 			break
 		}
