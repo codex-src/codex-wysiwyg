@@ -26,7 +26,7 @@ const Renderer = ({ forwardedRef: tree, state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			console.log("ReactDOM.render")
+			// console.log("ReactDOM.render")
 			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, tree.current, () => {
 				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
 					// No-op

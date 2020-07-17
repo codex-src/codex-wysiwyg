@@ -44,11 +44,17 @@ export const select = e => range => {
 	e.range = range
 }
 
+// Reads the text content.
+const textContent = children => {
+	return children.reduce((acc, each) => acc += each.props.children, "")
+}
+
 // Controlled delete handler; deletes the next right-to-left
 // or left-to-right rune, word, or line.
 export const controlledDelete = e => keyDownType => {
 	recordAction(e)(keyDownType)
 
+	// Get the direction and boundary:
 	const [dir, boundary] = {
 		"delete-rtl-rune": ["rtl", "rune"],
 		"delete-rtl-word": ["rtl", "word"],
@@ -57,43 +63,42 @@ export const controlledDelete = e => keyDownType => {
 		"delete-ltr-word": ["ltr", "word"],
 	}[keyDownType]
 
-	// Reads the text content.
-	const textContent = children => {
-		return children.reduce((acc, each) => acc += each.props.children, "")
-	}
-
+	// Get the current element link:
 	const ll = LinkedElementList.fromElements(e.elements)
-	if (e.range.collapsed) {
-
+	const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
+	if (e.range.collapsed()) {
 		// Extend the range right-to-left:
 		if (dir === "rtl") {
-			const substr = textContent(ll.current.props.children).slice(0, e.range.start.offset)
-			const itd = iterate.rtl[boundary](substr)
-			if (!itd && ll.prev) {
-				e.range.start = {
-					key: ll.prev.current.key,
-					offset: textContent(ll.prev.current.props.children).length,
+			const substr = textContent(k.current.props.children).slice(0, e.range.start.offset)
+			if (!e.range.start.offset) {
+				if (k.prev) {
+					e.range.start = {
+						key: k.prev.current.key,
+						offset: textContent(k.prev.current.props.children).length,
+					}
 				}
 			} else {
+				const itd = iterate.rtl[boundary](substr)
 				e.range.start.offset -= itd.length
 			}
-		}
-
 		// Extend the range left-to-right:
-		if (dir === "ltr") {
-			const substr = textContent(ll.current.props.children).slice(e.range.end.offset)
-			const itd = iterate.ltr[boundary](substr)
-			if (!itd && ll.next) {
-				e.range.end = {
-					key: ll.next.current.key,
-					offset: 0,
+		} else if (dir === "ltr") {
+			const substr = textContent(k.current.props.children).slice(e.range.end.offset)
+			if (e.range.end.offset === substr.length) {
+				if (k.next) {
+					e.range.end = {
+						key: k.next.current.key,
+						offset: 0,
+					}
 				}
 			} else {
+				const itd = iterate.ltr[boundary](substr)
 				e.range.end.offset += itd.length
 			}
 		}
-
 	}
+
+	// ...
 
 	rerender(e)()
 }
