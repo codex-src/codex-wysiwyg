@@ -7,32 +7,22 @@ function textContent(children) {
 
 // Splits (mutates) children at an offset.
 function split(children, offset) {
-	// Guard start:
 	if (!offset) {
 		return 0
-	}
-	// Guard end:
-	const str = textContent(children)
-	if (offset === str.length) {
+	} else if (offset === textContent(children).length) {
 		return children.length
 	}
-
 	let x = 0
 	let each = null
 	for ([x, each] of children.entries()) {
 		if (offset - each.props.children.length <= 0) {
-			// No-op
+			if (offset === each.props.children.length) {
+				return x + 1
+			}
 			break
 		}
 		offset -= each.props.children.length
 	}
-
-	// Return the next offset:
-	if (offset === each.props.children.length) {
-		return x + 1
-	}
-
-	// Cut the current span and return the next offset:
 	const current = {
 		...JSONClone(each),
 		props: {
