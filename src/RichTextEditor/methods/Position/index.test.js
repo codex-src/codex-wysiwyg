@@ -1,5 +1,5 @@
 import * as Position from "./index"
-import newHash from "lib/x/newHash"
+import hash from "lib/x/hash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"
 
@@ -16,7 +16,7 @@ test("[contenteditable='false']", () => {
 	document.body.append((
 		renderTree((
 			<article contentEditable={false}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					<br />
 				</div>
 			</article>
@@ -31,7 +31,7 @@ test("[<p><br></p>]", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					<br />
 				</div>
 			</article>
@@ -56,7 +56,7 @@ test("<p><br></p>[]", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					<br />
 				</div>
 			</article>
@@ -81,7 +81,7 @@ test("<p>[<br>]</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					<br />
 				</div>
 			</article>
@@ -106,7 +106,7 @@ test("<p><br>[]</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					<br />
 				</div>
 			</article>
@@ -131,7 +131,7 @@ test("<p>[]Hello, <code>world</code>!</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					Hello,{" "}
 					<code>
 						world
@@ -160,7 +160,7 @@ test("<p>Hello, []<code>world</code>!</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					{"Hello, "}
 					<code>
 						world
@@ -189,7 +189,7 @@ test("<p>Hello, <code>[]world</code>!</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					{"Hello, "}
 					<code>
 						world
@@ -218,7 +218,7 @@ test("<p>Hello, <code>world[]</code>!</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					{"Hello, "}
 					<code>
 						world
@@ -247,7 +247,7 @@ test("<p>Hello, <code>world</code>[]!</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					Hello,{" "}
 					<code>
 						world
@@ -276,7 +276,7 @@ test("<p>Hello, <code>world</code>![]</p>", () => {
 	document.body.append((
 		renderTree((
 			<article {...contentEditable}>
-				<div id={newHash()} data-type="p">
+				<div id={hash()} data-type="p">
 					Hello,{" "}
 					<code>
 						world

@@ -1,10 +1,10 @@
-import newHash from "lib/x/newHash"
+import hash from "lib/x/hash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"
 import { parseRenderedElements } from "./parsers"
 
 test("<p><br></p>", () => {
-	const id = newHash()
+	const id = hash()
 	const tree = renderTree((
 		<article>
 			<div id={id} data-type="p">
@@ -25,7 +25,7 @@ test("<p><br></p>", () => {
 })
 
 test("<p>Hello, <code>world</code>!</p>", () => {
-	const id = newHash()
+	const id = hash()
 	const tree = renderTree((
 		<article>
 			<div id={id} data-type="p">
@@ -62,7 +62,7 @@ test("<p>Hello, <code>world</code>!</p>", () => {
 })
 
 test("<p>Hello, <code><a href='foo'><strike><strong><em>world</em></strong></strike></a></code></p>", () => {
-	const id = newHash()
+	const id = hash()
 	const tree = renderTree((
 		<article>
 			<div id={id} data-type="p">

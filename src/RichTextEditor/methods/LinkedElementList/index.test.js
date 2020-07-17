@@ -1,5 +1,5 @@
 import * as LinkedElementList from "./index"
-import hash from "lib/x/newHash" // TODO: Rename to hash?
+import hash from "lib/x/hash"
 
 test("fromElements(...); non-multiline", () => {
 	const elements = [

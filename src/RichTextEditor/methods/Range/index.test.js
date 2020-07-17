@@ -1,27 +1,27 @@
 import * as Range from "./index"
-import newHash from "lib/x/newHash"
+import hash from "lib/x/hash"
 
 test("collapseStart(...)", () => {
-	const k1 = newHash()
-	const k2 = newHash()
+	const id1 = hash()
+	const id2 = hash()
 	const range = {
 		start: {
-			key: k1,
+			key: id1,
 			offset: 0,
 		},
 		end: {
-			key: k2,
+			key: id2,
 			offset: 0,
 		},
 		collapsed: false,
 	}
 	expect(Range.collapseStart(range)()).toEqual({
 		start: {
-			key: k1,
+			key: id1,
 			offset: 0,
 		},
 		end: {
-			key: k1,
+			key: id1,
 			offset: 0,
 		},
 		collapsed: true,
@@ -29,26 +29,26 @@ test("collapseStart(...)", () => {
 })
 
 test("collapseEnd(...)", () => {
-	const k1 = newHash()
-	const k2 = newHash()
+	const id1 = hash()
+	const id2 = hash()
 	const range = {
 		start: {
-			key: k1,
+			key: id1,
 			offset: 0,
 		},
 		end: {
-			key: k2,
+			key: id2,
 			offset: 0,
 		},
 		collapsed: false,
 	}
 	expect(Range.collapseEnd(range)()).toEqual({
 		start: {
-			key: k2,
+			key: id2,
 			offset: 0,
 		},
 		end: {
-			key: k2,
+			key: id2,
 			offset: 0,
 		},
 		collapsed: true,
