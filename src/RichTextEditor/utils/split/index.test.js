@@ -7,8 +7,7 @@ const originalChildren = [
 	{ types: [], props: { children: "!" } },
 ]
 
-// Deeply copies children.
-function deepCopy(children) {
+function deepCopy() {
 	return JSONClone(originalChildren)
 }
 

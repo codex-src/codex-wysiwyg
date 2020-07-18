@@ -1,4 +1,4 @@
-import deleteLTR from "./deleteLTR"
+import * as deleteLTR from "./deleteLTR"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
 import { // Unsorted

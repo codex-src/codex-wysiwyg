@@ -1,4 +1,4 @@
-import applyFormatMarkdown from "./applyFormatMarkdown"
+import * as applyFormatMarkdown from "./applyFormatMarkdown"
 
 test("em(...)", () => {
 	expect(applyFormatMarkdown.em({

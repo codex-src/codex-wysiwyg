@@ -1,4 +1,4 @@
-import insertText from "./insertText"
+import * as insertText from "./insertText"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
 test("insertText(...)", () => {

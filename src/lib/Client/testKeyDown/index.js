@@ -1,3 +1,4 @@
+import keyCodeFor from "lib/Client/keyCodeFor"
 import userAgent from "lib/Client/userAgent"
 
 const MODIFIERS = ["shiftKey", "ctrlKey", "altKey", "metaKey"]
@@ -59,6 +60,9 @@ function testKeyDown(e) {
 			return this
 		},
 		forKeyCode(keyCode) {
+			if (typeof keyCode === "string") {
+				keyCode = keyCodeFor(keyCode)
+			}
 			flags.keyCode = keyCode
 			return this
 		},

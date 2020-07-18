@@ -1,4 +1,4 @@
-import history from "./history"
+import * as history from "./history"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
 import { // Unsorted

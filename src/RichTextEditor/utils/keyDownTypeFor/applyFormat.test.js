@@ -1,4 +1,4 @@
-import applyFormat from "./applyFormat"
+import * as applyFormat from "./applyFormat"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
 test("em(...)", () => {

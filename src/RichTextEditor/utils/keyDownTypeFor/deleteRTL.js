@@ -1,42 +1,31 @@
-import keyCodeFor from "lib/Client/keyCodeFor"
 import testKeyDown from "lib/Client/testKeyDown"
 
-const deleteRTL = {
-	runeAny(e) {
-		return testKeyDown(e)
-			.forShift({ passthrough: true })
-			.forKeyCode(keyCodeFor("Backspace"))
-			.check()
-	},
-	runeMacOS(e) {
-		return testKeyDown(e)
-			.forShift({ passthrough: true })
-			.forCtrl({ passthrough: true })
-			.forKeyCode(keyCodeFor("Backspace"))
-			.check()
-	},
-	wordNonMacOS(e) {
-		return testKeyDown(e)
-			.forShift({ passthrough: true })
-			.forCtrl()
-			.forKeyCode(keyCodeFor("Backspace"))
-			.check()
-	},
-	wordMacOS(e) {
-		return testKeyDown(e)
-			.forShift({ passthrough: true })
-			.forCtrl({ passthrough: true }) // Edge case
-			.forAlt()
-			.forKeyCode(keyCodeFor("Backspace"))
-			.check()
-	},
-	lineMacOS(e) {
-		return testKeyDown(e)
-			.forShift({ passthrough: true })
-			.forMeta()
-			.forKeyCode(keyCodeFor("Backspace"))
-			.check()
-	},
-}
+export const runeAny = e => testKeyDown(e)
+	.forShift({ passthrough: true })
+	.forKeyCode("Backspace")
+	.check()
 
-export default deleteRTL
+export const runeMacOS = e => testKeyDown(e)
+	.forShift({ passthrough: true })
+	.forCtrl({ passthrough: true })
+	.forKeyCode("Backspace")
+	.check()
+
+export const wordNonMacOS = e => testKeyDown(e)
+	.forShift({ passthrough: true })
+	.forCtrl()
+	.forKeyCode("Backspace")
+	.check()
+
+export const wordMacOS = e => testKeyDown(e)
+	.forShift({ passthrough: true })
+	.forCtrl({ passthrough: true }) // Edge case
+	.forAlt()
+	.forKeyCode("Backspace")
+	.check()
+
+export const lineMacOS = e => testKeyDown(e)
+	.forShift({ passthrough: true })
+	.forMeta()
+	.forKeyCode("Backspace")
+	.check()

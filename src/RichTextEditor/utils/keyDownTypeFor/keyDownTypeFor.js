@@ -1,9 +1,9 @@
-import applyFormat from "./applyFormat"
-import applyFormatMarkdown from "./applyFormatMarkdown"
-import deleteLTR from "./deleteLTR"
-import deleteRTL from "./deleteRTL"
-import history from "./history"
-import insertText from "./insertText"
+import * as applyFormat from "./applyFormat"
+import * as applyFormatMarkdown from "./applyFormatMarkdown"
+import * as deleteLTR from "./deleteLTR"
+import * as deleteRTL from "./deleteRTL"
+import * as history from "./history"
+import * as insertText from "./insertText"
 import userAgent from "lib/Client/userAgent"
 
 const macOS = userAgent.MacOSX
