@@ -5,11 +5,7 @@ import userAgent from "lib/Client/userAgent"
 //
 // https://css-tricks.com/snippets/javascript/test-mac-pc-javascript
 function isCtrlOrMetaKey(e) {
-	let isAAPL = userAgent.isAAPL
-	if (process.env.NODE_ENV === "test") {
-		isAAPL = navigator.userAgent.indexOf("Mac OS X") >= 0
-	}
-	if (!isAAPL) {
+	if (!userAgent.MacOSX) {
 		const ok = (
 			e.ctrlKey &&
 			!e.metaKey

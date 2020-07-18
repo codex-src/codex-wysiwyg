@@ -5,12 +5,12 @@ import { // Unsorted
 	mockMacOS,
 } from "lib/Client/mockUserAgent"
 
-test("isAAPL=false", () => {
+test("MacOSX=false", () => {
 	mockNonMacOS()
-	expect(userAgent.isAAPL).not.toBeTruthy()
+	expect(userAgent.MacOSX).not.toBeTruthy()
 })
 
-test("isAAPL=true", () => {
+test("MacOSX=true", () => {
 	mockMacOS()
-	expect(userAgent.isAAPL).toBeTruthy()
+	expect(userAgent.MacOSX).toBeTruthy()
 })

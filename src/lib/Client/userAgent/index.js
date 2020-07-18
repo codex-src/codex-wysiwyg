@@ -6,15 +6,13 @@ function testUserAgent(substr) {
 }
 
 // Tests the user agent.
-//
-// TODO: Rename to userAgent.isApple?
 const userAgent = process.env.NODE_ENV === "test"
 	? Object.freeze({
-		get isAAPL() {
+		get MacOSX() {
 			return testUserAgent("Mac OS X")
 		},
 	}) : Object.freeze({
-		isAAPL: testUserAgent("Mac OS X"),
+		MacOSX: testUserAgent("Mac OS X"),
 	})
 
 export default userAgent

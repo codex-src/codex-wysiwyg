@@ -50,7 +50,7 @@ function testKeyDown(e) {
 			return this
 		},
 		forCtrlOrMeta({ passthrough } = {}) {
-			const key = !userAgent.isAAPL ? "ctrlKey" : "metaKey"
+			const key = !userAgent.MacOSX ? "ctrlKey" : "metaKey"
 			if (passthrough) {
 				flags[key] = undefined
 				return this

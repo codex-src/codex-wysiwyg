@@ -6,7 +6,7 @@ import history from "./history"
 import insertText from "./insertText"
 import userAgent from "lib/Client/userAgent"
 
-const macOS = userAgent.isAAPL // TODO: Rename to userAgent.MacOSX and .Android
+const macOS = userAgent.MacOSX
 
 // Returns a keydown type for a keydown event.
 function keyDownTypeFor(e) {
