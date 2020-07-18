@@ -4,6 +4,9 @@ import deleteLTR from "./deleteLTR"
 import deleteRTL from "./deleteRTL"
 import history from "./history"
 import insertText from "./insertText"
+import userAgent from "lib/Client/userAgent"
+
+const macOS = userAgent.isAAPL // TODO: Rename to userAgent.MacOSX and .Android
 
 // Returns a keydown type for a keydown event.
 function keyDownTypeFor(e) {
@@ -40,19 +43,24 @@ function keyDownTypeFor(e) {
 		return "insert-hard-paragraph"
 	case insertText.insertHorizontalRule(e):
 		return "insert-horizontal-rule"
-	case deleteRTL.line(e): // Takes precedence
-		return "delete-rtl-line"
-	case deleteRTL.word(e): // Takes precedence
-		return "delete-rtl-word"
-	case deleteRTL.rune(e):
+	case deleteRTL.runeAny(e):
+	case macOS && deleteRTL.runeMacOS(e):
 		return "delete-rtl-rune"
-	case deleteLTR.word(e): // Takes precedence
-		return "delete-ltr-word"
-	case deleteLTR.rune(e):
+	case !macOS && deleteRTL.wordNonMacOS(e):
+	case macOS && deleteRTL.wordMacOS(e):
+		return "delete-rtl-word"
+	case macOS && deleteRTL.lineMacOS(e):
+		return "delete-rtl-line"
+	case deleteLTR.runeAny(e):
+	case macOS && deleteLTR.runeMacOS(e):
 		return "delete-ltr-rune"
+	case !macOS && deleteLTR.wordNonMacOS(e):
+	case macOS && deleteLTR.wordMacOS(e):
+		return "delete-ltr-word"
 	case history.undo(e):
 		return "undo"
-	case history.redo(e):
+	case !macOS && history.redoNonMacOS(e):
+	case macOS && history.redoMacOS(e):
 		return "redo"
 	default:
 		// No-op

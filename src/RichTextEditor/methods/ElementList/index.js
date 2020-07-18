@@ -1,5 +1,6 @@
 import split from "../../utils/split"
 
+// TODO: Add remove() and drop elements and index
 const initialState = {
 	prev: null,     // The previous element link
 	elements: null, // The current elements
@@ -68,6 +69,10 @@ export const deleteRange = list => range => {
 		...k1.current.props.children.slice(0, x1),
 		...k2.current.props.children.slice(x2),
 	]
+	// if (k1 === k2) {
+	// 	// No-op
+	// 	return
+	// }
 	let k = k2
 	while (k !== k1) {
 		k.elements.splice(k.index, 1)

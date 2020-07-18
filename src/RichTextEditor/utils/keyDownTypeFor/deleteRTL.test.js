@@ -10,7 +10,7 @@ import { // Unsorted
  * rune
  */
 
-test("rune(...)", () => {
+test("runeAny(...)", () => {
 	const e = {
 		shiftKey: false,
 		ctrlKey: false,
@@ -18,15 +18,15 @@ test("rune(...)", () => {
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	}
-	expect(deleteRTL.rune(e)).toBeTruthy()
-	expect(deleteRTL.rune({ ...e, shiftKey: true })).toBeTruthy()
+	expect(deleteRTL.runeAny(e)).toBeTruthy()
+	expect(deleteRTL.runeAny({ ...e, shiftKey: true })).toBeTruthy()
 })
 
 /*
  * word
  */
 
-test("word(...); non-macOS", () => {
+test("wordNonMacOS(...)", () => {
 	mockNonMacOS()
 	const e = {
 		shiftKey: false,
@@ -35,11 +35,11 @@ test("word(...); non-macOS", () => {
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	}
-	expect(deleteRTL.word(e)).toBeTruthy()
-	expect(deleteRTL.word({ ...e, shiftKey: true })).toBeTruthy()
+	expect(deleteRTL.wordNonMacOS(e)).toBeTruthy()
+	expect(deleteRTL.wordNonMacOS({ ...e, shiftKey: true })).toBeTruthy()
 })
 
-test("word(...); macOS", () => {
+test("wordMacOS(...)", () => {
 	mockMacOS()
 	const e = {
 		shiftKey: false,
@@ -48,16 +48,16 @@ test("word(...); macOS", () => {
 		metaKey: false,
 		keyCode: keyCodeFor("Backspace"),
 	}
-	expect(deleteRTL.word(e)).toBeTruthy()
-	expect(deleteRTL.word({ ...e, ctrlKey: true })).toBeTruthy()
-	expect(deleteRTL.word({ ...e, shiftKey: true })).toBeTruthy()
+	expect(deleteRTL.wordMacOS(e)).toBeTruthy()
+	expect(deleteRTL.wordMacOS({ ...e, ctrlKey: true })).toBeTruthy()
+	expect(deleteRTL.wordMacOS({ ...e, shiftKey: true })).toBeTruthy()
 })
 
 /*
  * line
  */
 
-test("line(...); macOS", () => {
+test("lineMacOS(...)", () => {
 	mockMacOS()
 	const e = {
 		shiftKey: false,
@@ -66,6 +66,6 @@ test("line(...); macOS", () => {
 		metaKey: true,
 		keyCode: keyCodeFor("Backspace"),
 	}
-	expect(deleteRTL.line(e)).toBeTruthy()
-	expect(deleteRTL.line({ ...e, shiftKey: true })).toBeTruthy()
+	expect(deleteRTL.lineMacOS(e)).toBeTruthy()
+	expect(deleteRTL.lineMacOS({ ...e, shiftKey: true })).toBeTruthy()
 })

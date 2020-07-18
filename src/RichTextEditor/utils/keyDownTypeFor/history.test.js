@@ -36,9 +36,9 @@ test("undo(...); macOS", () => {
  * redo
  */
 
-test("redo(...); non-macOS", () => {
+test("redoNonMacOS(...)", () => {
 	mockNonMacOS()
-	expect(history.redo({
+	expect(history.redoNonMacOS({
 		shiftKey: false,
 		ctrlKey: true,
 		altKey: false,
@@ -47,9 +47,9 @@ test("redo(...); non-macOS", () => {
 	})).toBeTruthy()
 })
 
-test("redo(...); macOS", () => {
+test("redoMacOS(...)", () => {
 	mockMacOS()
-	expect(history.redo({
+	expect(history.redoMacOS({
 		shiftKey: true,
 		ctrlKey: false,
 		altKey: false,

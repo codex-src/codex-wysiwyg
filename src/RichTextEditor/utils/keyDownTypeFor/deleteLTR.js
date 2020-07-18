@@ -1,38 +1,32 @@
 import keyCodeFor from "lib/Client/keyCodeFor"
 import testKeyDown from "lib/Client/testKeyDown"
-import userAgent from "lib/Client/userAgent"
 
 const deleteLTR = {
-	rune(e) {
-		if (testKeyDown(e).forShift({ passthrough: true }).forKeyCode(keyCodeFor("Delete")).check()) {
-			return true
-		}
-		if (userAgent.isAAPL) {
-			return testKeyDown(e)
-				// .forShift({ passthrough: true }) // Edge case (commented out)
-				.forCtrl()
-				.forKeyCode(keyCodeFor("D"))
-				.check()
-		}
-		// eslint-disable-next-line no-unreachable
-		return false
+	runeAny(e) {
+		return testKeyDown(e)
+			.forShift({ passthrough: true })
+			.forKeyCode(keyCodeFor("Delete"))
+			.check()
 	},
-	word(e) {
-		if (!userAgent.isAAPL) {
-			return testKeyDown(e)
-				.forShift({ passthrough: true })
-				.forCtrl()
-				.forKeyCode(keyCodeFor("Delete"))
-				.check()
-		} else {
-			return testKeyDown(e)
-				.forShift({ passthrough: true })
-				.forAlt()
-				.forKeyCode(keyCodeFor("Delete"))
-				.check()
-		}
-		// eslint-disable-next-line no-unreachable
-		return false
+	runeMacOS(e) {
+		return testKeyDown(e)
+			.forCtrl()
+			.forKeyCode(keyCodeFor("D"))
+			.check()
+	},
+	wordNonMacOS(e) {
+		return testKeyDown(e)
+			.forShift({ passthrough: true })
+			.forCtrl()
+			.forKeyCode(keyCodeFor("Delete"))
+			.check()
+	},
+	wordMacOS(e) {
+		return testKeyDown(e)
+			.forShift({ passthrough: true })
+			.forAlt()
+			.forKeyCode(keyCodeFor("Delete"))
+			.check()
 	},
 }
 
