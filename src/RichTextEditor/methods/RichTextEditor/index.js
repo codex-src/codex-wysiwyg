@@ -53,24 +53,13 @@ const textContent = children => {
 
 // Controlled delete handler; deletes the next right-to-left
 // or left-to-right rune, word, or line.
-export const controlledDelete = e => keyDownType => {
-	recordAction(e)(keyDownType)
-
-	// const [dir, boundary] = keyDownType.split("-").slice(1)
-	// const ll = LinkedElementList.fromElements(e.elements)
-	// const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
-
-	const [dir, boundary] = keyDownType.split("-").slice(1)
+export const controlledDelete = e => (dir, boundary) => {
+	recordAction(e)(`delete-${dir}-${boundary}`)
 	const list = ElementList.fromElements(e.elements)
 	const k = ElementList.findKey(list)(e.range.start.key)
-
-	// const prev = k.prev && k.prev.current
-	// const current = k.current
-	// const next = k.next && k.next.current
-
-	// const r = { ...e.range }
+	// Extend the range:
 	if (e.range.collapsed()) {
-		// Extend the range right-to-left:
+		// Extend right-to-left:
 		if (dir === "rtl") {
 			const substr = textContent(k.current.props.children).slice(0, e.range.start.offset)
 			if (!substr && k.prev) {
@@ -82,7 +71,7 @@ export const controlledDelete = e => keyDownType => {
 				const itd = iterate.rtl[boundary](substr)
 				e.range.start.offset -= itd.length
 			}
-		// Extend the range left-to-right:
+		// Extend left-to-right:
 		} else if (dir === "ltr") {
 			const substr = textContent(k.current.props.children).slice(e.range.end.offset)
 			if (!substr && k.next) {
@@ -96,9 +85,7 @@ export const controlledDelete = e => keyDownType => {
 			}
 		}
 	}
-
 	ElementList.deleteRange(list)(e.range)
-
 	const collapsed = Range.collapseStart(e.range)()
 	select(e)(collapsed)
 	render(e)()

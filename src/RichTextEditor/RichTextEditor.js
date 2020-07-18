@@ -110,7 +110,8 @@ const RichTextEditor = ({ state, dispatch }) => {
 					case "delete-ltr-word":
 						console.log(keyDownType)
 						e.preventDefault()
-						dispatch.controlledDelete(keyDownType)
+						const [dir, boundary] = keyDownType.split("-").slice(1)
+						dispatch.controlledDelete(dir, boundary)
 						break
 
 					case "undo":
