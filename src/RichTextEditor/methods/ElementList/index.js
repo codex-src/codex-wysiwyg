@@ -59,19 +59,26 @@ export const deleteRange = list => range => {
 	const x1 = split(k1.current.props.children, range.start.offset)
 	const x2 = split(k2.current.props.children, range.end.offset)
 	if (k1 === k2) {
+		// console.log({ range: JSON.stringify(range) })
+		console.log({ x1, x2 })
 		k1.current.props.children.splice(x1, x2 - x1)
 		return
 	}
-	// // Keys are not the same:
-	// let k = k1.next
-	// while (k !== k2) {
-	// 	k.elements.splice(k.x, 1)
-	// 	k = k.next
+	// const x1 = split(k1.current.props.children, range.start.offset)
+	// const x2 = split(k2.current.props.children, range.end.offset)
+	// k1.current.props.children = [...k1.current.props.children.slice(0, x1), ...k2.current.props.children.slice(x2)]
+	// // Keys are the same:
+	// if (k1 === k2) {
+	// 	// No-op
+	// 	return
 	// }
-	// const ch1 = k1.current.props.children.slice(split(k1.current.props.children, range.start.offset))
-	// const ch2 = k2.current.props.children.slice(0, split(k2.current.props.children, range.end.offset))
-	// k1.current.props.children = [...ch1, ...ch2]
-	// k2.elements.splice(k2.x, 1)
+	// // Keys are **not** the same:
+	// k2.elements.splice(k2.x, 1) // Takes precedence
+	// let k = k2.prev
+	// while (k !== k1) {
+	// 	k.elements.splice(k.x, 1)
+	// 	k = k.prev
+	// }
 }
 
 // // Formats a range.

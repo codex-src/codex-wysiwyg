@@ -171,11 +171,11 @@ const RichTextEditor = ({ state, dispatch }) => {
 			<Debugger
 				state={state}
 				dispatch={dispatch}
-				lastActionTimestamp
-				lastAction
+				// lastActionTimestamp
+				// lastAction
 				// readOnlyModeEnabled
 				// focused
-				// elements
+				elements
 				range
 				// shouldRerender
 			/>
