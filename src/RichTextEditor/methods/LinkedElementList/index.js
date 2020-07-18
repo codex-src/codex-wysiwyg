@@ -2,22 +2,23 @@
 // Every element link points to the previous, current, and
 // next element link.
 
+const initialState = {
+	prev: null,
+	current: null,
+	next: null,
+}
+
 // Creates from an array of elements.
 export const fromElements = elements => {
-	const start = {
-		prev: null,
-		current: null,
-		next: null,
-	}
+	const start = { ...initialState }
 	let ref = start
 	for (const each of elements) {
 		if (each.props.children) {
 			Object.assign(ref, {
 				current: each,
 				next: {
+					...initialState,
 					prev: ref,
-					current: null,
-					next: null,
 				},
 			})
 			ref = ref.next

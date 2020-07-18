@@ -1,47 +1,41 @@
-// const list = ElementList.fromElements(elements)
-//
-// ElementList.find(list)(callback)
-// ElementList.findKey(list)(key)
-// ElementList.formatRange(list)(range)
-// ElementList.deleteRange(list)(range)
+import split from "../../utils/split"
+
+const initialState = {
+	prev: null,     // The previous element link
+	elements: null, // The current elements
+	x: 0,           // The current element offset
+	current: null,  // The current element
+	next: null,     // The next element link
+}
 
 // Creates from an array of elements.
 export function fromElements(elements) {
-	const list = {
-		prev: null,
-		elements: null,
-		index: 0,
-		current: null,
-		next: null,
-	}
-	let link = list
+	const start = { ...initialState }
+	let ref = start
 	for (const each of elements) {
-		Object.assign(link, {
+		Object.assign(ref, {
 			elements,
-			index: !link.prev ? 0 : link.prev.index + 1,
+			x: !ref.prev ? 0 : ref.prev.x + 1,
 			current: each,
 			next: {
-				prev: link,
-				elements,
-				index: 0,
-				current: null,
-				next: null,
+				...initialState,
+				prev: ref,
 			},
 		})
-		link = link.next
+		ref = ref.next
 	}
-	// Patch link.prev.next:
-	if (link !== list) {
-		link.prev.next = null
+	// Patch ref.prev.next:
+	if (ref !== start) {
+		ref.prev.next = null
 	}
-	return list
+	return start
 }
 
 // Finds an element link based on a callback.
 export const find = list => callback => {
 	let link = list
 	while (link) {
-		if (callback(link.current.key)) {
+		if (callback(link.current)) {
 			return link
 		}
 		link = link.next
@@ -54,28 +48,6 @@ export const findKey = list => key => {
 	return find(list)(each => each.key === key)
 }
 
-// // Deletes a range.
-// export const deleteRange = list => range => {
-// 	const k1 = findKey(list)(range.start.key)
-// 	let k2 = k1
-// 	if (!range.collapsed()) {
-// 		k2 = findKey(list)(range.end.key)
-// 	}
-// 	if (k1 !== k2) {
-// 		let k = k1.next
-// 		while (k !== k2) {
-// 			k.elements.splice(k.index, 1)
-// 			k = k.next
-// 		}
-// 	}
-// 	const x1 = Math.max(0, split(k1.current.props.children, range.start.offset) - 1) // Zero-based
-// 	const x2 = split(k2.current.props.children, range.end.offset)
-// 	const c1 = k1.current.props.children.slice(x1)
-// 	const c2 = k2.current.props.children.slice(0, x2)
-// 	k1.current.props.children = [...c1, ...c2]
-// 	k2.elements.splice(k2.index, 1)
-// }
-
 // Deletes a range.
 export const deleteRange = list => range => {
 	const k1 = findKey(list)(range.start.key)
@@ -83,17 +55,23 @@ export const deleteRange = list => range => {
 	if (!range.collapsed()) {
 		k2 = findKey(list)(range.end.key)
 	}
-	if (k1 !== k2) {
-		let k = k1.next
-		while (k !== k2) {
-			k.elements.splice(k.index, 1)
-			k = k.next
-		}
+	// Keys are the same:
+	const x1 = split(k1.current.props.children, range.start.offset)
+	const x2 = split(k2.current.props.children, range.end.offset)
+	if (k1 === k2) {
+		k1.current.props.children.splice(x1, x2 - x1)
+		return
 	}
-	const ch1 = k1.current.props.children.slice(Math.max(0, split(k1.current.props.children, range.start.offset) - 1)) // Zero-based
-	const ch2 = k2.current.props.children.slice(0, split(k2.current.props.children, range.end.offset))
-	k1.current.props.children = [...ch1, ...ch2]
-	k2.elements.splice(k2.index, 1)
+	// // Keys are not the same:
+	// let k = k1.next
+	// while (k !== k2) {
+	// 	k.elements.splice(k.x, 1)
+	// 	k = k.next
+	// }
+	// const ch1 = k1.current.props.children.slice(split(k1.current.props.children, range.start.offset))
+	// const ch2 = k2.current.props.children.slice(0, split(k2.current.props.children, range.end.offset))
+	// k1.current.props.children = [...ch1, ...ch2]
+	// k2.elements.splice(k2.x, 1)
 }
 
 // // Formats a range.

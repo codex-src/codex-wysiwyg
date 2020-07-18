@@ -1,5 +1,6 @@
 // TODO: Rename to methods?
 
+import * as ElementList from "../ElementList"
 import * as iterate from "lib/UTF8/iterate"
 import * as LinkedElementList from "../LinkedElementList"
 import * as Range from "../Range"
@@ -55,14 +56,19 @@ const textContent = children => {
 export const controlledDelete = e => keyDownType => {
 	recordAction(e)(keyDownType)
 
+	// const [dir, boundary] = keyDownType.split("-").slice(1)
+	// const ll = LinkedElementList.fromElements(e.elements)
+	// const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
+
 	const [dir, boundary] = keyDownType.split("-").slice(1)
-	const ll = LinkedElementList.fromElements(e.elements)
-	const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
+	const list = ElementList.fromElements(e.elements)
+	const k = ElementList.findKey(list)(e.range.start.key)
 
 	// const prev = k.prev && k.prev.current
 	// const current = k.current
 	// const next = k.next && k.next.current
 
+	// const r = { ...e.range }
 	if (e.range.collapsed()) {
 		// Extend the range right-to-left:
 		if (dir === "rtl") {
@@ -91,28 +97,10 @@ export const controlledDelete = e => keyDownType => {
 		}
 	}
 
-	// const collection = queryCollection(state)
-	// for (const c of collection) {
-	// 	const [s1, s2] = c.offsets.spans
-	// 	c.refs.element.props.spans.splice(s1, s2 - s1)
-	// }
-	// if (collection.length > 1) {
-	// 	const x1 = collection[0].offsets.element
-	// 	const x2 = collection[collection.length - 1].offsets.element
-	// 	state.elements.splice(x1, (x2 - x1) + 1, {
-	// 		...state.elements[x1],
-	// 		props: {
-	// 			...state.elements[x1].props,
-	// 			spans: [
-	// 				...state.elements[x1].props.spans,
-	// 				...state.elements[x2].props.spans,
-	// 			],
-	// 		},
-	// 	})
-	// }
+	ElementList.deleteRange(list)(e.range)
 
-	// const collapsed = Range.collapseStart(e.range)()
-	// select(e)(collapsed)
+	const collapsed = Range.collapseStart(e.range)()
+	select(e)(collapsed)
 	render(e)()
 }
 
@@ -124,8 +112,12 @@ export const uncontrolledInput = e => (children, range) => {
 	// const ll = LinkedElementList.fromElements(e.elements)
 	// const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
 	// k.current.props.children = children
-	const el = e.elements.find(each => each.key === range.start.key)
-	el.props.children = children
+
+	// const el = e.elements.find(each => each.key === range.start.key)
+
+	const list = ElementList.fromElements(e.elements)
+	const k = ElementList.findKey(list)(range.start.key)
+	k.current.props.children = children
 	e.range = range
 	render(e)()
 }
