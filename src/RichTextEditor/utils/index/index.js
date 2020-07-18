@@ -1,8 +1,8 @@
 import JSONClone from "lib/JSON/JSONClone"
 
-// Splits (mutates) children at an offset.
-function split(children, offset) {
-	// Must guard offset=0 (at start):
+// Indexes children at an offset.
+function index(children, offset) {
+	// Guard offset=0 (at start):
 	if (!offset) {
 		return 0
 	}
@@ -14,7 +14,7 @@ function split(children, offset) {
 		}
 		offset -= each.props.children.length
 	}
-	// Must guard offset=each.props.children.length (at end):
+	// Guard offset=each.props.children.length (at end):
 	if (offset === each.props.children.length) {
 		return x + 1
 	}
@@ -36,4 +36,4 @@ function split(children, offset) {
 	return x + 1
 }
 
-export default split
+export default index

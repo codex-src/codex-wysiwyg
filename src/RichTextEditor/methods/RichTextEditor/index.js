@@ -47,6 +47,8 @@ export const select = e => range => {
 }
 
 // Reads the text content.
+//
+// TOOD: Move to utils?
 const textContent = children => {
 	return children.reduce((acc, each) => acc += each.props.children, "")
 }
