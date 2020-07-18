@@ -2,6 +2,7 @@
 
 import * as iterate from "lib/UTF8/iterate"
 import * as LinkedElementList from "../LinkedElementList"
+import * as Range from "../Range"
 
 // Records an action; records the timestamp and action type.
 export const recordAction = e => actionType => {
@@ -58,6 +59,10 @@ export const controlledDelete = e => keyDownType => {
 	const ll = LinkedElementList.fromElements(e.elements)
 	const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
 
+	// const prev = k.prev && k.prev.current
+	// const current = k.current
+	// const next = k.next && k.next.current
+
 	if (e.range.collapsed()) {
 		// Extend the range right-to-left:
 		if (dir === "rtl") {
@@ -86,9 +91,29 @@ export const controlledDelete = e => keyDownType => {
 		}
 	}
 
-	// ...
+	// const collection = queryCollection(state)
+	// for (const c of collection) {
+	// 	const [s1, s2] = c.offsets.spans
+	// 	c.refs.element.props.spans.splice(s1, s2 - s1)
+	// }
+	// if (collection.length > 1) {
+	// 	const x1 = collection[0].offsets.element
+	// 	const x2 = collection[collection.length - 1].offsets.element
+	// 	state.elements.splice(x1, (x2 - x1) + 1, {
+	// 		...state.elements[x1],
+	// 		props: {
+	// 			...state.elements[x1].props,
+	// 			spans: [
+	// 				...state.elements[x1].props.spans,
+	// 				...state.elements[x2].props.spans,
+	// 			],
+	// 		},
+	// 	})
+	// }
 
-	rerender(e)()
+	// const collapsed = Range.collapseStart(e.range)()
+	// select(e)(collapsed)
+	render(e)()
 }
 
 // Uncontrolled input handler.
@@ -102,10 +127,10 @@ export const uncontrolledInput = e => (children, range) => {
 	const el = e.elements.find(each => each.key === range.start.key)
 	el.props.children = children
 	e.range = range
-	rerender(e)()
+	render(e)()
 }
 
 // Rerenders the editor.
-export const rerender = e => () => {
+export const render = e => () => {
 	e.shouldRerender++
 }
