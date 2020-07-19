@@ -1,7 +1,7 @@
 import * as ElementList from "./methods/ElementList"
 import * as iterate from "lib/UTF8/iterate"
-import index from "./utils/index"
-import textContent from "./utils/textContent"
+import index from "./utils/children/index"
+import textContent from "./utils/children/textContent"
 
 // Records an action; records the timestamp and action type.
 export const recordAction = e => actionType => {
