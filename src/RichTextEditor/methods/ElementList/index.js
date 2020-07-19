@@ -66,24 +66,24 @@ export const findKey = list => key => {
 // 	}
 // }
 
-// Deletes a range.
-export const deleteRange = list => range => {
-	const k1 = findKey(list)(range.start.key)
-	let k2 = k1
-	if (!range.collapsed()) {
-		k2 = findKey(list)(range.end.key)
-	}
-	const [el1, el2] = [k1.current, k2.current]
-	el1.props.children = [
-		...el1.props.children.slice(0, x(el1.props.children, range.start.offset)),
-		...el2.props.children.slice(x(el2.props.children, range.end.offset)),
-	]
-	let k = k2
-	while (k !== k1) {
-		k.parentElement.splice(k.index, 1)
-		k = k.prev
-	}
-}
+// // Deletes a range.
+// export const deleteRange = list => range => {
+// 	const k1 = findKey(list)(range.start.key)
+// 	let k2 = k1
+// 	if (!range.collapsed()) {
+// 		k2 = findKey(list)(range.end.key)
+// 	}
+// 	const [el1, el2] = [k1.current, k2.current]
+// 	el1.props.children = [
+// 		...el1.props.children.slice(0, x(el1.props.children, range.start.offset)),
+// 		...el2.props.children.slice(x(el2.props.children, range.end.offset)),
+// 	]
+// 	let k = k2
+// 	while (k !== k1) {
+// 		k.parentElement.splice(k.index, 1)
+// 		k = k.prev
+// 	}
+// }
 
 // // Formats a range.
 // export const formatRange = list => range => {

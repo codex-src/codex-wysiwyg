@@ -128,7 +128,7 @@ const RichTextEditor = ({ state, dispatch }) => {
 				})}
 
 				onInput={readWriteOnlyHandler(e => {
-					const range = Range.collapseStart(Range.getCurrent(ref.current))()
+					const range = Range.getCurrent(ref.current)
 					const children = parseRenderedChildren(document.getElementById(range.start.key))
 					// defer(children)
 					dispatch.uncontrolledInput(children, range)

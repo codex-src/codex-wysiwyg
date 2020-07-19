@@ -35,17 +35,47 @@ export function getCurrent(tree) {
 	return computed
 }
 
-// Collapses end-to-start.
-export const collapseStart = r => () => ({
-	...r,
-	end: r.start,
-})
-
-// Collapses start-to-end.
-export const collapseEnd = r => () => ({
-	...r,
-	start: r.end,
-})
+// // Collapses end-to-start.
+// export const collapseStart = r => () => ({
+// 	...r,
+// 	end: r.start,
+// })
+//
+// // Collapses start-to-end.
+// export const collapseEnd = r => () => ({
+// 	...r,
+// 	start: r.end,
+// })
+//
+// // Extends by a boundary.
+// const extend = r => (link, dir, boundary) => {
+// 	// Extends right-to-left:
+// 	if (dir === "rtl") {
+// 		const substr = textContent(k.current.props.children).slice(0, r.start.offset)
+// 		if (!substr && k.prev) {
+// 			Object.assign(r.start, {
+// 				key: k.prev.current.key,
+// 				offset: textContent(k.prev.current.props.children).length,
+// 			})
+// 		} else {
+// 			const itd = iterate.rtl[boundary](substr)
+// 			r.start.offset -= itd.length
+// 		}
+// 	}
+// 	// Extends left-to-right:
+// 	if (dir === "ltr") {
+// 		const substr = textContent(k.current.props.children).slice(r.end.offset)
+// 		if (!substr && k.next) {
+// 			Object.assign(r.end, {
+// 				key: k.next.current.key,
+// 				offset: 0,
+// 			})
+// 		} else {
+// 			const itd = iterate.ltr[boundary](substr)
+// 			r.end.offset += itd.length
+// 		}
+// 	}
+// }
 
 // Converts a user literal to an array.
 function conv({ node, offset }) {

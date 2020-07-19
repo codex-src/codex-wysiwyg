@@ -1,9 +1,9 @@
-// TODO: Rename to methods?
-
+// import * as LinkedElementList from "../LinkedElementList"
 import * as ElementList from "../ElementList"
 import * as iterate from "lib/UTF8/iterate"
-import * as LinkedElementList from "../LinkedElementList"
 import * as Range from "../Range"
+import textContent from "../../utils/textContent"
+import x from "../../utils/index"
 
 // Records an action; records the timestamp and action type.
 export const recordAction = e => actionType => {
@@ -46,22 +46,14 @@ export const select = e => range => {
 	e.range = range
 }
 
-// Reads the text content.
-//
-// TOOD: Move to utils?
-const textContent = children => {
-	return children.reduce((acc, each) => acc += each.props.children, "")
-}
-
 // Controlled delete handler; deletes the next right-to-left
 // or left-to-right rune, word, or line.
 export const controlledDelete = e => (dir, boundary) => {
 	recordAction(e)(`delete-${dir}-${boundary}`)
-	const list = ElementList.fromElements(e.elements)
-	const k = ElementList.findKey(list)(e.range.start.key)
+	const lst = ElementList.fromElements(e.elements)
+	let k = ElementList.findKey(lst)(e.range.start.key)
 	// Extend the range:
 	if (e.range.collapsed()) {
-		// Extend right-to-left:
 		if (dir === "rtl") {
 			const substr = textContent(k.current.props.children).slice(0, e.range.start.offset)
 			if (!substr && k.prev) {
@@ -73,7 +65,6 @@ export const controlledDelete = e => (dir, boundary) => {
 				const itd = iterate.rtl[boundary](substr)
 				e.range.start.offset -= itd.length
 			}
-		// Extend left-to-right:
 		} else if (dir === "ltr") {
 			const substr = textContent(k.current.props.children).slice(e.range.end.offset)
 			if (!substr && k.next) {
@@ -87,31 +78,34 @@ export const controlledDelete = e => (dir, boundary) => {
 			}
 		}
 	}
-	ElementList.deleteRange(list)(e.range)
-	const collapsed = Range.collapseStart(e.range)()
-	select(e)(collapsed)
-	render(e)()
+	// Delete the range:
+	const k1 = ElementList.findKey(lst)(e.range.start.key)
+	let k2 = k1
+	if (!e.range.collapsed()) {
+		k2 = ElementList.findKey(lst)(e.range.end.key)
+	}
+	const [el1, el2] = [k1.current, k2.current]
+	el1.props.children = [
+		...el1.props.children.slice(0, x(el1.props.children, e.range.start.offset)),
+		...el2.props.children.slice(x(el2.props.children, e.range.end.offset)),
+	]
+	// let k = k2
+	k = k2
+	while (k !== k1) {
+		k.parentElement.splice(k.index, 1)
+		k = k.prev
+	}
+	// Rerender:
+	e.range.end = e.range.start
+	e.shouldRerender++
 }
 
 // Uncontrolled input handler.
-//
-// TODO: Add support for nested elements
 export const uncontrolledInput = e => (children, range) => {
 	recordAction(e)("input")
-	// const ll = LinkedElementList.fromElements(e.elements)
-	// const k = LinkedElementList.find(ll)(each => each.key === e.range.start.key)
-	// k.current.props.children = children
-
-	// const el = e.elements.find(each => each.key === range.start.key)
-
-	const list = ElementList.fromElements(e.elements)
-	const k = ElementList.findKey(list)(range.start.key)
+	const lst = ElementList.fromElements(e.elements)
+	const k = ElementList.findKey(lst)(range.start.key)
 	k.current.props.children = children
 	e.range = range
-	render(e)()
-}
-
-// Rerenders the editor.
-export const render = e => () => {
 	e.shouldRerender++
 }
