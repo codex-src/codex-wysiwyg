@@ -23,7 +23,7 @@ export const Strong = ({ children }) => (
 // <code>
 export const Code = ({ children }) => (
 	<T type="code">
-		<span className="mx-px py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
+		<span className="py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
 			{children}
 		</span>
 	</T>
@@ -41,7 +41,7 @@ export const Strike = ({ children }) => (
 // <a href="...">
 export const A = ({ href, children }) => (
 	<T type="a" props={{ href }}>
-		<span className="mx-px underline text-blue-600" {...attrs.a}>
+		<span className="underline text-blue-600" {...attrs.a}>
 			{children}
 		</span>
 	</T>

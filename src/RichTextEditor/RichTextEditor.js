@@ -89,8 +89,14 @@ const RichTextEditor = ({ state, dispatch }) => {
 					case "apply-format-markdown-strike":
 					case "apply-format-markdown-a":
 						console.log(keyDownType)
+						if (state.range.collapsed()) {
+							e.preventDefault()
+							// TODO
+							break
+						}
 						e.preventDefault()
-						// TODO
+						const formatType = keyDownType.split("-").slice(-1)[0]
+						dispatch.applyFormat(formatType)
 						break
 
 					case "insert-text":
