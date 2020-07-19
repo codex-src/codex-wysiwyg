@@ -1,4 +1,6 @@
+import * as ElementList from "./methods/ElementList"
 import * as useRichTextEditorMethods from "./useRichTextEditorMethods"
+import defer from "./utils/children/defer"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
@@ -51,7 +53,14 @@ function parseElements({ markup, children }) {
 		"</article>",
 		stripWhitespace,
 	)
-	return parseSemanticElements(tree)
+	// Defer on children:
+	const elements = parseSemanticElements(tree)
+	let k = ElementList.fromElements(elements)
+	while (k) {
+		defer(k.current.props.children)
+		k = k.next
+	}
+	return elements
 }
 
 // Instantiates from markup.

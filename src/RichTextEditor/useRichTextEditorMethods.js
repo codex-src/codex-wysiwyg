@@ -1,5 +1,6 @@
 import * as ElementList from "./methods/ElementList"
 import * as iterate from "lib/UTF8/iterate"
+import defer from "./utils/children/defer"
 import index from "./utils/children/index"
 import textContent from "./utils/children/textContent"
 
@@ -145,6 +146,23 @@ export const applyFormat = e => formatType => {
 	default:
 		// No-op
 		break
+	}
+
+	const k1 = ElementList.find(list)(each => each.key === e.range.start.key)
+	let k2 = k1
+	if (!e.range.collapsed()) {
+		k2 = ElementList.find(list)(each => each.key === e.range.end.key)
+	}
+
+	// Defer on children:
+	let k = k1
+	while (k) {
+		defer(k.current.props.children)
+		k = k.next
+		if (k && k.prev == k2) { // FIXME
+			// No-op
+			break
+		}
 	}
 	render(e)()
 }

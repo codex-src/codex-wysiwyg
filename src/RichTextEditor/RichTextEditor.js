@@ -1,5 +1,6 @@
 import * as Range from "./methods/Range"
 import Debugger from "./components/Debugger"
+import defer from "./utils/children/defer"
 import keyDownTypeFor from "./utils/keyDownTypeFor"
 import React from "react"
 import Renderer from "./components/Renderer"
@@ -144,7 +145,7 @@ const RichTextEditor = ({ state, dispatch }) => {
 				onInput={readWriteOnlyHandler(e => {
 					const range = Range.getCurrent(ref.current)
 					const children = parseRenderedChildren(document.getElementById(range.start.key))
-					// defer(children)
+					defer(children)
 					dispatch.uncontrolledInput(children, range)
 				})}
 
