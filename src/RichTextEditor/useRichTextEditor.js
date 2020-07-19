@@ -1,4 +1,4 @@
-import * as RichTextEditor from "./methods/RichTextEditor"
+import * as useRichTextEditorMethods from "./useRichTextEditorMethods"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
@@ -32,8 +32,8 @@ const newInitialState = elements => ({
 	shouldRerender: 0,
 })
 
-const methods = state => Object.keys(RichTextEditor).reduce((acc, each) => {
-	acc[each] = RichTextEditor[each](state)
+const methods = state => Object.keys(useRichTextEditorMethods).reduce((acc, each) => {
+	acc[each] = useRichTextEditorMethods[each](state)
 	return acc
 }, {})
 
