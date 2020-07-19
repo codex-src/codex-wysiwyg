@@ -159,7 +159,7 @@ export const applyFormat = e => formatType => {
 	while (k) {
 		defer(k.current.props.children)
 		k = k.next
-		if (k && k.prev == k2) { // FIXME
+		if (k && k.prev === k2) { // FIXME
 			// No-op
 			break
 		}

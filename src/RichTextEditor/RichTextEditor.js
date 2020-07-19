@@ -1,13 +1,23 @@
 import * as Range from "./methods/Range"
-import Debugger from "./components/Debugger"
+import componentMap from "./components/componentMap"
 import defer from "./utils/children/defer"
 import keyDownTypeFor from "./utils/keyDownTypeFor"
 import React from "react"
-import Renderer from "./components/Renderer"
+import ReactDOM from "react-dom"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import { parseRenderedChildren } from "./parsers"
 
 import "./RichTextEditor.css"
+
+const Elements = ({ state, dispatch }) => (
+	state.elements.map(({ type, key, props }) => (
+		React.createElement(componentMap[type], {
+			key,
+			id: key,
+			...props,
+		})
+	))
+)
 
 const RichTextEditor = ({ state, dispatch }) => {
 	const ref = React.useRef(null)
@@ -15,6 +25,31 @@ const RichTextEditor = ({ state, dispatch }) => {
 
 	// Disables read-only mode on DOMContentLoaded.
 	useDOMContentLoadedCallback(dispatch.disableReadOnlyMode)
+
+	// Rerenders the current state on state.shouldRerender.
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
+			const selection = document.getSelection()
+			if (selection.rangeCount) {
+				selection.removeAllRanges()
+			}
+			// console.log("ReactDOM.render")
+			ReactDOM.render(<Elements state={state} dispatch={dispatch} />, ref.current, () => {
+				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
+					// No-op
+					return
+				}
+				try {
+					const range = Range.toUserLiteral(state.range)()
+					selection.addRange(range)
+				} catch (error) {
+					console.error(error)
+				}
+			})
+		}, [state, dispatch]),
+		[state.shouldRerender],
+	)
 
 	// Returns a handler when read-only mode is disabled.
 	const readWriteOnlyHandler = handler => {
@@ -175,26 +210,33 @@ const RichTextEditor = ({ state, dispatch }) => {
 				data-root
 				data-read-only-mode={state.readOnlyModeEnabled}
 				data-display-markdown-mode={state.displayMarkdownModeEnabled}
-			>
-				<Renderer
-					forwardedRef={ref}
-					state={state}
-					dispatch={dispatch}
-				/>
-			</article>
+			/>
 
 			{/* DEBUG */}
-			<Debugger
-				state={state}
-				dispatch={dispatch}
-				// lastActionTimestamp
-				// lastAction
-				// readOnlyModeEnabled
-				// focused
-				elements
-				range
-				// shouldRerender
-			/>
+			{/* <Debugger */}
+			{/* 	state={state} */}
+			{/* 	dispatch={dispatch} */}
+			{/* 	// lastActionTimestamp */}
+			{/* 	// lastAction */}
+			{/* 	// readOnlyModeEnabled */}
+			{/* 	// focused */}
+			{/* 	elements */}
+			{/* 	range */}
+			{/* 	// shouldRerender */}
+			{/* /> */}
+
+			{process.env.NODE_ENV !== "production" && (
+				<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
+					{JSON.stringify(
+						{
+							...state,
+							// ...
+						},
+						null,
+						"\t",
+					)}
+				</div>
+			)}
 
 		</div>
 	)
