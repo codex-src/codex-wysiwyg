@@ -1,4 +1,4 @@
-import * as Position from "../Position"
+import * as Position from "./Position"
 
 // Gets the current range. Range must be scoped to a tree.
 export function getCurrent(tree) {

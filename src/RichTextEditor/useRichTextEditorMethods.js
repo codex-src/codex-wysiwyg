@@ -75,7 +75,7 @@ const extendLTR = e => (list, boundary) => {
 }
 
 // Unexported; deletes the range.
-const deleteRange = e => list => {
+const $delete = e => list => {
 	const k1 = ElementList.find(list)(each => each.key === e.range.start.key)
 	let k2 = k1
 	if (!e.range.collapsed()) {
@@ -103,7 +103,7 @@ export const controlledDelete = e => (dir, boundary) => {
 		const extend = dir === "rtl" && dir !== "ltr" ? extendRTL : extendLTR
 		extend(e)(list, boundary)
 	}
-	deleteRange(e)(list)
+	$delete(e)(list)
 	collapseStart(e)()
 	render(e)()
 }
