@@ -1,25 +1,25 @@
-import JSONEqual from "lib/json/JSONEqual"
-import omit from "lib/omit"
+import JSONEqual from "lib/JSON/JSONEqual"
 
 // Concatenates children that are equal in types and props.
 function concat(children) {
 	for (let x = children.length - 1; x >= 0; x--) {
-		// Reference the previous and current elements:
+		// const prev = x === -1 ? null : children[x - 1]
 		let prev = null
 		if (x >= 0) {
 			prev = children[x - 1]
 		}
 		const curr = children[x]
-		// Concatenate when the previous and current elements
-		// containers are deeply equal:
-		if (prev && JSONEqual(omit(prev, "value"), omit(curr, "value"))) {
+		if (prev && JSONEqual(prev.types, curr.types)) {
 			children.splice(x - 1, 2, {
 				...prev,
-				value: prev.value + curr.value,
+				props: {
+					...prev.props,
+					children: prev.props.children +
+						curr.props.children,
+				},
 			})
 		}
 	}
-	return children
 }
 
 export default concat

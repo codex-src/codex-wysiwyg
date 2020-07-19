@@ -1,5 +1,4 @@
 import concat from "./concat"
-import InlineElement from "../../../model/Editor/InlineElement"
 
 test("(empty)", () => {
 	const children = []
@@ -7,53 +6,79 @@ test("(empty)", () => {
 	expect(children).toEqual([])
 })
 
-test("Hello, world! (1 of 2)", () => {
+test("[Hello, world!]", () => {
 	const children = [
-		new InlineElement({ value: "Hello, world!" }),
+		{ types: [], props: { children: "Hello, world!" } },
 	]
 	concat(children)
 	expect(children).toEqual([
-		new InlineElement({ value: "Hello, world!" }),
+		{ types: [], props: { children: "Hello, world!" } },
 	])
 })
 
-test("Hello, world! (2 of 2)", () => {
+test("[H][e][l][l][o][,][ ][w][o][r][l][d][!]", () => {
 	const children = [
-		new InlineElement({ value: "Hello, " }),
-		new InlineElement({ value: "world" }),
-		new InlineElement({ value: "!" }),
-	]
-	concat(children)
-	expect(children).toEqual([new InlineElement({ value: "Hello, world!" })])
-})
-
-test("Hello, <a href='foo'>worldx</a><a href='bar'>worldy</a>!", () => {
-	const children = [
-		new InlineElement({ value: "Hello, " }),
-		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "worldx" }),
-		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "worldy" }),
-		new InlineElement({ value: "!" }),
+		{ types: [], props: { children: "H" } },
+		{ types: [], props: { children: "e" } },
+		{ types: [], props: { children: "l" } },
+		{ types: [], props: { children: "l" } },
+		{ types: [], props: { children: "o" } },
+		{ types: [], props: { children: "," } },
+		{ types: [], props: { children: " " } },
+		{ types: [], props: { children: "w" } },
+		{ types: [], props: { children: "o" } },
+		{ types: [], props: { children: "r" } },
+		{ types: [], props: { children: "l" } },
+		{ types: [], props: { children: "d" } },
+		{ types: [], props: { children: "!" } },
 	]
 	concat(children)
 	expect(children).toEqual([
-		new InlineElement({ value: "Hello, " }),
-		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "worldxworldy" }),
-		new InlineElement({ value: "!" }),
+		{ types: [], props: { children: "Hello, world!" } },
 	])
 })
 
-test("Hello, <a href='foo'>worldx</a><a href='bar'>worldy</a>!", () => {
+test("[Hello, ][<code>world</code>][!]", () => {
 	const children = [
-		new InlineElement({ value: "Hello, " }),
-		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "worldx" }),
-		new InlineElement({ types: ["a"], props: { a: { href: "bar" } }, value: "worldy" }),
-		new InlineElement({ value: "!" }),
+		{ types: [], props: { children: "Hello, " } },
+		{ types: [{ type: "code", props: null }], props: { children: "world" } },
+		{ types: [], props: { children: "!" } },
 	]
 	concat(children)
 	expect(children).toEqual([
-		new InlineElement({ value: "Hello, " }),
-		new InlineElement({ types: ["a"], props: { a: { href: "foo" } }, value: "worldx" }),
-		new InlineElement({ types: ["a"], props: { a: { href: "bar" } }, value: "worldy" }),
-		new InlineElement({ value: "!" }),
+		{ types: [], props: { children: "Hello, " } },
+		{ types: [{ type: "code", props: null }], props: { children: "world" } },
+		{ types: [], props: { children: "!" } },
+	])
+})
+
+test("Hello, <a href='foo'>foo</a><a href='foo'>foo</a>!", () => {
+	const children = [
+		{ value: [], props: { children: "Hello, " } },
+		{ types: [{ type: "a", props: { href: "foo" } }], props: { children: "foo" } },
+		{ types: [{ type: "a", props: { href: "foo" } }], props: { children: "foo" } },
+		{ value: [], props: { children: "!" } },
+	]
+	concat(children)
+	expect(children).toEqual([
+		{ value: [], props: { children: "Hello, " } },
+		{ types: [{ type: "a", props: { href: "foo" } }], props: { children: "foofoo" } },
+		{ value: [], props: { children: "!" } },
+	])
+})
+
+test("Hello, <a href='foo'>foo</a><a href='bar'>bar</a>!", () => {
+	const children = [
+		{ value: [], props: { children: "Hello, " } },
+		{ types: [{ type: "a", props: { href: "foo" } }], props: { children: "foo" } },
+		{ types: [{ type: "a", props: { href: "bar" } }], props: { children: "bar" } },
+		{ value: [], props: { children: "!" } },
+	]
+	concat(children)
+	expect(children).toEqual([
+		{ value: [], props: { children: "Hello, " } },
+		{ types: [{ type: "a", props: { href: "foo" } }], props: { children: "foo" } },
+		{ types: [{ type: "a", props: { href: "bar" } }], props: { children: "bar" } },
+		{ value: [], props: { children: "!" } },
 	])
 })
