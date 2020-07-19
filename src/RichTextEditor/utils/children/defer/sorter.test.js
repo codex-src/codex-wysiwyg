@@ -7,31 +7,61 @@ test("[]", () => {
 })
 
 test("['em']", () => {
-	const types = ["em"]
+	const types = [
+		{ type: "em", props: null },
+	]
 	types.sort(sorter)
-	expect(types).toEqual(["em"])
+	expect(types[0].type).toBe("em")
 })
 
 test("['em', 'strong']", () => {
-	const types = ["em", "strong"]
+	const types = [
+		{ type: "em", props: null },
+		{ type: "strong", props: null },
+	]
 	types.sort(sorter)
-	expect(types).toEqual(["strong", "em"])
+	expect(types[0].type).toBe("strong")
+	expect(types[1].type).toBe("em")
 })
 
 test("['em', 'strong', 'strike']", () => {
-	const types = ["em", "strong", "strike"]
+	const types = [
+		{ type: "em", props: null },
+		{ type: "strong", props: null },
+		{ type: "strike", props: null },
+	]
 	types.sort(sorter)
-	expect(types).toEqual(["strike", "strong", "em"])
+	expect(types[0].type).toBe("strike")
+	expect(types[1].type).toBe("strong")
+	expect(types[2].type).toBe("em")
 })
 
 test("['em', 'strong', 'strike', 'a']", () => {
-	const types = ["em", "strong", "strike", "a"]
+	const types = [
+		{ type: "em", props: null },
+		{ type: "strong", props: null },
+		{ type: "strike", props: null },
+		{ type: "a", props: null },
+	]
 	types.sort(sorter)
-	expect(types).toEqual(["a", "strike", "strong", "em"])
+	expect(types[0].type).toBe("a")
+	expect(types[1].type).toBe("strike")
+	expect(types[2].type).toBe("strong")
+	expect(types[3].type).toBe("em")
 })
 
 test("['em', 'strong', 'strike', 'a', 'code']", () => {
-	const types = ["em", "strong", "strike", "a", "code"]
+	const types = [
+		{ type: "em", props: null },
+		{ type: "strong", props: null },
+		{ type: "strike", props: null },
+		{ type: "a", props: null },
+		{ type: "code", props: null },
+	]
 	types.sort(sorter)
-	expect(types).toEqual(["code", "a", "strike", "strong", "em"])
+	expect(types[0].type).toBe("code")
+	expect(types[1].type).toBe("a")
+	expect(types[2].type).toBe("strike")
+	expect(types[3].type).toBe("strong")
+	expect(types[4].type).toBe("em")
 })

@@ -8,8 +8,8 @@ const renderPrecedence = {
 }
 
 // Sorts types based on render precedence.
-function sorter(T1, T2) {
-	return renderPrecedence[T1] - renderPrecedence[T2]
+function sorter(t1, t2) {
+	return renderPrecedence[t1.type] - renderPrecedence[t2.type]
 }
 
 export default sorter
