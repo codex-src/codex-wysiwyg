@@ -44,6 +44,18 @@ export const select = e => range => {
 	e.range = range
 }
 
+// Inserts text at the current range.
+export const insertText = e => text => {
+	recordAction(e)("insertText")
+	const list = ElementList.fromElements(e.elements)
+	if (!e.range.collapsed()) {
+		deleteImpl(e)(list)
+	}
+	// ...
+	collapseStart(e)()
+	render(e)()
+}
+
 // Unexported; extends the range right-to-left.
 const extendRTL = e => (list, boundary) => {
 	const k = ElementList.find(list)(each => each.key === e.range.start.key)
@@ -74,8 +86,8 @@ const extendLTR = e => (list, boundary) => {
 	e.range.end.offset += itd.length
 }
 
-// Unexported; deletes the range.
-const $delete = e => list => {
+// Unexported; deletes the current range.
+const deleteImpl = e => list => {
 	const k1 = ElementList.find(list)(each => each.key === e.range.start.key)
 	let k2 = k1
 	if (!e.range.collapsed()) {
@@ -94,16 +106,16 @@ const $delete = e => list => {
 	}
 }
 
-// Controlled delete handler; deletes the next right-to-left
-// or left-to-right rune, word, or line.
-export const controlledDelete = e => (dir, boundary) => {
+// Deletes the next right-to-left or left-to-right rune,
+// word, or line at the current range.
+export const $delete = e => (dir, boundary) => {
 	recordAction(e)(`delete-${dir}-${boundary}`)
 	const list = ElementList.fromElements(e.elements)
 	if (e.range.collapsed()) {
 		const extend = dir === "rtl" && dir !== "ltr" ? extendRTL : extendLTR
 		extend(e)(list, boundary)
 	}
-	$delete(e)(list)
+	deleteImpl(e)(list)
 	collapseStart(e)()
 	render(e)()
 }

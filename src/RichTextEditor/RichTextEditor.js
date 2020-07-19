@@ -93,11 +93,19 @@ const RichTextEditor = ({ state, dispatch }) => {
 						// TODO
 						break
 
-					// case "insert-text":
+					case "insert-text":
 					case "insert-tab":
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":
+						if (keyDownType === "insert-text") {
+							if (!state.range.collapsed()) {
+								e.preventDefault()
+								dispatch.insertText("")
+								break
+							}
+							break
+						}
 						console.log(keyDownType)
 						e.preventDefault()
 						// TODO
@@ -111,7 +119,7 @@ const RichTextEditor = ({ state, dispatch }) => {
 						console.log(keyDownType)
 						e.preventDefault()
 						const [dir, boundary] = keyDownType.split("-").slice(1)
-						dispatch.controlledDelete(dir, boundary)
+						dispatch.$delete(dir, boundary)
 						break
 
 					case "undo":
