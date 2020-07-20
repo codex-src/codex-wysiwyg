@@ -217,11 +217,11 @@ const RichTextEditor = ({ state, dispatch }) => (
 			state={state}
 			dispatch={dispatch}
 		/>
-		{process.env.NODE_ENV !== "production" && (
-			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
-				{JSON.stringify(state, null, "\t")}
-			</div>
-		)}
+		{/* {process.env.NODE_ENV !== "production" && ( */}
+		{/* 	<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
+		{/* 		{JSON.stringify(state, null, "\t")} */}
+		{/* 	</div> */}
+		{/* )} */}
 	</React.Fragment>
 )
 
