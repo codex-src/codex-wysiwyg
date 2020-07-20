@@ -1,5 +1,6 @@
 // import tmpl from "lib/x/tmpl"
 import * as RTE from "./RichTextEditor"
+import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
 import React from "react"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
@@ -132,51 +133,14 @@ const FixedPreferences = () => {
 				to="transition duration-300 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
 			>
 				<div className="p-6 self-end w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
-					hello<br />
+					<span className="inline-block">
+						{/* text-xs */}
+						<pre className="font-mono text-sm leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
+							<SyntaxHighlighting extension="go">
+								{"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"}
+							</SyntaxHighlighting>
+						</pre>
+					</span>
 				</div>
 			</Transition>
 
