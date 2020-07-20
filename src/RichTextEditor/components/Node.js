@@ -4,8 +4,8 @@ import React from "react"
 import ReactDOMServer from "react-dom/server"
 
 // Renders an element. Note that props.children are not
-// managed by React.
-const Node = ({ id, style, children, ...props }) => {
+// rendered or managed by React.
+const Node = ({ id, className, style, children, ...props }) => {
 	const ref = React.useRef(null)
 
 	React.useLayoutEffect(() => {
@@ -26,7 +26,8 @@ const Node = ({ id, style, children, ...props }) => {
 		whiteSpace: "pre-wrap",
 		overflowWrap: "break-word",
 	}
-	return <div ref={ref} id={id} style={imperativeStyles} {...props} />
+
+	return <div ref={ref} id={id} className={className} style={imperativeStyles} {...props} />
 }
 
 export default Node

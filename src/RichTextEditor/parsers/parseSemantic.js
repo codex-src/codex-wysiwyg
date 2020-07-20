@@ -15,6 +15,12 @@ function parseSemantic(element) {
 	case "code":
 	case "strike":
 	case "a":
+	case "h1":
+	case "h2":
+	case "h3":
+	case "h4":
+	case "h5":
+	case "h6":
 	case "p":
 		type = nodeName
 		break

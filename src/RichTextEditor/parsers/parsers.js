@@ -41,20 +41,14 @@ function parseElements(tree, parser) {
 	const elements = []
 	for (const each of tree.children) {
 		const { type, props } = parser(each)
-		switch (type) {
-		case "p":
-			elements.push({
-				type,
-				key: each.id || hash(),
-				props: {
-					...props,
-					children: parseChildren(each, parser),
-				},
-			})
-			break
-		default:
-			throw new Error(`parsers.parseElements: type mismatch; type=${type}`)
-		}
+		elements.push({
+			type,
+			key: each.id || hash(),
+			props: {
+				...props,
+				children: parseChildren(each, parser),
+			},
+		})
 	}
 	return elements
 }
