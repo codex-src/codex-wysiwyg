@@ -55,7 +55,7 @@ function parseElements({ markup, children }) {
 	)
 	// Defer on children:
 	const elements = parseSemanticElements(tree)
-	let k = ElementList.fromElements(elements)
+	let k = ElementList.fromElements(elements) // TODO?
 	while (k) {
 		defer(k.current.props.children)
 		k = k.next

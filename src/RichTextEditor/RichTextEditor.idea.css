@@ -1,0 +1,33 @@
+html {
+	--sans-serif: ...;
+	--serif: ...;
+	--monosapce: ...;
+}
+
+.sans-serif {
+	font-family: var(--sans-serif);
+}
+.serif {
+	font-family: var(--serif);
+}
+.monospace {
+	font-family: var(--monosapce);
+}
+
+.caret-color {
+}
+
+.header--h1 {
+}
+.header--h2 {
+}
+.header--h3 {
+}
+.header--h4 {
+}
+.header--h5 {
+}
+.header--h6 {
+}
+.paragraph {
+}
