@@ -6,27 +6,58 @@ import userAgent from "lib/Client/userAgent"
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
 const children = <React.Fragment>
-	{/* <h2> */}
-	{/* 	What I would love is a WYSIWYG editor that has predictable markdown shortcuts and can resolve to HTML and GitHub-Flavored Markdown in realtime. */}
-	{/* </h2> */}
-	{/* <p> */}
-	{/* 	<br /> */}
-	{/* </p> */}
-	{/* <p> */}
-	{/* 	<strong>This is the MVP for a next-generation WYSIWYG editor that <em>responds</em> to markdown and can resolve to HTML and <a href="https://guides.github.com/features/mastering-markdown">GitHub-Flavored Markdown</a> in realtime.</strong> */}
-	{/* </p> */}
-	{/* <p> */}
-	{/* 	<br /> */}
-	{/* </p> */}
+	<h2>
+		What I would love is a WYSIWYG editor that has predictable markdown shortcuts and can resolve to HTML and <a href="https://guides.github.com/features/mastering-markdown">GitHub-Flavored Markdown</a> in realtime.
+	</h2>
 	<p>
-		This prototype currently supports <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="https://google.com">link</a> for inline elements.{" "}
+		<br />
+	</p>
+	<p>
+		<strong>Introducing Codex 🎉🥳 — a next-generation WYSIWYG editor that responds to markdown and resolves to HTML or GitHub-Flavored Markdown.</strong>
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		<strong>🚧 Note this is an alpha; many features are not <em>yet</em> implemented!</strong>{" "}
+		🚧
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		Me: <a href="https://twitter.com/username_ZAYDEK">@username_ZAYDEK</a> 🐦
+	</p>
+	<p>
+		GitHub repo: <a href="github.com/codex-src/codex-wysiwyg">https://github.com/codex-src/codex-wysiwyg</a> 🐙
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		<strong>v0.1: July 20, 2020</strong>
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		– Added complete support for all backspace operations, such as <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="https://google.com">link</a> for elements.{" "}
 		Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
 	</p>
 	<p>
 		<br />
 	</p>
 	<p>
-		Shortcuts are supported!{" "}
+		– Added basic support for shortcuts.{" "}
 		You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for <em>code</em>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="https://google.com">links</a>.{" "}
 		Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
 	</p>
@@ -34,7 +65,7 @@ const children = <React.Fragment>
 		<br />
 	</p>
 	<p>
-		<strong>Please note that entering paragraphs, tab characters, cut, copy, paste, undo, redo are not <em>yet</em> implemented.</strong>
+		<em>*Note that formatting shortcuts without a selection are not yet supported.</em>
 	</p>
 
 	{/* <p> */}
@@ -45,9 +76,6 @@ const children = <React.Fragment>
 	{/* 	✨{" "} */}
 	{/* 	What does that mean? Instead of <code>{ctrlOrCmd}-i</code>, you can also type <code>`emphasized text`</code> to emphasize text with <em>italics</em>. */}
 	{/* </p> */}
-	<p>
-		<br />
-	</p>
 
 	{/* <p> */}
 	{/* 	Here’s what I want to build: a desktop app for editing local files.{" "} */}
