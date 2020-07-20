@@ -1,11 +1,11 @@
 // Trims whitespace, no-ops undefined, false, and null, and
 // throws on non-null objects.
-function classNameTmpl(tmpl, ...args) {
+function tmpl(tmplArr, ...args) {
 	let className = ""
-	const max = Math.max(tmpl.length, args.length)
+	const max = Math.max(tmplArr.length, args.length)
 	for (let x = 0; x < max; x++) {
-		if (x < tmpl.length) {
-			for (const substr of tmpl[x].split(/\s+/g).filter(Boolean)) {
+		if (x < tmplArr.length) {
+			for (const substr of tmplArr[x].split(/\s+/g).filter(Boolean)) {
 				if (className) {
 					className += " "
 				}
@@ -27,4 +27,4 @@ function classNameTmpl(tmpl, ...args) {
 	return className
 }
 
-export default classNameTmpl
+export default tmpl

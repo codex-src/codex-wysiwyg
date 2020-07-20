@@ -1,6 +1,7 @@
 import attrs from "./attrs"
 import React from "react"
 import T from "./T"
+import tmpl from "lib/x/tmpl"
 
 // <em>
 export const Em = ({ children }) => (
@@ -20,10 +21,44 @@ export const Strong = ({ children }) => (
 	</T>
 )
 
+// // <code>
+// export const Code = ({ children }) => (
+// 	<T type="code">
+// 		<span
+// 			className={tmpl`
+// 				py-1
+// 				text-sm
+// 				font-mono
+// 				subpixel-antialiased
+// 				text-blue-600
+// 				border
+// 				border-cool-gray-300
+// 			`}
+// 			{...attrs.code}
+// 		>
+// 			{children}
+// 		</span>
+// 	</T>
+// )
+
 // <code>
 export const Code = ({ children }) => (
 	<T type="code">
-		<span className="py-1 text-sm font-mono text-blue-600 border border-cool-gray-300" {...attrs.code}>
+		<span
+			className={tmpl`
+				px-1
+				py-px
+				text-sm
+				font-mono
+				subpixel-antialiased
+				text-blue-600
+				bg-white
+				border
+				border-cool-gray-300
+				rounded
+			`}
+			{...attrs.code}
+		>
 			{children}
 		</span>
 	</T>
