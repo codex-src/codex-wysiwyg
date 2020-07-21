@@ -3,8 +3,6 @@ import React from "react"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 
 const SyntaxHighlighting = React.memo(({ extension, children }) => {
-	const ref = React.useRef()
-
 	const [ready, setReady] = React.useState(false)
 	const [htmlChildren, setHTMLChildren] = React.useState(null)
 

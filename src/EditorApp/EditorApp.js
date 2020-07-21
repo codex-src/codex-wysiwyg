@@ -4,7 +4,12 @@ import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
 import tmpl from "lib/x/tmpl"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
-import { resolveHTML } from "./resolvers"
+
+import { // Unsorted
+	resolvePlaintext,
+	resolveMarkdown,
+	resolveHTML,
+} from "./resolvers"
 
 import {
 	Editor,
@@ -100,7 +105,22 @@ const Console = ({ output, setOutput }) => {
 	})
 
 	React.useEffect(() => {
-		if (output.extension === "html") {
+		// Plaintext:
+		if (output.extension === "plaintext") {
+			const result = resolvePlaintext(debouncedElements)
+			setResults(results => ({
+				...results,
+				plaintext: result,
+			}))
+		// GitHub-Flavored Markdown:
+		} else if (output.extension === "markdown") {
+			const result = resolveMarkdown(debouncedElements)
+			setResults(results => ({
+				...results,
+				markdown: result,
+			}))
+		// HTML
+		} else if (output.extension === "html") {
 			const result = resolveHTML(debouncedElements)
 			setResults(results => ({
 				...results,
@@ -117,7 +137,7 @@ const Console = ({ output, setOutput }) => {
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
-					<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
+					<pre className="whitespace-pre-wrap text-xs leading-snug font-mono subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
 						<SyntaxHighlighting extension={output.extension}>
 							{results[output.extension]}
 						</SyntaxHighlighting>
