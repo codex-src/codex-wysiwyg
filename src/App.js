@@ -100,38 +100,52 @@ const children = <React.Fragment>
 // }
 
 const cmapHTML = Object.freeze({
-	em:     el => `<em>${resolveChildren(el.props.children, cmapHTML)}</em>`,
-	strong: el => `<strong>${resolveChildren(el.props.children, cmapHTML)}</strong>`,
-	code:   el => `<code>${resolveChildren(el.props.children, cmapHTML)}</code>`,
-	strike: el => `<strike>${resolveChildren(el.props.children, cmapHTML)}</strike>`,
-	a:      el => `<a href="${el.props.href}" target="_blank" rel="noopener noreferrer">${resolveChildren(el.props.children, cmapHTML)}</a>`,
+	em:     el => `<em>${resolveChildrenTree(el.props.children, cmapHTML)}</em>`,
+	strong: el => `<strong>${resolveChildrenTree(el.props.children, cmapHTML)}</strong>`,
+	code:   el => `<code>${resolveChildrenTree(el.props.children, cmapHTML)}</code>`,
+	strike: el => `<strike>${resolveChildrenTree(el.props.children, cmapHTML)}</strike>`,
+	a:      el => `<a href="${el.props.href}" target="_blank" rel="noopener noreferrer">${resolveChildrenTree(el.props.children, cmapHTML)}</a>`,
 
 	// TODO: Add support to obscure IDs
 	"h2":   el => `<h2 id="${el.key}">\n\t${resolveChildren(el.props.children, cmapHTML) || "<br>"}\n</h2>`,
 	"p":    el => `<p id="${el.key}">\n\t${resolveChildren(el.props.children, cmapHTML) || "<br>"}\n</p>`,
 })
 
-// function toTextContent(children, cmap) {
-// 	const intermediary = toIntermediaryTree(children)
-//
-// 	const str = ""
-// 	// if (typeof children === "string") {
-// 	// 	return children // TODO
-// 	// }
-// 	for (const each of toArray(children)) {
-// 		if (typeof each === "string") {
-// 			str += each
+// // Converts a nested VDOM representation to a string.
+// export function toInnerString(children, cmap = cmapText) {
+// 	let str = ""
+// 	if (children === null || typeof children === "string") {
+// 		if (cmap === cmapText) {
+// 			return children || ""
+// 		}
+// 		// Return an escaped string or a break:
+// 		return (cmap !== cmapReact_js ? escape(children) : reactEscape(children)) ||
+// 			(cmap !== cmapReact_js ? "<br>" : "<br />")
+// 	}
+// 	for (const each of children) {
+// 		if (each === null || typeof each === "string") {
+// 			str += toInnerString(each, cmap)
 // 			continue
 // 		}
 // 		str += cmap[each.type](each)
 // 	}
-//
-// 	// return textContent(children)
+// 	return str
 // }
 
+function resolveChildrenTree(children, cmap) {
+	let str = ""
+	for (const each of toArray(children)) {
+		if (typeof each === "string") {
+			str += each
+			continue
+		}
+		str += cmap[each.type](each)
+	}
+	return str
+}
+
 function resolveChildren(children, cmap) {
-	// toTree
-	return "Hello, world!"
+	return resolveChildrenTree(toTree(children), cmap)
 }
 
 function resolveElements(elements, cmap) {
