@@ -6,6 +6,7 @@ const SyntaxHighlighting = React.memo(({ extension, children }) => {
 	const ref = React.useRef()
 
 	const [ready, setReady] = React.useState(false)
+	const [htmlChildren, setHTMLChildren] = React.useState(null)
 
 	useDOMContentLoadedCallback(() => {
 		setReady(true)
@@ -18,27 +19,25 @@ const SyntaxHighlighting = React.memo(({ extension, children }) => {
 		}
 		const lang = langMap[extension]
 		if (lang === undefined) {
-
-			// if (ready) {
-			// 	console.error(`SyntaxHighlighting: langMap[extension] === undefined; extension=${extension}`)
-			// }
-
 			// No-op
 			return
 		}
-		const html = window.Prism.highlight(children, lang, extension)
-		ref.current.innerHTML = html
+		const __html = window.Prism.highlight(children, lang, extension)
+		setHTMLChildren((
+			<div
+				className={extension && `language-${extension}`}
+				dangerouslySetInnerHTML={{
+					__html,
+				}}
+			/>
+		))
 	}, [
 		ready, // Rerenders on ready; DOMContentLoaded
 		extension,
 		children,
 	])
 
-	return (
-		<div ref={ref} className={extension || `language-${extension}`}>
-			{children}
-		</div>
-	)
+	return htmlChildren || children
 })
 
 export default SyntaxHighlighting

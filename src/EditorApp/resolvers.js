@@ -11,8 +11,8 @@ const html = Object.freeze({
 	a:      el => `<a href="${el.props.href}" target="_blank" rel="noopener noreferrer">${resolveChildrenTree(el.props.children, html)}</a>`,
 
 	// TODO: Add support to obscure IDs
-	"h2":   el => `<h2 id="${el.key}">\n\t${resolveChildren(el.props.children, html) || "<br>"}\n</h2>`,
-	"p":    el => `<p id="${el.key}">\n\t${resolveChildren(el.props.children, html) || "<br>"}\n</p>`,
+	"h2":   el => `<h2 id="${el.key}">\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h2>`,
+	"p":    el => `<p id="${el.key}">\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</p>`,
 })
 
 // 	if (children === null || typeof children === "string") {
