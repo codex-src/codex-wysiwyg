@@ -21,10 +21,10 @@ function reducer(draft, action) {
 		actions.insertText(draft)(/* TODO */)
 		return
 	case "APPLY_FORMAT":
-		actions.applyFormat(draft)(action.formatType)
+		actions.applyFormat(draft)(action.keyDownType)
 		return
 	case "DELETE":
-		actions.$delete(draft)(action.deleteType)
+		actions.$delete(draft)(action.keyDownType)
 		return
 	case "UNCONTROLLED_INPUT":
 		actions.uncontrolledInput(draft)(action.children, action.range)

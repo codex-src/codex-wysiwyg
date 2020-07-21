@@ -102,7 +102,9 @@ const queryChildren = e => list => {
 }
 
 // Applies a format to the current range.
-export const applyFormat = e => formatType => {
+export const applyFormat = e => keyDownType => {
+	const formatType = keyDownType.split("-").slice(-1)[0]
+
 	recordAction(e)("apply-format")
 	const list = ElementList.fromElements(e.elements)
 
@@ -221,7 +223,9 @@ const deleteImpl = e => list => {
 
 // Deletes the next right-to-left or left-to-right rune,
 // word, or line at the current range.
-export const $delete = e => (dir, boundary) => {
+export const $delete = e => keyDownType => {
+	const [dir, boundary] = keyDownType.split("-").slice(1)
+
 	recordAction(e)(`delete-${dir}-${boundary}`)
 	const list = ElementList.fromElements(e.elements)
 	if (e.range.collapsed()) {

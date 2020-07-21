@@ -36,16 +36,7 @@ const Editor = ({ state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			// const renderedElements = <Renderer state={state} dispatch={dispatch} />
-			const renderedElements = state.elements.map(({ type, key, props }) => (
-				React.createElement(componentMap[type], {
-					key,
-					id: key,
-					...props,
-				})
-			))
-			ReactDOM.render(renderedElements, ref.current, () => {
-				console.log(renderedElements)
+			ReactDOM.render(<Renderer state={state} dispatch={dispatch} />, ref.current, () => {
 				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
 					// No-op
 					return
@@ -146,10 +137,9 @@ const Editor = ({ state, dispatch }) => {
 					case "apply-format-markdown-strike":
 					case "apply-format-markdown-a":
 						e.preventDefault()
-						const formatType = keyDownType.split("-").slice(-1)[0]
 						dispatch({
 							type: "APPLY_FORMAT",
-							formatType: keyDownType,
+							keyDownType,
 						})
 						break
 					// case "insert-text":
@@ -179,7 +169,7 @@ const Editor = ({ state, dispatch }) => {
 						e.preventDefault()
 						dispatch({
 							type: "DELETE",
-							deleteType: keyDownType,
+							keyDownType,
 						})
 						break
 					case "undo":
