@@ -85,24 +85,54 @@ const children = <React.Fragment>
 
 </React.Fragment>
 
-// <div className="ml-1.5 w-5 h-5 transform scale-90">
-// 	<svg className="transform scale-105" fill="currentColor" viewBox="0 0 20 20">
-// 		<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
-// 	</svg>
-// </div>
+// // TODO: Rename toText?
+// function toTextContent(children, cmap = cmapText) {
+// 	let str = ""
+// 	if (children === null || typeof children === "string") {
+// 		if (cmap === cmapText) {
+// 			return children || ""
+// 		}
+// 		// Return an escaped string or a break:
+// 		return (cmap !== cmapReact_js ? escape(children) : reactEscape(children)) ||
+// 			(cmap !== cmapReact_js ? "<br>" : "<br />")
+// 	}
+// 	for (const each of children) {
+// 		if (each === null || typeof each === "string") {
+// 			str += toTextContent(each, cmap)
+// 			continue
+// 		}
+// 		str += cmap[each.type](each)
+// 	}
+// 	return str
+// }
 
-function toHTML(elements) {
+// Reads text content.
+function textContent(children) {
+	return children.reduce((acc, each) => {
+		acc += each.props.children
+		return acc
+	}, "")
+}
+
+const cmapHTML = Object.freeze({
+	"h2": el => `<h2 id="${el.key}">\n\t${textContent(el.props.children) || "<br>"}\n</h2>`,
+	"p":  el => `<p id="${el.key}">\n\t${textContent(el.props.children) || "<br>"}\n</p>`,
+})
+
+function toText(elements, cmap) {
 	let str = ""
 	for (const each of elements) {
-		// const str = (element => `<p>\n\t${toInnerString(element.children, cmapHTML)}\n</p>`)(each)
-		// console.log(each)
-		const reducer = (acc, each) => acc += each.props.children
-		str += `<p id="${each.key}">\n\t${each.props.children.reduce(reducer, "") || "<br>"}\n</p>`
+		str += cmap[each.type](each)
 		if (each !== elements[elements.length - 1]) {
 			str += "\n"
 		}
 	}
 	return str
+}
+
+// Converts an array of elements to an HTML-string.
+function toHTML(elements) {
+	return toText(elements, cmapHTML)
 }
 
 const Console = ({ output, setOutput }) => {
@@ -114,35 +144,13 @@ const Console = ({ output, setOutput }) => {
 		html: "",
 	})
 
-	// // Effect for rendering plaintext.
-	// React.useEffect(() => {
-	// 	if (output.extension === "plaintext") {
-	// 		const html = toHTML(debouncedElements)
-	// 		setResults(results => ({
-	// 			...results,
-	// 			html,
-	// 		}))
-	// 	}
-	// }, [debouncedElements, output.extension])
-
-	// // Effect for rendering GitHub-Flavored Markdown.
-	// React.useEffect(() => {
-	// 	if (output.extension === "markdown") {
-	// 		const html = toHTML(debouncedElements)
-	// 		setResults(results => ({
-	// 			...results,
-	// 			html,
-	// 		}))
-	// 	}
-	// }, [debouncedElements, output.extension])
-
 	// Effect for rendering HTML.
 	React.useEffect(() => {
 		if (output.extension === "html") {
-			const html = toHTML(debouncedElements)
+			const result = toHTML(debouncedElements)
 			setResults(results => ({
 				...results,
-				html,
+				html: result,
 			}))
 		}
 	}, [debouncedElements, output.extension])
