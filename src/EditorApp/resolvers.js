@@ -15,9 +15,6 @@ const html = Object.freeze({
 	"p":    el => `<p id="${el.key}">\n\t${resolveChildren(el.props.children, html) || "<br>"}\n</p>`,
 })
 
-// // Converts a nested VDOM representation to a string.
-// export function toInnerString(children, resolver = cmapText) {
-// 	let str = ""
 // 	if (children === null || typeof children === "string") {
 // 		if (resolver === cmapText) {
 // 			return children || ""
@@ -26,16 +23,8 @@ const html = Object.freeze({
 // 		return (resolver !== cmapReact_js ? escape(children) : reactEscape(children)) ||
 // 			(resolver !== cmapReact_js ? "<br>" : "<br />")
 // 	}
-// 	for (const each of children) {
-// 		if (each === null || typeof each === "string") {
-// 			str += toInnerString(each, resolver)
-// 			continue
-// 		}
-// 		str += resolver[each.type](each)
-// 	}
-// 	return str
-// }
 
+// Resolves tree-shaped children to a resolver-type.
 function resolveChildrenTree(children, resolver) {
 	let str = ""
 	for (const each of toArray(children)) {
@@ -48,10 +37,12 @@ function resolveChildrenTree(children, resolver) {
 	return str
 }
 
+// Resolves children to a resolver-type.
 function resolveChildren(children, resolver) {
 	return resolveChildrenTree(toTree(children), resolver)
 }
 
+// Resolves elements to a resolver-type.
 function resolveElements(elements, resolver) {
 	let str = ""
 	for (const each of elements) {

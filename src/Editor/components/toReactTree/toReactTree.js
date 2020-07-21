@@ -3,10 +3,10 @@ import React from "react"
 import toArray from "lib/x/toArray"
 import toTree from "./toTree"
 
-// Converts intermediary React elements to React elements.
-function toReactTreeImpl(intermediary) {
+// Converts tree-shaped children to React elements.
+function toReactTreeImpl(children) {
 	const renderable = []
-	for (const each of toArray(intermediary)) {
+	for (const each of toArray(children)) {
 		if (typeof each === "string") {
 			renderable.push(each)
 			continue
@@ -25,8 +25,7 @@ function toReactTreeImpl(intermediary) {
 	return renderable
 }
 
-// Converts children to React elements. Uses an intermediary
-// step because React elements are read-only.
+// Converts children to React elements.
 function toReactTree(children) {
 	return toReactTreeImpl(toTree(children))
 }
