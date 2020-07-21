@@ -86,64 +86,58 @@ const children = <React.Fragment>
 
 </React.Fragment>
 
-const OpenConsoleButton = ({ state: [show, setShow] }) => (
+const ConsoleButton = ({ ctx: { show, setShow } }) => (
 	<button
-		className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out"
+		className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
 		onPointerDown={e => e.preventDefault()}
 		onClick={e => setShow(!show)}
 	>
 		<p className="font-semibold text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
-			{!show ? "SHOW" : "HIDE"} CONSOLE
+			{!show ? "OPEN" : "CLOSE"} CONSOLE
 		</p>
 		<div className="ml-1.5 w-5 h-5 transform scale-90">
-			<svg
-				className="transform scale-105"
-				fill="currentColor"
-				viewBox="0 0 20 20"
-			>
+			<svg className="transform scale-105" fill="currentColor" viewBox="0 0 20 20">
 				<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
 			</svg>
 		</div>
 	</button>
 )
 
-const FixedPreferences = () => {
-	const [showConsole, setShowConsole] = React.useState(false)
+const Console = ({ ctx: { show } }) => (
+	<Transition
+		on={show}
+		from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
+		to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
+	>
+		<div className="p-6 bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
+			<span className="inline-block">
+				<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
+					<SyntaxHighlighting extension="go">
+						{"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"}
+					</SyntaxHighlighting>
+				</pre>
+			</span>
+		</div>
+	</Transition>
+)
 
+const FixedPreferences = ({ state, dispatch }) => {
+	const [show, setShow] = React.useState(false)
+
+	const ctx = {
+		state,
+		dispatch,
+		show,
+		setShow,
+	}
 	return (
-		// NOTE: Uses flex flex-col to fix h-full for nested
-		// elements.
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col pointer-events-none">
-
-			{/* Buttons */}
-			<div className="py-2 flex flex-row justify-between">
-				<div />
-				<div>
-					<div className="pointer-events-auto">
-						<OpenConsoleButton state={[showConsole, setShowConsole]} />
-					</div>
-				</div>
+			<div className="py-2 flex flex-row justify-end">
+				<ConsoleButton ctx={ctx} />
 			</div>
-
-			{/* Console */}
-			{/* scrolling-touch transform opacity-100 translate-x-0 pointer-events-auto enter-done */}
-			<Transition
-				on={showConsole}
-				from="transition duration-300 ease-in opacity-0 transform translate-x-8 pointer-events-none"
-				to="transition duration-300 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
-			>
-				<div className="p-6 self-end w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-					<span className="inline-block">
-						{/* text-xs */}
-						<pre className="font-mono text-sm leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
-							<SyntaxHighlighting extension="go">
-								{"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"}
-							</SyntaxHighlighting>
-						</pre>
-					</span>
-				</div>
-			</Transition>
-
+			<div className="self-end w-full max-w-lg max-h-full">
+				<Console ctx={ctx} />
+			</div>
 		</div>
 	)
 }
@@ -156,16 +150,16 @@ const App = () => {
 	// const [state, dispatch] = RTE.useRichTextEditorFromMarkup(markup)
 	const [state, dispatch] = RTE.useRichTextEditorFromChildren(children.props.children)
 	return (
-		<div className="px-6 py-24 flex flex-row justify-center">
+		<div className="px-6 py-32 flex flex-row justify-center">
 			<div className="w-full max-w-2xl">
-
-				<FixedPreferences />
-
+				<FixedPreferences
+					state={state}
+					dispatch={dispatch}
+				/>
 				<RTE.RichTextEditor
 					state={state}
 					dispatch={dispatch}
 				/>
-
 			</div>
 		</div>
 	)
