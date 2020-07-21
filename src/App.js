@@ -33,7 +33,7 @@ const children = <React.Fragment>
 		Me: <a href="https://twitter.com/username_ZAYDEK">@username_ZAYDEK</a> 🐦
 	</p>
 	<p>
-		GitHub repo: <a href="github.com/codex-src/codex-wysiwyg">https://github.com/codex-src/codex-wysiwyg</a> 🐙
+		GitHub: <a href="github.com/codex-src/codex-wysiwyg">https://github.com/codex-src/codex-wysiwyg</a> 🐙
 	</p>
 	<p>
 		<br />

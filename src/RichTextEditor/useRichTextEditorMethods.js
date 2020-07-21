@@ -4,8 +4,8 @@ import defer from "./utils/children/defer"
 import index from "./utils/children/index"
 import textContent from "./utils/children/textContent"
 
-// Records an action; records the timestamp and action type.
-export const recordAction = e => actionType => {
+// Unexported; records an action.
+const recordAction = e => actionType => {
 	const now = Date.now()
 	if (now - e.lastActionTimestamp < 200) {
 		// No-op

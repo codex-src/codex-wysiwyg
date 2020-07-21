@@ -24,7 +24,9 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 	const pointerdownRef = React.useRef(false)
 
 	// Disables read-only mode on DOMContentLoaded.
-	useDOMContentLoadedCallback(dispatch.disableReadOnlyMode)
+	useDOMContentLoadedCallback(() => dispatch({
+		type: "DISABLE_READ_ONLY_MODE",
+	}))
 
 	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
@@ -65,11 +67,11 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 			className="em-context focus:outline-none"
 
 			onFocus={readWriteOnlyHandler(e => {
-				dispatch.focus()
+				dispatch({ type: "FOCUS" })
 			})}
 
 			onBlur={readWriteOnlyHandler(e => {
-				dispatch.blur()
+				dispatch({ type: "BLUR" })
 			})}
 
 			onPointerDown={readWriteOnlyHandler(e => {
@@ -88,7 +90,10 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 					// No-op
 					return
 				}
-				dispatch.select(range)
+				dispatch({
+					type: "SELECT",
+					range,
+				})
 			})}
 
 			onPointerUp={readWriteOnlyHandler(e => {
@@ -103,13 +108,18 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 					// No-op
 					return
 				}
-				dispatch.select(range)
+				dispatch({
+					type: "SELECT",
+					range,
+				})
 			})}
 
 			onKeyDown={readWriteOnlyHandler(e => {
 				const keyDownType = keyDownTypeFor(e)
+				if (keyDownType) {
+					console.log(keyDownType)
+				}
 				switch (keyDownType) {
-
 				case "apply-format-plaintext":
 				case "apply-format-em":
 				case "apply-format-strong":
@@ -121,53 +131,48 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 				case "apply-format-markdown-code":
 				case "apply-format-markdown-strike":
 				case "apply-format-markdown-a":
-					console.log(keyDownType)
-					if (state.range.collapsed()) {
-						e.preventDefault()
-						// TODO
-						break
-					}
 					e.preventDefault()
 					const formatType = keyDownType.split("-").slice(-1)[0]
-					dispatch.applyFormat(formatType)
+					dispatch({
+						type: "APPLY_FORMAT",
+						formatType: keyDownType,
+					})
 					break
-
-				case "insert-text":
-				case "insert-tab":
-				case "insert-soft-paragraph":
-				case "insert-hard-paragraph":
-				case "insert-horizontal-rule":
-					if (keyDownType === "insert-text") {
-						if (!state.range.collapsed()) {
-							e.preventDefault()
-							dispatch.insertText("")
-							break
-						}
-						break
-					}
-					console.log(keyDownType)
-					e.preventDefault()
-					// TODO
-					break
-
+				// case "insert-text":
+				// case "insert-tab":
+				// case "insert-soft-paragraph":
+				// case "insert-hard-paragraph":
+				// case "insert-horizontal-rule":
+				// 	if (keyDownType === "insert-text") {
+				// 		if (!state.range.collapsed()) {
+				// 			e.preventDefault()
+				// 			dispatch({
+				// 				type: "INSERT_TEXT",
+				// 				text: "",
+				// 			})
+				// 			break
+				// 		}
+				// 		break
+				// 	}
+				// 	e.preventDefault()
+				// 	// TODO
+				// 	break
 				case "delete-rtl-rune":
 				case "delete-rtl-word":
 				case "delete-rtl-line":
 				case "delete-ltr-rune":
 				case "delete-ltr-word":
-					console.log(keyDownType)
 					e.preventDefault()
-					const [dir, boundary] = keyDownType.split("-").slice(1)
-					dispatch.$delete(dir, boundary)
+					dispatch({
+						type: "DELETE",
+						deleteType: keyDownType,
+					})
 					break
-
 				case "undo":
 				case "redo":
-					console.log(keyDownType)
 					e.preventDefault()
 					// TODO
 					break
-
 				default:
 					// No-op
 					break
@@ -178,51 +183,53 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 				const range = Range.getCurrent(ref.current)
 				const children = parseRenderedChildren(document.getElementById(range.start.key))
 				defer(children)
-				dispatch.uncontrolledInput(children, range)
+				dispatch({
+					type: "UNCONTROLLED_INPUT",
+					range,
+					children,
+				})
 			})}
 
-			// onCut={readWriteOnlyHandler(e => {
-			// 	e.preventDefault()
-			// 	// ...
-			// })}
+			onCut={readWriteOnlyHandler(e => {
+				e.preventDefault()
+				// TODO
+			})}
 
-			// onCopy={readWriteOnlyHandler(e => {
-			// 	e.preventDefault()
-			// 	// ...
-			// })}
+			onCopy={readWriteOnlyHandler(e => {
+				e.preventDefault()
+				// TODO
+			})}
 
-			// onPaste={readWriteOnlyHandler(e => {
-			// 	e.preventDefault()
-			// 	// ...
-			// })}
+			onPaste={readWriteOnlyHandler(e => {
+				e.preventDefault()
+				// TODO
+			})}
 
-			// onDragStart={readWriteOnlyHandler(e => {
-			// 	e.preventDefault()
-			// 	// ...
-			// })}
+			onDragStart={readWriteOnlyHandler(e => {
+				e.preventDefault()
+				// TODO
+			})}
 
 			contentEditable={!state.readOnlyModeEnabled}
 			suppressContentEditableWarning={!state.readOnlyModeEnabled}
 
 			data-root
-			data-read-only-mode={state.readOnlyModeEnabled}
-			data-display-markdown-mode={state.displayMarkdownModeEnabled}
 		/>
 	)
 }
 
-const RichTextEditor = ({ state, dispatch }) => (
-	<React.Fragment>
-		<RichTextEditorImpl
-			state={state}
-			dispatch={dispatch}
-		/>
-		{/* {process.env.NODE_ENV !== "production" && ( */}
-		{/* 	<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
-		{/* 		{JSON.stringify(state, null, "\t")} */}
-		{/* 	</div> */}
-		{/* )} */}
-	</React.Fragment>
-)
+// const RichTextEditor = ({ state, dispatch }) => (
+// 	<React.Fragment>
+// 		<RichTextEditorImpl
+// 			state={state}
+// 			dispatch={dispatch}
+// 		/>
+// 		{process.env.NODE_ENV !== "production" && (
+// 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
+// 				{JSON.stringify(state, null, "\t")}
+// 			</div>
+// 		)}
+// 	</React.Fragment>
+// )
 
-export default RichTextEditor
+export default RichTextEditorImpl
