@@ -86,7 +86,7 @@ const children = <React.Fragment>
 
 </React.Fragment>
 
-const ConsoleButton = ({ ctx: { show, setShow } }) => (
+const ConsoleButton = ({ show, setShow }) => (
 	<button
 		className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
 		onPointerDown={e => e.preventDefault()}
@@ -103,41 +103,45 @@ const ConsoleButton = ({ ctx: { show, setShow } }) => (
 	</button>
 )
 
-const Console = ({ ctx: { show } }) => (
-	<Transition
-		on={show}
-		from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
-		to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
-	>
-		<div className="p-6 bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-			<span className="inline-block">
-				<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
-					<SyntaxHighlighting extension="go">
-						{"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"}
-					</SyntaxHighlighting>
-				</pre>
-			</span>
-		</div>
-	</Transition>
-)
+const Console = ({ show, setShow }) => {
+	const debouncedElements = React.useContext(ElementsContext)
+
+	return (
+		<Transition
+			on={show}
+			from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
+			to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
+		>
+			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
+				<span className="inline-block">
+					<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
+						<SyntaxHighlighting extension="go">
+							{/* {"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"} */}
+							{JSON.stringify(debouncedElements, null, "\t")}
+						</SyntaxHighlighting>
+					</pre>
+				</span>
+			</div>
+		</Transition>
+	)
+}
 
 const FixedPreferences = ({ state, dispatch }) => {
 	const [show, setShow] = React.useState(false)
 
-	const ctx = {
-		state,
-		dispatch,
-		show,
-		setShow,
-	}
 	return (
-		<div className="px-3 pb-4 fixed inset-0 flex flex-col pointer-events-none">
+		// NOTE: Uses flex flex-col because of max-h-full.
+		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-end">
-				<ConsoleButton ctx={ctx} />
+				<ConsoleButton
+					show={show}
+					setShow={setShow}
+				/>
 			</div>
-			<div className="self-end w-full max-w-lg max-h-full">
-				<Console ctx={ctx} />
-			</div>
+			<Console
+				show={show}
+				setShow={setShow}
+			/>
 		</div>
 	)
 }
@@ -146,16 +150,30 @@ const FixedPreferences = ({ state, dispatch }) => {
 // 	document.body.classList.toggle("debug-css")
 // })()
 
+const ElementsContext = React.createContext(null)
+
 const App = () => {
-	// const [state, dispatch] = RTE.useRichTextEditorFromMarkup(markup)
 	const [state, dispatch] = RTE.useRichTextEditorFromChildren(children.props.children)
+	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
+
+	React.useEffect(() => {
+		const id = setTimeout(() => {
+			setDebouncedElements(state.elements)
+		}, 250)
+		return () => {
+			clearTimeout(id)
+		}
+	}, [state.elements])
+
 	return (
 		<div className="px-6 py-32 flex flex-row justify-center">
 			<div className="w-full max-w-2xl">
-				<FixedPreferences
-					state={state}
-					dispatch={dispatch}
-				/>
+				<ElementsContext.Provider value={debouncedElements}>
+					<FixedPreferences
+						state={state}
+						dispatch={dispatch}
+					/>
+				</ElementsContext.Provider>
 				<RTE.RichTextEditor
 					state={state}
 					dispatch={dispatch}

@@ -215,6 +215,7 @@ const deleteImpl = e => list => {
 		k.parentElement.splice(k.index, 1)
 		k = k.prev
 	}
+	defer(k1.current.props.children) // TODO
 }
 
 // Deletes the next right-to-left or left-to-right rune,
