@@ -46,16 +46,10 @@ export const Code = ({ children }) => (
 	<T type="code">
 		<span
 			className={tmpl`
-				px-1
-				py-px
-				text-sm
-				font-mono
-				subpixel-antialiased
-				text-blue-600
-				bg-white
-				border
-				border-cool-gray-300
-				rounded
+				px-1 py-px
+				text-sm font-mono subpixel-antialiased
+				text-blue-600 bg-white
+				border border-cool-gray-300 rounded
 			`}
 			{...attrs.code}
 		>

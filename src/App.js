@@ -3,6 +3,7 @@ import DebugCSS from "lib/x/DebugCSS"
 import React from "react"
 import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
 import tmpl from "lib/x/tmpl"
+import toArray from "lib/x/toArray"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
 
@@ -86,15 +87,10 @@ const children = <React.Fragment>
 </React.Fragment>
 
 // // TODO: Rename toText?
-// function toTextContent(children, cmap = cmapText) {
+// function toTextContent(children, cmap) {
 // 	let str = ""
-// 	if (children === null || typeof children === "string") {
-// 		if (cmap === cmapText) {
-// 			return children || ""
-// 		}
-// 		// Return an escaped string or a break:
-// 		return (cmap !== cmapReact_js ? escape(children) : reactEscape(children)) ||
-// 			(cmap !== cmapReact_js ? "<br>" : "<br />")
+// 	if (typeof children === "string") {
+// 		return children
 // 	}
 // 	for (const each of children) {
 // 		if (each === null || typeof each === "string") {
@@ -106,6 +102,28 @@ const children = <React.Fragment>
 // 	return str
 // }
 
+// // Converts intermediary React elements to React elements.
+// function toReactHandler(intermediary) {
+// 	const renderable = []
+// 	for (const each of toArray(intermediary)) {
+// 		if (typeof each === "string") {
+// 			renderable.push(each)
+// 			continue
+// 		}
+// 		const { type, props } = each
+// 		renderable.push(React.createElement(componentMap[type], {
+// 			...props,
+// 			key: renderable.length,
+// 		}, props.children && toReactHandler(props.children)))
+// 	}
+// 	if (!renderable.length || (typeof renderable[0] === "string" && !renderable[0])) {
+// 		return null
+// 	} else if (renderable.length === 1) {
+// 		return renderable[0]
+// 	}
+// 	return renderable
+// }
+
 // Reads text content.
 function textContent(children) {
 	return children.reduce((acc, each) => {
@@ -114,10 +132,43 @@ function textContent(children) {
 	}, "")
 }
 
-const cmapHTML = Object.freeze({
-	"h2": el => `<h2 id="${el.key}">\n\t${textContent(el.props.children) || "<br>"}\n</h2>`,
-	"p":  el => `<p id="${el.key}">\n\t${textContent(el.props.children) || "<br>"}\n</p>`,
-})
+// function toTextContent(children, cmap) {
+// 	const intermediary = toIntermediaryTree(children)
+//
+// 	const str = ""
+// 	// if (typeof children === "string") {
+// 	// 	return children // TODO
+// 	// }
+// 	for (const each of toArray(children)) {
+// 		if (typeof each === "string") {
+// 			str += each
+// 			continue
+// 		}
+// 		str += cmap[each.type](each)
+// 	}
+//
+// 	// return textContent(children)
+// }
+
+// const cmapHTML = Object.freeze({
+// 	// el => `<span aria-label="${el.description}" role="img">${toInnerString(el.children, cmapHTML)}</span>`
+// 	// el => `<em>${toInnerString(el.children, cmapHTML)}</em>`
+// 	// el => `<strong>${toInnerString(el.children, cmapHTML)}</strong>`
+// 	// el => `<strong><em>${toInnerString(el.children, cmapHTML)}</em></strong>`
+// 	// el => `<code>${toInnerString(el.children, cmapHTML)}</code>`
+// 	// el => `<strike>${toInnerString(el.children, cmapHTML)}</strike>`
+// 	// el => `<a href="${el.href}" target="_blank" rel="noopener noreferrer">${toInnerString(el.children, cmapHTML)}</a>`
+// 	// el => `<span aria-label="${el.description}" role="img">${toInnerString(el.children, cmapHTML)}</span>`
+//
+// 	em:     el => `<em>${toTextContent(el.props.children, cmapHTML)}</em>`,
+// 	strong: el => `<strong>${toTextContent(el.props.children, cmapHTML)}</strong>`,
+// 	code:   el => `<code>${toTextContent(el.props.children, cmapHTML)}</code>`,
+// 	strike: el => `<strike>${toTextContent(el.props.children, cmapHTML)}</strike>`,
+// 	a:      el => `<a href="${el.props.href}" target="_blank" rel="noopener noreferrer">${toTextContent(el.props.children, cmapHTML)}</a>`,
+//
+// 	"h2":   el => `<h2 id="${el.key}">\n\t${toTextContent(el.props.children, cmapHTML) || "<br>"}\n</h2>`,
+// 	"p":    el => `<p id="${el.key}">\n\t${toTextContent(el.props.children, cmapHTML) || "<br>"}\n</p>`,
+// })
 
 function toText(elements, cmap) {
 	let str = ""
@@ -132,7 +183,7 @@ function toText(elements, cmap) {
 
 // Converts an array of elements to an HTML-string.
 function toHTML(elements) {
-	return toText(elements, cmapHTML)
+	// return toText(elements, cmapHTML)
 }
 
 const Console = ({ output, setOutput }) => {
@@ -144,16 +195,16 @@ const Console = ({ output, setOutput }) => {
 		html: "",
 	})
 
-	// Effect for rendering HTML.
-	React.useEffect(() => {
-		if (output.extension === "html") {
-			const result = toHTML(debouncedElements)
-			setResults(results => ({
-				...results,
-				html: result,
-			}))
-		}
-	}, [debouncedElements, output.extension])
+	// // Effect for rendering HTML.
+	// React.useEffect(() => {
+	// 	if (output.extension === "html") {
+	// 		const result = toHTML(debouncedElements)
+	// 		setResults(results => ({
+	// 			...results,
+	// 			html: result,
+	// 		}))
+	// 	}
+	// }, [debouncedElements, output.extension])
 
 	return (
 		<Transition
