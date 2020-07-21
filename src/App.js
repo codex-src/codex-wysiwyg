@@ -1,8 +1,8 @@
-// import tmpl from "lib/x/tmpl"
 import * as RTE from "./RichTextEditor"
 import DebugCSS from "lib/x/DebugCSS"
 import React from "react"
 import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
+import tmpl from "lib/x/tmpl"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
 
@@ -91,38 +91,6 @@ const children = <React.Fragment>
 // 	</svg>
 // </div>
 
-// const ConsoleButton = ({ show, setShow }) => (
-// 	<>
-// 		<button
-// 			className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-// 			onPointerDown={e => e.preventDefault()}
-// 			onClick={e => setShow(!show)}
-// 		>
-// 			<p className="font-semibold text-sm">
-// 				Plaintext
-// 			</p>
-// 		</button>
-// 		<button
-// 			className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-// 			onPointerDown={e => e.preventDefault()}
-// 			onClick={e => setShow(!show)}
-// 		>
-// 			<p className="font-semibold text-sm">
-// 				Markdown
-// 			</p>
-// 		</button>
-// 		<button
-// 			className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-// 			onPointerDown={e => e.preventDefault()}
-// 			onClick={e => setShow(!show)}
-// 		>
-// 			<p className="font-semibold text-sm">
-// 				HTML
-// 			</p>
-// 		</button>
-// 	</>
-// )
-
 function toHTML(elements) {
 	let str = ""
 	for (const each of elements) {
@@ -146,13 +114,37 @@ const Console = ({ output, setOutput }) => {
 		html: "",
 	})
 
-	// TODO
+	// // Effect for rendering plaintext.
+	// React.useEffect(() => {
+	// 	if (output.extension === "plaintext") {
+	// 		const html = toHTML(debouncedElements)
+	// 		setResults(results => ({
+	// 			...results,
+	// 			html,
+	// 		}))
+	// 	}
+	// }, [debouncedElements, output.extension])
+
+	// // Effect for rendering GitHub-Flavored Markdown.
+	// React.useEffect(() => {
+	// 	if (output.extension === "markdown") {
+	// 		const html = toHTML(debouncedElements)
+	// 		setResults(results => ({
+	// 			...results,
+	// 			html,
+	// 		}))
+	// 	}
+	// }, [debouncedElements, output.extension])
+
+	// Effect for rendering HTML.
 	React.useEffect(() => {
-		const html = toHTML(debouncedElements)
-		setResults(results => ({
-			...results,
-			html,
-		}))
+		if (output.extension === "html") {
+			const html = toHTML(debouncedElements)
+			setResults(results => ({
+				...results,
+				html,
+			}))
+		}
 	}, [debouncedElements, output.extension])
 
 	return (
@@ -208,33 +200,42 @@ const FixedPreferences = ({ state, dispatch }) => {
 		// NOTE: Uses flex flex-col because of max-h-full.
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-end">
-				<button
-					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-					onPointerDown={e => e.preventDefault()}
-					onClick={handleClickPlaintext}
-				>
-					<p className="font-semibold text-sm">
-						Plaintext
-					</p>
-				</button>
-				<button
-					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-					onPointerDown={e => e.preventDefault()}
-					onClick={handleClickMarkdown}
-				>
-					<p className="font-semibold text-sm">
-						Markdown
-					</p>
-				</button>
-				<button
-					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-					onPointerDown={e => e.preventDefault()}
-					onClick={handleClickHTML}
-				>
-					<p className="font-semibold text-sm">
-						HTML
-					</p>
-				</button>
+				{(buttonClassName => (
+					<React.Fragment>
+						<button
+							className={buttonClassName}
+							onClick={handleClickPlaintext}
+						>
+							<p className="font-semibold text-sm">
+								Plaintext
+							</p>
+						</button>
+						<button
+							className={buttonClassName}
+							onClick={handleClickMarkdown}
+						>
+							<p className="font-semibold text-sm">
+								Markdown
+							</p>
+						</button>
+						<button
+							className={buttonClassName}
+							onClick={handleClickHTML}
+						>
+							<p className="font-semibold text-sm">
+								HTML
+							</p>
+						</button>
+					</React.Fragment>
+				))(tmpl`
+					px-2.5 py-1
+					flex flex-row items-center
+					text-gray-800 focus:bg-gray-100
+					rounded-full
+					focus:outline-none
+					transition duration-300 ease-in-out
+					pointer-events-auto
+				`)}
 			</div>
 			<Console
 				output={output}

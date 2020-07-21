@@ -18,9 +18,12 @@ const SyntaxHighlighting = React.memo(({ extension, children }) => {
 		}
 		const lang = langMap[extension]
 		if (lang === undefined) {
-			if (ready) {
-				console.error(`SyntaxHighlighting: langMap[extension] === undefined; extension=${extension}`)
-			}
+
+			// if (ready) {
+			// 	console.error(`SyntaxHighlighting: langMap[extension] === undefined; extension=${extension}`)
+			// }
+
+			// No-op
 			return
 		}
 		const html = window.Prism.highlight(children, lang, extension)
