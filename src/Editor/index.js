@@ -1,2 +1,2 @@
 export { default as Editor } from "./Editor"
-export * from "./useEditor"
+export * from "./useEditor/useEditor"

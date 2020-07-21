@@ -1,13 +1,13 @@
 // import useMethods from "use-methods"
-import * as actions from "./useEditorMethods"
-import * as ElementList from "./methods/ElementList"
-import defer from "./utils/children/defer"
+import * as actions from "./actions"
+import * as ElementList from "../methods/ElementList"
+import defer from "../utils/children/defer"
 import parseTree from "lib/DOM/parseTree"
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import stripWhitespace from "lib/DOM/stripWhitespace"
 import { original } from "immer"
-import { parseSemanticElements } from "./parsers"
+import { parseSemanticElements } from "../parsers"
 import { useImmerReducer } from "use-immer"
 
 // Parses elements from markup or children.
@@ -83,7 +83,7 @@ function reducer(draft, action) {
 		actions.select(draft)(action.range)
 		return
 	case "INSERT_TEXT":
-		actions.insertText(draft)()
+		actions.insertText(draft)(/* TODO */)
 		return
 	case "APPLY_FORMAT":
 		actions.applyFormat(draft)(action.formatType)
