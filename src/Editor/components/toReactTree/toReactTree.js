@@ -1,10 +1,10 @@
 import componentMap from "../componentMap"
 import React from "react"
 import toArray from "lib/x/toArray"
-import toIntermediary from "./toIntermediary"
+import toTree from "./toTree"
 
 // Converts intermediary React elements to React elements.
-function toReactHandler(intermediary) {
+function toReactTreeImpl(intermediary) {
 	const renderable = []
 	for (const each of toArray(intermediary)) {
 		if (typeof each === "string") {
@@ -15,7 +15,7 @@ function toReactHandler(intermediary) {
 		renderable.push(React.createElement(componentMap[type], {
 			...props,
 			key: renderable.length,
-		}, props.children && toReactHandler(props.children)))
+		}, props.children && toReactTreeImpl(props.children)))
 	}
 	if (!renderable.length || (typeof renderable[0] === "string" && !renderable[0])) {
 		return null
@@ -27,9 +27,8 @@ function toReactHandler(intermediary) {
 
 // Converts children to React elements. Uses an intermediary
 // step because React elements are read-only.
-function toReact(children) {
-	const intermediary = toIntermediary(children)
-	return toReactHandler(intermediary)
+function toReactTree(children) {
+	return toReactTreeImpl(toTree(children))
 }
 
-export default toReact
+export default toReactTree

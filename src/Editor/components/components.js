@@ -1,7 +1,7 @@
 import Node from "./Node"
 import React from "react"
 import T from "./T"
-import toReact from "./toReact"
+import toReactTree from "./toReactTree"
 
 // h1: dedupeSpaces("font-semibold text-3xl leading-tight antialiased"),
 // h2: dedupeSpaces("font-semibold text-2xl leading-tight antialiased"),
@@ -21,7 +21,7 @@ export const H1 = React.memo(({ id, children }) => (
 				lineHeight: 1.45,
 			}}
 		>
-			{toReact(children) || (
+			{toReactTree(children) || (
 				<br />
 			)}
 		</Node>
@@ -39,7 +39,7 @@ export const H2 = React.memo(({ id, children }) => (
 				lineHeight: 1.45,
 			}}
 		>
-			{toReact(children) || (
+			{toReactTree(children) || (
 				<br />
 			)}
 		</Node>
@@ -56,7 +56,7 @@ export const H6 = H1 // TODO
 // export const P = React.memo(({ id, children }) => (
 // 	<T type="lead">
 // 		<Node id={id}>
-// 			{toReact(children) || (
+// 			{toReactTree(children) || (
 // 				<br />
 // 			)}
 // 		</Node>
@@ -73,7 +73,7 @@ export const P = React.memo(({ id, children }) => (
 				fontSize: "1.125em",
 			}}
 		>
-			{toReact(children) || (
+			{toReactTree(children) || (
 				<br />
 			)}
 		</Node>

@@ -1,4 +1,4 @@
-import toTree from "./toTree"
+import toTree from "./index"
 
 test("(empty)", () => {
 	const children = []

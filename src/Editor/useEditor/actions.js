@@ -255,10 +255,5 @@ const collapseStart = e => () => {
 
 // Unexported; rerenders.
 const render = e => () => {
-
-	if (!e.finalElements) {
-
-	}
-
 	e.shouldRerender++
 }
