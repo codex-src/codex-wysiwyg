@@ -9,7 +9,6 @@ import userAgent from "lib/Client/userAgent"
 import {
 	Editor,
 	useEditorFromChildren,
-	// useEditorFromMarkup,
 } from "./Editor"
 
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"

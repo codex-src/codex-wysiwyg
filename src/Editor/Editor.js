@@ -19,7 +19,7 @@ const Renderer = ({ state, dispatch }) => (
 	))
 )
 
-const EditorImpl = ({ state, dispatch }) => {
+const Editor = ({ state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -61,175 +61,172 @@ const EditorImpl = ({ state, dispatch }) => {
 	}
 
 	return (
-		<article
-			ref={ref}
+		<React.Fragment>
+			<article
+				ref={ref}
 
-			className="em-context focus:outline-none"
+				className="em-context focus:outline-none"
 
-			onFocus={readWriteOnlyHandler(e => {
-				dispatch({ type: "FOCUS" })
-			})}
+				onFocus={readWriteOnlyHandler(e => {
+					dispatch({
+						type: "FOCUS",
+					})
+				})}
 
-			onBlur={readWriteOnlyHandler(e => {
-				dispatch({ type: "BLUR" })
-			})}
+				onBlur={readWriteOnlyHandler(e => {
+					dispatch({
+						type: "BLUR",
+					})
+				})}
 
-			onPointerDown={readWriteOnlyHandler(e => {
-				pointerdownRef.current = true
-			})}
+				onPointerDown={readWriteOnlyHandler(e => {
+					pointerdownRef.current = true
+				})}
 
-			onPointerMove={readWriteOnlyHandler(e => {
-				if (!state.focused || !pointerdownRef.current) {
-					if (!state.focused && pointerdownRef.current) {
-						pointerdownRef.current = false
+				onPointerMove={readWriteOnlyHandler(e => {
+					if (!state.focused || !pointerdownRef.current) {
+						if (!state.focused && pointerdownRef.current) {
+							pointerdownRef.current = false
+						}
+						return
 					}
-					return
-				}
-				const range = Range.getCurrent(ref.current)
-				if (!range) {
-					// No-op
-					return
-				}
-				dispatch({
-					type: "SELECT",
-					range,
-				})
-			})}
-
-			onPointerUp={readWriteOnlyHandler(e => {
-				pointerdownRef.current = false
-			})}
-
-			// TODO: Add COMPAT guard for select-all or prevent
-			// default?
-			onSelect={readWriteOnlyHandler(e => {
-				const range = Range.getCurrent(ref.current)
-				if (!range) {
-					// No-op
-					return
-				}
-				dispatch({
-					type: "SELECT",
-					range,
-				})
-			})}
-
-			onKeyDown={readWriteOnlyHandler(e => {
-				const keyDownType = keyDownTypeFor(e)
-				if (keyDownType) {
-					console.log(keyDownType)
-				}
-				switch (keyDownType) {
-				case "apply-format-plaintext":
-				case "apply-format-em":
-				case "apply-format-strong":
-				case "apply-format-code":
-				case "apply-format-strike":
-				case "apply-format-a":
-				case "apply-format-markdown-em":
-				case "apply-format-markdown-strong":
-				case "apply-format-markdown-code":
-				case "apply-format-markdown-strike":
-				case "apply-format-markdown-a":
-					e.preventDefault()
-					const formatType = keyDownType.split("-").slice(-1)[0]
+					const range = Range.getCurrent(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
 					dispatch({
-						type: "APPLY_FORMAT",
-						formatType: keyDownType,
+						type: "SELECT",
+						range,
 					})
-					break
-				// case "insert-text":
-				// case "insert-tab":
-				// case "insert-soft-paragraph":
-				// case "insert-hard-paragraph":
-				// case "insert-horizontal-rule":
-				// 	if (keyDownType === "insert-text") {
-				// 		if (!state.range.collapsed()) {
-				// 			e.preventDefault()
-				// 			dispatch({
-				// 				type: "INSERT_TEXT",
-				// 				text: "",
-				// 			})
-				// 			break
-				// 		}
-				// 		break
-				// 	}
-				// 	e.preventDefault()
-				// 	// TODO
-				// 	break
-				case "delete-rtl-rune":
-				case "delete-rtl-word":
-				case "delete-rtl-line":
-				case "delete-ltr-rune":
-				case "delete-ltr-word":
-					e.preventDefault()
+				})}
+
+				onPointerUp={readWriteOnlyHandler(e => {
+					pointerdownRef.current = false
+				})}
+
+				// TODO: Add COMPAT guard for select-all or prevent
+				// default?
+				onSelect={readWriteOnlyHandler(e => {
+					const range = Range.getCurrent(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
 					dispatch({
-						type: "DELETE",
-						deleteType: keyDownType,
+						type: "SELECT",
+						range,
 					})
-					break
-				case "undo":
-				case "redo":
+				})}
+
+				onKeyDown={readWriteOnlyHandler(e => {
+					const keyDownType = keyDownTypeFor(e)
+					if (keyDownType) {
+						console.log(keyDownType)
+					}
+					switch (keyDownType) {
+					case "apply-format-plaintext":
+					case "apply-format-em":
+					case "apply-format-strong":
+					case "apply-format-code":
+					case "apply-format-strike":
+					case "apply-format-a":
+					case "apply-format-markdown-em":
+					case "apply-format-markdown-strong":
+					case "apply-format-markdown-code":
+					case "apply-format-markdown-strike":
+					case "apply-format-markdown-a":
+						e.preventDefault()
+						const formatType = keyDownType.split("-").slice(-1)[0]
+						dispatch({
+							type: "APPLY_FORMAT",
+							formatType: keyDownType,
+						})
+						break
+					// case "insert-text":
+					// case "insert-tab":
+					// case "insert-soft-paragraph":
+					// case "insert-hard-paragraph":
+					// case "insert-horizontal-rule":
+					// 	if (keyDownType === "insert-text") {
+					// 		if (!state.range.collapsed()) {
+					// 			e.preventDefault()
+					// 			dispatch({
+					// 				type: "INSERT_TEXT",
+					// 				text: "",
+					// 			})
+					// 			break
+					// 		}
+					// 		break
+					// 	}
+					// 	e.preventDefault()
+					// 	// TODO
+					// 	break
+					case "delete-rtl-rune":
+					case "delete-rtl-word":
+					case "delete-rtl-line":
+					case "delete-ltr-rune":
+					case "delete-ltr-word":
+						e.preventDefault()
+						dispatch({
+							type: "DELETE",
+							deleteType: keyDownType,
+						})
+						break
+					case "undo":
+					case "redo":
+						e.preventDefault()
+						// TODO
+						break
+					default:
+						// No-op
+						break
+					}
+				})}
+
+				onInput={readWriteOnlyHandler(e => {
+					const range = Range.getCurrent(ref.current)
+					const children = parseRenderedChildren(document.getElementById(range.start.key))
+					defer(children)
+					dispatch({
+						type: "UNCONTROLLED_INPUT",
+						range,
+						children,
+					})
+				})}
+
+				onCut={readWriteOnlyHandler(e => {
 					e.preventDefault()
 					// TODO
-					break
-				default:
-					// No-op
-					break
-				}
-			})}
+				})}
 
-			onInput={readWriteOnlyHandler(e => {
-				const range = Range.getCurrent(ref.current)
-				const children = parseRenderedChildren(document.getElementById(range.start.key))
-				defer(children)
-				dispatch({
-					type: "UNCONTROLLED_INPUT",
-					range,
-					children,
-				})
-			})}
+				onCopy={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// TODO
+				})}
 
-			onCut={readWriteOnlyHandler(e => {
-				e.preventDefault()
-				// TODO
-			})}
+				onPaste={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// TODO
+				})}
 
-			onCopy={readWriteOnlyHandler(e => {
-				e.preventDefault()
-				// TODO
-			})}
+				onDragStart={readWriteOnlyHandler(e => {
+					e.preventDefault()
+					// TODO
+				})}
 
-			onPaste={readWriteOnlyHandler(e => {
-				e.preventDefault()
-				// TODO
-			})}
+				contentEditable={!state.readOnlyModeEnabled}
+				suppressContentEditableWarning={!state.readOnlyModeEnabled}
 
-			onDragStart={readWriteOnlyHandler(e => {
-				e.preventDefault()
-				// TODO
-			})}
-
-			contentEditable={!state.readOnlyModeEnabled}
-			suppressContentEditableWarning={!state.readOnlyModeEnabled}
-
-			data-root
-		/>
+				data-root
+			/>
+			{process.env.NODE_ENV !== "production" && (
+				<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
+					{JSON.stringify(state, null, "\t")}
+				</div>
+			)}
+		</React.Fragment>
 	)
 }
 
-// const Editor = ({ state, dispatch }) => (
-// 	<React.Fragment>
-// 		<EditorImpl
-// 			state={state}
-// 			dispatch={dispatch}
-// 		/>
-// 		{process.env.NODE_ENV !== "production" && (
-// 			<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
-// 				{JSON.stringify(state, null, "\t")}
-// 			</div>
-// 		)}
-// 	</React.Fragment>
-// )
-
-export default EditorImpl
+export default Editor

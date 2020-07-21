@@ -3,6 +3,7 @@ import * as iterate from "lib/UTF8/iterate"
 import defer from "../utils/children/defer"
 import index from "../utils/children/index"
 import textContent from "../utils/children/textContent"
+import { original } from "immer"
 
 // Unexported; records an action.
 const recordAction = e => actionType => {
@@ -254,5 +255,10 @@ const collapseStart = e => () => {
 
 // Unexported; rerenders.
 const render = e => () => {
+
+	if (!e.finalElements) {
+
+	}
+
 	e.shouldRerender++
 }
