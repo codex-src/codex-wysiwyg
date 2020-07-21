@@ -85,38 +85,94 @@ const children = <React.Fragment>
 
 </React.Fragment>
 
-const ConsoleButton = ({ show, setShow }) => (
-	<button
-		className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
-		onPointerDown={e => e.preventDefault()}
-		onClick={e => setShow(!show)}
-	>
-		<p className="font-semibold text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
-			{!show ? "OPEN" : "CLOSE"} CONSOLE
-		</p>
-		<div className="ml-1.5 w-5 h-5 transform scale-90">
-			<svg className="transform scale-105" fill="currentColor" viewBox="0 0 20 20">
-				<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
-			</svg>
-		</div>
-	</button>
-)
+// <div className="ml-1.5 w-5 h-5 transform scale-90">
+// 	<svg className="transform scale-105" fill="currentColor" viewBox="0 0 20 20">
+// 		<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
+// 	</svg>
+// </div>
 
-const Console = ({ show, setShow }) => {
+// const ConsoleButton = ({ show, setShow }) => (
+// 	<>
+// 		<button
+// 			className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
+// 			onPointerDown={e => e.preventDefault()}
+// 			onClick={e => setShow(!show)}
+// 		>
+// 			<p className="font-semibold text-sm">
+// 				Plaintext
+// 			</p>
+// 		</button>
+// 		<button
+// 			className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
+// 			onPointerDown={e => e.preventDefault()}
+// 			onClick={e => setShow(!show)}
+// 		>
+// 			<p className="font-semibold text-sm">
+// 				Markdown
+// 			</p>
+// 		</button>
+// 		<button
+// 			className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
+// 			onPointerDown={e => e.preventDefault()}
+// 			onClick={e => setShow(!show)}
+// 		>
+// 			<p className="font-semibold text-sm">
+// 				HTML
+// 			</p>
+// 		</button>
+// 	</>
+// )
+
+function toHTML(elements) {
+	let str = ""
+	for (const each of elements) {
+		// const str = (element => `<p>\n\t${toInnerString(element.children, cmapHTML)}\n</p>`)(each)
+		// console.log(each)
+		const reducer = (acc, each) => acc += each.props.children
+		str += `<p id="${each.key}">\n\t${each.props.children.reduce(reducer, "") || "<br>"}\n</p>`
+		if (each !== elements[elements.length - 1]) {
+			str += "\n"
+		}
+	}
+	return str
+}
+
+const Console = ({ extension, setExtension }) => {
 	const debouncedElements = React.useContext(ElementsContext)
+
+	const [results, setResults] = React.useState({
+		plaintext: "",
+		markdown: "",
+		html: "",
+	})
+
+	React.useEffect(() => {
+		if (extension !== "plaintext") {
+			// No-op
+			return
+		}
+		const html = toHTML(debouncedElements)
+		setResults(results => ({
+			...results,
+			html,
+		}))
+	}, [
+		debouncedElements,
+		extension,
+	])
 
 	return (
 		<Transition
-			on={show}
+			on={extension} // TODO
 			from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
 			to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
 					<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
-						<SyntaxHighlighting extension="go">
-							{/* {"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"} */}
-							{debouncedElements}
+						<SyntaxHighlighting extension={extension}>
+							{results[extension]}
+							{/* {plaintext} */}
 						</SyntaxHighlighting>
 					</pre>
 				</span>
@@ -126,20 +182,46 @@ const Console = ({ show, setShow }) => {
 }
 
 const FixedPreferences = ({ state, dispatch }) => {
-	const [show, setShow] = React.useState(false)
+	// const [show, setShow] = React.useState(false)
+	const [extension, setExtension] = React.useState("")
 
 	return (
 		// NOTE: Uses flex flex-col because of max-h-full.
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-end">
-				<ConsoleButton
-					show={show}
-					setShow={setShow}
-				/>
+				<button
+					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
+					onPointerDown={e => e.preventDefault()}
+					onClick={e => setExtension(extension !== "plaintext" ? "plaintext" : "")}
+				>
+					<p className="font-semibold text-sm">
+						Plaintext
+					</p>
+				</button>
+				<button
+					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
+					onPointerDown={e => e.preventDefault()}
+					onClick={e => setExtension(extension !== "gfm" ? "gfm" : "")}
+				>
+					<p className="font-semibold text-sm">
+						Markdown
+					</p>
+				</button>
+				<button
+					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
+					onPointerDown={e => e.preventDefault()}
+					onClick={e => setExtension(extension !== "html" ? "html" : "")}
+				>
+					<p className="font-semibold text-sm">
+						HTML
+					</p>
+				</button>
 			</div>
 			<Console
-				show={show}
-				setShow={setShow}
+				extension={extension}
+				setExtension={extension}
+				// show={show}
+				// setShow={setShow}
 			/>
 		</div>
 	)
@@ -149,12 +231,11 @@ const ElementsContext = React.createContext(null)
 
 const App = () => {
 	const [state, dispatch] = RTE.useRichTextEditorFromChildren(children.props.children)
-	const [debouncedElements, setDebouncedElements] = React.useState(() => "")
+	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	React.useEffect(() => {
 		const id = setTimeout(() => {
-			const jsonstr = JSON.stringify(state.elements, null, "\t")
-			setDebouncedElements(jsonstr)
+			setDebouncedElements(state.elements)
 		}, 250)
 		return () => {
 			clearTimeout(id)

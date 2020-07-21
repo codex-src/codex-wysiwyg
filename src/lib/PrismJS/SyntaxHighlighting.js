@@ -12,7 +12,7 @@ const SyntaxHighlighting = React.memo(({ extension, children }) => {
 	})
 
 	React.useEffect(() => {
-		if (!extension) {
+		if (!extension || extension === "plaintext") {
 			// No-op
 			return
 		}
@@ -25,21 +25,17 @@ const SyntaxHighlighting = React.memo(({ extension, children }) => {
 		}
 		const html = window.Prism.highlight(children, lang, extension)
 		ref.current.innerHTML = html
-		// setHighlighted((
-		// 	<div
-		// 		className={extension || `language-${extension}`}
-		// 		dangerouslySetInnerHTML={{
-		// 			__html: html,
-		// 		}}
-		// 	/>
-		// ))
 	}, [
 		ready, // Rerenders on ready; DOMContentLoaded
 		extension,
 		children,
 	])
 
-	return <div ref={ref} className={extension || `language-${extension}`} />
+	return (
+		<div ref={ref} className={extension || `language-${extension}`}>
+			{children}
+		</div>
+	)
 })
 
 export default SyntaxHighlighting
