@@ -102,7 +102,7 @@ const extensionMap = {
 	html: "html",
 }
 
-const Console = ({ output, setOutput }) => {
+const Output = ({ output, setOutput }) => {
 	const debouncedElements = React.useContext(ElementsContext)
 
 	const [results, setResults] = React.useState({
@@ -144,7 +144,7 @@ const Console = ({ output, setOutput }) => {
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
-					<pre className="whitespace-pre-wrap text-xs leading-snug font-mono subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
+					<pre className="whitespace-pre-wrap text-xs leading-snug font-mono subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 /* , fontSize: "0.6875rem" */ }}>
 						<SyntaxHighlighting key={output.extension} extension={extensionMap[output.extension]}>
 							{results[output.extension]}
 						</SyntaxHighlighting>
@@ -185,48 +185,52 @@ const FixedPreferences = ({ state, dispatch }) => {
 		})
 	}
 
+	// NOTE: Uses flex flex-col because of max-h-full.
 	return (
-		// NOTE: Uses flex flex-col because of max-h-full.
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-end">
-				{(buttonClassName => (
-					<React.Fragment>
-						<button
-							className={buttonClassName}
-							onClick={handleClickPlaintext}
-						>
-							<p className="font-semibold text-sm">
-								Plaintext
-							</p>
-						</button>
-						<button
-							className={buttonClassName}
-							onClick={handleClickMarkdown}
-						>
-							<p className="font-semibold text-sm">
-								Markdown
-							</p>
-						</button>
-						<button
-							className={buttonClassName}
-							onClick={handleClickHTML}
-						>
-							<p className="font-semibold text-sm">
-								HTML
-							</p>
-						</button>
-					</React.Fragment>
-				))(tmpl`
-					px-2.5 py-1
-					flex flex-row items-center
-					text-gray-800 focus:bg-gray-100
-					rounded-full
-					focus:outline-none
-					transition duration-300 ease-in-out
-					pointer-events-auto
-				`)}
+
+				{/* Plaintext */}
+				<button
+					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					onClick={handleClickPlaintext}
+				>
+					{/* <svg className="mr-1 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"> */}
+					{/* 	<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /> */}
+					{/* </svg> */}
+					<p className="font-semibold !text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
+						PLAINTEXT
+					</p>
+				</button>
+
+				{/* GitHub-Flavored Markdown */}
+				<button
+					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					onClick={handleClickMarkdown}
+				>
+					<svg className="mr-1 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clipRule="evenodd" fillRule="evenodd" />
+					</svg>
+					<p className="font-semibold !text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
+						MARKDOWN
+					</p>
+				</button>
+
+				{/* HTML */}
+				<button
+					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					onClick={handleClickHTML}
+				>
+					<svg className="mr-1 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+					</svg>
+					<p className="font-semibold !text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
+						HTML
+					</p>
+				</button>
+
 			</div>
-			<Console
+			<Output
 				output={output}
 				setOutput={setOutput}
 			/>
