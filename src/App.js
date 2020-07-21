@@ -1,4 +1,3 @@
-import * as RTE from "./RichTextEditor"
 import DebugCSS from "lib/x/DebugCSS"
 import React from "react"
 import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
@@ -6,6 +5,12 @@ import tmpl from "lib/x/tmpl"
 import toArray from "lib/x/toArray"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
+
+import {
+	Editor,
+	useEditorFromChildren,
+	// useEditorFromMarkup,
+} from "./Editor"
 
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
@@ -307,7 +312,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 const ElementsContext = React.createContext(null)
 
 const App = () => {
-	const [state, dispatch] = RTE.useRichTextEditorFromChildren(children.props.children)
+	const [state, dispatch] = useEditorFromChildren(children.props.children)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	React.useEffect(() => {
@@ -329,7 +334,7 @@ const App = () => {
 							dispatch={dispatch}
 						/>
 					</ElementsContext.Provider>
-					<RTE.RichTextEditor
+					<Editor
 						state={state}
 						dispatch={dispatch}
 					/>

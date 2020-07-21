@@ -1,5 +1,5 @@
 // import useMethods from "use-methods"
-import * as actions from "./useRichTextEditorMethods"
+import * as actions from "./useEditorMethods"
 import * as ElementList from "./methods/ElementList"
 import defer from "./utils/children/defer"
 import parseTree from "lib/DOM/parseTree"
@@ -13,7 +13,7 @@ import { useImmerReducer } from "use-immer"
 // Parses elements from markup or children.
 function parseElements({ markup, children }) {
 	if ((!markup && !children) || (markup && children)) {
-		throw new Error("useRichTextEditor.parseElements: use markup or children")
+		throw new Error("useEditor.parseElements: use markup or children")
 	}
 	if (children) {
 		markup = ReactDOMServer.renderToStaticMarkup(children)
@@ -60,8 +60,8 @@ const newInitialState = elements => ({
 	shouldRerender: 0,
 })
 
-// const methods = state => Object.keys(useRichTextEditorMethods).reduce((acc, each) => {
-// 	acc[each] = useRichTextEditorMethods[each](state)
+// const methods = state => Object.keys(useEditorMethods).reduce((acc, each) => {
+// 	acc[each] = useEditorMethods[each](state)
 // 	return acc
 // }, {})
 
@@ -95,12 +95,12 @@ function reducer(draft, action) {
 		actions.uncontrolledInput(draft)(action.children, action.range)
 		return
 	default:
-		throw new Error(`useRichTextEditor.reducer: no such action.type; action.type=${action.type}`)
+		throw new Error(`useEditor.reducer: no such action.type; action.type=${action.type}`)
 	}
 }
 
 // Instantiates from markup.
-export function useRichTextEditorFromMarkup(markup) {
+export function useEditorFromMarkup(markup) {
 	const initialState = React.useMemo(() => {
 		const elements = parseElements({ markup })
 		return newInitialState(elements)
@@ -111,7 +111,7 @@ export function useRichTextEditorFromMarkup(markup) {
 
 // Instantiates from React children. Note that children is
 // expected to be an array of React elements.
-export function useRichTextEditorFromChildren(children) {
+export function useEditorFromChildren(children) {
 	const initialState = React.useMemo(() => {
 		const elements = parseElements({ children })
 		return newInitialState(elements)

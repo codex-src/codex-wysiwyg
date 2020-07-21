@@ -7,7 +7,7 @@ import ReactDOM from "react-dom"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import { parseRenderedChildren } from "./parsers"
 
-import "./RichTextEditor.css"
+import "./Editor.css"
 
 const Renderer = ({ state, dispatch }) => (
 	state.elements.map(({ type, key, props }) => (
@@ -19,7 +19,7 @@ const Renderer = ({ state, dispatch }) => (
 	))
 )
 
-const RichTextEditorImpl = ({ state, dispatch }) => {
+const EditorImpl = ({ state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -218,9 +218,9 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 	)
 }
 
-// const RichTextEditor = ({ state, dispatch }) => (
+// const Editor = ({ state, dispatch }) => (
 // 	<React.Fragment>
-// 		<RichTextEditorImpl
+// 		<EditorImpl
 // 			state={state}
 // 			dispatch={dispatch}
 // 		/>
@@ -232,4 +232,4 @@ const RichTextEditorImpl = ({ state, dispatch }) => {
 // 	</React.Fragment>
 // )
 
-export default RichTextEditorImpl
+export default EditorImpl
