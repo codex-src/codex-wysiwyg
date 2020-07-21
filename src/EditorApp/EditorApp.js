@@ -2,15 +2,14 @@ import DebugCSS from "lib/x/DebugCSS"
 import React from "react"
 import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
 import tmpl from "lib/x/tmpl"
-import toArray from "lib/x/toArray"
-import toTree from "Editor/components/toReactTree/toTree"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
+import { resolveHTML } from "./resolvers"
 
 import {
 	Editor,
 	useEditorFromChildren,
-} from "./Editor"
+} from "Editor"
 
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
@@ -90,79 +89,6 @@ const children = <React.Fragment>
 	{/* </p> */}
 
 </React.Fragment>
-
-// // Reads text content.
-// function textContent(children) {
-// 	return children.reduce((acc, each) => {
-// 		acc += each.props.children
-// 		return acc
-// 	}, "")
-// }
-
-const cmapHTML = Object.freeze({
-	em:     el => `<em>${resolveChildrenTree(el.props.children, cmapHTML)}</em>`,
-	strong: el => `<strong>${resolveChildrenTree(el.props.children, cmapHTML)}</strong>`,
-	code:   el => `<code>${resolveChildrenTree(el.props.children, cmapHTML)}</code>`,
-	strike: el => `<strike>${resolveChildrenTree(el.props.children, cmapHTML)}</strike>`,
-	a:      el => `<a href="${el.props.href}" target="_blank" rel="noopener noreferrer">${resolveChildrenTree(el.props.children, cmapHTML)}</a>`,
-
-	// TODO: Add support to obscure IDs
-	"h2":   el => `<h2 id="${el.key}">\n\t${resolveChildren(el.props.children, cmapHTML) || "<br>"}\n</h2>`,
-	"p":    el => `<p id="${el.key}">\n\t${resolveChildren(el.props.children, cmapHTML) || "<br>"}\n</p>`,
-})
-
-// // Converts a nested VDOM representation to a string.
-// export function toInnerString(children, cmap = cmapText) {
-// 	let str = ""
-// 	if (children === null || typeof children === "string") {
-// 		if (cmap === cmapText) {
-// 			return children || ""
-// 		}
-// 		// Return an escaped string or a break:
-// 		return (cmap !== cmapReact_js ? escape(children) : reactEscape(children)) ||
-// 			(cmap !== cmapReact_js ? "<br>" : "<br />")
-// 	}
-// 	for (const each of children) {
-// 		if (each === null || typeof each === "string") {
-// 			str += toInnerString(each, cmap)
-// 			continue
-// 		}
-// 		str += cmap[each.type](each)
-// 	}
-// 	return str
-// }
-
-function resolveChildrenTree(children, cmap) {
-	let str = ""
-	for (const each of toArray(children)) {
-		if (typeof each === "string") {
-			str += each
-			continue
-		}
-		str += cmap[each.type](each)
-	}
-	return str
-}
-
-function resolveChildren(children, cmap) {
-	return resolveChildrenTree(toTree(children), cmap)
-}
-
-function resolveElements(elements, cmap) {
-	let str = ""
-	for (const each of elements) {
-		str += cmap[each.type](each)
-		if (each !== elements[elements.length - 1]) {
-			str += "\n"
-		}
-	}
-	return str
-}
-
-// Converts an array of elements to an HTML-string.
-function resolveHTML(elements) {
-	return resolveElements(elements, cmapHTML)
-}
 
 const Console = ({ output, setOutput }) => {
 	const debouncedElements = React.useContext(ElementsContext)

@@ -1,5 +1,5 @@
 import * as serviceWorker from "./serviceWorker"
-import App from "./App"
+import EditorApp from "EditorApp"
 import React from "react"
 import ReactDOM from "react-dom"
 
@@ -13,7 +13,7 @@ import "stylesheets/tailwind-em-context.css"
 import "stylesheets/tailwind-group-hover-text.css"
 
 ReactDOM.render(
-	<App />,
+	<EditorApp />,
 	document.getElementById("root"),
 )
 
