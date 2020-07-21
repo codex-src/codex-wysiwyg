@@ -104,6 +104,7 @@ const ConsoleButton = ({ show, setShow }) => (
 
 const Console = ({ show, setShow }) => {
 	const debouncedElements = React.useContext(ElementsContext)
+
 	return (
 		<Transition
 			on={show}
@@ -115,7 +116,7 @@ const Console = ({ show, setShow }) => {
 					<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
 						<SyntaxHighlighting extension="go">
 							{/* {"package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello, world!\")\n}\n"} */}
-							{JSON.stringify(debouncedElements, null, "\t")}
+							{debouncedElements}
 						</SyntaxHighlighting>
 					</pre>
 				</span>
@@ -126,6 +127,7 @@ const Console = ({ show, setShow }) => {
 
 const FixedPreferences = ({ state, dispatch }) => {
 	const [show, setShow] = React.useState(false)
+
 	return (
 		// NOTE: Uses flex flex-col because of max-h-full.
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
@@ -147,11 +149,12 @@ const ElementsContext = React.createContext(null)
 
 const App = () => {
 	const [state, dispatch] = RTE.useRichTextEditorFromChildren(children.props.children)
-	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
+	const [debouncedElements, setDebouncedElements] = React.useState(() => "")
 
 	React.useEffect(() => {
 		const id = setTimeout(() => {
-			setDebouncedElements(state.elements)
+			const jsonstr = JSON.stringify(state.elements, null, "\t")
+			setDebouncedElements(jsonstr)
 		}, 250)
 		return () => {
 			clearTimeout(id)

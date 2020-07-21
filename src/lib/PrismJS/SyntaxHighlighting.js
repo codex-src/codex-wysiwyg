@@ -25,6 +25,14 @@ const SyntaxHighlighting = React.memo(({ extension, children }) => {
 		}
 		const html = window.Prism.highlight(children, lang, extension)
 		ref.current.innerHTML = html
+		// setHighlighted((
+		// 	<div
+		// 		className={extension || `language-${extension}`}
+		// 		dangerouslySetInnerHTML={{
+		// 			__html: html,
+		// 		}}
+		// 	/>
+		// ))
 	}, [
 		ready, // Rerenders on ready; DOMContentLoaded
 		extension,
