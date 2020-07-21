@@ -8,6 +8,10 @@ document.addEventListener("DOMContentLoaded", e => {
 		return
 	}
 	const extensions = {
+		// EXPERIMENTAL
+		md:         window.Prism.languages.markdown,
+		gfm:        window.Prism.languages.markdown,
+
 		bash:       window.Prism.languages.bash,
 		c:          window.Prism.languages.c,
 		cpp:        window.Prism.languages.cpp,
