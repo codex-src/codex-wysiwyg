@@ -36,7 +36,16 @@ const Editor = ({ state, dispatch }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<Renderer state={state} dispatch={dispatch} />, ref.current, () => {
+			// const renderedElements = <Renderer state={state} dispatch={dispatch} />
+			const renderedElements = state.elements.map(({ type, key, props }) => (
+				React.createElement(componentMap[type], {
+					key,
+					id: key,
+					...props,
+				})
+			))
+			ReactDOM.render(renderedElements, ref.current, () => {
+				console.log(renderedElements)
 				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
 					// No-op
 					return
