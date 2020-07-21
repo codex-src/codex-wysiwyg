@@ -137,7 +137,7 @@ function toHTML(elements) {
 	return str
 }
 
-const Console = ({ extension, setExtension }) => {
+const Console = ({ output, setOutput }) => {
 	const debouncedElements = React.useContext(ElementsContext)
 
 	const [results, setResults] = React.useState({
@@ -146,33 +146,26 @@ const Console = ({ extension, setExtension }) => {
 		html: "",
 	})
 
+	// TODO
 	React.useEffect(() => {
-		if (extension !== "plaintext") {
-			// No-op
-			return
-		}
 		const html = toHTML(debouncedElements)
 		setResults(results => ({
 			...results,
 			html,
 		}))
-	}, [
-		debouncedElements,
-		extension,
-	])
+	}, [debouncedElements, output.extension])
 
 	return (
 		<Transition
-			on={extension} // TODO
+			on={output.show}
 			from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
 			to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
 					<pre className="font-mono text-xs leading-snug subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
-						<SyntaxHighlighting extension={extension}>
-							{results[extension]}
-							{/* {plaintext} */}
+						<SyntaxHighlighting extension={output.extension}>
+							{results[output.extension]}
 						</SyntaxHighlighting>
 					</pre>
 				</span>
@@ -182,8 +175,34 @@ const Console = ({ extension, setExtension }) => {
 }
 
 const FixedPreferences = ({ state, dispatch }) => {
-	// const [show, setShow] = React.useState(false)
-	const [extension, setExtension] = React.useState("")
+	const [output, setOutput] = React.useState({
+		show: false,
+		extension: "plaintext",
+	})
+
+	// Click-handler for plaintext.
+	const handleClickPlaintext = e => {
+		setOutput({
+			show: !output.show || output.extension !== "plaintext",
+			extension: "plaintext",
+		})
+	}
+
+	// Click-handler for GitHub-Flavored Markdown.
+	const handleClickMarkdown = e => {
+		setOutput({
+			show: !output.show || output.extension !== "markdown",
+			extension: "markdown",
+		})
+	}
+
+	// Click-handler for HTML.
+	const handleClickHTML = e => {
+		setOutput({
+			show: !output.show || output.extension !== "html",
+			extension: "html",
+		})
+	}
 
 	return (
 		// NOTE: Uses flex flex-col because of max-h-full.
@@ -192,7 +211,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 				<button
 					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
 					onPointerDown={e => e.preventDefault()}
-					onClick={e => setExtension(extension !== "plaintext" ? "plaintext" : "")}
+					onClick={handleClickPlaintext}
 				>
 					<p className="font-semibold text-sm">
 						Plaintext
@@ -201,7 +220,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 				<button
 					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
 					onPointerDown={e => e.preventDefault()}
-					onClick={e => setExtension(extension !== "gfm" ? "gfm" : "")}
+					onClick={handleClickMarkdown}
 				>
 					<p className="font-semibold text-sm">
 						Markdown
@@ -210,7 +229,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 				<button
 					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 rounded-full transition duration-300 ease-in-out pointer-events-auto"
 					onPointerDown={e => e.preventDefault()}
-					onClick={e => setExtension(extension !== "html" ? "html" : "")}
+					onClick={handleClickHTML}
 				>
 					<p className="font-semibold text-sm">
 						HTML
@@ -218,10 +237,8 @@ const FixedPreferences = ({ state, dispatch }) => {
 				</button>
 			</div>
 			<Console
-				extension={extension}
-				setExtension={extension}
-				// show={show}
-				// setShow={setShow}
+				output={output}
+				setOutput={setOutput}
 			/>
 		</div>
 	)
@@ -236,7 +253,7 @@ const App = () => {
 	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
-		}, 250)
+		}, 100)
 		return () => {
 			clearTimeout(id)
 		}
