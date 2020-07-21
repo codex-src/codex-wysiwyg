@@ -9,7 +9,6 @@ const newInitialState = elements => ({
 	readOnlyModeEnabled: true, // DOMContentLoaded disables read-only mode
 	focused: false,
 	elements,
-	finalElements: null,
 	range: {
 		start: {
 			key: "",

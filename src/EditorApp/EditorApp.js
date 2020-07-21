@@ -138,7 +138,7 @@ const Console = ({ output, setOutput }) => {
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
 					<pre className="whitespace-pre-wrap text-xs leading-snug font-mono subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 }}>
-						<SyntaxHighlighting extension={output.extension}>
+						<SyntaxHighlighting key={output.extension} extension={output.extension}>
 							{results[output.extension]}
 						</SyntaxHighlighting>
 					</pre>
