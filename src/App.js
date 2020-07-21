@@ -1,11 +1,10 @@
 // import tmpl from "lib/x/tmpl"
 import * as RTE from "./RichTextEditor"
-import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
+import DebugCSS from "lib/x/DebugCSS"
 import React from "react"
+import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
-
-import "debug.css"
 
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
@@ -105,7 +104,6 @@ const ConsoleButton = ({ show, setShow }) => (
 
 const Console = ({ show, setShow }) => {
 	const debouncedElements = React.useContext(ElementsContext)
-
 	return (
 		<Transition
 			on={show}
@@ -128,7 +126,6 @@ const Console = ({ show, setShow }) => {
 
 const FixedPreferences = ({ state, dispatch }) => {
 	const [show, setShow] = React.useState(false)
-
 	return (
 		// NOTE: Uses flex flex-col because of max-h-full.
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
@@ -146,10 +143,6 @@ const FixedPreferences = ({ state, dispatch }) => {
 	)
 }
 
-// ;(() => {
-// 	document.body.classList.toggle("debug-css")
-// })()
-
 const ElementsContext = React.createContext(null)
 
 const App = () => {
@@ -166,20 +159,22 @@ const App = () => {
 	}, [state.elements])
 
 	return (
-		<div className="px-6 py-32 flex flex-row justify-center">
-			<div className="w-full max-w-2xl">
-				<ElementsContext.Provider value={debouncedElements}>
-					<FixedPreferences
+		<DebugCSS enabled={false /* process.env.NODE_ENV */}>
+			<div className="px-6 py-32 flex flex-row justify-center">
+				<div className="w-full max-w-2xl">
+					<ElementsContext.Provider value={debouncedElements}>
+						<FixedPreferences
+							state={state}
+							dispatch={dispatch}
+						/>
+					</ElementsContext.Provider>
+					<RTE.RichTextEditor
 						state={state}
 						dispatch={dispatch}
 					/>
-				</ElementsContext.Provider>
-				<RTE.RichTextEditor
-					state={state}
-					dispatch={dispatch}
-				/>
+				</div>
 			</div>
-		</div>
+		</DebugCSS>
 	)
 }
 
