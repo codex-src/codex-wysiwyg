@@ -2,6 +2,7 @@
 	"name": "codex-wysiwyg",
 	"dependencies": {
 		"emoji-trie": "https://github.com/codex-src/emoji-trie.js",
+		"immer": "^7.0.5",
 		"lodash": "^4.17.15",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
