@@ -2,6 +2,8 @@ import DebugCSS from "lib/x/DebugCSS"
 import Highlight from "lib/PrismJS/Highlight"
 import React from "react"
 import Transition from "lib/x/Transition"
+import useClickAwayCallback from "lib/x/useClickAwayCallback"
+import useKeyDownEscapeCallback from "lib/x/useKeyDownEscapeCallback"
 import userAgent from "lib/Client/userAgent"
 
 import { // Unsorted
@@ -113,7 +115,7 @@ const classNameMap = {
 	html: "prism-custom-theme",
 }
 
-const Output = ({ output, setOutput }) => {
+const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 	const debouncedElements = React.useContext(ElementsContext)
 
 	const [results, setResults] = React.useState({
@@ -145,7 +147,7 @@ const Output = ({ output, setOutput }) => {
 			from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
 			to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
 		>
-			<div className="p-6 self-end w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
+			<div ref={forwardedRef} className="p-6 self-end w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
 					{/* NOTE: Do not use gray for text. */}
 					<pre className="whitespace-pre-wrap break-words text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
@@ -157,12 +159,14 @@ const Output = ({ output, setOutput }) => {
 			</div>
 		</Transition>
 	)
-}
+})
 
 const FixedPreferences = ({ state, dispatch }) => {
+	const outputRef = React.useRef()
+
 	const [output, setOutput] = React.useState({
 		show: false,
-		extension: "",
+		extension: "gfm",
 	})
 
 	// Click-handler for GitHub-Flavored Markdown.
@@ -180,6 +184,26 @@ const FixedPreferences = ({ state, dispatch }) => {
 			extension: "html",
 		})
 	}
+
+	// // Hides on click-away.
+	// useClickAwayCallback(outputRef, () => {
+	// 	if (output.show) {
+	// 		setOutput({
+	// 			...output,
+	// 			show: false,
+	// 		})
+	// 	}
+	// })
+
+	// Hides on escape.
+	useKeyDownEscapeCallback(outputRef, () => {
+		// if (output.show) {
+		setOutput({
+			...output,
+			show: !output.show,
+		})
+		// }
+	})
 
 	// NOTE: Uses flex flex-col ... self-start / self-end.
 	return (
@@ -217,34 +241,31 @@ const FixedPreferences = ({ state, dispatch }) => {
 
 					{/* GFM */}
 					<button
-						className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						className="p-2 text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.extension === "gfm" && "var(--blue-600)" }}
 						onClick={handleClickMarkdown}
 					>
-						<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
 						</svg>
-						<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.625rem" }}>
-							MARKDOWN
-						</p>
 					</button>
 
 					{/* HTML */}
 					<button
-						className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						className="p-2 text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.extension === "html" && "var(--blue-600)" }}
 						onClick={handleClickHTML}
 					>
-						<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
 						</svg>
-						<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.625rem" }}>
-							HTML
-						</p>
 					</button>
 
 				</div>
 
 			</div>
 			<Output
+				ref={outputRef}
 				output={output}
 				setOutput={setOutput}
 			/>
