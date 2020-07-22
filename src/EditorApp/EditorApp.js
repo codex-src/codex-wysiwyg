@@ -112,8 +112,8 @@ const children = <React.Fragment>
 
 const classNameMap = {
 	plaintext: "",
-	markdown: "language-gfm",
-	html: "prism-custom",
+	markdown: "",
+	html: "prism-custom-theme",
 }
 const extensionMap = {
 	plaintext: "",
@@ -163,7 +163,7 @@ const Output = ({ output, setOutput }) => {
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
-					<pre className="whitespace-pre-wrap text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
+					<pre className="whitespace-pre-wrap break-words text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
 						<Highlight className={classNameMap[output.extension]} extension={extensionMap[output.extension]}>
 							{results[output.extension]}
 						</Highlight>

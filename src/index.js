@@ -10,7 +10,7 @@ import "stylesheets/tailwind-css/color-vars.css"
 import "stylesheets/tailwind-css/em-context.css"
 import "stylesheets/tailwind-css/em-context-extended.css"
 
-import "stylesheets/prism-js/custom.css"
+import "stylesheets/prism-js/prism-custom-theme.css"
 import "stylesheets/prism-js/language-gfm.css"
 
 ReactDOM.render(
