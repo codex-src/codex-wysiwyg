@@ -17,7 +17,7 @@ export const H1 = React.memo(({ id, children }) => (
 			id={id}
 			className="font-medium antialiased text-black"
 			style={{
-				fontSize: "1.625em",
+				fontSize: "1.375em",
 				lineHeight: 1.45,
 			}}
 		>
@@ -35,7 +35,7 @@ export const H2 = React.memo(({ id, children }) => (
 			id={id}
 			className="text-cool-gray-800 antialiased"
 			style={{
-				fontSize: "1.4375em",
+				fontSize: "1.25em",
 				lineHeight: 1.45,
 			}}
 		>
@@ -52,26 +52,15 @@ export const H4 = H1 // TODO
 export const H5 = H1 // TODO
 export const H6 = H1 // TODO
 
-// // <p class="lead">
-// export const P = React.memo(({ id, children }) => (
-// 	<T type="lead">
-// 		<Node id={id}>
-// 			{toReactTree(children) || (
-// 				<br />
-// 			)}
-// 		</Node>
-// 	</T>
-// ))
-
 // <p>
 export const P = React.memo(({ id, children }) => (
 	<T type="p">
 		<Node
 			id={id}
 			className="leading-relaxed text-cool-gray-800"
-			style={{
-				fontSize: "1.125em",
-			}}
+			// style={{
+			// 	fontSize: "1.125em",
+			// }}
 		>
 			{toReactTree(children) || (
 				<br />

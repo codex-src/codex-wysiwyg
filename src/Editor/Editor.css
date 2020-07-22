@@ -11,7 +11,12 @@ html {
 	moz-tab-size: 4;
 	tab-size: 4;
 
+	/* FIXME? */
 	caret-color: var(--black);
+}
+
+[data-root][contenteditable]:focus {
+	outline: 0;
 }
 
 /* .sans-serif { */

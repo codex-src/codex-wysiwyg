@@ -148,7 +148,7 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 		>
 			<div ref={forwardedRef} className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				{output.detail === "changelog" ? (
-					<ReadOnlyEditor>
+					<ReadOnlyEditor className="text-sm">
 						{doc.props.children}
 					</ReadOnlyEditor>
 				) : (
@@ -285,6 +285,7 @@ const App = () => {
 						/>
 					</ElementsContext.Provider>
 					<Editor
+						className="text-lg"
 						state={state}
 						dispatch={dispatch}
 					/>

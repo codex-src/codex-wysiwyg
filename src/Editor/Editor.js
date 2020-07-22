@@ -4,6 +4,7 @@ import defer from "./utils/children/defer"
 import keyDownTypeFor from "./utils/keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
+import tmpl from "lib/x/tmpl"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import { parseRenderedChildren } from "./parsers"
 
@@ -20,7 +21,7 @@ const Renderer = ({ state, dispatch }) => (
 )
 
 // Renders a read-write editor.
-const Editor = ({ state, dispatch }) => {
+const Editor = ({ className, style, state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -68,7 +69,8 @@ const Editor = ({ state, dispatch }) => {
 			<article
 				ref={ref}
 
-				className="em-context focus:outline-none"
+				className={tmpl`em-context ${className}`}
+				style={style}
 
 				onFocus={readWriteOnlyHandler(e => {
 					dispatch({
