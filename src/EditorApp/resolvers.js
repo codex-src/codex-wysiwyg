@@ -12,9 +12,16 @@ const gfm = {
 	strong: el => `**${resolveChildrenTree(el.props.children, gfm)}**`,
 	code:   el => `\`${resolveChildrenTree(el.props.children, gfm)}\``,
 	strike: el => `~~${resolveChildrenTree(el.props.children, gfm)}~~`,
+
+	// !el.props.href ? `[${resolveChildrenTree(el.props.children, gfm)}](${el.props.href})` : el.props.children,
 	a:      el => `[${resolveChildrenTree(el.props.children, gfm)}](${el.props.href || "TODO"})`,
 
+	"h1":   el => `# ${resolveChildren(el.props.children, gfm)}`,
 	"h2":   el => `## ${resolveChildren(el.props.children, gfm)}`,
+	"h3":   el => `### ${resolveChildren(el.props.children, gfm)}`,
+	"h4":   el => `#### ${resolveChildren(el.props.children, gfm)}`,
+	"h5":   el => `##### ${resolveChildren(el.props.children, gfm)}`,
+	"h6":   el => `###### ${resolveChildren(el.props.children, gfm)}`,
 	"p":    el => resolveChildren(el.props.children, gfm),
 }
 
@@ -23,9 +30,16 @@ const html = {
 	strong: el => `<strong>${resolveChildrenTree(el.props.children, html)}</strong>`,
 	code:   el => `<code>${resolveChildrenTree(el.props.children, html)}</code>`,
 	strike: el => `<strike>${resolveChildrenTree(el.props.children, html)}</strike>`,
-	a:      el => `<a href="${el.props.href}" target="_blank" rel="noopener noreferrer">${resolveChildrenTree(el.props.children, html)}</a>`,
 
+	// target="_blank" rel="noopener noreferrer"
+	a:      el => `<a href="${el.props.href}">${resolveChildrenTree(el.props.children, html)}</a>`,
+
+	"h1":   el => `<h1>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h1>`,
 	"h2":   el => `<h2>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h2>`,
+	"h3":   el => `<h3>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h3>`,
+	"h4":   el => `<h4>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h4>`,
+	"h5":   el => `<h5>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h5>`,
+	"h6":   el => `<h6>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h6>`,
 	"p":    el => `<p>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</p>`,
 }
 
