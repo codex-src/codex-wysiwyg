@@ -69,55 +69,52 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 	return (
 		<Transition
 			on={output.show}
-			from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
-			to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
+			from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
+			to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
 		>
 			<div ref={forwardedRef} className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				{output.detail === "changelog" ? (
 
 					<React.Fragment>
-						<div className="px-6 py-4 hover:bg-cool-gray-50">
-							<div className="mb-4 flex flex-row justify-between">
-								<div class="px-2.5 py-0.5 font-medium text-xs leading-4 text-green-800 bg-green-100 rounded-full">
-									0.3
+						<div className="px-6 py-4 hover:bg-gray-50 transition duration-100 ease-in-out">
+							<div className="pb-2 flex flex-row justify-end">
+								<div class="px-2.5 py-0.5 bg-green-100 rounded-full">
+									<p className="font-medium text-xs leading-4 text-green-800">
+										July 22, 2020 &nbsp;– &nbsp;v0.3
+									</p>
 								</div>
-								<p className="text-xs tracking-wider text-cool-gray-400">
-									JULY 22, 2020
-								</p>
 							</div>
-							<ReadOnlyEditor className="text-gray-800">
+							<ReadOnlyEditor className="text-gray-800" style={{ fontSize: "0.9375rem" }}>
 								<p>
-									– Added a changelog and improved the readabiliy for markdown-rendered and HTML-rendered code.
+									– Added a changelog and improved readability for markdown and HTML-rendered code.
 								</p>
 							</ReadOnlyEditor>
 						</div>
-						<hr className="border-t border-cool-gray-100" />
-						<div className="px-6 py-4 hover:bg-cool-gray-50">
-							<div className="mb-4 flex flex-row justify-between">
-								<div class="px-2.5 py-0.5 font-medium text-xs leading-4 text-green-800 bg-green-100 rounded-full">
-									0.2
+						<hr className="border-t border-gray-100" />
+						<div className="px-6 py-4 hover:bg-gray-50 transition duration-100 ease-in-out">
+							<div className="pb-2 flex flex-row justify-end">
+								<div class="px-2.5 py-0.5 bg-green-100 rounded-full">
+									<p className="font-medium text-xs leading-4 text-green-800">
+										July 21, 2020 &nbsp;– &nbsp;v0.2
+									</p>
 								</div>
-								<p className="text-xs tracking-wider text-cool-gray-400">
-									JULY 21, 2020
-								</p>
 							</div>
-							<ReadOnlyEditor className="text-gray-800">
+							<ReadOnlyEditor className="text-gray-800" style={{ fontSize: "0.9375rem" }}>
 								<p>
 									– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
 								</p>
 							</ReadOnlyEditor>
 						</div>
-						<hr className="border-t border-cool-gray-100" />
-						<div className="px-6 py-4 hover:bg-cool-gray-50">
-							<div className="mb-4 flex flex-row justify-between">
-								<div class="px-2.5 py-0.5 font-medium text-xs leading-4 text-green-800 bg-green-100 rounded-full">
-									0.1
+						<hr className="border-t border-gray-100" />
+						<div className="px-6 py-4 hover:bg-gray-50 transition duration-100 ease-in-out">
+							<div className="pb-2 flex flex-row justify-end">
+								<div class="px-2.5 py-0.5 bg-green-100 rounded-full">
+									<p className="font-medium text-xs leading-4 text-green-800">
+										July 20, 2020 &nbsp;– &nbsp;v0.1
+									</p>
 								</div>
-								<p className="text-xs tracking-wider text-cool-gray-400">
-									JULY 20, 2020
-								</p>
 							</div>
-							<ReadOnlyEditor className="text-gray-800">
+							<ReadOnlyEditor className="text-gray-800" style={{ fontSize: "0.9375rem" }}>
 								<p>
 									– Added complete support for all backspace operations, such as <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
 								</p>
@@ -270,7 +267,6 @@ const FixedPreferences = ({ state, dispatch }) => {
 					onClick={handleClickChangelog}
 				>
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						{/* <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" fillRule="evenodd" /> */}
 						<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
 					</svg>
 				</button>
