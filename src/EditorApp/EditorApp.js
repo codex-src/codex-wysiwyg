@@ -145,7 +145,7 @@ const Output = ({ output, setOutput }) => {
 			from="transition duration-200 ease-in opacity-0 transform translate-x-8 pointer-events-none"
 			to="transition duration-200 ease-out opacity-100 transform translate-x-0 pointer-events-auto"
 		>
-			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
+			<div className="p-6 self-end w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
 					{/* NOTE: Do not use gray for text. */}
 					<pre className="whitespace-pre-wrap break-words text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
@@ -181,36 +181,67 @@ const FixedPreferences = ({ state, dispatch }) => {
 		})
 	}
 
-	// NOTE: Uses flex flex-col because of max-h-full.
+	// NOTE: Uses flex flex-col ... self-start / self-end.
 	return (
-		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
-			<div className="py-2 flex flex-row justify-end">
+		<div className="px-3 pb-4 fixed inset-0 flex flex-col pointer-events-none">
+			<div className="py-2 flex flex-row justify-between">
 
-				{/* GFM */}
-				<button
-					className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					onClick={handleClickMarkdown}
-				>
-					<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clipRule="evenodd" fillRule="evenodd" />
-					</svg>
-					<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.6875rem" }}>
-						MARKDOWN
-					</p>
-				</button>
+				{/* RHS */}
+				<div className="flex flex-row">
+					{/* <button */}
+					{/* 	className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
+					{/* 	onClick={handleClickMarkdown} */}
+					{/* > */}
+					{/* 	<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20"> */}
+					{/* 		<path d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clipRule="evenodd" fillRule="evenodd" /> */}
+					{/* 	</svg> */}
+					{/* 	<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.625rem" }}> */}
+					{/* 		WHAT IS THIS? */}
+					{/* 	</p> */}
+					{/* </button> */}
+					{/* <button */}
+					{/* 	className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
+					{/* 	onClick={handleClickHTML} */}
+					{/* > */}
+					{/* 	<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20"> */}
+					{/* 		<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" /> */}
+					{/* 	</svg> */}
+					{/* 	<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.625rem" }}> */}
+					{/* 		CHANGELOG */}
+					{/* 	</p> */}
+					{/* </button> */}
+				</div>
 
-				{/* HTML */}
-				<button
-					className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					onClick={handleClickHTML}
-				>
-					<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
-					</svg>
-					<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.6875rem" }}>
-						HTML
-					</p>
-				</button>
+				{/* RHS */}
+				<div className="flex flex-row">
+
+					{/* GFM */}
+					<button
+						className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						onClick={handleClickMarkdown}
+					>
+						<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
+						</svg>
+						<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.625rem" }}>
+							MARKDOWN
+						</p>
+					</button>
+
+					{/* HTML */}
+					<button
+						className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						onClick={handleClickHTML}
+					>
+						<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+						</svg>
+						<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.625rem" }}>
+							HTML
+						</p>
+					</button>
+
+				</div>
 
 			</div>
 			<Output
