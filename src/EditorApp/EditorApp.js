@@ -27,7 +27,7 @@ const doc = <React.Fragment>
 		<br />
 	</p>
 	<p>
-		Shortcuts are supported! You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for code, <code>shift-{ctrlOrCmd}-x</code> for <em>strikethrough</em>, and <code>{ctrlOrCmd}-k</code> for <em>links</em>. Finally, you can use <em>shift-{ctrlOrCmd}-p</em> to remove formatting from a selection.
+		Shortcuts are supported! You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <strong>bold</strong>, <code>shift-{ctrlOrCmd}-c</code> for <code>code</code>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
 	</p>
 	<p>
 		<br />
@@ -86,7 +86,7 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 							</div>
 							<ReadOnlyEditor className="text-gray-800" style={{ fontSize: "0.9375rem" }}>
 								<p>
-									– Added a changelog and improved readability for markdown and HTML-rendered code.
+									– Added a dedicated changelog and improved readability for markdown and HTML-rendered code.
 								</p>
 							</ReadOnlyEditor>
 						</div>
@@ -122,19 +122,19 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 									<br />
 								</p>
 								<p>
-									– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="https://google.com">link</a> for elements. Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
+									– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements. Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
 								</p>
 								<p>
 									<br />
 								</p>
 								<p>
-									– Added basic support for shortcuts. You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for <em>code</em>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="https://google.com">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
+									– Added basic support for shortcuts. You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <strong>bold</strong>, <code>shift-{ctrlOrCmd}-c</code> for <code>code</code>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
 								</p>
 								<p>
 									<br />
 								</p>
 								<p>
-									<em>*Note that formatting without a selection is not yet supported.</em>
+									*Note that formatting without a selection is not yet supported.
 								</p>
 							</ReadOnlyEditor>
 						</div>
@@ -178,13 +178,13 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 					// 		<br />
 					// 	</p>
 					// 	<p>
-					// 		– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="https://google.com">link</a> for elements. Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
+					// 		– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for elements. Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
 					// 	</p>
 					// 	<p>
 					// 		<br />
 					// 	</p>
 					// 	<p>
-					// 		– Added basic support for shortcuts. You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for <em>code</em>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="https://google.com">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
+					// 		– Added basic support for shortcuts. You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for <em>code</em>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
 					// 	</p>
 					// 	<p>
 					// 		<br />
