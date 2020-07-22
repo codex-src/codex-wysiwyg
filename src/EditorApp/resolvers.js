@@ -1,34 +1,23 @@
-// import textContent from "Editor/utils/children/textContent"
 import escape from "lodash/escape"
 import toArray from "lib/x/toArray"
 import toTree from "Editor/components/toReactTree/toTree"
-
-const plaintext = {
-	em:     el => resolveChildrenTree(el.props.children, plaintext),
-	strong: el => resolveChildrenTree(el.props.children, plaintext),
-	code:   el => resolveChildrenTree(el.props.children, plaintext),
-	strike: el => resolveChildrenTree(el.props.children, plaintext),
-	a:      el => resolveChildrenTree(el.props.children, plaintext),
-
-	"h2":   el => resolveChildren(el.props.children, plaintext),
-	"p":    el => resolveChildren(el.props.children, plaintext),
-}
-
-const markdown = {
-	em:     el => `_${resolveChildrenTree(el.props.children, markdown)}_`,
-	strong: el => `**${resolveChildrenTree(el.props.children, markdown)}**`,
-	code:   el => `\`${resolveChildrenTree(el.props.children, markdown)}\``,
-	strike: el => `~~${resolveChildrenTree(el.props.children, markdown)}~~`,
-	a:      el => `[${resolveChildrenTree(el.props.children, markdown)}](${el.props.href || "TODO"})`,
-
-	"h2":   el => `## ${resolveChildren(el.props.children, markdown)}`,
-	"p":    el => resolveChildren(el.props.children, markdown),
-}
 
 // TODO: Add support to obscure IDs
 //
 // id="${el.key}"
 // id="${el.key}"
+
+const gfm = {
+	em:     el => `_${resolveChildrenTree(el.props.children, gfm)}_`,
+	strong: el => `**${resolveChildrenTree(el.props.children, gfm)}**`,
+	code:   el => `\`${resolveChildrenTree(el.props.children, gfm)}\``,
+	strike: el => `~~${resolveChildrenTree(el.props.children, gfm)}~~`,
+	a:      el => `[${resolveChildrenTree(el.props.children, gfm)}](${el.props.href || "TODO"})`,
+
+	"h2":   el => `## ${resolveChildren(el.props.children, gfm)}`,
+	"p":    el => resolveChildren(el.props.children, gfm),
+}
+
 const html = {
 	em:     el => `<em>${resolveChildrenTree(el.props.children, html)}</em>`,
 	strong: el => `<strong>${resolveChildrenTree(el.props.children, html)}</strong>`,
@@ -79,14 +68,9 @@ function resolveElements(elements, resolver) {
 	return str
 }
 
-// Converts an array of elements to plaintext.
-export function resolvePlaintext(elements) {
-	return resolveElements(elements, plaintext)
-}
-
-// Converts an array of elements to GitHub-Flavored Markdown.
-export function resolveMarkdown(elements) {
-	return resolveElements(elements, markdown)
+// Converts an array of elements to GFM.
+export function resolveGFM(elements) {
+	return resolveElements(elements, gfm)
 }
 
 // Converts an array of elements to HTML.

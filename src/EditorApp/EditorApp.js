@@ -1,13 +1,11 @@
 import DebugCSS from "lib/x/DebugCSS"
 import Highlight from "lib/PrismJS/Highlight"
 import React from "react"
-import tmpl from "lib/x/tmpl"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
 
 import { // Unsorted
-	resolvePlaintext,
-	resolveMarkdown,
+	resolveGFM,
 	resolveHTML,
 } from "./resolvers"
 
@@ -111,39 +109,25 @@ const children = <React.Fragment>
 </React.Fragment>
 
 const classNameMap = {
-	plaintext: "",
-	markdown: "",
+	gfm: "",
 	html: "prism-custom-theme",
-}
-const extensionMap = {
-	plaintext: "",
-	markdown: "gfm",
-	html: "html",
 }
 
 const Output = ({ output, setOutput }) => {
 	const debouncedElements = React.useContext(ElementsContext)
 
 	const [results, setResults] = React.useState({
-		plaintext: "",
-		markdown: "",
+		gfm: "",
 		html: "",
 	})
 
 	React.useEffect(() => {
-		// Plaintext:
-		if (output.extension === "plaintext") {
-			const result = resolvePlaintext(debouncedElements)
+		// GFM:
+		if (output.extension === "gfm") {
+			const result = resolveGFM(debouncedElements)
 			setResults(results => ({
 				...results,
-				plaintext: result,
-			}))
-		// GitHub-Flavored Markdown:
-		} else if (output.extension === "markdown") {
-			const result = resolveMarkdown(debouncedElements)
-			setResults(results => ({
-				...results,
-				markdown: result,
+				gfm: result,
 			}))
 		// HTML
 		} else if (output.extension === "html") {
@@ -164,7 +148,7 @@ const Output = ({ output, setOutput }) => {
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
 					<pre className="whitespace-pre-wrap break-words text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
-						<Highlight className={classNameMap[output.extension]} extension={extensionMap[output.extension]}>
+						<Highlight className={classNameMap[output.extension]} extension={output.extension}>
 							{results[output.extension]}
 						</Highlight>
 					</pre>
@@ -177,22 +161,14 @@ const Output = ({ output, setOutput }) => {
 const FixedPreferences = ({ state, dispatch }) => {
 	const [output, setOutput] = React.useState({
 		show: false,
-		extension: "plaintext",
+		extension: "",
 	})
-
-	// Click-handler for plaintext.
-	const handleClickPlaintext = e => {
-		setOutput({
-			show: !output.show || output.extension !== "plaintext",
-			extension: "plaintext",
-		})
-	}
 
 	// Click-handler for GitHub-Flavored Markdown.
 	const handleClickMarkdown = e => {
 		setOutput({
-			show: !output.show || output.extension !== "markdown",
-			extension: "markdown",
+			show: !output.show || output.extension !== "gfm",
+			extension: "gfm",
 		})
 	}
 
@@ -209,20 +185,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-end">
 
-				{/* Plaintext */}
-				<button
-					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					onClick={handleClickPlaintext}
-				>
-					{/* <svg className="mr-1 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"> */}
-					{/* 	<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /> */}
-					{/* </svg> */}
-					<p className="font-semibold !text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
-						PLAINTEXT
-					</p>
-				</button>
-
-				{/* GitHub-Flavored Markdown */}
+				{/* GFM */}
 				<button
 					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					onClick={handleClickMarkdown}
