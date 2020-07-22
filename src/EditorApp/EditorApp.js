@@ -147,6 +147,7 @@ const Output = ({ output, setOutput }) => {
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
+					{/* NOTE: Do not use gray for text. */}
 					<pre className="whitespace-pre-wrap break-words text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
 						<Highlight className={classNameMap[output.extension]} extension={output.extension}>
 							{results[output.extension]}
@@ -187,26 +188,26 @@ const FixedPreferences = ({ state, dispatch }) => {
 
 				{/* GFM */}
 				<button
-					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					onClick={handleClickMarkdown}
 				>
-					<svg className="mr-1 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+					<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
 						<path d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clipRule="evenodd" fillRule="evenodd" />
 					</svg>
-					<p className="font-semibold !text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
+					<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.6875rem" }}>
 						MARKDOWN
 					</p>
 				</button>
 
 				{/* HTML */}
 				<button
-					className="px-2.5 py-1 flex flex-row items-center text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="group px-2.5 py-1 flex flex-row items-center hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					onClick={handleClickHTML}
 				>
-					<svg className="mr-1 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+					<svg className="mr-1 w-4 h-4 text-gray-400 group-hover:text-blue-600 group-focus:text-blue-600 transition duration-200 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
 						<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
 					</svg>
-					<p className="font-semibold !text-xs tracking-wide" style={{ fontSize: "0.6875rem" }}>
+					<p className="font-bold tracking-wide text-gray-700" style={{ fontSize: "0.6875rem" }}>
 						HTML
 					</p>
 				</button>
