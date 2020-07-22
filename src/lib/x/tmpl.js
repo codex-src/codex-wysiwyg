@@ -1,5 +1,4 @@
-// Trims whitespace, no-ops undefined, false, and null, and
-// throws on non-null objects.
+// Trims whitespace and throws on non-null objects.
 function tmpl(tmplArr, ...args) {
 	let className = ""
 	const max = Math.max(tmplArr.length, args.length)
@@ -14,9 +13,9 @@ function tmpl(tmplArr, ...args) {
 		}
 		if (x < args.length) {
 			if (args[x] !== null && typeof args[x] === "object") {
-				throw new Error("...")
+				throw new Error("tmpl: found an object; obj.toString() returns [object Object]")
 			}
-			if (args[x] !== undefined && args[x] !== null && args[x] !== false) {
+			if (args[x]) {
 				if (className) {
 					className += " "
 				}
