@@ -11,7 +11,7 @@
 		"uuidv4": "^6.1.0"
 	},
 	"scripts": {
-		"tailwind-start": "tailwind build src/stylesheets/tailwind.css -o src/stylesheets/tailwind.generated.css",
+		"tailwind-start": "tailwind build src/stylesheets/tailwind-css/tailwind.css -o src/stylesheets/tailwind-css/tailwind.generated.css",
 		"start": "react-scripts start",
 		"tailwind-build": "NODE_ENV=production yarn tailwind-start",
 		"build": "yarn tailwind-build && yarn react-scripts build && osascript -e 'display notification \"Production build ready\" with title \"yarn build\"' && yarn tailwind-start",

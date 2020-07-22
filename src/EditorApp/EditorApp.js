@@ -1,6 +1,6 @@
 import DebugCSS from "lib/x/DebugCSS"
+import Highlight from "lib/PrismJS/Highlight"
 import React from "react"
-import SyntaxHighlighting from "lib/PrismJS/SyntaxHighlighting"
 import tmpl from "lib/x/tmpl"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
@@ -42,7 +42,22 @@ const children = <React.Fragment>
 		Me: <a href="https://twitter.com/username_ZAYDEK">@username_ZAYDEK</a> 🐦
 	</p>
 	<p>
-		GitHub: <a href="github.com/codex-src/codex-wysiwyg">https://github.com/codex-src/codex-wysiwyg</a> 🐙
+		Open source: <a href="github.com/codex-src/codex-wysiwyg">https://github.com/codex-src/codex-wysiwyg</a> 🐙
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		<strong>v0.2: July 21, 2020</strong>
+	</p>
+	<p>
+		<br />
+	</p>
+	<p>
+		– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
 	</p>
 	<p>
 		<br />
@@ -75,7 +90,7 @@ const children = <React.Fragment>
 		<br />
 	</p>
 	<p>
-		<em>*Note that formatting shortcuts without a selection are not yet supported.</em>
+		<em>*Note that formatting without a selection is not yet supported.</em>
 	</p>
 
 	{/* <p> */}
@@ -95,7 +110,11 @@ const children = <React.Fragment>
 
 </React.Fragment>
 
-// Maps extensions to PrismJS languages.
+const classNameMap = {
+	plaintext: "",
+	markdown: "language-gfm",
+	html: "prism-custom",
+}
 const extensionMap = {
 	plaintext: "",
 	markdown: "gfm",
@@ -144,10 +163,10 @@ const Output = ({ output, setOutput }) => {
 		>
 			<div className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				<span className="inline-block">
-					<pre className="whitespace-pre-wrap text-xs leading-snug font-mono subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2 /* , fontSize: "0.6875rem" */ }}>
-						<SyntaxHighlighting key={output.extension} extension={extensionMap[output.extension]}>
+					<pre className="whitespace-pre-wrap text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
+						<Highlight className={classNameMap[output.extension]} extension={extensionMap[output.extension]}>
 							{results[output.extension]}
-						</SyntaxHighlighting>
+						</Highlight>
 					</pre>
 				</span>
 			</div>

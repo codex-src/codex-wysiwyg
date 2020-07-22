@@ -1,0 +1,38 @@
+/* <h1>-<h6> */
+.language-gfm .token.title {
+	font-weight: 700;
+}
+
+/* <em> */
+.language-gfm .token.italic {
+	font-style: italic;
+}
+
+/* <strong> */
+.language-gfm .token.bold {
+	font-weight: 700;
+}
+
+/* <code> */
+.language-gfm .token.code {
+	padding: 0.0625em 0;
+	color: var(--blue-600);
+	border: 1px solid var(--cool-gray-300);
+	border-radius: 0.25em;
+}
+
+/* <strike> */
+.language-gfm .token.strike {
+	--blue-600: var(--cool-gray-500);
+	color: var(--cool-gray-500);
+	/* background-color: var(--cool-gray-100); */
+}
+
+/* <a> */
+.language-gfm .token.url {
+	color: var(--blue-600);
+}
+
+.language-gfm .token.punctuation {
+	color: var(--blue-600);
+}

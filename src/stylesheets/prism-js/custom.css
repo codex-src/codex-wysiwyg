@@ -1,0 +1,73 @@
+/* https://k88hudson.github.io/syntax-highlighting-theme-generator/www */
+
+.prism-custom .namespace {
+	opacity: .7;
+}
+
+.prism-custom .token.comment,
+.prism-custom .token.prolog,
+.prism-custom .token.doctype,
+.prism-custom .token.cdata {
+	color: #93a1a1;
+}
+
+.prism-custom .token.punctuation {
+	color: #999999;
+}
+
+.prism-custom .token.property,
+.prism-custom .token.tag,
+.prism-custom .token.boolean,
+.prism-custom .token.number,
+.prism-custom .token.constant,
+.prism-custom .token.symbol,
+.prism-custom .token.deleted {
+	color: #990055;
+}
+
+.prism-custom .token.selector,
+.prism-custom .token.attr-name,
+.prism-custom .token.string,
+.prism-custom .token.char,
+.prism-custom .token.builtin,
+.prism-custom .token.inserted {
+	color: #669900;
+}
+
+.prism-custom .token.operator,
+.prism-custom .token.entity,
+.prism-custom .token.url,
+.prism-custom .language-css .token.string,
+.prism-custom .style .token.string {
+	color: #a67f59;
+	/* background-color: #ffffff; */
+}
+
+.prism-custom .token.atrule,
+.prism-custom .token.attr-value,
+.prism-custom .token.keyword {
+	color: #0077aa;
+}
+
+.prism-custom .token.function {
+	color: #dd4a68;
+}
+
+.prism-custom .token.regex,
+.prism-custom .token.important,
+.prism-custom .token.variable {
+	color: #ee9900;
+}
+
+.prism-custom .token.important,
+.prism-custom .token.bold {
+	font-weight: bold;
+}
+
+.prism-custom .token.italic {
+	font-style: italic;
+}
+
+.prism-custom .token.entity {
+	cursor: help;
+}

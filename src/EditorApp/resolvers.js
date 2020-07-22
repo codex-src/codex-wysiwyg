@@ -19,7 +19,7 @@ const markdown = {
 	strong: el => `**${resolveChildrenTree(el.props.children, markdown)}**`,
 	code:   el => `\`${resolveChildrenTree(el.props.children, markdown)}\``,
 	strike: el => `~~${resolveChildrenTree(el.props.children, markdown)}~~`,
-	a:      el => `[${resolveChildrenTree(el.props.children, markdown)}](${el.props.href})`,
+	a:      el => `[${resolveChildrenTree(el.props.children, markdown)}](${el.props.href || "TODO"})`,
 
 	"h2":   el => `## ${resolveChildren(el.props.children, markdown)}`,
 	"p":    el => resolveChildren(el.props.children, markdown),

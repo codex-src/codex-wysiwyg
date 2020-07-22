@@ -142,25 +142,29 @@ const Editor = ({ state, dispatch }) => {
 							keyDownType,
 						})
 						break
-					// case "insert-text":
-					// case "insert-tab":
-					// case "insert-soft-paragraph":
-					// case "insert-hard-paragraph":
-					// case "insert-horizontal-rule":
-					// 	if (keyDownType === "insert-text") {
-					// 		if (!state.range.collapsed()) {
-					// 			e.preventDefault()
-					// 			dispatch({
-					// 				type: "INSERT_TEXT",
-					// 				text: "",
-					// 			})
-					// 			break
-					// 		}
-					// 		break
-					// 	}
-					// 	e.preventDefault()
-					// 	// TODO
-					// 	break
+					case "insert-text":
+					case "insert-tab":
+					case "insert-soft-paragraph":
+					case "insert-hard-paragraph":
+					case "insert-horizontal-rule":
+						// TODO
+						if (keyDownType === "insert-text") {
+							if (!state.range.collapsed()) {
+								e.preventDefault()
+								dispatch({
+									type: "INSERT_TEXT",
+									keyDownType,
+								})
+								break
+							}
+							break
+						}
+						e.preventDefault()
+						dispatch({
+							type: "INSERT_TEXT",
+							keyDownType,
+						})
+						break
 					case "delete-rtl-rune":
 					case "delete-rtl-word":
 					case "delete-rtl-line":
