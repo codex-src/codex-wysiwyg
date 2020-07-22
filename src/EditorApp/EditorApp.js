@@ -109,7 +109,7 @@ const doc = <React.Fragment>
 	{/* 	And a Google Chrome extension for using the Codex editor in-place of other editor, such as for comments on GitHub. */}
 	{/* </p> */}
 
-</React.Fragment>
+</React.Fragment>.props.children
 
 const classNameMap = {
 	gfm: "",
@@ -149,11 +149,10 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 			<div ref={forwardedRef} className="p-6 w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				{output.detail === "changelog" ? (
 					<ReadOnlyEditor className="text-sm">
-						{doc.props.children}
+						{doc}
 					</ReadOnlyEditor>
 				) : (
 					<span className="inline-block">
-						{/* NOTE: Do not use gray for text. */}
 						<pre className="whitespace-pre-wrap break-words text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, /* fontSize: "0.6875rem" */ lineHeight: 1.4375 }}>
 							<Highlight className={classNameMap[output.detail]} extension={output.detail}>
 								{resolved[output.detail]}
@@ -262,7 +261,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 const ElementsContext = React.createContext(null)
 
 const App = () => {
-	const [state, dispatch] = useEditorFromChildren(doc.props.children)
+	const [state, dispatch] = useEditorFromChildren(doc)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	React.useEffect(() => {

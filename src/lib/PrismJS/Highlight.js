@@ -1,19 +1,9 @@
 import langMap from "lib/PrismJS/langMap"
 import React from "react"
 import tmpl from "lib/x/tmpl"
-import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 
-const Highlight = React.memo(({ className, style, extension, children }) => {
-	const [DOMContentLoaded, setDOMContentLoaded] = React.useState(false)
-
-	useDOMContentLoadedCallback(() => {
-		setDOMContentLoaded(true)
-	})
-
-	const $children = React.useMemo(() => {
-		if (!DOMContentLoaded) {
-			return children
-		}
+const Highlight = React.memo(({ className, style, extension, children }) => (
+	React.useMemo(() => {
 		let __html = children
 		const parser = langMap[extension]
 		if (parser) {
@@ -29,14 +19,11 @@ const Highlight = React.memo(({ className, style, extension, children }) => {
 			/>
 		)
 	}, [
-		DOMContentLoaded,
 		className,
 		style,
 		extension,
 		children,
 	])
-
-	return $children
-})
+))
 
 export default Highlight
