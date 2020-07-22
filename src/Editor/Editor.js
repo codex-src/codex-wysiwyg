@@ -19,14 +19,17 @@ const Renderer = ({ state, dispatch }) => (
 	))
 )
 
+// Renders a read-write editor.
 const Editor = ({ state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
 	// Disables read-only mode on DOMContentLoaded.
-	useDOMContentLoadedCallback(() => dispatch({
-		type: "DISABLE_READ_ONLY_MODE",
-	}))
+	useDOMContentLoadedCallback(() => {
+		dispatch({
+			type: "DISABLE_READ_ONLY_MODE",
+		})
+	})
 
 	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
