@@ -1,7 +1,7 @@
-import * as ElementList from "../../methods/ElementList"
-import defer from "../../utils/children/defer"
+// import * as ElementList from "../../methods/ElementList"
+// import defer from "../../utils/children/defer"
+import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
-import index from "../../utils/children/index"
 
 import { // Unsorted
 	extendRTLImpl,
@@ -60,115 +60,12 @@ export const insertText = e => text => {
 	render(e)()
 }
 
-// let x1 = 0
-// if (k == k1) {
-// 	x1 = index(el.props.children, range.start.offset)
-// }
-// let x2 = el.props.children.length
-// if (k === k2) {
-// 	x2 = index(el.props.children, range.end.offset)
-// }
-
-// for (let k = k1; k; k = k.next) {
-// 	const x1 = k === k1 ? index(k.current.props.children, e.range.start.offset) : 0
-// 	const x2 = k === k2 ? index(k.current.props.children, e.range.end.offset) : k.current.props.children.length
-// 	children.push(...k.current.props.children.slice(x1, x2))
-// 	if (k === k2) {
-// 		// No-op
-// 		break
-// 	}
-// }
-
-// Unexported; queries the current children.
-const queryChildren = e => list => {
-	const k1 = ElementList.find(list)(each => each.key === e.range.start.key)
-	let k2 = k1
-	if (!e.range.collapsed()) {
-		k2 = ElementList.find(list)(each => each.key === e.range.end.key)
-	}
-	const children = []
-	let k = k1
-	while (k) {
-		const el = k.current
-
-		const x1 = k === k1 ? index(el.props.children, e.range.start.offset) : 0
-		const x2 = k === k2 ? index(el.props.children, e.range.end.offset) : el.props.children.length
-		children.push(...el.props.children.slice(x1, x2))
-		if (k === k2) {
-			// No-op
-			break
-		}
-		k = k.next
-	}
-	return children
-}
-
 // Applies a format to the current range.
 export const applyFormat = e => keyDownType => {
 	const formatType = keyDownType.split("-").slice(-1)[0]
 
 	recordAction(e)("apply-format")
-	const list = ElementList.fromElements(e.elements)
-
-	if (e.range.collapsed()) {
-		// TODO
-		return
-	}
-
-	const children = queryChildren(e)(list)
-	const shouldApply = (() => {
-		if (formatType === "plaintext") {
-			return "plaintext"
-		}
-		const didApply = children.every(each => each.types.some(each => each.type === formatType))
-		return didApply ? "should-not-apply" : "should-apply"
-	})()
-	switch (shouldApply) {
-	case "plaintext":
-		for (const each of children) {
-			each.types.splice(0)
-		}
-		break
-	case "should-not-apply":
-		for (const each of children) {
-			const x = each.types.findIndex(each => each.type === formatType)
-			if (x >= 0) {
-				each.types.splice(x, 1)
-			}
-		}
-		break
-	case "should-apply":
-		for (const each of children) {
-			const x = each.types.findIndex(each => each.type === formatType)
-			if (x === -1) {
-				each.types.push({
-					type: formatType,
-					props: null, // TODO
-				})
-			}
-		}
-		break
-	default:
-		// No-op
-		break
-	}
-
-	const k1 = ElementList.find(list)(each => each.key === e.range.start.key)
-	let k2 = k1
-	if (!e.range.collapsed()) {
-		k2 = ElementList.find(list)(each => each.key === e.range.end.key)
-	}
-
-	// Defer on children:
-	let k = k1
-	while (k) {
-		defer(k.current.props.children)
-		k = k.next
-		if (k && k.prev === k2) { // FIXME
-			// No-op
-			break
-		}
-	}
+	applyFormatImpl(e)(formatType)
 	render(e)()
 }
 
