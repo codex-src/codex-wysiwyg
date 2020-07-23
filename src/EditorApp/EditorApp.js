@@ -58,7 +58,7 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 				) : (
 					<div className="p-6">
 						<span className="inline-block">
-							<pre className="whitespace-pre-wrap break-words font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, fontSize: "0.8125rem", lineHeight: 1.4375 }}>
+							<pre className="whitespace-pre-wrap break-words font-mono text-gray-800" style={{ MozTabSize: 2, tabSize: 2, fontSize: "0.8125rem", lineHeight: 1.4375 }}>
 								<Highlight className={tmpl`${output.detail === "html" && "prism-custom-theme"}`} extension={output.detail}>
 									{resolved[output.detail]}
 								</Highlight>
