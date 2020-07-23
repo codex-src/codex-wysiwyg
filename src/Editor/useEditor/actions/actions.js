@@ -2,56 +2,46 @@
 // import defer from "../../utils/children/defer"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
+import recordActionImpl as record from "./recordActionImpl"
 
 import { // Unsorted
 	extendRTLImpl,
 	extendLTRImpl,
 } from "./extendImpl"
 
-// Unexported; records an action.
-const recordAction = e => actionType => {
-	const now = Date.now()
-	if (now - e.lastActionTimestamp < 200) {
-		// No-op
-		return
-	}
-	e.lastActionTimestamp = now
-	e.lastAction = actionType
-}
-
 // Enables read-only mode.
 export const enableReadOnlyMode = e => () => {
-	recordAction(e)("enable-read-only-mode")
+	record(e)("enable-read-only-mode")
 	e.readOnlyModeEnabled = true
 }
 
 // Disables read-only mode.
 export const disableReadOnlyMode = e => () => {
-	recordAction(e)("disable-read-only-mode")
+	record(e)("disable-read-only-mode")
 	e.readOnlyModeEnabled = false
 }
 
 // Focuses the editor.
 export const focus = e => () => {
-	recordAction(e)("focus")
+	record(e)("focus")
 	e.focused = true
 }
 
 // Blurs the editor.
 export const blur = e => () => {
-	recordAction(e)("blur")
+	record(e)("blur")
 	e.focused = false
 }
 
 // Selects a range.
 export const select = e => range => {
-	recordAction(e)("select")
+	record(e)("select")
 	e.range = range
 }
 
 // Inserts text at the current range.
 export const insertText = e => text => {
-	recordAction(e)("insert-text")
+	record(e)("insert-text")
 	if (!e.range.collapsed()) {
 		deleteImpl(e)()
 	}
@@ -64,7 +54,7 @@ export const insertText = e => text => {
 export const applyFormat = e => keyDownType => {
 	const formatType = keyDownType.split("-").slice(-1)[0]
 
-	recordAction(e)("apply-format")
+	record(e)("apply-format")
 	applyFormatImpl(e)(formatType)
 	render(e)()
 }
@@ -74,7 +64,7 @@ export const applyFormat = e => keyDownType => {
 export const $delete = e => keyDownType => {
 	const [dir, boundary] = keyDownType.split("-").slice(1)
 
-	recordAction(e)(`delete-${dir}-${boundary}`)
+	record(e)(`delete-${dir}-${boundary}`)
 	if (e.range.collapsed()) {
 		const extend = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
 		extend(e)(boundary)
@@ -86,7 +76,7 @@ export const $delete = e => keyDownType => {
 
 // Uncontrolled input handler.
 export const uncontrolledInput = e => (children, range) => {
-	recordAction(e)("input")
+	record(e)("input")
 	const element = e.elements.find(each => each.key === range.start.key)
 	element.props.children = children
 	e.range = range
