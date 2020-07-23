@@ -45,22 +45,23 @@ const classNameMap = {
 const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 	const debouncedElements = React.useContext(ElementsContext)
 
-	const [resolved, setResolved] = React.useState({
-		gfm: "",
-		html: "",
+	const [resolved, setResolved] = React.useState(() => {
+		const gfm = resolveGFM(debouncedElements)
+		const html = resolveHTML(debouncedElements)
+		return { gfm, html }
 	})
 
 	React.useEffect(() => {
 		if (output.detail === "gfm") {
 			const result = resolveGFM(debouncedElements)
-			setResolved(resolved => ({
-				...resolved,
+			setResolved(r => ({
+				...r,
 				gfm: result,
 			}))
 		} else if (output.detail === "html") {
 			const result = resolveHTML(debouncedElements)
-			setResolved(resolved => ({
-				...resolved,
+			setResolved(r => ({
+				...r,
 				html: result,
 			}))
 		}
@@ -76,9 +77,9 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 				{output.detail === "changelog" ? (
 
 					<React.Fragment>
-						<div className="px-6 py-4 hover:bg-gray-50 transition duration-100 ease-in-out">
+						<div className="px-6 py-4">
 							<div className="pb-2 flex flex-row justify-end">
-								<div class="px-2.5 py-0.5 bg-green-100 rounded-full">
+								<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
 									<p className="font-medium text-xs leading-4 text-green-800">
 										July 22, 2020 &nbsp;– &nbsp;v0.3
 									</p>
@@ -91,9 +92,9 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 							</ReadOnlyEditor>
 						</div>
 						<hr className="border-t border-gray-100" />
-						<div className="px-6 py-4 hover:bg-gray-50 transition duration-100 ease-in-out">
+						<div className="px-6 py-4">
 							<div className="pb-2 flex flex-row justify-end">
-								<div class="px-2.5 py-0.5 bg-green-100 rounded-full">
+								<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
 									<p className="font-medium text-xs leading-4 text-green-800">
 										July 21, 2020 &nbsp;– &nbsp;v0.2
 									</p>
@@ -106,9 +107,9 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 							</ReadOnlyEditor>
 						</div>
 						<hr className="border-t border-gray-100" />
-						<div className="px-6 py-4 hover:bg-gray-50 transition duration-100 ease-in-out">
+						<div className="px-6 py-4">
 							<div className="pb-2 flex flex-row justify-end">
-								<div class="px-2.5 py-0.5 bg-green-100 rounded-full">
+								<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
 									<p className="font-medium text-xs leading-4 text-green-800">
 										July 20, 2020 &nbsp;– &nbsp;v0.1
 									</p>
@@ -140,63 +141,63 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 						</div>
 					</React.Fragment>
 
-					// <ReadOnlyEditor>
-					// 	<p>
-					// 		<strong>v0.3: July 22, 2020</strong>
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		– Added a changelog and improved the readabiliy for markdown-rendered and HTML-rendered code.
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		<strong>v0.2: July 21, 2020</strong>
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		<strong>v0.1: July 20, 2020</strong>
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		– Added complete support for all backspace operations, such as <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for elements. Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		– Added basic support for shortcuts. You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for <em>code</em>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
-					// 	</p>
-					// 	<p>
-					// 		<br />
-					// 	</p>
-					// 	<p>
-					// 		<em>*Note that formatting without a selection is not yet supported.</em>
-					// 	</p>
-					// </ReadOnlyEditor>
+				// <ReadOnlyEditor>
+				// 	<p>
+				// 		<strong>v0.3: July 22, 2020</strong>
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		– Added a changelog and improved the readabiliy for markdown-rendered and HTML-rendered code.
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		<strong>v0.2: July 21, 2020</strong>
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		<strong>v0.1: July 20, 2020</strong>
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		– Added complete support for all backspace operations, such as <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for elements. Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		– Added basic support for shortcuts. You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <em>bold</em>, <code>shift-{ctrlOrCmd}-c</code> for <em>code</em>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
+				// 	</p>
+				// 	<p>
+				// 		<br />
+				// 	</p>
+				// 	<p>
+				// 		<em>*Note that formatting without a selection is not yet supported.</em>
+				// 	</p>
+				// </ReadOnlyEditor>
 				) : (
 					<div className="p-6">
 						<span className="inline-block">
-							<pre className="whitespace-pre-wrap break-words !text-xs font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, fontSize: "0.8125rem", lineHeight: 1.4375 }}>
+							<pre className="whitespace-pre-wrap break-words font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, fontSize: "0.8125rem", lineHeight: 1.4375 }}>
 								<Highlight className={classNameMap[output.detail]} extension={output.detail}>
 									{resolved[output.detail]}
 								</Highlight>
@@ -213,27 +214,29 @@ const FixedPreferences = ({ state, dispatch }) => {
 	const outputRef = React.useRef()
 
 	const [output, setOutput] = React.useState({
-		show: false,
+		show: "false",
 		detail: "changelog",
 	})
 
 	const handleClickChangelog = e => {
-		setOutput({
-			show: !output.show || output.detail !== "changelog",
+		setOutput(o => ({
+			show: !o.show || o.detail !== "changelog",
 			detail: "changelog",
-		})
+		}))
 	}
+
 	const handleClickGFM = e => {
-		setOutput({
-			show: !output.show || output.detail !== "gfm",
+		setOutput(o => ({
+			show: !o.show || o.detail !== "gfm",
 			detail: "gfm",
-		})
+		}))
 	}
+
 	const handleClickHTML = e => {
-		setOutput({
-			show: !output.show || output.detail !== "html",
+		setOutput(o => ({
+			show: !o.show || o.detail !== "html",
 			detail: "html",
-		})
+		}))
 	}
 
 	// // Hides on click-away.
@@ -246,24 +249,38 @@ const FixedPreferences = ({ state, dispatch }) => {
 	// 	}
 	// })
 
-	// Hides on escape.
-	useKeyDownEscapeCallback(outputRef, () => {
-		// if (output.show) {
-		setOutput({
-			...output,
-			show: !output.show,
-		})
-		// }
-	})
+	// // Hides on escape.
+	// useKeyDownEscapeCallback(outputRef, () => {
+	// 	// if (output.show) {
+	// 	setOutput({
+	// 		...output,
+	// 		show: !output.show,
+	// 	})
+	// 	// }
+	// })
 
-	// NOTE: Uses flex flex-col ... self-start / self-end.
+	// React.useEffect(() => {
+	// 	const handler = e => {
+	// 		if (!testKeyDown(e).forKeyCode("Escape").check()) {
+	// 			// No-op
+	// 			return
+	// 		}
+	// 		callback()
+	// 	}
+	// 	document.addEventListener("keydown", handler)
+	// 	return () => {
+	// 		document.removeEventListener("keydown", handler)
+	// 	}
+	// }, [])
+
+	// NOTE: Uses flex flex-col ... self-end.
 	return (
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-between">
 
 				<button
-					className="p-2 text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "changelog" && "var(--blue-600)" }}
+					className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					style={{ color: output.show && output.detail === "changelog" && "var(--gray-800)" }}
 					onClick={handleClickChangelog}
 				>
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -272,8 +289,8 @@ const FixedPreferences = ({ state, dispatch }) => {
 				</button>
 
 				<button
-					className="p-2 text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "gfm" && "var(--blue-600)" }}
+					className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
 					onClick={handleClickGFM}
 				>
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -282,8 +299,8 @@ const FixedPreferences = ({ state, dispatch }) => {
 				</button>
 
 				<button
-					className="p-2 text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "html" && "var(--blue-600)" }}
+					className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
 					onClick={handleClickHTML}
 				>
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
