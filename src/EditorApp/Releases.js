@@ -7,7 +7,7 @@ const ReleaseItem = ({ date, release, children }) => (
 		<div className="pb-2 flex flex-row justify-end">
 			<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
 				<p className="font-medium text-xs leading-4 text-green-800">
-					{date} &nbsp;– &nbsp;v{release}
+					{date} &nbsp;– &nbsp;<span className="font-mono">v{release}</span>
 				</p>
 			</div>
 		</div>
@@ -24,13 +24,13 @@ const Releases = () => (
 				– Added a dedicated changelog and improved readability for markdown and HTML-rendered output.
 			</p>
 		</ReleaseItem>
-		<hr className="border-t border-gray-100" />
+		<hr className="border-t border-gray-200" />
 		<ReleaseItem date="July 21, 2020" release="0.2">
 			<p>
 				– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
 			</p>
 		</ReleaseItem>
-		<hr className="border-t border-gray-100" />
+		<hr className="border-t border-gray-200" />
 		<ReleaseItem date="July 20, 2020" release="0.1">
 			<p>
 				– Added complete support for all backspace operations, such as <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.

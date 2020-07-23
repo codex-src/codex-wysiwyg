@@ -1,5 +1,5 @@
 import * as handlers from "lib/x/handlers"
-import content from "./content"
+import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DebugCSS from "lib/x/DebugCSS"
 import Highlight from "lib/PrismJS/Highlight"
 import keyCodeFor from "lib/Client/keyCodeFor"
@@ -15,7 +15,7 @@ import { // Unsorted
 
 import { // Unsorted
 	Editor,
-	useEditorFromChildren,
+	useEditorFromMarkup,
 } from "Editor"
 
 const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
@@ -171,8 +171,26 @@ const FixedPreferences = ({ state, dispatch }) => {
 
 const ElementsContext = React.createContext(null)
 
+const markup = `
+<p>
+	This prototype currently supports <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements. Of course, elements can be <strong><em>nested</em></strong> if that’s your thing.
+</p>
+<p>
+	<br />
+</p>
+<p>
+	Shortcuts are supported! You can use <code>${ctrlOrCmd}-i</code> for <em>italics</em>, <code>${ctrlOrCmd}-b</code> for <strong>bold</strong>, <code>shift-${ctrlOrCmd}-c</code> for <code>code</code>, <code>shift-${ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>${ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-${ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<strong>Please note that many basic features are not yet implemented!</strong> 😎
+</p>
+`
+
 const App = () => {
-	const [state, dispatch] = useEditorFromChildren(content)
+	const [state, dispatch] = useEditorFromMarkup(markup)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	React.useEffect(() => {
@@ -195,7 +213,7 @@ const App = () => {
 						/>
 					</ElementsContext.Provider>
 					<Editor
-						className="text-lg"
+						className="text-lg text-gray-800"
 						state={state}
 						dispatch={dispatch}
 					/>

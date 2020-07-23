@@ -13,14 +13,7 @@ import toReactTree from "./toReactTree"
 // <h1>
 export const H1 = React.memo(({ id, children }) => (
 	<T type="h1">
-		<Node
-			id={id}
-			className="font-medium antialiased text-black"
-			style={{
-				fontSize: "1.375em",
-				lineHeight: 1.45,
-			}}
-		>
+		<Node id={id} className="font-medium antialiased text-black" style={{ fontSize: "1.375em", lineHeight: 1.45 }}>
 			{toReactTree(children) || (
 				<br />
 			)}
@@ -31,14 +24,7 @@ export const H1 = React.memo(({ id, children }) => (
 // <h2>
 export const H2 = React.memo(({ id, children }) => (
 	<T type="h2">
-		<Node
-			id={id}
-			className="text-cool-gray-800 antialiased"
-			style={{
-				fontSize: "1.25em",
-				lineHeight: 1.45,
-			}}
-		>
+		<Node id={id} className="antialiased text-black" style={{ fontSize: "1.25em", lineHeight: 1.45 }}>
 			{toReactTree(children) || (
 				<br />
 			)}
@@ -52,16 +38,14 @@ export const H4 = H1 // TODO
 export const H5 = H1 // TODO
 export const H6 = H1 // TODO
 
+// style={{
+// 	fontSize: "1.125em",
+// }}
+
 // <p>
 export const P = React.memo(({ id, children }) => (
 	<T type="p">
-		<Node
-			id={id}
-			className="leading-relaxed text-cool-gray-800"
-			// style={{
-			// 	fontSize: "1.125em",
-			// }}
-		>
+		<Node id={id} className="leading-relaxed">
 			{toReactTree(children) || (
 				<br />
 			)}
