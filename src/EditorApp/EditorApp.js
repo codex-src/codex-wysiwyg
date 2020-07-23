@@ -1,11 +1,12 @@
-// import useClickAwayCallback from "lib/x/useClickAwayCallback"
+import * as handlers from "lib/x/handlers"
 import content from "./content"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DebugCSS from "lib/x/DebugCSS"
 import Highlight from "lib/PrismJS/Highlight"
+import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
+import tmpl from "lib/x/tmpl"
 import Transition from "lib/x/Transition"
-import useKeyDownEscapeCallback from "lib/x/useKeyDownEscapeCallback"
 
 import { // Unsorted
 	resolveGFM,
@@ -17,11 +18,6 @@ import { // Unsorted
 	ReadOnlyEditor,
 	useEditorFromChildren,
 } from "Editor"
-
-const classNameMap = {
-	gfm: "",
-	html: "prism-custom-theme",
-}
 
 const ReleaseItem = ({ date, release, children }) => (
 	<div className="px-6 py-4">
@@ -122,7 +118,7 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 					<div className="p-6">
 						<span className="inline-block">
 							<pre className="whitespace-pre-wrap break-words font-mono text-gray-800 subpixel-antialiased" style={{ MozTabSize: 2, tabSize: 2, fontSize: "0.8125rem", lineHeight: 1.4375 }}>
-								<Highlight className={classNameMap[output.detail]} extension={output.detail}>
+								<Highlight className={tmpl`${output.detail === "html" && "prism-custom-theme"}`} extension={output.detail}>
 									{resolved[output.detail]}
 								</Highlight>
 							</pre>
@@ -139,64 +135,48 @@ const FixedPreferences = ({ state, dispatch }) => {
 	const outputRef = React.useRef()
 
 	const [output, setOutput] = React.useState({
-		show: "false",
+		show: false,
 		detail: "changelog",
 	})
 
 	const handleClickChangelog = e => {
-		setOutput(o => ({
-			show: !o.show || o.detail !== "changelog",
+		setOutput(current => ({
+			show: !current.show || current.detail !== "changelog",
 			detail: "changelog",
 		}))
 	}
 
 	const handleClickGFM = e => {
-		setOutput(o => ({
-			show: !o.show || o.detail !== "gfm",
+		setOutput(current => ({
+			show: !current.show || current.detail !== "gfm",
 			detail: "gfm",
 		}))
 	}
 
 	const handleClickHTML = e => {
-		setOutput(o => ({
-			show: !o.show || o.detail !== "html",
+		setOutput(current => ({
+			show: !current.show || current.detail !== "html",
 			detail: "html",
 		}))
 	}
 
-	// // Hides on click-away.
-	// useClickAwayCallback(outputRef, () => {
-	// 	if (output.show) {
-	// 		setOutput({
-	// 			...output,
-	// 			show: false,
-	// 		})
-	// 	}
-	// })
+	handlers.usePointerDown(output.show && (e => {
+		if (!e.target.closest("button")) {
+			setOutput(current => ({
+				...current,
+				show: !current.show,
+			}))
+		}
+	}))
 
-	// // Hides on escape.
-	// useKeyDownEscapeCallback(outputRef, () => {
-	// 	// if (output.show) {
-	// 	setOutput({
-	// 		...output,
-	// 		show: !output.show,
-	// 	})
-	// 	// }
-	// })
-
-	// React.useEffect(() => {
-	// 	const handler = e => {
-	// 		if (!testKeyDown(e).forKeyCode("Escape").check()) {
-	// 			// No-op
-	// 			return
-	// 		}
-	// 		callback()
-	// 	}
-	// 	document.addEventListener("keydown", handler)
-	// 	return () => {
-	// 		document.removeEventListener("keydown", handler)
-	// 	}
-	// }, [])
+	handlers.useKeyDown(e => {
+		if (e.keyCode === keyCodeFor("Escape")) {
+			setOutput(current => ({
+				...current,
+				show: !current.show,
+			}))
+		}
+	})
 
 	// NOTE: Uses flex flex-col ... self-end.
 	return (
