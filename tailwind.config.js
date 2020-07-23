@@ -56,6 +56,7 @@ module.exports = {
 	variants: {
 		...defaultVariants,
 		backgroundColor: [...defaultVariants.backgroundColor, "active", "group-hover", "group-focus"],
+		borderColor: [...defaultVariants.borderColor, "active", "group-hover", "group-focus"],
 		boxShadow: [...defaultVariants.boxShadow, "active", "group-hover", "group-focus"],
 		opacity: [...defaultVariants.opacity, "active", "group-hover", "group-focus"],
 		textColor: [...defaultVariants.textColor, "active", "group-hover", "group-focus"],

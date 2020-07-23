@@ -75,12 +75,14 @@ const FixedPreferences = React.memo(() => {
 	const outputRef = React.useRef()
 
 	const [output, setOutput] = React.useState({
+		read: false,
 		show: false,
 		detail: "changelog",
 	})
 
 	const handleClickChangelog = e => {
 		setOutput(current => ({
+			read: true,
 			show: !current.show || current.detail !== "changelog",
 			detail: "changelog",
 		}))
@@ -88,6 +90,7 @@ const FixedPreferences = React.memo(() => {
 
 	const handleClickGFM = e => {
 		setOutput(current => ({
+			read: true,
 			show: !current.show || current.detail !== "gfm",
 			detail: "gfm",
 		}))
@@ -95,6 +98,7 @@ const FixedPreferences = React.memo(() => {
 
 	const handleClickHTML = e => {
 		setOutput(current => ({
+			read: true,
 			show: !current.show || current.detail !== "html",
 			detail: "html",
 		}))
@@ -126,15 +130,27 @@ const FixedPreferences = React.memo(() => {
 			<div className="py-2 flex flex-row justify-between">
 
 				{/* Changelog */}
-				<button
-					className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "changelog" && "var(--gray-800)" }}
-					onClick={handleClickChangelog}
-				>
-					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-					</svg>
-				</button>
+				<div className="group relative">
+					<Transition
+						on={output.read}
+						className="transition duration-500 ease-in-out"
+						from="transform scale-100"
+						to="transform scale-0"
+					>
+						<div className="mr-2 mt-1.5 absolute top-0 right-0">
+							<div className="box-content w-1.5 h-1.5 bg-red-600 border-2 border-white group-hover:border-gray-100 rounded-full transition duration-200 ease-in-out" />
+						</div>
+					</Transition>
+					<button
+						className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "changelog" && "var(--gray-800)" }}
+						onClick={handleClickChangelog}
+					>
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+						</svg>
+					</button>
+				</div>
 
 				{/* GFM */}
 				<button
