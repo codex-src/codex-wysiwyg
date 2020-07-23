@@ -1,10 +1,11 @@
 // import useClickAwayCallback from "lib/x/useClickAwayCallback"
+import content from "./content"
+import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DebugCSS from "lib/x/DebugCSS"
 import Highlight from "lib/PrismJS/Highlight"
 import React from "react"
 import Transition from "lib/x/Transition"
 import useKeyDownEscapeCallback from "lib/x/useKeyDownEscapeCallback"
-import userAgent from "lib/Client/userAgent"
 
 import { // Unsorted
 	resolveGFM,
@@ -16,26 +17,6 @@ import { // Unsorted
 	ReadOnlyEditor,
 	useEditorFromChildren,
 } from "Editor"
-
-const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
-
-const doc = <React.Fragment>
-	<p>
-		This prototype currently supports <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements. Of course, elements can be <strong><em>nested</em></strong> if that’s your thing.
-	</p>
-	<p>
-		<br />
-	</p>
-	<p>
-		Shortcuts are supported! You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <strong>bold</strong>, <code>shift-{ctrlOrCmd}-c</code> for <code>code</code>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
-	</p>
-	<p>
-		<br />
-	</p>
-	<p>
-		<strong>Please note that many basic features are not yet implemented!</strong> 😎
-	</p>
-</React.Fragment>.props.children
 
 const classNameMap = {
 	gfm: "",
@@ -73,7 +54,11 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 				...r,
 				gfm: result,
 			}))
-		} else if (output.detail === "html") {
+		}
+	}, [debouncedElements, output.detail])
+
+	React.useEffect(() => {
+		if (output.detail === "html") {
 			const result = resolveHTML(debouncedElements)
 			setResolved(r => ({
 				...r,
@@ -261,7 +246,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 const ElementsContext = React.createContext(null)
 
 const App = () => {
-	const [state, dispatch] = useEditorFromChildren(doc)
+	const [state, dispatch] = useEditorFromChildren(content)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	React.useEffect(() => {
