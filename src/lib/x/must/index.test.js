@@ -1,4 +1,4 @@
-import must from "./must"
+import must from "./index"
 
 test("must(...)", () => {
 	expect(() => must(undefined)).toThrow()

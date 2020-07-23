@@ -1,4 +1,4 @@
-import tmpl from "./tmpl"
+import tmpl from "./index"
 
 test("tmpl!...", () => {
 	expect(tmpl``).toBe("")

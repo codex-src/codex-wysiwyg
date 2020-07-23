@@ -1,4 +1,4 @@
-import hash from "./hash"
+import hash from "./index"
 
 test("hash(...)", () => {
 	for (let x = 0; x < 1e3; x++) {
