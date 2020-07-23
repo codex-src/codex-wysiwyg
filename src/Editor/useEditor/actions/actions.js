@@ -2,12 +2,22 @@
 // import defer from "../../utils/children/defer"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
-import recordActionImpl as record from "./recordActionImpl"
+import { default as record } from "./recordActionImpl"
 
 import { // Unsorted
 	extendRTLImpl,
 	extendLTRImpl,
 } from "./extendImpl"
+
+// Unexported; collapses the current range end-to-start.
+const collapseToStart = e => () => {
+	e.range.end = e.range.start
+}
+
+// Unexported; rerenders.
+const render = e => () => {
+	e.shouldRerender++
+}
 
 // Enables read-only mode.
 export const enableReadOnlyMode = e => () => {
@@ -81,14 +91,4 @@ export const uncontrolledInput = e => (children, range) => {
 	element.props.children = children
 	e.range = range
 	render(e)()
-}
-
-// Unexported; collapses end-to-start.
-const collapseToStart = e => () => {
-	e.range.end = e.range.start
-}
-
-// Unexported; rerenders.
-const render = e => () => {
-	e.shouldRerender++
 }
