@@ -1,6 +1,5 @@
 import * as handlers from "lib/x/handlers"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
-import DebugCSS from "lib/x/DebugCSS"
 import Highlight from "lib/PrismJS/Highlight"
 import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
@@ -72,7 +71,7 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 	)
 })
 
-const FixedPreferences = ({ state, dispatch }) => {
+const FixedPreferences = React.memo(() => {
 	const outputRef = React.useRef()
 
 	const [output, setOutput] = React.useState({
@@ -167,7 +166,7 @@ const FixedPreferences = ({ state, dispatch }) => {
 			/>
 		</div>
 	)
-}
+})
 
 const ElementsContext = React.createContext(null)
 
@@ -203,28 +202,27 @@ const App = () => {
 	}, [state.elements])
 
 	return (
-		<DebugCSS enabled={false /* process.env.NODE_ENV */}>
-			<div className="px-6 py-32 flex flex-row justify-center">
-				<div className="w-full max-w-2xl">
-					<ElementsContext.Provider value={debouncedElements}>
-						<FixedPreferences
-							state={state}
-							dispatch={dispatch}
-						/>
-					</ElementsContext.Provider>
-					<ReadWriteEditor
-						className="text-lg text-gray-800"
-						state={state}
-						dispatch={dispatch}
-					/>
-					{/* {process.env.NODE_ENV !== "production" && ( */}
-					{/* 	<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
-					{/* 		{JSON.stringify(state, null, "\t")} */}
-					{/* 	</div> */}
-					{/* )} */}
-				</div>
+		<div className="px-6 py-32 flex flex-row justify-center">
+			<div className="w-full max-w-2xl">
+
+				<ElementsContext.Provider value={debouncedElements}>
+					<FixedPreferences />
+				</ElementsContext.Provider>
+
+				<ReadWriteEditor
+					className="text-lg text-gray-800"
+					state={state}
+					dispatch={dispatch}
+				/>
+
+				{/* {process.env.NODE_ENV !== "production" && ( */}
+				{/* 	<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
+				{/* 		{JSON.stringify(state, null, "\t")} */}
+				{/* 	</div> */}
+				{/* )} */}
+
 			</div>
-		</DebugCSS>
+		</div>
 	)
 }
 
