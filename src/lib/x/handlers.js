@@ -1,7 +1,7 @@
 import React from "react"
 
-// Binds a truthy handler to the next pointer down event.
-export function usePointerDown(handler) {
+// Binds a truthy handler to the next pointerdown event.
+export function usePointerdown(handler) {
 	React.useEffect(() => {
 		if (!handler) {
 			// No-op
@@ -14,8 +14,8 @@ export function usePointerDown(handler) {
 	}, [handler])
 }
 
-// Binds a truthy handler to the next key down event.
-export function useKeyDown(handler) {
+// Binds a truthy handler to the next keydown event.
+export function useKeydown(handler) {
 	React.useEffect(() => {
 		if (!handler) {
 			// No-op
