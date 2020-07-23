@@ -1,7 +1,6 @@
 import attrs from "./attrs"
 import React from "react"
 import T from "./T"
-import tmpl from "lib/x/tmpl"
 
 // <em>
 export const Em = ({ children }) => (
