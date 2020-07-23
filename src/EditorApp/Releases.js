@@ -7,7 +7,7 @@ const ReleaseItem = ({ date, release, children }) => (
 		<div className="pb-2 flex flex-row justify-end">
 			<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
 				<p className="font-medium text-xs leading-4 text-green-800">
-					{date} &nbsp;– &nbsp;<span className="font-mono">v{release}</span>
+					{date} &nbsp;– &nbsp;v{release}
 				</p>
 			</div>
 		</div>

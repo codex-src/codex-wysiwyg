@@ -48,12 +48,11 @@ export const select = e => range => {
 // Inserts text at the current range.
 export const insertText = e => text => {
 	recordAction(e)("insert-text")
-	const list = ElementList.fromElements(e.elements)
 	if (!e.range.collapsed()) {
-		deleteImpl(e)(list)
+		deleteImpl(e)()
 	}
 	// ...
-	collapseStart(e)()
+	collapseToStart(e)()
 	render(e)()
 }
 
@@ -169,14 +168,40 @@ export const applyFormat = e => keyDownType => {
 	render(e)()
 }
 
+// if (x1 !== x2) {
+// 	e.elements.splice(x1 + 1, (x2 - x1) + 1)
+// }
+
+// Unexported; deletes the current range.
+const deleteImpl = e => () => {
+	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
+	let x2 = x1
+	if (!e.range.collapsed()) {
+		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
+	}
+	const ch1 = e.elements[x1].props.children
+	const ch2 = e.elements[x2].props.children
+	ch1 = [
+		...ch1.slice(0, index(ch1, e.range.start.offset)),
+		...ch2.slice(index(ch2, e.range.end.offset)),
+	]
+	while (x2 !== x1) {
+		e.elements.splice(x2, 1)
+		x2--
+	}
+	defer(ch1)
+}
+
 // Unexported; extends the range right-to-left.
-const extendRTL = e => (list, boundary) => {
-	const k = ElementList.find(list)(each => each.key === e.range.start.key)
-	const substr = textContent(k.current.props.children).slice(0, e.range.start.offset)
-	if (!substr && k.prev) {
+const extendRTL = e => boundary => {
+	const x = e.elements.findIndex(each => each.key === e.range.start.key)
+	const [prev, current] = [e.elements[x - 1], e.elements[x]]
+
+	const substr = textContent(current.props.children).slice(0, e.range.start.offset)
+	if (!substr && prev) {
 		Object.assign(e.range.start, {
-			key: k.prev.current.key,
-			offset: textContent(k.prev.current.props.children).length,
+			key: prev.key,
+			offset: textContent(prev.props.children).length,
 		})
 		return
 	}
@@ -185,12 +210,14 @@ const extendRTL = e => (list, boundary) => {
 }
 
 // Unexported; extends the range left-to-right.
-const extendLTR = e => (list, boundary) => {
-	const k = ElementList.find(list)(each => each.key === e.range.start.key)
-	const substr = textContent(k.current.props.children).slice(e.range.end.offset)
-	if (!substr && k.next) {
+const extendLTR = e => boundary => {
+	const x = e.elements.findIndex(each => each.key === e.range.start.key)
+	const [current, next] = [e.elements[x], e.elements[x + 1]]
+
+	const substr = textContent(current.props.children).slice(e.range.end.offset)
+	if (!substr && next) {
 		Object.assign(e.range.end, {
-			key: k.next.current.key,
+			key: next.key,
 			offset: 0,
 		})
 		return
@@ -199,62 +226,34 @@ const extendLTR = e => (list, boundary) => {
 	e.range.end.offset += itd.length
 }
 
-// Unexported; deletes the current range.
-const deleteImpl = e => list => {
-	const k1 = ElementList.find(list)(each => each.key === e.range.start.key)
-	let k2 = k1
-	if (!e.range.collapsed()) {
-		k2 = ElementList.find(list)(each => each.key === e.range.end.key)
-	}
-	const ch1 = k1.current.props.children
-	const ch2 = k2.current.props.children
-	k1.current.props.children = [
-		...ch1.slice(0, index(ch1, e.range.start.offset)),
-		...ch2.slice(index(ch2, e.range.end.offset)),
-	]
-	let k = k2
-	while (k !== k1) {
-		k.parentElement.splice(k.index, 1)
-		k = k.prev
-	}
-	defer(k1.current.props.children) // TODO
-}
-
 // Deletes the next right-to-left or left-to-right rune,
 // word, or line at the current range.
 export const $delete = e => keyDownType => {
 	const [dir, boundary] = keyDownType.split("-").slice(1)
 
 	recordAction(e)(`delete-${dir}-${boundary}`)
-	const list = ElementList.fromElements(e.elements)
 	if (e.range.collapsed()) {
 		const extend = dir === "rtl" && dir !== "ltr" ? extendRTL : extendLTR
-		extend(e)(list, boundary)
+		extend(e)(boundary)
 	}
-	deleteImpl(e)(list)
-	collapseStart(e)()
+	deleteImpl(e)()
+	collapseToStart(e)()
 	render(e)()
 }
 
 // Uncontrolled input handler.
 export const uncontrolledInput = e => (children, range) => {
 	recordAction(e)("input")
-	const list = ElementList.fromElements(e.elements)
-	const k = ElementList.find(list)(each => each.key === range.start.key)
-	k.current.props.children = children
+	const element = e.elements.find(each => each.key === range.start.key)
+	element.props.children = children
 	e.range = range
 	render(e)()
 }
 
 // Unexported; collapses end-to-start.
-const collapseStart = e => () => {
+const collapseToStart = e => () => {
 	e.range.end = e.range.start
 }
-
-// // Unexported; collapses start-to-end.
-// const collapseEnd = e => () => {
-// 	e.range.start = e.range.end
-// }
 
 // Unexported; rerenders.
 const render = e => () => {

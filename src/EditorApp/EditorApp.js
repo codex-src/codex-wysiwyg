@@ -104,15 +104,15 @@ const FixedPreferences = React.memo(() => {
 		}))
 	}
 
-	// Binds the next pointerdown event to hide output.
-	handlers.usePointerdown(output.show && (e => {
-		if (!outputRef.current.contains(e.target) && !e.target.closest("button")) {
-			setOutput(current => ({
-				...current,
-				show: !current.show,
-			}))
-		}
-	}))
+	// // Binds the next pointerdown event to hide output.
+	// handlers.usePointerdown(output.show && (e => {
+	// 	if (!outputRef.current.contains(e.target) && !e.target.closest("button")) {
+	// 		setOutput(current => ({
+	// 			...current,
+	// 			show: !current.show,
+	// 		}))
+	// 	}
+	// }))
 
 	// Binds the next keydown event to hide output.
 	handlers.useKeydown(e => {
