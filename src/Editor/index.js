@@ -1,3 +1,3 @@
-export { default as Editor } from "./Editor" // Unsorted
-export { default as ReadOnlyEditor } from "./ReadOnlyEditor"
+export { default as ReadOnlyEditor } from "./ReadOnlyEditor" // Unsorted
+export { default as ReadWriteEditor } from "./ReadWriteEditor"
 export * from "./useEditor/useEditor"

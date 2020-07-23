@@ -14,7 +14,7 @@ import { // Unsorted
 } from "./resolvers"
 
 import { // Unsorted
-	Editor,
+	ReadWriteEditor,
 	useEditorFromMarkup,
 } from "Editor"
 
@@ -212,11 +212,16 @@ const App = () => {
 							dispatch={dispatch}
 						/>
 					</ElementsContext.Provider>
-					<Editor
+					<ReadWriteEditor
 						className="text-lg text-gray-800"
 						state={state}
 						dispatch={dispatch}
 					/>
+					{/* {process.env.NODE_ENV !== "production" && ( */}
+					{/* 	<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
+					{/* 		{JSON.stringify(state, null, "\t")} */}
+					{/* 	</div> */}
+					{/* )} */}
 				</div>
 			</div>
 		</DebugCSS>

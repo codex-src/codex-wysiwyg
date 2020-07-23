@@ -2,11 +2,7 @@ import escape from "lodash/escape"
 import toArray from "lib/x/toArray"
 import toTree from "Editor/components/toReactTree/toTree"
 
-// TODO: Add support to obscure IDs
-//
-// id="${el.key}"
-// id="${el.key}"
-
+// TODO: Add support for alternate syntax?
 const gfm = {
 	em:     el => `_${resolveChildrenTree(el.props.children, gfm)}_`,
 	strong: el => `**${resolveChildrenTree(el.props.children, gfm)}**`,
@@ -25,6 +21,8 @@ const gfm = {
 	"p":    el => resolveChildren(el.props.children, gfm),
 }
 
+// TODO: Add support for options; show ID, show wrapped URL,
+// etc.
 const html = {
 	em:     el => `<em>${resolveChildrenTree(el.props.children, html)}</em>`,
 	strong: el => `<strong>${resolveChildrenTree(el.props.children, html)}</strong>`,

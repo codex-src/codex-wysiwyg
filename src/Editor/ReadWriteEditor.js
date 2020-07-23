@@ -4,7 +4,6 @@ import defer from "./utils/children/defer"
 import keyDownTypeFor from "./utils/keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
-import tmpl from "lib/x/tmpl"
 import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import { parseRenderedChildren } from "./parsers"
 
@@ -21,7 +20,7 @@ const Renderer = ({ state, dispatch }) => (
 )
 
 // Renders a read-write editor.
-const Editor = ({ className, style, state, dispatch }) => {
+const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -65,11 +64,11 @@ const Editor = ({ className, style, state, dispatch }) => {
 	}
 
 	return (
-		<React.Fragment>
+		<div className="em-context">
 			<article
 				ref={ref}
 
-				className={tmpl`em-context ${className}`}
+				className={className}
 				style={style}
 
 				onFocus={readWriteOnlyHandler(e => {
@@ -228,13 +227,8 @@ const Editor = ({ className, style, state, dispatch }) => {
 
 				data-root
 			/>
-			{process.env.NODE_ENV !== "production" && (
-				<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}>
-					{JSON.stringify(state, null, "\t")}
-				</div>
-			)}
-		</React.Fragment>
+		</div>
 	)
 }
 
-export default Editor
+export default ReadWriteEditor
