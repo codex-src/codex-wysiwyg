@@ -1,8 +1,12 @@
-import * as ElementList from "../methods/ElementList"
-import * as iterate from "lib/UTF8/iterate"
-import defer from "../utils/children/defer"
-import index from "../utils/children/index"
-import textContent from "../utils/children/textContent"
+import * as ElementList from "../../methods/ElementList"
+import defer from "../../utils/children/defer"
+import deleteImpl from "./deleteImpl"
+import index from "../../utils/children/index"
+
+import { // Unsorted
+	extendRTLImpl,
+	extendLTRImpl,
+} from "./extendImpl"
 
 // Unexported; records an action.
 const recordAction = e => actionType => {
@@ -168,64 +172,6 @@ export const applyFormat = e => keyDownType => {
 	render(e)()
 }
 
-// if (x1 !== x2) {
-// 	e.elements.splice(x1 + 1, (x2 - x1) + 1)
-// }
-
-// Unexported; deletes the current range.
-const deleteImpl = e => () => {
-	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
-	let x2 = x1
-	if (!e.range.collapsed()) {
-		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
-	}
-	const ch1 = e.elements[x1].props.children
-	const ch2 = e.elements[x2].props.children
-	ch1 = [
-		...ch1.slice(0, index(ch1, e.range.start.offset)),
-		...ch2.slice(index(ch2, e.range.end.offset)),
-	]
-	while (x2 !== x1) {
-		e.elements.splice(x2, 1)
-		x2--
-	}
-	defer(ch1)
-}
-
-// Unexported; extends the range right-to-left.
-const extendRTL = e => boundary => {
-	const x = e.elements.findIndex(each => each.key === e.range.start.key)
-	const [prev, current] = [e.elements[x - 1], e.elements[x]]
-
-	const substr = textContent(current.props.children).slice(0, e.range.start.offset)
-	if (!substr && prev) {
-		Object.assign(e.range.start, {
-			key: prev.key,
-			offset: textContent(prev.props.children).length,
-		})
-		return
-	}
-	const itd = iterate.rtl[boundary](substr)
-	e.range.start.offset -= itd.length
-}
-
-// Unexported; extends the range left-to-right.
-const extendLTR = e => boundary => {
-	const x = e.elements.findIndex(each => each.key === e.range.start.key)
-	const [current, next] = [e.elements[x], e.elements[x + 1]]
-
-	const substr = textContent(current.props.children).slice(e.range.end.offset)
-	if (!substr && next) {
-		Object.assign(e.range.end, {
-			key: next.key,
-			offset: 0,
-		})
-		return
-	}
-	const itd = iterate.ltr[boundary](substr)
-	e.range.end.offset += itd.length
-}
-
 // Deletes the next right-to-left or left-to-right rune,
 // word, or line at the current range.
 export const $delete = e => keyDownType => {
@@ -233,7 +179,7 @@ export const $delete = e => keyDownType => {
 
 	recordAction(e)(`delete-${dir}-${boundary}`)
 	if (e.range.collapsed()) {
-		const extend = dir === "rtl" && dir !== "ltr" ? extendRTL : extendLTR
+		const extend = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
 		extend(e)(boundary)
 	}
 	deleteImpl(e)()

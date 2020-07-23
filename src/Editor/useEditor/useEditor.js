@@ -1,4 +1,4 @@
-import * as actions from "./actions"
+import * as actions from "./actions/actions" // FIXME
 import parseElements from "./parseElements"
 import React from "react"
 import { useImmerReducer } from "use-immer"
