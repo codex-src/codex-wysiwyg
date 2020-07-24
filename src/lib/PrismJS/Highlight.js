@@ -1,16 +1,6 @@
 import langMap from "lib/PrismJS/langMap"
 import React from "react"
-import tmpl from "lib/x/tmpl"
-
-// ...{ ...{ ...children.props, className: undefined, style: undefined }, ...props },
-
-const Wrap = ({ className, style, children, ...props }) => (
-	React.cloneElement(children, {
-		className: tmpl`${children.props.className} ${className}`,
-		style: { ...children.props.style, ...style },
-		...props,
-	})
-)
+import Wrap from "lib/x/Wrap"
 
 const Highlight = ({ className, style, extension, children }) => (
 	React.useMemo(() => {

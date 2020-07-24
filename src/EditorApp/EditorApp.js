@@ -4,8 +4,8 @@ import Highlight from "lib/PrismJS/Highlight"
 import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
 import Releases from "./Releases"
-import tmpl from "lib/x/tmpl"
 import Transition from "lib/x/Transition"
+import Wrap from "lib/x/Wrap"
 
 import { // Unsorted
 	resolveGFM,
@@ -16,34 +16,6 @@ import { // Unsorted
 	ReadWriteEditor,
 	useEditorFromMarkup,
 } from "Editor"
-
-// ...{ ...{ ...children.props, className: undefined, style: undefined }, ...props },
-
-const Wrap = ({ className, style, children, ...props }) => (
-	React.cloneElement(children, {
-		className: tmpl`${children.props.className} ${className}`,
-		style: { ...children.props.style, ...style },
-		...props,
-	})
-)
-
-// const Wrap = ({ className, style, children, ...props }) => (
-// 	React.cloneElement(children, {
-// 		className: tmpl`${children.props.className} ${className}`,
-// 		style: {
-// 			...children.props.style,
-// 			...style,
-// 		},
-// 		...{
-// 			...{
-// 				children.props,
-// 				className: undefined,
-// 				style: undefined,
-// 			},
-// 			...props,
-// 		},
-// 	})
-// )
 
 const Output = ({ output, setOutput }) => {
 	const debouncedElements = React.useContext(ElementsContext)
