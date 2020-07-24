@@ -2,10 +2,13 @@ import convTypesToArray from "./convTypesToArray"
 import JSONEqual from "lib/JSON/JSONEqual"
 import toArray from "lib/x/toArray"
 
-// Compares props.
-function propsAreEqual(pseudo, typeProps) {
-	const props = { ...pseudo.props, children: undefined }
-	return JSONEqual(props, typeProps || {})
+// Compares whether props are equal.
+function propsAreEqual(originalProps, typeProps) {
+	const props = {
+		...originalProps,
+		children: undefined, // Obscures originalProps.children
+	}
+	return JSONEqual(props, typeProps)
 }
 
 // Queries the next parent element and types.
