@@ -29,8 +29,8 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 	React.useEffect(() => {
 		if (output.detail === "gfm") {
 			const result = resolveGFM(debouncedElements)
-			setResolved(r => ({
-				...r,
+			setResolved(current => ({
+				...current,
 				gfm: result,
 			}))
 		}
@@ -39,8 +39,8 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 	React.useEffect(() => {
 		if (output.detail === "html") {
 			const result = resolveHTML(debouncedElements)
-			setResolved(r => ({
-				...r,
+			setResolved(current => ({
+				...current,
 				html: result,
 			}))
 		}
@@ -58,8 +58,18 @@ const Output = React.forwardRef(({ output, setOutput }, forwardedRef) => {
 				) : (
 					<div className="p-6">
 						<span className="inline-block">
-							<pre className="whitespace-pre-wrap break-words font-mono leading-relaxed text-gray-800" style={{ MozTabSize: 2, tabSize: 2, fontSize: "0.8125rem" }}>
-								<Highlight className={tmpl`${output.detail === "html" && "prism-custom-theme"}`} extension={output.detail}>
+							<pre
+								className="whitespace-pre-wrap break-words font-mono text-gray-800"
+								style={{
+									MozTabSize: 2,
+									tabSize: 2,
+									fontSize: "0.8125rem",
+								}}
+							>
+								<Highlight
+									className={tmpl`${output.detail === "html" && "prism-custom-theme"}`}
+									extension={output.detail}
+								>
 									{resolved[output.detail]}
 								</Highlight>
 							</pre>
@@ -90,7 +100,7 @@ const FixedPreferences = React.memo(() => {
 
 	const handleClickGFM = e => {
 		setOutput(current => ({
-			read: true,
+			...current,
 			show: !current.show || current.detail !== "gfm",
 			detail: "gfm",
 		}))
@@ -98,7 +108,7 @@ const FixedPreferences = React.memo(() => {
 
 	const handleClickHTML = e => {
 		setOutput(current => ({
-			read: true,
+			...current,
 			show: !current.show || current.detail !== "html",
 			detail: "html",
 		}))
@@ -134,8 +144,8 @@ const FixedPreferences = React.memo(() => {
 					<Transition
 						on={output.read}
 						className="transition duration-500 ease-in-out"
-						from="transform scale-100"
-						to="transform scale-0"
+						from="opacity-100 transform scale-100"
+						to="opacity-0 transform scale-0"
 					>
 						<div className="mr-2 mt-1.5 absolute top-0 right-0">
 							<div className="box-content w-1.5 h-1.5 bg-red-600 border-2 border-white group-hover:border-gray-100 rounded-full transition duration-200 ease-in-out" />
@@ -211,7 +221,7 @@ const App = () => {
 	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
-		}, 60)
+		}, 16.67)
 		return () => {
 			clearTimeout(id)
 		}
