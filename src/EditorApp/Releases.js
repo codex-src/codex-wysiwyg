@@ -27,14 +27,14 @@ const Releases = () => (
 				<br />
 			</p>
 			<p>
-				– Added accessible tooltips for the top-right icons.{" "}
-				These can be invoked from focus or hover events.
+				– Added accessible tooltips for the top-right buttons.{" "}
+				These can be invoked from <code>focus</code> or <code>hover</code> events.
 			</p>
 		</ReleaseItem>
 		<hr className="border-t border-gray-200 opacity-50" />
 		<ReleaseItem date="July 22, 2020" release="0.3">
 			<p>
-				– Added a dedicated changelog and improved readability for markdown and HTML-rendered output.
+				– Added a dedicated changelog and improved readability for GitHub Flavored Markdown and semantic HTML output.
 			</p>
 		</ReleaseItem>
 		<hr className="border-t border-gray-200 opacity-50" />

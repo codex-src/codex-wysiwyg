@@ -12,7 +12,7 @@ function testShouldApply(formatType, children) {
 	if (formatType === "plaintext") {
 		return "plaintext"
 	}
-	const every = children.every(each => each.types.some(each => each.type === formatType))
+	const every = children.every(each => each.types[formatType] !== undefined)
 	const shouldApply = ({
 		false: "should-apply",    // Not every -> "should-apply"
 		true: "should-not-apply", // Every -> "should-not-apply"
@@ -25,17 +25,17 @@ function testShouldApply(formatType, children) {
 function getChildrenFromRange(elements, range) {
 	const children = []
 	for (const each of elements) {
-		// Start range offset:
-		let r1 = 0
-		if (each === elements[0]) { // each.key === range.start.key
-			r1 = index(each.props.children, range.start.offset)
+		// Start offset:
+		let t1 = 0
+		if (each.key === range.start.key) {
+			t1 = index(each.props.children, range.start.offset)
 		}
-		// End range offset:
-		let r2 = each.props.children.length
-		if (each === elements[elements.length - 1]) {
-			r2 = index(each.props.children, range.end.offset)
+		// End offset:
+		let t2 = each.props.children.length
+		if (each.key === range.end.key) {
+			t2 = index(each.props.children, range.end.offset)
 		}
-		children.push(...each.props.children.slice(r1, r2))
+		children.push(...each.props.children.slice(t1, t2))
 	}
 	return children
 }
@@ -43,7 +43,7 @@ function getChildrenFromRange(elements, range) {
 // Applies a format to the current range.
 const applyFormatImpl = e => formatType => {
 	if (rangeIsCollapsed(e.range)) {
-		e.pendingRange = e.range
+		e.pendingRange = e.range // TODO
 		return
 	}
 
@@ -53,32 +53,23 @@ const applyFormatImpl = e => formatType => {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 
-	const children = getChildrenFromRange(e.elements.slice(x1, x2 + 1), e.range)
-	const shouldApply = testShouldApply(formatType, children)
+	const ch = getChildrenFromRange(e.elements.slice(x1, x2 + 1), e.range)
+	const shouldApply = testShouldApply(formatType, ch)
 
 	switch (shouldApply) {
 	case "plaintext":
-		for (const each of children) {
-			each.types.splice(0)
+		for (const each of ch) {
+			each.types = {} // Reset
 		}
 		break
 	case "should-not-apply":
-		for (const each of children) {
-			const x = each.types.findIndex(each => each.type === formatType)
-			if (x >= 0) {
-				each.types.splice(x, 1)
-			}
+		for (const each of ch) {
+			delete each.types[formatType]
 		}
 		break
 	case "should-apply":
-		for (const each of children) {
-			const x = each.types.findIndex(each => each.type === formatType)
-			if (x === -1) {
-				each.types.push({
-					type: formatType,
-					props: null, // TODO
-				})
-			}
+		for (const each of ch) {
+			each.types[formatType] = {} // TODO
 		}
 		break
 	default:
@@ -87,11 +78,11 @@ const applyFormatImpl = e => formatType => {
 	}
 
 	// for (const each of e.elements.slice(x1, x2 + 1)) {
-	// 	defer(each.props.children) // TODO
+	// 	defer(each.props.ch) // TODO
 	// }
 
 	// for (let x = x1; x < x2; x++) {
-	// 	defer(e.elements[x].props.children)
+	// 	defer(e.elements[x].props.ch)
 	// }
 }
 
