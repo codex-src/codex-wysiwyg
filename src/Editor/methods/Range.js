@@ -1,5 +1,5 @@
 import * as Position from "./Position"
-import collapsed from "../utils/children/collapsed"
+import collapsed from "../utils/collapsed"
 
 // Gets the current range. Range must be scoped to a tree.
 export function getCurrent(tree) {

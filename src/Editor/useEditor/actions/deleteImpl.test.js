@@ -1,7 +1,7 @@
 import deleteImpl from "./deleteImpl"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
-import textContent from "Editor/utils/children/textContent"
+import textContent from "Editor/utils/textContent"
 
 const originalElements = [
 	{

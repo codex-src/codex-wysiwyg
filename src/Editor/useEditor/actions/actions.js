@@ -1,7 +1,7 @@
 // import * as ElementList from "../../methods/ElementList"
-// import defer from "../../utils/children/defer"
+// import defer from "../../utils/defer"
 import applyFormatImpl from "./applyFormatImpl"
-import collapsed from "../../utils/children/collapsed"
+import collapsed from "../../utils/collapsed"
 import deleteImpl from "./deleteImpl"
 import { default as record } from "./recordActionImpl"
 

@@ -1,5 +1,5 @@
 // import * as ElementList from "../methods/ElementList" // FIXME
-import defer from "../utils/children/defer"
+import defer from "../utils/defer"
 import parseTree from "lib/DOM/parseTree"
 import ReactDOMServer from "react-dom/server"
 import stripWhitespace from "lib/DOM/stripWhitespace"

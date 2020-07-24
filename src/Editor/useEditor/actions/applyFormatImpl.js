@@ -1,6 +1,6 @@
-import collapsed from "../../utils/children/collapsed"
-import defer from "../../utils/children/defer"
-import index from "../../utils/children/index"
+import collapsed from "../../utils/collapsed"
+import defer from "../../utils/defer"
+import index from "../../utils/index"
 
 // Tests for:
 //

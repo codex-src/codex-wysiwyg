@@ -1,5 +1,5 @@
 import * as iterate from "lib/UTF8/iterate"
-import textContent from "../../utils/children/textContent"
+import textContent from "../../utils/textContent"
 
 // Extends the range right-to-left.
 export const extendRTLImpl = e => boundary => {
