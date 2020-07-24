@@ -1,6 +1,10 @@
-import attrs from "./attrs"
 import React from "react"
 import T from "./T"
+
+import { // Unsorted
+	disableAutoCorrect,
+	relNoopener,
+} from "./miscProps"
 
 // <em>
 export const Em = ({ children }) => (
@@ -23,7 +27,7 @@ export const Strong = ({ children }) => (
 // <code>
 export const Code = ({ children }) => (
 	<T type="code">
-		<span className="px-1 py-px text-sm font-mono text-blue-600 bg-white border border-cool-gray-300 rounded" {...attrs.code}>
+		<span className="px-1 py-px text-sm font-mono text-blue-600 bg-white border border-cool-gray-300 rounded" {...disableAutoCorrect}>
 			{children}
 		</span>
 	</T>
@@ -32,7 +36,7 @@ export const Code = ({ children }) => (
 // <strike>
 export const Strike = ({ children }) => (
 	<T type="strike">
-		<span className="line-through text-gray-400">
+		<span className="line-through text-gray-400" {...disableAutoCorrect}>
 			{children}
 		</span>
 	</T>
@@ -41,7 +45,7 @@ export const Strike = ({ children }) => (
 // <a href="...">
 export const A = ({ href, children }) => (
 	<T type="a" props={{ href }}>
-		<span className="underline text-blue-600" {...attrs.a}>
+		<span className="underline text-blue-600" {...relNoopener}>
 			{children}
 		</span>
 	</T>
