@@ -30,15 +30,15 @@ function testShouldApply(formatType, children) {
 
 // Applies a format to the current range.
 const applyFormatImpl = e => (formatType, formatProps = {} /* TODO */) => {
+	if (rangeIsCollapsed(e.range)) {
+		e.pendingRange = e.range // TODO
+		return
+	}
+
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
 	if (!rangeIsCollapsed(e.range)) {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
-	}
-
-	if (rangeIsCollapsed(e.range)) {
-		e.pendingRange = e.range // TODO
-		return
 	}
 
 	const ch = queryChildrenFromRange(e.elements.slice(x1, x2 + 1), e.range)
