@@ -1,9 +1,9 @@
-// import * as ElementList from "../../helpers/ElementList"
+// import * as ElementList from "../../types/ElementList"
 // import defer from "../../utils/defer"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
 import { default as record } from "./recordActionImpl"
-import { rangeIsCollapsed } from "../../helpers/Range"
+import { rangeIsCollapsed } from "../../types/Range"
 
 import { // Unsorted
 	extendRTLImpl,

@@ -9,7 +9,7 @@ import { // Unsorted
 	getCurrentRange,
 	rangeIsCollapsed,
 	convRangeToUserLiteral,
-} from "./helpers/Range"
+} from "./types/Range"
 
 import "./Editor.css"
 

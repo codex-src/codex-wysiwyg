@@ -1,39 +1,39 @@
 const helpers = {
-	// Ascends to the closest DOM element.
-	ascendElement(domNode) {
-		if (domNode.nodeType === Node.TEXT_NODE && domNode.parentElement) {
-			return domNode.parentElement
+	// Ascends to the closest element.
+	ascendElement(node) {
+		if (node.nodeType === Node.TEXT_NODE && node.parentElement) {
+			return node.parentElement
 		}
-		return domNode
+		return node
 	},
-	// Ascends to the closest ID-d DOM element.
-	ascendElementID(domNode) {
-		let domElement = helpers.ascendElement(domNode)
+	// Ascends to the closest ID-d element.
+	ascendElementID(node) {
+		let domElement = helpers.ascendElement(node)
 		while (domElement.getAttribute("id") === null && domElement.parentElement) {
 			domElement = domElement.parentElement
 		}
 		return domElement
 	},
-	nodeName(domNode) {
-		return domNode.nodeName.toLowerCase()
+	nodeName(node) {
+		return node.nodeName.toLowerCase()
 	},
-	isTextNode(domNode) {
-		return domNode.nodeType === Node.TEXT_NODE
+	isTextNode(node) {
+		return node.nodeType === Node.TEXT_NODE
 	},
-	isElement(domNode) {
-		return domNode.nodeType === Node.ELEMENT_NODE
+	isElement(node) {
+		return node.nodeType === Node.ELEMENT_NODE
 	},
-	isBrElement(domNode) {
+	isBrElement(node) {
 		const ok = (
-			domNode.nodeType === Node.ELEMENT_NODE &&
-			domNode.nodeName === "BR"
+			node.nodeType === Node.ELEMENT_NODE &&
+			node.nodeName === "BR"
 		)
 		return ok
 	},
-	isTextNodeOrBrElement(domNode) {
+	isTextNodeOrBrElement(node) {
 		const ok = (
-			domNode.nodeType === Node.TEXT_NODE ||
-			(domNode.nodeType === Node.ELEMENT_NODE && domNode.nodeName === "BR")
+			node.nodeType === Node.TEXT_NODE ||
+			(node.nodeType === Node.ELEMENT_NODE && node.nodeName === "BR")
 		)
 		return ok
 	},

@@ -1,6 +1,6 @@
 import defer from "../../utils/defer"
 import index from "../../utils/index"
-import { rangeIsCollapsed } from "../../helpers/Range"
+import { rangeIsCollapsed } from "../../types/Range"
 
 // Tests for:
 //
