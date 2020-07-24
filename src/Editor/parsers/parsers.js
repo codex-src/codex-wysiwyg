@@ -1,5 +1,5 @@
+import domUtils from "lib/DOM/domUtils"
 import hash from "lib/x/hash"
-import helpers from "lib/DOM/helpers"
 import JSONClone from "lib/JSON/JSONClone"
 import parseRendered from "./parseRendered"
 import parseSemantic from "./parseSemantic"
@@ -8,7 +8,7 @@ import parseSemantic from "./parseSemantic"
 function parseChildren(element, parser) {
 	const children = []
 	const recurse = (on, types = []) => {
-		if (helpers.isTextNode(on)) {
+		if (domUtils.isTextNode(on)) {
 			children.push({
 				types,
 				props: {
@@ -19,13 +19,13 @@ function parseChildren(element, parser) {
 		}
 		for (const each of on.childNodes) {
 			// Guard <br> and <... contenteditable="false">:
-			if (helpers.isElement(each) && (helpers.isBrElement(each) ||
+			if (domUtils.isElement(each) && (domUtils.isBrElement(each) ||
 					each.getAttribute("contenteditable") === "false")) {
 				// No-op
 				continue
 			}
 			const nextTypes = JSONClone(types)
-			if (helpers.isElement(each)) {
+			if (domUtils.isElement(each)) {
 				const { type, props } = parser(each)
 				nextTypes.push({ type, props })
 			}

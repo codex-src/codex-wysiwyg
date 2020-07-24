@@ -1,4 +1,4 @@
-const helpers = {
+const domUtils = {
 	// Ascends to the closest element.
 	ascendElement(node) {
 		if (node.nodeType === Node.TEXT_NODE && node.parentElement) {
@@ -8,7 +8,7 @@ const helpers = {
 	},
 	// Ascends to the closest ID-d element.
 	ascendElementID(node) {
-		let domElement = helpers.ascendElement(node)
+		let domElement = domUtils.ascendElement(node)
 		while (domElement.getAttribute("id") === null && domElement.parentElement) {
 			domElement = domElement.parentElement
 		}
@@ -39,4 +39,4 @@ const helpers = {
 	},
 }
 
-export default helpers
+export default domUtils

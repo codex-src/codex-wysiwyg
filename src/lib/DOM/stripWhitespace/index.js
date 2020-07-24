@@ -1,4 +1,4 @@
-import helpers from "lib/DOM/helpers"
+import domUtils from "lib/DOM/domUtils"
 
 // Creates a new whitespace regex based on the current depth.
 function newWhitespaceRe(currentDepth) {
@@ -16,7 +16,7 @@ function newWhitespaceRe(currentDepth) {
 //
 function stripWhitespace(tree) {
 	const recurse = (on, depth = 0) => {
-		if (helpers.isTextNode(on)) {
+		if (domUtils.isTextNode(on)) {
 			const regex = newWhitespaceRe(depth)
 			on.nodeValue = on.nodeValue.replace(regex, "")
 			if (!on.nodeValue) {

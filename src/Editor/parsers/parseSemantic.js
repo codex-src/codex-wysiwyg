@@ -1,8 +1,8 @@
-import helpers from "lib/DOM/helpers"
+import domUtils from "lib/DOM/domUtils"
 
 // Parses a semantic element; parses a type and props.
 function parseSemantic(element) {
-	let nodeName = helpers.nodeName(element)
+	let nodeName = domUtils.nodeName(element)
 	if (nodeName === "i" || nodeName === "u") { // Edge case
 		nodeName = "em"
 	} else if (nodeName === "b") { // Edge case

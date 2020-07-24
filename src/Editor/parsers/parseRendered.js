@@ -1,11 +1,11 @@
-import helpers from "lib/DOM/helpers"
+import domUtils from "lib/DOM/domUtils"
 
 // Parses a rendered element; parses a type and props.
 function parseRendered(element) {
 	let dataType = element.getAttribute("data-type")
-	if (helpers.nodeName(element) === "i" || helpers.nodeName(element) === "u") { // Edge case
+	if (domUtils.nodeName(element) === "i" || domUtils.nodeName(element) === "u") { // Edge case
 		dataType = "em"
-	} else if (helpers.nodeName(element) === "b") { // Edge case
+	} else if (domUtils.nodeName(element) === "b") { // Edge case
 		dataType = "strong"
 	}
 	let type = ""

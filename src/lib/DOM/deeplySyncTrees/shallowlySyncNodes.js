@@ -1,4 +1,4 @@
-import helpers from "lib/DOM/helpers"
+import domUtils from "lib/DOM/domUtils"
 
 // Syncs attributes.
 function syncAttrs(src, dst) {
@@ -24,9 +24,9 @@ function shallowlySyncNodes(src, dst) {
 		// No-op
 		return
 	}
-	if (helpers.isTextNode(src) && helpers.isTextNode(dst)) {
+	if (domUtils.isTextNode(src) && domUtils.isTextNode(dst)) {
 		dst.nodeValue = src.nodeValue
-	} else if (helpers.isElement(src) && helpers.isElement(dst) && helpers.nodeName(src) === helpers.nodeName(dst)) {
+	} else if (domUtils.isElement(src) && domUtils.isElement(dst) && domUtils.nodeName(src) === domUtils.nodeName(dst)) {
 		syncAttrs(src, dst)
 		return
 	}

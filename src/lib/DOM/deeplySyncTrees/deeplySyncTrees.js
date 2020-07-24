@@ -1,4 +1,4 @@
-import helpers from "lib/DOM/helpers"
+import domUtils from "lib/DOM/domUtils"
 import shallowlySyncNodes from "./shallowlySyncNodes"
 
 // Deeply sync trees. Note that the root elements are not
@@ -16,7 +16,7 @@ function deeplySyncTrees(src, dst, __internalDidRecurse) {
 	const x2 = Math.min(src.childNodes.length, dst.childNodes.length)
 	for (let x1 = 0; x1 < x2; x1++) {
 		let sync = shallowlySyncNodes
-		if (helpers.isElement(src.childNodes[x1]) && helpers.isElement(dst.childNodes[x1])) {
+		if (domUtils.isElement(src.childNodes[x1]) && domUtils.isElement(dst.childNodes[x1])) {
 			sync = (src, dst) => deeplySyncTrees(src, dst, true) // __internalDidRecurse=true
 		}
 		sync(src.childNodes[x1], dst.childNodes[x1])

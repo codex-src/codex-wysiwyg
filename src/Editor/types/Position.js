@@ -1,13 +1,13 @@
-import helpers from "lib/DOM/helpers"
+import domUtils from "lib/DOM/domUtils"
 
 // Gets a position from a user literal.
 export function getPositionFromUserLiteral({ node, offset: originalOffset }) {
 	// Guard non-contenteditable descendants:
-	if (!helpers.ascendElement(node).closest("[contenteditable='true']")) {
+	if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
 		return null
 	}
 	// Guard node and originalOffset (1 of 2):
-	while (!helpers.isTextNodeOrBrElement(node)) {
+	while (!domUtils.isTextNodeOrBrElement(node)) {
 		if (originalOffset && originalOffset === node.childNodes.length) {
 			originalOffset = node.childNodes.length - 1
 		}
@@ -22,7 +22,7 @@ export function getPositionFromUserLiteral({ node, offset: originalOffset }) {
 	let offset = 0
 	const recurse = on => {
 		if (on === node) {
-			key = helpers.ascendElementID(on).id
+			key = domUtils.ascendElementID(on).id
 			offset += originalOffset
 			return true
 		}
@@ -30,12 +30,12 @@ export function getPositionFromUserLiteral({ node, offset: originalOffset }) {
 			if (recurse(each)) {
 				return true
 			}
-			offset += helpers.isTextNode(each) &&
+			offset += domUtils.isTextNode(each) &&
 				each.nodeValue.length
 		}
 		return false
 	}
-	recurse(helpers.ascendElementID(node))
+	recurse(domUtils.ascendElementID(node))
 	return { key, offset }
 }
 
@@ -46,7 +46,7 @@ export function convPositionToUserLiteral(pos) {
 	let node = null
 	let offset = 0
 	const recurse = on => {
-		if (helpers.isTextNodeOrBrElement(on) && originalOffset - (on.nodeValue || "").length <= 0) {
+		if (domUtils.isTextNodeOrBrElement(on) && originalOffset - (on.nodeValue || "").length <= 0) {
 			node = on
 			offset = originalOffset
 			return true
@@ -55,7 +55,7 @@ export function convPositionToUserLiteral(pos) {
 			if (recurse(each)) {
 				return true
 			}
-			originalOffset -= helpers.isTextNode(each) &&
+			originalOffset -= domUtils.isTextNode(each) &&
 				each.nodeValue.length
 		}
 		return false
