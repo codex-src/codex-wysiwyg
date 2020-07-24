@@ -1,6 +1,6 @@
 import defer from "../../utils/defer"
 import index from "../../utils/index"
-import { rangeIsCollapsed } from "../../methods/Range"
+import { rangeIsCollapsed } from "../../helpers/Range"
 
 // Deletes the current range.
 const deleteImpl = e => () => {
