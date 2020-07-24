@@ -5,7 +5,7 @@ import { parseElementsFromMarkup } from "./parseElements"
 import { useImmerReducer } from "use-immer"
 
 function newInitialState() {
-	const key = hash()
+	const id = hash()
 	const state = {
 		lastActionTimestamp: "",
 		lastAction: 0,
@@ -13,7 +13,7 @@ function newInitialState() {
 		elements: [
 			{
 				type: "p",
-				key,
+				key: id,
 				props: {
 					children: [],
 				},
@@ -21,11 +21,11 @@ function newInitialState() {
 		],
 		range: {
 			start: {
-				key,
+				key: id,
 				offset: 0,
 			},
 			end: {
-				key,
+				key: id,
 				offset: 0,
 			},
 		},

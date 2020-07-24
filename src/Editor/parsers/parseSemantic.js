@@ -1,6 +1,6 @@
 import domUtils from "lib/DOM/domUtils"
 
-// Parses a semantic element; parses a type and props.
+// Parses a semantic element; parses types and props.
 function parseSemantic(element) {
 	let nodeName = domUtils.nodeName(element)
 	if (nodeName === "i" || nodeName === "u") { // Edge case

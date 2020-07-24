@@ -24,12 +24,12 @@ function parseChildren(element, parser) {
 				// No-op
 				continue
 			}
-			const copyTypes = JSONClone(types)
+			const nextTypes = JSONClone(types)
 			if (domUtils.isElement(each)) {
 				const { type, props } = parser(each)
-				copyTypes[type] = props
+				nextTypes[type] = props
 			}
-			recurse(each, copyTypes)
+			recurse(each, nextTypes)
 		}
 	}
 	recurse(element)

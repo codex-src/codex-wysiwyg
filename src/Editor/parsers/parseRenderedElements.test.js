@@ -44,17 +44,17 @@ test("<p>Hello, <code>world</code>!</p>", () => {
 			key: id,
 			props: {
 				children: [
-					{ types: [], props: { children: "Hello," } },
-					{ types: [], props: { children: " " } },
+					{ types: {}, props: { children: "Hello," } },
+					{ types: {}, props: { children: " " } },
 					{
-						types: [
-							{ type: "code", props: null },
-						],
+						types: {
+							code: {},
+						},
 						props: {
 							children: "world",
 						},
 					},
-					{ types: [], props: { children: "!" } },
+					{ types: {}, props: { children: "!" } },
 				],
 			},
 		},
@@ -89,21 +89,21 @@ test("<p>Hello, <code><a href='foo'><strike><strong><em>world</em></strong></str
 			key: id,
 			props: {
 				children: [
-					{ types: [], props: { children: "Hello," } },
-					{ types: [], props: { children: " " } },
+					{ types: {}, props: { children: "Hello," } },
+					{ types: {}, props: { children: " " } },
 					{
-						types: [
-							{ type: "code", props: null },
-							{ type: "a", props: { href: "foo" } },
-							{ type: "strike", props: null },
-							{ type: "strong", props: null },
-							{ type: "em", props: null },
-						],
+						types: {
+							code: {},
+							a: { href: "foo" },
+							strike: {},
+							strong: {},
+							em: {},
+						},
 						props: {
 							children: "world",
 						},
 					},
-					{ types: [], props: { children: "!" } },
+					{ types: {}, props: { children: "!" } },
 				],
 			},
 		},
