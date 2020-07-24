@@ -5,14 +5,14 @@ import textContent from "../../utils/textContent"
 export const extendRTLImpl = e => boundary => {
 	const x = e.elements.findIndex(each => each.key === e.range.start.key)
 
-	let prev = null
-	if (x - 1 >= 0) {
-		prev = e.elements[x - 1]
-	}
-	const current = e.elements[x]
+	const prev = x - 1 >= 0 ? e.elements[x - 1] : null
+	const curr = e.elements[x]
 
-	const substr = textContent(current.props.children).slice(0, e.range.start.offset)
-	if (!substr && prev) {
+	const substr = textContent(curr.props.children).slice(0, e.range.start.offset)
+	if (!substr && !prev) {
+		// No-op
+		return
+	} else if (!substr && prev) {
 		Object.assign(e.range.start, {
 			key: prev.key,
 			offset: textContent(prev.props.children).length,
@@ -27,14 +27,14 @@ export const extendRTLImpl = e => boundary => {
 export const extendLTRImpl = e => boundary => {
 	const x = e.elements.findIndex(each => each.key === e.range.start.key)
 
-	const current = e.elements[x]
-	let next = null
-	if (x + 1 < e.elements.length) {
-		next = e.elements[x + 1]
-	}
+	const curr = e.elements[x]
+	const next = x + 1 < e.elements.length ? e.elements[x + 1] : null
 
-	const substr = textContent(current.props.children).slice(e.range.end.offset)
-	if (!substr && next) {
+	const substr = textContent(curr.props.children).slice(e.range.end.offset)
+	if (!substr && !next) {
+		// No-op
+		return
+	} else if (!substr && next) {
 		Object.assign(e.range.end, {
 			key: next.key,
 			offset: 0,
