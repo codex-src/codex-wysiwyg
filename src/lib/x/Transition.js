@@ -8,34 +8,33 @@ const Transition = ({
 	to,        // string e.g. "transform rotate-90"
 	children,  // etc.
 }) => {
+	if (on === undefined || from === undefined || to === undefined) {
+		throw new Error("Transition: expected props; <Transition on={...} from='...' to='...'>")
+	}
+
 	const ref = React.useRef()
 
-	const classes = (className || "").split(/\s+/g).filter(Boolean)
-	const fromClasses = (from || "").split(/\s+/g).filter(Boolean)
-	const toClasses = (to || "").split(/\s+/g).filter(Boolean)
+	const [classes, fromClasses, toClasses] = React.useMemo(() => {
+		const classes = (className || "").split(" ").filter(Boolean)
+		const fromClasses = from.split(" ").filter(Boolean)
+		const toClasses = to.split(" ").filter(Boolean)
+		return [classes, fromClasses, toClasses]
+	}, [className, from, to])
 
 	const mounted = React.useRef()
 	React.useLayoutEffect(() => {
 		const actualRef = children.ref || ref
 		if (!mounted.current) {
-			// if (classes.length) {
-			actualRef.current.classList.add(...classes)
-			// }
+			if (classes.length) {
+				actualRef.current.classList.add(...classes)
+			}
 		}
 		if (!on) {
-			// if (toClasses.length) {
 			actualRef.current.classList.remove(...toClasses)
-			// }
-			// if (fromClasses.length) {
 			actualRef.current.classList.add(...fromClasses)
-			// }
 		} else {
-			// if (fromClasses.length) {
 			actualRef.current.classList.remove(...fromClasses)
-			// }
-			// if (toClasses.length) {
 			actualRef.current.classList.add(...toClasses)
-			// }
 		}
 	}, [
 		on,
