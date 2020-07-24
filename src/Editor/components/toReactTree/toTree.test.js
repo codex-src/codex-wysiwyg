@@ -7,7 +7,7 @@ test("(empty)", () => {
 
 test("Hello, world!", () => {
 	const children = [
-		{ types: [], props: { children: "Hello, world!" } },
+		{ types: {}, props: { children: "Hello, world!" } },
 	]
 	expect(toTree(children)).toEqual([
 		"Hello, world!",
@@ -16,9 +16,9 @@ test("Hello, world!", () => {
 
 test("Hello, <code>world</code>!", () => {
 	const children = [
-		{ types: [], props: { children: "Hello, " } },
-		{ types: [{ type: "code", props: null }], props: { children: "world" } },
-		{ types: [], props: { children: "!" } },
+		{ types: {}, props: { children: "Hello, " } },
+		{ types: { "code": {} }, props: { children: "world" } },
+		{ types: {}, props: { children: "!" } },
 	]
 	expect(toTree(children)).toEqual([
 		"Hello, ",
@@ -30,89 +30,89 @@ test("Hello, <code>world</code>!", () => {
 test("stress test; non-nested", () => {
 	const children = [
 		{
-			types: [
-				{ type: "em", props: null },
-			],
+			types: {
+				"em": {},
+			},
 			props: {
 				children: "foo",
 			},
 		},
 		{
-			types: [
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "bar",
 			},
 		},
 		{
-			types: [
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"strike": {},
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "baz",
 			},
 		},
 		{
-			types: [
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"a": {},
+				"strike": {},
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "qux",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+				"strike": {},
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "quux",
 			},
 		},
 		{
-			types: [
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"a": {},
+				"strike": {},
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "quuz",
 			},
 		},
 		{
-			types: [
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"strike": {},
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "corge",
 			},
 		},
 		{
-			types: [
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "grault",
 			},
 		},
 		{
-			types: [
-				{ type: "em", props: null },
-			],
+			types: {
+				"em": {},
+			},
 			props: {
 				children: "garply",
 			},
@@ -269,89 +269,89 @@ test("stress test; non-nested", () => {
 test("stress test; nested", () => {
 	const children = [
 		{
-			types: [
-				{ type: "code", props: null },
-			],
+			types: {
+				"code": {},
+			},
 			props: {
 				children: "foo",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+			},
 			props: {
 				children: "bar",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+				"strike": {},
+			},
 			props: {
 				children: "baz",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+				"strike": {},
+				"strong": {},
+			},
 			props: {
 				children: "qux",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-				{ type: "em", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+				"strike": {},
+				"strong": {},
+				"em": {},
+			},
 			props: {
 				children: "quux",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-				{ type: "strong", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+				"strike": {},
+				"strong": {},
+			},
 			props: {
 				children: "quuz",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-				{ type: "strike", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+				"strike": {},
+			},
 			props: {
 				children: "corge",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-				{ type: "a", props: null },
-			],
+			types: {
+				"code": {},
+				"a": {},
+			},
 			props: {
 				children: "grault",
 			},
 		},
 		{
-			types: [
-				{ type: "code", props: null },
-			],
+			types: {
+				"code": {},
+			},
 			props: {
 				children: "garply",
 			},

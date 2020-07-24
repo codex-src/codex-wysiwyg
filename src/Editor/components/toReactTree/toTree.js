@@ -1,3 +1,4 @@
+import convTypesToArray from "./convTypesToArray"
 import JSONEqual from "lib/JSON/JSONEqual"
 import toArray from "lib/x/toArray"
 
@@ -9,14 +10,17 @@ function propsAreEqual(pseudo, typeProps) {
 
 // Queries the next parent element and types.
 function queryNext(tree, { types }) {
-	if (!tree.length || !types.length) {
-		return [tree, types]
+	const typeArr = convTypesToArray(types)
+
+	if (!tree.length || !typeArr.length) {
+		return [tree, typeArr]
 	}
 	let lastRef = toArray(tree).slice(-1)[0]
 	let ref = lastRef
 	let x = 0
-	for (; x < types.length; x++) {
-		const type = types[x]
+	for (; x < typeArr.length; x++) {
+		const type = typeArr[x]
+
 		ref = toArray(ref).slice(-1)[0]
 		if (typeof ref === "string" || ref.type !== type.type || !propsAreEqual(ref.props, type.props)) {
 			// No-op
@@ -26,10 +30,10 @@ function queryNext(tree, { types }) {
 		ref = ref.props.children
 	}
 	if (lastRef === ref) {
-		return [tree, types]
+		return [tree, typeArr]
 	}
 	lastRef.props.children = toArray(lastRef.props.children)
-	return [lastRef.props.children, types.slice(x)]
+	return [lastRef.props.children, typeArr.slice(x)]
 }
 
 // Creates a pseudo React element.
