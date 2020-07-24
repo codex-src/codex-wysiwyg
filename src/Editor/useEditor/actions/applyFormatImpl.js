@@ -54,10 +54,7 @@ const applyFormatImpl = e => formatType => {
 	}
 
 	const children = getCurrentChildren(e.elements.slice(x1, x2 + 1), e.range)
-	// console.log(JSON.parse(JSON.stringify(children)))
-
 	const shouldApply = testShouldApply(formatType, children)
-	console.log({ formatType, shouldApply })
 
 	switch (shouldApply) {
 	case "plaintext":

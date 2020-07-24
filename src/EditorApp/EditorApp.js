@@ -13,8 +13,8 @@ import { // Unsorted
 } from "./resolvers"
 
 import { // Unsorted
-	ReadWriteEditor,
-	useEditorFromMarkup,
+	Editor,
+	useEditor,
 } from "Editor"
 
 const Output = ({ output, setOutput }) => {
@@ -192,32 +192,14 @@ const FixedPreferences = React.memo(() => {
 
 const ElementsContext = React.createContext(null)
 
-const markup = `
-<p>
-	This prototype currently supports <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements. Of course, elements can be <strong><em>nested</em></strong> if that’s your thing.
-</p>
-<p>
-	<br />
-</p>
-<p>
-	Shortcuts are supported! You can use <code>${ctrlOrCmd}-i</code> for <em>italics</em>, <code>${ctrlOrCmd}-b</code> for <strong>bold</strong>, <code>shift-${ctrlOrCmd}-c</code> for <code>code</code>, <code>shift-${ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>${ctrlOrCmd}-k</code> for <a href="TODO">links</a>. Finally, you can use <code>shift-${ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
-</p>
-<p>
-	<br />
-</p>
-<p>
-	<strong>Please note that many basic features are not yet implemented!</strong> 😎
-</p>
-`
-
 const App = () => {
-	const [state, dispatch] = useEditorFromMarkup(markup)
+	const [state, dispatch] = useEditor()
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
-		}, 16.67)
+		}, 16.67 * 2)
 		return () => {
 			clearTimeout(id)
 		}
@@ -231,17 +213,26 @@ const App = () => {
 					<FixedPreferences />
 				</ElementsContext.Provider>
 
-				<ReadWriteEditor
-					className="text-lg text-gray-800"
-					state={state}
-					dispatch={dispatch}
-				/>
-
-				{/* {process.env.NODE_ENV !== "production" && ( */}
-				{/* 	<div className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ MozTabSize: 2, tabSize: 2 }}> */}
-				{/* 		{JSON.stringify(state, null, "\t")} */}
-				{/* 	</div> */}
-				{/* )} */}
+				<Editor className="text-lg text-gray-800" state={state} dispatch={dispatch}>
+					<p>
+						This prototype currently supports <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements.{" "}
+						Of course, elements can be <strong><em>nested</em></strong> if that’s your thing.
+					</p>
+					<p>
+						<br />
+					</p>
+					<p>
+						Shortcuts are supported!{" "}
+						You can use <code>{ctrlOrCmd}-i</code> for <em>italics</em>, <code>{ctrlOrCmd}-b</code> for <strong>bold</strong>, <code>shift-{ctrlOrCmd}-c</code> for <code>code</code>, <code>shift-{ctrlOrCmd}-x</code> for <strike>strikethrough</strike>, and <code>{ctrlOrCmd}-k</code> for <a href="TODO">links</a>.{" "}
+						Finally, you can use <code>shift-{ctrlOrCmd}-p</code> to <em>remove</em> formatting from a selection.
+					</p>
+					<p>
+						<br />
+					</p>
+					<p>
+						<strong>Please note that many basic features are not yet implemented!</strong> 😎
+					</p>
+				</Editor>
 
 			</div>
 		</div>

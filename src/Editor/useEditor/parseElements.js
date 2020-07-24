@@ -1,14 +1,13 @@
-// import * as ElementList from "../types/ElementList" // FIXME
-import defer from "../utils/defer"
+// import defer from "../utils/defer"
 import parseTree from "lib/DOM/parseTree"
 import ReactDOMServer from "react-dom/server"
 import stripWhitespace from "lib/DOM/stripWhitespace"
 import { parseSemanticElements } from "../parsers"
 
 // Parses elements from markup or children.
-function parseElements({ markup, children }) {
+function parseElementsImpl({ markup, children }) {
 	if ((!markup && !children) || (markup && children)) {
-		throw new Error("useEditor.parseElements: use markup or children")
+		throw new Error("useEditor.parseElementsImpl: use markup or children")
 	}
 	if (children) {
 		markup = ReactDOMServer.renderToStaticMarkup(children)
@@ -19,14 +18,15 @@ function parseElements({ markup, children }) {
 		"</article>",
 		stripWhitespace,
 	)
-	// Defer on children:
-	const elements = parseSemanticElements(tree)
-	// let k = ElementList.fromElements(elements) // TODO?
-	// while (k) {
-	// 	defer(k.current.props.children)
-	// 	k = k.next
-	// }
-	return elements
+	return parseSemanticElements(tree /* , defer */) // TODO
 }
 
-export default parseElements
+// Parses elements from markup.
+export function parseElementsFromMarkup(markup) {
+	return parseElementsImpl({ markup })
+}
+
+// Parses elements from children.
+export function parseElementsFromChildren(children) {
+	return parseElementsImpl({ children })
+}

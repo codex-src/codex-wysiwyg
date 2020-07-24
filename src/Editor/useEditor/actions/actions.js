@@ -32,6 +32,14 @@ const render = e => () => {
 // 	e.readOnlyModeEnabled = false
 // }
 
+// Manually updates elements.
+export const manuallyUpdateElements = e => elements => {
+	record(e)("init")
+	e.elements = elements
+	// TODO
+	render(e)()
+}
+
 // Focuses the editor.
 export const focus = e => () => {
 	record(e)("focus")

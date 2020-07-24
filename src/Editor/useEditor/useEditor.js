@@ -1,28 +1,44 @@
 import * as actions from "./actions/actions" // FIXME: Use index.js?
-import parseElements from "./parseElements"
+import hash from "lib/x/hash"
 import React from "react"
+import { parseElementsFromMarkup } from "./parseElements"
 import { useImmerReducer } from "use-immer"
 
-const createInitialState = elements => ({
-	lastActionTimestamp: "init",
-	lastAction: Date.now(),
-	focused: false,
-	elements,
-	range: {
-		start: {
-			key: "",
-			offset: 0,
+function newInitialState() {
+	const key = hash()
+	const state = {
+		lastActionTimestamp: "",
+		lastAction: 0,
+		focused: false,
+		elements: [
+			{
+				type: "p",
+				key,
+				props: {
+					children: [],
+				},
+			},
+		],
+		range: {
+			start: {
+				key,
+				offset: 0,
+			},
+			end: {
+				key,
+				offset: 0,
+			},
 		},
-		end: {
-			key: "",
-			offset: 0,
-		},
-	},
-	shouldRerender: 0,
-})
+		shouldRerender: 0,
+	}
+	return state
+}
 
 function reducer(draft, action) {
 	switch (action.type) {
+	case "MANUALLY_UPDATE_ELEMENTS":
+		actions.manuallyUpdateElements(draft)(action.elements)
+		return
 	case "FOCUS":
 		actions.focus(draft)()
 		return
@@ -49,21 +65,19 @@ function reducer(draft, action) {
 	}
 }
 
-// Instantiates from markup.
+// Instantiates an editor from markup.
 export function useEditorFromMarkup(markup) {
 	const initialState = React.useMemo(() => {
-		const elements = parseElements({ markup })
-		return createInitialState(elements)
+		const elements = parseElementsFromMarkup(markup)
+		return newInitialState(elements)
 	}, [markup])
 	return useImmerReducer(reducer, initialState)
 }
 
-// Instantiates from React children. Note that children is
-// expected to be an array of React elements.
-export function useEditorFromChildren(children) {
+// Instantiates an editor.
+export function useEditor() {
 	const initialState = React.useMemo(() => {
-		const elements = parseElements({ children })
-		return createInitialState(elements)
-	}, [children])
+		return newInitialState()
+	}, [])
 	return useImmerReducer(reducer, initialState)
 }

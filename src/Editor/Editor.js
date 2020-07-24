@@ -3,6 +3,7 @@ import defer from "./utils/defer"
 import keyDownTypeFor from "./keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
+import { parseElementsFromChildren } from "./useEditor/parseElements"
 import { parseRenderedChildren } from "./parsers"
 
 import { // Unsorted
@@ -24,9 +25,21 @@ const Renderer = ({ state, dispatch }) => (
 )
 
 // Renders a read-write editor.
-const ReadWriteEditor = ({ className, style, state, dispatch }) => {
+const Editor = ({ className, style, state, dispatch, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
+
+	// Manually updates elements from props.children.
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			const elements = parseElementsFromChildren(children)
+			dispatch({
+				type: "MANUALLY_UPDATE_ELEMENTS",
+				elements,
+			})
+		}, [dispatch, children]),
+		[],
+	)
 
 	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
@@ -216,13 +229,20 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 
 				data-root
 			/>
-			{/* {JSON.stringify( */}
-			{/* 	state.range, */}
-			{/* 	null, */}
-			{/* 	"\t", */}
-			{/* )} */}
+
+			{/* DEBUGGER */}
+			{process.env.NODE_ENV !== "production" && (
+				<pre className="mt-6 text-xs font-mono" style={{ tabSize: 2 }}>
+					{JSON.stringify(
+						state,
+						null,
+						"\t",
+					)}
+				</pre>
+			)}
+
 		</div>
 	)
 }
 
-export default ReadWriteEditor
+export default Editor

@@ -1,12 +1,14 @@
 import componentMap from "./components/componentMap"
-import parseElements from "./useEditor/parseElements"
 import React from "react"
+import { parseElementsFromChildren } from "./useEditor/parseElements"
 
 import "./Editor.css"
 
 // Renders a read-only editor.
 const ReadOnlyEditor = ({ className, style, children }) => {
-	const elements = parseElements({ children })
+	const elements = React.useMemo(() => {
+		return parseElementsFromChildren(children)
+	}, [children])
 	return (
 		<div className="em-context">
 			<article className={className} style={style}>
