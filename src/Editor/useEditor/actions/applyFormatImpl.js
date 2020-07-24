@@ -22,17 +22,17 @@ function testShouldApply(formatType, children) {
 
 // Gets the current children. Note that elements is expected
 // to be a subsection of elements.
-function getCurrentChildren(subelements, range) {
+function getChildrenFromRange(elements, range) {
 	const children = []
-	for (const each of subelements) {
+	for (const each of elements) {
 		// Start range offset:
 		let r1 = 0
-		if (each === subelements[0]) { // each.key === range.start.key
+		if (each === elements[0]) { // each.key === range.start.key
 			r1 = index(each.props.children, range.start.offset)
 		}
 		// End range offset:
 		let r2 = each.props.children.length
-		if (each === subelements[subelements.length - 1]) {
+		if (each === elements[elements.length - 1]) {
 			r2 = index(each.props.children, range.end.offset)
 		}
 		children.push(...each.props.children.slice(r1, r2))
@@ -53,7 +53,7 @@ const applyFormatImpl = e => formatType => {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 
-	const children = getCurrentChildren(e.elements.slice(x1, x2 + 1), e.range)
+	const children = getChildrenFromRange(e.elements.slice(x1, x2 + 1), e.range)
 	const shouldApply = testShouldApply(formatType, children)
 
 	switch (shouldApply) {

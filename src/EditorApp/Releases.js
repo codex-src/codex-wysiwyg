@@ -19,6 +19,12 @@ const ReleaseItem = ({ date, release, children }) => (
 
 const Releases = () => (
 	<React.Fragment>
+		<ReleaseItem date="July 24, 2020" release="0.4">
+			<p>
+				– Added basic support for <code>"insert-text"</code> operations.
+			</p>
+		</ReleaseItem>
+		<hr className="border-t border-gray-200 opacity-50" />
 		<ReleaseItem date="July 22, 2020" release="0.3">
 			<p>
 				– Added a dedicated changelog and improved readability for markdown and HTML-rendered output.
@@ -33,14 +39,14 @@ const Releases = () => (
 		<hr className="border-t border-gray-200 opacity-50" />
 		<ReleaseItem date="July 20, 2020" release="0.1">
 			<p>
-				– Added complete support for all backspace operations, such as <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
+				– Added support for all backspace operations: <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
 			</p>
 			<p>
 				<br />
 			</p>
 			<p>
-				– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements.{" "}
-				Of course, elements can be <em><strong>nested</strong></em> if that’s your thing.
+				– Added basic support for <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for elements.{" "}
+				Of course, elements can be <em><strong>nested</strong></em>.
 			</p>
 			<p>
 				<br />

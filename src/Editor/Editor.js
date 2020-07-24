@@ -125,12 +125,6 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					})
 				}}
 
-				// case "apply-format-markdown-em":
-				// case "apply-format-markdown-strong":
-				// case "apply-format-markdown-code":
-				// case "apply-format-markdown-strike":
-				// case "apply-format-markdown-a":
-
 				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
 					if (keyDownType) {
@@ -149,14 +143,44 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 							keyDownType,
 						})
 						break
+					case "apply-format-markdown-em":
+					case "apply-format-markdown-strong":
+					case "apply-format-markdown-code":
+					case "apply-format-markdown-strike":
+					case "apply-format-markdown-a":
+						if (rangeIsCollapsed(state.range)) {
+							// TODO
+						} else {
+							e.preventDefault()
+							dispatch({
+								type: "APPLY_FORMAT",
+								keyDownType,
+							})
+						}
+						break
 					case "insert-text":
-						e.preventDefault()
-						dispatch({
-							type: "INSERT_TEXT",
-							text: e.key,
-						})
+						if (rangeIsCollapsed(state.range)) {
+							// No-op
+							break
+						} else {
+							e.preventDefault()
+							dispatch({
+								type: "INSERT_TEXT",
+								key: e.key,
+							})
+						}
 						break
 					case "insert-tab":
+						if (rangeIsCollapsed(state.range)) {
+							e.preventDefault()
+							dispatch({
+								type: "INSERT_TEXT",
+								key: "\t",
+							})
+						} else {
+							// TODO
+						}
+						break
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":

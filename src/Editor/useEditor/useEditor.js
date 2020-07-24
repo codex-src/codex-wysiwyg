@@ -50,7 +50,7 @@ function reducer(draft, action) {
 		actions.select(draft)(action.range)
 		return
 	case "INSERT_TEXT":
-		actions.insertText(draft)(action.text)
+		actions.insertText(draft)(action.key)
 		return
 	case "APPLY_FORMAT":
 		actions.applyFormat(draft)(action.keyDownType)

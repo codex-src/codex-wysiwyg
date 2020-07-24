@@ -1,7 +1,8 @@
 // import defer from "../../utils/defer"
-import index from "../../utils/index"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
+import getIndex from "../../utils/index"
+import JSONClone from "lib/JSON/JSONClone"
 import { default as record } from "./recordActionImpl"
 import { rangeIsCollapsed } from "../../types/Range"
 
@@ -51,45 +52,44 @@ export const select = e => range => {
 	e.range = range
 }
 
-// TODO
-const insertTextImpl = e => text => {
-	if (rangeIsCollapsed(e.range)) {
-		// TODO
-		return
+// Inserts text at the current range.
+const insertTextImpl = e => key => {
+	const ch = e.elements.find(each => each.key === e.range.start.key)
+		.props.children
+
+	// Get the current text node:
+	const tx = getIndex(ch, e.range.start.offset)
+	let originalTextNode = {
+		types: [],
+		props: {
+			children: "",
+		},
+	}
+	if (tx < ch.length) {
+		originalTextNode = JSONClone(ch[tx])
 	}
 
-	if (!rangeIsCollapsed(e.range)) {
-		deleteImpl(e)()
-	}
+	deleteImpl(e)()
 
-	const el = e.elements.find(each => each.key === e.range.start.key)
-	if (!el.props.children.length) {
-		el.props.children.push({
-			types: [],
-			props: {
-				children: text,
-			},
-		})
-	} else {
-		const textNode = el.props.children[index(el.props.children, e.range.start.offset)]
-		Object.assign(textNode, {
-			...textNode,
-			props: {
-				children: text + textNode.props.children,
-			},
-		})
-	}
-
+	// Push the new text node:
+	const x = getIndex(ch, e.range.start.offset)
+	ch.splice(x, 0, {
+		...originalTextNode,
+		props: {
+			...originalTextNode.props,
+			children: key,
+		},
+	})
 }
 
 // Implementation methods implement an action but do not
 // record the currect action or mutate the range.
 
 // Inserts text at the current range.
-export const insertText = e => text => {
+export const insertText = e => key => {
 	record(e)("insert-text")
-	insertTextImpl(e)(text)
-	e.range.start.offset += text.length
+	insertTextImpl(e)(key)
+	e.range.start.offset += key.length
 	collapseToStart(e)()
 	render(e)()
 }
