@@ -1,7 +1,7 @@
 import * as iterate from "lib/UTF8/iterate"
 import textContent from "../../utils/textContent"
 
-// Extends the range right-to-left.
+// Extends the current range right-to-left.
 export const extendRTLImpl = e => boundary => {
 	const x = e.elements.findIndex(each => each.key === e.range.start.key)
 
@@ -23,7 +23,7 @@ export const extendRTLImpl = e => boundary => {
 	e.range.start.offset -= itd.length
 }
 
-// Extends the range left-to-right.
+// Extends the current range left-to-right.
 export const extendLTRImpl = e => boundary => {
 	const x = e.elements.findIndex(each => each.key === e.range.start.key)
 

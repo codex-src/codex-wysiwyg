@@ -101,7 +101,7 @@ const FixedPreferences = React.memo(() => {
 
 	const [output, setOutput] = React.useState({
 		show: false,
-		detail: "",
+		detail: "changelog",
 	})
 
 	const handleClickChangelog = e => {
@@ -197,6 +197,7 @@ const FixedPreferences = React.memo(() => {
 					)}
 					<button
 						className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
 						onFocus={e => setHover("gfm")}
 						onBlur={e => setHover("")}
 						onMouseEnter={e => setHover("gfm")}
