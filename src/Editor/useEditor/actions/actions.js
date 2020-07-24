@@ -1,13 +1,13 @@
+// import { rangeIsCollapsed } from "../../types/Range"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
 import findIndex from "../../utils/findIndex"
 import JSONClone from "lib/JSON/JSONClone"
-import { rangeIsCollapsed } from "../../types/Range"
 
-import { // Unsorted
-	extendRTLImpl,
-	extendLTRImpl,
-} from "./extendImpl"
+// import { // Unsorted
+// 	extendRTLImpl,
+// 	extendLTRImpl,
+// } from "./extendImpl"
 
 // Unexported; collapses the current range end-to-start.
 const collapseToStart = e => () => {
@@ -24,8 +24,8 @@ const render = e => () => {
 	e.shouldRerender++
 }
 
-// Records an action. No-ops actions sooner than 200ms.
-export const record = e => actionType => {
+// Unexported; records an action.
+const record = e => actionType => {
 	const now = Date.now()
 	if (actionType === "select" && now - e.lastActionTimestamp < 200) {
 		// No-op
@@ -107,7 +107,7 @@ export const insertText = e => key => {
 export const applyFormat = e => keyDownType => {
 	const formatType = keyDownType.split("-").slice(-1)[0]
 
-	record(e)("apply-format")
+	record(e)(`apply-format-${formatType}`)
 	applyFormatImpl(e)(formatType)
 	render(e)()
 }
@@ -118,11 +118,7 @@ export const $delete = e => keyDownType => {
 	const [dir, boundary] = keyDownType.split("-").slice(1)
 
 	record(e)(`delete-${dir}-${boundary}`)
-	if (rangeIsCollapsed(e.range)) { // TODO: Move to impl?
-		const extend = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
-		extend(e)(boundary)
-	}
-	deleteImpl(e)()
+	deleteImpl(e)(dir, boundary)
 	collapseToStart(e)()
 	render(e)()
 }
@@ -130,8 +126,8 @@ export const $delete = e => keyDownType => {
 // Uncontrolled input handler.
 export const uncontrolledInput = e => (children, range) => {
 	record(e)("input")
-	const element = e.elements.find(each => each.key === range.start.key)
-	element.props.children = children
+	const el = e.elements.find(each => each.key === range.start.key)
+	el.props.children = children
 	e.range = range
 	render(e)()
 }

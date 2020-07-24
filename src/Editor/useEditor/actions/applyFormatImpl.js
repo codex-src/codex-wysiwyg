@@ -46,9 +46,9 @@ const applyFormatImpl = e => (formatType, formatProps = {} /* TODO */) => {
 	switch (shouldApply) {
 	case "plaintext":
 		for (const each of ch) {
-			Object.keys(each.types).map(type => {
+			for (const type of Object.keys(each.types)) {
 				delete each.types[type]
-			})
+			}
 		}
 		break
 	case "should-not-apply":

@@ -1,8 +1,18 @@
 import findIndex from "../../utils/findIndex"
 import { rangeIsCollapsed } from "../../types/Range"
 
+import { // Unsorted
+	extendRTLImpl,
+	extendLTRImpl,
+} from "./extendImpl"
+
 // Deletes the current range.
-const deleteImpl = e => () => {
+const deleteImpl = e => (dir = "none", boundary = "none") => {
+	if (rangeIsCollapsed(e.range)) {
+		const extend = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
+		extend(e)(boundary)
+	}
+
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
 	if (!rangeIsCollapsed(e.range)) {
