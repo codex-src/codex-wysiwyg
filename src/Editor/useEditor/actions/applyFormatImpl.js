@@ -40,7 +40,7 @@ function getChildrenFromRange(elements, range) {
 }
 
 // Applies a format to the current range.
-const applyFormatImpl = e => formatType => {
+const applyFormatImpl = e => (formatType, formatProps = {} /* TODO */) => {
 	if (rangeIsCollapsed(e.range)) {
 		e.pendingRange = e.range // TODO
 		return
