@@ -1,5 +1,5 @@
-// import * as ElementList from "../../types/ElementList"
 // import defer from "../../utils/defer"
+import index from "../../utils/index"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
 import { default as record } from "./recordActionImpl"
@@ -15,28 +15,20 @@ const collapseToStart = e => () => {
 	e.range.end = e.range.start
 }
 
+// Unexported; drops the pending range.
+const dropPendingRange = e => () => {
+	e.pendingRange = null
+}
+
 // Unexported; rerenders.
 const render = e => () => {
 	e.shouldRerender++
 }
 
-// // Enables read-only mode.
-// export const enableReadOnlyMode = e => () => {
-// 	record(e)("enable-read-only-mode")
-// 	e.readOnlyModeEnabled = true
-// }
-//
-// // Disables read-only mode.
-// export const disableReadOnlyMode = e => () => {
-// 	record(e)("disable-read-only-mode")
-// 	e.readOnlyModeEnabled = false
-// }
-
 // Manually updates elements.
 export const manuallyUpdateElements = e => elements => {
 	record(e)("init")
 	e.elements = elements
-	// TODO
 	render(e)()
 }
 
@@ -55,16 +47,49 @@ export const blur = e => () => {
 // Selects a range.
 export const select = e => range => {
 	record(e)("select")
+	dropPendingRange(e)()
 	e.range = range
 }
+
+// TODO
+const insertTextImpl = e => text => {
+	if (rangeIsCollapsed(e.range)) {
+		// TODO
+		return
+	}
+
+	if (!rangeIsCollapsed(e.range)) {
+		deleteImpl(e)()
+	}
+
+	const el = e.elements.find(each => each.key === e.range.start.key)
+	if (!el.props.children.length) {
+		el.props.children.push({
+			types: [],
+			props: {
+				children: text,
+			},
+		})
+	} else {
+		const textNode = el.props.children[index(el.props.children, e.range.start.offset)]
+		Object.assign(textNode, {
+			...textNode,
+			props: {
+				children: text + textNode.props.children,
+			},
+		})
+	}
+
+}
+
+// Implementation methods implement an action but do not
+// record the currect action or mutate the range.
 
 // Inserts text at the current range.
 export const insertText = e => text => {
 	record(e)("insert-text")
-	if (!rangeIsCollapsed(e.range)) {
-		deleteImpl(e)()
-	}
-	// TODO
+	insertTextImpl(e)(text)
+	e.range.start.offset += text.length
 	collapseToStart(e)()
 	render(e)()
 }
@@ -84,7 +109,7 @@ export const $delete = e => keyDownType => {
 	const [dir, boundary] = keyDownType.split("-").slice(1)
 
 	record(e)(`delete-${dir}-${boundary}`)
-	if (rangeIsCollapsed(e.range)) {
+	if (rangeIsCollapsed(e.range)) { // TODO: Move to impl?
 		const extend = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
 		extend(e)(boundary)
 	}

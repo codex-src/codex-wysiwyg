@@ -43,7 +43,7 @@ function getCurrentChildren(subelements, range) {
 // Applies a format to the current range.
 const applyFormatImpl = e => formatType => {
 	if (rangeIsCollapsed(e.range)) {
-		// TODO
+		e.pendingRange = e.range
 		return
 	}
 

@@ -125,6 +125,12 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					})
 				}}
 
+				// case "apply-format-markdown-em":
+				// case "apply-format-markdown-strong":
+				// case "apply-format-markdown-code":
+				// case "apply-format-markdown-strike":
+				// case "apply-format-markdown-a":
+
 				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
 					if (keyDownType) {
@@ -137,11 +143,6 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-code":
 					case "apply-format-strike":
 					case "apply-format-a":
-					case "apply-format-markdown-em":
-					case "apply-format-markdown-strong":
-					case "apply-format-markdown-code":
-					case "apply-format-markdown-strike":
-					case "apply-format-markdown-a":
 						e.preventDefault()
 						dispatch({
 							type: "APPLY_FORMAT",
@@ -149,27 +150,18 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						})
 						break
 					case "insert-text":
+						e.preventDefault()
+						dispatch({
+							type: "INSERT_TEXT",
+							text: e.key,
+						})
+						break
 					case "insert-tab":
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":
-						// TODO
-						if (keyDownType === "insert-text") {
-							if (!rangeIsCollapsed(state.range)) {
-								e.preventDefault()
-								dispatch({
-									type: "INSERT_TEXT",
-									keyDownType,
-								})
-								break
-							}
-							break
-						}
 						e.preventDefault()
-						dispatch({
-							type: "INSERT_TEXT",
-							keyDownType,
-						})
+						// TODO
 						break
 					case "delete-rtl-rune":
 					case "delete-rtl-word":
@@ -232,9 +224,12 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 
 			{/* DEBUGGER */}
 			{process.env.NODE_ENV !== "production" && (
-				<pre className="mt-6 text-xs font-mono" style={{ tabSize: 2 }}>
+				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
 					{JSON.stringify(
-						state,
+						{
+							range: state.range,
+							pendingRange: state.pendingRange,
+						},
 						null,
 						"\t",
 					)}

@@ -29,6 +29,7 @@ function newInitialState() {
 				offset: 0,
 			},
 		},
+		pendingRange: null,
 		shouldRerender: 0,
 	}
 	return state
@@ -49,7 +50,7 @@ function reducer(draft, action) {
 		actions.select(draft)(action.range)
 		return
 	case "INSERT_TEXT":
-		actions.insertText(draft)(action.keyDownType)
+		actions.insertText(draft)(action.text)
 		return
 	case "APPLY_FORMAT":
 		actions.applyFormat(draft)(action.keyDownType)
