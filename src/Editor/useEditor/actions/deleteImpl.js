@@ -1,5 +1,4 @@
-// import defer from "../../utils/defer"
-import index from "../../utils/index"
+import findIndex from "../../utils/findIndex"
 import { rangeIsCollapsed } from "../../types/Range"
 
 // Deletes the current range.
@@ -14,14 +13,13 @@ const deleteImpl = e => () => {
 	ch1.splice(
 		0,
 		ch1.length * 2,
-		...ch1.slice(0, index(ch1, e.range.start.offset)),
-		...ch2.slice(index(ch2, e.range.end.offset)),
+		...ch1.slice(0, findIndex(ch1, e.range.start.offset)),
+		...ch2.slice(findIndex(ch2, e.range.end.offset)),
 	)
 	while (x2 !== x1) { // Iterates backwards
 		e.elements.splice(x2, 1)
 		x2--
 	}
-	// defer(ch1) // TODO
 }
 
 export default deleteImpl

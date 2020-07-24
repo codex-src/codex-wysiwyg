@@ -1,4 +1,3 @@
-// import defer from "../utils/defer"
 import parseTree from "lib/DOM/parseTree"
 import ReactDOMServer from "react-dom/server"
 import stripWhitespace from "lib/DOM/stripWhitespace"
@@ -18,7 +17,7 @@ function parseElementsImpl({ markup, children }) {
 		"</article>",
 		stripWhitespace,
 	)
-	return parseSemanticElements(tree /* , defer */) // TODO
+	return parseSemanticElements(tree)
 }
 
 // Parses elements from markup.

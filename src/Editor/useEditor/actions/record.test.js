@@ -1,12 +1,13 @@
 import sleepFor from "lib/x/sleepFor"
-import { default as record } from "./recordActionImpl"
+import { record } from "./actions"
 
 const e = {
-	lastActionTimestamp: Date.now(),
-	lastAction: "init",
+	lastActionTimestamp: 0,
+	lastAction: "",
 }
 
 test("record(...)", async () => {
+	record(e)("init")
 	expect(e.lastAction).toBe("init")
 
 	record(e)("focus")

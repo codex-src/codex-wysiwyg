@@ -4,9 +4,9 @@ import toArray from "lib/x/toArray"
 import toTree from "./toTree"
 
 // Converts tree-shaped children to React elements.
-function toReactTreeImpl(tchildren) {
+function toReactTreeImpl(tree) {
 	const renderable = []
-	for (const each of toArray(tchildren)) {
+	for (const each of toArray(tree)) {
 		if (typeof each === "string") {
 			renderable.push(each)
 			continue

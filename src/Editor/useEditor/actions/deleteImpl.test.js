@@ -9,7 +9,7 @@ const originalElements = [
 		props: {
 			children: [
 				{
-					types: [],
+					types: {},
 					props: {
 						children: "foo",
 					},
@@ -22,7 +22,7 @@ const originalElements = [
 		props: {
 			children: [
 				{
-					types: [],
+					types: {},
 					props: {
 						children: "",
 					},
@@ -35,7 +35,7 @@ const originalElements = [
 		props: {
 			children: [
 				{
-					types: [],
+					types: {},
 					props: {
 						children: "bar",
 					},

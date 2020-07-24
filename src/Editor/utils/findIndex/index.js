@@ -1,7 +1,7 @@
 import JSONClone from "lib/JSON/JSONClone"
 
-// Indexes children at an offset.
-function index(children, offset) {
+// Finds (or creates) an index for children at an offset.
+function findIndex(children, offset) {
 	// Guard offset=0 (at start):
 	if (!offset) {
 		return 0
@@ -36,4 +36,4 @@ function index(children, offset) {
 	return x + 1
 }
 
-export default index
+export default findIndex

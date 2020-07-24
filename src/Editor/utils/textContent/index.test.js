@@ -1,9 +1,9 @@
 import textContent from "./index"
 
 const children = [
-	{ types: [], props: { children: "Hello, " } },
-	{ types: [{ type: "code", props: null }], props: { children: "world" } },
-	{ types: [], props: { children: "!" } },
+	{ types: {}, props: { children: "Hello, " } },
+	{ types: { code: {} }, props: { children: "world" } },
+	{ types: {}, props: { children: "!" } },
 ]
 
 test("textContent(...)", () => {

@@ -12,13 +12,13 @@ function propsAreEqual(originalProps, typeProps) {
 }
 
 // Queries the next parent element and non-nested types.
-function queryNext(tchildren, { types }) {
+function queryNext(tree, { types }) {
 	const typeArr = convTypesToArray(types)
 
-	if (!tchildren.length || !typeArr.length) {
-		return [tchildren, typeArr]
+	if (!tree.length || !typeArr.length) {
+		return [tree, typeArr]
 	}
-	let lastRef = toArray(tchildren).slice(-1)[0]
+	let lastRef = toArray(tree).slice(-1)[0]
 	let ref = lastRef
 	let x = 0
 	for (; x < typeArr.length; x++) {
@@ -33,7 +33,7 @@ function queryNext(tchildren, { types }) {
 		ref = ref.props.children
 	}
 	if (lastRef === ref) {
-		return [tchildren, typeArr]
+		return [tree, typeArr]
 	}
 	lastRef.props.children = toArray(lastRef.props.children)
 	return [lastRef.props.children, typeArr.slice(x)]
@@ -44,8 +44,8 @@ function createElement(child, types) {
 	if (!types.length) {
 		return child.props.children
 	}
-	const tchild = {}
-	let ref = tchild
+	const element = {}
+	let ref = element
 	for (const [x, { type, props }] of types.entries()) {
 		Object.assign(ref, {
 			type,
@@ -57,17 +57,17 @@ function createElement(child, types) {
 		})
 		ref = ref.props.children
 	}
-	return tchild
+	return element
 }
 
 // Converts children to tree-shaped children.
 function toTree(children) {
-	const tchildren = []
+	const tree = []
 	for (const each of children) {
-		const [parentEl, types] = queryNext(tchildren, each)
-		parentEl.push(createElement(each, types))
+		const [parentElement, types] = queryNext(tree, each)
+		parentElement.push(createElement(each, types))
 	}
-	return tchildren
+	return tree
 }
 
 export default toTree

@@ -1,6 +1,6 @@
 import sleepFor from "./index"
 
-const extraMs = 25
+const extraMs = 1e3
 
 test("sleepFor(1e1)", async () => {
 	const epoch = Date.now()

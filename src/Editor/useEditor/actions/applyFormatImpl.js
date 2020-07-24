@@ -1,5 +1,4 @@
-// import defer from "../../utils/defer"
-import index from "../../utils/index"
+import findIndex from "../../utils/findIndex"
 import { rangeIsCollapsed } from "../../types/Range"
 
 // Tests for:
@@ -28,12 +27,12 @@ function getChildrenFromRange(elements, range) {
 		// Start offset:
 		let t1 = 0
 		if (each.key === range.start.key) {
-			t1 = index(each.props.children, range.start.offset)
+			t1 = findIndex(each.props.children, range.start.offset)
 		}
 		// End offset:
 		let t2 = each.props.children.length
 		if (each.key === range.end.key) {
-			t2 = index(each.props.children, range.end.offset)
+			t2 = findIndex(each.props.children, range.end.offset)
 		}
 		children.push(...each.props.children.slice(t1, t2))
 	}
@@ -76,14 +75,6 @@ const applyFormatImpl = e => formatType => {
 		// No-op
 		break
 	}
-
-	// for (const each of e.elements.slice(x1, x2 + 1)) {
-	// 	defer(each.props.ch) // TODO
-	// }
-
-	// for (let x = x1; x < x2; x++) {
-	// 	defer(e.elements[x].props.ch)
-	// }
 }
 
 export default applyFormatImpl

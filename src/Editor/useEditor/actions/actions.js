@@ -1,9 +1,7 @@
-// import defer from "../../utils/defer"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
-import getIndex from "../../utils/index"
+import findIndex from "../../utils/findIndex"
 import JSONClone from "lib/JSON/JSONClone"
-import { default as record } from "./recordActionImpl"
 import { rangeIsCollapsed } from "../../types/Range"
 
 import { // Unsorted
@@ -24,6 +22,17 @@ const dropPendingRange = e => () => {
 // Unexported; rerenders.
 const render = e => () => {
 	e.shouldRerender++
+}
+
+// Records an action. No-ops actions sooner than 200ms.
+export const record = e => actionType => {
+	const now = Date.now()
+	if (actionType === "select" && now - e.lastActionTimestamp < 200) {
+		// No-op
+		return
+	}
+	e.lastActionTimestamp = now
+	e.lastAction = actionType
 }
 
 // Manually updates elements.
@@ -58,9 +67,9 @@ const insertTextImpl = e => key => {
 		.props.children
 
 	// Get the current text node:
-	const tx = getIndex(ch, e.range.start.offset)
+	const tx = findIndex(ch, e.range.start.offset)
 	let originalTextNode = {
-		types: [],
+		types: {},
 		props: {
 			children: "",
 		},
@@ -72,7 +81,7 @@ const insertTextImpl = e => key => {
 	deleteImpl(e)()
 
 	// Push the new text node:
-	const x = getIndex(ch, e.range.start.offset)
+	const x = findIndex(ch, e.range.start.offset)
 	ch.splice(x, 0, {
 		...originalTextNode,
 		props: {

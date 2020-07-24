@@ -1,4 +1,3 @@
-// import defer from "./utils/defer"
 import componentMap from "./components/componentMap"
 import keyDownTypeFor from "./keyDownTypeFor"
 import React from "react"
@@ -212,7 +211,6 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				onInput={e => {
 					const range = getCurrentRange(ref.current)
 					const children = parseRenderedChildren(document.getElementById(range.start.key))
-					// defer(children) // TODO
 					dispatch({
 						type: "UNCONTROLLED_INPUT",
 						range,

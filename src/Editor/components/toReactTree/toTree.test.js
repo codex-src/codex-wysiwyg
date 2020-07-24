@@ -31,7 +31,7 @@ test("stress test; non-nested", () => {
 	const children = [
 		{
 			types: {
-				"em": {},
+				em: {},
 			},
 			props: {
 				children: "foo",
@@ -39,8 +39,8 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"strong": {},
-				"em": {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "bar",
@@ -48,9 +48,9 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"strike": {},
-				"strong": {},
-				"em": {},
+				strike: {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "baz",
@@ -58,10 +58,10 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"a": {},
-				"strike": {},
-				"strong": {},
-				"em": {},
+				a: {},
+				strike: {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "qux",
@@ -69,11 +69,11 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
-				"strike": {},
-				"strong": {},
-				"em": {},
+				code: {},
+				a: {},
+				strike: {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "quux",
@@ -81,10 +81,10 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"a": {},
-				"strike": {},
-				"strong": {},
-				"em": {},
+				a: {},
+				strike: {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "quuz",
@@ -92,9 +92,9 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"strike": {},
-				"strong": {},
-				"em": {},
+				strike: {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "corge",
@@ -102,8 +102,8 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"strong": {},
-				"em": {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "grault",
@@ -111,7 +111,7 @@ test("stress test; non-nested", () => {
 		},
 		{
 			types: {
-				"em": {},
+				em: {},
 			},
 			props: {
 				children: "garply",
@@ -270,7 +270,7 @@ test("stress test; nested", () => {
 	const children = [
 		{
 			types: {
-				"code": {},
+				code: {},
 			},
 			props: {
 				children: "foo",
@@ -278,8 +278,8 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
+				code: {},
+				a: {},
 			},
 			props: {
 				children: "bar",
@@ -287,9 +287,9 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
-				"strike": {},
+				code: {},
+				a: {},
+				strike: {},
 			},
 			props: {
 				children: "baz",
@@ -297,10 +297,10 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
-				"strike": {},
-				"strong": {},
+				code: {},
+				a: {},
+				strike: {},
+				strong: {},
 			},
 			props: {
 				children: "qux",
@@ -308,11 +308,11 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
-				"strike": {},
-				"strong": {},
-				"em": {},
+				code: {},
+				a: {},
+				strike: {},
+				strong: {},
+				em: {},
 			},
 			props: {
 				children: "quux",
@@ -320,10 +320,10 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
-				"strike": {},
-				"strong": {},
+				code: {},
+				a: {},
+				strike: {},
+				strong: {},
 			},
 			props: {
 				children: "quuz",
@@ -331,9 +331,9 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
-				"strike": {},
+				code: {},
+				a: {},
+				strike: {},
 			},
 			props: {
 				children: "corge",
@@ -341,8 +341,8 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
-				"a": {},
+				code: {},
+				a: {},
 			},
 			props: {
 				children: "grault",
@@ -350,7 +350,7 @@ test("stress test; nested", () => {
 		},
 		{
 			types: {
-				"code": {},
+				code: {},
 			},
 			props: {
 				children: "garply",
