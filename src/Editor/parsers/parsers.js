@@ -4,10 +4,10 @@ import JSONClone from "lib/JSON/JSONClone"
 import parseRendered from "./parseRendered"
 import parseSemantic from "./parseSemantic"
 
-// Parses children; accepts a semantic or rendered parser.
+// Uses a parser to parse children.
 function parseChildren(element, parser) {
 	const children = []
-	const recurse = (on, types = []) => {
+	const recurse = (on, types = {}) => {
 		if (domUtils.isTextNode(on)) {
 			children.push({
 				types,
@@ -24,19 +24,19 @@ function parseChildren(element, parser) {
 				// No-op
 				continue
 			}
-			const nextTypes = JSONClone(types)
+			const copyTypes = JSONClone(types)
 			if (domUtils.isElement(each)) {
 				const { type, props } = parser(each)
-				nextTypes.push({ type, props })
+				copyTypes[type] = props
 			}
-			recurse(each, nextTypes)
+			recurse(each, copyTypes)
 		}
 	}
 	recurse(element)
 	return children
 }
 
-// Parses elements; accepts a semantic or rendered parser.
+// Uses a parser to parse elements.
 function parseElements(tree, parser) {
 	const elements = []
 	for (const each of tree.children) {

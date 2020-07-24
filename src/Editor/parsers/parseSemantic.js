@@ -27,7 +27,7 @@ function parseSemantic(element) {
 	default:
 		throw new Error(`parsers.parseSemantic: no such type; nodeName=${nodeName}`)
 	}
-	const props = !element.attributes.length ? null : [...element.attributes].reduce((acc, each) => {
+	const props = [...element.attributes].reduce((acc, each) => {
 		if (each.nodeName !== "id") {
 			acc[each.nodeName] = each.nodeValue
 		}
