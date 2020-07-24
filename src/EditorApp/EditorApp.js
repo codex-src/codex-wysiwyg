@@ -46,7 +46,6 @@ const Wrap = ({ className, style, children, ...props }) => (
 // )
 
 const Output = ({ output, setOutput }) => {
-	const outputRef = React.useRef()
 	const debouncedElements = React.useContext(ElementsContext)
 
 	const [resolved, setResolved] = React.useState(() => {
@@ -75,48 +74,13 @@ const Output = ({ output, setOutput }) => {
 		}
 	}, [debouncedElements, output.detail])
 
-	// TODO: Comment
-	React.useEffect(() => {
-		if (output.detail === "html") {
-			console.log([...outputRef.current.querySelectorAll(".token.tag")])
-			// // console.log(outputRef.current)
-			// const els = [...outputRef.current.querySelectorAll(".token.tag")].filter(each => {
-			// 	switch (each.innerText) {
-			// 	case "<em>":
-			// 	case "<strong>":
-			// 	case "<code>":
-			// 	case "<strike>":
-			// 	// case "<a>": // TODO
-			// 		return true
-			// 	}
-			// 	// Guard <a href=":
-			// 	if (each.innerText.startsWith("<a href=\"")) {
-			// 		return true
-			// 	}
-			// 	return false
-			// })
-			// for (const each of els) {
-			// 	if (!each.innerText.startsWith("<a href=\"")) {
-			// 		console.log(each.innerText, "</" + each.innerText.slice(1))
-			// 	} else {
-			// 		console.log(each.innerText, "</a>")
-			// 	}
-			// 	// parseMarkup(each.innerText)
-			// 	// each.nextSibling.replace()
-			// }
-		}
-	}, [debouncedElements, output.detail])
-
 	return (
 		<Transition
 			on={output.show}
 			from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
 			to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
 		>
-			<div
-				ref={outputRef}
-				className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll"
-			>
+			<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 				{output.detail === "changelog" ? (
 					<Releases />
 				) : (
@@ -144,7 +108,6 @@ const Output = ({ output, setOutput }) => {
 }
 
 const FixedPreferences = React.memo(() => {
-	// const outputRef = React.useRef()
 
 	const [output, setOutput] = React.useState({
 		read: false,
@@ -248,7 +211,6 @@ const FixedPreferences = React.memo(() => {
 
 			</div>
 			<Output
-				// ref={outputRef}
 				output={output}
 				setOutput={setOutput}
 			/>
