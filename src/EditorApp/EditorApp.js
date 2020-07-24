@@ -1,4 +1,5 @@
 import * as handlers from "lib/x/handlers"
+import ClassName from "lib/x/ClassName"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DocumentTitle from "lib/x/DocumentTitle"
 import Highlight from "lib/PrismJS/Highlight"
@@ -6,7 +7,6 @@ import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
 import Releases from "./Releases"
 import Transition from "lib/x/Transition"
-import Wrap from "lib/x/Wrap"
 
 import { // Unsorted
 	resolveGFM,
@@ -18,13 +18,19 @@ import { // Unsorted
 	useEditor,
 } from "Editor"
 
+const tabSize = n => ({
+	MozTabSize: n,
+	tabSize: n,
+})
+
 const Output = ({ output, setOutput }) => {
 	const debouncedElements = React.useContext(ElementsContext)
 
 	const [resolved, setResolved] = React.useState(() => {
 		const gfm = resolveGFM(debouncedElements)
 		const html = resolveHTML(debouncedElements)
-		return { gfm, html }
+		const json = JSON.stringify(debouncedElements, null, "\t")
+		return { gfm, html, json }
 	})
 
 	React.useEffect(() => {
@@ -47,6 +53,16 @@ const Output = ({ output, setOutput }) => {
 		}
 	}, [debouncedElements, output.detail])
 
+	// React.useEffect(() => {
+	// 	if (output.detail === "json") {
+	// 		const result = JSON.stringify(debouncedElements, null, "\t")
+	// 		setResolved(current => ({
+	// 			...current,
+	// 			json: result,
+	// 		}))
+	// 	}
+	// }, [debouncedElements, output.detail])
+
 	return (
 		<Transition
 			on={output.show}
@@ -57,15 +73,15 @@ const Output = ({ output, setOutput }) => {
 				{output.detail === "changelog" ? (
 					<Releases />
 				) : (
-					<Wrap className={output.detail === "html" && "prism-custom-theme"}>
+					<ClassName className={output.detail !== "gfm" && "prism-custom-theme"}>
 						<div className="p-6">
 							<span className="inline-block">
 								<Highlight
-									className="whitespace-pre-wrap break-words font-mono text-gray-800"
+									className="break-words font-mono text-gray-800"
 									style={{
-										MozTabSize: 2,
-										tabSize: 2,
-										fontSize: "0.8125rem",
+										...tabSize(2),
+										whiteSpace: output.detail !== "json" ? "pre-wrap" : "pre",
+										fontSize: output.detail !== "json" ? "0.8125rem" : "0.75rem", // : "0.6875rem",
 									}}
 									extension={output.detail}
 								>
@@ -73,7 +89,7 @@ const Output = ({ output, setOutput }) => {
 								</Highlight>
 							</span>
 						</div>
-					</Wrap>
+					</ClassName>
 				)}
 			</div>
 		</Transition>
@@ -81,16 +97,15 @@ const Output = ({ output, setOutput }) => {
 }
 
 const FixedPreferences = React.memo(() => {
+	const [hover, setHover] = React.useState("")
 
 	const [output, setOutput] = React.useState({
-		read: false,
 		show: false,
-		detail: "changelog",
+		detail: "",
 	})
 
 	const handleClickChangelog = e => {
 		setOutput(current => ({
-			read: true,
 			show: !current.show || current.detail !== "changelog",
 			detail: "changelog",
 		}))
@@ -138,20 +153,26 @@ const FixedPreferences = React.memo(() => {
 			<div className="py-2 flex flex-row justify-between">
 
 				{/* Changelog */}
-				<div className="group relative">
-					<Transition
-						on={output.read}
-						className="transition duration-500 ease-in-out"
-						from="opacity-100 transform scale-100"
-						to="opacity-0 transform scale-0"
-					>
-						<div className="mr-2 mt-1.5 absolute top-0 right-0">
-							<div className="box-content w-1.5 h-1.5 bg-red-600 border-2 border-white group-hover:border-gray-100 rounded-full transition duration-200 ease-in-out" />
+				<div className="relative">
+					{(hover === "changelog" && !output.show) && (
+						<div className="absolute top-full right-0 z-10">
+							<div className="px-2 py-1 bg-gray-800 rounded shadow">
+								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
+									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
+								</div>
+								<p className="whitespace-pre text-xs text-gray-100">
+									Open Changelog
+								</p>
+							</div>
 						</div>
-					</Transition>
+					)}
 					<button
 						className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "changelog" && "var(--gray-800)" }}
+						onFocus={e => setHover("changelog")}
+						onBlur={e => setHover("")}
+						onMouseEnter={e => setHover("changelog")}
+						onMouseLeave={e => setHover("")}
 						onClick={handleClickChangelog}
 					>
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -161,26 +182,62 @@ const FixedPreferences = React.memo(() => {
 				</div>
 
 				{/* GFM */}
-				<button
-					className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
-					onClick={handleClickGFM}
-				>
-					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
-					</svg>
-				</button>
+				<div className="relative">
+					{(hover === "gfm" && !output.show) && (
+						<div className="absolute top-full right-0 z-10">
+							<div className="px-2 py-1 bg-gray-800 rounded shadow">
+								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
+									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
+								</div>
+								<p className="whitespace-pre text-xs text-gray-100">
+									GitHub Flavored Markdown
+								</p>
+							</div>
+						</div>
+					)}
+					<button
+						className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
+						onFocus={e => setHover("gfm")}
+						onBlur={e => setHover("")}
+						onMouseEnter={e => setHover("gfm")}
+						onMouseLeave={e => setHover("")}
+						onClick={handleClickGFM}
+					>
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
+						</svg>
+					</button>
+				</div>
 
 				{/* HTML */}
-				<button
-					className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
-					onClick={handleClickHTML}
-				>
-					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
-					</svg>
-				</button>
+				<div className="relative">
+					{(hover === "html" && !output.show) && (
+						<div className="absolute top-full right-0 z-10">
+							<div className="px-2 py-1 bg-gray-800 rounded shadow">
+								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
+									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
+								</div>
+								<p className="whitespace-pre text-xs text-gray-100">
+									Semantic HTML
+								</p>
+							</div>
+						</div>
+					)}
+					<button
+						className="p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
+						onFocus={e => setHover("html")}
+						onBlur={e => setHover("")}
+						onMouseEnter={e => setHover("html")}
+						onMouseLeave={e => setHover("")}
+						onClick={handleClickHTML}
+					>
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+						</svg>
+					</button>
+				</div>
 
 			</div>
 			<Output

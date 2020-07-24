@@ -23,6 +23,13 @@ const Releases = () => (
 			<p>
 				– Added basic support for <code>"insert-text"</code> operations.
 			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				– Added accessible tooltips for the top-right icons.{" "}
+				These can be invoked from focus or hover events.
+			</p>
 		</ReleaseItem>
 		<hr className="border-t border-gray-200 opacity-50" />
 		<ReleaseItem date="July 22, 2020" release="0.3">

@@ -1,6 +1,6 @@
+import ClassName from "lib/x/ClassName"
 import langMap from "lib/PrismJS/langMap"
 import React from "react"
-import Wrap from "lib/x/Wrap"
 
 const Highlight = ({ className, style, extension, children }) => (
 	React.useMemo(() => {
@@ -11,11 +11,11 @@ const Highlight = ({ className, style, extension, children }) => (
 		}
 		// NOTE: Does not use semantic elements; <pre><code>.
 		return (
-			<Wrap className={extension && `language-${extension}`}>
+			<ClassName className={extension && `language-${extension}`}>
 				<div className={className} style={style} dangerouslySetInnerHTML={{
 					__html,
 				}} />
-			</Wrap>
+			</ClassName>
 		)
 	}, [
 		className,
