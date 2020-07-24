@@ -1,7 +1,11 @@
-import * as Position from "./Position"
 import hash from "lib/x/hash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"
+
+import { // Unsorted
+	getPositionFromUserLiteral,
+	convPositionToUserLiteral,
+} from "./Position"
 
 const contentEditable = {
 	contentEditable: true,
@@ -23,7 +27,7 @@ test("[contenteditable='false']", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({ node: el, offset: 0 })
+	const pos = getPositionFromUserLiteral({ node: el, offset: 0 })
 	expect(pos).toBe(null)
 })
 
@@ -38,7 +42,7 @@ test("[<p><br></p>]", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el,
 		offset: 0,
 	})
@@ -46,7 +50,7 @@ test("[<p><br></p>]", () => {
 		key: el.id,
 		offset: 0,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.querySelector("br"),
 		offset: 0,
 	})
@@ -63,7 +67,7 @@ test("<p><br></p>[]", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el,
 		offset: 1,
 	})
@@ -71,7 +75,7 @@ test("<p><br></p>[]", () => {
 		key: el.id,
 		offset: 0,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.querySelector("br"),
 		offset: 0,
 	})
@@ -88,7 +92,7 @@ test("<p>[<br>]</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.querySelector("br"),
 		offset: 0,
 	})
@@ -96,7 +100,7 @@ test("<p>[<br>]</p>", () => {
 		key: el.id,
 		offset: 0,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.querySelector("br"),
 		offset: 0,
 	})
@@ -113,7 +117,7 @@ test("<p><br>[]</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.querySelector("br"),
 		offset: 1,
 	})
@@ -121,7 +125,7 @@ test("<p><br>[]</p>", () => {
 		key: el.id,
 		offset: 0,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.querySelector("br"),
 		offset: 0,
 	})
@@ -142,7 +146,7 @@ test("<p>[]Hello, <code>world</code>!</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.childNodes[0],
 		offset: 0,
 	})
@@ -150,7 +154,7 @@ test("<p>[]Hello, <code>world</code>!</p>", () => {
 		key: el.id,
 		offset: 0,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.childNodes[0],
 		offset: 0,
 	})
@@ -171,7 +175,7 @@ test("<p>Hello, []<code>world</code>!</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.childNodes[0],
 		offset: 7,
 	})
@@ -179,7 +183,7 @@ test("<p>Hello, []<code>world</code>!</p>", () => {
 		key: el.id,
 		offset: 7,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.childNodes[0],
 		offset: 7,
 	})
@@ -200,7 +204,7 @@ test("<p>Hello, <code>[]world</code>!</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.childNodes[1],
 		offset: 0,
 	})
@@ -208,7 +212,7 @@ test("<p>Hello, <code>[]world</code>!</p>", () => {
 		key: el.id,
 		offset: 7,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.childNodes[0],
 		offset: 7,
 	})
@@ -229,7 +233,7 @@ test("<p>Hello, <code>world[]</code>!</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.querySelector("code").childNodes[0],
 		offset: 5,
 	})
@@ -237,7 +241,7 @@ test("<p>Hello, <code>world[]</code>!</p>", () => {
 		key: el.id,
 		offset: 12,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.querySelector("code").childNodes[0],
 		offset: 5,
 	})
@@ -258,7 +262,7 @@ test("<p>Hello, <code>world</code>[]!</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.childNodes[3],
 		offset: 0,
 	})
@@ -266,7 +270,7 @@ test("<p>Hello, <code>world</code>[]!</p>", () => {
 		key: el.id,
 		offset: 12,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.querySelector("code").childNodes[0],
 		offset: 5,
 	})
@@ -287,7 +291,7 @@ test("<p>Hello, <code>world</code>![]</p>", () => {
 		))
 	))
 	const el = document.querySelector("[data-type='p']")
-	const pos = Position.fromUserLiteral({
+	const pos = getPositionFromUserLiteral({
 		node: el.childNodes[3],
 		offset: 1,
 	})
@@ -295,7 +299,7 @@ test("<p>Hello, <code>world</code>![]</p>", () => {
 		key: el.id,
 		offset: 13,
 	})
-	expect(Position.toUserLiteral(pos)()).toEqual({
+	expect(convPositionToUserLiteral(pos)).toEqual({
 		node: el.childNodes[3],
 		offset: 1,
 	})

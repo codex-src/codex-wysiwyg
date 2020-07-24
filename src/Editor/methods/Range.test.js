@@ -1,7 +1,7 @@
-import collapsed from "./index"
 import hash from "lib/x/hash"
+import { rangeIsCollapsed } from "./Range"
 
-test("collapsed(...); 1 of 4", () => {
+test("rangeIsCollapsed(...); 1 of 4", () => {
 	const pos = {
 		key: "",
 		offset: 0,
@@ -10,10 +10,10 @@ test("collapsed(...); 1 of 4", () => {
 		start: pos,
 		end: pos,
 	}
-	expect(collapsed(range)).toBeTruthy()
+	expect(rangeIsCollapsed(range)).toBeTruthy()
 })
 
-test("collapsed(...); 2 of 4", () => {
+test("rangeIsCollapsed(...); 2 of 4", () => {
 	const range = {
 		start: {
 			key: "",
@@ -24,10 +24,10 @@ test("collapsed(...); 2 of 4", () => {
 			offset: 0,
 		},
 	}
-	expect(collapsed(range)).toBeTruthy()
+	expect(rangeIsCollapsed(range)).toBeTruthy()
 })
 
-test("collapsed(...); 3 of 4", () => {
+test("rangeIsCollapsed(...); 3 of 4", () => {
 	const range = {
 		start: {
 			key: hash(),
@@ -38,10 +38,10 @@ test("collapsed(...); 3 of 4", () => {
 			offset: 0,
 		},
 	}
-	expect(collapsed(range)).not.toBeTruthy()
+	expect(rangeIsCollapsed(range)).not.toBeTruthy()
 })
 
-test("collapsed(...); 4 of 4", () => {
+test("rangeIsCollapsed(...); 4 of 4", () => {
 	const id = hash()
 	const range = {
 		start: {
@@ -53,5 +53,5 @@ test("collapsed(...); 4 of 4", () => {
 			offset: 10,
 		},
 	}
-	expect(collapsed(range)).not.toBeTruthy()
+	expect(rangeIsCollapsed(range)).not.toBeTruthy()
 })

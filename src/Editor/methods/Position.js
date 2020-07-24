@@ -1,7 +1,7 @@
 import helpers from "lib/DOM/helpers"
 
-// Creates from a user literal.
-export function fromUserLiteral({ node, offset: originalOffset }) {
+// Gets a position from a user literal.
+export function getPositionFromUserLiteral({ node, offset: originalOffset }) {
 	// Guard non-contenteditable descendants:
 	if (!helpers.ascendElement(node).closest("[contenteditable='true']")) {
 		return null
@@ -39,9 +39,9 @@ export function fromUserLiteral({ node, offset: originalOffset }) {
 	return { key, offset }
 }
 
-// Resolves to a user literal.
-export const toUserLiteral = p => () => {
-	let { key, offset: originalOffset } = p
+// Converts a position to a user literal.
+export function convPositionToUserLiteral(pos) {
+	let { key, offset: originalOffset } = pos
 
 	let node = null
 	let offset = 0

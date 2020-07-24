@@ -1,9 +1,9 @@
 // import * as ElementList from "../../methods/ElementList"
 // import defer from "../../utils/defer"
 import applyFormatImpl from "./applyFormatImpl"
-import collapsed from "../../utils/collapsed"
 import deleteImpl from "./deleteImpl"
 import { default as record } from "./recordActionImpl"
+import { rangeIsCollapsed } from "../../methods/Range"
 
 import { // Unsorted
 	extendRTLImpl,
@@ -53,10 +53,10 @@ export const select = e => range => {
 // Inserts text at the current range.
 export const insertText = e => text => {
 	record(e)("insert-text")
-	if (!collapsed(e.range)) {
+	if (!rangeIsCollapsed(e.range)) {
 		deleteImpl(e)()
 	}
-	// ...
+	// TODO
 	collapseToStart(e)()
 	render(e)()
 }
@@ -76,7 +76,7 @@ export const $delete = e => keyDownType => {
 	const [dir, boundary] = keyDownType.split("-").slice(1)
 
 	record(e)(`delete-${dir}-${boundary}`)
-	if (collapsed(e.range)) {
+	if (rangeIsCollapsed(e.range)) {
 		const extend = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
 		extend(e)(boundary)
 	}

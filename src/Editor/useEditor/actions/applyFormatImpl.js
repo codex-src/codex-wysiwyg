@@ -1,6 +1,6 @@
-import collapsed from "../../utils/collapsed"
 import defer from "../../utils/defer"
 import index from "../../utils/index"
+import { rangeIsCollapsed } from "../../methods/Range"
 
 // Tests for:
 //
@@ -42,14 +42,14 @@ function getCurrentChildren(subelements, range) {
 
 // Applies a format to the current range.
 const applyFormatImpl = e => formatType => {
-	if (collapsed(e.range)) {
+	if (rangeIsCollapsed(e.range)) {
 		// TODO
 		return
 	}
 
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
-	if (!collapsed(e.range)) {
+	if (!rangeIsCollapsed(e.range)) {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 

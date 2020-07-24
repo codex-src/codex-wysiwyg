@@ -1,12 +1,12 @@
-import collapsed from "../../utils/collapsed"
 import defer from "../../utils/defer"
 import index from "../../utils/index"
+import { rangeIsCollapsed } from "../../methods/Range"
 
 // Deletes the current range.
 const deleteImpl = e => () => {
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
-	if (!collapsed(e.range)) {
+	if (!rangeIsCollapsed(e.range)) {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 	const ch1 = e.elements[x1].props.children

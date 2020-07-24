@@ -1,11 +1,15 @@
-import * as Range from "./methods/Range"
-import collapsed from "./utils/collapsed"
 import componentMap from "./components/componentMap"
 import defer from "./utils/defer"
 import keyDownTypeFor from "./keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
 import { parseRenderedChildren } from "./parsers"
+
+import { // Unsorted
+	getCurrentRange,
+	rangeIsCollapsed,
+	convRangeToUserLiteral,
+} from "./methods/Range"
 
 import "./Editor.css"
 
@@ -38,8 +42,8 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 					return
 				}
 				try {
-					const range = Range.toUserLiteral(state.range)()
-					selection.addRange(range)
+					const urange = convRangeToUserLiteral(state.range)
+					selection.addRange(urange)
 				} catch (error) {
 					console.error(error)
 				}
@@ -79,7 +83,7 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 						}
 						return
 					}
-					const range = Range.getCurrent(ref.current)
+					const range = getCurrentRange(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -97,7 +101,7 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
 				onSelect={e => {
-					const range = Range.getCurrent(ref.current)
+					const range = getCurrentRange(ref.current)
 					if (!range) {
 						// No-op
 						return
@@ -138,7 +142,7 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 					case "insert-horizontal-rule":
 						// TODO
 						if (keyDownType === "insert-text") {
-							if (!collapsed(state.range)) {
+							if (!rangeIsCollapsed(state.range)) {
 								e.preventDefault()
 								dispatch({
 									type: "INSERT_TEXT",
@@ -177,7 +181,7 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 				}}
 
 				onInput={e => {
-					const range = Range.getCurrent(ref.current)
+					const range = getCurrentRange(ref.current)
 					const children = parseRenderedChildren(document.getElementById(range.start.key))
 					defer(children)
 					dispatch({
