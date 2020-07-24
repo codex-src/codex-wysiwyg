@@ -72,13 +72,6 @@ test("[]foo\\n\\nbar", () => {
 				key: elements[0].key,
 				offset: 0,
 			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
-			},
 		},
 	}
 	deleteImpl(state)()
@@ -97,13 +90,6 @@ test("[foo]\\n\\nbar", () => {
 			end: {
 				key: elements[0].key,
 				offset: 3,
-			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
 			},
 		},
 	}
@@ -124,13 +110,6 @@ test("[foo\\n]\\nbar", () => {
 				key: elements[1].key,
 				offset: 0,
 			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
-			},
 		},
 	}
 	deleteImpl(state)()
@@ -149,13 +128,6 @@ test("[foo\\n\\n]bar", () => {
 			end: {
 				key: elements[2].key,
 				offset: 0,
-			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
 			},
 		},
 	}
@@ -176,13 +148,6 @@ test("[foo\\n\\nbar]", () => {
 				key: elements[2].key,
 				offset: 3,
 			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
-			},
 		},
 	}
 	deleteImpl(state)()
@@ -201,13 +166,6 @@ test("foo\\n\\nbar[]", () => {
 			end: {
 				key: elements[2].key,
 				offset: 3,
-			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
 			},
 		},
 	}
@@ -228,13 +186,6 @@ test("foo\\n\\n[bar]", () => {
 				key: elements[2].key,
 				offset: 3,
 			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
-			},
 		},
 	}
 	deleteImpl(state)()
@@ -253,13 +204,6 @@ test("foo\\n[\\nbar]", () => {
 			end: {
 				key: elements[2].key,
 				offset: 3,
-			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
 			},
 		},
 	}
@@ -280,13 +224,6 @@ test("foo[\\n\\nbar]", () => {
 				key: elements[2].key,
 				offset: 3,
 			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
-			},
 		},
 	}
 	deleteImpl(state)()
@@ -305,13 +242,6 @@ test("[foo\\n\\nbar]", () => {
 			end: {
 				key: elements[2].key,
 				offset: 3,
-			},
-			collapsed() {
-				const ok = (
-					this.start === this.end ||
-					(this.start.key === this.end.key && this.start.offset === this.end.offset)
-				)
-				return ok
 			},
 		},
 	}

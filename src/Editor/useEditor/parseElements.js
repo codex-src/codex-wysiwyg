@@ -1,4 +1,4 @@
-import * as ElementList from "../methods/ElementList"
+// import * as ElementList from "../methods/ElementList" // FIXME
 import defer from "../utils/children/defer"
 import parseTree from "lib/DOM/parseTree"
 import ReactDOMServer from "react-dom/server"
@@ -21,11 +21,11 @@ function parseElements({ markup, children }) {
 	)
 	// Defer on children:
 	const elements = parseSemanticElements(tree)
-	let k = ElementList.fromElements(elements) // TODO?
-	while (k) {
-		defer(k.current.props.children)
-		k = k.next
-	}
+	// let k = ElementList.fromElements(elements) // TODO?
+	// while (k) {
+	// 	defer(k.current.props.children)
+	// 	k = k.next
+	// }
 	return elements
 }
 

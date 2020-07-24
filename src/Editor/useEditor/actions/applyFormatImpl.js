@@ -1,3 +1,4 @@
+import collapsed from "../../utils/children/collapsed"
 import defer from "../../utils/children/defer"
 import index from "../../utils/children/index"
 
@@ -41,14 +42,14 @@ function getCurrentChildren(subelements, range) {
 
 // Applies a format to the current range.
 const applyFormatImpl = e => formatType => {
-	if (e.range.collapsed()) {
+	if (collapsed(e.range)) {
 		// TODO
 		return
 	}
 
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
-	if (!e.range.collapsed()) {
+	if (!collapsed(e.range)) {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 
@@ -56,7 +57,7 @@ const applyFormatImpl = e => formatType => {
 	// console.log(JSON.parse(JSON.stringify(children)))
 
 	const shouldApply = testShouldApply(formatType, children)
-	console.log({formatType,shouldApply})
+	console.log({ formatType, shouldApply })
 
 	switch (shouldApply) {
 	case "plaintext":

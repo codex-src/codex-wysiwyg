@@ -1,4 +1,5 @@
 import * as Range from "./methods/Range"
+import collapsed from "./utils/children/collapsed"
 import componentMap from "./components/componentMap"
 import defer from "./utils/children/defer"
 import keyDownTypeFor from "./utils/keyDownTypeFor"
@@ -137,7 +138,7 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 					case "insert-horizontal-rule":
 						// TODO
 						if (keyDownType === "insert-text") {
-							if (!state.range.collapsed()) {
+							if (!collapsed(state.range)) {
 								e.preventDefault()
 								dispatch({
 									type: "INSERT_TEXT",
@@ -211,6 +212,11 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 
 				data-root
 			/>
+			{/* {JSON.stringify( */}
+			{/* 	state.range, */}
+			{/* 	null, */}
+			{/* 	"\t", */}
+			{/* )} */}
 		</div>
 	)
 }

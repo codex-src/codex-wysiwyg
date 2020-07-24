@@ -1,4 +1,4 @@
-import * as actions from "./actions/actions" // FIXME
+import * as actions from "./actions/actions" // FIXME: Use index.js?
 import parseElements from "./parseElements"
 import React from "react"
 import { useImmerReducer } from "use-immer"
@@ -6,7 +6,6 @@ import { useImmerReducer } from "use-immer"
 const createInitialState = elements => ({
 	lastActionTimestamp: "init",
 	lastAction: Date.now(),
-	// readOnlyModeEnabled: false, // DOMContentLoaded disables read-only mode
 	focused: false,
 	elements,
 	range: {
@@ -18,27 +17,12 @@ const createInitialState = elements => ({
 			key: "",
 			offset: 0,
 		},
-		collapsed() {
-			const ok = (
-				this.start === this.end ||
-				(this.start.key === this.end.key && this.start.offset === this.end.offset)
-			)
-			return ok
-		},
 	},
 	shouldRerender: 0,
 })
 
 function reducer(draft, action) {
 	switch (action.type) {
-
-	// case "ENABLE_READ_ONLY_MODE":
-	// 	actions.enableReadOnlyMode(draft)()
-	// 	return
-	// case "DISABLE_READ_ONLY_MODE":
-	// 	actions.disableReadOnlyMode(draft)()
-	// 	return
-
 	case "FOCUS":
 		actions.focus(draft)()
 		return
