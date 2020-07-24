@@ -4,7 +4,6 @@ import defer from "./utils/children/defer"
 import keyDownTypeFor from "./utils/keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
-import useDOMContentLoadedCallback from "lib/x/useDOMContentLoadedCallback"
 import { parseRenderedChildren } from "./parsers"
 
 import "./Editor.css"
@@ -24,13 +23,6 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
-	// Disables read-only mode on DOMContentLoaded.
-	useDOMContentLoadedCallback(() => {
-		dispatch({
-			type: "DISABLE_READ_ONLY_MODE",
-		})
-	})
-
 	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
 		React.useCallback(() => {
@@ -40,7 +32,7 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 				selection.removeAllRanges()
 			}
 			ReactDOM.render(<Renderer state={state} dispatch={dispatch} />, ref.current, () => {
-				if (state.readOnlyModeEnabled /* FIXME? */ || !state.focused) {
+				if (!state.focused) {
 					// No-op
 					return
 				}
@@ -55,14 +47,6 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 		[state.shouldRerender],
 	)
 
-	// Returns a handler when read-only mode is disabled.
-	const readWriteOnlyHandler = handler => {
-		if (state.readOnlyModeEnabled) {
-			return undefined
-		}
-		return handler
-	}
-
 	return (
 		<div className="em-context">
 			<article
@@ -71,23 +55,23 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 				className={className}
 				style={style}
 
-				onFocus={readWriteOnlyHandler(e => {
+				onFocus={e => {
 					dispatch({
 						type: "FOCUS",
 					})
-				})}
+				}}
 
-				onBlur={readWriteOnlyHandler(e => {
+				onBlur={e => {
 					dispatch({
 						type: "BLUR",
 					})
-				})}
+				}}
 
-				onPointerDown={readWriteOnlyHandler(e => {
+				onPointerDown={e => {
 					pointerdownRef.current = true
-				})}
+				}}
 
-				onPointerMove={readWriteOnlyHandler(e => {
+				onPointerMove={e => {
 					if (!state.focused || !pointerdownRef.current) {
 						if (!state.focused && pointerdownRef.current) {
 							pointerdownRef.current = false
@@ -103,15 +87,15 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 						type: "SELECT",
 						range,
 					})
-				})}
+				}}
 
-				onPointerUp={readWriteOnlyHandler(e => {
+				onPointerUp={e => {
 					pointerdownRef.current = false
-				})}
+				}}
 
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
-				onSelect={readWriteOnlyHandler(e => {
+				onSelect={e => {
 					const range = Range.getCurrent(ref.current)
 					if (!range) {
 						// No-op
@@ -121,9 +105,9 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 						type: "SELECT",
 						range,
 					})
-				})}
+				}}
 
-				onKeyDown={readWriteOnlyHandler(e => {
+				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
 					if (keyDownType) {
 						console.log(keyDownType)
@@ -189,9 +173,9 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 						// No-op
 						break
 					}
-				})}
+				}}
 
-				onInput={readWriteOnlyHandler(e => {
+				onInput={e => {
 					const range = Range.getCurrent(ref.current)
 					const children = parseRenderedChildren(document.getElementById(range.start.key))
 					defer(children)
@@ -200,30 +184,30 @@ const ReadWriteEditor = ({ className, style, state, dispatch }) => {
 						range,
 						children,
 					})
-				})}
+				}}
 
-				onCut={readWriteOnlyHandler(e => {
+				onCut={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				onCopy={readWriteOnlyHandler(e => {
+				onCopy={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				onPaste={readWriteOnlyHandler(e => {
+				onPaste={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				onDragStart={readWriteOnlyHandler(e => {
+				onDragStart={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				contentEditable={!state.readOnlyModeEnabled}
-				suppressContentEditableWarning={!state.readOnlyModeEnabled}
+				contentEditable
+				suppressContentEditableWarning
 
 				data-root
 			/>

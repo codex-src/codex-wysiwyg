@@ -2,21 +2,30 @@ import langMap from "lib/PrismJS/langMap"
 import React from "react"
 import tmpl from "lib/x/tmpl"
 
-const Highlight = React.memo(({ className, style, extension, children }) => (
+// ...{ ...{ ...children.props, className: undefined, style: undefined }, ...props },
+
+const Wrap = ({ className, style, children, ...props }) => (
+	React.cloneElement(children, {
+		className: tmpl`${children.props.className} ${className}`,
+		style: { ...children.props.style, ...style },
+		...props,
+	})
+)
+
+const Highlight = ({ className, style, extension, children }) => (
 	React.useMemo(() => {
 		let __html = children
 		const parser = langMap[extension]
 		if (parser) {
 			__html = window.Prism.highlight(children, parser, extension)
 		}
+		// NOTE: Does not use semantic elements; <pre><code>.
 		return (
-			<div
-				className={tmpl`${extension && `language-${extension}`} ${className}`}
-				style={style}
-				dangerouslySetInnerHTML={{
+			<Wrap className={extension && `language-${extension}`}>
+				<div className={className} style={style} dangerouslySetInnerHTML={{
 					__html,
-				}}
-			/>
+				}} />
+			</Wrap>
 		)
 	}, [
 		className,
@@ -24,6 +33,6 @@ const Highlight = React.memo(({ className, style, extension, children }) => (
 		extension,
 		children,
 	])
-))
+)
 
 export default Highlight

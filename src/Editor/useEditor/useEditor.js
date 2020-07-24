@@ -6,7 +6,7 @@ import { useImmerReducer } from "use-immer"
 const createInitialState = elements => ({
 	lastActionTimestamp: "init",
 	lastAction: Date.now(),
-	readOnlyModeEnabled: true, // DOMContentLoaded disables read-only mode
+	// readOnlyModeEnabled: false, // DOMContentLoaded disables read-only mode
 	focused: false,
 	elements,
 	range: {
@@ -31,12 +31,14 @@ const createInitialState = elements => ({
 
 function reducer(draft, action) {
 	switch (action.type) {
-	case "ENABLE_READ_ONLY_MODE":
-		actions.enableReadOnlyMode(draft)()
-		return
-	case "DISABLE_READ_ONLY_MODE":
-		actions.disableReadOnlyMode(draft)()
-		return
+
+	// case "ENABLE_READ_ONLY_MODE":
+	// 	actions.enableReadOnlyMode(draft)()
+	// 	return
+	// case "DISABLE_READ_ONLY_MODE":
+	// 	actions.disableReadOnlyMode(draft)()
+	// 	return
+
 	case "FOCUS":
 		actions.focus(draft)()
 		return

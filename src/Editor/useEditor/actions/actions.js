@@ -19,17 +19,17 @@ const render = e => () => {
 	e.shouldRerender++
 }
 
-// Enables read-only mode.
-export const enableReadOnlyMode = e => () => {
-	record(e)("enable-read-only-mode")
-	e.readOnlyModeEnabled = true
-}
-
-// Disables read-only mode.
-export const disableReadOnlyMode = e => () => {
-	record(e)("disable-read-only-mode")
-	e.readOnlyModeEnabled = false
-}
+// // Enables read-only mode.
+// export const enableReadOnlyMode = e => () => {
+// 	record(e)("enable-read-only-mode")
+// 	e.readOnlyModeEnabled = true
+// }
+//
+// // Disables read-only mode.
+// export const disableReadOnlyMode = e => () => {
+// 	record(e)("disable-read-only-mode")
+// 	e.readOnlyModeEnabled = false
+// }
 
 // Focuses the editor.
 export const focus = e => () => {
