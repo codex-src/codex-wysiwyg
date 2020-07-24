@@ -1,4 +1,4 @@
-import defer from "../../utils/defer"
+// import defer from "../../utils/defer"
 import index from "../../utils/index"
 import { rangeIsCollapsed } from "../../types/Range"
 
@@ -21,7 +21,7 @@ const deleteImpl = e => () => {
 		e.elements.splice(x2, 1)
 		x2--
 	}
-	defer(ch1)
+	// defer(ch1) // TODO
 }
 
 export default deleteImpl

@@ -11,14 +11,14 @@ function propsAreEqual(originalProps, typeProps) {
 	return JSONEqual(props, typeProps)
 }
 
-// Queries the next parent element and types.
-function queryNext(tree, { types }) {
+// Queries the next parent element and non-nested types.
+function queryNext(tchildren, { types }) {
 	const typeArr = convTypesToArray(types)
 
-	if (!tree.length || !typeArr.length) {
-		return [tree, typeArr]
+	if (!tchildren.length || !typeArr.length) {
+		return [tchildren, typeArr]
 	}
-	let lastRef = toArray(tree).slice(-1)[0]
+	let lastRef = toArray(tchildren).slice(-1)[0]
 	let ref = lastRef
 	let x = 0
 	for (; x < typeArr.length; x++) {
@@ -33,19 +33,19 @@ function queryNext(tree, { types }) {
 		ref = ref.props.children
 	}
 	if (lastRef === ref) {
-		return [tree, typeArr]
+		return [tchildren, typeArr]
 	}
 	lastRef.props.children = toArray(lastRef.props.children)
 	return [lastRef.props.children, typeArr.slice(x)]
 }
 
-// Creates a pseudo React element.
+// Creates a tree-shaped React element.
 function createElement(child, types) {
 	if (!types.length) {
 		return child.props.children
 	}
-	const pseudo = {}
-	let ref = pseudo
+	const tchild = {}
+	let ref = tchild
 	for (const [x, { type, props }] of types.entries()) {
 		Object.assign(ref, {
 			type,
@@ -57,17 +57,17 @@ function createElement(child, types) {
 		})
 		ref = ref.props.children
 	}
-	return pseudo
+	return tchild
 }
 
 // Converts children to tree-shaped children.
 function toTree(children) {
-	const tree = []
+	const tchildren = []
 	for (const each of children) {
-		const [parentElement, types] = queryNext(tree, each)
-		parentElement.push(createElement(each, types))
+		const [parentEl, types] = queryNext(tchildren, each)
+		parentEl.push(createElement(each, types))
 	}
-	return tree
+	return tchildren
 }
 
 export default toTree

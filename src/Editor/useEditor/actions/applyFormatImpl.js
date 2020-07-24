@@ -1,4 +1,4 @@
-import defer from "../../utils/defer"
+// import defer from "../../utils/defer"
 import index from "../../utils/index"
 import { rangeIsCollapsed } from "../../types/Range"
 
@@ -86,9 +86,9 @@ const applyFormatImpl = e => formatType => {
 		break
 	}
 
-	for (const each of e.elements.slice(x1, x2 + 1)) {
-		defer(each.props.children)
-	}
+	// for (const each of e.elements.slice(x1, x2 + 1)) {
+	// 	defer(each.props.children) // TODO
+	// }
 
 	// for (let x = x1; x < x2; x++) {
 	// 	defer(e.elements[x].props.children)
