@@ -18,11 +18,43 @@ import { // Unsorted
 const App = () => {
 	const [state, dispatch] = useEditor()
 
+	const [debouncedFocused, setDebouncedFocused] = React.useState(() => state.focused)
+	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
+	// const [debouncedRange, setDebouncedRange] = React.useState(() => state.range)
+
+	React.useEffect(() => {
+		const id = setTimeout(() => {
+			setDebouncedFocused(state.focused)
+		}, 25)
+		return () => {
+			clearTimeout(id)
+		}
+	}, [state.focused])
+
+	React.useEffect(() => {
+		const id = setTimeout(() => {
+			setDebouncedElements(state.elements)
+		}, 25)
+		return () => {
+			clearTimeout(id)
+		}
+	}, [state.elements])
+
+	// React.useEffect(() => {
+	// 	const id = setTimeout(() => {
+	// 		setDebouncedRange(state.range)
+	// 	}, 25)
+	// 	return () => {
+	// 		clearTimeout(id)
+	// 	}
+	// }, [state.range])
+
 	return (
-		<FocusedContext.Provider value={state.focused}>
-			<ElementsContext.Provider value={state.elements}>
+		<FocusedContext.Provider value={debouncedFocused}>
+			<ElementsContext.Provider value={debouncedElements}>
 				<RangeContext.Provider value={state.range}>
-					<DocumentTitle title="Codex (0.4)">
+
+					<DocumentTitle title="Codex (0.5)">
 						<div className="px-6 py-32 flex flex-row justify-center">
 							<div className="w-full max-w-2xl">
 
@@ -54,6 +86,7 @@ const App = () => {
 							</div>
 						</div>
 					</DocumentTitle>
+
 				</RangeContext.Provider>
 			</ElementsContext.Provider>
 		</FocusedContext.Provider>

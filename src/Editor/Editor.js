@@ -129,8 +129,6 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 
 				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
-
-					// Computed from keyDownType:
 					let formatType = ""
 					let text = ""
 					let deleteType = ""
