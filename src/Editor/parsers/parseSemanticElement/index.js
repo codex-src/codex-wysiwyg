@@ -1,7 +1,7 @@
 import domUtils from "lib/DOM/domUtils"
 
-// Parses a semantic element; parses types and props.
-function parse(element) {
+// Parses a semantic element; parse a type and props.
+function parseSemanticElement(element) {
 	let nodeName = domUtils.nodeName(element)
 	if (nodeName === "i" || nodeName === "u") { // Edge case
 		nodeName = "em"
@@ -25,7 +25,7 @@ function parse(element) {
 		type = nodeName
 		break
 	default:
-		throw new Error(`semantic/parse: no such type; nodeName=${nodeName}`)
+		throw new Error(`parseSemanticElement: no such type; nodeName=${nodeName}`)
 	}
 	const props = [...element.attributes].reduce((acc, each) => {
 		if (each.nodeName !== "id") {
@@ -36,4 +36,4 @@ function parse(element) {
 	return { type, props }
 }
 
-export default parse
+export default parseSemanticElement
