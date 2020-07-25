@@ -1,14 +1,20 @@
 import React from "react"
 
-export const DebouncedElementsContext = React.createContext(null)
-export const DebouncedRangeContext = React.createContext(null)
+export const FocusedContext = React.createContext()
+export const ElementsContext = React.createContext()
+export const RangeContext = React.createContext()
 
-// Accesses state.elements (debounced).
-export function useDebouncedElements() {
-	return React.useContext(DebouncedElementsContext)
+// Accesses state.focused.
+export function useFocused() {
+	return React.useContext(FocusedContext)
 }
 
-// Accesses state.range (debounced).
-export function useDebouncedRange() {
-	return React.useContext(DebouncedRangeContext)
+// Accesses state.elements.
+export function useElements() {
+	return React.useContext(ElementsContext)
+}
+
+// Accesses state.range.
+export function useRange() {
+	return React.useContext(RangeContext)
 }

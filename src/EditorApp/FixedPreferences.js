@@ -5,20 +5,22 @@ import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
 import Releases from "./Releases"
 import Transition from "lib/x/Transition"
-import { useDebouncedElements } from "./contexts"
+import { useElements } from "./contexts"
 
 import { // Unsorted
 	resolveGFM,
 	resolveHTML,
 } from "./resolvers"
 
-const tabSize = n => ({
-	MozTabSize: n,
-	tabSize: n,
+const tabSize = size => ({
+	MozTabSize: size,
+	tabSize: size,
 })
 
 const Output = ({ output, setOutput }) => {
-	const elements = useDebouncedElements()
+
+	// TODO: Debounce?
+	const elements = useElements()
 
 	const [resolved, setResolved] = React.useState(() => {
 		const gfm = resolveGFM(elements)

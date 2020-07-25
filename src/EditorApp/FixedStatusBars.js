@@ -1,10 +1,12 @@
 import innerText from "Editor/utils/innerText"
 import rangeIsCollapsed from "Editor/utils/rangeIsCollapsed"
 import React from "react"
+import Transition from "lib/x/Transition"
 
 import { // Unsorted
-	useDebouncedElements,
-	useDebouncedRange,
+	useFocused,
+	useElements,
+	useRange,
 } from "./contexts"
 
 // Makes a number pretty. 💅
@@ -45,8 +47,11 @@ function getStatusRHS(elements) {
 }
 
 const FixedStatusBars = () => {
-	const elements = useDebouncedElements()
-	const range = useDebouncedRange()
+	const focused = useFocused()
+	const elements = useElements()
+	const range = useRange()
+
+	console.log({ focused })
 
 	const [statusLHS, setStatusLHS] = React.useState(() => getStatusLHS(elements, range))
 	const [statusRHS, setStatusRHS] = React.useState(() => getStatusRHS(elements))
@@ -62,32 +67,39 @@ const FixedStatusBars = () => {
 	}, [elements])
 
 	return (
-		<div className="fixed inset-0 hidden xl:flex flex-row items-end pointer-events-none">
-			<div className="px-3 py-2 flex flex-row justify-between w-full">
-				{(style => (
-					<React.Fragment>
+		<Transition
+			on={focused}
+			className="transition duration-200 ease-in-out"
+			from="opacity-0"
+			to="opacity-100"
+		>
+			<div className="fixed inset-0 hidden xl:flex flex-row items-end pointer-events-none">
+				<div className="px-3 py-2 flex flex-row justify-between w-full">
+					{(style => (
+						<React.Fragment>
 
-						{/* LHS */}
-						<div className="pointer-events-auto">
-							<p className="font-medium text-gray-800" style={style}>
-								{statusLHS}
-							</p>
-						</div>
+							{/* LHS */}
+							<div className="pointer-events-auto">
+								<p className="font-medium text-gray-800" style={style}>
+									{statusLHS}
+								</p>
+							</div>
 
-						{/* RHS */}
-						<div className="pointer-events-auto">
-							<p className="font-medium text-gray-800" style={style}>
-								{statusRHS}
-							</p>
-						</div>
+							{/* RHS */}
+							<div className="pointer-events-auto">
+								<p className="font-medium text-gray-800" style={style}>
+									{statusRHS}
+								</p>
+							</div>
 
-					</React.Fragment>
-				))({
-					fontSize: "0.6875rem",
-					fontFeatureSettings: "'tnum'",
-				})}
+						</React.Fragment>
+					))({
+						fontSize: "0.6875rem",
+						fontFeatureSettings: "'tnum'",
+					})}
+				</div>
 			</div>
-		</div>
+		</Transition>
 	)
 }
 
