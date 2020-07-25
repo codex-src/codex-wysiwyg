@@ -51,8 +51,6 @@ const FixedStatusBars = () => {
 	const elements = useElements()
 	const range = useRange()
 
-	console.log({ focused })
-
 	const [statusLHS, setStatusLHS] = React.useState(() => getStatusLHS(elements, range))
 	const [statusRHS, setStatusRHS] = React.useState(() => getStatusRHS(elements))
 
@@ -73,7 +71,7 @@ const FixedStatusBars = () => {
 			from="opacity-0"
 			to="opacity-100"
 		>
-			<div className="fixed inset-0 hidden xl:flex flex-row items-end pointer-events-none">
+			<div className="fixed inset-0 hidden xl:flex flex-row items-end opacity-0 pointer-events-none">
 				<div className="px-3 py-2 flex flex-row justify-between w-full">
 					{(style => (
 						<React.Fragment>

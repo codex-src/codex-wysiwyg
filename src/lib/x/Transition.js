@@ -9,7 +9,7 @@ const Transition = ({
 	children,  // etc.
 }) => {
 	if (on === undefined || from === undefined || to === undefined) {
-		throw new Error("Transition: expected props; <Transition on={...} from='...' to='...'>")
+		throw new Error("Transition: expected props; <Transition on={...} className?='...' from='...' to='...' children={...}>")
 	}
 
 	const ref = React.useRef()
