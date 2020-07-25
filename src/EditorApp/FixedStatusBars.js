@@ -1,3 +1,4 @@
+import innerText from "Editor/utils/innerText"
 import React from "react"
 
 import { // Unsorted
@@ -25,21 +26,6 @@ function comma(n) {
 // 	return statusLHS
 // }
 
-// Gets the RHS status string.
-function getStatusRHS(state) {
-	// const str = toText(state.elements)
-	// const metadata = {
-	// 	words: str.split(/\s+/).filter(Boolean).length,
-	// 	minutes: Math.round([...str].length / 4.7 / 300), // Characters per word / words per minute
-	// }
-	// const statusRHS = ((words, minutes) => {
-	// 	return `${comma(words)} word${words === 1 ? "" : "s"}${!minutes ? "" : `, est. ${comma(minutes)} minute read`}`
-	// })(metadata.words, metadata.minutes)
-	// return statusRHS
-
-	return "lol"
-}
-
 // Renders selection (LHS) and duration (RHS) metadata.
 const FixedStatusBars = () => {
 	const debouncedElements = useDebouncedElements()
@@ -48,20 +34,20 @@ const FixedStatusBars = () => {
 	const [statusLHS, setStatusLHS] = React.useState("Line 93, column 17") // TODO
 	const [statusRHS, setStatusRHS] = React.useState("426 words, est. 2 minute read") // TODO
 
-	// React.useEffect(() => { // TODO; change to useMemo
-	// 	const statusLHS = computeStatusLHS(state)
-	// 	setStatusLHS(statusLHS)
-	// }, [state])
+	//const mns = ([...text].length / 4.7 / 300).toFixed(2) // Characters per word / words per minute
+	//setStatusRHS(`${comma(wds)} word${wds === 1 ? "" : "s"}, est. ${comma(mns)} minute read`) // ${!mns ? "" : `, est. ${comma(mns)} minute read`}`)
 
 	// React.useEffect(() => {
-	// 	const id = setTimeout(() => {
-	// 		const statusRHS = getStatusRHS(state)
-	// 		setStatusRHS(statusRHS)
-	// 	}, 16.67)
-	// 	return () => {
-	// 		clearTimeout(id)
-	// 	}
-	// }, [state])
+	// 	// const statusLHS = computeStatusLHS(state)
+	// 	// setStatusLHS(statusLHS)
+	// }, [debouncedRange])
+
+	React.useEffect(() => {
+		const text = innerText(debouncedElements)
+		const wds = text.split(/\s+/).filter(Boolean).length
+		const mns = Math.round([...text].length / 4.7 / 300) // Characters per word / words per minute
+		setStatusRHS(`${comma(wds)} word${wds === 1 ? "" : "s"}${!mns ? "" : `, est. ${comma(mns)} minute read`}`)
+	}, [debouncedElements])
 
 	return (
 		<div className="fixed inset-0 hidden xl:flex flex-row items-end pointer-events-none">
