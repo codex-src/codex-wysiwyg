@@ -2,7 +2,7 @@ import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import React from "react"
 import { ReadOnlyEditor } from "Editor"
 
-const ReleaseItem = ({ date, release, children }) => (
+const Release = ({ date, release, children }) => (
 	<div className="px-6 py-4">
 		<div className="pb-2 flex flex-row justify-end">
 			<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
@@ -19,7 +19,7 @@ const ReleaseItem = ({ date, release, children }) => (
 
 const Releases = () => (
 	<React.Fragment>
-		<ReleaseItem date="July 25, 2020" release="0.5">
+		<Release date="July 25, 2020" release="0.5">
 			<p>
 				– Added fallback sans-serif and monospace fonts, <code>Inter</code> and <code>IBM Plex Mono</code>.{" "}
 				Note that on Apple devices, <code>San Francisco</code> and Menlo are preferred.
@@ -31,9 +31,9 @@ const Releases = () => (
 				– Added status text to the bottom of the viewport, active when the editor is focused.{" "}
 				The indicators render the current cursor position or selection and the word count and estimated duration.
 			</p>
-		</ReleaseItem>
+		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<ReleaseItem date="July 24, 2020" release="0.4">
+		<Release date="July 24, 2020" release="0.4">
 			<p>
 				– Added basic support for <code>"insert-text"</code> operations.
 			</p>
@@ -44,21 +44,21 @@ const Releases = () => (
 				– Added accessible tooltips for the top-right buttons.{" "}
 				These can be invoked from <code>focus</code> or <code>hover</code> events.
 			</p>
-		</ReleaseItem>
+		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<ReleaseItem date="July 22, 2020" release="0.3">
+		<Release date="July 22, 2020" release="0.3">
 			<p>
 				– Added a dedicated changelog and improved readability for GitHub Flavored Markdown and semantic HTML output.
 			</p>
-		</ReleaseItem>
+		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<ReleaseItem date="July 21, 2020" release="0.2">
+		<Release date="July 21, 2020" release="0.2">
 			<p>
 				– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
 			</p>
-		</ReleaseItem>
+		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<ReleaseItem date="July 20, 2020" release="0.1">
+		<Release date="July 20, 2020" release="0.1">
 			<p>
 				– Added support for all backspace operations: <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
 			</p>
@@ -83,7 +83,7 @@ const Releases = () => (
 			<p>
 				*Note that formatting without a selection is not yet supported.
 			</p>
-		</ReleaseItem>
+		</Release>
 	</React.Fragment>
 )
 
