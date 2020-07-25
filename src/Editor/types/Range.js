@@ -1,3 +1,5 @@
+import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+
 import { // Unsorted
 	getPositionFromUserLiteral,
 	convPositionToUserLiteral,
@@ -27,29 +29,19 @@ export function getCurrentRange(tree) {
 	return { start, end }
 }
 
-// Compares whether a range is collapsed; compares
-// references then deeply compares.
-export function rangeIsCollapsed(range) {
-	const ok = (
-		range.start === range.end || // Compares references
-		(range.start.key === range.end.key && range.start.offset === range.end.offset)
-	)
-	return ok
-}
-
-function convArray({ node, offset }) {
+function convToArray({ node, offset }) {
 	return [node, offset]
 }
 
 // Converts a range to a user literal.
 export function convRangeToUserLiteral(range) {
-	const pos1 = convArray(convPositionToUserLiteral(range.start))
+	const pos1 = convToArray(convPositionToUserLiteral(range.start))
 	let pos2 = pos1
 	if (!rangeIsCollapsed(range)) {
-		pos2 = convArray(convPositionToUserLiteral(range.end))
+		pos2 = convToArray(convPositionToUserLiteral(range.end))
 	}
-	const urange = document.createRange()
-	urange.setStart(...pos1)
-	urange.setEnd(...pos2)
-	return urange
+	const userRange = document.createRange()
+	userRange.setStart(...pos1)
+	userRange.setEnd(...pos2)
+	return userRange
 }

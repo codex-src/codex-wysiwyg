@@ -1,8 +1,8 @@
 import findIndex from "../utils/findIndex"
-import { rangeIsCollapsed } from "../types/Range"
+import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Gets the current children.
-function getCurrentChildren(elements, range) {
+function getCurrentChildren(elements, range) { // TODO
 	const children = []
 	for (const each of elements) {
 		let x1 = 0
@@ -20,7 +20,7 @@ function getCurrentChildren(elements, range) {
 
 // Tests whether to apply a format.
 //
-// TODO: Needs to test formatProps too
+// TODO: Adds formatProps
 function testShouldApply(formatType, children) {
 	if (formatType === "plaintext") {
 		return "plaintext"

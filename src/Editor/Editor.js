@@ -1,5 +1,6 @@
 import componentMap from "./components/componentMap"
 import keyDownTypeFor from "./keyDownTypeFor"
+import rangeIsCollapsed from "./utils/rangeIsCollapsed"
 import React from "react"
 import ReactDOM from "react-dom"
 
@@ -10,7 +11,6 @@ import {
 
 import { // Unsorted
 	getCurrentRange,
-	rangeIsCollapsed,
 	convRangeToUserLiteral,
 } from "./types/Range"
 
@@ -57,8 +57,8 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					return
 				}
 				try {
-					const urange = convRangeToUserLiteral(state.range)
-					selection.addRange(urange)
+					const userRange = convRangeToUserLiteral(state.range)
+					selection.addRange(userRange)
 				} catch (error) {
 					console.error(error)
 				}

@@ -3,7 +3,7 @@ import deleteImpl from "./deleteImpl"
 import extendLTRImpl from "./extendLTRImpl"
 import extendRTLImpl from "./extendRTLImpl"
 import insertTextImpl from "./insertTextImpl"
-import { rangeIsCollapsed } from "../types/Range"
+import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Collapses the current range end-to-start.
 function collapseToStart(e) {

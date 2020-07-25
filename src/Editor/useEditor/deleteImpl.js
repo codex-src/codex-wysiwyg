@@ -1,5 +1,5 @@
 import findIndex from "../utils/findIndex"
-import { rangeIsCollapsed } from "../types/Range"
+import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Deletes the current range.
 function deleteImpl(e, dir, boundary) {
