@@ -164,7 +164,14 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						}
 						break
 					case "insert-text":
-						if (!rangeIsCollapsed(state.range)) {
+						if (rangeIsCollapsed(state.range) && state.applyType) {
+							e.preventDefault()
+							text = e.key
+							dispatch({
+								type: "INSERT_TEXT",
+								text,
+							})
+						} else if (!rangeIsCollapsed(state.range)) {
 							e.preventDefault()
 							text = e.key
 							dispatch({
@@ -173,16 +180,18 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 							})
 						}
 						break
-					case "insert-tab":
-						if (rangeIsCollapsed(state.range)) {
-							e.preventDefault()
-							text = "\t"
-							dispatch({
-								type: "INSERT_TEXT",
-								text,
-							})
-						}
-						break
+
+					// case "insert-tab":
+					// 	if (rangeIsCollapsed(state.range)) {
+					// 		e.preventDefault()
+					// 		text = "\t"
+					// 		dispatch({
+					// 			type: "INSERT_TEXT",
+					// 			text,
+					// 		})
+					// 	}
+					// 	break
+
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":
@@ -248,19 +257,19 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				data-root
 			/>
 
-			{/* {process.env.NODE_ENV !== "production" && ( */}
-			{/* 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}> */}
-			{/* 		{JSON.stringify( */}
-			{/* 			{ */}
-			{/* 				elements: state.elements, */}
-			{/* 				range: state.range, */}
-			{/* 				pendingRange: state.pendingRange, */}
-			{/* 			}, */}
-			{/* 			null, */}
-			{/* 			"\t", */}
-			{/* 		)} */}
-			{/* 	</pre> */}
-			{/* )} */}
+			{process.env.NODE_ENV !== "production" && (
+				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
+					{JSON.stringify(
+						{
+							// elements: state.elements,
+							applyType: state.applyType,
+							range: state.range,
+						},
+						null,
+						"\t",
+					)}
+				</pre>
+			)}
 
 		</div>
 	)

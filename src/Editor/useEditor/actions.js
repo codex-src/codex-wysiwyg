@@ -3,6 +3,7 @@ import deleteImpl from "./implementation/deleteImpl"
 import extendLTRImpl from "./implementation/extendLTRImpl"
 import extendRTLImpl from "./implementation/extendRTLImpl"
 import insertTextImpl from "./implementation/insertTextImpl"
+import JSONClone from "lib/JSON/JSONClone"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Manually updates elements.
@@ -21,23 +22,43 @@ export function blur(e) {
 	e.focused = false
 }
 
-// Selects a range.
+// Selects a range; drops the current range-in-progress.
 export function select(e, { range }) {
+	e.applyType = null
 	e.range = range
 }
 
 // Inserts text at the current range.
 export function insertText(e, { type, text }) {
-	insertTextImpl(e, text)
-	e.range.start.offset += text.length
-	e.range.end = e.range.start
+	if (rangeIsCollapsed(e.range) && e.applyType) {
+		insertTextImpl(e, text)
+		e.range.end.offset += text.length
+		e.range.start = e.applyType.range.start
+		applyFormatImpl(e, Object.keys(e.applyType.types)[0]) // TODO
+		e.range.start = e.range.end
+	} else if (!rangeIsCollapsed(e.range)) {
+		insertTextImpl(e, text)
+		e.range.start.offset += text.length
+		e.range.end = e.range.start
+	}
 	e.shouldRerender++
 }
 
 // Applies a format to the current range.
 //
 // TODO: Add props argument
-export function applyFormat(e, { type, formatType }) {
+export function applyFormat(e, { formatType }) {
+	if (rangeIsCollapsed(e.range)) {
+		if (!e.applyType) {
+			e.applyType = {
+				types: {},
+				range: {},
+			}
+		}
+		e.applyType.types[formatType] = {} // TODO
+		e.applyType.range = JSONClone(e.range)
+		return
+	}
 	applyFormatImpl(e, formatType)
 	e.shouldRerender++
 }

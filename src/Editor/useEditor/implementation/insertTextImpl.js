@@ -1,6 +1,7 @@
 import deleteImpl from "./deleteImpl"
 import findIndex from "../../utils/findIndex"
 import JSONClone from "lib/JSON/JSONClone"
+import rangeIsCollapsed from "../../utils/rangeIsCollapsed"
 
 // Inserts text at the current range.
 function insertTextImpl(e, text) {
@@ -21,7 +22,9 @@ function insertTextImpl(e, text) {
 		originalTextNode = JSONClone(ch[x])
 	}
 
-	deleteImpl(e)
+	if (!rangeIsCollapsed(e.range)) {
+		deleteImpl(e)
+	}
 
 	// NOTE: Do not reuse x; does not work as expected.
 	x = findIndex(ch, e.range.start.offset)

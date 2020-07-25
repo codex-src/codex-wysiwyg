@@ -27,7 +27,7 @@ const newInitialState = () => ({
 			offset: 0,
 		},
 	},
-	pendingRange: null,
+	applyType: null,
 	shouldRerender: 0,
 })
 

@@ -30,12 +30,9 @@ function testShouldApply(formatType, children) {
 }
 
 // Applies a format to the current range.
+//
+// TODO: Add support for many formats
 function applyFormatImpl(e, formatType, formatProps = {} /* TODO */) {
-	if (rangeIsCollapsed(e.range)) {
-		e.pendingRange = e.range // TODO
-		return
-	}
-
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
 	if (!rangeIsCollapsed(e.range)) {
