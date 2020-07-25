@@ -1,14 +1,29 @@
-import applyFormatImpl from "./impl/applyFormatImpl"
-import deleteImpl from "./impl/deleteImpl"
-import extendLTRImpl from "./impl/extendLTRImpl"
-import extendRTLImpl from "./impl/extendRTLImpl"
-import insertTextImpl from "./impl/insertTextImpl"
+import applyFormatImpl from "./implementation/applyFormatImpl"
+import deleteImpl from "./implementation/deleteImpl"
+import extendLTRImpl from "./implementation/extendLTRImpl"
+import extendRTLImpl from "./implementation/extendRTLImpl"
+import insertTextImpl from "./implementation/insertTextImpl"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Manually updates elements.
 export function manuallyUpdateElements(e, { type, elements }) {
 	e.elements = elements
 	e.shouldRerender++
+}
+
+// Focuses the editor.
+export function focus(e) {
+	e.focused = true
+}
+
+// Blurs the editor.
+export function blur(e) {
+	e.focused = false
+}
+
+// Selects a range.
+export function select(e, { range }) {
+	e.range = range
 }
 
 // Inserts text at the current range.

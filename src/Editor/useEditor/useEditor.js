@@ -51,15 +51,15 @@ function reducer(e, action) {
 		return
 	case "FOCUS":
 		record(e, action.type)
-		e.focused = true
+		actions.focus(e, action)
 		return
 	case "BLUR":
 		record(e, action.type)
-		e.focused = false
+		actions.blur(e, action)
 		return
 	case "SELECT":
 		record(e, action.type)
-		e.range = action.range
+		actions.select(e, action)
 		return
 	case "INSERT_TEXT":
 		record(e, action.type)
