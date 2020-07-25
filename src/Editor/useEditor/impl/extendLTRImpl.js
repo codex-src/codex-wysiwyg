@@ -1,5 +1,5 @@
 import * as iterate from "lib/UTF8/iterate"
-import textContent from "../utils/textContent"
+import textContent from "../../utils/textContent"
 
 // Extends the current range left-to-right.
 function extendLTRImpl(e, boundary) {

@@ -1,5 +1,5 @@
 import deleteImpl from "./deleteImpl"
-import findIndex from "../utils/findIndex"
+import findIndex from "../../utils/findIndex"
 import JSONClone from "lib/JSON/JSONClone"
 
 // Inserts text at the current range.

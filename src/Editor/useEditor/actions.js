@@ -1,46 +1,30 @@
-import applyFormatImpl from "./applyFormatImpl"
-import deleteImpl from "./deleteImpl"
-import extendLTRImpl from "./extendLTRImpl"
-import extendRTLImpl from "./extendRTLImpl"
-import insertTextImpl from "./insertTextImpl"
+import applyFormatImpl from "./impl/applyFormatImpl"
+import deleteImpl from "./impl/deleteImpl"
+import extendLTRImpl from "./impl/extendLTRImpl"
+import extendRTLImpl from "./impl/extendRTLImpl"
+import insertTextImpl from "./impl/insertTextImpl"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
-
-// Collapses the current range end-to-start.
-function collapseToStart(e) {
-	e.range.end = e.range.start
-}
-
-// Rerenders the current state.
-function render(e) {
-	e.shouldRerender++
-}
-
-/*
- *
- */
 
 // Manually updates elements.
 export function manuallyUpdateElements(e, { type, elements }) {
 	e.elements = elements
-	render(e)
+	e.shouldRerender++
 }
 
 // Inserts text at the current range.
 export function insertText(e, { type, text }) {
 	insertTextImpl(e, text)
 	e.range.start.offset += text.length
-	collapseToStart(e)
-	render(e)
+	e.range.end = e.range.start
+	e.shouldRerender++
 }
-
-// const formatType = keyDownType.split("-").slice(-1)[0]
 
 // Applies a format to the current range.
 //
 // TODO: Add props argument
 export function applyFormat(e, { type, formatType }) {
 	applyFormatImpl(e, formatType)
-	render(e)
+	e.shouldRerender++
 }
 
 // Deletes the next right-to-left or left-to-right rune,
@@ -52,8 +36,8 @@ export function $delete(e, { type, deleteType }) {
 		extendImpl(e, boundary)
 	}
 	deleteImpl(e, dir, boundary)
-	collapseToStart(e)
-	render(e)
+	e.range.end = e.range.start
+	e.shouldRerender++
 }
 
 // Uncontrolled input handler.
@@ -61,5 +45,5 @@ export function uncontrolledInput(e, { type, children, range }) {
 	const el = e.elements.find(each => each.key === range.start.key)
 	el.props.children = children
 	e.range = range
-	render(e)
+	e.shouldRerender++
 }

@@ -1,5 +1,5 @@
-import findIndex from "../utils/findIndex"
-import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+import findIndex from "../../utils/findIndex"
+import rangeIsCollapsed from "../../utils/rangeIsCollapsed"
 
 // Gets the current children.
 function getCurrentChildren(elements, range) { // TODO
