@@ -129,7 +129,13 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 
 				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
-					switch (keyDownTypeFor(e)) {
+
+					// Computed from keyDownType:
+					let formatType = ""
+					let text = ""
+					let deleteType = ""
+
+					switch (keyDownType) {
 					case "apply-format-plaintext":
 					case "apply-format-em":
 					case "apply-format-strong":
@@ -137,34 +143,32 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-strike":
 					case "apply-format-a":
 						e.preventDefault()
-						const formatType = keyDownType.slice("apply-format-".length)
+						formatType = keyDownType.slice("apply-format-".length)
 						dispatch({
 							type: "APPLY_FORMAT",
-							formatType,
+							formatType, // TODO: Add props
 						})
 						break
-
-						// case "apply-format-markdown-em":
-						// case "apply-format-markdown-strong":
-						// case "apply-format-markdown-code":
-						// case "apply-format-markdown-strike":
-						// case "apply-format-markdown-a":
-						// 	const applyType = keyDownType.slice("apply-format-".length)
-						// 	if (rangeIsCollapsed(state.range)) {
-						// 		// TODO
-						// 	} else {
-						// 		e.preventDefault()
-						// 		dispatch({
-						// 			type: "APPLY_FORMAT",
-						// 			applyType,
-						// 		})
-						// 	}
-						// 	break
-
+					case "apply-format-markdown-em":
+					case "apply-format-markdown-strong":
+					case "apply-format-markdown-code":
+					case "apply-format-markdown-strike":
+					case "apply-format-markdown-a":
+						formatType = keyDownType.slice("apply-format-markdown-".length)
+						if (rangeIsCollapsed(state.range)) {
+							// TODO
+						} else {
+							e.preventDefault()
+							dispatch({
+								type: "APPLY_FORMAT",
+								formatType, // TODO: Add props
+							})
+						}
+						break
 					case "insert-text":
 						if (!rangeIsCollapsed(state.range)) {
 							e.preventDefault()
-							const text = e.key
+							text = e.key
 							dispatch({
 								type: "INSERT_TEXT",
 								text,
@@ -174,40 +178,36 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "insert-tab":
 						if (rangeIsCollapsed(state.range)) {
 							e.preventDefault()
-							const text = "\t"
+							text = "\t"
 							dispatch({
 								type: "INSERT_TEXT",
 								text,
 							})
 						}
 						break
-
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":
 						e.preventDefault()
 						// TODO
 						break
-
 					case "delete-rtl-rune":
 					case "delete-rtl-word":
 					case "delete-rtl-line":
 					case "delete-ltr-rune":
 					case "delete-ltr-word":
 						e.preventDefault()
-						const deleteType = keyDownType.slice("delete-".length)
+						deleteType = keyDownType.slice("delete-".length)
 						dispatch({
 							type: "DELETE",
 							deleteType,
 						})
 						break
-
 					case "undo":
 					case "redo":
 						e.preventDefault()
 						// TODO
 						break
-
 					default:
 						// No-op
 						break
