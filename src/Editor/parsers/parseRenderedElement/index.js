@@ -1,7 +1,7 @@
 import domUtils from "lib/DOM/domUtils"
 
 // Parses a rendered element; parses types and props.
-function parseRendered(element) {
+function parseRenderedElement(element) {
 	let dataType = element.getAttribute("data-type")
 	if (domUtils.nodeName(element) === "i" || domUtils.nodeName(element) === "u") { // Edge case
 		dataType = "em"
@@ -25,10 +25,10 @@ function parseRendered(element) {
 		type = dataType
 		break
 	default:
-		throw new Error(`parsers.parseRendered: no such type; dataType=${dataType}`)
+		throw new Error(`parseRenderedElement: no such type; dataType=${dataType}`)
 	}
 	const props = JSON.parse(element.getAttribute("data-props")) || {}
 	return { type, props }
 }
 
-export default parseRendered
+export default parseRenderedElement

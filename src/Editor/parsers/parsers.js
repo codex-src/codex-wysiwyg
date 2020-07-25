@@ -1,8 +1,8 @@
 import domUtils from "lib/DOM/domUtils"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
-import parseRendered from "./parseRendered"
-import parseSemantic from "./parseSemantic"
+import parseRenderedElement from "./parseRenderedElement"
+import parseSemanticElement from "./parseSemanticElement"
 
 // Parses children; accepts a parser as an argument.
 function parseChildren(element, parser) {
@@ -18,7 +18,7 @@ function parseChildren(element, parser) {
 			return
 		}
 		for (const each of on.childNodes) {
-			// Guard <br> and <... contenteditable="false">:
+			// No-op <br> and <... contenteditable="false">:
 			if (domUtils.isElement(each) && (domUtils.isBrElement(each) ||
 					each.getAttribute("contenteditable") === "false")) {
 				// No-op
@@ -53,22 +53,22 @@ function parseElements(tree, parser) {
 	return elements
 }
 
-// Parses elements from a rendered tree.
-export function parseRenderedElements(tree) {
-	return parseElements(tree, parseRendered)
-}
-
-// Parses children from a rendered element.
-export function parseRenderedChildren(element) {
-	return parseChildren(element, parseRendered)
+// Parses children from a semantic element.
+export function parseSemanticChildren(element) {
+	return parseChildren(element, parseSemanticElement)
 }
 
 // Parses elements from a semantic tree.
 export function parseSemanticElements(tree) {
-	return parseElements(tree, parseSemantic)
+	return parseElements(tree, parseSemanticElement)
 }
 
-// Parses children from a semantic element.
-export function parseSemanticChildren(element) {
-	return parseChildren(element, parseSemantic)
+// Parses children from a rendered element.
+export function parseRenderedChildren(element) {
+	return parseChildren(element, parseRenderedElement)
+}
+
+// Parses elements from a rendered tree.
+export function parseRenderedElements(tree) {
+	return parseElements(tree, parseRenderedElement)
 }
