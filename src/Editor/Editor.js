@@ -2,8 +2,11 @@ import componentMap from "./components/componentMap"
 import keyDownTypeFor from "./keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
-import { parseElementsFromChildren } from "./useEditor/parseElements"
-import { parseRenderedChildren } from "./parsers"
+
+import {
+	initElementsFromChildren,
+	parseRenderedChildren,
+} from "./parsers"
 
 import { // Unsorted
 	getCurrentRange,
@@ -31,7 +34,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 	// Manually updates elements from props.children.
 	React.useLayoutEffect(
 		React.useCallback(() => {
-			const elements = parseElementsFromChildren(children)
+			const elements = initElementsFromChildren(children)
 			dispatch({
 				type: "MANUALLY_UPDATE_ELEMENTS",
 				elements,
@@ -126,10 +129,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 
 				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
-					if (keyDownType) {
-						console.log(keyDownType)
-					}
-					switch (keyDownType) {
+					switch (keyDownTypeFor(e)) {
 					case "apply-format-plaintext":
 					case "apply-format-em":
 					case "apply-format-strong":
@@ -137,71 +137,77 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-strike":
 					case "apply-format-a":
 						e.preventDefault()
+						const formatType = keyDownType.slice("apply-format-".length)
 						dispatch({
 							type: "APPLY_FORMAT",
-							keyDownType,
+							formatType,
 						})
 						break
-					case "apply-format-markdown-em":
-					case "apply-format-markdown-strong":
-					case "apply-format-markdown-code":
-					case "apply-format-markdown-strike":
-					case "apply-format-markdown-a":
-						if (rangeIsCollapsed(state.range)) {
-							// TODO
-						} else {
-							e.preventDefault()
-							dispatch({
-								type: "APPLY_FORMAT",
-								keyDownType,
-							})
-						}
-						break
+
+						// case "apply-format-markdown-em":
+						// case "apply-format-markdown-strong":
+						// case "apply-format-markdown-code":
+						// case "apply-format-markdown-strike":
+						// case "apply-format-markdown-a":
+						// 	const applyType = keyDownType.slice("apply-format-".length)
+						// 	if (rangeIsCollapsed(state.range)) {
+						// 		// TODO
+						// 	} else {
+						// 		e.preventDefault()
+						// 		dispatch({
+						// 			type: "APPLY_FORMAT",
+						// 			applyType,
+						// 		})
+						// 	}
+						// 	break
+
 					case "insert-text":
-						if (rangeIsCollapsed(state.range)) {
-							// No-op
-							break
-						} else {
+						if (!rangeIsCollapsed(state.range)) {
 							e.preventDefault()
+							const text = e.key
 							dispatch({
 								type: "INSERT_TEXT",
-								key: e.key,
+								text,
 							})
 						}
 						break
 					case "insert-tab":
 						if (rangeIsCollapsed(state.range)) {
 							e.preventDefault()
+							const text = "\t"
 							dispatch({
 								type: "INSERT_TEXT",
-								key: "\t",
+								text,
 							})
-						} else {
-							// TODO
 						}
 						break
+
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
 					case "insert-horizontal-rule":
 						e.preventDefault()
 						// TODO
 						break
+
 					case "delete-rtl-rune":
 					case "delete-rtl-word":
 					case "delete-rtl-line":
 					case "delete-ltr-rune":
 					case "delete-ltr-word":
 						e.preventDefault()
+						const deleteType = keyDownType.slice("delete-".length)
 						dispatch({
 							type: "DELETE",
-							keyDownType,
+							deleteType,
 						})
 						break
+
 					case "undo":
 					case "redo":
 						e.preventDefault()
 						// TODO
 						break
+
 					default:
 						// No-op
 						break

@@ -4,7 +4,7 @@ import JSONClone from "lib/JSON/JSONClone"
 import parseRendered from "./parseRendered"
 import parseSemantic from "./parseSemantic"
 
-// Uses a parser to parse children.
+// Parses children; accepts a parser as an argument.
 function parseChildren(element, parser) {
 	const children = []
 	const recurse = (on, types = {}) => {
@@ -36,7 +36,7 @@ function parseChildren(element, parser) {
 	return children
 }
 
-// Uses a parser to parse elements.
+// Parses elements; accepts a parser as an argument.
 function parseElements(tree, parser) {
 	const elements = []
 	for (const each of tree.children) {

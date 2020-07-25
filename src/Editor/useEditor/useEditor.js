@@ -1,7 +1,7 @@
-import * as actions from "./actions/actions" // FIXME: Use index.js?
+import * as actions from "./actions"
 import hash from "lib/x/hash"
 import React from "react"
-import { parseElementsFromMarkup } from "./parseElements"
+import { initElementsFromMarkup } from "../parsers"
 import { useImmerReducer } from "use-immer"
 
 function newInitialState() {
@@ -35,31 +35,51 @@ function newInitialState() {
 	return state
 }
 
-function reducer(draft, action) {
+// Records the current action. No-ops "SELECT" actions
+// sooner than 200ms.
+function record(e, actionType) {
+	const now = Date.now()
+	if (actionType === "SELECT" && now - e.lastActionTimestamp < 200) {
+		// No-op
+		return
+	}
+	e.lastActionTimestamp = now
+	e.lastAction = actionType
+}
+
+function reducer(e, action) {
 	switch (action.type) {
 	case "MANUALLY_UPDATE_ELEMENTS":
-		actions.manuallyUpdateElements(draft)(action.elements)
+		record(e, action.type)
+		actions.manuallyUpdateElements(e, action)
 		return
 	case "FOCUS":
-		actions.focus(draft)()
+		record(e, action.type)
+		e.focused = true
 		return
 	case "BLUR":
-		actions.blur(draft)()
+		record(e, action.type)
+		e.focused = false
 		return
 	case "SELECT":
-		actions.select(draft)(action.range)
+		record(e, action.type)
+		e.range = action.range
 		return
 	case "INSERT_TEXT":
-		actions.insertText(draft)(action.key)
+		record(e, action.type)
+		actions.insertText(e, action)
 		return
 	case "APPLY_FORMAT":
-		actions.applyFormat(draft)(action.keyDownType)
+		record(e, action.type)
+		actions.applyFormat(e, action)
 		return
 	case "DELETE":
-		actions.$delete(draft)(action.keyDownType)
+		record(e, action.type)
+		actions.$delete(e, action)
 		return
 	case "UNCONTROLLED_INPUT":
-		actions.uncontrolledInput(draft)(action.children, action.range)
+		record(e, action.type)
+		actions.uncontrolledInput(e, action)
 		return
 	default:
 		throw new Error(`useEditor.reducer: no such action.type; action.type=${action.type}`)
@@ -69,7 +89,7 @@ function reducer(draft, action) {
 // Instantiates an editor from markup.
 export function useEditorFromMarkup(markup) {
 	const initialState = React.useMemo(() => {
-		const elements = parseElementsFromMarkup(markup)
+		const elements = initElementsFromMarkup(markup)
 		return newInitialState(elements)
 	}, [markup])
 	return useImmerReducer(reducer, initialState)
@@ -77,8 +97,6 @@ export function useEditorFromMarkup(markup) {
 
 // Instantiates an editor.
 export function useEditor() {
-	const initialState = React.useMemo(() => {
-		return newInitialState()
-	}, [])
+	const initialState = React.useMemo(newInitialState)
 	return useImmerReducer(reducer, initialState)
 }

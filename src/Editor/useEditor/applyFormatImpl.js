@@ -1,8 +1,8 @@
-import findIndex from "../../utils/findIndex"
-import { rangeIsCollapsed } from "../../types/Range"
+import findIndex from "../utils/findIndex"
+import { rangeIsCollapsed } from "../types/Range"
 
-// Queries children from a range.
-function queryChildrenFromRange(elements, range) {
+// Gets the current children.
+function getCurrentChildren(elements, range) {
 	const children = []
 	for (const each of elements) {
 		let x1 = 0
@@ -18,8 +18,9 @@ function queryChildrenFromRange(elements, range) {
 	return children
 }
 
-// Tests whether to apply a format. Returns "plaintext",
-// "should-not-apply", or "should-apply".
+// Tests whether to apply a format.
+//
+// TODO: Needs to test formatProps too
 function testShouldApply(formatType, children) {
 	if (formatType === "plaintext") {
 		return "plaintext"
@@ -29,7 +30,7 @@ function testShouldApply(formatType, children) {
 }
 
 // Applies a format to the current range.
-const applyFormatImpl = e => (formatType, formatProps = {} /* TODO */) => {
+function applyFormatImpl(e, formatType, formatProps = {} /* TODO */) {
 	if (rangeIsCollapsed(e.range)) {
 		e.pendingRange = e.range // TODO
 		return
@@ -41,8 +42,9 @@ const applyFormatImpl = e => (formatType, formatProps = {} /* TODO */) => {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 
-	const ch = queryChildrenFromRange(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = getCurrentChildren(e.elements.slice(x1, x2 + 1), e.range)
 	const shouldApply = testShouldApply(formatType, ch)
+
 	switch (shouldApply) {
 	case "plaintext":
 		for (const each of ch) {
