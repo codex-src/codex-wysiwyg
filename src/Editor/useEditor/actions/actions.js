@@ -1,23 +1,23 @@
-// import { rangeIsCollapsed } from "../../types/Range"
 import applyFormatImpl from "./applyFormatImpl"
 import deleteImpl from "./deleteImpl"
 import findIndex from "../../utils/findIndex"
 import JSONClone from "lib/JSON/JSONClone"
+import { rangeIsCollapsed } from "../../types/Range"
 
-// import { // Unsorted
-// 	extendRTLImpl,
-// 	extendLTRImpl,
-// } from "./extendImpl"
+import { // Unsorted
+	extendRTLImpl,
+	extendLTRImpl,
+} from "./extendImpl"
 
 // Unexported; collapses the current range end-to-start.
 const collapseToStart = e => () => {
 	e.range.end = e.range.start
 }
 
-// Unexported; drops the pending range.
-const dropPendingRange = e => () => {
-	e.pendingRange = null
-}
+// // Unexported; drops the pending range.
+// const dropPendingRange = e => () => {
+// 	e.pendingRange = null
+// }
 
 // Unexported; rerenders.
 const render = e => () => {
@@ -57,7 +57,7 @@ export const blur = e => () => {
 // Selects a range.
 export const select = e => range => {
 	record(e)("select")
-	dropPendingRange(e)()
+	// dropPendingRange(e)()
 	e.range = range
 }
 
@@ -118,6 +118,10 @@ export const $delete = e => keyDownType => {
 	const [dir, boundary] = keyDownType.split("-").slice(1)
 
 	record(e)(`delete-${dir}-${boundary}`)
+	if (rangeIsCollapsed(e.range)) {
+		const extendImpl = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
+		extendImpl(e)(boundary)
+	}
 	deleteImpl(e)(dir, boundary)
 	collapseToStart(e)()
 	render(e)()

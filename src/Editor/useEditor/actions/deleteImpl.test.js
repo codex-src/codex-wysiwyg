@@ -49,9 +49,10 @@ function deepCopy() {
 	return JSONClone(originalElements)
 }
 
+// TODO: Extract to helper?
 function innerText(elements) {
 	return elements.reduce((acc, each, x) => {
-		if (x) {
+		if (x > 0) { // TODO
 			acc += "\n"
 		}
 		acc += textContent(each.props.children)

@@ -244,20 +244,19 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				data-root
 			/>
 
-			{/* DEBUGGER */}
-			{process.env.NODE_ENV !== "production" && (
-				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
-					{JSON.stringify(
-						{
-							elements: state.elements,
-							range: state.range,
-							pendingRange: state.pendingRange,
-						},
-						null,
-						"\t",
-					)}
-				</pre>
-			)}
+			{/* {process.env.NODE_ENV !== "production" && ( */}
+			{/* 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}> */}
+			{/* 		{JSON.stringify( */}
+			{/* 			{ */}
+			{/* 				elements: state.elements, */}
+			{/* 				range: state.range, */}
+			{/* 				pendingRange: state.pendingRange, */}
+			{/* 			}, */}
+			{/* 			null, */}
+			{/* 			"\t", */}
+			{/* 		)} */}
+			{/* 	</pre> */}
+			{/* )} */}
 
 		</div>
 	)
