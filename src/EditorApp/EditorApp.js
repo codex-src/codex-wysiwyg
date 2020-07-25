@@ -1,7 +1,7 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DocumentTitle from "lib/x/DocumentTitle"
 import FixedPreferences from "./FixedPreferences"
-import FixedStatusBars from "./FixedStatusBars"
+import FixedStatusText from "./FixedStatusText"
 import React from "react"
 
 import { // Unsorted
@@ -49,7 +49,7 @@ const App = () => {
 									</p>
 								</Editor>
 
-								<FixedStatusBars />
+								<FixedStatusText />
 
 							</div>
 						</div>

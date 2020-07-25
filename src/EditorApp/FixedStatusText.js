@@ -19,7 +19,7 @@ function pretty(n, desc = "") {
 }
 
 // Gets the LHS status text.
-function getStatusLHS(elements, range) {
+function getLHSStatusText(elements, range) {
 	if (!range.start.key || !range.end.key) {
 		return "Line 1, column 1"
 	}
@@ -39,29 +39,29 @@ function getStatusLHS(elements, range) {
 }
 
 // Gets the RHS status text.
-function getStatusRHS(elements) {
+function getRHSStatusText(elements) {
 	const text = innerText(elements)
 	const words = text.split(/\s+/).filter(Boolean).length
 	const minutes = Math.round([...text].length / 4.7 / 300) // Characters per word / words per minute
 	return pretty(words, "word") + (!minutes ? "" : `, est. ${pretty(minutes)} minute read`)
 }
 
-const FixedStatusBars = () => {
+const FixedStatusText = () => {
 	const focused = useFocused()
 	const elements = useElements()
 	const range = useRange()
 
-	const [statusLHS, setStatusLHS] = React.useState(() => getStatusLHS(elements, range))
-	const [statusRHS, setStatusRHS] = React.useState(() => getStatusRHS(elements))
+	const [lhsStatusText, setLHSStatusText] = React.useState(() => getLHSStatusText(elements, range))
+	const [rhsStatusText, setRHSStatusText] = React.useState(() => getRHSStatusText(elements))
 
 	React.useEffect(() => {
-		const status = getStatusLHS(elements, range)
-		setStatusLHS(status)
+		const status = getLHSStatusText(elements, range)
+		setLHSStatusText(status)
 	}, [elements, range])
 
 	React.useEffect(() => {
-		const status = getStatusRHS(elements)
-		setStatusRHS(status)
+		const status = getRHSStatusText(elements)
+		setRHSStatusText(status)
 	}, [elements])
 
 	return (
@@ -79,14 +79,14 @@ const FixedStatusBars = () => {
 							{/* LHS */}
 							<div className="pointer-events-auto">
 								<p className="font-medium text-gray-800" style={style}>
-									{statusLHS}
+									{lhsStatusText}
 								</p>
 							</div>
 
 							{/* RHS */}
 							<div className="pointer-events-auto">
 								<p className="font-medium text-gray-800" style={style}>
-									{statusRHS}
+									{rhsStatusText}
 								</p>
 							</div>
 
@@ -101,4 +101,4 @@ const FixedStatusBars = () => {
 	)
 }
 
-export default FixedStatusBars
+export default FixedStatusText
