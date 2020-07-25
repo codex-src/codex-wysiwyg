@@ -1,4 +1,5 @@
 import innerText from "Editor/utils/innerText"
+import rangeIsCollapsed from "Editor/utils/rangeIsCollapsed"
 import React from "react"
 
 import { // Unsorted
@@ -6,67 +7,85 @@ import { // Unsorted
 	useDebouncedRange,
 } from "./contexts"
 
-// Comma-formats a number.
-function comma(n) {
-	return n.toLocaleString("en")
+// Makes a number pretty. 💅
+function pretty(n, desc = "") {
+	const nstr = n.toLocaleString("en")
+	if (!desc) {
+		return nstr
+	}
+	return nstr + " " + (n === 1 ? desc : `${desc}s`)
 }
 
-// // Computes the LHS status string.
-// function computeStatusLHS(state) {
-// 	const statusLHS = ((chars, lines) => {
-// 		if (!state.focused) {
-// 			return "No selection"
-// 		}
-// 		if (state.collapsed) {
-// 			return `Line ${comma(state.pos1.y + 1)}, column ${comma(state.pos1.x + 1)}`
-// 		} else {
-// 			return `Selected ${lines < 2 ? "" : `${comma(lines)} lines, `}${comma(chars)} character${chars === 1 ? "" : "s"}`
-// 		}
-// 	})(state.pos2.pos - state.pos1.pos, state.pos2.y - state.pos1.y + 1)
-// 	return statusLHS
-// }
+// Gets the LHS status text.
+function getStatusLHS(elements, range) {
+	if (!range.start.key || !range.end.key) {
+		return "Line 1, column 1"
+	}
 
-// Renders selection (LHS) and duration (RHS) metadata.
+	const x1 = elements.findIndex(each => each.key === range.start.key)
+	let x2 = x1
+	if (!rangeIsCollapsed(range)) {
+		x2 = elements.findIndex(each => each.key === range.end.key)
+	}
+
+	if (rangeIsCollapsed(range)) {
+		return `Line ${pretty(x1 + 1)}, column ${pretty(range.start.offset + 1)}`
+	}
+	const chars = range.end.offset - range.start.offset
+	return range.start.key === range.end.key ? `Selected ${pretty(chars, "character")}`
+		: `Selected ${pretty(x2 - x1, "line")}`
+}
+
+// Gets the RHS status text.
+function getStatusRHS(elements) {
+	const text = innerText(elements)
+	const words = text.split(/\s+/).filter(Boolean).length
+	const minutes = Math.round([...text].length / 4.7 / 300) // Characters per word / words per minute
+	return pretty(words, "word") + (!minutes ? "" : `, est. ${pretty(minutes)} minute read`)
+}
+
 const FixedStatusBars = () => {
-	const debouncedElements = useDebouncedElements()
-	const debouncedRange = useDebouncedRange()
+	const elements = useDebouncedElements()
+	const range = useDebouncedRange()
 
-	const [statusLHS, setStatusLHS] = React.useState("Line 93, column 17") // TODO
-	const [statusRHS, setStatusRHS] = React.useState("426 words, est. 2 minute read") // TODO
-
-	//const mns = ([...text].length / 4.7 / 300).toFixed(2) // Characters per word / words per minute
-	//setStatusRHS(`${comma(wds)} word${wds === 1 ? "" : "s"}, est. ${comma(mns)} minute read`) // ${!mns ? "" : `, est. ${comma(mns)} minute read`}`)
-
-	// React.useEffect(() => {
-	// 	// const statusLHS = computeStatusLHS(state)
-	// 	// setStatusLHS(statusLHS)
-	// }, [debouncedRange])
+	const [statusLHS, setStatusLHS] = React.useState(() => getStatusLHS(elements, range))
+	const [statusRHS, setStatusRHS] = React.useState(() => getStatusRHS(elements))
 
 	React.useEffect(() => {
-		const text = innerText(debouncedElements)
-		const wds = text.split(/\s+/).filter(Boolean).length
-		const mns = Math.round([...text].length / 4.7 / 300) // Characters per word / words per minute
-		setStatusRHS(`${comma(wds)} word${wds === 1 ? "" : "s"}${!mns ? "" : `, est. ${comma(mns)} minute read`}`)
-	}, [debouncedElements])
+		const status = getStatusLHS(elements, range)
+		setStatusLHS(status)
+	}, [elements, range])
+
+	React.useEffect(() => {
+		const status = getStatusRHS(elements)
+		setStatusRHS(status)
+	}, [elements])
 
 	return (
 		<div className="fixed inset-0 hidden xl:flex flex-row items-end pointer-events-none">
 			<div className="px-3 py-2 flex flex-row justify-between w-full">
+				{(style => (
+					<React.Fragment>
 
-				{/* LHS */}
-				<div className="pointer-events-auto">
-					<p className="font-medium" style={{ fontSize: "0.6875rem", fontFeatureSettings: "'tnum'" }}>
-						{statusLHS}
-					</p>
-				</div>
+						{/* LHS */}
+						<div className="pointer-events-auto">
+							<p className="font-medium text-gray-800" style={style}>
+								{statusLHS}
+							</p>
+						</div>
 
-				{/* RHS */}
-				<div className="pointer-events-auto">
-					<p className="font-medium" style={{ fontSize: "0.6875rem", fontFeatureSettings: "'tnum'" }}>
-						{statusRHS}
-					</p>
-				</div>
+						{/* RHS */}
+						<div className="pointer-events-auto">
+							<p className="font-medium text-gray-800" style={style}>
+								{statusRHS}
+							</p>
+						</div>
 
+					</React.Fragment>
+				))({
+					fontSize: "0.6875rem",
+					fontFeatureSettings: "'tnum'",
+				})}
 			</div>
 		</div>
 	)

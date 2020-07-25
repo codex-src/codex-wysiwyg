@@ -18,44 +18,44 @@ const tabSize = n => ({
 })
 
 const Output = ({ output, setOutput }) => {
-	const debouncedElements = useDebouncedElements()
+	const elements = useDebouncedElements()
 
 	const [resolved, setResolved] = React.useState(() => {
-		const gfm = resolveGFM(debouncedElements)
-		const html = resolveHTML(debouncedElements)
-		const json = JSON.stringify(debouncedElements, null, "\t")
+		const gfm = resolveGFM(elements)
+		const html = resolveHTML(elements)
+		const json = JSON.stringify(elements, null, "\t")
 		return { gfm, html, json }
 	})
 
 	React.useEffect(() => {
 		if (output.detail === "gfm") {
-			const result = resolveGFM(debouncedElements)
+			const result = resolveGFM(elements)
 			setResolved(current => ({
 				...current,
 				gfm: result,
 			}))
 		}
-	}, [debouncedElements, output.detail])
+	}, [elements, output.detail])
 
 	React.useEffect(() => {
 		if (output.detail === "html") {
-			const result = resolveHTML(debouncedElements)
+			const result = resolveHTML(elements)
 			setResolved(current => ({
 				...current,
 				html: result,
 			}))
 		}
-	}, [debouncedElements, output.detail])
+	}, [elements, output.detail])
 
 	// React.useEffect(() => {
 	// 	if (output.detail === "json") {
-	// 		const result = JSON.stringify(debouncedElements, null, "\t")
+	// 		const result = JSON.stringify(elements, null, "\t")
 	// 		setResolved(current => ({
 	// 			...current,
 	// 			json: result,
 	// 		}))
 	// 	}
-	// }, [debouncedElements, output.detail])
+	// }, [elements, output.detail])
 
 	return (
 		<Transition

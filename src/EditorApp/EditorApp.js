@@ -18,7 +18,7 @@ const App = () => {
 	const [state, dispatch] = useEditor()
 
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
-	const [debouncedRange, setDebouncedRange] = React.useState(() => state.range)
+	// const [debouncedRange, setDebouncedRange] = React.useState(() => state.range)
 
 	// Debounces state.elements by 2 frames.
 	React.useEffect(() => {
@@ -30,19 +30,9 @@ const App = () => {
 		}
 	}, [state.elements])
 
-	// Debounces state.range by 2 frames.
-	React.useEffect(() => {
-		const id = setTimeout(() => {
-			setDebouncedRange(state.range)
-		}, 16.67 * 2)
-		return () => {
-			clearTimeout(id)
-		}
-	}, [state.range])
-
 	return (
 		<DebouncedElementsContext.Provider value={debouncedElements}>
-			<DebouncedRangeContext.Provider value={debouncedRange}>
+			<DebouncedRangeContext.Provider value={state.range}>
 				<DocumentTitle title="Codex (0.4)">
 					<div className="px-6 py-32 flex flex-row justify-center">
 						<div className="w-full max-w-2xl">

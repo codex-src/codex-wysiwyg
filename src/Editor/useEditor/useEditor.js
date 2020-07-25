@@ -4,36 +4,32 @@ import React from "react"
 import { initElementsFromMarkup } from "../parsers"
 import { useImmerReducer } from "use-immer"
 
-function newInitialState() {
-	const id = hash()
-	const state = {
-		lastActionTimestamp: "",
-		lastAction: 0,
-		focused: false,
-		elements: [
-			{
-				type: "p",
-				key: id,
-				props: {
-					children: [],
-				},
-			},
-		],
-		range: {
-			start: {
-				key: id,
-				offset: 0,
-			},
-			end: {
-				key: id,
-				offset: 0,
+const newInitialState = () => ({
+	lastActionTimestamp: "",
+	lastAction: 0,
+	focused: false,
+	elements: [
+		{
+			type: "p",
+			key: hash(),
+			props: {
+				children: [],
 			},
 		},
-		pendingRange: null,
-		shouldRerender: 0,
-	}
-	return state
-}
+	],
+	range: {
+		start: {
+			key: "",
+			offset: 0,
+		},
+		end: {
+			key: "",
+			offset: 0,
+		},
+	},
+	pendingRange: null,
+	shouldRerender: 0,
+})
 
 // Records the current action. No-ops "SELECT" actions
 // sooner than 200ms.
