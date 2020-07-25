@@ -19,6 +19,20 @@ const ReleaseItem = ({ date, release, children }) => (
 
 const Releases = () => (
 	<React.Fragment>
+		<ReleaseItem date="July 25, 2020" release="0.5">
+			<p>
+				– Added fallback sans-serif and monospace fonts, <code>Inter</code> and <code>IBM Plex Mono</code>.{" "}
+				Note that on Apple devices, <code>San Francisco</code> and Menlo are preferred.
+			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				– Added status text to the bottom of the viewport, active when the editor is focused.{" "}
+				The indicators render the current cursor position or selection and the word count and estimated duration.
+			</p>
+		</ReleaseItem>
+		<hr className="border-t border-gray-200 opacity-50" />
 		<ReleaseItem date="July 24, 2020" release="0.4">
 			<p>
 				– Added basic support for <code>"insert-text"</code> operations.
