@@ -1,8 +1,8 @@
 import domUtils from "lib/DOM/domUtils"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
-import parseRenderedElement from "./parseRenderedElement"
-import parseSemanticElement from "./parseSemanticElement"
+import parseRendered from "./rendered"
+import parseSemantic from "./semantic"
 
 // Parses children; accepts a parser as an argument.
 function parseChildren(element, parser) {
@@ -55,20 +55,20 @@ function parseElements(tree, parser) {
 
 // Parses children from a semantic element.
 export function parseSemanticChildren(element) {
-	return parseChildren(element, parseSemanticElement)
+	return parseChildren(element, parseSemantic)
 }
 
 // Parses elements from a semantic tree.
 export function parseSemanticElements(tree) {
-	return parseElements(tree, parseSemanticElement)
+	return parseElements(tree, parseSemantic)
 }
 
 // Parses children from a rendered element.
 export function parseRenderedChildren(element) {
-	return parseChildren(element, parseRenderedElement)
+	return parseChildren(element, parseRendered)
 }
 
 // Parses elements from a rendered tree.
 export function parseRenderedElements(tree) {
-	return parseElements(tree, parseRenderedElement)
+	return parseElements(tree, parseRendered)
 }
