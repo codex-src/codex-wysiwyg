@@ -22,7 +22,7 @@ const Releases = () => (
 
 		<Release date="July 27, 2020">
 			<p>
-				– Protoyped the WYSIWYG menu UI. Note that the UI is not functional yet.
+				– Protoyped the WYSIWYG menu UI and accessible tooltips. Note that the UI is not functional yet.
 			</p>
 			<p>
 				<br />

@@ -98,20 +98,21 @@ const App = () => {
 										<div className="pointer-events-auto">
 											<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
-												{/* BOLD */}
 												<button
 													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onFocus={e => setHoverTooltip("bold")}
+													onBlur={e => setHoverTooltip("")}
 													onMouseEnter={e => setHoverTooltip("bold")}
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "bold" && (
-														<div className="absolute top-full" style={{ left: "50%" }}>
+														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
 																<p className="whitespace-pre text-xs text-gray-100">
-																	Bold ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+B)
+																	Bold ({!userAgent.MacOSX ? "Ctrl" : "⌘"}B)
 																</p>
 															</div>
 														</div>
@@ -121,20 +122,21 @@ const App = () => {
 													</svg>
 												</button>
 
-												{/* ITALICS */}
 												<button
 													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onFocus={e => setHoverTooltip("italics")}
+													onBlur={e => setHoverTooltip("")}
 													onMouseEnter={e => setHoverTooltip("italics")}
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "italics" && (
-														<div className="absolute top-full" style={{ left: "50%" }}>
+														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
 																<p className="whitespace-pre text-xs text-gray-100">
-																	Italics ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+I)
+																	Italics ({!userAgent.MacOSX ? "Ctrl" : "⌘"}I)
 																</p>
 															</div>
 														</div>
@@ -144,14 +146,15 @@ const App = () => {
 													</svg>
 												</button>
 
-												{/* CODE */}
 												<button
 													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onFocus={e => setHoverTooltip("code")}
+													onBlur={e => setHoverTooltip("")}
 													onMouseEnter={e => setHoverTooltip("code")}
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "code" && (
-														<div className="absolute top-full" style={{ left: "50%" }}>
+														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -167,14 +170,15 @@ const App = () => {
 													</svg>
 												</button>
 
-												{/* STRIKETHROUGH */}
 												<button
 													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onFocus={e => setHoverTooltip("strikethrough")}
+													onBlur={e => setHoverTooltip("")}
 													onMouseEnter={e => setHoverTooltip("strikethrough")}
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "strikethrough" && (
-														<div className="absolute top-full" style={{ left: "50%" }}>
+														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -190,20 +194,21 @@ const App = () => {
 													</svg>
 												</button>
 
-												{/* LINK */}
 												<button
 													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onFocus={e => setHoverTooltip("link")}
+													onBlur={e => setHoverTooltip("")}
 													onMouseEnter={e => setHoverTooltip("link")}
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "link" && (
-														<div className="absolute top-full" style={{ left: "50%" }}>
+														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
 																<p className="whitespace-pre text-xs text-gray-100">
-																	Link ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+K)
+																	Link ({!userAgent.MacOSX ? "Ctrl" : "⌘"}K)
 																</p>
 															</div>
 														</div>
