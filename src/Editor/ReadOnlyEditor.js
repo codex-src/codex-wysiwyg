@@ -1,5 +1,6 @@
 import componentMap from "./components/componentMap"
 import React from "react"
+import tmpl from "lib/x/tmpl"
 import { initElementsFromChildren } from "./parsers"
 
 import "./Editor.css"
@@ -10,17 +11,15 @@ const ReadOnlyEditor = ({ className, style, children }) => {
 		return initElementsFromChildren(children)
 	}, [children])
 	return (
-		<div className="em-context">
-			<article className={className} style={style}>
-				{elements.map(({ type, key, props }) => (
-					React.createElement(componentMap[type], {
-						key,
-						id: key,
-						...props,
-					})
-				))}
-			</article>
-		</div>
+		<article className={tmpl`em-context ${className}`} style={style}>
+			{elements.map(({ type, key, props }) => (
+				React.createElement(componentMap[type], {
+					key,
+					id: key,
+					...props,
+				})
+			))}
+		</article>
 	)
 }
 

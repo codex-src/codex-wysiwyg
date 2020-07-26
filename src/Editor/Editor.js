@@ -3,6 +3,7 @@ import keyDownTypeFor from "./keyDownTypeFor"
 import rangeIsCollapsed from "./utils/rangeIsCollapsed"
 import React from "react"
 import ReactDOM from "react-dom"
+import tmpl from "lib/x/tmpl"
 
 import {
 	initElementsFromChildren,
@@ -68,118 +69,117 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 	)
 
 	return (
-		<div className="em-context">
-			<article
-				ref={ref}
+		<article
+			ref={ref}
 
-				className={className}
-				style={style}
+			className={tmpl`em-context ${className}`}
+			style={style}
 
-				onFocus={e => {
-					dispatch({
-						type: "FOCUS",
-					})
-				}}
+			onFocus={e => {
+				dispatch({
+					type: "FOCUS",
+				})
+			}}
 
-				onBlur={e => {
-					dispatch({
-						type: "BLUR",
-					})
-				}}
+			onBlur={e => {
+				dispatch({
+					type: "BLUR",
+				})
+			}}
 
-				onPointerDown={e => {
-					pointerdownRef.current = true
-				}}
+			onPointerDown={e => {
+				pointerdownRef.current = true
+			}}
 
-				onPointerMove={e => {
-					if (!state.focused || !pointerdownRef.current) {
-						if (!state.focused && pointerdownRef.current) {
-							pointerdownRef.current = false
-						}
-						return
+			onPointerMove={e => {
+				if (!state.focused || !pointerdownRef.current) {
+					if (!state.focused && pointerdownRef.current) {
+						pointerdownRef.current = false
 					}
-					const range = getCurrentRange(ref.current)
-					if (!range) {
-						// No-op
-						return
-					}
+					return
+				}
+				const range = getCurrentRange(ref.current)
+				if (!range) {
+					// No-op
+					return
+				}
+				dispatch({
+					type: "SELECT",
+					range,
+				})
+			}}
+
+			onPointerUp={e => {
+				pointerdownRef.current = false
+			}}
+
+			// TODO: Add COMPAT guard for select-all or prevent
+			// default?
+			onSelect={e => {
+				const range = getCurrentRange(ref.current)
+				if (!range) {
+					// No-op
+					return
+				}
+				dispatch({
+					type: "SELECT",
+					range,
+				})
+			}}
+
+			onKeyDown={e => {
+				const keyDownType = keyDownTypeFor(e)
+				let formatType = ""
+				let text = ""
+				let deleteType = ""
+
+				switch (keyDownType) {
+				case "apply-format-plaintext":
+				case "apply-format-em":
+				case "apply-format-strong":
+				case "apply-format-code":
+				case "apply-format-strike":
+				case "apply-format-a":
+					e.preventDefault()
+					formatType = keyDownType.slice("apply-format-".length)
 					dispatch({
-						type: "SELECT",
-						range,
+						type: "APPLY_FORMAT",
+						formatType, // TODO: Add props
 					})
-				}}
-
-				onPointerUp={e => {
-					pointerdownRef.current = false
-				}}
-
-				// TODO: Add COMPAT guard for select-all or prevent
-				// default?
-				onSelect={e => {
-					const range = getCurrentRange(ref.current)
-					if (!range) {
-						// No-op
-						return
-					}
+					break
+				case "apply-format-markdown-em":
+				case "apply-format-markdown-strong":
+				case "apply-format-markdown-code":
+				case "apply-format-markdown-strike":
+				case "apply-format-markdown-a":
+					formatType = keyDownType.slice("apply-format-markdown-".length)
+					// if (rangeIsCollapsed(state.range)) {
+					// 	// TODO
+					// } else {
+					e.preventDefault()
 					dispatch({
-						type: "SELECT",
-						range,
+						type: "APPLY_FORMAT",
+						formatType, // TODO: Add props
 					})
-				}}
-
-				onKeyDown={e => {
-					const keyDownType = keyDownTypeFor(e)
-					let formatType = ""
-					let text = ""
-					let deleteType = ""
-
-					switch (keyDownType) {
-					case "apply-format-plaintext":
-					case "apply-format-em":
-					case "apply-format-strong":
-					case "apply-format-code":
-					case "apply-format-strike":
-					case "apply-format-a":
+					// }
+					break
+				case "insert-text":
+					// if (rangeIsCollapsed(state.range) && state.applyType) {
+					// 	e.preventDefault()
+					// 	text = e.key
+					// 	dispatch({
+					// 		type: "INSERT_TEXT",
+					// 		text,
+					// 	})
+					if (!rangeIsCollapsed(state.range)) {
 						e.preventDefault()
-						formatType = keyDownType.slice("apply-format-".length)
+						text = e.key
 						dispatch({
-							type: "APPLY_FORMAT",
-							formatType, // TODO: Add props
+							type: "INSERT_TEXT",
+							text,
 						})
-						break
-					case "apply-format-markdown-em":
-					case "apply-format-markdown-strong":
-					case "apply-format-markdown-code":
-					case "apply-format-markdown-strike":
-					case "apply-format-markdown-a":
-						formatType = keyDownType.slice("apply-format-markdown-".length)
-						// if (rangeIsCollapsed(state.range)) {
-						// 	// TODO
-						// } else {
-							e.preventDefault()
-							dispatch({
-								type: "APPLY_FORMAT",
-								formatType, // TODO: Add props
-							})
-						// }
-						break
-					case "insert-text":
-						// if (rangeIsCollapsed(state.range) && state.applyType) {
-						// 	e.preventDefault()
-						// 	text = e.key
-						// 	dispatch({
-						// 		type: "INSERT_TEXT",
-						// 		text,
-						// 	})
-						if (!rangeIsCollapsed(state.range)) {
-							e.preventDefault()
-							text = e.key
-							dispatch({
-								type: "INSERT_TEXT",
-								text,
-							})
-						}
-						break
+					}
+					break
 
 					// case "insert-tab":
 					// 	if (rangeIsCollapsed(state.range)) {
@@ -192,89 +192,87 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					// 	}
 					// 	break
 
-					case "insert-soft-paragraph":
-					case "insert-hard-paragraph":
-					case "insert-horizontal-rule":
-						e.preventDefault()
-						dispatch({
-							type: "INSERT_HARD_PARAGRAPH",
-						})
-						break
-					case "delete-rtl-rune":
-					case "delete-rtl-word":
-					case "delete-rtl-line":
-					case "delete-ltr-rune":
-					case "delete-ltr-word":
-						e.preventDefault()
-						deleteType = keyDownType.slice("delete-".length)
-						dispatch({
-							type: "DELETE",
-							deleteType,
-						})
-						break
-					case "undo":
-					case "redo":
-						e.preventDefault()
-						// TODO
-						break
-					default:
-						// No-op
-						break
-					}
-				}}
-
-				onInput={e => {
-					const range = getCurrentRange(ref.current)
-					const children = parseRenderedChildren(document.getElementById(range.start.key))
+				case "insert-soft-paragraph":
+				case "insert-hard-paragraph":
+				case "insert-horizontal-rule":
+					e.preventDefault()
 					dispatch({
-						type: "UNCONTROLLED_INPUT",
-						range,
-						children,
+						type: "INSERT_HARD_PARAGRAPH",
 					})
-				}}
-
-				onCut={e => {
+					break
+				case "delete-rtl-rune":
+				case "delete-rtl-word":
+				case "delete-rtl-line":
+				case "delete-ltr-rune":
+				case "delete-ltr-word":
+					e.preventDefault()
+					deleteType = keyDownType.slice("delete-".length)
+					dispatch({
+						type: "DELETE",
+						deleteType,
+					})
+					break
+				case "undo":
+				case "redo":
 					e.preventDefault()
 					// TODO
-				}}
+					break
+				default:
+					// No-op
+					break
+				}
+			}}
 
-				onCopy={e => {
-					e.preventDefault()
-					// TODO
-				}}
+			onInput={e => {
+				const range = getCurrentRange(ref.current)
+				const children = parseRenderedChildren(document.getElementById(range.start.key))
+				dispatch({
+					type: "UNCONTROLLED_INPUT",
+					range,
+					children,
+				})
+			}}
 
-				onPaste={e => {
-					e.preventDefault()
-					// TODO
-				}}
+			onCut={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-				onDragStart={e => {
-					e.preventDefault()
-					// TODO
-				}}
+			onCopy={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-				contentEditable
-				suppressContentEditableWarning
+			onPaste={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-				data-root
-			/>
+			onDragStart={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-			{/* {process.env.NODE_ENV !== "production" && ( */}
-			{/* 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}> */}
-			{/* 		{JSON.stringify( */}
-			{/* 			{ */}
-			{/* 				// elements: state.elements, */}
-			{/* 				applyType: state.applyType, */}
-			{/* 				range: state.range, */}
-			{/* 			}, */}
-			{/* 			null, */}
-			{/* 			"\t", */}
-			{/* 		)} */}
-			{/* 	</pre> */}
-			{/* )} */}
+			contentEditable
+			suppressContentEditableWarning
 
-		</div>
+			data-root
+		/>
 	)
 }
+
+// {process.env.NODE_ENV !== "production" && (
+// 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
+// 		{JSON.stringify(
+// 			{
+// 				// elements: state.elements,
+// 				applyType: state.applyType,
+// 				range: state.range,
+// 			},
+// 			null,
+// 			"\t",
+// 		)}
+// 	</pre>
+// )}
 
 export default Editor
