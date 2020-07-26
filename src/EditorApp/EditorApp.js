@@ -92,54 +92,6 @@ const App = () => {
 								</Editor>
 							</div>
 
-							<div className="px-3 py-6 fixed inset-x-0 bottom-0 pointer-events-none">
-								<div className="flex flex-row justify-center">
-									<div className="pointer-events-auto">
-										<div className="-mx-2 px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
-
-											{/* <span class="token tag"> */}
-											{/* 	<span class="token tag"> */}
-											{/* 		<span class="token punctuation"> */}
-											{/* 			&lt; */}
-											{/* 		</span> */}
-											{/* 		em */}
-											{/* 	</span> */}
-											{/* 	<span class="token punctuation"> */}
-											{/* 		&gt; */}
-											{/* 	</span> */}
-											{/* </span> */}
-
-											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
-												<Em>
-													Emphasis
-												</Em>
-											</button>
-											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
-												<Strong>
-													Strong
-												</Strong>
-											</button>
-											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
-												<Code>
-													Code
-												</Code>
-											</button>
-											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
-												<Strike>
-													Strikethrough
-												</Strike>
-											</button>
-											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
-												<A>
-													Link
-												</A>
-											</button>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
 							{/* <MemoFixedStatusText /> */}
 
 						</div>
