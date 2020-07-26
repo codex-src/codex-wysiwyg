@@ -41,11 +41,11 @@ export function insertText(e, { text }) {
 	// 	// use "" to indicate plaintext?
 	// 	applyFormatImpl(e, Object.keys(e.applyType.types)[0]) // TODO
 	// 	e.range.start = e.range.end
-	if (!rangeIsCollapsed(e.range)) {
-		insertTextImpl(e, text)
-		e.range.start.offset += text.length
-		e.range.end = e.range.start
-	}
+	// if (!rangeIsCollapsed(e.range)) {
+	insertTextImpl(e, text)
+	e.range.start.offset += text.length
+	e.range.end = e.range.start
+	// }
 	e.shouldRerender++
 }
 

@@ -133,6 +133,9 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				let text = ""
 				let deleteType = ""
 
+				if (keyDownType) {
+					console.log({ keyDownType })
+				}
 				switch (keyDownType) {
 				case "apply-format-plaintext":
 				case "apply-format-em":
@@ -178,18 +181,14 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						})
 					}
 					break
-
-					// case "insert-tab":
-					// 	if (rangeIsCollapsed(state.range)) {
-					// 		e.preventDefault()
-					// 		text = "\t"
-					// 		dispatch({
-					// 			type: "INSERT_TEXT",
-					// 			text,
-					// 		})
-					// 	}
-					// 	break
-
+				case "insert-tab":
+					e.preventDefault()
+					text = "\t"
+					dispatch({
+						type: "INSERT_TEXT",
+						text,
+					})
+					break
 				case "insert-soft-paragraph":
 				case "insert-hard-paragraph":
 				case "insert-horizontal-rule":
