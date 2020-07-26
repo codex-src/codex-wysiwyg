@@ -13,6 +13,9 @@
 	color: var(--teal-600);
 }
 
+/* <a href[=]"..."> */
+.language-html .token.punctuation.attr-equals {}
+
 /* <a href=["..."]> */
 .language-html .token.attr-value {
 	color: var(--green-600);
