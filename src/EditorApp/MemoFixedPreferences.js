@@ -57,17 +57,12 @@ const Output = ({ output, setOutput }) => {
 					<Releases />
 				) : (
 					<ClassName className={output.detail !== "gfm" && "prism-custom-theme"}>
-						<div className="p-6">
+						<div
+							className="p-6 whitespace-pre-wrap break-words text-sm font-mono text-gray-800"
+							style={tabSize(2)}
+						>
 							<span className="inline-block min-w-full">
-								<Highlight
-									className="break-words font-mono text-gray-800"
-									style={{
-										...tabSize(2),
-										whiteSpace: output.detail !== "json" ? "pre-wrap" : "pre",
-										fontSize: output.detail !== "json" ? "0.8125rem" : "0.75rem", // : "0.6875rem",
-									}}
-									extension={output.detail}
-								>
+								<Highlight extension={output.detail}>
 									{resolved[output.detail]}
 								</Highlight>
 							</span>
@@ -80,7 +75,7 @@ const Output = ({ output, setOutput }) => {
 }
 
 const MemoFixedPreferences = React.memo(() => {
-	const [hover, setHover] = React.useState("")
+	const [hoverTooltip, setHoverTooltip] = React.useState("")
 
 	const [output, setOutput] = React.useState({
 		show: false,
@@ -135,7 +130,7 @@ const MemoFixedPreferences = React.memo(() => {
 			<div className="py-2 flex flex-row justify-between">
 
 				<div className="relative">
-					{(hover === "changelog" && !output.show) && (
+					{(hoverTooltip === "changelog" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
@@ -150,10 +145,10 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "changelog" && "var(--gray-800)" }}
-						onFocus={e => setHover("changelog")}
-						onBlur={e => setHover("")}
-						onMouseEnter={e => setHover("changelog")}
-						onMouseLeave={e => setHover("")}
+						onFocus={e => setHoverTooltip("changelog")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("changelog")}
+						onMouseLeave={e => setHoverTooltip("")}
 						onClick={handleClickChangelog}
 					>
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -163,7 +158,7 @@ const MemoFixedPreferences = React.memo(() => {
 				</div>
 
 				<div className="relative">
-					{(hover === "gfm" && !output.show) && (
+					{(hoverTooltip === "gfm" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
@@ -178,10 +173,10 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
-						onFocus={e => setHover("gfm")}
-						onBlur={e => setHover("")}
-						onMouseEnter={e => setHover("gfm")}
-						onMouseLeave={e => setHover("")}
+						onFocus={e => setHoverTooltip("gfm")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("gfm")}
+						onMouseLeave={e => setHoverTooltip("")}
 						onClick={handleClickGFM}
 					>
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -191,7 +186,7 @@ const MemoFixedPreferences = React.memo(() => {
 				</div>
 
 				<div className="relative">
-					{(hover === "html" && !output.show) && (
+					{(hoverTooltip === "html" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
@@ -206,10 +201,10 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
-						onFocus={e => setHover("html")}
-						onBlur={e => setHover("")}
-						onMouseEnter={e => setHover("html")}
-						onMouseLeave={e => setHover("")}
+						onFocus={e => setHoverTooltip("html")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("html")}
+						onMouseLeave={e => setHoverTooltip("")}
 						onClick={handleClickHTML}
 					>
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
