@@ -39,7 +39,7 @@ const App = () => {
 		}
 	}, [state.elements])
 
-	document.body.classList.add("debug-css")
+	// document.body.classList.add("debug-css")
 
 	return (
 		<FocusedContext.Provider value={debouncedFocused}>
@@ -85,9 +85,9 @@ const App = () => {
 								</Editor>
 							</div>
 
-							<div className="px-3 py-2 fixed inset-x-0 bottom-0 pointer-events-none">
+							<div className="px-3 py-6 fixed inset-x-0 bottom-0 pointer-events-none">
 								<div className="flex flex-row justify-center">
-									<div className="w-full max-w-lg bg-white rounded shadow-hero">
+									<div className="px-3 py-2 w-full max-w-lg bg-white rounded shadow-hero">
 										hello
 									</div>
 								</div>

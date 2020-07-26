@@ -58,8 +58,11 @@ const Output = ({ output, setOutput }) => {
 				) : (
 					<ClassName className={output.detail !== "gfm" && "prism-custom-theme"}>
 						<div
-							className="p-6 whitespace-pre-wrap break-words text-sm font-mono text-gray-800"
-							style={tabSize(2)}
+							className="p-6 whitespace-pre-wrap break-words font-mono text-gray-800"
+							style={{
+								fontSize: "0.8125rem",
+								...tabSize(2),
+							}}
 						>
 							<span className="inline-block min-w-full">
 								<Highlight extension={output.detail}>
