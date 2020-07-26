@@ -17,18 +17,37 @@ const tabSize = size => ({
 	tabSize: size,
 })
 
-const Output = ({ output, setOutput }) => {
+// const gfm = React.useMemo(() => {
+// 	let result = null
+// 	if (output.show && output.detail === "gfm") {
+// 		result = resolveGFM(elements)
+// 	}
+// 	return result
+// }, [output, elements])
+//
+// const html = React.useMemo(() => {
+// 	let result = null
+// 	if (output.show && output.detail === "html") {
+// 		result = resolveHTML(elements)
+// 	}
+// 	return result
+// }, [output, elements])
+//
+// const resolved = {
+// 	gfm,
+// 	html,
+// }
 
+const Output = ({ output, setOutput }) => {
 	const elements = useElements()
 
 	const [resolved, setResolved] = React.useState(() => {
 		const gfm = resolveGFM(elements)
 		const html = resolveHTML(elements)
-		const json = JSON.stringify(elements, null, "\t")
-		return { gfm, html, json }
+		return { gfm, html }
 	})
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		if (output.show && output.detail === "gfm") {
 			const result = resolveGFM(elements)
 			setResolved(current => ({
@@ -38,7 +57,7 @@ const Output = ({ output, setOutput }) => {
 		}
 	}, [elements, output])
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		if (output.show && output.detail === "html") {
 			const result = resolveHTML(elements)
 			setResolved(current => ({
@@ -133,7 +152,7 @@ const MemoFixedPreferences = React.memo(() => {
 	})
 
 	return (
-		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
+		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
 			<div className="py-2 flex flex-row justify-between">
 
 				<div className="relative">

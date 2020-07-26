@@ -1,3 +1,4 @@
+// import JSONClone from "lib/JSON/JSONClone"
 // import textContent from "../utils/textContent"
 import applyFormatImpl from "./implementation/applyFormatImpl"
 import deleteImpl from "./implementation/deleteImpl"
@@ -6,7 +7,6 @@ import extendRTLImpl from "./implementation/extendRTLImpl"
 import findIndex from "../utils/findIndex"
 import hash from "lib/x/hash"
 import insertTextImpl from "./implementation/insertTextImpl"
-import JSONClone from "lib/JSON/JSONClone"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Manually updates elements.
@@ -82,6 +82,7 @@ export function insertHardParagraph(e) {
 	const el = e.elements[x]
 	const ch = el.props.children
 
+	// const t = convOffsetToIndex(ch, e.range.start.offset)
 	const t = findIndex(ch, e.range.start.offset)
 	const ch1 = ch.slice(0, t)
 	const ch2 = ch.slice(t)

@@ -194,17 +194,12 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 
 					case "insert-soft-paragraph":
 					case "insert-hard-paragraph":
+					case "insert-horizontal-rule":
 						e.preventDefault()
 						dispatch({
 							type: "INSERT_HARD_PARAGRAPH",
 						})
 						break
-
-					case "insert-horizontal-rule":
-						e.preventDefault()
-						// TODO
-						break
-
 					case "delete-rtl-rune":
 					case "delete-rtl-word":
 					case "delete-rtl-line":

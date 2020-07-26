@@ -71,7 +71,7 @@ const MemoFixedStatusText = React.memo(() => {
 			from="opacity-0"
 			to="opacity-100"
 		>
-			<div className="fixed inset-0 hidden xl:flex flex-row items-end opacity-0 pointer-events-none">
+			<div className="fixed inset-0 hidden xl:flex flex-row items-end opacity-0 z-10 pointer-events-none">
 				<div className="px-3 py-2 flex flex-row justify-between w-full">
 					{(style => (
 						<React.Fragment>
