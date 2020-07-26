@@ -77,11 +77,8 @@ const Output = ({ output, setOutput }) => {
 				{/* HTML */}
 				{output.detail === "html" && (
 					<div
-						className="p-6 whitespace-pre-wrap break-words font-mono text-gray-800"
-						style={{
-							...tabSize(2),
-							fontSize: "0.8125rem",
-						}}
+						className="p-6 whitespace-pre-wrap break-words text-sm font-mono text-gray-800"
+						style={tabSize(2)}
 					>
 						<span className="inline-block min-w-full">
 							<Highlight extension={output.detail}>
@@ -151,11 +148,11 @@ const MemoFixedPreferences = React.memo(() => {
 
 	// NOTE: Uses flex flex-col items-end because of <Output>.
 	return (
-		<div className="px-3 pt-2 pb-4 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
+		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
 
-			<div className="flex flex-row">
+			<div className="py-2 flex flex-row">
 
-				{/* Button */}
+				{/* Releases */}
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
@@ -172,7 +169,7 @@ const MemoFixedPreferences = React.memo(() => {
 									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
 								</div>
 								<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
-									Open Changelog
+									Open Releases
 								</p>
 							</div>
 						</div>
@@ -182,7 +179,7 @@ const MemoFixedPreferences = React.memo(() => {
 					</svg>
 				</button>
 
-				{/* Button */}
+				{/* GFM */}
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
@@ -209,7 +206,7 @@ const MemoFixedPreferences = React.memo(() => {
 					</svg>
 				</button>
 
-				{/* Button */}
+				{/* HTML */}
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
