@@ -1,8 +1,6 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
-import Markdown from "./Markdown"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
-import Transition from "lib/x/Transition"
 
 import { // Unsorted
 	FocusedContext,
@@ -14,14 +12,6 @@ import { // Unsorted
 	Editor,
 	useEditor,
 } from "Editor"
-
-import { // Unsorted
-	Em,
-	Strong,
-	Code,
-	Strike,
-	A,
-} from "Editor/components/components-text"
 
 const App = () => {
 	const [state, dispatch] = useEditor()

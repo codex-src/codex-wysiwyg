@@ -1,5 +1,4 @@
 import * as handlers from "lib/x/handlers"
-import ClassName from "lib/x/ClassName"
 import Highlight from "lib/PrismJS/Highlight"
 import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
