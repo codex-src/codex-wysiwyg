@@ -1,24 +1,19 @@
-/* [<]a href="..."[>] */
+/* [<]a href[=]"..."[>] */
 .language-html .token.punctuation {
-	color: blue;
+	color: var(--gray-400);
 }
 
 /* <[a] href="..."> */
 .language-html .token.tag {
-	color: green;
+	color: var(--blue-600);
 }
 
 /* <a [href]="..."> */
 .language-html .token.attr-name {
-	color: orange;
-}
-
-/* <a href[=]"..."> */
-.language-html .token.attr-equals {
-	color: teal;
+	color: var(--teal-600);
 }
 
 /* <a href=["..."]> */
 .language-html .token.attr-value {
-	color: red;
+	color: var(--green-600);
 }
