@@ -11,8 +11,9 @@ import "stylesheets/tailwind-css/group-hover.css"
 import "stylesheets/tailwind-css/em-context.css"
 import "stylesheets/tailwind-css/em-context-extended.css"
 
-import "stylesheets/prism-js/prism-custom-theme.css"
+// import "stylesheets/prism-js/prism-custom-theme.css"
 import "stylesheets/prism-js/language-gfm.css"
+import "stylesheets/prism-js/language-html.css"
 
 ReactDOM.render(
 	<EditorApp />,
