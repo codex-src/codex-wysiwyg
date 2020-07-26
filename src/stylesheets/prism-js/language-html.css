@@ -5,7 +5,7 @@
 
 /* <[a] href="..."> */
 .language-html .token.tag {
-	color: var(--blue-600);
+	color: var(--red-800);
 }
 
 /* <a [href]="..."> */
@@ -18,5 +18,5 @@
 
 /* <a href=["..."]> */
 .language-html .token.attr-value {
-	color: var(--green-600);
+	color: var(--blue-600);
 }
