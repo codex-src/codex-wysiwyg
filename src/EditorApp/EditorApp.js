@@ -1,4 +1,5 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
+import Markdown from "./Markdown"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
 
@@ -13,7 +14,13 @@ import { // Unsorted
 	useEditor,
 } from "Editor"
 
-// document.body.classList.add("debug-css")
+import { // Unsorted
+	Em,
+	Strong,
+	Code,
+	Strike,
+	A,
+} from "Editor/components/components-text"
 
 const App = () => {
 	const [state, dispatch] = useEditor()
@@ -87,8 +94,48 @@ const App = () => {
 
 							<div className="px-3 py-6 fixed inset-x-0 bottom-0 pointer-events-none">
 								<div className="flex flex-row justify-center">
-									<div className="px-3 py-2 w-full max-w-lg bg-white rounded shadow-hero">
-										hello
+									<div className="pointer-events-auto">
+										<div className="-mx-2 px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
+
+											{/* <span class="token tag"> */}
+											{/* 	<span class="token tag"> */}
+											{/* 		<span class="token punctuation"> */}
+											{/* 			&lt; */}
+											{/* 		</span> */}
+											{/* 		em */}
+											{/* 	</span> */}
+											{/* 	<span class="token punctuation"> */}
+											{/* 		&gt; */}
+											{/* 	</span> */}
+											{/* </span> */}
+
+											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
+												<Em>
+													Emphasis
+												</Em>
+											</button>
+											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
+												<Strong>
+													Strong
+												</Strong>
+											</button>
+											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
+												<Code>
+													Code
+												</Code>
+											</button>
+											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
+												<Strike>
+													Strikethrough
+												</Strike>
+											</button>
+											<button className="!mx-1 px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out">
+												<A>
+													Link
+												</A>
+											</button>
+
+										</div>
 									</div>
 								</div>
 							</div>
