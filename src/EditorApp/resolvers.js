@@ -2,15 +2,29 @@ import escape from "lodash/escape"
 import toArray from "lib/x/toArray"
 import toTree from "Editor/components/toReactTree/toTree"
 
+// Mocks the browser API; reads text content from tree-
+// shaped children.
+function treeTextContent(children) {
+	let str = ""
+	for (const each of toArray(children)) {
+		if (typeof each === "string") {
+			str += each
+			continue
+		}
+		str += treeTextContent(each.props.children)
+	}
+	return str
+}
+
 // TODO: Add support for alternate syntax?
 const gfm = {
-	em:     el => `_${resolveChildrenTree(el.props.children, gfm)}_`,
-	strong: el => `**${resolveChildrenTree(el.props.children, gfm)}**`,
-	code:   el => `\`${resolveChildrenTree(el.props.children, gfm)}\``,
-	strike: el => `~~${resolveChildrenTree(el.props.children, gfm)}~~`,
+	em:     el => `_${resolveTreeChildren(el.props.children, gfm)}_`,
+	strong: el => `**${resolveTreeChildren(el.props.children, gfm)}**`,
+	code:   el => `\`${treeTextContent(el.props.children)}\``,
+	strike: el => `~~${resolveTreeChildren(el.props.children, gfm)}~~`,
 
-	// !el.props.href ? `[${resolveChildrenTree(el.props.children, gfm)}](${el.props.href})` : el.props.children,
-	a:      el => `[${resolveChildrenTree(el.props.children, gfm)}](${el.props.href || "TODO"})`,
+	// !el.props.href ? `[${resolveTreeChildren(el.props.children, gfm)}](${el.props.href})` : el.props.children,
+	a:      el => `[${resolveTreeChildren(el.props.children, gfm)}](${el.props.href || "TODO"})`,
 
 	"h1":   el => `# ${resolveChildren(el.props.children, gfm)}`,
 	"h2":   el => `## ${resolveChildren(el.props.children, gfm)}`,
@@ -24,13 +38,13 @@ const gfm = {
 // TODO: Add support for options; show ID, show wrapped URL,
 // etc.
 const html = {
-	em:     el => `<em>${resolveChildrenTree(el.props.children, html)}</em>`,
-	strong: el => `<strong>${resolveChildrenTree(el.props.children, html)}</strong>`,
-	code:   el => `<code>${resolveChildrenTree(el.props.children, html)}</code>`,
-	strike: el => `<strike>${resolveChildrenTree(el.props.children, html)}</strike>`,
+	em:     el => `<em>${resolveTreeChildren(el.props.children, html)}</em>`,
+	strong: el => `<strong>${resolveTreeChildren(el.props.children, html)}</strong>`,
+	code:   el => `<code>${resolveTreeChildren(el.props.children, html)}</code>`,
+	strike: el => `<strike>${resolveTreeChildren(el.props.children, html)}</strike>`,
 
 	// target="_blank" rel="noopener noreferrer"
-	a:      el => `<a href="${el.props.href}">${resolveChildrenTree(el.props.children, html)}</a>`,
+	a:      el => `<a href="${el.props.href}">${resolveTreeChildren(el.props.children, html)}</a>`,
 
 	"h1":   el => `<h1>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h1>`,
 	"h2":   el => `<h2>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h2>`,
@@ -51,7 +65,7 @@ const html = {
 // 	}
 
 // Resolves tree-shaped children to a resolver-type.
-function resolveChildrenTree(children, resolver) {
+function resolveTreeChildren(children, resolver) {
 	let str = ""
 	for (const each of toArray(children)) {
 		if (typeof each === "string") {
@@ -65,7 +79,7 @@ function resolveChildrenTree(children, resolver) {
 
 // Resolves children to a resolver-type.
 function resolveChildren(children, resolver) {
-	return resolveChildrenTree(toTree(children), resolver)
+	return resolveTreeChildren(toTree(children), resolver)
 }
 
 // Resolves elements to a resolver-type.
