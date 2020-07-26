@@ -1,13 +1,16 @@
-// import JSONClone from "lib/JSON/JSONClone"
+// import textContent from "../utils/textContent"
 import applyFormatImpl from "./implementation/applyFormatImpl"
 import deleteImpl from "./implementation/deleteImpl"
 import extendLTRImpl from "./implementation/extendLTRImpl"
 import extendRTLImpl from "./implementation/extendRTLImpl"
+import findIndex from "../utils/findIndex"
+import hash from "lib/x/hash"
 import insertTextImpl from "./implementation/insertTextImpl"
+import JSONClone from "lib/JSON/JSONClone"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Manually updates elements.
-export function manuallyUpdateElements(e, { type, elements }) {
+export function manuallyUpdateElements(e, { elements }) {
 	e.elements = elements
 	e.shouldRerender++
 }
@@ -29,7 +32,7 @@ export function select(e, { range }) {
 }
 
 // Inserts text at the current range.
-export function insertText(e, { type, text }) {
+export function insertText(e, { text }) {
 	// if (rangeIsCollapsed(e.range) && e.applyType) {
 	// 	insertTextImpl(e, text)
 	// 	e.range.end.offset += text.length
@@ -67,21 +70,73 @@ export function applyFormat(e, { formatType }) {
 	e.shouldRerender++
 }
 
+// TODO
+export function insertHardParagraph(e) {
+	if (!rangeIsCollapsed(e.range)) {
+		deleteImpl(e)
+		e.range.end = e.range.start
+	}
+	// insertHardParagraphImpl(e)
+
+	const x = e.elements.findIndex(each => each.key === e.range.start.key)
+	const el = e.elements[x]
+	const ch = el.props.children
+
+	const t = findIndex(ch, e.range.start.offset)
+	const ch1 = ch.slice(0, t)
+	const ch2 = ch.slice(t)
+
+	const id = hash()
+	e.elements.splice(x, 1,
+		{
+			...el,
+			props: {
+				...el.props,
+				children: ch1,
+			}
+		},
+		{
+			type: "p",
+			key: id,
+			props: {
+				children: ch2,
+			},
+		},
+	)
+
+	e.range.start = {
+		key: id,
+		offset: 0,
+	}
+	e.range.end = e.range.start
+
+
+	// console.log(textContent(e.elements[x].props.children.slice(0, findIndex(ch, e.range.start.offset))))
+	// console.log(textContent(e.elements[x].props.children.slice(findIndex(ch, e.range.start.offset))))
+
+	// const ch1 = e.elements[x].props.children.slice(0, findIndex(e.range.start.offset))
+	// const ch2 = e.elements[x].props.children.slice(findIndex(e.range.start.offset))
+	// console.log({ ch1: JSONClone(ch1), ch2: JSONClone(ch2) })
+
+	// e.range.end = e.range.start
+	e.shouldRerender++
+}
+
 // Deletes the next right-to-left or left-to-right rune,
 // word, or line at the current range.
-export function $delete(e, { type, deleteType }) {
+export function $delete(e, { deleteType }) {
 	const [dir, boundary] = deleteType.split("-")
 	if (rangeIsCollapsed(e.range)) {
 		const extendImpl = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
 		extendImpl(e, boundary)
 	}
-	deleteImpl(e, dir, boundary)
+	deleteImpl(e)
 	e.range.end = e.range.start
 	e.shouldRerender++
 }
 
 // Uncontrolled input handler.
-export function uncontrolledInput(e, { type, children, range }) {
+export function uncontrolledInput(e, { children, range }) {
 	const el = e.elements.find(each => each.key === range.start.key)
 	el.props.children = children
 	e.range = range
