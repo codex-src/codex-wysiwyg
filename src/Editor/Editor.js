@@ -164,14 +164,14 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						}
 						break
 					case "insert-text":
-						if (rangeIsCollapsed(state.range) && state.applyType) {
-							e.preventDefault()
-							text = e.key
-							dispatch({
-								type: "INSERT_TEXT",
-								text,
-							})
-						} else if (!rangeIsCollapsed(state.range)) {
+						// if (rangeIsCollapsed(state.range) && state.applyType) {
+						// 	e.preventDefault()
+						// 	text = e.key
+						// 	dispatch({
+						// 		type: "INSERT_TEXT",
+						// 		text,
+						// 	})
+						if (!rangeIsCollapsed(state.range)) {
 							e.preventDefault()
 							text = e.key
 							dispatch({

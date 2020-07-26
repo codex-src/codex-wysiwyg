@@ -1,9 +1,9 @@
+// import JSONClone from "lib/JSON/JSONClone"
 import applyFormatImpl from "./implementation/applyFormatImpl"
 import deleteImpl from "./implementation/deleteImpl"
 import extendLTRImpl from "./implementation/extendLTRImpl"
 import extendRTLImpl from "./implementation/extendRTLImpl"
 import insertTextImpl from "./implementation/insertTextImpl"
-import JSONClone from "lib/JSON/JSONClone"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Manually updates elements.
@@ -24,21 +24,21 @@ export function blur(e) {
 
 // Selects a range; drops the current range-in-progress.
 export function select(e, { range }) {
-	e.applyType = null
+	// e.applyType = null
 	e.range = range
 }
 
 // Inserts text at the current range.
 export function insertText(e, { type, text }) {
-	if (rangeIsCollapsed(e.range) && e.applyType) {
-		insertTextImpl(e, text)
-		e.range.end.offset += text.length
-		e.range.start = e.applyType.range.start
-		// TODO: Add support for "plaintext" here? Can we just
-		// use "" to indicate plaintext?
-		applyFormatImpl(e, Object.keys(e.applyType.types)[0]) // TODO
-		e.range.start = e.range.end
-	} else if (!rangeIsCollapsed(e.range)) {
+	// if (rangeIsCollapsed(e.range) && e.applyType) {
+	// 	insertTextImpl(e, text)
+	// 	e.range.end.offset += text.length
+	// 	e.range.start = e.applyType.range.start
+	// 	// TODO: Add support for "plaintext" here? Can we just
+	// 	// use "" to indicate plaintext?
+	// 	applyFormatImpl(e, Object.keys(e.applyType.types)[0]) // TODO
+	// 	e.range.start = e.range.end
+	if (!rangeIsCollapsed(e.range)) {
 		insertTextImpl(e, text)
 		e.range.start.offset += text.length
 		e.range.end = e.range.start
@@ -50,19 +50,19 @@ export function insertText(e, { type, text }) {
 //
 // TODO: Add props argument
 export function applyFormat(e, { formatType }) {
-	if (rangeIsCollapsed(e.range)) {
-		if (!e.applyType) {
-			e.applyType = {
-				types: {},
-				range: {},
-			}
-		}
-		// TODO: Get the current types; inverse formatType and
-		// or propagate "plaintext" or ""
-		e.applyType.types[formatType] = {} // TODO
-		e.applyType.range = JSONClone(e.range)
-		return
-	}
+	// if (rangeIsCollapsed(e.range)) {
+	// 	if (!e.applyType) {
+	// 		e.applyType = {
+	// 			types: {},
+	// 			range: {},
+	// 		}
+	// 	}
+	// 	// TODO: Get the current types; inverse formatType and
+	// 	// or propagate "plaintext" or ""
+	// 	e.applyType.types[formatType] = {} // TODO
+	// 	e.applyType.range = JSONClone(e.range)
+	// 	return
+	// }
 	applyFormatImpl(e, formatType)
 	e.shouldRerender++
 }
