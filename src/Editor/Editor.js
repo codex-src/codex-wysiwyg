@@ -152,16 +152,14 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				case "apply-format-markdown-code":
 				case "apply-format-markdown-strike":
 				case "apply-format-markdown-a":
-					formatType = keyDownType.slice("apply-format-markdown-".length)
-					// if (rangeIsCollapsed(state.range)) {
-					// 	// TODO
-					// } else {
-					e.preventDefault()
-					dispatch({
-						type: "APPLY_FORMAT",
-						formatType, // TODO: Add props
-					})
-					// }
+					if (!rangeIsCollapsed(state.range)) {
+						formatType = keyDownType.slice("apply-format-markdown-".length)
+						e.preventDefault()
+						dispatch({
+							type: "APPLY_FORMAT",
+							formatType, // TODO: Add props
+						})
+					}
 					break
 				case "insert-text":
 					// if (rangeIsCollapsed(state.range) && state.applyType) {

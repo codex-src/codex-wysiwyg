@@ -2,12 +2,12 @@ import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import React from "react"
 import { ReadOnlyEditor } from "Editor"
 
-const Release = ({ date, release, children }) => (
+const Release = ({ date, children }) => (
 	<div className="px-6 py-4">
 		<div className="pb-2 flex flex-row justify-end">
-			<div className="px-2.5 py-0.5 bg-green-100 rounded-full">
-				<p className="font-medium text-xs leading-4 text-green-800">
-					{date} &nbsp;– &nbsp;v{release}
+			<div className="px-2.5 py-0.5 bg-blue-100 rounded-full">
+				<p className="font-medium text-xs leading-4 text-blue-800">
+					{date}
 				</p>
 			</div>
 		</div>
@@ -19,7 +19,19 @@ const Release = ({ date, release, children }) => (
 
 const Releases = () => (
 	<React.Fragment>
-		<Release date="July 25, 2020" release="0.5">
+		<Release date="July 26, 2020">
+			<p>
+				– Added basic support for <code>"insert-hard-paragraph"</code> operations.
+			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				– Added placeholder for the main editor (visible when empty).
+			</p>
+		</Release>
+		<hr className="border-t border-gray-200 opacity-50" />
+		<Release date="July 25, 2020">
 			<p>
 				– Added fallback sans-serif and monospace fonts, <code>Inter</code> and <code>IBM Plex Mono</code>.{" "}
 				Note that on Apple devices, <code>San Francisco</code> and Menlo are preferred.
@@ -28,12 +40,12 @@ const Releases = () => (
 				<br />
 			</p>
 			<p>
-				– Added status text to the bottom of the viewport, active when the editor is focused.{" "}
-				The indicators render the current cursor position or selection and the word count and estimated duration.
+				<strike>– Added status text to the bottom of the viewport, active when the editor is focused.{" "}
+				The indicators render the current cursor position or selection and the word count and estimated duration.</strike>
 			</p>
 		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<Release date="July 24, 2020" release="0.4">
+		<Release date="July 24, 2020">
 			<p>
 				– Added basic support for <code>"insert-text"</code> operations.
 			</p>
@@ -46,19 +58,19 @@ const Releases = () => (
 			</p>
 		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<Release date="July 22, 2020" release="0.3">
+		<Release date="July 22, 2020">
 			<p>
 				– Added a dedicated changelog and improved readability for GitHub Flavored Markdown and semantic HTML output.
 			</p>
 		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<Release date="July 21, 2020" release="0.2">
+		<Release date="July 21, 2020">
 			<p>
 				– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
 			</p>
 		</Release>
 		<hr className="border-t border-gray-200 opacity-50" />
-		<Release date="July 20, 2020" release="0.1">
+		<Release date="July 20, 2020">
 			<p>
 				– Added support for all backspace operations: <code>"backspace-rune"</code>, <code>"backspace-word"</code>, and <code>"backspace-line"</code>.
 			</p>

@@ -56,7 +56,7 @@ const App = () => {
 									{(state.elements.length === 1 && !state.elements[0].props.children.length) && (
 										<div className="absolute pointer-events-none">
 											<p className="text-lg text-gray-800" style={{ opacity: !state.focused ? 0.25 : 0.375 }}>
-												Hello, world!
+												A long time ago in a galaxy far, far away…
 											</p>
 										</div>
 									)}
@@ -86,7 +86,7 @@ const App = () => {
 									</Editor>
 								</div>
 
-								<MemoFixedStatusText />
+								{/* <MemoFixedStatusText /> */}
 
 							</div>
 						</div>
