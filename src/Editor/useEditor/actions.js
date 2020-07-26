@@ -34,6 +34,8 @@ export function insertText(e, { type, text }) {
 		insertTextImpl(e, text)
 		e.range.end.offset += text.length
 		e.range.start = e.applyType.range.start
+		// TODO: Add support for "plaintext" here? Can we just
+		// use "" to indicate plaintext?
 		applyFormatImpl(e, Object.keys(e.applyType.types)[0]) // TODO
 		e.range.start = e.range.end
 	} else if (!rangeIsCollapsed(e.range)) {
@@ -55,6 +57,8 @@ export function applyFormat(e, { formatType }) {
 				range: {},
 			}
 		}
+		// TODO: Get the current types; inverse formatType and
+		// or propagate "plaintext" or ""
 		e.applyType.types[formatType] = {} // TODO
 		e.applyType.range = JSONClone(e.range)
 		return

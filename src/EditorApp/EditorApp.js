@@ -58,7 +58,7 @@ const App = () => {
 						<div className="px-6 py-32 flex flex-row justify-center">
 							<div className="w-full max-w-2xl">
 
-								<FixedPreferences />
+								{/* <FixedPreferences /> */}
 
 								<Editor className="text-lg text-gray-800" state={state} dispatch={dispatch}>
 									<p>

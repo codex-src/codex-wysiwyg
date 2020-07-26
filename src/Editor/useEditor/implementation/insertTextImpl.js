@@ -18,9 +18,12 @@ function insertTextImpl(e, text) {
 				children: "",
 			},
 		}
-	} else if (x < ch.length) {
-		originalTextNode = JSONClone(ch[x])
+	} else { // if (x < ch.length) {
+		originalTextNode = JSONClone(ch[Math.min(x, ch.length - 1)])
 	}
+
+	// console.log({ x, ch: ch.length })
+	console.log({ x, ch: ch.length, originalTextNode })
 
 	if (!rangeIsCollapsed(e.range)) {
 		deleteImpl(e)
@@ -29,7 +32,7 @@ function insertTextImpl(e, text) {
 	// NOTE: Do not reuse x; does not work as expected.
 	x = findIndex(ch, e.range.start.offset)
 	ch.splice(x, 0, {
-		...originalTextNode,
+		...originalTextNode, // TODO: Breaks at the EOL for a given line
 		props: {
 			...originalTextNode.props,
 			children: text,

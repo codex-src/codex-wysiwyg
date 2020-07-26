@@ -46,7 +46,7 @@ function getRHSStatusText(elements) {
 	return pretty(words, "word") + (!minutes ? "" : `, est. ${pretty(minutes)} minute read`)
 }
 
-const FixedStatusText = () => {
+const FixedStatusText = React.memo(() => {
 	const focused = useFocused()
 	const elements = useElements()
 	const range = useRange()
@@ -99,6 +99,6 @@ const FixedStatusText = () => {
 			</div>
 		</Transition>
 	)
-}
+})
 
 export default FixedStatusText
