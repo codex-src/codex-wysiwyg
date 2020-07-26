@@ -110,7 +110,7 @@ const App = () => {
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
-																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																<p className="whitespace-pre text-xs text-gray-100">
 																	Bold ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+B)
 																</p>
 															</div>
@@ -133,7 +133,7 @@ const App = () => {
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
-																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																<p className="whitespace-pre text-xs text-gray-100">
 																	Italics ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+I)
 																</p>
 															</div>
@@ -156,7 +156,7 @@ const App = () => {
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
-																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																<p className="whitespace-pre text-xs text-gray-100">
 																	Code (Shift+{!userAgent.MacOSX ? "Ctrl" : "⌘"}+C)
 																</p>
 															</div>
@@ -179,7 +179,7 @@ const App = () => {
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
-																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																<p className="whitespace-pre text-xs text-gray-100">
 																	Strikethrough (Shift+{!userAgent.MacOSX ? "Ctrl" : "⌘"}+X)
 																</p>
 															</div>
@@ -202,7 +202,7 @@ const App = () => {
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 																</div>
-																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																<p className="whitespace-pre text-xs text-gray-100">
 																	Link ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+K)
 																</p>
 															</div>

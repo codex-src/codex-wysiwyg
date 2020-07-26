@@ -165,10 +165,10 @@ const MemoFixedPreferences = React.memo(() => {
 					{(hoverTooltip === "releases" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
-								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
-									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
+								<div className="absolute top-0 right-0">
+									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 								</div>
-								<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+								<p className="whitespace-pre text-xs text-gray-100">
 									Open Releases
 								</p>
 							</div>
@@ -192,10 +192,10 @@ const MemoFixedPreferences = React.memo(() => {
 					{(hoverTooltip === "gfm" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
-								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
-									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
+								<div className="absolute top-0 right-0">
+									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 								</div>
-								<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+								<p className="whitespace-pre text-xs text-gray-100">
 									GitHub Flavored Markdown
 								</p>
 							</div>
@@ -219,10 +219,10 @@ const MemoFixedPreferences = React.memo(() => {
 					{(hoverTooltip === "html" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
-								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>
-									<div className="w-2 h-2 bg-gray-800 rounded-sm shadow" />
+								<div className="absolute top-0 right-0">
+									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 								</div>
-								<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+								<p className="whitespace-pre text-xs text-gray-100">
 									Semantic HTML
 								</p>
 							</div>
