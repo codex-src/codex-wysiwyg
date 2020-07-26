@@ -1,6 +1,8 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
+import Transition from "lib/x/Transition"
+import userAgent from "lib/Client/userAgent"
 
 import { // Unsorted
 	FocusedContext,
@@ -38,6 +40,8 @@ const App = () => {
 	}, [state.elements])
 
 	// document.body.classList.add("debug-css")
+
+	const [hoverTooltip, setHoverTooltip] = React.useState("")
 
 	return (
 		<FocusedContext.Provider value={debouncedFocused}>
@@ -94,67 +98,120 @@ const App = () => {
 										<div className="pointer-events-auto">
 											<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
-												<button className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto">
+												{/* BOLD */}
+												<button
+													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onMouseEnter={e => setHoverTooltip("bold")}
+													onMouseLeave={e => setHoverTooltip("")}
+												>
+													{hoverTooltip === "bold" && (
+														<div className="absolute top-full" style={{ left: "50%" }}>
+															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
+																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+																</div>
+																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																	Bold ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+B)
+																</p>
+															</div>
+														</div>
+													)}
 													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 														<path d="M4 2a1 1 0 00-1 1v10a1 1 0 001 1h5.5a3.5 3.5 0 001.852-6.47A3.5 3.5 0 008.5 2H4zm4.5 5a1.5 1.5 0 100-3H5v3h3.5zM5 9v3h4.5a1.5 1.5 0 000-3H5z" fillRule="evenodd" />
 													</svg>
 												</button>
-												<button className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto">
+
+												{/* ITALICS */}
+												<button
+													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onMouseEnter={e => setHoverTooltip("italics")}
+													onMouseLeave={e => setHoverTooltip("")}
+												>
+													{hoverTooltip === "italics" && (
+														<div className="absolute top-full" style={{ left: "50%" }}>
+															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
+																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+																</div>
+																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																	Italics ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+I)
+																</p>
+															</div>
+														</div>
+													)}
 													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 														<path d="M6 2.75A.75.75 0 016.75 2h6.5a.75.75 0 010 1.5h-2.505l-3.858 9H9.25a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5h2.505l3.858-9H6.75A.75.75 0 016 2.75z" fillRule="evenodd" />
 													</svg>
 												</button>
-												<button className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto">
+
+												{/* CODE */}
+												<button
+													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onMouseEnter={e => setHoverTooltip("code")}
+													onMouseLeave={e => setHoverTooltip("")}
+												>
+													{hoverTooltip === "code" && (
+														<div className="absolute top-full" style={{ left: "50%" }}>
+															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
+																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+																</div>
+																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																	Code (Shift+{!userAgent.MacOSX ? "Ctrl" : "⌘"}+C)
+																</p>
+															</div>
+														</div>
+													)}
 													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 														<path d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z" fillRule="evenodd" />
 													</svg>
 												</button>
-												<button className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto">
+
+												{/* STRIKETHROUGH */}
+												<button
+													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onMouseEnter={e => setHoverTooltip("strikethrough")}
+													onMouseLeave={e => setHoverTooltip("")}
+												>
+													{hoverTooltip === "strikethrough" && (
+														<div className="absolute top-full" style={{ left: "50%" }}>
+															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
+																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+																</div>
+																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																	Strikethrough (Shift+{!userAgent.MacOSX ? "Ctrl" : "⌘"}+X)
+																</p>
+															</div>
+														</div>
+													)}
 													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 														<path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" fillRule="evenodd" />
 													</svg>
 												</button>
-												<button className="p-2 text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto">
+
+												{/* LINK */}
+												<button
+													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+													onMouseEnter={e => setHoverTooltip("link")}
+													onMouseLeave={e => setHoverTooltip("")}
+												>
+													{hoverTooltip === "link" && (
+														<div className="absolute top-full" style={{ left: "50%" }}>
+															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
+																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+																</div>
+																<p className="whitespace-pre text-xs text-gray-100" style={{ fontFeatureSettings: "'tnum'" }}>
+																	Link ({!userAgent.MacOSX ? "Ctrl" : "⌘"}+K)
+																</p>
+															</div>
+														</div>
+													)}
 													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 														<path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z" fillRule="evenodd" />
 													</svg>
 												</button>
-
-												{/* <button className="px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out"> */}
-												{/* 	<Em> */}
-												{/* 		<Markdown className="text-blue-600" markdown="_"> */}
-												{/* 			Italics */}
-												{/* 		</Markdown> */}
-												{/* 	</Em> */}
-												{/* </button> */}
-												{/* <button className="px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out"> */}
-												{/* 	<Strong> */}
-												{/* 		<Markdown className="text-blue-600" markdown="**"> */}
-												{/* 			Bold */}
-												{/* 		</Markdown> */}
-												{/* 	</Strong> */}
-												{/* </button> */}
-												{/* <button className="px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out"> */}
-												{/* 	<Code> */}
-												{/* 		<Markdown className="text-blue-600" markdown="`"> */}
-												{/* 			Code */}
-												{/* 		</Markdown> */}
-												{/* 	</Code> */}
-												{/* </button> */}
-												{/* <button className="px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out"> */}
-												{/* 	<Strike> */}
-												{/* 		<Markdown className="text-blue-600" markdown="~~"> */}
-												{/* 			Strikethrough */}
-												{/* 		</Markdown> */}
-												{/* 	</Strike> */}
-												{/* </button> */}
-												{/* <button className="px-2 py-1 text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out"> */}
-												{/* 	<A> */}
-												{/* 		<Markdown className="text-blue-600" markdown={["[", "](href)"]}> */}
-												{/* 			Link */}
-												{/* 		</Markdown> */}
-												{/* 	</A> */}
-												{/* </button> */}
 
 											</div>
 										</div>
