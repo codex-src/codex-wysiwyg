@@ -1,7 +1,7 @@
+// import MemoFixedStatusText from "./MemoFixedStatusText"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DocumentTitle from "lib/x/DocumentTitle"
 import MemoFixedPreferences from "./MemoFixedPreferences"
-import MemoFixedStatusText from "./MemoFixedStatusText"
 import React from "react"
 
 import { // Unsorted
