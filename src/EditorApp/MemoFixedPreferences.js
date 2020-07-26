@@ -17,27 +17,6 @@ const tabSize = size => ({
 	tabSize: size,
 })
 
-// const gfm = React.useMemo(() => {
-// 	let result = null
-// 	if (output.show && output.detail === "gfm") {
-// 		result = resolveGFM(elements)
-// 	}
-// 	return result
-// }, [output, elements])
-//
-// const html = React.useMemo(() => {
-// 	let result = null
-// 	if (output.show && output.detail === "html") {
-// 		result = resolveHTML(elements)
-// 	}
-// 	return result
-// }, [output, elements])
-//
-// const resolved = {
-// 	gfm,
-// 	html,
-// }
-
 const Output = ({ output, setOutput }) => {
 	const elements = useElements()
 
@@ -79,7 +58,7 @@ const Output = ({ output, setOutput }) => {
 				) : (
 					<ClassName className={output.detail !== "gfm" && "prism-custom-theme"}>
 						<div className="p-6">
-							<span className="inline-block">
+							<span className="inline-block min-w-full">
 								<Highlight
 									className="break-words font-mono text-gray-800"
 									style={{
