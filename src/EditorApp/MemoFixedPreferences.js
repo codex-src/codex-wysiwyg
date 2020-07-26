@@ -53,14 +53,35 @@ const Output = ({ output, setOutput }) => {
 			to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
 		>
 			<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-				{output.detail === "changelog" ? (
-					<Releases />
-				) : (
+
+				{/* Releases */}
+				{output.detail === "releases" && (
+					<div className="text-gray-800">
+						<Releases />
+					</div>
+				)}
+
+				{/* GFM */}
+				{output.detail === "gfm" && (
+					<div
+						className="p-6 whitespace-pre-wrap break-words text-gray-800"
+						style={tabSize(2)}
+					>
+						<span className="inline-block min-w-full">
+							<Highlight extension={output.detail}>
+								{resolved[output.detail]}
+							</Highlight>
+						</span>
+					</div>
+				)}
+
+				{/* HTML */}
+				{output.detail === "html" && (
 					<div
 						className="p-6 whitespace-pre-wrap break-words font-mono text-gray-800"
 						style={{
-							fontSize: "0.8125rem",
 							...tabSize(2),
+							fontSize: "0.8125rem",
 						}}
 					>
 						<span className="inline-block min-w-full">
@@ -70,6 +91,7 @@ const Output = ({ output, setOutput }) => {
 						</span>
 					</div>
 				)}
+
 			</div>
 		</Transition>
 	)
@@ -80,13 +102,13 @@ const MemoFixedPreferences = React.memo(() => {
 
 	const [output, setOutput] = React.useState({
 		show: false,
-		detail: "changelog",
+		detail: "releases",
 	})
 
 	const handleClickChangelog = e => {
 		setOutput(current => ({
-			show: !current.show || current.detail !== "changelog",
-			detail: "changelog",
+			show: !current.show || current.detail !== "releases",
+			detail: "releases",
 		}))
 	}
 
@@ -137,14 +159,14 @@ const MemoFixedPreferences = React.memo(() => {
 				{/* Button */}
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "changelog" && "var(--gray-800)" }}
-					onFocus={e => setHoverTooltip("changelog")}
+					style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
+					onFocus={e => setHoverTooltip("releases")}
 					onBlur={e => setHoverTooltip("")}
-					onMouseEnter={e => setHoverTooltip("changelog")}
+					onMouseEnter={e => setHoverTooltip("releases")}
 					onMouseLeave={e => setHoverTooltip("")}
 					onClick={handleClickChangelog}
 				>
-					{(hoverTooltip === "changelog" && !output.show) && (
+					{(hoverTooltip === "releases" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="mr-3.5 -mt-0.5 absolute top-0 right-0 transform rotate-45" style={{ zIndex: -10 }}>

@@ -11,7 +11,7 @@ const Release = ({ date, children }) => (
 				</p>
 			</div>
 		</div>
-		<ReadOnlyEditor className="text-gray-800" style={{ fontSize: "0.9375rem" }}>
+		<ReadOnlyEditor>
 			{children}
 		</ReadOnlyEditor>
 	</div>
@@ -19,6 +19,7 @@ const Release = ({ date, children }) => (
 
 const Releases = () => (
 	<React.Fragment>
+
 		<Release date="July 26, 2020">
 			<p>
 				– Added basic support for <code>"insert-hard-paragraph"</code> operations.
@@ -30,6 +31,7 @@ const Releases = () => (
 				– Added placeholder for the main editor (visible when empty).
 			</p>
 		</Release>
+
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 25, 2020">
 			<p>
@@ -44,6 +46,7 @@ const Releases = () => (
 				The indicators render the current cursor position or selection and the word count and estimated duration.</strike>
 			</p>
 		</Release>
+
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 24, 2020">
 			<p>
@@ -57,18 +60,21 @@ const Releases = () => (
 				These can be invoked from <code>focus</code> or <code>hover</code> events.
 			</p>
 		</Release>
+
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 22, 2020">
 			<p>
 				– Added a dedicated changelog and improved readability for GitHub Flavored Markdown and semantic HTML output.
 			</p>
 		</Release>
+
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 21, 2020">
 			<p>
 				– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
 			</p>
 		</Release>
+
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 20, 2020">
 			<p>
@@ -96,6 +102,7 @@ const Releases = () => (
 				*Note that formatting without a selection is not yet supported.
 			</p>
 		</Release>
+
 	</React.Fragment>
 )
 

@@ -1,3 +1,8 @@
+.language-gfm {
+	/* TODO: Change "IBM Plex Mono"? */
+	--font-mono: Menlo, "IBM Plex Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 .language-gfm .token.title {
 	font-weight: 700;
 }
@@ -11,10 +16,12 @@
 }
 
 .language-gfm .token.code {
-	padding: 0.0625em 0;
+	padding: 0.0625rem 0;
+	font-size: 0.875rem;
+	font-family: var(--font-mono);
 	color: var(--blue-600);
-	border: 1px solid var(--gray-300);
-	border-radius: 0.25em;
+	border: 0.0625rem solid var(--gray-300);
+	border-radius: 0.25rem;
 }
 
 .language-gfm .token.strike {
