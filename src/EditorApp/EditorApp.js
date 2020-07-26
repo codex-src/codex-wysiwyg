@@ -1,7 +1,7 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import DocumentTitle from "lib/x/DocumentTitle"
-import FixedPreferences from "./FixedPreferences"
-import FixedStatusText from "./FixedStatusText"
+import MemoFixedPreferences from "./MemoFixedPreferences"
+import MemoFixedStatusText from "./MemoFixedStatusText"
 import React from "react"
 
 import { // Unsorted
@@ -20,12 +20,11 @@ const App = () => {
 
 	const [debouncedFocused, setDebouncedFocused] = React.useState(() => state.focused)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
-	// const [debouncedRange, setDebouncedRange] = React.useState(() => state.range)
 
 	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedFocused(state.focused)
-		}, 25)
+		}, 100)
 		return () => {
 			clearTimeout(id)
 		}
@@ -34,20 +33,11 @@ const App = () => {
 	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
-		}, 25)
+		}, 100)
 		return () => {
 			clearTimeout(id)
 		}
 	}, [state.elements])
-
-	// React.useEffect(() => {
-	// 	const id = setTimeout(() => {
-	// 		setDebouncedRange(state.range)
-	// 	}, 25)
-	// 	return () => {
-	// 		clearTimeout(id)
-	// 	}
-	// }, [state.range])
 
 	return (
 		<FocusedContext.Provider value={debouncedFocused}>
@@ -58,9 +48,13 @@ const App = () => {
 						<div className="px-6 py-32 flex flex-row justify-center">
 							<div className="w-full max-w-2xl">
 
-								{/* <FixedPreferences /> */}
+								<MemoFixedPreferences />
 
-								<Editor className="text-lg text-gray-800" state={state} dispatch={dispatch}>
+								<Editor
+									className="text-lg text-gray-800"
+									state={state}
+									dispatch={dispatch}
+								>
 									<p>
 										This prototype currently supports <em>italics</em>, <strong>bold</strong>, <code>code</code>, <strike>strikethrough</strike>, and <a href="TODO">link</a> for inline elements.{" "}
 										Of course, elements can be <strong><em>nested</em></strong> if that’s your thing.
@@ -81,7 +75,7 @@ const App = () => {
 									</p>
 								</Editor>
 
-								<FixedStatusText />
+								<MemoFixedStatusText />
 
 							</div>
 						</div>

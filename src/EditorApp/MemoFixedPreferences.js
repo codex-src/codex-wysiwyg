@@ -19,7 +19,6 @@ const tabSize = size => ({
 
 const Output = ({ output, setOutput }) => {
 
-	// TODO: Debounce?
 	const elements = useElements()
 
 	const [resolved, setResolved] = React.useState(() => {
@@ -30,34 +29,24 @@ const Output = ({ output, setOutput }) => {
 	})
 
 	React.useEffect(() => {
-		if (output.detail === "gfm") {
+		if (output.show && output.detail === "gfm") {
 			const result = resolveGFM(elements)
 			setResolved(current => ({
 				...current,
 				gfm: result,
 			}))
 		}
-	}, [elements, output.detail])
+	}, [elements, output])
 
 	React.useEffect(() => {
-		if (output.detail === "html") {
+		if (output.show && output.detail === "html") {
 			const result = resolveHTML(elements)
 			setResolved(current => ({
 				...current,
 				html: result,
 			}))
 		}
-	}, [elements, output.detail])
-
-	// React.useEffect(() => {
-	// 	if (output.detail === "json") {
-	// 		const result = JSON.stringify(elements, null, "\t")
-	// 		setResolved(current => ({
-	// 			...current,
-	// 			json: result,
-	// 		}))
-	// 	}
-	// }, [elements, output.detail])
+	}, [elements, output])
 
 	return (
 		<Transition
@@ -92,7 +81,7 @@ const Output = ({ output, setOutput }) => {
 	)
 }
 
-const FixedPreferences = React.memo(() => {
+const MemoFixedPreferences = React.memo(() => {
 	const [hover, setHover] = React.useState("")
 
 	const [output, setOutput] = React.useState({
@@ -143,12 +132,10 @@ const FixedPreferences = React.memo(() => {
 		}
 	})
 
-	// NOTE: Uses flex flex-col ... self-end.
 	return (
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end pointer-events-none">
 			<div className="py-2 flex flex-row justify-between">
 
-				{/* Changelog */}
 				<div className="relative">
 					{(hover === "changelog" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
@@ -177,7 +164,6 @@ const FixedPreferences = React.memo(() => {
 					</button>
 				</div>
 
-				{/* GFM */}
 				<div className="relative">
 					{(hover === "gfm" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
@@ -206,7 +192,6 @@ const FixedPreferences = React.memo(() => {
 					</button>
 				</div>
 
-				{/* HTML */}
 				<div className="relative">
 					{(hover === "html" && !output.show) && (
 						<div className="absolute top-full right-0 z-10">
@@ -244,4 +229,4 @@ const FixedPreferences = React.memo(() => {
 	)
 })
 
-export default FixedPreferences
+export default MemoFixedPreferences

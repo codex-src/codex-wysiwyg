@@ -5,7 +5,6 @@
 	moz-tab-size: 4;
 	tab-size: 4;
 }
-/* FIXME? */
 [data-root] * {
 	caret-color: var(--black);
 }

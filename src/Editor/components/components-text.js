@@ -27,7 +27,7 @@ export const Strong = ({ children }) => (
 // <code>
 export const Code = ({ children }) => (
 	<T type="code">
-		<span className="px-1 py-px text-sm font-mono text-blue-600 bg-white border border-cool-gray-300 rounded" {...disableAutoCorrect}>
+		<span className="px-1 py-px text-sm font-mono text-blue-600 bg-white border border-gray-300 rounded" {...disableAutoCorrect}>
 			{children}
 		</span>
 	</T>
