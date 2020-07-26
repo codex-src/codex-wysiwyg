@@ -257,19 +257,19 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				data-root
 			/>
 
-			{process.env.NODE_ENV !== "production" && (
-				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
-					{JSON.stringify(
-						{
-							// elements: state.elements,
-							applyType: state.applyType,
-							range: state.range,
-						},
-						null,
-						"\t",
-					)}
-				</pre>
-			)}
+			{/* {process.env.NODE_ENV !== "production" && ( */}
+			{/* 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}> */}
+			{/* 		{JSON.stringify( */}
+			{/* 			{ */}
+			{/* 				// elements: state.elements, */}
+			{/* 				applyType: state.applyType, */}
+			{/* 				range: state.range, */}
+			{/* 			}, */}
+			{/* 			null, */}
+			{/* 			"\t", */}
+			{/* 		)} */}
+			{/* 	</pre> */}
+			{/* )} */}
 
 		</div>
 	)
