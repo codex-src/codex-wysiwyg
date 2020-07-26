@@ -165,7 +165,7 @@ const MemoFixedPreferences = React.memo(() => {
 					onClick={handleClickChangelog}
 				>
 					{(hoverTooltip === "releases" && !output.show) && (
-						<div className="absolute top-full right-0 pointer-events-none">
+						<div className="absolute top-full right-0">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="absolute top-0 right-0">
 									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -191,7 +191,7 @@ const MemoFixedPreferences = React.memo(() => {
 					onClick={handleClickGFM}
 				>
 					{(hoverTooltip === "gfm" && !output.show) && (
-						<div className="absolute top-full right-0 pointer-events-none">
+						<div className="absolute top-full right-0">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="absolute top-0 right-0">
 									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -217,7 +217,7 @@ const MemoFixedPreferences = React.memo(() => {
 					onClick={handleClickHTML}
 				>
 					{(hoverTooltip === "html" && !output.show) && (
-						<div className="absolute top-full right-0 pointer-events-none">
+						<div className="absolute top-full right-0">
 							<div className="px-2 py-1 bg-gray-800 rounded shadow">
 								<div className="absolute top-0 right-0">
 									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />

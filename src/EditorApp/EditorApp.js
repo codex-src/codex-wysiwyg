@@ -106,7 +106,7 @@ const App = () => {
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "bold" && (
-														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
+														<div className="absolute top-full" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -130,7 +130,7 @@ const App = () => {
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "italics" && (
-														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
+														<div className="absolute top-full" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -154,7 +154,7 @@ const App = () => {
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "code" && (
-														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
+														<div className="absolute top-full" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -178,7 +178,7 @@ const App = () => {
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "strikethrough" && (
-														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
+														<div className="absolute top-full" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
@@ -202,7 +202,7 @@ const App = () => {
 													onMouseLeave={e => setHoverTooltip("")}
 												>
 													{hoverTooltip === "link" && (
-														<div className="absolute top-full pointer-events-none" style={{ left: "50%" }}>
+														<div className="absolute top-full" style={{ left: "50%" }}>
 															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 																<div className="absolute top-0 inset-x-0 flex flex-row justify-center">
 																	<div className="-mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
