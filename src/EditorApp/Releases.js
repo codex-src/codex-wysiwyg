@@ -20,6 +20,19 @@ const Release = ({ date, children }) => (
 const Releases = () => (
 	<React.Fragment>
 
+		<Release date="July 27, 2020">
+			<p>
+				– Protoyped the WYSIWYG menu UI. Note that the UI is not functional yet.
+			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				– Changed GitHub Flavored Markdown-rendered output to render as sans-serif. Colors for both GFM and HTML have been revamped as well.
+			</p>
+		</Release>
+
+		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 26, 2020">
 			<p>
 				– Added basic support for <code>"insert-hard-paragraph"</code> operations.
@@ -71,7 +84,7 @@ const Releases = () => (
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 21, 2020">
 			<p>
-				– Added basic support for resolving to plaintext, GitHub-Flavored Markdown, and HTML.
+				– Added basic support for resolving to plaintext, GitHub Flavored Markdown, and HTML.
 			</p>
 		</Release>
 
