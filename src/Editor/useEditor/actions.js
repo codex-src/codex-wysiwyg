@@ -1,4 +1,4 @@
-import applyFormatImpl from "./implementation/applyFormatImpl"
+import applyTypeSelection from "./applyTypeSelection"
 import deleteSelection from "./deleteSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
@@ -59,7 +59,13 @@ export function insertText(e, { text }) {
 // Applies a format to the current range.
 //
 // TODO: Add props argument
+// TODO: Rename to applyType or applyTypes?
 export function applyFormat(e, { formatType }) {
+
+	// const $applyFormat = !rangeIsCollapsed(e.range) ? applyFormatCollapsed : applyTypeSelection
+	// $applyFormat(e, formatType)
+	// collapse(e)
+
 	// if (rangeIsCollapsed(e.range)) {
 	// 	if (!e.applyType) {
 	// 		e.applyType = {
@@ -73,7 +79,12 @@ export function applyFormat(e, { formatType }) {
 	// 	e.applyType.range = JSONClone(e.range)
 	// 	return
 	// }
-	applyFormatImpl(e, formatType)
+
+	// applyFormatImpl(e, formatType)
+
+	if (!rangeIsCollapsed(e.range)) {
+		applyTypeSelection(e, formatType)
+	}
 	render(e)
 }
 
