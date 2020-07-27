@@ -97,7 +97,7 @@ const App = () => {
 										<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="m-1 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.currentTypes.start.strong && state.currentTypes.end.strong) && "var(--blue-500)",
 													backgroundColor: (state.currentTypes.start.strong && state.currentTypes.end.strong) && "var(--blue-50)",
@@ -125,7 +125,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="m-1 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.currentTypes.start.em && state.currentTypes.end.em) && "var(--blue-500)",
 													backgroundColor: (state.currentTypes.start.em && state.currentTypes.end.em) && "var(--blue-50)",
@@ -153,7 +153,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="m-1 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.currentTypes.start.code && state.currentTypes.end.code) && "var(--blue-500)",
 													backgroundColor: (state.currentTypes.start.code && state.currentTypes.end.code) && "var(--blue-50)",
@@ -181,7 +181,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="m-1 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.currentTypes.start.strike && state.currentTypes.end.strike) && "var(--blue-500)",
 													backgroundColor: (state.currentTypes.start.strike && state.currentTypes.end.strike) && "var(--blue-50)",
@@ -209,7 +209,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="m-1 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.currentTypes.start.a && state.currentTypes.end.a) && "var(--blue-500)",
 													backgroundColor: (state.currentTypes.start.a && state.currentTypes.end.a) && "var(--blue-50)",
@@ -239,7 +239,7 @@ const App = () => {
 											{/* <div className="w-4" /> */}
 											{/*  */}
 											{/* <button */}
-											{/* 	className="p-2 relative text-gray-400 hover:text-blue-500 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 hover:bg-opacity-50 focus:bg-opacity-50 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
+											{/* 	className="m-1 p-2 relative text-gray-400 hover:text-blue-500 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 hover:bg-opacity-50 focus:bg-opacity-50 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
 											{/* 	onFocus={e => setHoverTooltip("plaintext")} */}
 											{/* 	onBlur={e => setHoverTooltip("")} */}
 											{/* 	onMouseEnter={e => setHoverTooltip("plaintext")} */}
