@@ -9,7 +9,7 @@ function createIndexAtOffset(children, offset) {
 	} else if (!offset) {
 		return 0
 	} else if (offset === textContent(children).length) {
-		return children.length - 1
+		return children.length
 	}
 	let x = 0
 	for (; x < children.length; x++) {
@@ -21,7 +21,7 @@ function createIndexAtOffset(children, offset) {
 	}
 	// At the edge of a text node:
 	if (offset - children[x].props.children.length === 0) {
-		return x
+		return x + 1
 	}
 	const current = {
 		...JSONClone(children[x]),

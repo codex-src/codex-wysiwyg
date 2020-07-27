@@ -5,7 +5,7 @@ import extendRTLImpl from "./implementation/extendRTLImpl"
 import findIndex from "../utils/findIndex"
 import getRangeTypes from "./getRangeTypes"
 import hash from "lib/x/hash"
-import insertTextImpl from "./implementation/insertTextImpl"
+import insertTextImpl2 from "./insertTextImpl"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 import { // Unsorted
@@ -40,7 +40,7 @@ export function select(e, { range }) {
 
 // Inserts text at the current range.
 export function insertText(e, { text }) {
-	insertTextImpl(e, text)
+	insertTextImpl2(e, text)
 	e.range.start.offset += text.length
 	collapse(e)
 	render(e)

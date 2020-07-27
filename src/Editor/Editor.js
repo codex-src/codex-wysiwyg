@@ -68,13 +68,13 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 		[state.shouldRerender],
 	)
 
-	// Exclusively returns a handler when state.focused=true.
-	const readWriteHandler = handler => {
-		if (!state.focused) {
-			return null
-		}
-		return handler
-	}
+	// // Exclusively returns a handler when state.focused=true.
+	// const readWriteHandler = handler => {
+	// 	if (!state.focused) {
+	// 		return null
+	// 	}
+	// 	return handler
+	// }
 
 	return (
 		<React.Fragment>
@@ -85,23 +85,23 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				className={tmpl`em-context ${className}`}
 				style={style}
 
-				onFocus={readWriteHandler(e => {
+				onFocus={e => {
 					dispatch({
 						type: "FOCUS",
 					})
-				})}
+				}}
 
-				onBlur={readWriteHandler(e => {
+				onBlur={e => {
 					dispatch({
 						type: "BLUR",
 					})
-				})}
+				}}
 
-				onPointerDown={readWriteHandler(e => {
+				onPointerDown={e => {
 					pointerdownRef.current = true
-				})}
+				}}
 
-				onPointerMove={readWriteHandler(e => {
+				onPointerMove={e => {
 					if (!state.focused || !pointerdownRef.current) {
 						if (!state.focused && pointerdownRef.current) {
 							pointerdownRef.current = false
@@ -117,15 +117,15 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						type: "SELECT",
 						range,
 					})
-				})}
+				}}
 
-				onPointerUp={readWriteHandler(e => {
+				onPointerUp={e => {
 					pointerdownRef.current = false
-				})}
+				}}
 
 				// TODO: Add COMPAT guard for select-all or prevent
 				// default?
-				onSelect={readWriteHandler(e => {
+				onSelect={e => {
 					const range = getCurrentRange(ref.current)
 					if (!range) {
 						// No-op
@@ -135,9 +135,9 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						type: "SELECT",
 						range,
 					})
-				})}
+				}}
 
-				onKeyDown={readWriteHandler(e => {
+				onKeyDown={e => {
 					const keyDownType = keyDownTypeFor(e)
 					let formatType = ""
 					let text = ""
@@ -228,9 +228,9 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						// No-op
 						break
 					}
-				})}
+				}}
 
-				onInput={readWriteHandler(e => {
+				onInput={e => {
 					const range = getCurrentRange(ref.current)
 					const children = parseRenderedChildren(document.getElementById(range.start.key))
 					dispatch({
@@ -238,27 +238,27 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						range,
 						children,
 					})
-				})}
+				}}
 
-				onCut={readWriteHandler(e => {
+				onCut={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				onCopy={readWriteHandler(e => {
+				onCopy={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				onPaste={readWriteHandler(e => {
+				onPaste={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
-				onDragStart={readWriteHandler(e => {
+				onDragStart={e => {
 					e.preventDefault()
 					// TODO
-				})}
+				}}
 
 				contentEditable
 				suppressContentEditableWarning
@@ -270,6 +270,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
 					{JSON.stringify(
 						{
+							focused: state.focused,
 							range: state.range,
 							rangeTypes: state.rangeTypes,
 							// ...
