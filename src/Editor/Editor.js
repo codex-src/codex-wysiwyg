@@ -13,7 +13,7 @@ import {
 import { // Unsorted
 	getCurrentRange,
 	convRangeToUserLiteral,
-} from "./types/Range"
+} from "./Range"
 
 import "./Editor.css"
 
