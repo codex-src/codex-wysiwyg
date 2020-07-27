@@ -174,7 +174,7 @@ const MemoFixedPreferences = React.memo(() => {
 										<div className="ml-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 									</div>
 									<p className="whitespace-pre text-xs text-gray-100">
-										Love this? <span className="mx-px" role="img" aria-label="star">⭐</span>️ on GitHub! <span className="mx-px" aria-label="red heart" role="img">❤️</span>
+										Love this? Star on GitHub! <span aria-label="red heart" role="img">❤️</span>
 									</p>
 								</div>
 							</div>

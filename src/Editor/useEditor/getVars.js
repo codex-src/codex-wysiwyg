@@ -1,6 +1,5 @@
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
-// Gets the current variables.
 function getVars(e) {
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1

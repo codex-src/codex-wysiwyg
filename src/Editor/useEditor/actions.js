@@ -47,7 +47,7 @@ function convOffsetToIndex(children, offset) {
 }
 
 // // Gets the current start and end types (cloned).
-// function getCurrentTypes(e) {
+// function getRangeTypes(e) {
 // 	const { ch1, ch2 } = getVars(e)
 //
 // 	const current = {
@@ -73,19 +73,19 @@ function convOffsetToIndex(children, offset) {
 // 	return current
 // }
 
-// Gets the current start and end types (cloned).
-function getCurrentTypes(e) {
+// Gets the current range types (cloned).
+function getRangeTypes(e) {
 	const { ch1, ch2 } = getVars(e)
 	const x1 = convOffsetToIndex(ch1, e.range.start.offset)
 	const x2 = convOffsetToIndex(ch2, e.range.end.offset)
 	if ((x1 === -1 || x2 === -1) || x1 !== x2) {
 		return { start: {}, end: {} }
 	}
-	const currentTypes = {
+	const current = {
 		start: JSONClone(ch1[x1].types),
 		end: JSONClone(ch2[x2].types),
 	}
-	return currentTypes
+	return current
 }
 
 // ; drops the current range-in-progress.
@@ -93,7 +93,7 @@ function getCurrentTypes(e) {
 // Selects a range
 export function select(e, { range }) {
 	e.range = range
-	e.currentTypes = getCurrentTypes(e)
+	e.rangeTypes = getRangeTypes(e)
 }
 
 // Inserts text at the current range.
