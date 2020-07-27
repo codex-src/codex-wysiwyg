@@ -140,7 +140,6 @@ export function $delete(e, { deleteType }) {
 
 // Uncontrolled input handler.
 export function uncontrolledInput(e, { children, range }) {
-	// TODO: Collapse range?
 	const { el1 } = getVars(e)
 	el1.props.children = children
 	e.range = range

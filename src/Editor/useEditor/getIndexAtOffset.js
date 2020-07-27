@@ -1,6 +1,7 @@
 import textContent from "../utils/textContent"
 
-// Gets an index at an offset.
+// Idempotent function; gets an index for an offset. See
+// createIndexAtOffset for non-idempotent version.
 function getIndexAtOffset(children, offset) {
 	// Eager returns:
 	if (!children.length) {

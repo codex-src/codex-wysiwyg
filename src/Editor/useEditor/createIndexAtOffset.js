@@ -1,7 +1,8 @@
 import JSONClone from "lib/JSON/JSONClone"
 import textContent from "../utils/textContent"
 
-// Creates an index at an offset. Mutates children.
+// Non-idempotent function; creates an index for an offset.
+// See getIndexAtOffset for idempotent version.
 function createIndexAtOffset(children, offset) {
 	// Eager returns:
 	if (!children.length) {
@@ -23,7 +24,7 @@ function createIndexAtOffset(children, offset) {
 	if (offset - children[x].props.children.length === 0) {
 		return x + 1
 	}
-	const current = {
+	const curr = {
 		...JSONClone(children[x]),
 		props: {
 			...children[x].props,
@@ -37,7 +38,7 @@ function createIndexAtOffset(children, offset) {
 			children: children[x].props.children.slice(offset),
 		},
 	}
-	children.splice(x, 1, current, next)
+	children.splice(x, 1, curr, next)
 	return x + 1
 }
 
