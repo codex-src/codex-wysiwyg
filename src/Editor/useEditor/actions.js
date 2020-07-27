@@ -1,17 +1,23 @@
 import applyFormatImpl from "./implementation/applyFormatImpl"
-import deleteImpl from "./implementation/deleteImpl"
-import extendLTRImpl from "./implementation/extendLTRImpl"
-import extendRTLImpl from "./implementation/extendRTLImpl"
+import deleteSelection from "./deleteSelection"
+import extendRangeLTR from "./extendRangeLTR"
+import extendRangeRTL from "./extendRangeRTL"
 import findIndex from "../utils/findIndex"
 import getRangeTypes from "./getRangeTypes"
+import getVars from "./getVars"
 import hash from "lib/x/hash"
-import insertTextImpl2 from "./insertTextImpl"
+import insertTextCollapsed from "./insertTextCollapsed"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
-import { // Unsorted
-	collapse,
-	render,
-} from "./utils"
+// Collapses the current range end-to-start.
+function collapse(e) {
+	e.range.end = e.range.start
+}
+
+// Rerenders the current state.
+function render(e) {
+	e.shouldRerender++
+}
 
 // Manually updates elements.
 export function manuallyUpdateElements(e, { elements }) {
@@ -40,10 +46,11 @@ export function select(e, { range }) {
 
 // Inserts text at the current range.
 export function insertText(e, { text }) {
-	// if (!rangeIsCollapsed(e)) {
-	// 	deleteImpl2(e)
-	// }
-	insertTextImpl2(e, text)
+	if (!rangeIsCollapsed(e.range)) {
+		deleteSelection(e)
+		collapse(e)
+	}
+	insertTextCollapsed(e, text)
 	e.range.start.offset += text.length
 	collapse(e)
 	render(e)
@@ -73,7 +80,7 @@ export function applyFormat(e, { formatType }) {
 // TODO
 export function insertHardParagraph(e) {
 	if (!rangeIsCollapsed(e.range)) {
-		deleteImpl(e)
+		deleteSelection(e)
 		collapse(e)
 	}
 	// insertHardParagraphImpl(e)
@@ -119,23 +126,24 @@ export function insertHardParagraph(e) {
 	render(e)
 }
 
-// Deletes the next right-to-left or left-to-right rune,
-// word, or line at the current range.
+// Deletes a rune, word, or rune.
 export function $delete(e, { deleteType }) {
 	const [dir, boundary] = deleteType.split("-")
 	if (rangeIsCollapsed(e.range)) {
-		const extendImpl = dir === "rtl" && dir !== "ltr" ? extendRTLImpl : extendLTRImpl
-		extendImpl(e, boundary)
+		const extendRange = dir === "rtl" && dir !== "ltr" ? extendRangeRTL : extendRangeLTR
+		extendRange(e, boundary)
 	}
-	deleteImpl(e)
+	deleteSelection(e)
 	collapse(e)
 	render(e)
 }
 
 // Uncontrolled input handler.
 export function uncontrolledInput(e, { children, range }) {
-	const el = e.elements.find(each => each.key === range.start.key)
-	el.props.children = children
+	// TODO: Collapse range?
+	const { el1 } = getVars(e)
+	el1.props.children = children
 	e.range = range
+	collapse(e)
 	render(e)
 }

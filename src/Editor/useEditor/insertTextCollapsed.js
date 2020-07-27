@@ -3,20 +3,18 @@ import deferOnChildren from "./deferOnChildren"
 import getVars from "./getVars"
 import JSONClone from "lib/JSON/JSONClone"
 
-// Inserts text at the current range.
-function insertTextImpl(e, text) {
-	const { ch1: ch } = getVars(e)
-
+// Inerts text at the current range.
+function insertTextCollapsed(e, text) {
+	const { ch1 } = getVars(e)
 	let textNode = {
 		types: {},
 		props: {
 			children: text,
 		},
 	}
-
-	const x = createIndexAtOffset(ch, e.range.start.offset)
+	const x = createIndexAtOffset(ch1, e.range.start.offset)
 	if (x - 1 >= 0) {
-		const copyTextNode = JSONClone(ch[x - 1])
+		const copyTextNode = JSONClone(ch1[x - 1])
 		textNode = {
 			...copyTextNode,
 			props: {
@@ -25,9 +23,8 @@ function insertTextImpl(e, text) {
 			},
 		}
 	}
-
-	ch.splice(x, 0, textNode)
-	deferOnChildren(ch)
+	ch1.splice(x, 0, textNode)
+	deferOnChildren(ch1)
 }
 
-export default insertTextImpl
+export default insertTextCollapsed

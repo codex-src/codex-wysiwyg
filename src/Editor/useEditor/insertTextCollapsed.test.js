@@ -1,5 +1,5 @@
-import deleteImpl from "./deleteImpl"
 import hash from "lib/x/hash"
+import insertTextCollapsed from "./insertTextCollapsed"
 import JSONClone from "lib/JSON/JSONClone"
 
 const initialState = {
@@ -45,11 +45,13 @@ test("(empty)", () => {
 			offset: 0,
 		},
 	}
-	deleteImpl(state)
-	expect(state.elements[0].props.children).toEqual([])
+	insertTextCollapsed(state, "<text>")
+	expect(state.elements[0].props.children).toEqual([
+		{ types: {}, props: { children: "<text>" } },
+	])
 })
 
-test("[Hello, ]<code>world</code>!", () => {
+test("[]Hello, <code>world</code>!", () => {
 	const state = deepCopy()
 	state.range = {
 		start: {
@@ -58,17 +60,18 @@ test("[Hello, ]<code>world</code>!", () => {
 		},
 		end: {
 			key: state.elements[0].key,
-			offset: 7,
+			offset: 0,
 		},
 	}
-	deleteImpl(state)
+	insertTextCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
-		{ types: { code: {} }, props: { children: "world" } },
+		{ types: {}, props: { children: "<text>Hello, " } },
+		{ types: { 	code: {} }, props: { children: "world" } },
 		{ types: {}, props: { children: "!" } },
 	])
 })
 
-test("Hello, [<code>world</code>]!", () => {
+test("Hello, []<code>world</code>!", () => {
 	const state = deepCopy()
 	state.range = {
 		start: {
@@ -77,30 +80,53 @@ test("Hello, [<code>world</code>]!", () => {
 		},
 		end: {
 			key: state.elements[0].key,
-			offset: 12,
+			offset: 7,
 		},
 	}
-	deleteImpl(state)
+	insertTextCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
-		{ types: {}, props: { children: "Hello, !" } },
+		{ types: {}, props: { children: "Hello, <text>" } },
+		{ types: { 	code: {} }, props: { children: "world" } },
+		{ types: {}, props: { children: "!" } },
 	])
 })
 
-test("Hello, <code>world</code>[!]", () => {
+test("Hello, <code>world[]</code>!", () => {
 	const state = deepCopy()
 	state.range = {
 		start: {
 			key: state.elements[0].key,
 			offset: 12,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 12,
+		},
+	}
+	insertTextCollapsed(state, "<text>")
+	expect(state.elements[0].props.children).toEqual([
+		{ types: {}, props: { children: "Hello, " } },
+		{ types: { 	code: {} }, props: { children: "world<text>" } },
+		{ types: {}, props: { children: "!" } },
+	])
+})
+
+test("Hello, <code>world</code>![]", () => {
+	const state = deepCopy()
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 13,
 		},
 		end: {
 			key: state.elements[0].key,
 			offset: 13,
 		},
 	}
-	deleteImpl(state)
+	insertTextCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
-		{ types: { code: {} }, props: { children: "world" } },
+		{ types: { 	code: {} }, props: { children: "world" } },
+		{ types: {}, props: { children: "!<text>" } },
 	])
 })
