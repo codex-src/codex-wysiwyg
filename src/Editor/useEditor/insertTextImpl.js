@@ -1,4 +1,5 @@
 import createIndexAtOffset from "./createIndexAtOffset"
+import deferOnchildren from "./deferOnchildren"
 import getVars from "./getVars"
 import JSONClone from "lib/JSON/JSONClone"
 
@@ -26,7 +27,7 @@ function insertTextImpl(e, text) {
 	}
 
 	ch.splice(x, 0, textNode)
-	// TODO: concatTextNodes(...)
+	deferOnchildren(ch)
 }
 
 export default insertTextImpl

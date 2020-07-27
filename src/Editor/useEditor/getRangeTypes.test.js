@@ -49,7 +49,7 @@ function deepCopy() {
 	return JSONClone(initialState)
 }
 
-test("[]", () => {
+test("(empty)", () => {
 	const state = deepCopy()
 	state.elements[0].props.children = []
 	state.range = {
