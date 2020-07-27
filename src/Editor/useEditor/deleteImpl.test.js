@@ -1,25 +1,106 @@
-import findIndex from "../../utils/findIndex"
-import rangeIsCollapsed from "../../utils/rangeIsCollapsed"
+import deleteImpl from "./deleteImpl"
+import hash from "lib/x/hash"
+import JSONClone from "lib/JSON/JSONClone"
 
-// Deletes the current range.
-function deleteImpl(e, dir, boundary) {
-	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
-	let x2 = x1
-	if (!rangeIsCollapsed(e.range)) {
-		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
-	}
-
-	const ch1 = e.elements[x1].props.children
-	const ch2 = e.elements[x2].props.children
-
-	ch1.splice(
-		0,
-		ch1.length * 2,
-		...ch1.slice(0, findIndex(ch1, e.range.start.offset)),
-		...ch2.slice(findIndex(ch2, e.range.end.offset)),
-	)
-
-	e.elements.splice(x1 + 1, x2 - x1)
+const initialState = {
+	elements: [
+		{
+			type: "p",
+			key: hash(),
+			props: {
+				children: [
+					{ types: {}, props: { children: "Hello, " } },
+					{ types: { code: {} }, props: { children: "world" } },
+					{ types: {}, props: { children: "!" } },
+				],
+			},
+		},
+	],
+	range: {
+		start: {
+			key: "",
+			offset: 0,
+		},
+		end: {
+			key: "",
+			offset: 0,
+		},
+	},
 }
 
-export default deleteImpl
+function deepCopy() {
+	return JSONClone(initialState)
+}
+
+test("(empty)", () => {
+	const state = deepCopy()
+	state.elements[0].props.children = []
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 0,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 0,
+		},
+	}
+	deleteImpl(state)
+	expect(state.elements[0].props.children).toEqual([])
+})
+
+test("[Hello, ]<code>world</code>!", () => {
+	const state = deepCopy()
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 0,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 7,
+		},
+	}
+	deleteImpl(state)
+	expect(state.elements[0].props.children).toEqual([
+		{ types: { code: {} }, props: { children: "world" } },
+		{ types: {}, props: { children: "!" } },
+	])
+})
+
+test("Hello, [<code>world</code>]!", () => {
+	const state = deepCopy()
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 7,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 12,
+		},
+	}
+	deleteImpl(state)
+	expect(state.elements[0].props.children).toEqual([
+		{ types: {}, props: { children: "Hello, !" } },
+	])
+})
+
+test("Hello, <code>world</code>[!]", () => {
+	const state = deepCopy()
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 12,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 13,
+		},
+	}
+	deleteImpl(state)
+	expect(state.elements[0].props.children).toEqual([
+		{ types: {}, props: { children: "Hello, " } },
+		{ types: { code: {} }, props: { children: "world" } },
+	])
+})

@@ -4,12 +4,12 @@ import textContent from "../utils/textContent"
 
 // Extends the current range left-to-right.
 function extendRangeLTRImpl(e, boundary) {
-	const { x2: x } = getVars(e) // Must be x2
+	const { x2 } = getVars(e) // Must be x2
 
-	const curr = e.elements[x]
+	const curr = e.elements[x2]
 	let next = null
-	if (x + 1 < e.elements.length) {
-		next = e.elements[x + 1]
+	if (x2 + 1 < e.elements.length) {
+		next = e.elements[x2 + 1]
 	}
 
 	const substr = textContent(curr.props.children).slice(e.range.end.offset)
