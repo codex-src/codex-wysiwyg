@@ -20,6 +20,13 @@ const Release = ({ date, children }) => (
 const Releases = () => (
 	<React.Fragment>
 
+		<Release date="July 28, 2020">
+			<p>
+				– The WYSIWYG menu is now partially functional. The buttons themselves do not yet work but they do respond to the currently formatted selection.
+			</p>
+		</Release>
+
+		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 27, 2020">
 			<p>
 				– Protoyped the WYSIWYG menu UI and accessible tooltips. Note that the UI is not functional yet.
