@@ -8,19 +8,10 @@ import hash from "lib/x/hash"
 import insertTextImpl from "./implementation/insertTextImpl"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
-// Collapses the current range end-to-start,
-function collapseToStart(e) {
-	e.range.end = e.range.start
-}
-// // Collapses the current range start-to-end.
-// function collapseToEnd(e) {
-// 	e.range.end = e.range.start
-// }
-
-// Rerenders the current state.
-function render(e) {
-	e.shouldRerender++
-}
+import { // Unsorted
+	collapse,
+	render,
+} from "./utils"
 
 // Manually updates elements.
 export function manuallyUpdateElements(e, { elements }) {
@@ -51,7 +42,7 @@ export function select(e, { range }) {
 export function insertText(e, { text }) {
 	insertTextImpl(e, text)
 	e.range.start.offset += text.length
-	collapseToStart(e)
+	collapse(e)
 	render(e)
 }
 
@@ -80,7 +71,7 @@ export function applyFormat(e, { formatType }) {
 export function insertHardParagraph(e) {
 	if (!rangeIsCollapsed(e.range)) {
 		deleteImpl(e)
-		collapseToStart(e)
+		collapse(e)
 	}
 	// insertHardParagraphImpl(e)
 
@@ -112,7 +103,7 @@ export function insertHardParagraph(e) {
 		key: id,
 		offset: 0,
 	}
-	collapseToStart(e)
+	collapse(e)
 
 	// console.log(textContent(e.elements[x].props.children.slice(0, findIndex(ch, e.range.start.offset))))
 	// console.log(textContent(e.elements[x].props.children.slice(findIndex(ch, e.range.start.offset))))
@@ -121,7 +112,7 @@ export function insertHardParagraph(e) {
 	// const ch2 = e.elements[x].props.children.slice(findIndex(e.range.start.offset))
 	// console.log({ ch1: JSONClone(ch1), ch2: JSONClone(ch2) })
 
-	// collapseToStart(e)
+	// collapse(e)
 	render(e)
 }
 
@@ -134,7 +125,7 @@ export function $delete(e, { deleteType }) {
 		extendImpl(e, boundary)
 	}
 	deleteImpl(e)
-	collapseToStart(e)
+	collapse(e)
 	render(e)
 }
 
