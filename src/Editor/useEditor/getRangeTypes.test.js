@@ -9,26 +9,9 @@ const initialState = {
 			key: hash(),
 			props: {
 				children: [
-					{
-						types: {},
-						props: {
-							children: "Hello, ",
-						},
-					},
-					{
-						types: {
-							code: {},
-						},
-						props: {
-							children: "world",
-						},
-					},
-					{
-						types: {},
-						props: {
-							children: "!",
-						},
-					},
+					{ types: {}, props: { children: "Hello, " } },
+					{ types: { code: {} }, props: { children: "world" } },
+					{ types: {}, props: { children: "!" } },
 				],
 			},
 		},

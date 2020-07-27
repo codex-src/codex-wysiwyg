@@ -4,7 +4,6 @@ import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Gets the current range types.
 function getRangeTypes(e) {
-	// Eager returns:
 	const { ch1, ch2 } = getVars(e)
 	if (!ch1.length || !ch2.length) {
 		return { start: {}, end: {} }

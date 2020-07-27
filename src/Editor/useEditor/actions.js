@@ -40,6 +40,9 @@ export function select(e, { range }) {
 
 // Inserts text at the current range.
 export function insertText(e, { text }) {
+	// if (!rangeIsCollapsed(e)) {
+	// 	deleteImpl2(e)
+	// }
 	insertTextImpl2(e, text)
 	e.range.start.offset += text.length
 	collapse(e)
