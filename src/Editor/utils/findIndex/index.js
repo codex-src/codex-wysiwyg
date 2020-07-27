@@ -10,6 +10,7 @@ function findIndex(children, offset) {
 	let each = null
 	for ([x, each] of children.entries()) {
 		if (offset - each.props.children.length <= 0) {
+			// No-op
 			break
 		}
 		offset -= each.props.children.length

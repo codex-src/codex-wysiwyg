@@ -1,13 +1,14 @@
-// import JSONClone from "lib/JSON/JSONClone"
-// import textContent from "../utils/textContent"
 import applyFormatImpl from "./implementation/applyFormatImpl"
 import deleteImpl from "./implementation/deleteImpl"
 import extendLTRImpl from "./implementation/extendLTRImpl"
 import extendRTLImpl from "./implementation/extendRTLImpl"
 import findIndex from "../utils/findIndex"
+import getVars from "./getVars"
 import hash from "lib/x/hash"
 import insertTextImpl from "./implementation/insertTextImpl"
+import JSONClone from "lib/JSON/JSONClone"
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+import textContent from "../utils/textContent"
 
 // Manually updates elements.
 export function manuallyUpdateElements(e, { elements }) {
@@ -25,10 +26,46 @@ export function blur(e) {
 	e.focused = false
 }
 
-// Selects a range; drops the current range-in-progress.
+// Converts an offset to an index.
+function convOffsetToIndex(children, offset) {
+	if (!children.length) {
+		return -1
+	} else if (!offset) {
+		return 0
+	} else if (offset === textContent(children).length) {
+		return children.length - 1
+	}
+	let x = 0
+	for (; x < children.length; x++) {
+		if (offset - children[x].props.children.length <= 0) {
+			// No-op
+			break
+		}
+		offset -= children[x].props.children.length
+	}
+	return x
+}
+
+// Gets the current types. Note that the current types are
+// cloned.
+function getCurrentTypes(e) {
+	if (!rangeIsCollapsed(e.range)) {
+		return {}
+	}
+	const { ch1 } = getVars(e)
+	const x = convOffsetToIndex(ch1, e.range.start.offset)
+	if (x === -1) {
+		return {}
+	}
+	return JSONClone(ch1[x].types)
+}
+
+// ; drops the current range-in-progress.
+
+// Selects a range
 export function select(e, { range }) {
-	// e.applyType = null
 	e.range = range
+	e.currentTypes = getCurrentTypes(e)
 }
 
 // Inserts text at the current range.
@@ -88,29 +125,25 @@ export function insertHardParagraph(e) {
 	const ch2 = ch.slice(t)
 
 	const id = hash()
-	e.elements.splice(x, 1,
-		{
-			...el,
-			props: {
-				...el.props,
-				children: ch1,
-			}
+	e.elements.splice(x, 1, {
+		...el,
+		props: {
+			...el.props,
+			children: ch1,
 		},
-		{
-			type: "p",
-			key: id,
-			props: {
-				children: ch2,
-			},
+	}, {
+		type: "p",
+		key: id,
+		props: {
+			children: ch2,
 		},
-	)
+	})
 
 	e.range.start = {
 		key: id,
 		offset: 0,
 	}
 	e.range.end = e.range.start
-
 
 	// console.log(textContent(e.elements[x].props.children.slice(0, findIndex(ch, e.range.start.offset))))
 	// console.log(textContent(e.elements[x].props.children.slice(findIndex(ch, e.range.start.offset))))
