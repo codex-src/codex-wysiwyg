@@ -26,6 +26,7 @@ function insertTextImpl(e, text) {
 	}
 
 	ch.splice(x, 0, textNode)
+	// TODO: concatTextNodes(...)
 }
 
 export default insertTextImpl

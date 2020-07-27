@@ -4,7 +4,7 @@ import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Gets the current range types.
 //
-// TODO: x1 !== x2 depends on defer
+// TODO: x1 !== x2 depends on concatTextNodes(...)
 function getRangeTypes(e) {
 	const { ch1, ch2 } = getVars(e)
 	let x1 = getIndexAtOffset(ch1, e.range.start.offset)
