@@ -4,7 +4,7 @@ import textContent from "../utils/textContent"
 
 // Extends the current range left-to-right.
 function extendRangeLTRImpl(e, boundary) {
-	const { x2: x } = getVars(e)
+	const { x2: x } = getVars(e) // Must be x2
 
 	const curr = e.elements[x]
 	let next = null
