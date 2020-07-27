@@ -49,6 +49,26 @@ function deepCopy() {
 	return JSONClone(initialState)
 }
 
+test("[]", () => {
+	const state = deepCopy()
+	state.elements[0].props.children = []
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 0,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 0,
+		},
+	}
+	const rangeTypes = getRangeTypes(state)
+	expect(rangeTypes).toEqual({
+		start: {},
+		end: {},
+	})
+})
+
 test("[]Hello, <code>world<code>!", () => {
 	const state = deepCopy()
 	state.range = {
