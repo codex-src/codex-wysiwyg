@@ -1,3 +1,4 @@
+// import Transition from "lib/x/Transition"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
@@ -90,211 +91,166 @@ const App = () => {
 							{/* 	from="opacity-0" */}
 							{/* 	to="opacity-100" */}
 							{/* > */}
-								<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
-									<div className="flex flex-row justify-center">
-										<div className="pointer-events-auto">
-											<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
+							<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
+								<div className="flex flex-row justify-center">
+									<div className="pointer-events-auto">
+										<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("undo")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("undo")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "undo" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Undo ({!userAgent.MacOSX ? "Ctrl+Z" : "⌘+Z"})
-																</p>
+											<button
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{ color: state.currentTypes.strong && "var(--blue-500)" }}
+												onFocus={e => setHoverTooltip("bold")}
+												onBlur={e => setHoverTooltip("")}
+												onMouseEnter={e => setHoverTooltip("bold")}
+												onMouseLeave={e => setHoverTooltip("")}
+											>
+												{hoverTooltip === "bold" && (
+													<div className="absolute bottom-full" style={{ left: "50%" }}>
+														<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+															<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
+																<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 															</div>
+															<p className="whitespace-pre text-xs text-gray-100">
+																Bold ({!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"})
+															</p>
 														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z" fillRule="evenodd" />
-													</svg>
-												</button>
+													</div>
+												)}
+												<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+													<path d="M4 2a1 1 0 00-1 1v10a1 1 0 001 1h5.5a3.5 3.5 0 001.852-6.47A3.5 3.5 0 008.5 2H4zm4.5 5a1.5 1.5 0 100-3H5v3h3.5zM5 9v3h4.5a1.5 1.5 0 000-3H5z" fillRule="evenodd" />
+												</svg>
+											</button>
 
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("redo")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("redo")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "redo" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Redo ({!userAgent.MacOSX ? "Ctrl+Y" : "Shift+⌘+Z"})
-																</p>
+											<button
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{ color: state.currentTypes.em && "var(--blue-500)" }}
+												onFocus={e => setHoverTooltip("italics")}
+												onBlur={e => setHoverTooltip("")}
+												onMouseEnter={e => setHoverTooltip("italics")}
+												onMouseLeave={e => setHoverTooltip("")}
+											>
+												{hoverTooltip === "italics" && (
+													<div className="absolute bottom-full" style={{ left: "50%" }}>
+														<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+															<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
+																<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 															</div>
+															<p className="whitespace-pre text-xs text-gray-100">
+																Italic ({!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"})
+															</p>
 														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M8.22 2.97a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06l2.97-2.97H3.75a.75.75 0 010-1.5h7.44L8.22 4.03a.75.75 0 010-1.06z" fillRule="evenodd" />
-													</svg>
-												</button>
+													</div>
+												)}
+												<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+													<path d="M6 2.75A.75.75 0 016.75 2h6.5a.75.75 0 010 1.5h-2.505l-3.858 9H9.25a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5h2.505l3.858-9H6.75A.75.75 0 016 2.75z" fillRule="evenodd" />
+												</svg>
+											</button>
 
-												<div className="w-4" />
-
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("bold")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("bold")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "bold" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Bold ({!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"})
-																</p>
+											<button
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{ color: state.currentTypes.code && "var(--blue-500)" }}
+												onFocus={e => setHoverTooltip("code")}
+												onBlur={e => setHoverTooltip("")}
+												onMouseEnter={e => setHoverTooltip("code")}
+												onMouseLeave={e => setHoverTooltip("")}
+											>
+												{hoverTooltip === "code" && (
+													<div className="absolute bottom-full" style={{ left: "50%" }}>
+														<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+															<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
+																<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 															</div>
+															<p className="whitespace-pre text-xs text-gray-100">
+																Code ({!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"})
+															</p>
 														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M4 2a1 1 0 00-1 1v10a1 1 0 001 1h5.5a3.5 3.5 0 001.852-6.47A3.5 3.5 0 008.5 2H4zm4.5 5a1.5 1.5 0 100-3H5v3h3.5zM5 9v3h4.5a1.5 1.5 0 000-3H5z" fillRule="evenodd" />
-													</svg>
-												</button>
+													</div>
+												)}
+												<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+													<path d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z" fillRule="evenodd" />
+												</svg>
+											</button>
 
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("italics")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("italics")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "italics" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Italic ({!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"})
-																</p>
+											<button
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{ color: state.currentTypes.strike && "var(--blue-500)" }}
+												onFocus={e => setHoverTooltip("strikethrough")}
+												onBlur={e => setHoverTooltip("")}
+												onMouseEnter={e => setHoverTooltip("strikethrough")}
+												onMouseLeave={e => setHoverTooltip("")}
+											>
+												{hoverTooltip === "strikethrough" && (
+													<div className="absolute bottom-full" style={{ left: "50%" }}>
+														<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+															<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
+																<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 															</div>
+															<p className="whitespace-pre text-xs text-gray-100">
+																Strikethrough ({!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"})
+															</p>
 														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M6 2.75A.75.75 0 016.75 2h6.5a.75.75 0 010 1.5h-2.505l-3.858 9H9.25a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5h2.505l3.858-9H6.75A.75.75 0 016 2.75z" fillRule="evenodd" />
-													</svg>
-												</button>
+													</div>
+												)}
+												<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+													<path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" fillRule="evenodd" />
+												</svg>
+											</button>
 
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("code")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("code")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "code" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Code ({!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"})
-																</p>
+											<button
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{ color: state.currentTypes.a && "var(--blue-500)" }}
+												onFocus={e => setHoverTooltip("link")}
+												onBlur={e => setHoverTooltip("")}
+												onMouseEnter={e => setHoverTooltip("link")}
+												onMouseLeave={e => setHoverTooltip("")}
+											>
+												{hoverTooltip === "link" && (
+													<div className="absolute bottom-full" style={{ left: "50%" }}>
+														<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
+															<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
+																<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 															</div>
+															<p className="whitespace-pre text-xs text-gray-100">
+																Link ({!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"})
+															</p>
 														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z" fillRule="evenodd" />
-													</svg>
-												</button>
+													</div>
+												)}
+												<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+													<path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z" fillRule="evenodd" />
+												</svg>
+											</button>
 
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("strikethrough")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("strikethrough")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "strikethrough" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Strikethrough ({!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"})
-																</p>
-															</div>
-														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" fillRule="evenodd" />
-													</svg>
-												</button>
+											{/* <div className="w-4" /> */}
+											{/*  */}
+											{/* <button */}
+											{/* 	className="p-2 relative text-gray-400 hover:text-blue-500 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 hover:bg-opacity-50 focus:bg-opacity-50 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
+											{/* 	onFocus={e => setHoverTooltip("plaintext")} */}
+											{/* 	onBlur={e => setHoverTooltip("")} */}
+											{/* 	onMouseEnter={e => setHoverTooltip("plaintext")} */}
+											{/* 	onMouseLeave={e => setHoverTooltip("")} */}
+											{/* > */}
+											{/* 	{hoverTooltip === "plaintext" && ( */}
+											{/* 		<div className="absolute bottom-full" style={{ left: "50%" }}> */}
+											{/* 			<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}> */}
+											{/* 				<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center"> */}
+											{/* 					<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" /> */}
+											{/* 				</div> */}
+											{/* 				<p className="whitespace-pre text-xs text-gray-100"> */}
+											{/* 					Plaintext ({!userAgent.MacOSX ? "Shift+Ctrl+P" : "Shift+⌘+P"}) */}
+											{/* 				</p> */}
+											{/* 			</div> */}
+											{/* 		</div> */}
+											{/* 	)} */}
+											{/* 	<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"> */}
+											{/* 		<path d="M2 8a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 8z" fillRule="evenodd" /> */}
+											{/* 	</svg> */}
+											{/* </button> */}
 
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("link")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("link")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "link" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Link ({!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"})
-																</p>
-															</div>
-														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z" fillRule="evenodd" />
-													</svg>
-												</button>
-
-												{/* <div className="w-4" /> */}
-												{/*  */}
-												{/* <button */}
-												{/* 	className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
-												{/* 	onFocus={e => setHoverTooltip("plaintext")} */}
-												{/* 	onBlur={e => setHoverTooltip("")} */}
-												{/* 	onMouseEnter={e => setHoverTooltip("plaintext")} */}
-												{/* 	onMouseLeave={e => setHoverTooltip("")} */}
-												{/* > */}
-												{/* 	{hoverTooltip === "plaintext" && ( */}
-												{/* 		<div className="absolute bottom-full" style={{ left: "50%" }}> */}
-												{/* 			<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}> */}
-												{/* 				<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center"> */}
-												{/* 					<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" /> */}
-												{/* 				</div> */}
-												{/* 				<p className="whitespace-pre text-xs text-gray-100"> */}
-												{/* 					Plaintext ({!userAgent.MacOSX ? "Shift+Ctrl+P" : "Shift+⌘+P"}) */}
-												{/* 				</p> */}
-												{/* 			</div> */}
-												{/* 		</div> */}
-												{/* 	)} */}
-												{/* 	<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"> */}
-												{/* 		<path d="M2 8a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 8z" fillRule="evenodd" /> */}
-												{/* 	</svg> */}
-												{/* </button> */}
-
-											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 							{/* </Transition> */}
 
 						</div>
