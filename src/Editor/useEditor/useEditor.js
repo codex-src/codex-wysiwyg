@@ -27,7 +27,10 @@ const newInitialState = () => ({
 			offset: 0,
 		},
 	},
-	currentTypes: {},
+	currentTypes: {
+		start: {},
+		end: {},
+	},
 	// applyType: null,
 	shouldRerender: 0,
 })

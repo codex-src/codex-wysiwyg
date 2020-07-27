@@ -46,18 +46,53 @@ function convOffsetToIndex(children, offset) {
 	return x
 }
 
-// Gets the current types. Note that the current types are
-// cloned.
+// // Gets the current start and end types (cloned).
+// function getCurrentTypes(e) {
+// 	const { ch1, ch2 } = getVars(e)
+//
+// 	const current = {
+// 		start: {},
+// 		end: {},
+// 	}
+//
+// 	// Get the start types:
+// 	const x1 = convOffsetToIndex(ch1, e.range.start.offset)
+// 	if (x1 === -1) {
+// 		return current
+// 	}
+// 	current[start] = JSONClone(ch1[x1].types)
+//
+// 	// Get the end types:
+// 	const x2 = convOffsetToIndex(ch2, e.range.end.offset)
+// 	if (x2 === -1) {
+// 		return current
+// 	}
+// 	current[end] = JSONClone(ch2[x2].types)
+//
+// 	// Done:
+// 	return current
+// }
+
+// Gets the current start and end types (cloned).
 function getCurrentTypes(e) {
-	if (!rangeIsCollapsed(e.range)) {
-		return {}
+	const { ch1, ch2 } = getVars(e)
+
+	// Get the current start types:
+	const x1 = convOffsetToIndex(ch1, e.range.start.offset)
+	if (x1 === -1) {
+		return { start: {}, end: {} }
 	}
-	const { ch1 } = getVars(e)
-	const x = convOffsetToIndex(ch1, e.range.start.offset)
-	if (x === -1) {
-		return {}
+	const start = JSONClone(ch1[x1].types)
+
+	// Get the current end types:
+	const x2 = convOffsetToIndex(ch2, e.range.end.offset)
+	if (x2 === -1) {
+		return { start: {}, end: {} }
 	}
-	return JSONClone(ch1[x].types)
+	const end = JSONClone(ch2[x2].types)
+
+	// Done:
+	return { start, end }
 }
 
 // ; drops the current range-in-progress.

@@ -99,8 +99,8 @@ const App = () => {
 											<button
 												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
-													color: state.currentTypes.strong && "var(--blue-500)",
-													backgroundColor: state.currentTypes.strong && "var(--blue-50)",
+													color: (state.currentTypes.start.strong && state.currentTypes.end.strong) && "var(--blue-500)",
+													backgroundColor: (state.currentTypes.start.strong && state.currentTypes.end.strong) && "var(--blue-50)",
 												}}
 												onFocus={e => setHoverTooltip("bold")}
 												onBlur={e => setHoverTooltip("")}
@@ -127,8 +127,8 @@ const App = () => {
 											<button
 												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
-													color: state.currentTypes.em && "var(--blue-500)",
-													backgroundColor: state.currentTypes.em && "var(--blue-50)",
+													color: (state.currentTypes.start.em && state.currentTypes.end.em) && "var(--blue-500)",
+													backgroundColor: (state.currentTypes.start.em && state.currentTypes.end.em) && "var(--blue-50)",
 												}}
 												onFocus={e => setHoverTooltip("italics")}
 												onBlur={e => setHoverTooltip("")}
@@ -155,8 +155,8 @@ const App = () => {
 											<button
 												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
-													color: state.currentTypes.code && "var(--blue-500)",
-													backgroundColor: state.currentTypes.code && "var(--blue-50)",
+													color: (state.currentTypes.start.code && state.currentTypes.end.code) && "var(--blue-500)",
+													backgroundColor: (state.currentTypes.start.code && state.currentTypes.end.code) && "var(--blue-50)",
 												}}
 												onFocus={e => setHoverTooltip("code")}
 												onBlur={e => setHoverTooltip("")}
@@ -183,8 +183,8 @@ const App = () => {
 											<button
 												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
-													color: state.currentTypes.strike && "var(--blue-500)",
-													backgroundColor: state.currentTypes.strike && "var(--blue-50)",
+													color: (state.currentTypes.start.strike && state.currentTypes.end.strike) && "var(--blue-500)",
+													backgroundColor: (state.currentTypes.start.strike && state.currentTypes.end.strike) && "var(--blue-50)",
 												}}
 												onFocus={e => setHoverTooltip("strikethrough")}
 												onBlur={e => setHoverTooltip("")}
@@ -211,8 +211,8 @@ const App = () => {
 											<button
 												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
-													color: state.currentTypes.a && "var(--blue-500)",
-													backgroundColor: state.currentTypes.a && "var(--blue-50)",
+													color: (state.currentTypes.start.a && state.currentTypes.end.a) && "var(--blue-500)",
+													backgroundColor: (state.currentTypes.start.a && state.currentTypes.end.a) && "var(--blue-50)",
 												}}
 												onFocus={e => setHoverTooltip("link")}
 												onBlur={e => setHoverTooltip("")}
