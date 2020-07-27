@@ -1,5 +1,5 @@
 import createIndexAtOffset from "./createIndexAtOffset"
-import deferOnchildren from "./deferOnchildren"
+import deferOnChildren from "./deferOnChildren"
 import getVars from "./getVars"
 import JSONClone from "lib/JSON/JSONClone"
 
@@ -27,7 +27,7 @@ function insertTextImpl(e, text) {
 	}
 
 	ch.splice(x, 0, textNode)
-	deferOnchildren(ch)
+	deferOnChildren(ch)
 }
 
 export default insertTextImpl
