@@ -97,8 +97,11 @@ const App = () => {
 										<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-												style={{ color: state.currentTypes.strong && "var(--blue-500)" }}
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{
+													color: state.currentTypes.strong && "var(--blue-500)",
+													backgroundColor: state.currentTypes.strong && "var(--blue-50)",
+												}}
 												onFocus={e => setHoverTooltip("bold")}
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("bold")}
@@ -122,8 +125,11 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-												style={{ color: state.currentTypes.em && "var(--blue-500)" }}
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{
+													color: state.currentTypes.em && "var(--blue-500)",
+													backgroundColor: state.currentTypes.em && "var(--blue-50)",
+												}}
 												onFocus={e => setHoverTooltip("italics")}
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("italics")}
@@ -147,8 +153,11 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-												style={{ color: state.currentTypes.code && "var(--blue-500)" }}
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{
+													color: state.currentTypes.code && "var(--blue-500)",
+													backgroundColor: state.currentTypes.code && "var(--blue-50)",
+												}}
 												onFocus={e => setHoverTooltip("code")}
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("code")}
@@ -172,8 +181,11 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-												style={{ color: state.currentTypes.strike && "var(--blue-500)" }}
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{
+													color: state.currentTypes.strike && "var(--blue-500)",
+													backgroundColor: state.currentTypes.strike && "var(--blue-50)",
+												}}
 												onFocus={e => setHoverTooltip("strikethrough")}
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("strikethrough")}
@@ -197,8 +209,11 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-												style={{ color: state.currentTypes.a && "var(--blue-500)" }}
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												style={{
+													color: state.currentTypes.a && "var(--blue-500)",
+													backgroundColor: state.currentTypes.a && "var(--blue-50)",
+												}}
 												onFocus={e => setHoverTooltip("link")}
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("link")}
