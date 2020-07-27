@@ -262,6 +262,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
 					{JSON.stringify(
 						{
+							range: state.range,
 							rangeTypes: state.rangeTypes,
 							// ...
 						},
