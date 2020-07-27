@@ -28,65 +28,39 @@ const newInitialState = () => ({
 		},
 	},
 	rangeTypes: {
-		start: {
-			// ...
-		},
-		end: {
-			// ...
-		},
+		start: {},
+		end: {},
 	},
-	// applyType: null,
 	shouldRerender: 0,
 })
-
-// // Records the current action. No-ops "SELECT" actions
-// // sooner than 200ms.
-// function record(e, actionType) {
-// 	const now = Date.now()
-// 	if (actionType === "SELECT" && now - e.lastActionTimestamp < 200) {
-// 		// No-op
-// 		return
-// 	}
-// 	e.lastActionTimestamp = now
-// 	e.lastAction = actionType
-// }
 
 function reducer(e, action) {
 	switch (action.type) {
 	case "MANUALLY_UPDATE_ELEMENTS":
-		// record(e, action.type)
 		actions.manuallyUpdateElements(e, action)
 		return
 	case "FOCUS":
-		// record(e, action.type)
 		actions.focus(e, action)
 		return
 	case "BLUR":
-		// record(e, action.type)
 		actions.blur(e, action)
 		return
 	case "SELECT":
-		// record(e, action.type)
 		actions.select(e, action)
 		return
 	case "INSERT_TEXT":
-		// record(e, action.type)
 		actions.insertText(e, action)
 		return
 	case "APPLY_FORMAT":
-		// record(e, action.type)
 		actions.applyFormat(e, action)
 		return
 	case "INSERT_HARD_PARAGRAPH":
-		// record(e, action.type)
 		actions.insertHardParagraph(e, action)
 		return
 	case "DELETE":
-		// record(e, action.type)
 		actions.$delete(e, action)
 		return
 	case "UNCONTROLLED_INPUT":
-		// record(e, action.type)
 		actions.uncontrolledInput(e, action)
 		return
 	default:
