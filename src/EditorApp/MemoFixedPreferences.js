@@ -157,7 +157,7 @@ const MemoFixedPreferences = React.memo(() => {
 				<div className="flex flex-row">
 
 					<a
-						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "github" && "var(--gray-800)" }}
 						href="https://github.com/codex-src/codex-wysiwyg"
 						target="_blank"
@@ -190,7 +190,7 @@ const MemoFixedPreferences = React.memo(() => {
 				<div className="flex flex-row">
 
 					<button
-						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
 						onFocus={e => setHoverTooltip("releases")}
 						onBlur={e => setHoverTooltip("")}
@@ -216,7 +216,7 @@ const MemoFixedPreferences = React.memo(() => {
 					</button>
 
 					<button
-						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
 						onFocus={e => setHoverTooltip("gfm")}
 						onBlur={e => setHoverTooltip("")}
@@ -242,7 +242,7 @@ const MemoFixedPreferences = React.memo(() => {
 					</button>
 
 					<button
-						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
 						onFocus={e => setHoverTooltip("html")}
 						onBlur={e => setHoverTooltip("")}

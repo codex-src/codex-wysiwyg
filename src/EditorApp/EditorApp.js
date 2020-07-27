@@ -97,7 +97,7 @@ const App = () => {
 										<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{ color: state.currentTypes.strong && "var(--blue-500)" }}
 												onFocus={e => setHoverTooltip("bold")}
 												onBlur={e => setHoverTooltip("")}
@@ -122,7 +122,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{ color: state.currentTypes.em && "var(--blue-500)" }}
 												onFocus={e => setHoverTooltip("italics")}
 												onBlur={e => setHoverTooltip("")}
@@ -147,7 +147,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{ color: state.currentTypes.code && "var(--blue-500)" }}
 												onFocus={e => setHoverTooltip("code")}
 												onBlur={e => setHoverTooltip("")}
@@ -172,7 +172,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{ color: state.currentTypes.strike && "var(--blue-500)" }}
 												onFocus={e => setHoverTooltip("strikethrough")}
 												onBlur={e => setHoverTooltip("")}
@@ -197,7 +197,7 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{ color: state.currentTypes.a && "var(--blue-500)" }}
 												onFocus={e => setHoverTooltip("link")}
 												onBlur={e => setHoverTooltip("")}
