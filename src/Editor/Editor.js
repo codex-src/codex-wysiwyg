@@ -263,9 +263,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					{JSON.stringify(
 						{
 							rangeTypes: state.rangeTypes,
-							// // elements: state.elements,
-							// applyType: state.applyType,
-							// range: state.range,
+							// ...
 						},
 						null,
 						"\t",

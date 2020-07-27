@@ -3,7 +3,6 @@ import deleteImpl from "./implementation/deleteImpl"
 import extendLTRImpl from "./implementation/extendLTRImpl"
 import extendRTLImpl from "./implementation/extendRTLImpl"
 import findIndex from "../utils/findIndex"
-import getVars from "./getVars"
 import hash from "lib/x/hash"
 import insertTextImpl from "./implementation/insertTextImpl"
 import JSONClone from "lib/JSON/JSONClone"
@@ -46,38 +45,28 @@ function convOffsetToIndex(children, offset) {
 	return x
 }
 
-// // Gets the current start and end types (cloned).
-// function getRangeTypes(e) {
-// 	const { ch1, ch2 } = getVars(e)
-//
-// 	const current = {
-// 		start: {},
-// 		end: {},
-// 	}
-//
-// 	// Get the start types:
-// 	const x1 = convOffsetToIndex(ch1, e.range.start.offset)
-// 	if (x1 === -1) {
-// 		return current
-// 	}
-// 	current[start] = JSONClone(ch1[x1].types)
-//
-// 	// Get the end types:
-// 	const x2 = convOffsetToIndex(ch2, e.range.end.offset)
-// 	if (x2 === -1) {
-// 		return current
-// 	}
-// 	current[end] = JSONClone(ch2[x2].types)
-//
-// 	// Done:
-// 	return current
-// }
+// ...
+function getVars(e) {
+	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
+	let x2 = x1
+	if (!rangeIsCollapsed(e.range)) {
+		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
+	}
+	const el1 = e.elements[x1]
+	const el2 = e.elements[x2]
+	const ch1 = el1.props.children
+	const ch2 = el2.props.children
+	return { x1, x2, el1, el2, ch1, ch2 }
+}
 
 // Gets the current range types (cloned).
 function getRangeTypes(e) {
 	const { ch1, ch2 } = getVars(e)
-	const x1 = convOffsetToIndex(ch1, e.range.start.offset)
-	const x2 = convOffsetToIndex(ch2, e.range.end.offset)
+	let x1 = convOffsetToIndex(ch1, e.range.start.offset)
+	let x2 = convOffsetToIndex(ch2, e.range.end.offset)
+	if (!rangeIsCollapsed(e.range) && e.range.start.offset) { // Edge case
+		x1++
+	}
 	if ((x1 === -1 || x2 === -1) || x1 !== x2) {
 		return { start: {}, end: {} }
 	}
