@@ -1,6 +1,6 @@
 .language-gfm {
-	/* TODO: Change "IBM Plex Mono"? */
-	--font-mono: Menlo, "IBM Plex Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	/* https://tailwindcss.com/docs/font-family */
+	--font-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .language-gfm .token.title {

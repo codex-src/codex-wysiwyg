@@ -1,7 +1,6 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
-import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
 
 import { // Unsorted
@@ -266,39 +265,37 @@ const App = () => {
 													</svg>
 												</button>
 
-												<div className="w-4" />
-
-												<button
-													className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-													onFocus={e => setHoverTooltip("plaintext")}
-													onBlur={e => setHoverTooltip("")}
-													onMouseEnter={e => setHoverTooltip("plaintext")}
-													onMouseLeave={e => setHoverTooltip("")}
-												>
-													{hoverTooltip === "plaintext" && (
-														<div className="absolute bottom-full" style={{ left: "50%" }}>
-															<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
-																<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
-																	<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-																</div>
-																<p className="whitespace-pre text-xs text-gray-100">
-																	Plaintext ({!userAgent.MacOSX ? "Shift+Ctrl+P" : "Shift+⌘+P"})
-																</p>
-															</div>
-														</div>
-													)}
-													<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-														<path d="M2 8a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 8z" fillRule="evenodd" />
-													</svg>
-												</button>
+												{/* <div className="w-4" /> */}
+												{/*  */}
+												{/* <button */}
+												{/* 	className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
+												{/* 	onFocus={e => setHoverTooltip("plaintext")} */}
+												{/* 	onBlur={e => setHoverTooltip("")} */}
+												{/* 	onMouseEnter={e => setHoverTooltip("plaintext")} */}
+												{/* 	onMouseLeave={e => setHoverTooltip("")} */}
+												{/* > */}
+												{/* 	{hoverTooltip === "plaintext" && ( */}
+												{/* 		<div className="absolute bottom-full" style={{ left: "50%" }}> */}
+												{/* 			<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}> */}
+												{/* 				<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center"> */}
+												{/* 					<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" /> */}
+												{/* 				</div> */}
+												{/* 				<p className="whitespace-pre text-xs text-gray-100"> */}
+												{/* 					Plaintext ({!userAgent.MacOSX ? "Shift+Ctrl+P" : "Shift+⌘+P"}) */}
+												{/* 				</p> */}
+												{/* 			</div> */}
+												{/* 		</div> */}
+												{/* 	)} */}
+												{/* 	<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"> */}
+												{/* 		<path d="M2 8a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 8z" fillRule="evenodd" /> */}
+												{/* 	</svg> */}
+												{/* </button> */}
 
 											</div>
 										</div>
 									</div>
 								</div>
 							{/* </Transition> */}
-
-							{/* <MemoFixedStatusText /> */}
 
 						</div>
 					</div>

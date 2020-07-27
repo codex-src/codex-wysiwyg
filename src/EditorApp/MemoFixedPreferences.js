@@ -104,7 +104,7 @@ const MemoFixedPreferences = React.memo(() => {
 		detail: "releases",
 	})
 
-	const handleClickChangelog = e => {
+	const handleClickReleases = e => {
 		setOutput(current => ({
 			show: !current.show || current.detail !== "releases",
 			detail: "releases",
@@ -147,91 +147,127 @@ const MemoFixedPreferences = React.memo(() => {
 		}
 	})
 
-	// <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M6 4.75c0-.69.56-1.25 1.25-1.25h5a4.75 4.75 0 013.888 7.479A5 5 0 0114 20.5H7.25c-.69 0-1.25-.56-1.25-1.25V4.75zM8.5 13v5H14a2.5 2.5 0 000-5H8.5zm0-2.5h3.751A2.25 2.25 0 0012.25 6H8.5v4.5z"></path></svg>
-
 	// NOTE: Uses flex flex-col items-end because of <Output>.
 	return (
 		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
 
-			<div className="py-2 flex flex-row">
+			<div className="py-2 flex flex-row justify-between w-full max-w-full">
 
-				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
-					onFocus={e => setHoverTooltip("releases")}
-					onBlur={e => setHoverTooltip("")}
-					onMouseEnter={e => setHoverTooltip("releases")}
-					onMouseLeave={e => setHoverTooltip("")}
-					onClick={handleClickChangelog}
-				>
-					{(hoverTooltip === "releases" && !output.show) && (
-						<div className="absolute top-full right-0">
-							<div className="px-2 py-1 bg-gray-800 rounded shadow">
-								<div className="absolute top-0 right-0">
-									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-								</div>
-								<p className="whitespace-pre text-xs text-gray-100">
-									Open Releases
-								</p>
-							</div>
-						</div>
-					)}
-					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-					</svg>
-				</button>
+				{/* LHS */}
+				<div className="flex flex-row">
 
-				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
-					onFocus={e => setHoverTooltip("gfm")}
-					onBlur={e => setHoverTooltip("")}
-					onMouseEnter={e => setHoverTooltip("gfm")}
-					onMouseLeave={e => setHoverTooltip("")}
-					onClick={handleClickGFM}
-				>
-					{(hoverTooltip === "gfm" && !output.show) && (
-						<div className="absolute top-full right-0">
-							<div className="px-2 py-1 bg-gray-800 rounded shadow">
-								<div className="absolute top-0 right-0">
-									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+					<a
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "github" && "var(--gray-800)" }}
+						href="https://github.com/codex-src/codex-wysiwyg"
+						target="_blank"
+						rel="noopener noreferrer"
+						onFocus={e => setHoverTooltip("github")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("github")}
+						onMouseLeave={e => setHoverTooltip("")}
+					>
+						{(hoverTooltip === "github" && !output.show) && (
+							<div className="absolute top-full left-0">
+								<div className="px-2 py-1 bg-gray-800 rounded shadow">
+									<div className="absolute top-0 left-0">
+										<div className="ml-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+									</div>
+									<p className="whitespace-pre text-xs text-gray-100">
+										Love this? <span className="mx-px" role="img" aria-label="star">⭐</span>️ on GitHub! <span className="mx-px" aria-label="red heart" role="img">❤️</span>
+									</p>
 								</div>
-								<p className="whitespace-pre text-xs text-gray-100">
-									GitHub Flavored Markdown
-								</p>
 							</div>
-						</div>
-					)}
-					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
-					</svg>
-				</button>
+						)}
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fillRule="evenodd" />
+						</svg>
+					</a>
 
-				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-					style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
-					onFocus={e => setHoverTooltip("html")}
-					onBlur={e => setHoverTooltip("")}
-					onMouseEnter={e => setHoverTooltip("html")}
-					onMouseLeave={e => setHoverTooltip("")}
-					onClick={handleClickHTML}
-				>
-					{(hoverTooltip === "html" && !output.show) && (
-						<div className="absolute top-full right-0">
-							<div className="px-2 py-1 bg-gray-800 rounded shadow">
-								<div className="absolute top-0 right-0">
-									<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+				</div>
+
+				{/* RHS */}
+				<div className="flex flex-row">
+
+					<button
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
+						onFocus={e => setHoverTooltip("releases")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("releases")}
+						onMouseLeave={e => setHoverTooltip("")}
+						onClick={handleClickReleases}
+					>
+						{(hoverTooltip === "releases" && !output.show) && (
+							<div className="absolute top-full right-0">
+								<div className="px-2 py-1 bg-gray-800 rounded shadow">
+									<div className="absolute top-0 right-0">
+										<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+									</div>
+									<p className="whitespace-pre text-xs text-gray-100">
+										View Releases
+									</p>
 								</div>
-								<p className="whitespace-pre text-xs text-gray-100">
-									Semantic HTML
-								</p>
 							</div>
-						</div>
-					)}
-					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
-					</svg>
-				</button>
+						)}
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+						</svg>
+					</button>
+
+					<button
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
+						onFocus={e => setHoverTooltip("gfm")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("gfm")}
+						onMouseLeave={e => setHoverTooltip("")}
+						onClick={handleClickGFM}
+					>
+						{(hoverTooltip === "gfm" && !output.show) && (
+							<div className="absolute top-full right-0">
+								<div className="px-2 py-1 bg-gray-800 rounded shadow">
+									<div className="absolute top-0 right-0">
+										<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+									</div>
+									<p className="whitespace-pre text-xs text-gray-100">
+										GitHub Flavored Markdown
+									</p>
+								</div>
+							</div>
+						)}
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
+						</svg>
+					</button>
+
+					<button
+						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+						style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
+						onFocus={e => setHoverTooltip("html")}
+						onBlur={e => setHoverTooltip("")}
+						onMouseEnter={e => setHoverTooltip("html")}
+						onMouseLeave={e => setHoverTooltip("")}
+						onClick={handleClickHTML}
+					>
+						{(hoverTooltip === "html" && !output.show) && (
+							<div className="absolute top-full right-0">
+								<div className="px-2 py-1 bg-gray-800 rounded shadow">
+									<div className="absolute top-0 right-0">
+										<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
+									</div>
+									<p className="whitespace-pre text-xs text-gray-100">
+										Semantic HTML
+									</p>
+								</div>
+							</div>
+						)}
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+						</svg>
+					</button>
+
+				</div>
 
 			</div>
 
