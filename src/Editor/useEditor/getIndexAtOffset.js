@@ -1,7 +1,8 @@
 import textContent from "../utils/textContent"
 
-// Converts an offset to an index.
-function convOffsetToIndex(children, offset) {
+// Gets an index at an offset.
+function getIndexAtOffset(children, offset) {
+	// Eager returns:
 	if (!children.length) {
 		return -1
 	} else if (!offset) {
@@ -20,4 +21,4 @@ function convOffsetToIndex(children, offset) {
 	return x
 }
 
-export default convOffsetToIndex
+export default getIndexAtOffset
