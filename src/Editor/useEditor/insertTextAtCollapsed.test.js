@@ -45,9 +45,20 @@ test("(empty)", () => {
 			offset: 0,
 		},
 	}
-	insertTextAtCollapsed(state, "<text>")
+	insertTextAtCollapsed(
+		state,
+		{
+			types: {
+				code: {},
+			},
+			props: {
+				children: [],
+			},
+		},
+		"<text>",
+	)
 	expect(state.elements[0].props.children).toEqual([
-		{ types: {}, props: { children: "<text>" } },
+		{ types: { code: {} }, props: { children: "<text>" } },
 	])
 })
 
@@ -63,9 +74,21 @@ test("[]Hello, <code>world</code>!", () => {
 			offset: 0,
 		},
 	}
-	insertTextAtCollapsed(state, "<text>")
+	insertTextAtCollapsed(
+		state,
+		{
+			types: {
+				code: {},
+			},
+			props: {
+				children: [],
+			},
+		},
+		"<text>",
+	)
 	expect(state.elements[0].props.children).toEqual([
-		{ types: {}, props: { children: "<text>Hello, " } },
+		{ types: { code: {} }, props: { children: "<text>" } },
+		{ types: {}, props: { children: "Hello, " } },
 		{ types: { 	code: {} }, props: { children: "world" } },
 		{ types: {}, props: { children: "!" } },
 	])
@@ -83,10 +106,21 @@ test("Hello, []<code>world</code>!", () => {
 			offset: 7,
 		},
 	}
-	insertTextAtCollapsed(state, "<text>")
+	insertTextAtCollapsed(
+		state,
+		{
+			types: {
+				code: {},
+			},
+			props: {
+				children: [],
+			},
+		},
+		"<text>",
+	)
 	expect(state.elements[0].props.children).toEqual([
-		{ types: {}, props: { children: "Hello, <text>" } },
-		{ types: { 	code: {} }, props: { children: "world" } },
+		{ types: {}, props: { children: "Hello, " } },
+		{ types: { 	code: {} }, props: { children: "<text>world" } },
 		{ types: {}, props: { children: "!" } },
 	])
 })
@@ -103,7 +137,18 @@ test("Hello, <code>world[]</code>!", () => {
 			offset: 12,
 		},
 	}
-	insertTextAtCollapsed(state, "<text>")
+	insertTextAtCollapsed(
+		state,
+		{
+			types: {
+				code: {},
+			},
+			props: {
+				children: [],
+			},
+		},
+		"<text>",
+	)
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { 	code: {} }, props: { children: "world<text>" } },
@@ -123,10 +168,22 @@ test("Hello, <code>world</code>![]", () => {
 			offset: 13,
 		},
 	}
-	insertTextAtCollapsed(state, "<text>")
+	insertTextAtCollapsed(
+		state,
+		{
+			types: {
+				code: {},
+			},
+			props: {
+				children: [],
+			},
+		},
+		"<text>",
+	)
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { 	code: {} }, props: { children: "world" } },
-		{ types: {}, props: { children: "!<text>" } },
+		{ types: {}, props: { children: "!" } },
+		{ types: { 	code: {} }, props: { children: "<text>" } },
 	])
 })

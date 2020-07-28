@@ -67,7 +67,7 @@ export function insertText(e, { insertText: text }) {
 		deleteOnSelection(e)
 		collapseToStart(e)
 	}
-	insertTextAtCollapsed(e, text, clonedTextNode)
+	insertTextAtCollapsed(e, clonedTextNode, text)
 	e.range.start.offset += text.length
 	collapseToStart(e)
 	render(e)
