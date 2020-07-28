@@ -27,7 +27,7 @@ const newInitialState = () => ({
 			offset: 0,
 		},
 	},
-	rangeTypes: {
+	rangeTypes: { // TODO
 		start: {},
 		end: {},
 	},

@@ -138,11 +138,11 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				}}
 
 				onKeyDown={e => {
-					const keyDownType = keyDownTypeFor(e)
 					let formatType = ""
-					let text = ""
+					let insertText = ""
 					let deleteType = ""
 
+					const keyDownType = keyDownTypeFor(e)
 					if (keyDownType) {
 						console.log({ keyDownType })
 					}
@@ -153,11 +153,16 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-code":
 					case "apply-format-strike":
 					case "apply-format-a":
+
+						// TODO: Discern applyFormatCollapsed or
+						// applyFormat selection here?
+
 						e.preventDefault()
 						formatType = keyDownType.slice("apply-format-".length)
+						const types = { [formatType]: {} } // TODO
 						dispatch({
 							type: "APPLY_FORMAT",
-							formatType, // TODO: Add props
+							types,
 						})
 						break
 					case "apply-format-markdown-em":
@@ -166,15 +171,17 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-markdown-strike":
 					case "apply-format-markdown-a":
 						if (!rangeIsCollapsed(state.range)) {
-							formatType = keyDownType.slice("apply-format-markdown-".length)
 							e.preventDefault()
+							formatType = keyDownType.slice("apply-format-markdown-".length)
+							const types = { [formatType]: {} } // TODO
 							dispatch({
 								type: "APPLY_FORMAT",
-								formatType, // TODO: Add props
+								types,
 							})
 						}
 						break
 					case "insert-text":
+
 						// if (rangeIsCollapsed(state.range) && state.applyType) {
 						// 	e.preventDefault()
 						// 	text = e.key
@@ -182,21 +189,22 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						// 		type: "INSERT_TEXT",
 						// 		text,
 						// 	})
+
 						if (!rangeIsCollapsed(state.range)) {
 							e.preventDefault()
-							text = e.key
+							insertText = e.key
 							dispatch({
 								type: "INSERT_TEXT",
-								text,
+								insertText,
 							})
 						}
 						break
 					case "insert-tab":
 						e.preventDefault()
-						text = "\t"
+						insertText = "\t"
 						dispatch({
 							type: "INSERT_TEXT",
-							text,
+							insertText,
 						})
 						break
 					case "insert-soft-paragraph":
