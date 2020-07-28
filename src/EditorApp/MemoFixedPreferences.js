@@ -169,7 +169,7 @@ const MemoFixedPreferences = React.memo(() => {
 
 	// NOTE: Uses flex flex-col items-end because of <Output>.
 	return (
-		<div className="px-3 pb-4 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
+		<div className="px-3 pb-8 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
 
 			<div className="py-2 flex flex-row justify-between w-full max-w-full">
 
