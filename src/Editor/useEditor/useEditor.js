@@ -4,9 +4,9 @@ import React from "react"
 import { initElementsFromMarkup } from "../parsers"
 import { useImmerReducer } from "use-immer"
 
+// const id = hash()
+
 const newInitialState = () => ({
-	lastActionTimestamp: "",
-	lastAction: 0,
 	focused: false,
 	elements: [
 		{

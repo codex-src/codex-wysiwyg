@@ -62,6 +62,11 @@ function cloneStartTextNode(e) {
 
 // Inserts text at the current range.
 export function insertText(e, { insertText: text }) {
+	if (!e.range.start.key || !e.range.end.key) {
+		// No-op
+		return
+	}
+
 	const clonedTextNode = cloneStartTextNode(e)
 	if (testForSelection(e)) {
 		deleteOnSelection(e)
@@ -89,6 +94,11 @@ export function insertText(e, { insertText: text }) {
 
 // Adds or removes types from the current range.
 export function addOrRemoveTypes(e, { types }) {
+	if (!e.range.start.key || !e.range.end.key) {
+		// No-op
+		return
+	}
+
 	// NOTE: Uses focus(...) because React.useLayoutEffect
 	// removes the range.
 	focus(e)
@@ -98,6 +108,11 @@ export function addOrRemoveTypes(e, { types }) {
 
 // Inserts a hard paragraph at the current range.
 export function insertHardParagraph(e) {
+	if (!e.range.start.key || !e.range.end.key) {
+		// No-op
+		return
+	}
+
 	if (testForSelection(e)) {
 		deleteOnSelection(e)
 		collapseToStart(e)
@@ -109,6 +124,11 @@ export function insertHardParagraph(e) {
 
 // Deletes the next word, rune, line or the current range.
 export function $delete(e, { deleteType }) {
+	if (!e.range.start.key || !e.range.end.key) {
+		// No-op
+		return
+	}
+
 	const [dir, boundary] = deleteType.split("-")
 	if (!testForSelection(e)) {
 		const extendRange = dir === "rtl" && dir !== "ltr" ? extendRangeRTL : extendRangeLTR
@@ -121,6 +141,11 @@ export function $delete(e, { deleteType }) {
 
 // Uncontrolled input handler.
 export function uncontrolledInput(e, { children, range }) {
+	if (!e.range.start.key || !e.range.end.key) {
+		// No-op
+		return
+	}
+
 	const { el1 } = getShorthandVars(e)
 	el1.props.children = children
 	e.range = range
