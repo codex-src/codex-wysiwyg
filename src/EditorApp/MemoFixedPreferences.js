@@ -4,7 +4,11 @@ import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
 import Releases from "./Releases"
 import Transition from "lib/x/Transition"
-import { useElements } from "./contexts"
+
+import { // Unsorted
+	useReadOnlyModeSetState,
+	useElements,
+} from "./contexts"
 
 import { // Unsorted
 	resolveGFM,
@@ -25,6 +29,7 @@ const Output = ({ output, setOutput }) => {
 		return { gfm, html }
 	})
 
+	// NOTE: Must use useLayoutEffect.
 	React.useLayoutEffect(() => {
 		if (output.show && output.detail === "gfm") {
 			const result = resolveGFM(elements)
@@ -35,6 +40,7 @@ const Output = ({ output, setOutput }) => {
 		}
 	}, [elements, output])
 
+	// NOTE: Must use useLayoutEffect.
 	React.useLayoutEffect(() => {
 		if (output.show && output.detail === "html") {
 			const result = resolveHTML(elements)
@@ -104,12 +110,19 @@ const Output = ({ output, setOutput }) => {
 }
 
 const MemoFixedPreferences = React.memo(() => {
+	const [readOnlyMode, setReadOnlyMode] = useReadOnlyModeSetState()
 	const [hoverTooltip, setHoverTooltip] = React.useState("")
 
 	const [output, setOutput] = React.useState({
 		show: false,
 		detail: "releases",
 	})
+
+	React.useEffect(() => {
+		const article = document.getElementById("main-editor")
+		article.contentEditable = !readOnlyMode
+	}, [readOnlyMode])
+
 
 	const handleClickReleases = e => {
 		setOutput(current => ({
@@ -163,38 +176,41 @@ const MemoFixedPreferences = React.memo(() => {
 				{/* LHS */}
 				<div className="flex flex-row">
 
-					<a
+					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-						style={{ color: output.show && output.detail === "github" && "var(--gray-800)" }}
-						href="https://github.com/codex-src/codex-wysiwyg"
-						target="_blank"
-						rel="noopener noreferrer"
-						onFocus={e => setHoverTooltip("github")}
+						style={{ color: readOnlyMode && "var(--gray-800)" }}
+						onFocus={e => setHoverTooltip("lock")}
 						onBlur={e => setHoverTooltip("")}
-						onMouseEnter={e => setHoverTooltip("github")}
+						onMouseEnter={e => setHoverTooltip("lock")}
 						onMouseLeave={e => setHoverTooltip("")}
+						onClick={e => setReadOnlyMode(!readOnlyMode)}
 					>
-						{(hoverTooltip === "github" && !output.show) && (
+						{(hoverTooltip === "lock" && !output.show) && (
 							<div className="absolute top-full left-0">
 								<div className="px-2 py-1 bg-gray-800 rounded shadow">
 									<div className="absolute top-0 left-0">
 										<div className="ml-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 									</div>
 									<p className="whitespace-pre text-xs text-gray-100">
-										Love this? Star on GitHub! <span aria-label="red heart" role="img">❤️</span>
+										{!readOnlyMode ? "Enable Read-Only Mode" : "Disable Read-Only Mode"}
 									</p>
 								</div>
 							</div>
 						)}
-						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
-							<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fillRule="evenodd" />
+						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							{!readOnlyMode ? (
+								<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+							) : (
+								<path d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" fillRule="evenodd" />
+							)}
 						</svg>
-					</a>
+					</button>
 
 				</div>
 
 				{/* RHS */}
 				<div className="flex flex-row">
+
 
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
@@ -218,7 +234,8 @@ const MemoFixedPreferences = React.memo(() => {
 							</div>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-							<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+							{/* <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" /> */}
+							<path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clipRule="evenodd" fillRule="evenodd" />
 						</svg>
 					</button>
 

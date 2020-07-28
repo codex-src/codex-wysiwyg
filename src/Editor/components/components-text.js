@@ -45,7 +45,7 @@ export const Strike = ({ children }) => (
 // <a href="...">
 export const A = ({ href, children }) => (
 	<T type="a" props={{ href }}>
-		<span className="underline text-blue-600" {...relNoopener}>
+		<span className="mx-px underline text-blue-600" {...relNoopener}>
 			{children}
 		</span>
 	</T>

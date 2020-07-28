@@ -1,20 +1,19 @@
 import React from "react"
 
-export const FocusedContext = React.createContext()
-export const ElementsContext = React.createContext()
-export const RangeContext = React.createContext()
+export const ReadOnlyModeSetState = React.createContext()
 
-// Accesses state.focused.
-export function useFocused() {
-	return React.useContext(FocusedContext)
+export function useReadOnlyModeSetState() {
+	return React.useContext(ReadOnlyModeSetState)
 }
 
-// Accesses state.elements.
+export const ElementsContext = React.createContext([])
+
 export function useElements() {
 	return React.useContext(ElementsContext)
 }
 
-// Accesses state.range.
+export const RangeContext = React.createContext()
+
 export function useRange() {
 	return React.useContext(RangeContext)
 }

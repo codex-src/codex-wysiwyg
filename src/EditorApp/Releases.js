@@ -29,6 +29,13 @@ const Releases = () => (
 				<br />
 			</p>
 			<p>
+				– Added support for read-only mode (see button at the top-left corner).{" "}
+				Read-only mode hides the WYSIWYG menu and prevents future edits.
+			</p>
+			<p>
+				<br />
+			</p>
+			<p>
 				*Note that formatting without a selection is not yet supported.
 			</p>
 		</Release>

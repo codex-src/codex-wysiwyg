@@ -27,7 +27,7 @@ const Renderer = ({ state, dispatch }) => (
 )
 
 // Renders a read-write editor.
-const Editor = ({ className, style, state, dispatch, children }) => {
+const Editor = ({ id, className, style, state, dispatch, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -75,14 +75,15 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 	// 	return handler
 	// }
 
+	const $className = !className ? "em-context" : `em-context ${className}`
 	return (
 		<React.Fragment>
 
 			<article
 				ref={ref}
 
-				className={!className ? "em-context" : `em-context ${className}`}
-
+				id={id}
+				className={$className}
 				style={style}
 
 				onFocus={e => {
