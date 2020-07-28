@@ -2,8 +2,8 @@ import createIndexAtOffset from "./createIndexAtOffset"
 import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
 
-// Deletes the current range.
-function deleteSelection(e) {
+// Deletes on the current range.
+function deleteOnSelection(e) {
 	const { x1, x2, ch1, ch2 } = getShorthandVars(e)
 	ch1.splice(
 		0,
@@ -15,4 +15,4 @@ function deleteSelection(e) {
 	deferOnChildren(ch1)
 }
 
-export default deleteSelection
+export default deleteOnSelection

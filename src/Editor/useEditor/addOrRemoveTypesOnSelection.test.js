@@ -1,4 +1,4 @@
-import addOrRemoveTypesSelection from "./addOrRemoveTypesSelection"
+import addOrRemoveTypesOnSelection from "./addOrRemoveTypesOnSelection"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
 
@@ -45,7 +45,7 @@ test("(empty)", () => {
 			offset: 0,
 		},
 	}
-	addOrRemoveTypesSelection(state, { code: {} })
+	addOrRemoveTypesOnSelection(state, { code: {} })
 	expect(state.elements[0].props.children).toEqual([])
 })
 
@@ -61,7 +61,7 @@ test("[Hello, ]<code>world</code>!", () => {
 			offset: 7,
 		},
 	}
-	addOrRemoveTypesSelection(state, { code: {} })
+	addOrRemoveTypesOnSelection(state, { code: {} })
 	expect(state.elements[0].props.children).toEqual([
 		{ types: { code: {} }, props: { children: "Hello, world" } },
 		{ types: {}, props: { children: "!" } },
@@ -80,7 +80,7 @@ test("Hello, [<code>world</code>]!", () => {
 			offset: 12,
 		},
 	}
-	addOrRemoveTypesSelection(state, { code: {} })
+	addOrRemoveTypesOnSelection(state, { code: {} })
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, world!" } },
 	])
@@ -98,7 +98,7 @@ test("Hello, <code>world</code>[!]", () => {
 			offset: 13,
 		},
 	}
-	addOrRemoveTypesSelection(state, { code: {} })
+	addOrRemoveTypesOnSelection(state, { code: {} })
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { code: {} }, props: { children: "world!" } },
@@ -117,7 +117,7 @@ test("[Hello, <code>world</code>!]", () => {
 			offset: 13,
 		},
 	}
-	addOrRemoveTypesSelection(state, { code: {} })
+	addOrRemoveTypesOnSelection(state, { code: {} })
 	expect(state.elements[0].props.children).toEqual([
 		{ types: { code: {} }, props: { children: "Hello, world!" } },
 	])
@@ -135,7 +135,7 @@ test("[Hello, <code>world</code>!]; plaintext", () => {
 			offset: 13,
 		},
 	}
-	addOrRemoveTypesSelection(state, {})
+	addOrRemoveTypesOnSelection(state, {})
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, world!" } },
 	])

@@ -1,5 +1,5 @@
 import hash from "lib/x/hash"
-import insertTextCollapsed from "./insertTextCollapsed"
+import insertTextAtCollapsed from "./insertTextAtCollapsed"
 import JSONClone from "lib/JSON/JSONClone"
 
 const initialState = {
@@ -45,7 +45,7 @@ test("(empty)", () => {
 			offset: 0,
 		},
 	}
-	insertTextCollapsed(state, "<text>")
+	insertTextAtCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "<text>" } },
 	])
@@ -63,7 +63,7 @@ test("[]Hello, <code>world</code>!", () => {
 			offset: 0,
 		},
 	}
-	insertTextCollapsed(state, "<text>")
+	insertTextAtCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "<text>Hello, " } },
 		{ types: { 	code: {} }, props: { children: "world" } },
@@ -83,7 +83,7 @@ test("Hello, []<code>world</code>!", () => {
 			offset: 7,
 		},
 	}
-	insertTextCollapsed(state, "<text>")
+	insertTextAtCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, <text>" } },
 		{ types: { 	code: {} }, props: { children: "world" } },
@@ -103,7 +103,7 @@ test("Hello, <code>world[]</code>!", () => {
 			offset: 12,
 		},
 	}
-	insertTextCollapsed(state, "<text>")
+	insertTextAtCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { 	code: {} }, props: { children: "world<text>" } },
@@ -123,7 +123,7 @@ test("Hello, <code>world</code>![]", () => {
 			offset: 13,
 		},
 	}
-	insertTextCollapsed(state, "<text>")
+	insertTextAtCollapsed(state, "<text>")
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { 	code: {} }, props: { children: "world" } },

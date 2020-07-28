@@ -1,4 +1,4 @@
-import deleteSelection from "./deleteSelection"
+import deleteOnSelection from "./deleteOnSelection"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
 
@@ -45,7 +45,7 @@ test("(empty)", () => {
 			offset: 0,
 		},
 	}
-	deleteSelection(state)
+	deleteOnSelection(state)
 	expect(state.elements[0].props.children).toEqual([])
 })
 
@@ -61,7 +61,7 @@ test("[Hello, ]<code>world</code>!", () => {
 			offset: 7,
 		},
 	}
-	deleteSelection(state)
+	deleteOnSelection(state)
 	expect(state.elements[0].props.children).toEqual([
 		{ types: { code: {} }, props: { children: "world" } },
 		{ types: {}, props: { children: "!" } },
@@ -80,7 +80,7 @@ test("Hello, [<code>world</code>]!", () => {
 			offset: 12,
 		},
 	}
-	deleteSelection(state)
+	deleteOnSelection(state)
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, !" } },
 	])
@@ -98,7 +98,7 @@ test("Hello, <code>world</code>[!]", () => {
 			offset: 13,
 		},
 	}
-	deleteSelection(state)
+	deleteOnSelection(state)
 	expect(state.elements[0].props.children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { code: {} }, props: { children: "world" } },
@@ -117,6 +117,6 @@ test("[Hello, <code>world</code>!]", () => {
 			offset: 13,
 		},
 	}
-	deleteSelection(state)
+	deleteOnSelection(state)
 	expect(state.elements[0].props.children).toEqual([])
 })

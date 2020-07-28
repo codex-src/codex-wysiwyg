@@ -2,7 +2,7 @@ import getIndexAtOffset from "./getIndexAtOffset"
 import getShorthandVars from "./getShorthandVars"
 import testForSelection from "./testForSelection"
 
-// Gets the current range types:
+// Gets the current range types.
 function getRangeTypes(e) {
 	if (e.range.start.key !== e.range.end.key) {
 		return {}

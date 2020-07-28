@@ -1,10 +1,10 @@
-import addOrRemoveTypesSelection from "./addOrRemoveTypesSelection"
-import deleteSelection from "./deleteSelection"
+import addOrRemoveTypesOnSelection from "./addOrRemoveTypesOnSelection"
+import deleteOnSelection from "./deleteOnSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
 import getRangeTypes from "./getRangeTypes"
 import getShorthandVars from "./getShorthandVars"
-import insertTextCollapsed from "./insertTextCollapsed"
+import insertTextAtCollapsed from "./insertTextAtCollapsed"
 import testForSelection from "./testForSelection"
 
 // Collapses the current range end-to-start.
@@ -44,10 +44,10 @@ export function select(e, { range }) {
 // Inserts text at the current range.
 export function insertText(e, { insertText: text }) {
 	if (testForSelection(e)) {
-		deleteSelection(e)
+		deleteOnSelection(e)
 		collapseToStart(e)
 	}
-	insertTextCollapsed(e, text)
+	insertTextAtCollapsed(e, text)
 	e.range.start.offset += text.length
 	collapseToStart(e)
 	render(e)
@@ -72,7 +72,7 @@ export function addOrRemoveTypes(e, { types }) {
 	// const $applyFormat = !collapsed(e) ? applyFormatCollapsed : applyTypeSelection
 	// $applyFormat(e, formatType)
 
-	addOrRemoveTypesSelection(e, types) // TODO
+	addOrRemoveTypesOnSelection(e, types) // TODO
 	// collapseToStart(e)
 	render(e)
 }
@@ -80,7 +80,7 @@ export function addOrRemoveTypes(e, { types }) {
 // TODO
 export function insertHardParagraph(e) {
 	//	if (!collapsed(e)) {
-	//		deleteSelection(e)
+	//		deleteOnSelection(e)
 	//		collapseToStart(e)
 	//	}
 	//	// insertHardParagraphImpl(e)
@@ -133,7 +133,7 @@ export function $delete(e, { deleteType }) {
 		const extendRange = dir === "rtl" && dir !== "ltr" ? extendRangeRTL : extendRangeLTR
 		extendRange(e, boundary)
 	}
-	deleteSelection(e)
+	deleteOnSelection(e)
 	collapseToStart(e)
 	render(e)
 }

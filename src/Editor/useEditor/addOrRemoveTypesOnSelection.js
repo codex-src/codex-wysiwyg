@@ -43,8 +43,8 @@ function testMethod(children, types) {
 	return !every ? "add" : "remove"
 }
 
-// Adds or removes types from the current range.
-function addOrRemoveTypesSelection(e, types) {
+// Adds or removes types on the current range.
+function addOrRemoveTypesOnSelection(e, types) {
 	const { x1, x2 } = getShorthandVars(e)
 
 	const ch = aggregate(e.elements.slice(x1, x2 + 1), e.range)
@@ -71,11 +71,11 @@ function addOrRemoveTypesSelection(e, types) {
 		}
 		break
 	default:
-		throw new Error(`addOrRemoveTypesSelection: no such method; method=${method}`)
+		throw new Error(`addOrRemoveTypesOnSelection: no such method; method=${method}`)
 	}
 
 	e.elements.slice(x1, x2 + 1)
 		.map(each => deferOnChildren(each.props.children))
 }
 
-export default addOrRemoveTypesSelection
+export default addOrRemoveTypesOnSelection

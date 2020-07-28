@@ -3,8 +3,8 @@ import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 
-// Inerts text at the current range.
-function insertTextCollapsed(e, text) {
+// Inserts text at the current range.
+function insertTextAtCollapsed(e, text) {
 	const { ch1 } = getShorthandVars(e)
 	let textNode = {
 		types: {},
@@ -27,4 +27,4 @@ function insertTextCollapsed(e, text) {
 	deferOnChildren(ch1)
 }
 
-export default insertTextCollapsed
+export default insertTextAtCollapsed
