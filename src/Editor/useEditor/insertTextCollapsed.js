@@ -1,11 +1,11 @@
 import createIndexAtOffset from "./createIndexAtOffset"
 import deferOnChildren from "./deferOnChildren"
-import getVars from "./getVars"
+import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 
 // Inerts text at the current range.
 function insertTextCollapsed(e, text) {
-	const { ch1 } = getVars(e)
+	const { ch1 } = getShorthandVars(e)
 	let textNode = {
 		types: {},
 		props: {

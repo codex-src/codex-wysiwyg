@@ -1,11 +1,11 @@
 import getIndexAtOffset from "./getIndexAtOffset"
-import getVars from "./getVars"
+import getShorthandVars from "./getShorthandVars"
 import must from "lib/x/must" // DEPRECATE
 import testForSelection from "./testForSelection"
 
 // Gets the current range types.
 function getRangeTypes(e) {
-	const { ch1, ch2 } = getVars(e)
+	const { ch1, ch2 } = getShorthandVars(e)
 
 	// Guard empty paragraphs and key selections:
 	if ((!ch1.length || !ch2.length) || e.range.start.key !== e.range.end.key) {

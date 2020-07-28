@@ -1,6 +1,6 @@
 import createIndexAtOffset from "./createIndexAtOffset"
 import deferOnChildren from "./deferOnChildren"
-import getVars from "./getVars"
+import getShorthandVars from "./getShorthandVars"
 import must from "lib/x/must" // DEPRECATE
 
 // Aggregates children. Note that elements can be pre-sliced
@@ -41,7 +41,7 @@ function testShouldApply(children, formatType) {
 
 // Applies types to the current range.
 function applyTypesSelection(e, types) {
-	//	const { x1, x2 } = getVars(e)
+	//	const { x1, x2 } = getShorthandVars(e)
 	//
 	//	const els = e.elements.slice(x1, x2 + 1)
 	//	const ch = aggregate(els, e.range)

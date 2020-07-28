@@ -3,7 +3,7 @@ import deleteSelection from "./deleteSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
 import getRangeTypes from "./getRangeTypes"
-import getVars from "./getVars"
+import getShorthandVars from "./getShorthandVars"
 import insertTextCollapsed from "./insertTextCollapsed"
 import testForSelection from "./testForSelection"
 
@@ -149,7 +149,7 @@ export function $delete(e, { deleteType }) {
 
 // Uncontrolled input handler.
 export function uncontrolledInput(e, { children, range }) {
-	const { el1 } = getVars(e)
+	const { el1 } = getShorthandVars(e)
 	el1.props.children = children
 	e.range = range
 	collapse(e)

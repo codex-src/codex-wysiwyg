@@ -1,9 +1,7 @@
 import testForSelection from "./testForSelection"
 
 // Gets x1, x2, el1, el2, ch1, and ch2.
-//
-// TODO: getVars -> getVariables
-function getVariables(e) {
+function getShorthandVars(e) {
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
 	if (testForSelection(e)) {
@@ -16,4 +14,4 @@ function getVariables(e) {
 	return { x1, x2, el1, el2, ch1, ch2 }
 }
 
-export default getVariables
+export default getShorthandVars

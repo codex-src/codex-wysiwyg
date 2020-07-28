@@ -1,6 +1,6 @@
-import testForSelection from "./testForSelection"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
+import testForSelection from "./testForSelection"
 
 const initialState = {
 	range: {
