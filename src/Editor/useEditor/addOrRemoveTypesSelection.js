@@ -32,8 +32,8 @@ function testMethod(children, types) {
 	}
 	const every = children.every(each => {
 		for (const key of keys) {
-			// Test for the presence of a type and that the types
-			// are deeply equal:
+			// Test for the presence of a type and that
+			// each.types[type] and types[key] are deeply equal:
 			if (!each.types[key] || !JSONEqual(each.types[key], types[key])) {
 				return false
 			}

@@ -229,6 +229,8 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						// No-op
 						break
 					}
+
+					// throw new Error(`Editor.onKeyDown: no such key down type; keyDownType=${keyDownType}`)
 				}}
 
 				onInput={e => {
