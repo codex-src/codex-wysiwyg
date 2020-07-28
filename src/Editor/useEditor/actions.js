@@ -77,13 +77,13 @@ export function addOrRemoveTypes(e, { types }) {
 	render(e)
 }
 
-// Inserts a paragraph at the current range.
+// Inserts a hard paragraph at the current range.
 export function insertHardParagraph(e) {
 	if (testForSelection(e)) {
 		deleteOnSelection(e)
 		collapseToStart(e)
 	}
-	insertHardParagraphAtCollapsed(e)
+	e.range.start = insertHardParagraphAtCollapsed(e)
 	collapseToStart(e)
 	render(e)
 }

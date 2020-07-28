@@ -2,36 +2,34 @@ import createIndexAtOffset from "./createIndexAtOffset"
 import getShorthandVars from "./getShorthandVars"
 import hash from "lib/x/hash"
 
-// Inserts a paragraph at the current range.
+// Inserts a hard paragraph at the current range.
 function insertHardParagraphAtCollapsed(e) {
-	const x = e.elements.findIndex(each => each.key === e.range.start.key)
-	const el = e.elements[x]
-	const ch = el.props.children
-
-	// const t = convOffsetToIndex(ch, e.range.start.offset)
-	const t = createIndexAtOffset(ch, e.range.start.offset)
-	const ch1 = ch.slice(0, t)
-	const ch2 = ch.slice(t)
+	const { x1, el1, ch1 } = getShorthandVars(e)
 
 	const id = hash()
-	e.elements.splice(x, 1, {
-		...el,
+
+	// Transform x=-1 to x=0:
+	const x = Math.max(0, createIndexAtOffset(ch1, e.range.start.offset))
+	e.elements.splice(x1, 1, {
+		...el1,
 		props: {
-			...el.props,
-			children: ch1,
+			...el1.props,
+			children: ch1.slice(0, x),
 		},
 	}, {
-		type: "p",
-		key: id,
+		...el1,
+		key: id, // New ID
 		props: {
-			children: ch2,
+			...el1.props,
+			children: ch1.slice(x),
 		},
 	})
 
-	e.range.start = {
-		key: id,
+	const start = {
+		key: id, // New ID
 		offset: 0,
 	}
+	return start
 }
 
 export default insertHardParagraphAtCollapsed

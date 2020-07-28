@@ -3,7 +3,6 @@ import keyDownTypeFor from "./keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
 import testForSelection from "./useEditor/testForSelection"
-import tmpl from "lib/x/tmpl"
 
 import {
 	initElementsFromChildren,
@@ -82,7 +81,8 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 			<article
 				ref={ref}
 
-				className={tmpl`em-context ${className}`}
+				className={!className ? "em-context" : `em-context ${className}`}
+
 				style={style}
 
 				onFocus={e => {
@@ -155,7 +155,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-a":
 						e.preventDefault()
 						formatType = keyDownType.slice("apply-format-".length)
-						let types = {}
+						const types = {}
 						if (formatType !== "plaintext") {
 							types[formatType] = {} // TODO
 						}
@@ -172,7 +172,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						if (testForSelection(state)) {
 							e.preventDefault()
 							formatType = keyDownType.slice("apply-format-markdown-".length)
-							let types = {}
+							const types = {}
 							if (formatType !== "plaintext") {
 								types[formatType] = {} // TODO
 							}
@@ -269,37 +269,23 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 				data-root
 			/>
 
-			{process.env.NODE_ENV !== "production" && (
-				<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
-					{JSON.stringify(
-						{
-							focused: state.focused,
-							range: state.range,
-							rangeTypes: state.rangeTypes,
-							// ...
-						},
-						null,
-						"\t",
-					)}
-				</pre>
-			)}
+			{/* {process.env.NODE_ENV !== "production" && ( */}
+			{/* 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}> */}
+			{/* 		{JSON.stringify( */}
+			{/* 			{ */}
+			{/* 				focused: state.focused, */}
+			{/* 				range: state.range, */}
+			{/* 				rangeTypes: state.rangeTypes, */}
+			{/* 				// ... */}
+			{/* 			}, */}
+			{/* 			null, */}
+			{/* 			"\t", */}
+			{/* 		)} */}
+			{/* 	</pre> */}
+			{/* )} */}
 
 		</React.Fragment>
 	)
 }
-
-// {process.env.NODE_ENV !== "production" && (
-// 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}>
-// 		{JSON.stringify(
-// 			{
-// 				// elements: state.elements,
-// 				applyType: state.applyType,
-// 				range: state.range,
-// 			},
-// 			null,
-// 			"\t",
-// 		)}
-// 	</pre>
-// )}
 
 export default Editor
