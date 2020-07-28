@@ -104,3 +104,19 @@ test("Hello, <code>world</code>[!]", () => {
 		{ types: { code: {} }, props: { children: "world" } },
 	])
 })
+
+test("[Hello, <code>world</code>!]", () => {
+	const state = deepCopy()
+	state.range = {
+		start: {
+			key: state.elements[0].key,
+			offset: 0,
+		},
+		end: {
+			key: state.elements[0].key,
+			offset: 13,
+		},
+	}
+	deleteSelection(state)
+	expect(state.elements[0].props.children).toEqual([])
+})
