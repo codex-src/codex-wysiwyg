@@ -97,10 +97,10 @@ const App = () => {
 										<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="mx-0.5 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.rangeTypes.start.strong && state.rangeTypes.end.strong) && "var(--blue-500)",
-													backgroundColor: (state.rangeTypes.start.strong && state.rangeTypes.end.strong) && "var(--blue-50)",
+													backgroundColor: (state.rangeTypes.start.strong && state.rangeTypes.end.strong) && "#ebf5ffbf",
 												}}
 												onFocus={e => setHoverTooltip("bold")}
 												onBlur={e => setHoverTooltip("")}
@@ -125,10 +125,10 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="mx-0.5 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.rangeTypes.start.em && state.rangeTypes.end.em) && "var(--blue-500)",
-													backgroundColor: (state.rangeTypes.start.em && state.rangeTypes.end.em) && "var(--blue-50)",
+													backgroundColor: (state.rangeTypes.start.em && state.rangeTypes.end.em) && "#ebf5ffbf",
 												}}
 												onFocus={e => setHoverTooltip("italics")}
 												onBlur={e => setHoverTooltip("")}
@@ -153,10 +153,10 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="mx-0.5 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.rangeTypes.start.code && state.rangeTypes.end.code) && "var(--blue-500)",
-													backgroundColor: (state.rangeTypes.start.code && state.rangeTypes.end.code) && "var(--blue-50)",
+													backgroundColor: (state.rangeTypes.start.code && state.rangeTypes.end.code) && "#ebf5ffbf",
 												}}
 												onFocus={e => setHoverTooltip("code")}
 												onBlur={e => setHoverTooltip("")}
@@ -181,10 +181,10 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="mx-0.5 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.rangeTypes.start.strike && state.rangeTypes.end.strike) && "var(--blue-500)",
-													backgroundColor: (state.rangeTypes.start.strike && state.rangeTypes.end.strike) && "var(--blue-50)",
+													backgroundColor: (state.rangeTypes.start.strike && state.rangeTypes.end.strike) && "#ebf5ffbf",
 												}}
 												onFocus={e => setHoverTooltip("strikethrough")}
 												onBlur={e => setHoverTooltip("")}
@@ -209,10 +209,10 @@ const App = () => {
 											</button>
 
 											<button
-												className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+												className="mx-0.5 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 												style={{
 													color: (state.rangeTypes.start.a && state.rangeTypes.end.a) && "var(--blue-500)",
-													backgroundColor: (state.rangeTypes.start.a && state.rangeTypes.end.a) && "var(--blue-50)",
+													backgroundColor: (state.rangeTypes.start.a && state.rangeTypes.end.a) && "#ebf5ffbf",
 												}}
 												onFocus={e => setHoverTooltip("link")}
 												onBlur={e => setHoverTooltip("")}
@@ -235,32 +235,6 @@ const App = () => {
 													<path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z" fillRule="evenodd" />
 												</svg>
 											</button>
-
-											{/* <div className="w-4" /> */}
-											{/*  */}
-											{/* <button */}
-											{/* 	className="p-2 relative text-gray-400 hover:text-blue-500 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 hover:bg-opacity-50 focus:bg-opacity-50 rounded-full focus:outline-none transition duration-200 ease-in-out pointer-events-auto" */}
-											{/* 	onFocus={e => setHoverTooltip("plaintext")} */}
-											{/* 	onBlur={e => setHoverTooltip("")} */}
-											{/* 	onMouseEnter={e => setHoverTooltip("plaintext")} */}
-											{/* 	onMouseLeave={e => setHoverTooltip("")} */}
-											{/* > */}
-											{/* 	{hoverTooltip === "plaintext" && ( */}
-											{/* 		<div className="absolute bottom-full" style={{ left: "50%" }}> */}
-											{/* 			<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}> */}
-											{/* 				<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center"> */}
-											{/* 					<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" /> */}
-											{/* 				</div> */}
-											{/* 				<p className="whitespace-pre text-xs text-gray-100"> */}
-											{/* 					Plaintext ({!userAgent.MacOSX ? "Shift+Ctrl+P" : "Shift+⌘+P"}) */}
-											{/* 				</p> */}
-											{/* 			</div> */}
-											{/* 		</div> */}
-											{/* 	)} */}
-											{/* 	<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"> */}
-											{/* 		<path d="M2 8a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 8z" fillRule="evenodd" /> */}
-											{/* 	</svg> */}
-											{/* </button> */}
 
 										</div>
 									</div>
