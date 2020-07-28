@@ -144,7 +144,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 
 					const keyDownType = keyDownTypeFor(e)
 					if (keyDownType) {
-						console.log({ keyDownType })
+						console.log(keyDownType)
 					}
 					switch (keyDownType) {
 					case "apply-format-plaintext":
@@ -153,15 +153,14 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-code":
 					case "apply-format-strike":
 					case "apply-format-a":
-
-						// TODO: Discern applyFormatCollapsed or
-						// applyFormat selection here?
-
 						e.preventDefault()
 						formatType = keyDownType.slice("apply-format-".length)
-						const types = { [formatType]: {} } // TODO
+						let types = {}
+						if (formatType !== "plaintext") {
+							types[formatType] = {} // TODO
+						}
 						dispatch({
-							type: "APPLY_FORMAT",
+							type: "ADD_OR_REMOVE_TYPES",
 							types,
 						})
 						break
@@ -173,9 +172,12 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						if (testForSelection(state)) {
 							e.preventDefault()
 							formatType = keyDownType.slice("apply-format-markdown-".length)
-							const types = { [formatType]: {} } // TODO
+							let types = {}
+							if (formatType !== "plaintext") {
+								types[formatType] = {} // TODO
+							}
 							dispatch({
-								type: "APPLY_FORMAT",
+								type: "ADD_OR_REMOVE_TYPES",
 								types,
 							})
 						}

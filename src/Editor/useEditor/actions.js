@@ -1,4 +1,4 @@
-import applyTypeSelection from "./applyTypeSelection"
+import addOrRemoveTypesSelection from "./addOrRemoveTypesSelection"
 import deleteSelection from "./deleteSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
@@ -8,7 +8,7 @@ import insertTextCollapsed from "./insertTextCollapsed"
 import testForSelection from "./testForSelection"
 
 // Collapses the current range end-to-start.
-function collapse(e) {
+function collapseToStart(e) {
 	e.range.end = e.range.start
 }
 
@@ -23,15 +23,14 @@ export function manuallyUpdateElements(e, { elements }) {
 	render(e)
 }
 
-// Focuses the editor. When the editor is focused, editing
-// operations are expected to work.
+// Focuses the editor. Note that focusing the editor is
+// expected to enable future edits.
 export function focus(e) {
 	e.focused = true
 }
 
-// Blurs the editor. When the editor is blurred, editing
-// operations are **not** expected to work. See
-// Editor.readWriteHandler for reference.
+// Blurs the editor. Note that blurring the editor is
+// expected to disable future edits.
 export function blur(e) {
 	e.focused = false
 }
@@ -39,50 +38,42 @@ export function blur(e) {
 // Selects a range.
 export function select(e, { range }) {
 	e.range = range
-	e.rangeTypes = getRangeTypes(e)
+	e.rangeTypes = getRangeTypes(e) // TODO
 }
 
 // Inserts text at the current range.
 export function insertText(e, { insertText: text }) {
 	if (testForSelection(e)) {
 		deleteSelection(e)
-		collapse(e)
+		collapseToStart(e)
 	}
 	insertTextCollapsed(e, text)
 	e.range.start.offset += text.length
-	collapse(e)
+	collapseToStart(e)
 	render(e)
 }
 
-// Applies a format to the current range.
-//
-// TODO: Add props argument
-// TODO: Rename to applyType or applyTypes?
-export function applyFormat(e, { types }) { // formatType }) {
+// if (collapsed(e)) {
+// 	if (!e.applyType) {
+// 		e.applyType = {
+// 			types: {},
+// 			range: {},
+// 		}
+// 	}
+// 	// TODO: Get the current types; inverse formatType and
+// 	// or propagate "plaintext" or ""
+// 	e.applyType.types[formatType] = {} // TODO
+// 	e.applyType.range = JSONClone(e.range)
+// 	return
+// }
 
+// Adds or removes types from the current range.
+export function addOrRemoveTypes(e, { types }) {
 	// const $applyFormat = !collapsed(e) ? applyFormatCollapsed : applyTypeSelection
 	// $applyFormat(e, formatType)
-	// collapse(e)
 
-	// if (collapsed(e)) {
-	// 	if (!e.applyType) {
-	// 		e.applyType = {
-	// 			types: {},
-	// 			range: {},
-	// 		}
-	// 	}
-	// 	// TODO: Get the current types; inverse formatType and
-	// 	// or propagate "plaintext" or ""
-	// 	e.applyType.types[formatType] = {} // TODO
-	// 	e.applyType.range = JSONClone(e.range)
-	// 	return
-	// }
-
-	// applyFormatImpl(e, formatType)
-
-	// if (!collapsed(e)) {
-	// 	applyTypeSelection(e, types) // TODO
-	// }
+	addOrRemoveTypesSelection(e, types) // TODO
+	// collapseToStart(e)
 	render(e)
 }
 
@@ -90,7 +81,7 @@ export function applyFormat(e, { types }) { // formatType }) {
 export function insertHardParagraph(e) {
 	//	if (!collapsed(e)) {
 	//		deleteSelection(e)
-	//		collapse(e)
+	//		collapseToStart(e)
 	//	}
 	//	// insertHardParagraphImpl(e)
 	//
@@ -122,7 +113,7 @@ export function insertHardParagraph(e) {
 	//		key: id,
 	//		offset: 0,
 	//	}
-	//	collapse(e)
+	//	collapseToStart(e)
 	//
 	//	// console.log(textContent(e.elements[x].props.children.slice(0, findIndex(ch, e.range.start.offset))))
 	//	// console.log(textContent(e.elements[x].props.children.slice(findIndex(ch, e.range.start.offset))))
@@ -131,7 +122,7 @@ export function insertHardParagraph(e) {
 	//	// const ch2 = e.elements[x].props.children.slice(findIndex(e.range.start.offset))
 	//	// console.log({ ch1: JSONClone(ch1), ch2: JSONClone(ch2) })
 	//
-	//	// collapse(e)
+	//	// collapseToStart(e)
 	//	render(e)
 }
 
@@ -143,7 +134,7 @@ export function $delete(e, { deleteType }) {
 		extendRange(e, boundary)
 	}
 	deleteSelection(e)
-	collapse(e)
+	collapseToStart(e)
 	render(e)
 }
 
@@ -152,6 +143,6 @@ export function uncontrolledInput(e, { children, range }) {
 	const { el1 } = getShorthandVars(e)
 	el1.props.children = children
 	e.range = range
-	collapse(e)
+	collapseToStart(e)
 	render(e)
 }

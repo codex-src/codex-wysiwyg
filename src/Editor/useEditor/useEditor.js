@@ -51,8 +51,8 @@ function reducer(e, action) {
 	case "INSERT_TEXT":
 		actions.insertText(e, action)
 		return
-	case "APPLY_FORMAT":
-		actions.applyFormat(e, action)
+	case "ADD_OR_REMOVE_TYPES":
+		actions.addOrRemoveTypes(e, action)
 		return
 	case "INSERT_HARD_PARAGRAPH":
 		actions.insertHardParagraph(e, action)
