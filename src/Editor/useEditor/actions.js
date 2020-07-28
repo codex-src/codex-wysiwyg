@@ -4,6 +4,7 @@ import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
 import getRangeTypes from "./getRangeTypes"
 import getShorthandVars from "./getShorthandVars"
+import insertHardParagraphAtCollapsed from "./insertHardParagraphAtCollapsed"
 import insertTextAtCollapsed from "./insertTextAtCollapsed"
 import testForSelection from "./testForSelection"
 
@@ -72,58 +73,19 @@ export function addOrRemoveTypes(e, { types }) {
 	// const $applyFormat = !collapsed(e) ? applyFormatCollapsed : applyTypeSelection
 	// $applyFormat(e, formatType)
 
-	addOrRemoveTypesOnSelection(e, types) // TODO
-	// collapseToStart(e)
+	addOrRemoveTypesOnSelection(e, types)
 	render(e)
 }
 
-// TODO
+// Inserts a paragraph at the current range.
 export function insertHardParagraph(e) {
-	//	if (!collapsed(e)) {
-	//		deleteOnSelection(e)
-	//		collapseToStart(e)
-	//	}
-	//	// insertHardParagraphImpl(e)
-	//
-	//	const x = e.elements.findIndex(each => each.key === e.range.start.key)
-	//	const el = e.elements[x]
-	//	const ch = el.props.children
-	//
-	//	// const t = convOffsetToIndex(ch, e.range.start.offset)
-	//	const t = findIndex(ch, e.range.start.offset)
-	//	const ch1 = ch.slice(0, t)
-	//	const ch2 = ch.slice(t)
-	//
-	//	const id = hash()
-	//	e.elements.splice(x, 1, {
-	//		...el,
-	//		props: {
-	//			...el.props,
-	//			children: ch1,
-	//		},
-	//	}, {
-	//		type: "p",
-	//		key: id,
-	//		props: {
-	//			children: ch2,
-	//		},
-	//	})
-	//
-	//	e.range.start = {
-	//		key: id,
-	//		offset: 0,
-	//	}
-	//	collapseToStart(e)
-	//
-	//	// console.log(textContent(e.elements[x].props.children.slice(0, findIndex(ch, e.range.start.offset))))
-	//	// console.log(textContent(e.elements[x].props.children.slice(findIndex(ch, e.range.start.offset))))
-	//
-	//	// const ch1 = e.elements[x].props.children.slice(0, findIndex(e.range.start.offset))
-	//	// const ch2 = e.elements[x].props.children.slice(findIndex(e.range.start.offset))
-	//	// console.log({ ch1: JSONClone(ch1), ch2: JSONClone(ch2) })
-	//
-	//	// collapseToStart(e)
-	//	render(e)
+	if (testForSelection(e)) {
+		deleteOnSelection(e)
+		collapseToStart(e)
+	}
+	insertHardParagraphAtCollapsed(e)
+	collapseToStart(e)
+	render(e)
 }
 
 // Deletes the next word, rune, line or the current range.
