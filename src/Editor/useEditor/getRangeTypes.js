@@ -1,7 +1,7 @@
 import getIndexAtOffset from "./getIndexAtOffset"
 import getVars from "./getVars"
 import must from "lib/x/must" // DEPRECATE
-import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+import testForSelection from "./testForSelection"
 
 // Gets the current range types.
 function getRangeTypes(e) {
@@ -11,7 +11,7 @@ function getRangeTypes(e) {
 	if ((!ch1.length || !ch2.length) || e.range.start.key !== e.range.end.key) {
 		return { start: {}, end: {} }
 	}
-	const x1 = getIndexAtOffset(ch1, e.range.start.offset + !rangeIsCollapsed(e.range)) // TODO: Known to cause a bug
+	const x1 = getIndexAtOffset(ch1, e.range.start.offset + testForSelection(e)) // TODO: Known to cause a bug
 	const x2 = getIndexAtOffset(ch2, e.range.end.offset)
 	must(x1) // DEBUG
 	must(x2) // DEBUG

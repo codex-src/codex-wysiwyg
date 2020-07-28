@@ -1,11 +1,12 @@
-import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+import testForSelection from "./testForSelection"
 
-// Convenience function; gets the current element indexes,
-// elements, and children.
-function getVars(e) {
+// Gets x1, x2, el1, el2, ch1, and ch2.
+//
+// TODO: getVars -> getVariables
+function getVariables(e) {
 	const x1 = e.elements.findIndex(each => each.key === e.range.start.key)
 	let x2 = x1
-	if (!rangeIsCollapsed(e.range)) {
+	if (testForSelection(e)) {
 		x2 = e.elements.findIndex(each => each.key === e.range.end.key)
 	}
 	const el1 = e.elements[x1]
@@ -15,4 +16,4 @@ function getVars(e) {
 	return { x1, x2, el1, el2, ch1, ch2 }
 }
 
-export default getVars
+export default getVariables

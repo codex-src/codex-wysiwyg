@@ -1,4 +1,4 @@
-import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+import testForSelection from "../useEditor/testForSelection"
 
 import { // Unsorted
 	getPositionFromUserLiteral,
@@ -29,16 +29,16 @@ export function getCurrentRange(tree) {
 	return { start, end }
 }
 
-function convToArray({ node, offset }) {
+function convArray({ node, offset }) {
 	return [node, offset]
 }
 
 // Converts a range to a user literal.
 export function convRangeToUserLiteral(range) {
-	const pos1 = convToArray(convPositionToUserLiteral(range.start))
+	const pos1 = convArray(convPositionToUserLiteral(range.start))
 	let pos2 = pos1
-	if (!rangeIsCollapsed(range)) {
-		pos2 = convToArray(convPositionToUserLiteral(range.end))
+	if (testForSelection({ range })) { // Mocks state.range
+		pos2 = convArray(convPositionToUserLiteral(range.end))
 	}
 	const userRange = document.createRange()
 	userRange.setStart(...pos1)

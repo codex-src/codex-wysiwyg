@@ -1,8 +1,8 @@
 import componentMap from "./components/componentMap"
 import keyDownTypeFor from "./keyDownTypeFor"
-import rangeIsCollapsed from "./utils/rangeIsCollapsed"
 import React from "react"
 import ReactDOM from "react-dom"
+import testForSelection from "./useEditor/testForSelection"
 import tmpl from "lib/x/tmpl"
 
 import {
@@ -170,7 +170,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 					case "apply-format-markdown-code":
 					case "apply-format-markdown-strike":
 					case "apply-format-markdown-a":
-						if (!rangeIsCollapsed(state.range)) {
+						if (testForSelection(state)) {
 							e.preventDefault()
 							formatType = keyDownType.slice("apply-format-markdown-".length)
 							const types = { [formatType]: {} } // TODO
@@ -181,16 +181,7 @@ const Editor = ({ className, style, state, dispatch, children }) => {
 						}
 						break
 					case "insert-text":
-
-						// if (rangeIsCollapsed(state.range) && state.applyType) {
-						// 	e.preventDefault()
-						// 	text = e.key
-						// 	dispatch({
-						// 		type: "INSERT_TEXT",
-						// 		text,
-						// 	})
-
-						if (!rangeIsCollapsed(state.range)) {
+						if (testForSelection(state)) {
 							e.preventDefault()
 							insertText = e.key
 							dispatch({

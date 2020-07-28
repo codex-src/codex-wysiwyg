@@ -5,7 +5,7 @@ import extendRangeRTL from "./extendRangeRTL"
 import getRangeTypes from "./getRangeTypes"
 import getVars from "./getVars"
 import insertTextCollapsed from "./insertTextCollapsed"
-import rangeIsCollapsed from "../utils/rangeIsCollapsed"
+import testForSelection from "./testForSelection"
 
 // Collapses the current range end-to-start.
 function collapse(e) {
@@ -44,7 +44,7 @@ export function select(e, { range }) {
 
 // Inserts text at the current range.
 export function insertText(e, { insertText: text }) {
-	if (!rangeIsCollapsed(e.range)) {
+	if (testForSelection(e)) {
 		deleteSelection(e)
 		collapse(e)
 	}
@@ -60,11 +60,11 @@ export function insertText(e, { insertText: text }) {
 // TODO: Rename to applyType or applyTypes?
 export function applyFormat(e, { types }) { // formatType }) {
 
-	// const $applyFormat = !rangeIsCollapsed(e.range) ? applyFormatCollapsed : applyTypeSelection
+	// const $applyFormat = !collapsed(e) ? applyFormatCollapsed : applyTypeSelection
 	// $applyFormat(e, formatType)
 	// collapse(e)
 
-	// if (rangeIsCollapsed(e.range)) {
+	// if (collapsed(e)) {
 	// 	if (!e.applyType) {
 	// 		e.applyType = {
 	// 			types: {},
@@ -80,15 +80,15 @@ export function applyFormat(e, { types }) { // formatType }) {
 
 	// applyFormatImpl(e, formatType)
 
-	if (!rangeIsCollapsed(e.range)) {
-		applyTypeSelection(e, types) // TODO
-	}
+	// if (!collapsed(e)) {
+	// 	applyTypeSelection(e, types) // TODO
+	// }
 	render(e)
 }
 
 // TODO
 export function insertHardParagraph(e) {
-	//	if (!rangeIsCollapsed(e.range)) {
+	//	if (!collapsed(e)) {
 	//		deleteSelection(e)
 	//		collapse(e)
 	//	}
@@ -135,10 +135,10 @@ export function insertHardParagraph(e) {
 	//	render(e)
 }
 
-// Deletes a rune, word, or rune.
+// Deletes the next word, rune, line or the current range.
 export function $delete(e, { deleteType }) {
 	const [dir, boundary] = deleteType.split("-")
-	if (rangeIsCollapsed(e.range)) {
+	if (!testForSelection(e)) {
 		const extendRange = dir === "rtl" && dir !== "ltr" ? extendRangeRTL : extendRangeLTR
 		extendRange(e, boundary)
 	}

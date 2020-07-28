@@ -1,4 +1,4 @@
-import collapsed from "./collapsed"
+import testForSelection from "./testForSelection"
 import hash from "lib/x/hash"
 import JSONClone from "lib/JSON/JSONClone"
 
@@ -19,20 +19,20 @@ function deepCopy() {
 	return JSONClone(initialState)
 }
 
-test("collapsed(...)", () => {
+test("testForSelection(...)", () => {
 	const state = deepCopy()
 	state.range.start = {
 		id: hash(),
 		offset: 0,
 	}
 	state.range.end = state.range.start
-	expect(collapsed(state)).toBeTruthy()
+	expect(testForSelection(state)).not.toBeTruthy()
 	state.range.end = { ...state.range.start }
-	expect(collapsed(state)).toBeTruthy()
+	expect(testForSelection(state)).not.toBeTruthy()
 	state.range.end.key = hash()
-	expect(collapsed(state)).not.toBeTruthy()
+	expect(testForSelection(state)).toBeTruthy()
 	state.range.end.key = state.range.start.key // Revert
-	expect(collapsed(state)).toBeTruthy()
+	expect(testForSelection(state)).not.toBeTruthy()
 	state.range.end.offset = 10
-	expect(collapsed(state)).not.toBeTruthy()
+	expect(testForSelection(state)).toBeTruthy()
 })
