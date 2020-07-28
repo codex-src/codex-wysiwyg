@@ -1,6 +1,6 @@
 import getIndexAtOffset from "./getIndexAtOffset"
 import getVars from "./getVars"
-import must from "lib/x/must"
+import must from "lib/x/must" // DEPRECATE
 import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 
 // Gets the current range types.

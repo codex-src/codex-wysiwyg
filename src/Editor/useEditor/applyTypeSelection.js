@@ -1,7 +1,7 @@
 import createIndexAtOffset from "./createIndexAtOffset"
 import deferOnChildren from "./deferOnChildren"
 import getVars from "./getVars"
-import must from "lib/x/must"
+import must from "lib/x/must" // DEPRECATE
 
 // Aggregates children. Note that elements can be pre-sliced
 // for better efficicency.
@@ -32,49 +32,45 @@ function aggregate(elements, range) {
 //
 // TODO: Add support for props
 function testShouldApply(children, formatType) {
-	if (formatType === "plaintext") {
-		return "plaintext"
-	}
-	const every = children.every(each => each.types[formatType] !== undefined)
-	return !every ? "should-apply" : "should-not-apply"
+	// if (formatType === "plaintext") {
+	// 	return "plaintext"
+	// }
+	// const every = children.every(each => each.types[formatType] !== undefined)
+	// return !every ? "should-apply" : "should-not-apply"
 }
 
-// Applies a type to a selection.
-//
-// TODO: Add support for props (not formatType?) and
-// multiple types? Needed for applyTypesCollapsed or
-// applyTypesSelection
-function applyTypeSelection(e, formatType) {
-	const { x1, x2 } = getVars(e)
-
-	const els = e.elements.slice(x1, x2 + 1)
-	const ch = aggregate(els, e.range)
-	const shouldApply = testShouldApply(ch, formatType)
-
-	switch (shouldApply) {
-	case "plaintext":
-		for (const each of ch) {
-			for (const type of Object.keys(each.types)) {
-				delete each.types[type]
-			}
-		}
-		break
-	case "should-apply":
-		for (const each of ch) {
-			each.types[formatType] = {} // TODO
-		}
-		break
-	case "should-not-apply":
-		for (const each of ch) {
-			delete each.types[formatType]
-		}
-		break
-	default:
-		// No-op
-		break
-	}
-
-	els.map(each => deferOnChildren(each.props.children))
+// Applies types to the current range.
+function applyTypesSelection(e, types) {
+	//	const { x1, x2 } = getVars(e)
+	//
+	//	const els = e.elements.slice(x1, x2 + 1)
+	//	const ch = aggregate(els, e.range)
+	//	const shouldApply = testShouldApply(ch, formatType)
+	//
+	//	switch (shouldApply) {
+	//	case "plaintext":
+	//		for (const each of ch) {
+	//			for (const type of Object.keys(each.types)) {
+	//				delete each.types[type]
+	//			}
+	//		}
+	//		break
+	//	case "should-apply":
+	//		for (const each of ch) {
+	//			each.types[formatType] = {} // TODO
+	//		}
+	//		break
+	//	case "should-not-apply":
+	//		for (const each of ch) {
+	//			delete each.types[formatType]
+	//		}
+	//		break
+	//	default:
+	//		// No-op
+	//		break
+	//	}
+	//
+	//	els.map(each => deferOnChildren(each.props.children))
 }
 
-export default applyTypeSelection
+export default applyTypesSelection
