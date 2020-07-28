@@ -46,10 +46,7 @@ test("(empty)", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })
 
 test("[]Hello, <code>world<code>!", () => {
@@ -65,10 +62,7 @@ test("[]Hello, <code>world<code>!", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })
 
 test("Hello, []<code>world<code>!", () => {
@@ -84,10 +78,7 @@ test("Hello, []<code>world<code>!", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })
 
 test("Hello, <code>world[]<code>!", () => {
@@ -104,12 +95,7 @@ test("Hello, <code>world[]<code>!", () => {
 	}
 	const rangeTypes = getRangeTypes(state)
 	expect(rangeTypes).toEqual({
-		start: {
-			code: {},
-		},
-		end: {
-			code: {},
-		},
+		code: {},
 	})
 })
 
@@ -126,10 +112,7 @@ test("Hello, <code>world<code>![]", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })
 
 test("[Hello, ]<code>world<code>!", () => {
@@ -145,13 +128,10 @@ test("[Hello, ]<code>world<code>!", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })
 
-test("Hello, <code>[world]<code>!", () => {
+test("Hello, [<code>world<code>]!", () => {
 	const state = deepCopy()
 	state.range = {
 		start: {
@@ -165,12 +145,7 @@ test("Hello, <code>[world]<code>!", () => {
 	}
 	const rangeTypes = getRangeTypes(state)
 	expect(rangeTypes).toEqual({
-		start: {
-			code: {},
-		},
-		end: {
-			code: {},
-		},
+		code: {},
 	})
 })
 
@@ -187,10 +162,7 @@ test("Hello, <code>world<code>[!]", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })
 
 test("[Hello, <code>world<code>!]", () => {
@@ -206,8 +178,5 @@ test("[Hello, <code>world<code>!]", () => {
 		},
 	}
 	const rangeTypes = getRangeTypes(state)
-	expect(rangeTypes).toEqual({
-		start: {},
-		end: {},
-	})
+	expect(rangeTypes).toEqual({})
 })

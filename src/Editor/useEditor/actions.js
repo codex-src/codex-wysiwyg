@@ -35,10 +35,10 @@ export function blur(e) {
 	e.focused = false
 }
 
-// Selects a range.
+// Selects a range and recomputes state.rangeTypes.
 export function select(e, { range }) {
 	e.range = range
-	e.rangeTypes = getRangeTypes(e) // TODO
+	e.rangeTypes = getRangeTypes(e)
 }
 
 // Inserts text at the current range.
