@@ -106,6 +106,12 @@ const App = () => {
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("bold")}
 												onMouseLeave={e => setHoverTooltip("")}
+												onClick={e => {
+													dispatch({
+														type: "ADD_OR_REMOVE_TYPES",
+														types: { strong: {} },
+													})
+												}}
 											>
 												{hoverTooltip === "bold" && (
 													<div className="absolute bottom-full" style={{ left: "50%" }}>
@@ -134,6 +140,12 @@ const App = () => {
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("italics")}
 												onMouseLeave={e => setHoverTooltip("")}
+												onClick={e => {
+													dispatch({
+														type: "ADD_OR_REMOVE_TYPES",
+														types: { em: {} },
+													})
+												}}
 											>
 												{hoverTooltip === "italics" && (
 													<div className="absolute bottom-full" style={{ left: "50%" }}>
@@ -162,6 +174,12 @@ const App = () => {
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("code")}
 												onMouseLeave={e => setHoverTooltip("")}
+												onClick={e => {
+													dispatch({
+														type: "ADD_OR_REMOVE_TYPES",
+														types: { code: {} },
+													})
+												}}
 											>
 												{hoverTooltip === "code" && (
 													<div className="absolute bottom-full" style={{ left: "50%" }}>
@@ -190,6 +208,12 @@ const App = () => {
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("strikethrough")}
 												onMouseLeave={e => setHoverTooltip("")}
+												onClick={e => {
+													dispatch({
+														type: "ADD_OR_REMOVE_TYPES",
+														types: { strike: {} },
+													})
+												}}
 											>
 												{hoverTooltip === "strikethrough" && (
 													<div className="absolute bottom-full" style={{ left: "50%" }}>
@@ -218,6 +242,12 @@ const App = () => {
 												onBlur={e => setHoverTooltip("")}
 												onMouseEnter={e => setHoverTooltip("link")}
 												onMouseLeave={e => setHoverTooltip("")}
+												onClick={e => {
+													dispatch({
+														type: "ADD_OR_REMOVE_TYPES",
+														types: { a: {} /* TODO */ },
+													})
+												}}
 											>
 												{hoverTooltip === "link" && (
 													<div className="absolute bottom-full" style={{ left: "50%" }}>

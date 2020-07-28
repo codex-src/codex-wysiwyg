@@ -89,9 +89,9 @@ export function insertText(e, { insertText: text }) {
 
 // Adds or removes types from the current range.
 export function addOrRemoveTypes(e, { types }) {
-	// const $applyFormat = !collapsed(e) ? applyFormatCollapsed : applyTypeSelection
-	// $applyFormat(e, formatType)
-
+	// NOTE: Uses focus(...) because React.useLayoutEffect
+	// removes the range.
+	focus(e)
 	addOrRemoveTypesOnSelection(e, types)
 	render(e)
 }

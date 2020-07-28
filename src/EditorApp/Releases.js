@@ -20,6 +20,20 @@ const Release = ({ date, children }) => (
 const Releases = () => (
 	<React.Fragment>
 
+		<Release date="July 29, 2020">
+			<p>
+				– The WYSIWYG menu is now interactive.{" "}
+				You can use the WYSIWYG buttons to apply formatting to a selection.
+			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				*Note that formatting without a selection is not yet supported.
+			</p>
+		</Release>
+
+		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 28, 2020">
 			<p>
 				– The WYSIWYG menu is now partially functional.{" "}
