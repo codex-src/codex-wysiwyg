@@ -1,31 +1,19 @@
 import createIndexAtOffset from "./createIndexAtOffset"
 import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
-import JSONClone from "lib/JSON/JSONClone"
 
-// Inserts text at the current range.
-//
-// FIXME
-function insertTextAtCollapsed(e, text) {
+// Inserts text at the current range. Uses a cloned text
+// node to preserve types.
+function insertTextAtCollapsed(e, text, clonedTextNode) {
 	const { ch1 } = getShorthandVars(e)
-	let textNode = {
-		types: {},
+	const x = Math.max(0, createIndexAtOffset(ch1, e.range.start.offset))
+	ch1.splice(x, 0, {
+		...clonedTextNode,
 		props: {
+			...clonedTextNode.props,
 			children: text,
 		},
-	}
-	const x = createIndexAtOffset(ch1, e.range.start.offset)
-	if (x - 1 >= 0) {
-		const copyTextNode = JSONClone(ch1[x - 1])
-		textNode = {
-			...copyTextNode,
-			props: {
-				...copyTextNode.props,
-				children: text,
-			},
-		}
-	}
-	ch1.splice(x, 0, textNode)
+	})
 	deferOnChildren(ch1)
 }
 

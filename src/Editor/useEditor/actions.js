@@ -2,10 +2,12 @@ import addOrRemoveTypesOnSelection from "./addOrRemoveTypesOnSelection"
 import deleteOnSelection from "./deleteOnSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
+import getIndexAtOffset from "./getIndexAtOffset"
 import getRangeTypes from "./getRangeTypes"
 import getShorthandVars from "./getShorthandVars"
 import insertHardParagraphAtCollapsed from "./insertHardParagraphAtCollapsed"
 import insertTextAtCollapsed from "./insertTextAtCollapsed"
+import JSONClone from "lib/JSON/JSONClone"
 import testForSelection from "./testForSelection"
 
 // Collapses the current range end-to-start.
@@ -42,13 +44,30 @@ export function select(e, { range }) {
 	e.rangeTypes = getRangeTypes(e)
 }
 
+// Clones the start text node or returns an empty text node.
+function cloneStartTextNode(e) {
+	const { ch1 } = getShorthandVars(e)
+	let textNode = {
+		types: {},
+		props: {
+			children: "",
+		},
+	}
+	const x = getIndexAtOffset(ch1, e.range.start.offset + testForSelection(e))
+	if (x >= 0) {
+		textNode = JSONClone(ch1[x])
+	}
+	return textNode
+}
+
 // Inserts text at the current range.
 export function insertText(e, { insertText: text }) {
+	const clonedTextNode = cloneStartTextNode(e)
 	if (testForSelection(e)) {
 		deleteOnSelection(e)
 		collapseToStart(e)
 	}
-	insertTextAtCollapsed(e, text)
+	insertTextAtCollapsed(e, text, clonedTextNode)
 	e.range.start.offset += text.length
 	collapseToStart(e)
 	render(e)
