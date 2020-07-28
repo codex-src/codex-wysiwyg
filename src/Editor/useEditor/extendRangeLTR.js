@@ -1,17 +1,16 @@
 import * as iterate from "lib/UTF8/iterate"
 import getVars from "./getVars"
-import textContent from "../utils/textContent"
+import textContent from "./textContent"
 
 // Extends the current range left-to-right.
 function extendRangeLTRImpl(e, boundary) {
-	const { x2 } = getVars(e) // Must be x2
+	const { x2 } = getVars(e)
 
 	const curr = e.elements[x2]
 	let next = null
 	if (x2 + 1 < e.elements.length) {
 		next = e.elements[x2 + 1]
 	}
-
 	const substr = textContent(curr.props.children).slice(e.range.end.offset)
 	if (!substr && next) {
 		Object.assign(e.range.end, {

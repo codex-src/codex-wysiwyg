@@ -1,4 +1,4 @@
-import textContent from "./index"
+import textContent from "./textContent"
 
 const children = [
 	{ types: {}, props: { children: "Hello, " } },
@@ -7,6 +7,7 @@ const children = [
 ]
 
 test("textContent(...)", () => {
+	expect(textContent([])).toBe("")
 	expect(textContent(children.slice(0, 0))).toBe("")
 	expect(textContent(children.slice(0, 1))).toBe("Hello, ")
 	expect(textContent(children.slice(0, 2))).toBe("Hello, world")

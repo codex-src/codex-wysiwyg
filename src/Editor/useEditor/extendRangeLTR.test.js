@@ -1,6 +1,5 @@
 import extendRangeLTR from "./extendRangeLTR"
 import hash from "lib/x/hash"
-import innerText from "../utils/innerText"
 import JSONClone from "lib/JSON/JSONClone"
 
 const initialState = {

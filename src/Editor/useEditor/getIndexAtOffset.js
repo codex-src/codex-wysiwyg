@@ -1,4 +1,4 @@
-import textContent from "../utils/textContent"
+import textContent from "./textContent"
 
 // Idempotent function; gets an index for an offset. See
 // createIndexAtOffset for non-idempotent version.

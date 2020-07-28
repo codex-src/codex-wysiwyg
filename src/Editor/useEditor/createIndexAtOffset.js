@@ -1,5 +1,5 @@
 import JSONClone from "lib/JSON/JSONClone"
-import textContent from "../utils/textContent"
+import textContent from "./textContent"
 
 // Non-idempotent function; creates an index for an offset.
 // See getIndexAtOffset for idempotent version.

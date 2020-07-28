@@ -1,17 +1,16 @@
 import * as iterate from "lib/UTF8/iterate"
 import getVars from "./getVars"
-import textContent from "../utils/textContent"
+import textContent from "./textContent"
 
 // Extends the current range right-to-left.
 function extendRangeRTLImpl(e, boundary) {
-	const { x1 } = getVars(e) // Must be x1
+	const { x1 } = getVars(e)
 
 	const curr = e.elements[x1]
 	let prev = null
 	if (x1 - 1 >= 0) {
 		prev = e.elements[x1 - 1]
 	}
-
 	const substr = textContent(curr.props.children).slice(0, e.range.start.offset)
 	if (!substr && prev) {
 		Object.assign(e.range.start, {
