@@ -63,8 +63,12 @@ const Output = ({ output, setOutput }) => {
 				{/* GFM */}
 				{output.detail === "gfm" && (
 					<div
-						className="p-6 whitespace-pre-wrap break-words text-gray-800"
-						style={tabSize(2)}
+						className="p-6 whitespace-pre-wrap text-gray-800"
+						style={{
+							...tabSize(2),
+							// NOTE: break-words does not work as expected.
+							wordBreak: "break-word",
+						}}
 					>
 						<span className="inline-block min-w-full">
 							<Highlight extension={output.detail}>
@@ -77,10 +81,13 @@ const Output = ({ output, setOutput }) => {
 				{/* HTML */}
 				{output.detail === "html" && (
 					<div
-						className="p-6 whitespace-pre-wrap break-words font-mono text-gray-800"
+						className="p-6 whitespace-pre-wrap font-mono text-gray-800"
 						style={{
 							...tabSize(2),
+							// NOTE: break-words does not work as expected.
+							wordBreak: "break-word",
 							fontSize: "0.8125rem",
+
 						}}
 					>
 						<span className="inline-block min-w-full">

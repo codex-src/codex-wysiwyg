@@ -6,7 +6,9 @@ import rangeIsCollapsed from "../utils/rangeIsCollapsed"
 // Gets the current range types.
 function getRangeTypes(e) {
 	const { ch1, ch2 } = getVars(e)
-	if (!ch1.length || !ch2.length) {
+
+	// Guard empty paragraphs and key selections:
+	if ((!ch1.length || !ch2.length) || e.range.start.key !== e.range.end.key) {
 		return { start: {}, end: {} }
 	}
 	const x1 = getIndexAtOffset(ch1, e.range.start.offset + !rangeIsCollapsed(e.range)) // TODO: Known to cause a bug
