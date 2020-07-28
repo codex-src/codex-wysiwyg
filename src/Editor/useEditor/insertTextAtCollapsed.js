@@ -4,6 +4,8 @@ import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 
 // Inserts text at the current range.
+//
+// FIXME
 function insertTextAtCollapsed(e, text) {
 	const { ch1 } = getShorthandVars(e)
 	let textNode = {
