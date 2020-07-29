@@ -2,7 +2,7 @@ import addOrRemoveTypesOnSelection from "./addOrRemoveTypesOnSelection"
 import deleteOnSelection from "./deleteOnSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
-import getIndexAtOffset from "./getIndexAtOffset"
+import getIndex from "./getIndex"
 import getRangeTypes from "./getRangeTypes"
 import getShorthandVars from "./getShorthandVars"
 import insertHardParagraphAtCollapsed from "./insertHardParagraphAtCollapsed"
@@ -47,17 +47,17 @@ export function select(e, { range }) {
 // Clones the start text node or returns an empty text node.
 function cloneStartTextNode(e) {
 	const { ch1 } = getShorthandVars(e)
-	let textNode = {
-		types: {},
-		props: {
-			children: "",
-		},
+	if (!ch1.length) {
+		const textNode = {
+			types: {},
+			props: {
+				children: "",
+			},
+		}
+		return textNode
 	}
-	const x = getIndexAtOffset(ch1, e.range.start.offset + testForSelection(e))
-	if (x >= 0) {
-		textNode = JSONClone(ch1[x])
-	}
-	return textNode
+	const x = getIndex(ch1, e.range.start.offset + testForSelection(e))
+	return JSONClone(ch1[x])
 }
 
 // Inserts text at the current range.

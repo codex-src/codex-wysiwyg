@@ -1,8 +1,7 @@
 import JSONClone from "lib/JSON/JSONClone"
 import textContent from "./textContent"
 
-// Non-idempotent function; creates an index for an offset.
-// See getIndexAtOffset for idempotent version.
+// TODO
 function createIndexAtOffset(children, offset) {
 	// Eager returns:
 	if (!children.length) {
