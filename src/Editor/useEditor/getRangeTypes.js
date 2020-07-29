@@ -17,13 +17,14 @@ function aggregate(elements, range) {
 		}
 		let x1 = 0
 		if (key === range.start.key) {
-			// NOTE: Uses (... + 1) to query the next text byte.
 			x1 = getIndex(children, range.start.offset + 1)
 		}
 		let x2 = children.length
 		if (key === range.end.key) {
-			// NOTE: Uses (...) + 1 to query the next text node.
-			x2 = getIndex(children, range.end.offset) + 1
+			x2 = getIndex(children, range.end.offset)
+			if (range.start.key === range.end.key) {
+				x2++
+			}
 		}
 		ch.push(...children.slice(x1, x2))
 	}
@@ -46,6 +47,7 @@ function getRangeTypes(e) {
 	if (!ch.length) {
 		return {}
 	}
+
 	const clonedTypes = JSONClone(ch[0].types)
 	const clonedTypesKeys = Object.keys(clonedTypes)
 	for (const textNode of ch.slice(1)) { // Steps over ch[0]
