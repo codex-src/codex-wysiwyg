@@ -1,5 +1,7 @@
 import getIndexAtOffset from "./getIndexAtOffset"
 import getShorthandVars from "./getShorthandVars"
+import JSONClone from "lib/JSON/JSONClone"
+import JSONEqual from "lib/JSON/JSONEqual"
 import testForSelection from "./testForSelection"
 
 // Gets the current range types.
@@ -8,16 +10,26 @@ function getRangeTypes(e) {
 		return {}
 	}
 
-	const { ch1, ch2 } = getShorthandVars(e)
-	if (!ch1.length || !ch2.length) {
+	const { ch1 } = getShorthandVars(e)
+	if (!ch1.length) {
 		return {}
 	}
+
 	const x1 = getIndexAtOffset(ch1, e.range.start.offset + testForSelection(e))
-	const x2 = getIndexAtOffset(ch2, e.range.end.offset)
-	if (x1 !== x2) {
-		return {}
+	const x2 = getIndexAtOffset(ch1, e.range.end.offset)
+
+	const clonedTypes = JSONClone(ch1[x1].types)
+	const clonedTypesKeys = Object.keys(clonedTypes)
+
+	for (const textNode of ch1.slice(x1 + 1, x2 + 1)) { // Uses x1 + 1 to step over clonedTypes
+		for (const key of clonedTypesKeys) {
+			if (!textNode.types[key] || !JSONEqual(textNode.types[key], clonedTypes[key])) {
+				delete clonedTypes[key]
+			}
+		}
 	}
-	return ch1[x1].types
+
+	return clonedTypes
 }
 
 export default getRangeTypes

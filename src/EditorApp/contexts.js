@@ -12,8 +12,8 @@ export function useElements() {
 	return React.useContext(ElementsContext)
 }
 
-export const RangeContext = React.createContext()
-
-export function useRange() {
-	return React.useContext(RangeContext)
-}
+// export const RangeContext = React.createContext()
+//
+// export function useRange() {
+// 	return React.useContext(RangeContext)
+// }
