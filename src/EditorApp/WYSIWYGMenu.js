@@ -24,7 +24,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 	const [tooltip, setTooltip] = React.useState("")
 
 	return (
-		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
+		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero hover:shadow-hero-lg transition duration-200 ease-in-out">
 			<div className="-ml-0.5" />
 
 			<div
