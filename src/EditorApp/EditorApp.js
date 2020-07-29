@@ -2,7 +2,7 @@ import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
 import Transition from "lib/x/Transition"
-import WYSIWYGMenu from "./WYSIWYGMenu"
+import MemoWYSIWYGMenu from "./MemoWYSIWYGMenu"
 
 import { // Unsorted
 	ElementsContext,
@@ -44,7 +44,7 @@ const App = () => {
 	return (
 		<ElementsContext.Provider value={debouncedElements}>
 			<RangeTypesContext.Provider value={debouncedRangeTypes}>
-				<DispatchContext.Provider value={state.dispatch}>
+				<DispatchContext.Provider value={dispatch}>
 
 					<div className="px-6 py-32 flex flex-row justify-center h-full">
 						<div className="w-full max-w-2xl h-full">
@@ -98,7 +98,7 @@ const App = () => {
 								<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
 									<div className="flex flex-row justify-center">
 										<div className="pointer-events-auto">
-											<WYSIWYGMenu />
+											<MemoWYSIWYGMenu />
 										</div>
 									</div>
 								</div>

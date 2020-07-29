@@ -6,7 +6,7 @@ import { // Unsorted
 	useDispatch,
 } from "./contexts"
 
-const WYSIWYGMenu = () => {
+const MemoWYSIWYGMenu = React.memo(() => {
 	const rangeTypes = useRangeTypes()
 	const dispatch = useDispatch()
 
@@ -224,6 +224,6 @@ const WYSIWYGMenu = () => {
 			<div className="-mr-0.5" />
 		</div>
 	)
-}
+})
 
-export default WYSIWYGMenu
+export default MemoWYSIWYGMenu
