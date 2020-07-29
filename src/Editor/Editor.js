@@ -4,7 +4,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import testForSelection from "./useEditor/testForSelection"
 
-import {
+import { // Unsorted
 	initElementsFromChildren,
 	parseRenderedChildren,
 } from "./parsers"
@@ -77,85 +77,100 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 
 	const $className = !className ? "em-context" : `em-context ${className}`
 	return (
-		<React.Fragment>
+		<article
+			ref={ref}
 
-			<article
-				ref={ref}
+			id={id}
+			className={$className}
+			style={style}
 
-				id={id}
-				className={$className}
-				style={style}
+			onFocus={e => {
+				dispatch({
+					type: "FOCUS",
+				})
+			}}
 
-				onFocus={e => {
-					dispatch({
-						type: "FOCUS",
-					})
-				}}
+			onBlur={e => {
+				dispatch({
+					type: "BLUR",
+				})
+			}}
 
-				onBlur={e => {
-					dispatch({
-						type: "BLUR",
-					})
-				}}
+			onPointerDown={e => {
+				pointerdownRef.current = true
+			}}
 
-				onPointerDown={e => {
-					pointerdownRef.current = true
-				}}
-
-				onPointerMove={e => {
-					if (!state.focused || !pointerdownRef.current) {
-						if (!state.focused && pointerdownRef.current) {
-							pointerdownRef.current = false
-						}
-						return
+			onPointerMove={e => {
+				if (!state.focused || !pointerdownRef.current) {
+					if (!state.focused && pointerdownRef.current) {
+						pointerdownRef.current = false
 					}
-					const range = getCurrentRange(ref.current)
-					if (!range) {
-						// No-op
-						return
+					return
+				}
+				const range = getCurrentRange(ref.current)
+				if (!range) {
+					// No-op
+					return
+				}
+				dispatch({
+					type: "SELECT",
+					range,
+				})
+			}}
+
+			onPointerUp={e => {
+				pointerdownRef.current = false
+			}}
+
+			// TODO: Add COMPAT guard for select-all or prevent
+			// default?
+			onSelect={e => {
+				const range = getCurrentRange(ref.current)
+				if (!range) {
+					// No-op
+					return
+				}
+				dispatch({
+					type: "SELECT",
+					range,
+				})
+			}}
+
+			onKeyDown={e => {
+				let formatType = ""
+				let insertText = ""
+				let deleteType = ""
+
+				const keyDownType = keyDownTypeFor(e)
+				if (keyDownType) {
+					console.log(keyDownType)
+				}
+				switch (keyDownType) {
+				case "apply-format-plaintext":
+				case "apply-format-em":
+				case "apply-format-strong":
+				case "apply-format-code":
+				case "apply-format-strike":
+				case "apply-format-a":
+					e.preventDefault()
+					formatType = keyDownType.slice("apply-format-".length)
+					const types = {}
+					if (formatType !== "plaintext") {
+						types[formatType] = {} // TODO
 					}
 					dispatch({
-						type: "SELECT",
-						range,
+						type: "ADD_OR_REMOVE_TYPES",
+						types,
 					})
-				}}
-
-				onPointerUp={e => {
-					pointerdownRef.current = false
-				}}
-
-				// TODO: Add COMPAT guard for select-all or prevent
-				// default?
-				onSelect={e => {
-					const range = getCurrentRange(ref.current)
-					if (!range) {
-						// No-op
-						return
-					}
-					dispatch({
-						type: "SELECT",
-						range,
-					})
-				}}
-
-				onKeyDown={e => {
-					let formatType = ""
-					let insertText = ""
-					let deleteType = ""
-
-					const keyDownType = keyDownTypeFor(e)
-					if (keyDownType) {
-						console.log(keyDownType)
-					}
-					switch (keyDownType) {
-					case "apply-format-plaintext":
-					case "apply-format-em":
-					case "apply-format-strong":
-					case "apply-format-code":
-					case "apply-format-strike":
-					case "apply-format-a":
+					break
+				case "apply-format-markdown-em":
+				case "apply-format-markdown-strong":
+				case "apply-format-markdown-code":
+				case "apply-format-markdown-strike":
+				case "apply-format-markdown-a":
+					if (testForSelection(state)) {
 						e.preventDefault()
-						formatType = keyDownType.slice("apply-format-".length)
+						formatType = keyDownType.slice("apply-format-markdown-".length)
 						const types = {}
 						if (formatType !== "plaintext") {
 							types[formatType] = {} // TODO
@@ -164,128 +179,92 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 							type: "ADD_OR_REMOVE_TYPES",
 							types,
 						})
-						break
-					case "apply-format-markdown-em":
-					case "apply-format-markdown-strong":
-					case "apply-format-markdown-code":
-					case "apply-format-markdown-strike":
-					case "apply-format-markdown-a":
-						if (testForSelection(state)) {
-							e.preventDefault()
-							formatType = keyDownType.slice("apply-format-markdown-".length)
-							const types = {}
-							if (formatType !== "plaintext") {
-								types[formatType] = {} // TODO
-							}
-							dispatch({
-								type: "ADD_OR_REMOVE_TYPES",
-								types,
-							})
-						}
-						break
-					case "insert-text":
-						if (testForSelection(state)) {
-							e.preventDefault()
-							insertText = e.key
-							dispatch({
-								type: "INSERT_TEXT",
-								insertText,
-							})
-						}
-						break
-					case "insert-tab":
+					}
+					break
+				case "insert-text":
+					if (testForSelection(state)) {
 						e.preventDefault()
-						insertText = "\t"
+						insertText = e.key
 						dispatch({
 							type: "INSERT_TEXT",
 							insertText,
 						})
-						break
-					case "insert-soft-paragraph":
-					case "insert-hard-paragraph":
-					case "insert-horizontal-rule":
-						e.preventDefault()
-						dispatch({
-							type: "INSERT_HARD_PARAGRAPH",
-						})
-						break
-					case "delete-rtl-rune":
-					case "delete-rtl-word":
-					case "delete-rtl-line":
-					case "delete-ltr-rune":
-					case "delete-ltr-word":
-						e.preventDefault()
-						deleteType = keyDownType.slice("delete-".length)
-						dispatch({
-							type: "DELETE",
-							deleteType,
-						})
-						break
-					case "undo":
-					case "redo":
-						e.preventDefault()
-						// TODO
-						break
-					default:
-						// No-op
-						break
 					}
-
-					// throw new Error(`Editor.onKeyDown: no such key down type; keyDownType=${keyDownType}`)
-				}}
-
-				onInput={e => {
-					const range = getCurrentRange(ref.current)
-					const children = parseRenderedChildren(document.getElementById(range.start.key))
+					break
+				case "insert-tab":
+					e.preventDefault()
+					insertText = "\t"
 					dispatch({
-						type: "UNCONTROLLED_INPUT",
-						range,
-						children,
+						type: "INSERT_TEXT",
+						insertText,
 					})
-				}}
-
-				onCut={e => {
+					break
+				case "insert-soft-paragraph":
+				case "insert-hard-paragraph":
+				case "insert-horizontal-rule":
+					e.preventDefault()
+					dispatch({
+						type: "INSERT_HARD_PARAGRAPH",
+					})
+					break
+				case "delete-rtl-rune":
+				case "delete-rtl-word":
+				case "delete-rtl-line":
+				case "delete-ltr-rune":
+				case "delete-ltr-word":
+					e.preventDefault()
+					deleteType = keyDownType.slice("delete-".length)
+					dispatch({
+						type: "DELETE",
+						deleteType,
+					})
+					break
+				case "undo":
+				case "redo":
 					e.preventDefault()
 					// TODO
-				}}
+					break
+				default:
+					// No-op
+					break
+				}
+			}}
 
-				// onCopy={e => {
-				// 	e.preventDefault()
-				// 	// TODO
-				// }}
+			onInput={e => {
+				const range = getCurrentRange(ref.current)
+				const children = parseRenderedChildren(document.getElementById(range.start.key))
+				dispatch({
+					type: "UNCONTROLLED_INPUT",
+					range,
+					children,
+				})
+			}}
 
-				onPaste={e => {
-					e.preventDefault()
-					// TODO
-				}}
+			onCut={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-				onDragStart={e => {
-					e.preventDefault()
-					// TODO
-				}}
+			// onCopy={e => {
+			// 	e.preventDefault()
+			// 	// TODO
+			// }}
 
-				contentEditable
-				suppressContentEditableWarning
+			onPaste={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-				data-root
-			/>
+			onDragStart={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
-			{/* {process.env.NODE_ENV !== "production" && ( */}
-			{/* 	<pre className="mt-6 whitespace-pre-wrap text-xs font-mono" style={{ tabSize: 2 }}> */}
-			{/* 		{JSON.stringify( */}
-			{/* 			{ */}
-			{/* 				focused: state.focused, */}
-			{/* 				range: state.range, */}
-			{/* 				rangeTypes: state.rangeTypes, */}
-			{/* 				// ... */}
-			{/* 			}, */}
-			{/* 			null, */}
-			{/* 			"\t", */}
-			{/* 		)} */}
-			{/* 	</pre> */}
-			{/* )} */}
+			contentEditable
+			suppressContentEditableWarning
 
-		</React.Fragment>
+			data-root
+		/>
 	)
 }
 

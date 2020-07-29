@@ -111,7 +111,7 @@ const Output = ({ output, setOutput }) => {
 
 const MemoFixedPreferences = React.memo(() => {
 	const [readOnlyMode, setReadOnlyMode] = useReadOnlyModeSetState()
-	const [hoverTooltip, setHoverTooltip] = React.useState("")
+	const [tooltip, setTooltip] = React.useState("")
 
 	const [output, setOutput] = React.useState({
 		show: false,
@@ -179,13 +179,13 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: readOnlyMode && "var(--gray-800)" }}
-						onFocus={e => setHoverTooltip("lock")}
-						onBlur={e => setHoverTooltip("")}
-						onMouseEnter={e => setHoverTooltip("lock")}
-						onMouseLeave={e => setHoverTooltip("")}
+						onFocus={e => setTooltip("lock")}
+						onBlur={e => setTooltip("")}
+						onMouseEnter={e => setTooltip("lock")}
+						onMouseLeave={e => setTooltip("")}
 						onClick={e => setReadOnlyMode(!readOnlyMode)}
 					>
-						{(hoverTooltip === "lock" && !output.show) && (
+						{(tooltip === "lock" && !output.show) && (
 							<div className="absolute top-full left-0">
 								<div className="px-2 py-1 bg-gray-800 rounded shadow">
 									<div className="absolute top-0 left-0">
@@ -215,13 +215,13 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
-						onFocus={e => setHoverTooltip("releases")}
-						onBlur={e => setHoverTooltip("")}
-						onMouseEnter={e => setHoverTooltip("releases")}
-						onMouseLeave={e => setHoverTooltip("")}
+						onFocus={e => setTooltip("releases")}
+						onBlur={e => setTooltip("")}
+						onMouseEnter={e => setTooltip("releases")}
+						onMouseLeave={e => setTooltip("")}
 						onClick={handleClickReleases}
 					>
-						{(hoverTooltip === "releases" && !output.show) && (
+						{(tooltip === "releases" && !output.show) && (
 							<div className="absolute top-full right-0">
 								<div className="px-2 py-1 bg-gray-800 rounded shadow">
 									<div className="absolute top-0 right-0">
@@ -242,13 +242,13 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "gfm" && "var(--gray-800)" }}
-						onFocus={e => setHoverTooltip("gfm")}
-						onBlur={e => setHoverTooltip("")}
-						onMouseEnter={e => setHoverTooltip("gfm")}
-						onMouseLeave={e => setHoverTooltip("")}
+						onFocus={e => setTooltip("gfm")}
+						onBlur={e => setTooltip("")}
+						onMouseEnter={e => setTooltip("gfm")}
+						onMouseLeave={e => setTooltip("")}
 						onClick={handleClickGFM}
 					>
-						{(hoverTooltip === "gfm" && !output.show) && (
+						{(tooltip === "gfm" && !output.show) && (
 							<div className="absolute top-full right-0">
 								<div className="px-2 py-1 bg-gray-800 rounded shadow">
 									<div className="absolute top-0 right-0">
@@ -268,13 +268,13 @@ const MemoFixedPreferences = React.memo(() => {
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "html" && "var(--gray-800)" }}
-						onFocus={e => setHoverTooltip("html")}
-						onBlur={e => setHoverTooltip("")}
-						onMouseEnter={e => setHoverTooltip("html")}
-						onMouseLeave={e => setHoverTooltip("")}
+						onFocus={e => setTooltip("html")}
+						onBlur={e => setTooltip("")}
+						onMouseEnter={e => setTooltip("html")}
+						onMouseLeave={e => setTooltip("")}
 						onClick={handleClickHTML}
 					>
-						{(hoverTooltip === "html" && !output.show) && (
+						{(tooltip === "html" && !output.show) && (
 							<div className="absolute top-full right-0">
 								<div className="px-2 py-1 bg-gray-800 rounded shadow">
 									<div className="absolute top-0 right-0">

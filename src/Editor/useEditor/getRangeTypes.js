@@ -38,6 +38,7 @@ function getTextNodes(elements, range) {
 // Gets the current range types.
 function getRangeTypes(e) {
 	const { x1, x2, ch1 } = getShorthandVars(e)
+
 	if (!testForSelection(e)) {
 		if (!ch1.length) {
 			return {}
@@ -45,10 +46,12 @@ function getRangeTypes(e) {
 		const x = getIndexAtOffset(ch1, e.range.start.offset)
 		return ch1[x].types
 	}
+
 	const ch = getTextNodes(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		return {}
 	}
+
 	const clonedTypes = JSONClone(ch[0].types)
 	const clonedTypesKeys = Object.keys(clonedTypes)
 	for (const textNode of ch.slice(1)) { // Step over clonedTypes
@@ -58,6 +61,7 @@ function getRangeTypes(e) {
 			}
 		}
 	}
+
 	return clonedTypes
 }
 

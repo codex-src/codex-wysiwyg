@@ -1,5 +1,24 @@
 import React from "react"
+import toArray from "lib/x/toArray"
 import userAgent from "lib/Client/userAgent"
+
+const MarkdownSyntax = ({ children }) => (
+	<span className="text-blue-400">
+		{children}
+	</span>
+)
+
+const Markdown = ({ markdown, children }) => (
+	<React.Fragment>
+		<MarkdownSyntax>
+			{toArray(markdown)[0]}
+		</MarkdownSyntax>
+		{children}
+		<MarkdownSyntax>
+			{toArray(markdown).slice(-1)[0]}
+		</MarkdownSyntax>
+	</React.Fragment>
+)
 
 // Renders a WYSIWYG menu.
 const WYSIWYGMenu = ({ state, dispatch }) => {
@@ -15,9 +34,9 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					color: state.rangeTypes.strong && "var(--blue-500)",
 					backgroundColor: state.rangeTypes.strong && "#ebf5ffbf",
 				}}
-				onFocus={e => setTooltip("bold")}
+				onFocus={e => setTooltip("strong")}
 				onBlur={e => setTooltip("")}
-				onMouseEnter={e => setTooltip("bold")}
+				onMouseEnter={e => setTooltip("strong")}
 				onMouseLeave={e => setTooltip("")}
 				onClick={e => {
 					dispatch({
@@ -26,14 +45,20 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					})
 				}}
 			>
-				{tooltip === "bold" && (
+				{tooltip === "strong" && (
 					<div className="absolute bottom-full" style={{ left: "50%" }}>
 						<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 							<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
 								<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 							</div>
 							<p className="whitespace-pre text-xs text-gray-100">
-								Bold ({!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"})
+								Bold ({!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"}){" "}
+								<em>
+									or
+								</em>{" "}
+								<Markdown markdown="**">
+									bold
+								</Markdown>
 							</p>
 						</div>
 					</div>
@@ -49,9 +74,9 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					color: state.rangeTypes.em && "var(--blue-500)",
 					backgroundColor: state.rangeTypes.em && "#ebf5ffbf",
 				}}
-				onFocus={e => setTooltip("italics")}
+				onFocus={e => setTooltip("em")}
 				onBlur={e => setTooltip("")}
-				onMouseEnter={e => setTooltip("italics")}
+				onMouseEnter={e => setTooltip("em")}
 				onMouseLeave={e => setTooltip("")}
 				onClick={e => {
 					dispatch({
@@ -60,14 +85,20 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					})
 				}}
 			>
-				{tooltip === "italics" && (
+				{tooltip === "em" && (
 					<div className="absolute bottom-full" style={{ left: "50%" }}>
 						<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 							<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
 								<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 							</div>
 							<p className="whitespace-pre text-xs text-gray-100">
-								Italic ({!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"})
+								Italicize ({!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"}){" "}
+								<em>
+									or
+								</em>{" "}
+								<Markdown markdown="_">
+									italicize
+								</Markdown>
 							</p>
 						</div>
 					</div>
@@ -101,7 +132,13 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 								<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 							</div>
 							<p className="whitespace-pre text-xs text-gray-100">
-								Code ({!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"})
+								Code ({!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"}){" "}
+								<em>
+									or
+								</em>{" "}
+								<Markdown markdown="`">
+									code
+								</Markdown>
 							</p>
 						</div>
 					</div>
@@ -117,9 +154,9 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					color: state.rangeTypes.strike && "var(--blue-500)",
 					backgroundColor: state.rangeTypes.strike && "#ebf5ffbf",
 				}}
-				onFocus={e => setTooltip("strikethrough")}
+				onFocus={e => setTooltip("strike")}
 				onBlur={e => setTooltip("")}
-				onMouseEnter={e => setTooltip("strikethrough")}
+				onMouseEnter={e => setTooltip("strike")}
 				onMouseLeave={e => setTooltip("")}
 				onClick={e => {
 					dispatch({
@@ -128,14 +165,20 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					})
 				}}
 			>
-				{tooltip === "strikethrough" && (
+				{tooltip === "strike" && (
 					<div className="absolute bottom-full" style={{ left: "50%" }}>
 						<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 							<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
 								<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 							</div>
 							<p className="whitespace-pre text-xs text-gray-100">
-								Strikethrough ({!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"})
+								Strikethrough ({!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"}){" "}
+								<em>
+									or
+								</em>{" "}
+								<Markdown markdown="~~">
+									strike
+								</Markdown>
 							</p>
 						</div>
 					</div>
@@ -151,9 +194,9 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					color: state.rangeTypes.a && "var(--blue-500)",
 					backgroundColor: state.rangeTypes.a && "#ebf5ffbf",
 				}}
-				onFocus={e => setTooltip("link")}
+				onFocus={e => setTooltip("a")}
 				onBlur={e => setTooltip("")}
-				onMouseEnter={e => setTooltip("link")}
+				onMouseEnter={e => setTooltip("a")}
 				onMouseLeave={e => setTooltip("")}
 				onClick={e => {
 					dispatch({
@@ -162,14 +205,23 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					})
 				}}
 			>
-				{tooltip === "link" && (
+				{tooltip === "a" && (
 					<div className="absolute bottom-full" style={{ left: "50%" }}>
 						<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 							<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
 								<div className="-mb-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 							</div>
 							<p className="whitespace-pre text-xs text-gray-100">
-								Link ({!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"})
+								Link ({!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"}){" "}
+								<em>
+									or
+								</em>{" "}
+								<Markdown markdown={["[", "]"]}>
+									link
+								</Markdown>
+								<Markdown markdown={["(", ")"]}>
+									https://codex.md
+								</Markdown>
 							</p>
 						</div>
 					</div>
