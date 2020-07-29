@@ -3,16 +3,6 @@
 	-webkit-font-smoothing: auto;
 }
 
-.font-sans {
-  font-family: -apple-system, BlinkMacSystemFont, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-.font-serif {
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-}
-.font-mono {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
 .shadow-hero-sm {
 	box-shadow:
 		0 0 0 1px rgba(0, 0, 0, 0.05),
