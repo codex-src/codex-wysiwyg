@@ -23,8 +23,9 @@ import userAgent from "lib/Client/userAgent"
 const WYSIWYGMenu = ({ state, dispatch }) => {
 	const [tooltip, setTooltip] = React.useState("")
 
+	// hover:shadow-hero-lg transition duration-200 ease-in-out
 	return (
-		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero hover:shadow-hero-lg transition duration-200 ease-in-out">
+		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 			<div className="-ml-0.5" />
 
 			<div
@@ -55,7 +56,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 								</div>
 								<p className="whitespace-pre text-xs text-gray-100">
 									Bold{" ".repeat(2)}
-									<span className="text-blue-200">
+									<span className="opacity-75">
 										{!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"}
 									</span>
 								</p>
@@ -96,7 +97,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 								</div>
 								<p className="whitespace-pre text-xs text-gray-100">
 									Italic{" ".repeat(2)}
-									<span className="text-blue-200">
+									<span className="opacity-75">
 										{!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"}
 									</span>
 								</p>
@@ -137,7 +138,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 								</div>
 								<p className="whitespace-pre text-xs text-gray-100">
 									Code{" ".repeat(2)}
-									<span className="text-blue-200">
+									<span className="opacity-75">
 										{!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"}
 									</span>
 								</p>
@@ -178,7 +179,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 								</div>
 								<p className="whitespace-pre text-xs text-gray-100">
 									Strikethrough{" ".repeat(2)}
-									<span className="text-blue-200">
+									<span className="opacity-75">
 										{!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"}
 									</span>
 								</p>
@@ -219,7 +220,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 								</div>
 								<p className="whitespace-pre text-xs text-gray-100">
 									Link{" ".repeat(2)}
-									<span className="text-blue-200">
+									<span className="opacity-75">
 										{!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"}
 									</span>
 								</p>

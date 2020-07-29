@@ -9,7 +9,7 @@ import "debug.css"
 
 import "stylesheets/tailwind-css/tailwind.generated.css" // Takes precedence
 import "stylesheets/tailwind-css/color-vars.css"
-import "stylesheets/tailwind-css/custom.css"
+import "stylesheets/tailwind-css/font-mono.css"
 import "stylesheets/tailwind-css/em-context.css"
 
 import "stylesheets/prism-js/language-gfm.css"
