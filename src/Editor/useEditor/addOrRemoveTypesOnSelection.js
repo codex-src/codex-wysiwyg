@@ -1,30 +1,33 @@
-import createIndexAtOffset from "./createIndexAtOffset"
-import deferOnChildren from "./deferOnChildren"
+import createIndex from "./createIndex"
+import defer from "./defer"
 import getShorthandVars from "./getShorthandVars"
 import JSONEqual from "lib/JSON/JSONEqual"
 
-// Aggregates children.
+// Aggregates text nodes on the current range; uses
+// createIndex(...).
 function aggregate(elements, range) {
 	const ch = []
 	for (const each of elements) {
-		if (!each.props.children.length) {
+		const { key, props: { children } } = each
+
+		if (!children.length) {
 			// No-op
 			continue
 		}
 		let x1 = 0
-		if (each.key === range.start.key) {
-			x1 = createIndexAtOffset(each.props.children, range.start.offset)
+		if (key === range.start.key) {
+			x1 = createIndex(children, range.start.offset)
 		}
-		let x2 = each.props.children.length
-		if (each.key === range.end.key) {
-			x2 = createIndexAtOffset(each.props.children, range.end.offset)
+		let x2 = children.length
+		if (key === range.end.key) {
+			x2 = createIndex(children, range.end.offset)
 		}
-		ch.push(...each.props.children.slice(x1, x2))
+		ch.push(...children.slice(x1, x2))
 	}
 	return ch
 }
 
-// Tests for a method: "plaintext", "add", or "remove".
+// Tests for a method to add or remove types.
 function testMethod(children, types) {
 	const keys = Object.keys(types)
 	if (!keys.length) {
@@ -48,8 +51,12 @@ function addOrRemoveTypesOnSelection(e, types) {
 	const { x1, x2 } = getShorthandVars(e)
 
 	const ch = aggregate(e.elements.slice(x1, x2 + 1), e.range)
-	const method = testMethod(ch, types)
+	if (!ch.length) {
+		// No-op
+		return
+	}
 
+	const method = testMethod(ch, types)
 	switch (method) {
 	case "plaintext":
 		for (const textNode of ch) {
@@ -75,7 +82,7 @@ function addOrRemoveTypesOnSelection(e, types) {
 	}
 
 	e.elements.slice(x1, x2 + 1)
-		.map(each => deferOnChildren(each.props.children))
+		.map(each => defer(each.props.children))
 }
 
 export default addOrRemoveTypesOnSelection

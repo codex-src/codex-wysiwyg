@@ -1,13 +1,10 @@
 import textContent from "./textContent"
 
-// Creates a text node at a text offset and returns the node
-// offset for the created text node.
-
-// Converts a text offset to a node offset.
+// Gets the text node offset for a text offset.
 function getIndex(children, textOffset) {
 	if (!children.length) {
 		if (process.env.NODE_ENV !== "test") {
-			throw new Error("FIXME")
+			throw new Error("getIndex: FIXME")
 		}
 		return -1
 	} else if (!textOffset) {

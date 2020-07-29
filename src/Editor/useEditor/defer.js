@@ -1,9 +1,14 @@
 import JSONEqual from "lib/JSON/JSONEqual"
 
-// Defers on children; merges fragmented text nodes that are
-// deeply equal in types.
-function deferOnChildren(children) {
+// Deferer for text nodes; merges fragmented text nodes.
+function defer(children) {
 	for (let x = children.length - 1; x >= 0; x--) {
+		// Drop empty text nodes:
+		if (!children[x].props.children) {
+			children.splice(x, 1)
+			continue
+		}
+
 		let prev = null
 		if (x >= 0) {
 			prev = children[x - 1]
@@ -20,6 +25,7 @@ function deferOnChildren(children) {
 			})
 		}
 	}
+	return children
 }
 
-export default deferOnChildren
+export default defer

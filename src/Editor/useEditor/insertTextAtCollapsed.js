@@ -1,11 +1,11 @@
-import createIndexAtOffset from "./createIndexAtOffset"
-import deferOnChildren from "./deferOnChildren"
+import createIndex from "./createIndex"
+import defer from "./defer"
 import getShorthandVars from "./getShorthandVars"
 
 // Inserts text at the current range.
 function insertTextAtCollapsed(e, clonedTextNode, text) {
 	const { ch1 } = getShorthandVars(e)
-	const x = Math.max(0, createIndexAtOffset(ch1, e.range.start.offset))
+	const x = createIndex(ch1, e.range.start.offset)
 	ch1.splice(x, 0, {
 		...clonedTextNode,
 		props: {
@@ -13,7 +13,7 @@ function insertTextAtCollapsed(e, clonedTextNode, text) {
 			children: text,
 		},
 	})
-	deferOnChildren(ch1)
+	defer(ch1)
 }
 
 export default insertTextAtCollapsed

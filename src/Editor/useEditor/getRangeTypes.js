@@ -1,10 +1,12 @@
-import getIndex from "./getIndex" // TODO
+import getIndex from "./getIndex"
 import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 import JSONEqual from "lib/JSON/JSONEqual"
 import testForSelection from "./testForSelection"
 
-function aggregateOnSelection(elements, range) {
+// Aggregates text nodes on the current range; uses
+// getIndex(...).
+function aggregate(elements, range) {
 	const ch = []
 	for (const each of elements) {
 		const { key, props: { children } } = each
@@ -15,13 +17,15 @@ function aggregateOnSelection(elements, range) {
 		}
 		let x1 = 0
 		if (key === range.start.key) {
+			// NOTE: Uses (... + 1) to query the next text byte.
 			x1 = getIndex(children, range.start.offset + 1)
 		}
 		let x2 = children.length
 		if (key === range.end.key) {
-			x2 = getIndex(children, range.end.offset)
+			// NOTE: Uses (...) + 1 to query the next text node.
+			x2 = getIndex(children, range.end.offset) + 1
 		}
-		ch.push(...children.slice(x1, x2 + 1))
+		ch.push(...children.slice(x1, x2))
 	}
 	return ch
 }
@@ -38,13 +42,12 @@ function getRangeTypes(e) {
 		return ch1[x].types
 	}
 
-	const ch = aggregateOnSelection(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = aggregate(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		return {}
 	}
 	const clonedTypes = JSONClone(ch[0].types)
 	const clonedTypesKeys = Object.keys(clonedTypes)
-
 	for (const textNode of ch.slice(1)) { // Steps over ch[0]
 		for (const key of clonedTypesKeys) {
 			if (!textNode.types[key] || !JSONEqual(textNode.types[key], clonedTypes[key])) {

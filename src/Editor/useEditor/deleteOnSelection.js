@@ -1,5 +1,5 @@
-import createIndexAtOffset from "./createIndexAtOffset"
-import deferOnChildren from "./deferOnChildren"
+import createIndex from "./createIndex"
+import defer from "./defer"
 import getShorthandVars from "./getShorthandVars"
 
 // Deletes on the current range.
@@ -8,11 +8,11 @@ function deleteOnSelection(e) {
 	ch1.splice(
 		0,
 		ch1.length * 2,
-		...ch1.slice(0, createIndexAtOffset(ch1, e.range.start.offset)),
-		...ch2.slice(createIndexAtOffset(ch2, e.range.end.offset)),
+		...ch1.slice(0, createIndex(ch1, e.range.start.offset)),
+		...ch2.slice(createIndex(ch2, e.range.end.offset)),
 	)
+	defer(ch1)
 	e.elements.splice(x1 + 1, x2 - x1)
-	deferOnChildren(ch1)
 }
 
 export default deleteOnSelection

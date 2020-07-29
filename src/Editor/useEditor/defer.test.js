@@ -1,8 +1,8 @@
-import deferOnChildren from "./deferOnChildren"
+import defer from "./defer"
 
 test("(empty)", () => {
 	const children = []
-	deferOnChildren(children)
+	defer(children)
 	expect(children).toEqual([])
 })
 
@@ -12,7 +12,7 @@ test("[Hello, ][<code>world</code>][!]", () => {
 		{ types: { "code": {} }, props: { children: "world" } },
 		{ types: {}, props: { children: "!" } },
 	]
-	deferOnChildren(children)
+	defer(children)
 	expect(children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { "code": {} }, props: { children: "world" } },
@@ -27,7 +27,7 @@ test("[Hello, ][<a href='foo'>foo</a>][<a href='foo'>foo</a>][!]", () => {
 		{ types: { "a": { href: "foo" } }, props: { children: "foo" } },
 		{ types: {}, props: { children: "!" } },
 	]
-	deferOnChildren(children)
+	defer(children)
 	expect(children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { "a": { href: "foo" } }, props: { children: "foofoo" } },
@@ -42,7 +42,7 @@ test("[Hello, ][<a href='foo'>foo</a>][<a href='bar'>bar</a>][!]", () => {
 		{ types: { "a": { href: "bar" } }, props: { children: "bar" } },
 		{ types: {}, props: { children: "!" } },
 	]
-	deferOnChildren(children)
+	defer(children)
 	expect(children).toEqual([
 		{ types: {}, props: { children: "Hello, " } },
 		{ types: { "a": { href: "foo" } }, props: { children: "foo" } },
