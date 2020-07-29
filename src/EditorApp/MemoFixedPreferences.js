@@ -4,11 +4,7 @@ import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
 import Releases from "./Releases"
 import Transition from "lib/x/Transition"
-
-import { // Unsorted
-	useReadOnlyModeSetState,
-	useElements,
-} from "./contexts"
+import { useElements } from "./contexts"
 
 import { // Unsorted
 	resolveGFM,
@@ -108,8 +104,7 @@ const Output = ({ output, setOutput }) => {
 	)
 }
 
-const MemoFixedPreferences = React.memo(() => {
-	const [readOnlyMode, setReadOnlyMode] = useReadOnlyModeSetState()
+const MemoFixedPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
 	const [tooltip, setTooltip] = React.useState("")
 
 	const [output, setOutput] = React.useState({

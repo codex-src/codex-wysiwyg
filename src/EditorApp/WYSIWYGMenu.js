@@ -1,26 +1,15 @@
 import React from "react"
 import userAgent from "lib/Client/userAgent"
 
-// const MarkdownSyntax = ({ children }) => (
-// 	<span className="text-blue-400">
-// 		{children}
-// 	</span>
-// )
-//
-// const Markdown = ({ markdown, children }) => (
-// 	<React.Fragment>
-// 		<MarkdownSyntax>
-// 			{toArray(markdown)[0]}
-// 		</MarkdownSyntax>
-// 		{children}
-// 		<MarkdownSyntax>
-// 			{toArray(markdown).slice(-1)[0]}
-// 		</MarkdownSyntax>
-// 	</React.Fragment>
-// )
+import { // Unsorted
+	useRangeTypes,
+	useDispatch,
+} from "./contexts"
 
-// Renders a WYSIWYG menu.
-const WYSIWYGMenu = ({ state, dispatch }) => {
+const WYSIWYGMenu = () => {
+	const rangeTypes = useRangeTypes()
+	const dispatch = useDispatch()
+
 	const [tooltip, setTooltip] = React.useState("")
 
 	return (
@@ -37,8 +26,8 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: state.rangeTypes.strong && "var(--blue-500)",
-						backgroundColor: state.rangeTypes.strong && "#ebf5ffbf",
+						color: rangeTypes.strong && "var(--blue-500)",
+						backgroundColor: rangeTypes.strong && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -78,8 +67,8 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: state.rangeTypes.em && "var(--blue-500)",
-						backgroundColor: state.rangeTypes.em && "#ebf5ffbf",
+						color: rangeTypes.em && "var(--blue-500)",
+						backgroundColor: rangeTypes.em && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -119,8 +108,8 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: state.rangeTypes.code && "var(--blue-500)",
-						backgroundColor: state.rangeTypes.code && "#ebf5ffbf",
+						color: rangeTypes.code && "var(--blue-500)",
+						backgroundColor: rangeTypes.code && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -160,8 +149,8 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: state.rangeTypes.strike && "var(--blue-500)",
-						backgroundColor: state.rangeTypes.strike && "#ebf5ffbf",
+						color: rangeTypes.strike && "var(--blue-500)",
+						backgroundColor: rangeTypes.strike && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -201,8 +190,8 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 				<button
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: state.rangeTypes.a && "var(--blue-500)",
-						backgroundColor: state.rangeTypes.a && "#ebf5ffbf",
+						color: rangeTypes.a && "var(--blue-500)",
+						backgroundColor: rangeTypes.a && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
