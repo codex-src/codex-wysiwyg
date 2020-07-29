@@ -59,20 +59,19 @@ const Output = ({ output, setOutput }) => {
 		>
 			<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 
-				{/* Releases */}
 				{output.detail === "releases" && (
 					<div className="text-gray-800">
 						<Releases />
 					</div>
 				)}
 
-				{/* GFM */}
 				{output.detail === "gfm" && (
 					<div
 						className="p-6 whitespace-pre-wrap text-gray-800"
 						style={{
 							...tabSize(2),
-							// NOTE: break-words does not work as expected.
+							// NOTE: className="break-words" does not work
+							// as expected.
 							wordBreak: "break-word",
 						}}
 					>
@@ -84,13 +83,13 @@ const Output = ({ output, setOutput }) => {
 					</div>
 				)}
 
-				{/* HTML */}
 				{output.detail === "html" && (
 					<div
 						className="p-6 whitespace-pre-wrap font-mono text-gray-800"
 						style={{
 							...tabSize(2),
-							// NOTE: break-words does not work as expected.
+							// NOTE: className="break-words" does not work
+							// as expected.
 							wordBreak: "break-word",
 							fontSize: "0.8125rem",
 
@@ -255,7 +254,7 @@ const MemoFixedPreferences = React.memo(() => {
 										<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 									</div>
 									<p className="whitespace-pre text-xs text-gray-100">
-										GitHub Flavored Markdown
+										Show GitHub Flavored Markdown
 									</p>
 								</div>
 							</div>
@@ -281,7 +280,7 @@ const MemoFixedPreferences = React.memo(() => {
 										<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
 									</div>
 									<p className="whitespace-pre text-xs text-gray-100">
-										Semantic HTML
+										Show Semantic HTML
 									</p>
 								</div>
 							</div>
