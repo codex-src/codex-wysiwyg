@@ -7,7 +7,6 @@ import WYSIWYGMenu from "./WYSIWYGMenu"
 import { // Unsorted
 	ReadOnlyModeSetState,
 	ElementsContext,
-	// RangeContext,
 } from "./contexts"
 
 import { // Unsorted
@@ -33,7 +32,6 @@ const App = () => {
 	return (
 		<ReadOnlyModeSetState.Provider value={[readOnlyMode, setReadOnlyMode]}>
 			<ElementsContext.Provider value={debouncedElements}>
-				{/* <RangeContext.Provider value={state.range}> */}
 
 				<div className="px-6 py-32 flex flex-row justify-center h-full">
 					<div className="w-full max-w-2xl h-full">
@@ -84,12 +82,10 @@ const App = () => {
 							<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
 								<div className="flex flex-row justify-center">
 									<div className="pointer-events-auto">
-
 										<WYSIWYGMenu
 											state={state}
 											dispatch={dispatch}
 										/>
-
 									</div>
 								</div>
 							</div>
@@ -98,7 +94,6 @@ const App = () => {
 					</div>
 				</div>
 
-				{/* </RangeContext.Provider> */}
 			</ElementsContext.Provider>
 		</ReadOnlyModeSetState.Provider>
 	)

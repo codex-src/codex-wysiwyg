@@ -8,6 +8,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 	return (
 		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 
+			<div className="-ml-0.5" />
 			<button
 				className="mx-0.5 p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 				style={{
@@ -177,6 +178,7 @@ const WYSIWYGMenu = ({ state, dispatch }) => {
 					<path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z" fillRule="evenodd" />
 				</svg>
 			</button>
+			<div className="-mr-0.5" />
 
 		</div>
 	)
