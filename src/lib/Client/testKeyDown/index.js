@@ -71,6 +71,11 @@ function testKeyDown(e) {
 			return this
 		},
 		check() {
+			// NOTE: e.keyCode and e.key takes precedence for
+			// performance reasons.
+			if (e.keyCode !== flags.keyCode && e.key !== flags.key) {
+				return false
+			}
 			for (const each of MODIFIERS) {
 				if (flags[each] !== undefined) {
 					if (e[each] !== flags[each]) {
@@ -78,8 +83,7 @@ function testKeyDown(e) {
 					}
 				}
 			}
-			return e.keyCode === flags.keyCode ||
-				e.key === flags.key
+			return true
 		},
 	}
 	return state
