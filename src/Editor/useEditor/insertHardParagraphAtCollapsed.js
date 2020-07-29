@@ -25,6 +25,7 @@ function insertHardParagraphAtCollapsed(e) {
 		},
 	})
 
+	// NOTE: No need to deferOnChildren.
 	const start = {
 		key: id, // New ID
 		offset: 0,

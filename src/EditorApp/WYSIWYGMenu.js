@@ -23,7 +23,6 @@ import userAgent from "lib/Client/userAgent"
 const WYSIWYGMenu = ({ state, dispatch }) => {
 	const [tooltip, setTooltip] = React.useState("")
 
-	// hover:shadow-hero-lg transition duration-200 ease-in-out
 	return (
 		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 			<div className="-ml-0.5" />

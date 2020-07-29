@@ -76,8 +76,8 @@ const App = () => {
 						<Transition
 							on={!readOnlyMode}
 							className="transition duration-200 ease-in-out"
-							from="opacity-0 transform translate-y-4"
-							to="opacity-100 transform translate-y-0"
+							from="opacity-0"
+							to="opacity-100"
 						>
 							<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
 								<div className="flex flex-row justify-center">
