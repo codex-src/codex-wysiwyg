@@ -1,6 +1,6 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
+import MemoFixedBottomWYSIWYGMenu from "./MemoFixedBottomWYSIWYGMenu"
 import MemoFixedPreferences from "./MemoFixedPreferences"
-import MemoFixedWYSIWYGMenu from "./MemoFixedWYSIWYGMenu"
 import React from "react"
 import Transition from "lib/x/Transition"
 
@@ -89,7 +89,7 @@ const App = () => {
 								</Editor>
 							</div>
 
-							<MemoFixedWYSIWYGMenu
+							<MemoFixedBottomWYSIWYGMenu
 								readOnlyMode={readOnlyMode} // TODO: Change to state.readOnlyMode?
 								rangeTypes={state.rangeTypes}
 							/>

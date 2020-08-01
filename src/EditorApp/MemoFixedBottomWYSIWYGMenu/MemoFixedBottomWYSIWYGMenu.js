@@ -3,7 +3,7 @@ import React from "react"
 import Transition from "lib/x/Transition"
 import WYSIWYGMenu from "./WYSIWYGMenu"
 
-const MemoFixedWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
+const MemoFixedBottomWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
 	<Transition
 		on={!readOnlyMode}
 		className="transition duration-200 ease-in-out"
@@ -26,4 +26,4 @@ const MemoFixedWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
 	return ok
 })
 
-export default MemoFixedWYSIWYGMenu
+export default MemoFixedBottomWYSIWYGMenu
