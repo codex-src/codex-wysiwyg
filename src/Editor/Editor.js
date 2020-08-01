@@ -20,8 +20,8 @@ const MemoElements = React.memo(({ elements }) => (
 	elements.map(each => (
 		React.createElement(componentMap[each.type], {
 			...each.props,
-			key: each.key, // React key
-			id:  each.key, // DOM ID
+			key: each.key, // For React
+			id:  each.key, // For the DOM
 		})
 	))
 ))
@@ -67,15 +67,12 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 		[state.shouldRerender],
 	)
 
-	const $className = !className ? "em-context" : `em-context ${className}`
 	return (
-	// <div>
-
 		<article
 			ref={ref}
 
 			id={id}
-			className={$className}
+			className={`em-context ${className}`.trim()}
 			style={style}
 
 			onFocus={e => {
@@ -259,15 +256,13 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 
 			data-root
 		/>
-
-	// {process.env.NODE_ENV !== "production" && (
-	// 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ tabSize: 2 }}>
-	// 		{JSON.stringify(state, null, "\t")}
-	// 	</pre>
-	// )}
-	//
-	// </div>
 	)
 }
+
+// {process.env.NODE_ENV !== "production" && (
+// 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ tabSize: 2 }}>
+// 		{JSON.stringify(state, null, "\t")}
+// 	</pre>
+// )}
 
 export default Editor

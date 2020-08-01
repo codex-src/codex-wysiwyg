@@ -10,14 +10,17 @@ const ReadOnlyEditor = ({ id, className, style, children }) => {
 		return initElementsFromChildren(children)
 	}, [children])
 
-	const $className = !className ? "em-context" : `em-context ${className}`
 	return (
-		<article id={id} className={$className} style={style}>
-			{elements.map(({ type, key, props }) => (
-				React.createElement(componentMap[type], {
-					key,
-					id: key,
-					...props,
+		<article
+			id={id}
+			className={`em-context ${className}`.trim()}
+			style={style}
+		>
+			{elements.map(each => (
+				React.createElement(componentMap[each.type], {
+					...each.props,
+					key: each.key, // For React
+					id:  each.key, // For the DOM
 				})
 			))}
 		</article>
