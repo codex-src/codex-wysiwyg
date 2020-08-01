@@ -20,6 +20,9 @@ const App = () => {
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	// Debounces elements by one 60 FPS frame.
+	//
+	// TODO: This logic prevents resolving to the initialState
+	// value
 	React.useEffect(() => {
 		if (!prefs.show || (prefs.show && prefs.desc === "releases")) {
 			// No-op
@@ -128,6 +131,7 @@ const App = () => {
 
 						<MemoFixedBottomWYSIWYGMenu
 							readOnlyMode={prefs.readOnlyMode}
+							focused={state.focused}
 							rangeTypes={state.rangeTypes}
 						/>
 

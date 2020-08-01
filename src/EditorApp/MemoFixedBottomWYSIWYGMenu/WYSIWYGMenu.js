@@ -3,11 +3,12 @@ import React from "react"
 import userAgent from "lib/Client/userAgent"
 import { TopTooltip as Tooltip } from "../Tooltips"
 
-const WYSIWYGMenu = ({ rangeTypes }) => {
+const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 	const dispatch = React.useContext(ContextDispatch)
 
 	const [tooltip, setTooltip] = React.useState("")
 
+	const disabled = readOnlyMode || !focused
 	return (
 		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 			<div className="-ml-0.5" />
@@ -20,10 +21,10 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: rangeTypes.strong && "var(--blue-500)",
-						backgroundColor: rangeTypes.strong && "#ebf5ffbf",
+						color: !disabled && rangeTypes.strong && "var(--blue-500)",
+						backgroundColor: !disabled && rangeTypes.strong && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -31,6 +32,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 							types: { strong: {} },
 						})
 					}}
+					disabled={disabled}
 				>
 					{tooltip === "strong" && (
 						<Tooltip>
@@ -56,10 +58,10 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: rangeTypes.em && "var(--blue-500)",
-						backgroundColor: rangeTypes.em && "#ebf5ffbf",
+						color: !disabled && rangeTypes.em && "var(--blue-500)",
+						backgroundColor: !disabled && rangeTypes.em && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -67,6 +69,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 							types: { em: {} },
 						})
 					}}
+					disabled={disabled}
 				>
 					{tooltip === "italics" && (
 						<Tooltip>
@@ -92,10 +95,10 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: rangeTypes.code && "var(--blue-500)",
-						backgroundColor: rangeTypes.code && "#ebf5ffbf",
+						color: !disabled && rangeTypes.code && "var(--blue-500)",
+						backgroundColor: !disabled && rangeTypes.code && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -103,6 +106,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 							types: { code: {} },
 						})
 					}}
+					disabled={disabled}
 				>
 					{tooltip === "code" && (
 						<Tooltip>
@@ -128,10 +132,10 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: rangeTypes.strike && "var(--blue-500)",
-						backgroundColor: rangeTypes.strike && "#ebf5ffbf",
+						color: !disabled && rangeTypes.strike && "var(--blue-500)",
+						backgroundColor: !disabled && rangeTypes.strike && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -139,6 +143,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 							types: { strike: {} },
 						})
 					}}
+					disabled={disabled}
 				>
 					{tooltip === "strikethrough" && (
 						<Tooltip>
@@ -164,10 +169,10 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
-						color: rangeTypes.a && "var(--blue-500)",
-						backgroundColor: rangeTypes.a && "#ebf5ffbf",
+						color: !disabled && rangeTypes.a && "var(--blue-500)",
+						backgroundColor: !disabled && rangeTypes.a && "#ebf5ffbf",
 					}}
 					onClick={e => {
 						dispatch({
@@ -175,6 +180,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 							types: { a: {} /* TODO */ },
 						})
 					}}
+					disabled={disabled}
 				>
 					{tooltip === "a" && (
 						<Tooltip>

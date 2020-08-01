@@ -1,5 +1,5 @@
 // https://tailwindcss.com/docs/configuring-variants/#default-variants-reference
-module.exports = {
+module.exports = Object.freeze({
 	accessibility: ["responsive", "focus"],
 	alignContent: ["responsive"],
 	alignItems: ["responsive"],
@@ -97,4 +97,4 @@ module.exports = {
 	width: ["responsive"],
 	wordBreak: ["responsive"],
 	zIndex: ["responsive"],
-}
+})

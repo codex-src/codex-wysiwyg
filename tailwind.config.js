@@ -1,4 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme")
+const defaultVariants = require("./tailwind-defaultVariants")
 
 function trimWhitespace(str) {
 	return str.split(/\s+/).join(" ").trim()
@@ -52,6 +53,12 @@ module.exports = {
 	},
 	variants: {
 		typography: [],
+
+		backgroundColor: [...defaultVariants.backgroundColor, "disabled"],
+		borderColor: [...defaultVariants.borderColor, "disabled"],
+		divideColor: [...defaultVariants.divideColor, "disabled"],
+		placeholderColor: [...defaultVariants.placeholderColor, "disabled"],
+		textColor: [...defaultVariants.textColor, "disabled"],
 	},
 	plugins: [
 		require("@tailwindcss/ui"),
