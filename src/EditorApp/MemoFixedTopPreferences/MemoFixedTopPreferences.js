@@ -8,29 +8,10 @@ import Transition from "lib/x/Transition"
 import useKeydown from "lib/x/handlers/useKeydown"
 import usePreferences from "./usePreferences"
 
-// Renders a absolutely-positioned bottom-left tooltip.
-const AbsoluteBottomLeftToolTip = ({ children }) => (
-	<div className="absolute top-full left-0">
-		<div className="px-2 py-1 bg-gray-800 rounded shadow">
-			<div className="absolute top-0 left-0">
-				<div className="ml-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-			</div>
-			{children}
-		</div>
-	</div>
-)
-
-// Renders a absolutely-positioned bottom-right tooltip.
-const AbsoluteBottomRightToolTip = ({ children }) => (
-	<div className="absolute top-full right-0">
-		<div className="px-2 py-1 bg-gray-800 rounded shadow">
-			<div className="absolute top-0 right-0">
-				<div className="mr-3.5 -mt-0.5 w-2 h-2 bg-gray-800 rounded-sm shadow transform rotate-45" />
-			</div>
-			{children}
-		</div>
-	</div>
-)
+import { // Unsorted
+	AbsoluteBottomLeftToolTip,
+	AbsoluteBottomRightToolTip,
+} from "../Tooltips"
 
 const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
 	const debouncedElements = React.useContext(DebouncedElementsContext)
