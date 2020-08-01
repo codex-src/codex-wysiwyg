@@ -1,167 +1,79 @@
-import * as handlers from "lib/x/handlers"
-import Highlight from "lib/PrismJS/Highlight"
 import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
-import Releases from "./Releases"
-import Transition from "lib/x/Transition"
-// import { useElements } from "../contexts"
+import useKeydown from "lib/x/handlers/useKeydown"
+import { useImmerReducer } from "use-immer"
 
-import { // Unsorted
-	resolveGFM,
-	resolveHTML,
-} from "./resolvers"
+const initialState = {
+	open: false,
+	desc: "",
+}
 
-const tabSize = size => ({
-	MozTabSize: size,
-	tabSize: size,
-})
-
-// const Output = ({ output, setOutput }) => {
-// 	const elements = useElements()
-//
-// 	const [resolved, setResolved] = React.useState(() => {
-// 		const gfm = resolveGFM(elements)
-// 		const html = resolveHTML(elements)
-// 		return { gfm, html }
-// 	})
-//
-// 	// NOTE: Must use useLayoutEffect.
-// 	React.useLayoutEffect(() => {
-// 		if (output.show && output.detail === "gfm") {
-// 			const result = resolveGFM(elements)
-// 			setResolved(current => ({
-// 				...current,
-// 				gfm: result,
-// 			}))
-// 		}
-// 	}, [elements, output])
-//
-// 	// NOTE: Must use useLayoutEffect.
-// 	React.useLayoutEffect(() => {
-// 		if (output.show && output.detail === "html") {
-// 			const result = resolveHTML(elements)
-// 			setResolved(current => ({
-// 				...current,
-// 				html: result,
-// 			}))
-// 		}
-// 	}, [elements, output])
-//
-// 	return (
-// 		<Transition
-// 			on={output.show}
-// 			from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
-// 			to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
-// 		>
-// 			<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-//
-// 				{output.detail === "releases" && (
-// 					<div className="text-gray-800">
-// 						<Releases />
-// 					</div>
-// 				)}
-//
-// 				{output.detail === "gfm" && (
-// 					<div
-// 						className="p-6 whitespace-pre-wrap text-gray-800"
-// 						style={{
-// 							...tabSize(2),
-// 							// NOTE: className="break-words" does not work
-// 							// as expected.
-// 							wordBreak: "break-word",
-// 						}}
-// 					>
-// 						<span className="inline-block min-w-full">
-// 							<Highlight extension={output.detail}>
-// 								{resolved[output.detail]}
-// 							</Highlight>
-// 						</span>
-// 					</div>
-// 				)}
-//
-// 				{output.detail === "html" && (
-// 					<div
-// 						className="p-6 whitespace-pre-wrap font-mono text-gray-800"
-// 						style={{
-// 							...tabSize(2),
-// 							// NOTE: className="break-words" does not work
-// 							// as expected.
-// 							wordBreak: "break-word",
-// 							fontSize: "0.8125rem",
-//
-// 						}}
-// 					>
-// 						<span className="inline-block min-w-full">
-// 							<Highlight extension={output.detail}>
-// 								{resolved[output.detail]}
-// 							</Highlight>
-// 						</span>
-// 					</div>
-// 				)}
-//
-// 			</div>
-// 		</Transition>
-// 	)
-// }
+function PreferencesReducer(e, action) {
+	switch (action.type) {
+	case "TOGGLE_RELEASES":
+		actions.manuallyUpdateElements(e, action)
+		return
+	case "TOGGLE_GFM":
+		actions.focus(e, action)
+		return
+	case "TOGGLE_HTML":
+		actions.blur(e, action)
+		return
+	default:
+		throw new Error(`PreferencesReducer: no such action.type; action.type=${action.type}`)
+	}
+}
 
 const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
-	const [tooltip, setTooltip] = React.useState("")
+	const [prefs, prefsDispatch] = useImmerReducer(PreferencesReducer, initialState)
 
-	const [output, setOutput] = React.useState({
-		show: false,
-		detail: "releases",
-	})
-
-	React.useEffect(() => {
-		const article = document.getElementById("main-editor")
-		article.contentEditable = !readOnlyMode
-	}, [readOnlyMode])
-
-
-	const handleClickReleases = e => {
-		setOutput(current => ({
-			show: !current.show || current.detail !== "releases",
-			detail: "releases",
-		}))
-	}
-
-	const handleClickGFM = e => {
-		setOutput(current => ({
-			...current,
-			show: !current.show || current.detail !== "gfm",
-			detail: "gfm",
-		}))
-	}
-
-	const handleClickHTML = e => {
-		setOutput(current => ({
-			...current,
-			show: !current.show || current.detail !== "html",
-			detail: "html",
-		}))
-	}
-
-	// // Binds the next pointerdown event to hide output.
-	// handlers.usePointerdown(output.show && (e => {
-	// 	if (!outputRef.current.contains(e.target) && !e.target.closest("button")) {
+	// const [output, setOutput] = React.useState({
+	// 	show: false,
+	// 	detail: "releases",
+	// })
+	//
+	// React.useEffect(() => {
+	// 	const article = document.getElementById("main-editor")
+	// 	article.contentEditable = !readOnlyMode
+	// }, [readOnlyMode])
+	//
+	// const [tooltip, setTooltip] = React.useState("")
+	//
+	// const handleClickReleases = e => {
+	// 	setOutput(current => ({
+	// 		show: !current.show || current.detail !== "releases",
+	// 		detail: "releases",
+	// 	}))
+	// }
+	//
+	// const handleClickGFM = e => {
+	// 	setOutput(current => ({
+	// 		...current,
+	// 		show: !current.show || current.detail !== "gfm",
+	// 		detail: "gfm",
+	// 	}))
+	// }
+	//
+	// const handleClickHTML = e => {
+	// 	setOutput(current => ({
+	// 		...current,
+	// 		show: !current.show || current.detail !== "html",
+	// 		detail: "html",
+	// 	}))
+	// }
+	//
+	// // Binds the next keydown event to hide output.
+	// useKeydown(e => {
+	// 	if (e.keyCode === keyCodeFor("Escape")) {
 	// 		setOutput(current => ({
 	// 			...current,
 	// 			show: !current.show,
 	// 		}))
 	// 	}
-	// }))
+	// })
 
-	// Binds the next keydown event to hide output.
-	handlers.useKeydown(e => {
-		if (e.keyCode === keyCodeFor("Escape")) {
-			setOutput(current => ({
-				...current,
-				show: !current.show,
-			}))
-		}
-	})
-
-	// NOTE: Uses flex flex-col items-end because of <Output>.
+	// NOTE: Uses flex flex-col items-end because of
+	// <RenderedOutput>.
 	return (
 		<div className="px-3 pb-8 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
 
@@ -288,7 +200,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 
 			</div>
 
-			{/* <Output */}
+			{/* <RenderedOutput */}
 			{/* 	output={output} */}
 			{/* 	setOutput={setOutput} */}
 			{/* /> */}

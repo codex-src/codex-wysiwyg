@@ -29,7 +29,7 @@ const newInitialState = () => ({
 	shouldRerender: 0,
 })
 
-function reducer(e, action) {
+function EditorReducer(e, action) {
 	switch (action.type) {
 	case "MANUALLY_UPDATE_ELEMENTS":
 		actions.manuallyUpdateElements(e, action)
@@ -59,7 +59,7 @@ function reducer(e, action) {
 		actions.uncontrolledInput(e, action)
 		return
 	default:
-		throw new Error(`useEditor.reducer: no such action.type; action.type=${action.type}`)
+		throw new Error(`EditorReducer: no such action.type; action.type=${action.type}`)
 	}
 }
 
@@ -69,11 +69,11 @@ export function useEditorFromMarkup(markup) {
 		const elements = initElementsFromMarkup(markup)
 		return newInitialState(elements)
 	}, [markup])
-	return useImmerReducer(reducer, initialState)
+	return useImmerReducer(EditorReducer, initialState)
 }
 
 // Instantiates an editor.
 export function useEditor() {
 	const initialState = React.useMemo(newInitialState)
-	return useImmerReducer(reducer, initialState)
+	return useImmerReducer(EditorReducer, initialState)
 }

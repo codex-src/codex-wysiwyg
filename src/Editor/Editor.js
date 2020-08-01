@@ -262,7 +262,7 @@ const Editor = React.memo(({ id, className, style, state, dispatch, children }) 
 })
 
 // {process.env.NODE_ENV !== "production" && (
-// 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ tabSize: 2 }}>
+// 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={tabSize(2)}>
 // 		{JSON.stringify(state, null, "\t")}
 // 	</pre>
 // )}
