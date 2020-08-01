@@ -27,6 +27,8 @@ const MemoElements = React.memo(({ elements }) => (
 ))
 
 // Renders a read-write editor.
+//
+// TODO: Remove React.memo?
 const Editor = React.memo(({ id, className, style, state, dispatch, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)

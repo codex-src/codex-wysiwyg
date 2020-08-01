@@ -1,11 +1,9 @@
-import JSONEqual from "lib/JSON/JSONEqual"
 import React from "react"
-import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
-import { useDispatch } from "./contexts"
+import { DispatchContext } from "../contexts"
 
 const WYSIWYGMenu = ({ rangeTypes }) => {
-	const dispatch = useDispatch()
+	const dispatch = React.useContext(DispatchContext)
 
 	const [tooltip, setTooltip] = React.useState("")
 
@@ -223,27 +221,4 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 	)
 }
 
-const MemoFixedWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
-	<Transition
-		on={!readOnlyMode}
-		className="transition duration-200 ease-in-out"
-		from="opacity-0"
-		to="opacity-100"
-	>
-		<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
-			<div className="flex flex-row justify-center">
-				<div className="pointer-events-auto">
-					<WYSIWYGMenu rangeTypes={rangeTypes} />
-				</div>
-			</div>
-		</div>
-	</Transition>
-), (prev, next) => {
-	const ok = (
-		prev.readOnlyMode === next.readOnlyMode &&
-		JSONEqual(prev.rangeTypes, next.rangeTypes)
-	)
-	return ok
-})
-
-export default MemoFixedWYSIWYGMenu
+export default WYSIWYGMenu
