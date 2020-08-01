@@ -4,11 +4,8 @@ import React from "react"
 import Releases from "./Releases"
 import tabSize from "lib/x/tabSize"
 import Transition from "lib/x/Transition"
-
-import {
-	AbsoluteBottomLeftToolTip as TooltipL,
-	AbsoluteBottomRightToolTip as TooltipR,
-} from "../Tooltips"
+import { AbsoluteBottomLeftToolTip as LeftTooltip } from "../Tooltips"
+import { AbsoluteBottomRightToolTip as RightTooltip } from "../Tooltips"
 
 const MemoFixedTopPreferences = React.memo(({ prefs }) => {
 	const dispatch = React.useContext(PrefsDispatchContext)
@@ -38,11 +35,11 @@ const MemoFixedTopPreferences = React.memo(({ prefs }) => {
 						}}
 					>
 						{(!prefs.show && tooltip === "lock") && (
-							<TooltipL>
+							<LeftTooltip>
 								<p className="text-xs whitespace-pre text-gray-100">
 									{!prefs.readOnlyMode ? "Enable Read-Only Mode" : "Disable Read-Only Mode"}
 								</p>
-							</TooltipL>
+							</LeftTooltip>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 							{!prefs.readOnlyMode
@@ -71,14 +68,13 @@ const MemoFixedTopPreferences = React.memo(({ prefs }) => {
 						}}
 					>
 						{(!prefs.show && tooltip === "releases") && (
-							<TooltipR>
+							<RightTooltip>
 								<p className="text-xs whitespace-pre text-gray-100">
 									View Releases
 								</p>
-							</TooltipR>
+							</RightTooltip>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-							{/* <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" /> */}
 							<path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clipRule="evenodd" fillRule="evenodd" />
 						</svg>
 					</button>
@@ -97,11 +93,11 @@ const MemoFixedTopPreferences = React.memo(({ prefs }) => {
 						}}
 					>
 						{(!prefs.show && tooltip === "markdown") && (
-							<TooltipR>
+							<RightTooltip>
 								<p className="text-xs whitespace-pre text-gray-100">
-									Show GitHub Flavored Markdown
+									Render to GitHub Flavored Markdown
 								</p>
-							</TooltipR>
+							</RightTooltip>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" fillRule="evenodd" />
@@ -122,11 +118,11 @@ const MemoFixedTopPreferences = React.memo(({ prefs }) => {
 						}}
 					>
 						{(!prefs.show && tooltip === "markup") && (
-							<TooltipR>
+							<RightTooltip>
 								<p className="text-xs whitespace-pre text-gray-100">
-									Show HyperText Markup Language
+									Render to HTML
 								</p>
-							</TooltipR>
+							</RightTooltip>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />

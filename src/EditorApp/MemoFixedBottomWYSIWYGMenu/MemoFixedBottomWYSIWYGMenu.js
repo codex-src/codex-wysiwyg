@@ -5,7 +5,7 @@ import WYSIWYGMenu from "./WYSIWYGMenu"
 
 function areEqual(prev, next) {
 	const ok = (
-		prev.prefs === next.prefs &&
+		prev.readOnlyMode === next.readOnlyMode &&
 		JSONEqual(prev.rangeTypes, next.rangeTypes)
 	)
 	return ok

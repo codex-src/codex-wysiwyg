@@ -19,7 +19,7 @@ const App = () => {
 
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
-	// Debounces elements by 50 milliseconds.
+	// Debounces elements by one 60 FPS frame.
 	React.useEffect(() => {
 		if (!prefs.show || (prefs.show && prefs.desc === "releases")) {
 			// No-op
@@ -27,7 +27,7 @@ const App = () => {
 		}
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
-		}, 50)
+		}, 16.67)
 		return () => {
 			clearTimeout(id)
 		}
@@ -46,7 +46,7 @@ const App = () => {
 	}, [prefs.readOnlyMode])
 
 	React.useLayoutEffect(() => {
-		if (state.show && state.desc === "markdown") {
+		if (prefs.show && prefs.desc === "markdown") {
 			prefsDispatch({
 				type: "UPDATE_MARKDOWN",
 				elements: debouncedElements,
@@ -54,13 +54,13 @@ const App = () => {
 		}
 	}, [
 		debouncedElements,
-		state.show,
-		state.desc,
+		prefs.show,
+		prefs.desc,
 		prefsDispatch,
 	])
 
 	React.useLayoutEffect(() => {
-		if (state.show && state.desc === "markup") {
+		if (prefs.show && prefs.desc === "markup") {
 			prefsDispatch({
 				type: "UPDATE_MARKUP",
 				elements: debouncedElements,
@@ -68,8 +68,8 @@ const App = () => {
 		}
 	}, [
 		debouncedElements,
-		state.show,
-		state.desc,
+		prefs.show,
+		prefs.desc,
 		prefsDispatch,
 	])
 

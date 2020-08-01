@@ -72,10 +72,10 @@ function PreferencesReducer(state, action) {
 	case "TOGGLE_MARKUP":
 		actions(state).toggleMarkup()
 		return
-	case "UPDATE_Markdown":
+	case "UPDATE_MARKDOWN":
 		actions(state).updateMarkdown(action.elements)
 		return
-	case "UPDATE_Markup":
+	case "UPDATE_MARKUP":
 		actions(state).updateMarkup(action.elements)
 		return
 	case "HIDE_ALL":
