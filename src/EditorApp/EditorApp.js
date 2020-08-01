@@ -6,25 +6,35 @@ import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
 import React from "react"
 
 import {
- Editor,
- useEditor,
+	Editor,
+	useEditor,
 } from "Editor"
 
 const App = () => {
 	const [state, dispatch] = useEditor()
 
+	// NOTE: readOnlyMode is a synthetic property of an
+	// editor. Read-only mode can be enabled and disabled by
+	// toggling contenteditable on the editor element.
 	const [readOnlyMode, setReadOnlyMode] = React.useState(false)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	// Debounces elements by 50 milliseconds.
 	React.useEffect(() => {
+		if (!readOnlyMode) {
+			// No-op
+			return
+		}
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
 		}, 50)
 		return () => {
 			clearTimeout(id)
 		}
-	}, [state.elements])
+	}, [
+		state.elements,
+		readOnlyMode,
+	])
 
 	return (
 		<DebouncedElementsContext.Provider value={debouncedElements}>
@@ -75,6 +85,7 @@ const App = () => {
 
 						<MemoFixedBottomWYSIWYGMenu
 							readOnlyMode={readOnlyMode}
+							setReadOnlyMode={setReadOnlyMode}
 							rangeTypes={state.rangeTypes}
 						/>
 
