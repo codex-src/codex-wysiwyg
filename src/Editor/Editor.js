@@ -16,15 +16,15 @@ import { // Unsorted
 
 import "./Editor.css"
 
-const Renderer = ({ state, dispatch }) => (
-	state.elements.map(({ type, key, props }) => (
-		React.createElement(componentMap[type], {
-			key,
-			id: key,
-			...props,
+const MemoElements = React.memo(({ elements }) => (
+	elements.map(each => (
+		React.createElement(componentMap[each.type], {
+			...each.props,
+			key: each.key, // React key
+			id:  each.key, // DOM ID
 		})
 	))
-)
+))
 
 // Renders a read-write editor.
 const Editor = ({ id, className, style, state, dispatch, children }) => {
@@ -51,7 +51,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<Renderer state={state} dispatch={dispatch} />, ref.current, () => {
+			ReactDOM.render(<MemoElements elements={state.elements} />, ref.current, () => {
 				if (!state.focused) {
 					// No-op
 					return
@@ -63,17 +63,9 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					console.error(error)
 				}
 			})
-		}, [state, dispatch]),
+		}, [state]),
 		[state.shouldRerender],
 	)
-
-	// // Exclusively returns a handler when state.focused=true.
-	// const readWriteHandler = handler => {
-	// 	if (!state.focused) {
-	// 		return null
-	// 	}
-	// 	return handler
-	// }
 
 	const $className = !className ? "em-context" : `em-context ${className}`
 	return (

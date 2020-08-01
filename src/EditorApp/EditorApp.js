@@ -42,17 +42,17 @@ const App = () => {
 	}, [state.rangeTypes])
 
 	return (
-		<ElementsContext.Provider value={debouncedElements}>
-			<RangeTypesContext.Provider value={debouncedRangeTypes}>
-				<DispatchContext.Provider value={dispatch}>
+		// <ElementsContext.Provider value={debouncedElements}>
+		// 	<RangeTypesContext.Provider value={debouncedRangeTypes}>
+		// 		<DispatchContext.Provider value={dispatch}>
 
 					<div className="px-6 py-32 flex flex-row justify-center h-full">
 						<div className="w-full max-w-2xl h-full">
 
-							<MemoFixedPreferences
-								readOnlyMode={readOnlyMode}
-								setReadOnlyMode={setReadOnlyMode}
-							/>
+							{/* <MemoFixedPreferences */}
+							{/* 	readOnlyMode={readOnlyMode} */}
+							{/* 	setReadOnlyMode={setReadOnlyMode} */}
+							{/* /> */}
 
 							<div className="relative h-full">
 								{(state.elements.length === 1 && !state.elements[0].props.children.length) && (
@@ -89,27 +89,27 @@ const App = () => {
 								</Editor>
 							</div>
 
-							<Transition
-								on={!readOnlyMode}
-								className="transition duration-200 ease-in-out"
-								from="opacity-0"
-								to="opacity-100"
-							>
-								<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
-									<div className="flex flex-row justify-center">
-										<div className="pointer-events-auto">
-											<MemoWYSIWYGMenu />
-										</div>
-									</div>
-								</div>
-							</Transition>
+							{/* <Transition */}
+							{/* 	on={!readOnlyMode} */}
+							{/* 	className="transition duration-200 ease-in-out" */}
+							{/* 	from="opacity-0" */}
+							{/* 	to="opacity-100" */}
+							{/* > */}
+							{/* 	<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none"> */}
+							{/* 		<div className="flex flex-row justify-center"> */}
+							{/* 			<div className="pointer-events-auto"> */}
+							{/* 				<MemoWYSIWYGMenu /> */}
+							{/* 			</div> */}
+							{/* 		</div> */}
+							{/* 	</div> */}
+							{/* </Transition> */}
 
 						</div>
 					</div>
 
-				</DispatchContext.Provider>
-			</RangeTypesContext.Provider>
-		</ElementsContext.Provider>
+		// 		</DispatchContext.Provider>
+		// 	</RangeTypesContext.Provider>
+		// </ElementsContext.Provider>
 	)
 }
 
