@@ -1,5 +1,5 @@
+import ContextPrefsDispatch from "../ContextPrefsDispatch"
 import MemoHighlight from "lib/PrismJS/MemoHighlight"
-import PrefsDispatchContext from "../PrefsDispatchContext"
 import React from "react"
 import Releases from "./Releases"
 import tabSize from "lib/x/tabSize"
@@ -11,7 +11,7 @@ import {
 } from "../Tooltips"
 
 const MemoFixedTopPreferences = React.memo(({ prefs }) => {
-	const dispatch = React.useContext(PrefsDispatchContext)
+	const dispatch = React.useContext(ContextPrefsDispatch)
 
 	const [tooltip, setTooltip] = React.useState("")
 

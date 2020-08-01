@@ -1,9 +1,9 @@
+import ContextDispatch from "./ContextDispatch"
+import ContextPrefsDispatch from "./ContextPrefsDispatch"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
-import DispatchContext from "./DispatchContext"
 import keyCodeFor from "lib/Client/keyCodeFor"
 import MemoFixedBottomWYSIWYGMenu from "./MemoFixedBottomWYSIWYGMenu"
 import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
-import PrefsDispatchContext from "./PrefsDispatchContext"
 import React from "react"
 import useKeydown from "lib/x/handlers/useKeydown"
 import usePreferences from "./usePreferences"
@@ -83,8 +83,8 @@ const App = () => {
 	})
 
 	return (
-		<DispatchContext.Provider value={dispatch}>
-			<PrefsDispatchContext.Provider value={prefsDispatch}>
+		<ContextDispatch.Provider value={dispatch}>
+			<ContextPrefsDispatch.Provider value={prefsDispatch}>
 
 				<div className="px-6 py-32 flex flex-row justify-center h-full">
 					<div className="w-full max-w-2xl h-full">
@@ -134,8 +134,8 @@ const App = () => {
 					</div>
 				</div>
 
-			</PrefsDispatchContext.Provider>
-		</DispatchContext.Provider>
+			</ContextPrefsDispatch.Provider>
+		</ContextDispatch.Provider>
 	)
 }
 

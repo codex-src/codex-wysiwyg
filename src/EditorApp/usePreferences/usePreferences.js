@@ -1,8 +1,8 @@
 import { useImmerReducer } from "use-immer"
 
-import { // Unsorted
-	toGFM as toMarkdown, // TODO
-	toHTML as toMarkup,  // TODO
+import {
+	toMarkdown,
+	toMarkup,
 } from "./resolvers"
 
 const init = elements => ({
