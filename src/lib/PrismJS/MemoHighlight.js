@@ -7,8 +7,14 @@ const MemoHighlight = React.memo(({ extension, children }) => {
 	if (parser) {
 		html = window.Prism.highlight(children, parser, extension)
 	}
-
-	return <div className={extension && `language-${extension}`} dangerouslySetInnerHTML={{ __html: html }} />
+	return (
+		<div
+			className={extension && `language-${extension}`}
+			dangerouslySetInnerHTML={{
+				__html: html || children,
+			}}
+		/>
+	)
 })
 
 export default MemoHighlight

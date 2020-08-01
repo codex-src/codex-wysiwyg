@@ -3,6 +3,14 @@ import React from "react"
 import Transition from "lib/x/Transition"
 import WYSIWYGMenu from "./WYSIWYGMenu"
 
+function areEqual(prev, next) {
+	const ok = (
+		prev.prefs === next.prefs &&
+		JSONEqual(prev.rangeTypes, next.rangeTypes)
+	)
+	return ok
+}
+
 const MemoFixedBottomWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
 	<Transition
 		on={!readOnlyMode}
@@ -18,12 +26,6 @@ const MemoFixedBottomWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => 
 			</div>
 		</aside>
 	</Transition>
-), (prev, next) => {
-	const ok = (
-		prev.readOnlyMode === next.readOnlyMode &&
-		JSONEqual(prev.rangeTypes, next.rangeTypes)
-	)
-	return ok
-})
+), areEqual)
 
 export default MemoFixedBottomWYSIWYGMenu

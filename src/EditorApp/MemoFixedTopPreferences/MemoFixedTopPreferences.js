@@ -1,65 +1,19 @@
-import DebouncedElementsContext from "../DebouncedElementsContext"
-import keyCodeFor from "lib/Client/keyCodeFor"
 import MemoHighlight from "lib/PrismJS/MemoHighlight"
+import PrefsDispatchContext from "../PrefsDispatchContext"
 import React from "react"
 import Releases from "./Releases"
 import tabSize from "lib/x/tabSize"
 import Transition from "lib/x/Transition"
-import useKeydown from "lib/x/handlers/useKeydown"
-import usePreferences from "./usePreferences"
 
 import {
 	AbsoluteBottomLeftToolTip as TooltipL,
 	AbsoluteBottomRightToolTip as TooltipR,
 } from "../Tooltips"
 
-const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
-	const debouncedElements = React.useContext(DebouncedElementsContext)
+const MemoFixedTopPreferences = React.memo(({ prefs }) => {
+	const dispatch = React.useContext(PrefsDispatchContext)
 
-	const [state, dispatch] = usePreferences(debouncedElements)
 	const [tooltip, setTooltip] = React.useState("")
-
-	React.useEffect(() => {
-		const article = document.getElementById("main-editor")
-		article.contentEditable = !readOnlyMode
-	}, [readOnlyMode])
-
-	React.useLayoutEffect(() => {
-		if (state.show && state.desc === "gfm") {
-			dispatch({
-				type: "UPDATE_GFM",
-				elements: debouncedElements,
-			})
-		}
-	}, [
-		debouncedElements,
-		state.show,
-		state.desc,
-		dispatch,
-	])
-
-	React.useLayoutEffect(() => {
-		if (state.show && state.desc === "html") {
-			dispatch({
-				type: "UPDATE_HTML",
-				elements: debouncedElements,
-			})
-		}
-	}, [
-		debouncedElements,
-		state.show,
-		state.desc,
-		dispatch,
-	])
-
-	// Binds the next keydown event to hide output.
-	useKeydown(e => {
-		if (e.keyCode === keyCodeFor("Escape")) {
-			dispatch({
-				type: "CLOSE_ALL",
-			})
-		}
-	})
 
 	// NOTE: Uses flex flex-col items-end because of <aside>.
 	return (
@@ -72,22 +26,26 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-						style={{ color: readOnlyMode && "var(--gray-800)" }}
+						style={{ color: prefs.readOnlyMode && "var(--gray-800)" }}
 						onFocus={e => setTooltip("lock")}
 						onBlur={e => setTooltip("")}
 						onMouseEnter={e => setTooltip("lock")}
 						onMouseLeave={e => setTooltip("")}
-						onClick={e => setReadOnlyMode(!readOnlyMode)}
+						onClick={e => {
+							dispatch({
+								type: "TOGGLE_READ_ONLY_MODE",
+							})
+						}}
 					>
-						{(!state.show && tooltip === "lock") && (
+						{(!prefs.show && tooltip === "lock") && (
 							<TooltipL>
 								<p className="text-xs whitespace-pre text-gray-100">
-									{!readOnlyMode ? "Enable Read-Only Mode" : "Disable Read-Only Mode"}
+									{!prefs.readOnlyMode ? "Enable Read-Only Mode" : "Disable Read-Only Mode"}
 								</p>
 							</TooltipL>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-							{!readOnlyMode
+							{!prefs.readOnlyMode
 								? <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
 								: <path d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" fillRule="evenodd" />
 							}
@@ -101,7 +59,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-						style={{ color: state.show && state.desc === "releases" && "var(--gray-800)" }}
+						style={{ color: prefs.show && prefs.desc === "releases" && "var(--gray-800)" }}
 						onFocus={e => setTooltip("releases")}
 						onBlur={e => setTooltip("")}
 						onMouseEnter={e => setTooltip("releases")}
@@ -112,7 +70,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 							})
 						}}
 					>
-						{(!state.show && tooltip === "releases") && (
+						{(!prefs.show && tooltip === "releases") && (
 							<TooltipR>
 								<p className="text-xs whitespace-pre text-gray-100">
 									View Releases
@@ -127,18 +85,18 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-						style={{ color: state.show && state.desc === "gfm" && "var(--gray-800)" }}
-						onFocus={e => setTooltip("gfm")}
+						style={{ color: prefs.show && prefs.desc === "markdown" && "var(--gray-800)" }}
+						onFocus={e => setTooltip("markdown")}
 						onBlur={e => setTooltip("")}
-						onMouseEnter={e => setTooltip("gfm")}
+						onMouseEnter={e => setTooltip("markdown")}
 						onMouseLeave={e => setTooltip("")}
 						onClick={e => {
 							dispatch({
-								type: "TOGGLE_GFM",
+								type: "TOGGLE_MARKDOWN",
 							})
 						}}
 					>
-						{(!state.show && tooltip === "gfm") && (
+						{(!prefs.show && tooltip === "markdown") && (
 							<TooltipR>
 								<p className="text-xs whitespace-pre text-gray-100">
 									Show GitHub Flavored Markdown
@@ -152,18 +110,18 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
-						style={{ color: state.show && state.desc === "html" && "var(--gray-800)" }}
-						onFocus={e => setTooltip("html")}
+						style={{ color: prefs.show && prefs.desc === "markup" && "var(--gray-800)" }}
+						onFocus={e => setTooltip("markup")}
 						onBlur={e => setTooltip("")}
-						onMouseEnter={e => setTooltip("html")}
+						onMouseEnter={e => setTooltip("markup")}
 						onMouseLeave={e => setTooltip("")}
 						onClick={e => {
 							dispatch({
-								type: "TOGGLE_HTML",
+								type: "TOGGLE_MARKUP",
 							})
 						}}
 					>
-						{(!state.show && tooltip === "html") && (
+						{(!prefs.show && tooltip === "markup") && (
 							<TooltipR>
 								<p className="text-xs whitespace-pre text-gray-100">
 									Show HyperText Markup Language
@@ -180,12 +138,12 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 			</div>
 
 			<Transition
-				on={state.show}
+				on={prefs.show}
 				from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
 				to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
 			>
 				<aside className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-					{state.desc === "releases" ? (
+					{prefs.desc === "releases" ? (
 						<div className="text-gray-800">
 							<Releases />
 						</div>
@@ -196,13 +154,13 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 								...tabSize(2),
 								// NOTE: className="break-words" does not
 								// work as expected.
-								fontSize: state.desc === "html" && "0.8125rem",
+								fontSize: prefs.desc === "markup" && "0.8125rem",
 								wordBreak: "break-word",
 							}}
 						>
 							<span className="inline-block min-w-full">
-								<MemoHighlight extension={state.desc}>
-									{state.rendered[state.desc]}
+								<MemoHighlight extension={prefs.desc === "markdown" && prefs.desc !== "markup" ? "gfm" : "html"}>
+									{prefs.resolved[prefs.desc]}
 								</MemoHighlight>
 							</span>
 						</div>

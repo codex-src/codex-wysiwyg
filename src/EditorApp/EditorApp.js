@@ -1,9 +1,12 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
-import DebouncedElementsContext from "./DebouncedElementsContext"
 import DispatchContext from "./DispatchContext"
+import keyCodeFor from "lib/Client/keyCodeFor"
 import MemoFixedBottomWYSIWYGMenu from "./MemoFixedBottomWYSIWYGMenu"
 import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
+import PrefsDispatchContext from "./PrefsDispatchContext"
 import React from "react"
+import useKeydown from "lib/x/handlers/useKeydown"
+import usePreferences from "./usePreferences"
 
 import {
 	Editor,
@@ -12,16 +15,13 @@ import {
 
 const App = () => {
 	const [state, dispatch] = useEditor()
+	const [prefs, prefsDispatch] = usePreferences(() => state.elements)
 
-	// NOTE: readOnlyMode is a synthetic property of an
-	// editor. Read-only mode can be enabled and disabled by
-	// toggling contenteditable on the editor element.
-	const [readOnlyMode, setReadOnlyMode] = React.useState(false)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
 	// Debounces elements by 50 milliseconds.
 	React.useEffect(() => {
-		if (!readOnlyMode) {
+		if (!prefs.show || (prefs.show && prefs.desc === "releases")) {
 			// No-op
 			return
 		}
@@ -33,20 +33,63 @@ const App = () => {
 		}
 	}, [
 		state.elements,
-		readOnlyMode,
+		prefs.show,
+		prefs.desc,
 	])
 
+	// NOTE: prefs.readOnlyMode is a synthetic property of an
+	// editor. Read-only mode can be enabled and disabled by
+	// toggling contenteditable on the editor element.
+	React.useEffect(() => {
+		const article = document.getElementById("main-editor")
+		article.contentEditable = !prefs.readOnlyMode
+	}, [prefs.readOnlyMode])
+
+	React.useLayoutEffect(() => {
+		if (state.show && state.desc === "markdown") {
+			prefsDispatch({
+				type: "UPDATE_MARKDOWN",
+				elements: debouncedElements,
+			})
+		}
+	}, [
+		debouncedElements,
+		state.show,
+		state.desc,
+		prefsDispatch,
+	])
+
+	React.useLayoutEffect(() => {
+		if (state.show && state.desc === "markup") {
+			prefsDispatch({
+				type: "UPDATE_MARKUP",
+				elements: debouncedElements,
+			})
+		}
+	}, [
+		debouncedElements,
+		state.show,
+		state.desc,
+		prefsDispatch,
+	])
+
+	// Binds the next keydown event to hide output.
+	useKeydown(e => {
+		if (e.keyCode === keyCodeFor("Escape")) {
+			prefsDispatch({
+				type: "HIDE_ALL",
+			})
+		}
+	})
+
 	return (
-		<DebouncedElementsContext.Provider value={debouncedElements}>
-			<DispatchContext.Provider value={dispatch}>
+		<DispatchContext.Provider value={dispatch}>
+			<PrefsDispatchContext.Provider value={prefsDispatch}>
 
 				<div className="px-6 py-32 flex flex-row justify-center h-full">
 					<div className="w-full max-w-2xl h-full">
 
-						<MemoFixedTopPreferences
-							readOnlyMode={readOnlyMode}
-							setReadOnlyMode={setReadOnlyMode}
-						/>
+						<MemoFixedTopPreferences prefs={prefs} />
 
 						<div className="relative h-full">
 							{(state.elements.length === 1 && !state.elements[0].props.children.length) && (
@@ -84,16 +127,15 @@ const App = () => {
 						</div>
 
 						<MemoFixedBottomWYSIWYGMenu
-							readOnlyMode={readOnlyMode}
-							setReadOnlyMode={setReadOnlyMode}
+							readOnlyMode={prefs.readOnlyMode}
 							rangeTypes={state.rangeTypes}
 						/>
 
 					</div>
 				</div>
 
-			</DispatchContext.Provider>
-		</DebouncedElementsContext.Provider>
+			</PrefsDispatchContext.Provider>
+		</DispatchContext.Provider>
 	)
 }
 
