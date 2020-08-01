@@ -77,6 +77,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 
 	const $className = !className ? "em-context" : `em-context ${className}`
 	return (
+	// <div>
+
 		<article
 			ref={ref}
 
@@ -265,6 +267,14 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 
 			data-root
 		/>
+
+	// {process.env.NODE_ENV !== "production" && (
+	// 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ tabSize: 2 }}>
+	// 		{JSON.stringify(state, null, "\t")}
+	// 	</pre>
+	// )}
+	//
+	// </div>
 	)
 }
 
