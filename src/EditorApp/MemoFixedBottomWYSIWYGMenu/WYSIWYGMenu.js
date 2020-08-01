@@ -1,6 +1,6 @@
+import DispatchContext from "../DispatchContext"
 import React from "react"
 import userAgent from "lib/Client/userAgent"
-import { DispatchContext } from "../contexts"
 
 const WYSIWYGMenu = ({ rangeTypes }) => {
 	const dispatch = React.useContext(DispatchContext)

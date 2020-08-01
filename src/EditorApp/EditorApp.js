@@ -1,6 +1,6 @@
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import MemoFixedBottomWYSIWYGMenu from "./MemoFixedBottomWYSIWYGMenu"
-import MemoFixedPreferences from "./MemoFixedPreferences"
+import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
 import React from "react"
 import Transition from "lib/x/Transition"
 
@@ -49,10 +49,10 @@ const App = () => {
 					<div className="px-6 py-32 flex flex-row justify-center h-full">
 						<div className="w-full max-w-2xl h-full">
 
-							{/* <MemoFixedPreferences */}
-							{/* 	readOnlyMode={readOnlyMode} */}
-							{/* 	setReadOnlyMode={setReadOnlyMode} */}
-							{/* /> */}
+							<MemoFixedTopPreferences
+								readOnlyMode={readOnlyMode}
+								setReadOnlyMode={setReadOnlyMode}
+							/>
 
 							<div className="relative h-full">
 								{(state.elements.length === 1 && !state.elements[0].props.children.length) && (

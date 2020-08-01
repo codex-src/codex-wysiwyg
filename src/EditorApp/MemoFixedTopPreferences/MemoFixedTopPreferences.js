@@ -4,7 +4,7 @@ import keyCodeFor from "lib/Client/keyCodeFor"
 import React from "react"
 import Releases from "./Releases"
 import Transition from "lib/x/Transition"
-import { useElements } from "./contexts"
+// import { useElements } from "../contexts"
 
 import { // Unsorted
 	resolveGFM,
@@ -16,95 +16,95 @@ const tabSize = size => ({
 	tabSize: size,
 })
 
-const Output = ({ output, setOutput }) => {
-	const elements = useElements()
+// const Output = ({ output, setOutput }) => {
+// 	const elements = useElements()
+//
+// 	const [resolved, setResolved] = React.useState(() => {
+// 		const gfm = resolveGFM(elements)
+// 		const html = resolveHTML(elements)
+// 		return { gfm, html }
+// 	})
+//
+// 	// NOTE: Must use useLayoutEffect.
+// 	React.useLayoutEffect(() => {
+// 		if (output.show && output.detail === "gfm") {
+// 			const result = resolveGFM(elements)
+// 			setResolved(current => ({
+// 				...current,
+// 				gfm: result,
+// 			}))
+// 		}
+// 	}, [elements, output])
+//
+// 	// NOTE: Must use useLayoutEffect.
+// 	React.useLayoutEffect(() => {
+// 		if (output.show && output.detail === "html") {
+// 			const result = resolveHTML(elements)
+// 			setResolved(current => ({
+// 				...current,
+// 				html: result,
+// 			}))
+// 		}
+// 	}, [elements, output])
+//
+// 	return (
+// 		<Transition
+// 			on={output.show}
+// 			from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
+// 			to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
+// 		>
+// 			<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
+//
+// 				{output.detail === "releases" && (
+// 					<div className="text-gray-800">
+// 						<Releases />
+// 					</div>
+// 				)}
+//
+// 				{output.detail === "gfm" && (
+// 					<div
+// 						className="p-6 whitespace-pre-wrap text-gray-800"
+// 						style={{
+// 							...tabSize(2),
+// 							// NOTE: className="break-words" does not work
+// 							// as expected.
+// 							wordBreak: "break-word",
+// 						}}
+// 					>
+// 						<span className="inline-block min-w-full">
+// 							<Highlight extension={output.detail}>
+// 								{resolved[output.detail]}
+// 							</Highlight>
+// 						</span>
+// 					</div>
+// 				)}
+//
+// 				{output.detail === "html" && (
+// 					<div
+// 						className="p-6 whitespace-pre-wrap font-mono text-gray-800"
+// 						style={{
+// 							...tabSize(2),
+// 							// NOTE: className="break-words" does not work
+// 							// as expected.
+// 							wordBreak: "break-word",
+// 							fontSize: "0.8125rem",
+//
+// 						}}
+// 					>
+// 						<span className="inline-block min-w-full">
+// 							<Highlight extension={output.detail}>
+// 								{resolved[output.detail]}
+// 							</Highlight>
+// 						</span>
+// 					</div>
+// 				)}
+//
+// 			</div>
+// 		</Transition>
+// 	)
+// }
 
-	const [resolved, setResolved] = React.useState(() => {
-		const gfm = resolveGFM(elements)
-		const html = resolveHTML(elements)
-		return { gfm, html }
-	})
-
-	// NOTE: Must use useLayoutEffect.
-	React.useLayoutEffect(() => {
-		if (output.show && output.detail === "gfm") {
-			const result = resolveGFM(elements)
-			setResolved(current => ({
-				...current,
-				gfm: result,
-			}))
-		}
-	}, [elements, output])
-
-	// NOTE: Must use useLayoutEffect.
-	React.useLayoutEffect(() => {
-		if (output.show && output.detail === "html") {
-			const result = resolveHTML(elements)
-			setResolved(current => ({
-				...current,
-				html: result,
-			}))
-		}
-	}, [elements, output])
-
-	return (
-		<Transition
-			on={output.show}
-			from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
-			to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
-		>
-			<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
-
-				{output.detail === "releases" && (
-					<div className="text-gray-800">
-						<Releases />
-					</div>
-				)}
-
-				{output.detail === "gfm" && (
-					<div
-						className="p-6 whitespace-pre-wrap text-gray-800"
-						style={{
-							...tabSize(2),
-							// NOTE: className="break-words" does not work
-							// as expected.
-							wordBreak: "break-word",
-						}}
-					>
-						<span className="inline-block min-w-full">
-							<Highlight extension={output.detail}>
-								{resolved[output.detail]}
-							</Highlight>
-						</span>
-					</div>
-				)}
-
-				{output.detail === "html" && (
-					<div
-						className="p-6 whitespace-pre-wrap font-mono text-gray-800"
-						style={{
-							...tabSize(2),
-							// NOTE: className="break-words" does not work
-							// as expected.
-							wordBreak: "break-word",
-							fontSize: "0.8125rem",
-
-						}}
-					>
-						<span className="inline-block min-w-full">
-							<Highlight extension={output.detail}>
-								{resolved[output.detail]}
-							</Highlight>
-						</span>
-					</div>
-				)}
-
-			</div>
-		</Transition>
-	)
-}
-
-const MemoFixedPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
+const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
 	const [tooltip, setTooltip] = React.useState("")
 
 	const [output, setOutput] = React.useState({
@@ -205,7 +205,6 @@ const MemoFixedPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
 				{/* RHS */}
 				<div className="flex flex-row">
 
-
 					<button
 						className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 						style={{ color: output.show && output.detail === "releases" && "var(--gray-800)" }}
@@ -289,13 +288,13 @@ const MemoFixedPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
 
 			</div>
 
-			<Output
-				output={output}
-				setOutput={setOutput}
-			/>
+			{/* <Output */}
+			{/* 	output={output} */}
+			{/* 	setOutput={setOutput} */}
+			{/* /> */}
 
 		</div>
 	)
 })
 
-export default MemoFixedPreferences
+export default MemoFixedTopPreferences
