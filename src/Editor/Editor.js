@@ -27,7 +27,7 @@ const MemoElements = React.memo(({ elements }) => (
 ))
 
 // Renders a read-write editor.
-const Editor = ({ id, className, style, state, dispatch, children }) => {
+const Editor = React.memo(({ id, className, style, state, dispatch, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
@@ -257,7 +257,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 			data-root
 		/>
 	)
-}
+})
 
 // {process.env.NODE_ENV !== "production" && (
 // 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ tabSize: 2 }}>

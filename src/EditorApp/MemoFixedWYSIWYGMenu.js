@@ -1,11 +1,8 @@
+import JSONEqual from "lib/JSON/JSONEqual"
 import React from "react"
 import Transition from "lib/x/Transition"
 import userAgent from "lib/Client/userAgent"
-
-import { // Unsorted
-	useRangeTypes,
-	useDispatch,
-} from "./contexts"
+import { useDispatch } from "./contexts"
 
 const WYSIWYGMenu = ({ rangeTypes }) => {
 	const dispatch = useDispatch()
@@ -241,6 +238,12 @@ const MemoFixedWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
 			</div>
 		</div>
 	</Transition>
-))
+), (prev, next) => {
+	const ok = (
+		prev.readOnlyMode === next.readOnlyMode &&
+		JSONEqual(prev.rangeTypes, next.rangeTypes)
+	)
+	return ok
+})
 
 export default MemoFixedWYSIWYGMenu

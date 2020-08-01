@@ -1,3 +1,4 @@
+import JSONEqual from "lib/JSON/JSONEqual"
 import React from "react"
 import userAgent from "lib/Client/userAgent"
 import { useDispatch } from "./contexts"
@@ -220,4 +221,11 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 	)
 }
 
-export default WYSIWYGMenu
+function areEqual({ rangeTypes: r1 }, { rangeTypes: r2 }) {
+	return JSONEqual(r1, r2)
+}
+
+export default React.memo(
+	WYSIWYGMenu,
+	areEqual,
+)
