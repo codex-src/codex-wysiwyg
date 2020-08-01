@@ -1,6 +1,6 @@
 import DebouncedElementsContext from "../DebouncedElementsContext"
-import Highlight from "lib/PrismJS/Highlight"
 import keyCodeFor from "lib/Client/keyCodeFor"
+import MemoHighlight from "lib/PrismJS/MemoHighlight"
 import React from "react"
 import Releases from "./Releases"
 import tabSize from "lib/x/tabSize"
@@ -33,23 +33,52 @@ const AbsoluteBottomRightToolTip = ({ children }) => (
 )
 
 const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) => {
-	const [state, dispatch] = usePreferences(React.useContext(DebouncedElementsContext))
+	const debouncedElements = React.useContext(DebouncedElementsContext)
 
+	const [state, dispatch] = usePreferences(debouncedElements)
 	const [tooltip, setTooltip] = React.useState("")
 
-	// React.useEffect(() => {
-	// 	const article = document.getElementById("main-editor")
-	// 	article.contentEditable = !readOnlyMode
-	// }, [readOnlyMode])
+	React.useEffect(() => {
+		const article = document.getElementById("main-editor")
+		article.contentEditable = !readOnlyMode
+	}, [readOnlyMode])
 
-	// // Binds the next keydown event to hide output.
-	// useKeydown(e => {
-	// 	if (e.keyCode === keyCodeFor("Escape")) {
-	// 		dispatch({
-	// 			type: "HIDE_ALL",
-	// 		})
-	// 	}
-	// })
+	React.useLayoutEffect(() => {
+		if (state.show && state.desc === "gfm") {
+			dispatch({
+				type: "UPDATE_GFM",
+				elements: debouncedElements,
+			})
+		}
+	}, [
+		debouncedElements,
+		state.show,
+		state.desc,
+		dispatch,
+	])
+
+	React.useLayoutEffect(() => {
+		if (state.show && state.desc === "html") {
+			dispatch({
+				type: "UPDATE_HTML",
+				elements: debouncedElements,
+			})
+		}
+	}, [
+		debouncedElements,
+		state.show,
+		state.desc,
+		dispatch,
+	])
+
+	// Binds the next keydown event to hide output.
+	useKeydown(e => {
+		if (e.keyCode === keyCodeFor("Escape")) {
+			dispatch({
+				type: "CLOSE_ALL",
+			})
+		}
+	})
 
 	// NOTE: Uses flex flex-col items-end because of
 	// <RenderedOutput>.
@@ -78,11 +107,10 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 							</AbsoluteBottomLeftToolTip>
 						)}
 						<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-							{!readOnlyMode ? (
-								<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
-							) : (
-								<path d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" fillRule="evenodd" />
-							)}
+							{!readOnlyMode
+								? <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+								: <path d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" fillRule="evenodd" />
+							}
 						</svg>
 					</button>
 
@@ -158,7 +186,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 						{(!state.show && tooltip === "html") && (
 							<AbsoluteBottomRightToolTip>
 								<p className="whitespace-pre text-xs text-gray-100">
-									Show Semantic HTML
+									Show HyperText Markup Language
 								</p>
 							</AbsoluteBottomRightToolTip>
 						)}
@@ -183,18 +211,19 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 						</div>
 					) : (
 						<div
-							className="p-6 whitespace-pre-wrap text-gray-800"
+							className="p-6 text-sm font-mono whitespace-pre-wrap text-gray-800"
 							style={{
 								...tabSize(2),
 								// NOTE: className="break-words" does not work
 								// as expected.
+								fontSize: state.desc === "html" && "0.8125rem",
 								wordBreak: "break-word",
 							}}
 						>
 							<span className="inline-block min-w-full">
-								<Highlight extension={state.desc}>
+								<MemoHighlight extension={state.desc}>
 									{state.rendered[state.desc]}
-								</Highlight>
+								</MemoHighlight>
 							</span>
 						</div>
 					)}
@@ -204,13 +233,5 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 		</aside>
 	)
 })
-
-// style={{
-// 	...tabSize(2),
-// 	// NOTE: className="break-words" does not work
-// 	// as expected.
-// 	wordBreak: "break-word",
-// 	fontSize: "0.8125rem",
-// }}
 
 export default MemoFixedTopPreferences

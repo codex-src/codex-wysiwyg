@@ -5,7 +5,7 @@ import { // Unsorted
 	toHTML,
 } from "./cmap"
 
-const init = elements => console.log("hello") ||  ({
+const init = elements => ({
 	show: false,
 	desc: "",
 	rendered: {
@@ -14,52 +14,55 @@ const init = elements => console.log("hello") ||  ({
 	},
 })
 
-// Toggles releases.
-function toggleReleases(p) {
-	// p.show = (
-	// 	!p.show ||
-	// 	p.desc === "releases"
-	// )
-	p.show = !p.show
-	p.desc = "releases"
-}
+const actions = state => ({
+	// Toggles releases.
+	toggleReleases() {
+		state.show = !state.show || state.desc !== "releases"
+		state.desc = "releases"
+	},
+	// Toggles rendering GitHub Flavored Markdown.
+	toggleMarkdown() {
+		state.show = !state.show || state.desc !== "gfm"
+		state.desc = "gfm"
+	},
+	// Toggles rendering HyperText Markup Language..
+	toggleMarkup() {
+		state.show = !state.show || state.desc !== "html"
+		state.desc = "html"
+	},
+	// Updates the rendered GitHub Flavored Markdown.
+	updateGFM(elements) {
+		state.rendered.gfm = toGFM(elements)
+	},
+	// Updates the rendered HyperText Markup Language.
+	updateHTML(elements) {
+		state.rendered.html = toHTML(elements)
+	},
+	// Closes all.
+	closeAll() {
+		state.show = false
+	},
+})
 
-// Toggles rendering GitHub Flavored Markdown.
-function toggleGFM(p, elements) {
-	// p.show = (
-	// 	!p.show ||
-	// 	p.desc === "gfm"
-	// )
-	// p.desc = "gfm"
-}
-
-// Toggles rendering HTML.
-function toggleHTML(p, elements) {
-	// p.show = (
-	// 	!p.show ||
-	// 	p.desc === "html"
-	// )
-	// p.desc = "html"
-}
-
-// Hides all.
-function hideAll(p) {
-	// p.show = false
-}
-
-function PreferencesReducer(p, action) {
+function PreferencesReducer(state, action) {
 	switch (action.type) {
 	case "TOGGLE_RELEASES":
-		toggleReleases(p)
+		actions(state).toggleReleases()
 		return
 	case "TOGGLE_GFM":
-		toggleGFM(p)
+		actions(state).toggleMarkdown()
 		return
 	case "TOGGLE_HTML":
-		toggleHTML(p)
+		actions(state).toggleMarkup()
 		return
-	case "HIDE_ALL":
-		hideAll(p)
+	case "UPDATE_GFM":
+		actions(state).updateGFM(action.elements)
+		return
+	case "UPDATE_HTML":
+		actions(state).updateHTML(action.elements)
+		return
+	case "CLOSE_ALL":
+		actions(state).closeAll()
 		return
 	default:
 		throw new Error(`PreferencesReducer: type mismatch; action.type=${action.type}`)

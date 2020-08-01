@@ -13,14 +13,14 @@ import { // Unsorted
 const App = () => {
 	const [state, dispatch] = useEditor()
 
-	// TODO: Change to state.readOnlyMode?
 	const [readOnlyMode, setReadOnlyMode] = React.useState(false)
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
+	// Debounces elements by 50 milliseconds.
 	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
-		}, 30)
+		}, 50)
 		return () => {
 			clearTimeout(id)
 		}
