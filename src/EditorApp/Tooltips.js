@@ -1,10 +1,6 @@
 import React from "react"
 
-//   x
-// +---+
-// +---+
-//
-export const AbsoluteTopCenterTooltip = ({ children }) => (
+export const AbsoluteTopTooltip = ({ children }) => (
 	<div className="absolute bottom-full" style={{ left: "50%" }}>
 		<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 			<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
@@ -15,11 +11,6 @@ export const AbsoluteTopCenterTooltip = ({ children }) => (
 	</div>
 )
 
-//
-// +---+
-// +---+
-// x
-//
 export const AbsoluteBottomLeftToolTip = ({ children }) => (
 	<div className="absolute top-full left-0">
 		<div className="px-2 py-1 bg-gray-800 rounded shadow">
@@ -31,10 +22,6 @@ export const AbsoluteBottomLeftToolTip = ({ children }) => (
 	</div>
 )
 
-// +---+
-// +---+
-//     x
-//
 export const AbsoluteBottomRightToolTip = ({ children }) => (
 	<div className="absolute top-full right-0">
 		<div className="px-2 py-1 bg-gray-800 rounded shadow">

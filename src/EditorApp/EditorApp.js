@@ -5,9 +5,9 @@ import MemoFixedBottomWYSIWYGMenu from "./MemoFixedBottomWYSIWYGMenu"
 import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
 import React from "react"
 
-import { // Unsorted
-	Editor,
-	useEditor,
+import {
+ Editor,
+ useEditor,
 } from "Editor"
 
 const App = () => {

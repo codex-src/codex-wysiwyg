@@ -1,7 +1,7 @@
 import DispatchContext from "../DispatchContext"
 import React from "react"
 import userAgent from "lib/Client/userAgent"
-import { AbsoluteTopCenterTooltip } from "../Tooltips"
+import { AbsoluteTopTooltip as Tooltip } from "../Tooltips"
 
 const WYSIWYGMenu = ({ rangeTypes }) => {
 	const dispatch = React.useContext(DispatchContext)
@@ -33,14 +33,14 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 					}}
 				>
 					{tooltip === "strong" && (
-						<AbsoluteTopCenterTooltip>
+						<Tooltip>
 							<p className="text-xs whitespace-pre text-gray-100">
 								Bold{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"}
 								</span>
 							</p>
-						</AbsoluteTopCenterTooltip>
+						</Tooltip>
 					)}
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 						<path d="M4 2a1 1 0 00-1 1v10a1 1 0 001 1h5.5a3.5 3.5 0 001.852-6.47A3.5 3.5 0 008.5 2H4zm4.5 5a1.5 1.5 0 100-3H5v3h3.5zM5 9v3h4.5a1.5 1.5 0 000-3H5z" fillRule="evenodd" />
@@ -69,14 +69,14 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 					}}
 				>
 					{tooltip === "italics" && (
-						<AbsoluteTopCenterTooltip>
+						<Tooltip>
 							<p className="text-xs whitespace-pre text-gray-100">
 								Italic{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"}
 								</span>
 							</p>
-						</AbsoluteTopCenterTooltip>
+						</Tooltip>
 					)}
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 						<path d="M6 2.75A.75.75 0 016.75 2h6.5a.75.75 0 010 1.5h-2.505l-3.858 9H9.25a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5h2.505l3.858-9H6.75A.75.75 0 016 2.75z" fillRule="evenodd" />
@@ -105,14 +105,14 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 					}}
 				>
 					{tooltip === "code" && (
-						<AbsoluteTopCenterTooltip>
+						<Tooltip>
 							<p className="text-xs whitespace-pre text-gray-100">
 								Code{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"}
 								</span>
 							</p>
-						</AbsoluteTopCenterTooltip>
+						</Tooltip>
 					)}
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 						<path d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z" fillRule="evenodd" />
@@ -141,14 +141,14 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 					}}
 				>
 					{tooltip === "strikethrough" && (
-						<AbsoluteTopCenterTooltip>
+						<Tooltip>
 							<p className="text-xs whitespace-pre text-gray-100">
 								Strikethrough{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"}
 								</span>
 							</p>
-						</AbsoluteTopCenterTooltip>
+						</Tooltip>
 					)}
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 						<path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" fillRule="evenodd" />
@@ -177,14 +177,14 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 					}}
 				>
 					{tooltip === "a" && (
-						<AbsoluteTopCenterTooltip>
+						<Tooltip>
 							<p className="text-xs whitespace-pre text-gray-100">
 								Link{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"}
 								</span>
 							</p>
-						</AbsoluteTopCenterTooltip>
+						</Tooltip>
 					)}
 					<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
 						<path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z" fillRule="evenodd" />
