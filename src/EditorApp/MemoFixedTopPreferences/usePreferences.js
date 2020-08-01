@@ -65,7 +65,7 @@ function PreferencesReducer(state, action) {
 		actions(state).closeAll()
 		return
 	default:
-		throw new Error(`PreferencesReducer: type mismatch; action.type=${action.type}`)
+		throw new Error(`usePreferences.PreferencesReducer: type mismatch; action.type=${action.type}`)
 	}
 }
 

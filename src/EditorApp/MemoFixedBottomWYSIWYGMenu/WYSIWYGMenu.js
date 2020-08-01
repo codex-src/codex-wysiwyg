@@ -34,7 +34,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				>
 					{tooltip === "strong" && (
 						<AbsoluteTopCenterTooltip>
-							<p className="whitespace-pre text-xs text-gray-100">
+							<p className="text-xs whitespace-pre text-gray-100">
 								Bold{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Ctrl+B" : "⌘+B"}
@@ -70,7 +70,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				>
 					{tooltip === "italics" && (
 						<AbsoluteTopCenterTooltip>
-							<p className="whitespace-pre text-xs text-gray-100">
+							<p className="text-xs whitespace-pre text-gray-100">
 								Italic{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Ctrl+I" : "⌘+I"}
@@ -106,7 +106,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				>
 					{tooltip === "code" && (
 						<AbsoluteTopCenterTooltip>
-							<p className="whitespace-pre text-xs text-gray-100">
+							<p className="text-xs whitespace-pre text-gray-100">
 								Code{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Shift+Ctrl+C" : "Shift+⌘+C"}
@@ -142,7 +142,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				>
 					{tooltip === "strikethrough" && (
 						<AbsoluteTopCenterTooltip>
-							<p className="whitespace-pre text-xs text-gray-100">
+							<p className="text-xs whitespace-pre text-gray-100">
 								Strikethrough{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Shift+Ctrl+X" : "Shift+⌘+X"}
@@ -178,7 +178,7 @@ const WYSIWYGMenu = ({ rangeTypes }) => {
 				>
 					{tooltip === "a" && (
 						<AbsoluteTopCenterTooltip>
-							<p className="whitespace-pre text-xs text-gray-100">
+							<p className="text-xs whitespace-pre text-gray-100">
 								Link{" ".repeat(2)}
 								<span className="opacity-75">
 									{!userAgent.MacOSX ? "Ctrl+K" : "⌘+K"}

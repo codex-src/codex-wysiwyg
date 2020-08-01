@@ -61,10 +61,9 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 		}
 	})
 
-	// NOTE: Uses flex flex-col items-end because of
-	// <RenderedOutput>.
+	// NOTE: Uses flex flex-col items-end because of <aside>.
 	return (
-		<aside className="px-3 pb-8 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
+		<div className="px-3 pb-8 fixed inset-0 flex flex-col items-end z-10 pointer-events-none">
 
 			<div className="py-2 flex flex-row justify-between w-full max-w-full">
 
@@ -82,7 +81,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 					>
 						{(!state.show && tooltip === "lock") && (
 							<AbsoluteBottomLeftToolTip>
-								<p className="whitespace-pre text-xs text-gray-100">
+								<p className="text-xs whitespace-pre text-gray-100">
 									{!readOnlyMode ? "Enable Read-Only Mode" : "Disable Read-Only Mode"}
 								</p>
 							</AbsoluteBottomLeftToolTip>
@@ -115,7 +114,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 					>
 						{(!state.show && tooltip === "releases") && (
 							<AbsoluteBottomRightToolTip>
-								<p className="whitespace-pre text-xs text-gray-100">
+								<p className="text-xs whitespace-pre text-gray-100">
 									View Releases
 								</p>
 							</AbsoluteBottomRightToolTip>
@@ -141,7 +140,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 					>
 						{(!state.show && tooltip === "gfm") && (
 							<AbsoluteBottomRightToolTip>
-								<p className="whitespace-pre text-xs text-gray-100">
+								<p className="text-xs whitespace-pre text-gray-100">
 									Show GitHub Flavored Markdown
 								</p>
 							</AbsoluteBottomRightToolTip>
@@ -166,7 +165,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 					>
 						{(!state.show && tooltip === "html") && (
 							<AbsoluteBottomRightToolTip>
-								<p className="whitespace-pre text-xs text-gray-100">
+								<p className="text-xs whitespace-pre text-gray-100">
 									Show HyperText Markup Language
 								</p>
 							</AbsoluteBottomRightToolTip>
@@ -185,7 +184,7 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 				from="transition duration-200 ease-in opacity-0 transform -translate-y-4 pointer-events-none"
 				to="transition duration-200 ease-out opacity-100 transform translate-y-0 pointer-events-auto"
 			>
-				<div className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
+				<aside className="w-full max-w-lg max-h-full bg-white rounded-lg shadow-hero-lg overflow-y-scroll">
 					{state.desc === "releases" ? (
 						<div className="text-gray-800">
 							<Releases />
@@ -195,8 +194,8 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 							className="p-6 text-sm font-mono whitespace-pre-wrap text-gray-800"
 							style={{
 								...tabSize(2),
-								// NOTE: className="break-words" does not work
-								// as expected.
+								// NOTE: className="break-words" does not
+								// work as expected.
 								fontSize: state.desc === "html" && "0.8125rem",
 								wordBreak: "break-word",
 							}}
@@ -208,10 +207,10 @@ const MemoFixedTopPreferences = React.memo(({ readOnlyMode, setReadOnlyMode }) =
 							</span>
 						</div>
 					)}
-				</div>
+				</aside>
 			</Transition>
 
-		</aside>
+		</div>
 	)
 })
 
