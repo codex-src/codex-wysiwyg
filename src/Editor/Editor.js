@@ -118,15 +118,19 @@ const Editor = React.memo(({ id, className, style, state, dispatch, children }) 
 			// TODO: Add COMPAT guard for select-all or prevent
 			// default?
 			onSelect={e => {
-				const range = getCurrentRange(ref.current)
-				if (!range) {
-					// No-op
-					return
+				try {
+					const range = getCurrentRange(ref.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					dispatch({
+						type: "SELECT",
+						range,
+					})
+				} catch (error) {
+					console.error(error)
 				}
-				dispatch({
-					type: "SELECT",
-					range,
-				})
 			}}
 
 			onKeyDown={e => {
