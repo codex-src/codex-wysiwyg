@@ -59,7 +59,7 @@ function EditorReducer(e, action) {
 		actions.uncontrolledInput(e, action)
 		return
 	default:
-		throw new Error(`EditorReducer: no such action.type; action.type=${action.type}`)
+		throw new Error(`EditorReducer: type mismatch; action.type=${action.type}`)
 	}
 }
 

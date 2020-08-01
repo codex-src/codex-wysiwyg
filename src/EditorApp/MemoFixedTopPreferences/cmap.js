@@ -16,50 +16,60 @@ function treeTextContent(children) {
 	return str
 }
 
-const cmapGFM = {
-	em:     el => `_${resolveTreeChildren(el.props.children, cmapGFM)}_`,
-	strong: el => `**${resolveTreeChildren(el.props.children, cmapGFM)}**`,
+// TODO: Add support for alternate syntax?
+const gfm = {
+	em:     el => `_${resolveTreeChildren(el.props.children, gfm)}_`,
+	strong: el => `**${resolveTreeChildren(el.props.children, gfm)}**`,
 	code:   el => `\`${treeTextContent(el.props.children)}\``,
-	strike: el => `~~${resolveTreeChildren(el.props.children, cmapGFM)}~~`,
+	strike: el => `~~${resolveTreeChildren(el.props.children, gfm)}~~`,
 
-	// !el.props.href ? `[${resolveTreeChildren(el.props.children, cmapGFM)}](${el.props.href})` : el.props.children,
-	a:      el => `[${resolveTreeChildren(el.props.children, cmapGFM)}](${el.props.href || "TODO"})`,
+	// !el.props.href ? `[${resolveTreeChildren(el.props.children, gfm)}](${el.props.href})` : el.props.children,
+	a:      el => `[${resolveTreeChildren(el.props.children, gfm)}](${el.props.href || "TODO"})`,
 
-	"h1":   el => `# ${resolveChildren(el.props.children, cmapGFM)}`,
-	"h2":   el => `## ${resolveChildren(el.props.children, cmapGFM)}`,
-	"h3":   el => `### ${resolveChildren(el.props.children, cmapGFM)}`,
-	"h4":   el => `#### ${resolveChildren(el.props.children, cmapGFM)}`,
-	"h5":   el => `##### ${resolveChildren(el.props.children, cmapGFM)}`,
-	"h6":   el => `###### ${resolveChildren(el.props.children, cmapGFM)}`,
-	"p":    el => resolveChildren(el.props.children, cmapGFM),
+	"h1":   el => `# ${resolveChildren(el.props.children, gfm)}`,
+	"h2":   el => `## ${resolveChildren(el.props.children, gfm)}`,
+	"h3":   el => `### ${resolveChildren(el.props.children, gfm)}`,
+	"h4":   el => `#### ${resolveChildren(el.props.children, gfm)}`,
+	"h5":   el => `##### ${resolveChildren(el.props.children, gfm)}`,
+	"h6":   el => `###### ${resolveChildren(el.props.children, gfm)}`,
+	"p":    el => resolveChildren(el.props.children, gfm),
 }
 
-const cmapHTML = {
-	em:     el => `<em>${resolveTreeChildren(el.props.children, cmapHTML)}</em>`,
-	strong: el => `<strong>${resolveTreeChildren(el.props.children, cmapHTML)}</strong>`,
-	code:   el => `<code>${resolveTreeChildren(el.props.children, cmapHTML)}</code>`,
-	strike: el => `<strike>${resolveTreeChildren(el.props.children, cmapHTML)}</strike>`,
+// TODO: Add support for options; show ID, show wrapped URL,
+// etc.
+const html = {
+	em:     el => `<em>${resolveTreeChildren(el.props.children, html)}</em>`,
+	strong: el => `<strong>${resolveTreeChildren(el.props.children, html)}</strong>`,
+	code:   el => `<code>${resolveTreeChildren(el.props.children, html)}</code>`,
+	strike: el => `<strike>${resolveTreeChildren(el.props.children, html)}</strike>`,
 
 	// target="_blank" rel="noopener noreferrer"
-	a:      el => `<a href="${el.props.href}">${resolveTreeChildren(el.props.children, cmapHTML)}</a>`,
+	a:      el => `<a href="${el.props.href}">${resolveTreeChildren(el.props.children, html)}</a>`,
 
-	"h1":   el => `<h1>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</h1>`,
-	"h2":   el => `<h2>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</h2>`,
-	"h3":   el => `<h3>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</h3>`,
-	"h4":   el => `<h4>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</h4>`,
-	"h5":   el => `<h5>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</h5>`,
-	"h6":   el => `<h6>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</h6>`,
-	"p":    el => `<p>\n\t${resolveChildren(el.props.children, cmapHTML) || "<br />"}\n</p>`,
+	"h1":   el => `<h1>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h1>`,
+	"h2":   el => `<h2>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h2>`,
+	"h3":   el => `<h3>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h3>`,
+	"h4":   el => `<h4>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h4>`,
+	"h5":   el => `<h5>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h5>`,
+	"h6":   el => `<h6>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</h6>`,
+	"p":    el => `<p>\n\t${resolveChildren(el.props.children, html) || "<br />"}\n</p>`,
 }
 
+// 	if (children === null || typeof children === "string") {
+// 		if (resolver === cmapText) {
+// 			return children || ""
+// 		}
+// 		// Return an escaped string or a break:
+// 		return (resolver !== cmapReact_js ? escape(children) : reactEscape(children)) ||
+// 			(resolver !== cmapReact_js ? "<br>" : "<br />")
+// 	}
+
 // Resolves tree-shaped children to a resolver-type.
-//
-// TODO
 function resolveTreeChildren(children, resolver) {
 	let str = ""
 	for (const each of toArray(children)) {
 		if (typeof each === "string") {
-			str += resolver !== cmapHTML ? each : escape(each)
+			str += resolver !== html ? each : escape(each)
 			continue
 		}
 		str += resolver[each.type](each)
@@ -68,14 +78,12 @@ function resolveTreeChildren(children, resolver) {
 }
 
 // Resolves children to a resolver-type.
-//
-// TODO
 function resolveChildren(children, resolver) {
 	return resolveTreeChildren(toTree(children), resolver)
 }
 
-// Resolves to a string based on a resolver.
-function toString(elements, resolver) {
+// Resolves elements to a resolver-type.
+function resolveElements(elements, resolver) {
 	let str = ""
 	for (const each of elements) {
 		str += resolver[each.type](each)
@@ -86,12 +94,12 @@ function toString(elements, resolver) {
 	return str
 }
 
-// Resolves to GFM.
+// Converts an array of elements to GFM.
 export function toGFM(elements) {
-	return toString(elements, cmapGFM)
+	return resolveElements(elements, gfm)
 }
 
-// Resolves to HTML.
+// Converts an array of elements to HTML.
 export function toHTML(elements) {
-	return toString(elements, cmapHTML)
+	return resolveElements(elements, html)
 }

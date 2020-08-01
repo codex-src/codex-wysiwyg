@@ -10,13 +10,13 @@ const MemoFixedBottomWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => 
 		from="opacity-0"
 		to="opacity-100"
 	>
-		<div className="px-3 py-8 fixed inset-x-0 bottom-0 pointer-events-none">
+		<aside className="px-3 py-8 fixed inset-x-0 bottom-0 pointer-events-none">
 			<div className="flex flex-row justify-center">
 				<div className="pointer-events-auto">
 					<WYSIWYGMenu rangeTypes={rangeTypes} />
 				</div>
 			</div>
-		</div>
+		</aside>
 	</Transition>
 ), (prev, next) => {
 	const ok = (
