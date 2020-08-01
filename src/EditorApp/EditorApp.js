@@ -2,7 +2,7 @@ import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import MemoFixedPreferences from "./MemoFixedPreferences"
 import React from "react"
 import Transition from "lib/x/Transition"
-import MemoWYSIWYGMenu from "./MemoWYSIWYGMenu"
+import WYSIWYGMenu from "./WYSIWYGMenu"
 
 import { // Unsorted
 	ElementsContext,
@@ -42,9 +42,9 @@ const App = () => {
 	}, [state.rangeTypes])
 
 	return (
-		// <ElementsContext.Provider value={debouncedElements}>
-		// 	<RangeTypesContext.Provider value={debouncedRangeTypes}>
-		// 		<DispatchContext.Provider value={dispatch}>
+		<ElementsContext.Provider value={debouncedElements}>
+			<RangeTypesContext.Provider value={debouncedRangeTypes}>
+				<DispatchContext.Provider value={dispatch}>
 
 					<div className="px-6 py-32 flex flex-row justify-center h-full">
 						<div className="w-full max-w-2xl h-full">
@@ -89,27 +89,37 @@ const App = () => {
 								</Editor>
 							</div>
 
-							{/* <Transition */}
-							{/* 	on={!readOnlyMode} */}
-							{/* 	className="transition duration-200 ease-in-out" */}
-							{/* 	from="opacity-0" */}
-							{/* 	to="opacity-100" */}
-							{/* > */}
-							{/* 	<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none"> */}
-							{/* 		<div className="flex flex-row justify-center"> */}
-							{/* 			<div className="pointer-events-auto"> */}
-							{/* 				<MemoWYSIWYGMenu /> */}
-							{/* 			</div> */}
-							{/* 		</div> */}
-							{/* 	</div> */}
-							{/* </Transition> */}
+							{/* <MemoFixedWYSIWYGMenu */}
+							{/* 	readOnlyMode={readOnlyMode} */}
+							{/* 	rangeTypes={state.rangeTypes} */}
+							{/* /> */}
+
+							{React.useMemo(() => (
+								<Transition
+									on={!readOnlyMode}
+									className="transition duration-200 ease-in-out"
+									from="opacity-0"
+									to="opacity-100"
+								>
+									<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
+										<div className="flex flex-row justify-center">
+											<div className="pointer-events-auto">
+												<WYSIWYGMenu rangeTypes={state.rangeTypes} />
+											</div>
+										</div>
+									</div>
+								</Transition>
+							), [
+								readOnlyMode,
+								state.rangeTypes,
+							])}
 
 						</div>
 					</div>
 
-		// 		</DispatchContext.Provider>
-		// 	</RangeTypesContext.Provider>
-		// </ElementsContext.Provider>
+				</DispatchContext.Provider>
+			</RangeTypesContext.Provider>
+		</ElementsContext.Provider>
 	)
 }
 

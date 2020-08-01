@@ -7,19 +7,12 @@ import { // Unsorted
 	useDispatch,
 } from "./contexts"
 
-const MemoWYSIWYGMenu = React.memo(() => {
-	const rangeTypes = useRangeTypes()
+const WYSIWYGMenu = ({ rangeTypes }) => {
 	const dispatch = useDispatch()
 
 	const [tooltip, setTooltip] = React.useState("")
 
 	return (
-		// <Transition
-		// 	on={Object.keys(rangeTypes).length}
-		// 	className="transition duration-200 ease-in-out"
-		// 	from="shadow"
-		// 	to="shadow-hero-lg"
-		// >
 		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
 			<div className="-ml-0.5" />
 
@@ -230,8 +223,24 @@ const MemoWYSIWYGMenu = React.memo(() => {
 
 			<div className="-mr-0.5" />
 		</div>
-		// </Transition>
 	)
-})
+}
 
-export default MemoWYSIWYGMenu
+const MemoFixedWYSIWYGMenu = React.memo(({ readOnlyMode, rangeTypes }) => (
+	<Transition
+		on={!readOnlyMode}
+		className="transition duration-200 ease-in-out"
+		from="opacity-0"
+		to="opacity-100"
+	>
+		<div className="px-3 py-8 fixed inset-x-0 bottom-0 !opacity-0 pointer-events-none">
+			<div className="flex flex-row justify-center">
+				<div className="pointer-events-auto">
+					<WYSIWYGMenu rangeTypes={rangeTypes} />
+				</div>
+			</div>
+		</div>
+	</Transition>
+))
+
+export default MemoFixedWYSIWYGMenu
