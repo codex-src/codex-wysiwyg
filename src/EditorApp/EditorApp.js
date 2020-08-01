@@ -10,7 +10,7 @@ import usePreferences from "./usePreferences"
 
 import {
 	Editor,
-	useEditor,
+	useEditor
 } from "Editor"
 
 const App = () => {

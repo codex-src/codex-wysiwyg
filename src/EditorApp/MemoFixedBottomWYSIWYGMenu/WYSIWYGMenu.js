@@ -1,7 +1,7 @@
 import DispatchContext from "../DispatchContext"
 import React from "react"
 import userAgent from "lib/Client/userAgent"
-import { AbsoluteTopTooltip as Tooltip } from "../Tooltips"
+import { TopTooltip as Tooltip } from "../Tooltips"
 
 const WYSIWYGMenu = ({ rangeTypes }) => {
 	const dispatch = React.useContext(DispatchContext)

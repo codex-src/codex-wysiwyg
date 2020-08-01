@@ -1,6 +1,6 @@
 import React from "react"
 
-export const AbsoluteTopTooltip = ({ children }) => (
+export const TopTooltip = ({ children }) => (
 	<div className="absolute bottom-full" style={{ left: "50%" }}>
 		<div className="px-2 py-1 relative bg-gray-800 rounded shadow" style={{ left: "-50%" }}>
 			<div className="absolute bottom-0 inset-x-0 flex flex-row justify-center">
@@ -11,7 +11,7 @@ export const AbsoluteTopTooltip = ({ children }) => (
 	</div>
 )
 
-export const AbsoluteBottomLeftToolTip = ({ children }) => (
+export const BottomLHSTooltip = ({ children }) => (
 	<div className="absolute top-full left-0">
 		<div className="px-2 py-1 bg-gray-800 rounded shadow">
 			<div className="absolute top-0 left-0">
@@ -22,7 +22,7 @@ export const AbsoluteBottomLeftToolTip = ({ children }) => (
 	</div>
 )
 
-export const AbsoluteBottomRightToolTip = ({ children }) => (
+export const BottomRHSTooltip = ({ children }) => (
 	<div className="absolute top-full right-0">
 		<div className="px-2 py-1 bg-gray-800 rounded shadow">
 			<div className="absolute top-0 right-0">
