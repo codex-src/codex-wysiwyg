@@ -5,10 +5,7 @@ import toArray from "lib/x/toArray"
 // Compares whether props (rendered and non-rendered) are
 // deeply equal.
 function propsAreEqual(rendered, nonRendered) {
-	const props = {
-		...rendered,
-		children: undefined, // Obscures rendered.children
-	}
+	const { children: _, ...props } = rendered // Obscures rendered.children
 	return JSONEqual(props, nonRendered)
 }
 

@@ -20,6 +20,14 @@ const Release = ({ date, children }) => (
 const Releases = () => (
 	<React.Fragment>
 
+		<Release date="August 2, 2020">
+			<p>
+				– Dramatically improved performance by removing useless renders.{" "}
+				Use of <code>React.createContext</code>, <code>React.useContext</code> and <code>React.memo</code> have been measured and optimized for performance.
+			</p>
+		</Release>
+
+		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 29, 2020">
 			<p>
 				– The WYSIWYG menu is now interactive.{" "}
