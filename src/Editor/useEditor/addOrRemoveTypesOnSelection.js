@@ -1,31 +1,7 @@
-import createIndex from "./createIndex"
 import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
 import JSONEqual from "lib/JSON/JSONEqual"
-
-// Creates children from the current range.
-//
-// TODO: Extract to aggregateChildren?
-function createChildren(elements, range) {
-	const ch = []
-	for (const each of elements) {
-		const { key, props: { children } } = each
-		if (!children.length) {
-			// No-op
-			continue
-		}
-		let x1 = 0
-		if (key === range.start.key) {
-			x1 = createIndex(children, range.start.offset)
-		}
-		let x2 = children.length
-		if (key === range.end.key) {
-			x2 = createIndex(children, range.end.offset)
-		}
-		ch.push(...children.slice(x1, x2))
-	}
-	return ch
-}
+import { createChildren } from "./aggregateChildren"
 
 // Tests for "plaintext", "add", or "remove".
 function testMethod(children, types) {

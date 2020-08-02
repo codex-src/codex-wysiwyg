@@ -3,33 +3,7 @@ import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 import JSONEqual from "lib/JSON/JSONEqual"
 import testForSelection from "./testForSelection"
-
-// Gets children from the current range.
-//
-// TODO: Extract to aggregateChildren?
-function getChildren(elements, range) {
-	const ch = []
-	for (const each of elements) {
-		const { key, props: { children } } = each
-		if (!children.length) {
-			// No-op
-			continue
-		}
-		let x1 = 0
-		if (key === range.start.key) {
-			x1 = getIndex(children, range.start.offset + 1)
-		}
-		let x2 = children.length
-		if (key === range.end.key) {
-			x2 = getIndex(children, range.end.offset)
-			if (range.start.key === range.end.key) {
-				x2++
-			}
-		}
-		ch.push(...children.slice(x1, x2))
-	}
-	return ch
-}
+import { getChildren } from "./aggregateChildren"
 
 // Gets the current range types.
 function getRangeTypes(e) {
@@ -47,7 +21,6 @@ function getRangeTypes(e) {
 	if (!ch.length) {
 		return {}
 	}
-
 	const clonedTypes = JSONClone(ch[0].types)
 	const clonedTypesKeys = Object.keys(clonedTypes)
 	for (const textNode of ch.slice(1)) { // Steps over ch[0]
