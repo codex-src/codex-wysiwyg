@@ -87,8 +87,8 @@ const Releases = () => (
 		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="July 25, 2020">
 			<p>
-				– Added fallback sans-serif and monospace fonts, <code>Inter</code> and <code>IBM Plex Mono</code>.{" "}
-				Note that on Apple devices, <code>San Francisco</code> and Menlo are preferred.
+				– Added fallback sans-serif and monospace fonts <code>Inter</code> and <strike><code>IBM Plex Mono</code></strike> <code>Fira Code</code>.{" "}
+				Note that on Apple devices, <code>San Francisco</code> and <code>Menlo</code> are preferred.
 			</p>
 			<p>
 				<br />
