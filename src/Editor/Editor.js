@@ -27,18 +27,16 @@ const MemoElements = React.memo(({ elements }) => (
 ))
 
 // Renders a read-write editor.
-//
-// TODO: Remove React.memo?
-const Editor = React.memo(({ id, className, style, state, dispatch, children }) => {
+const Editor = ({ id, className, style, state, dispatch, children }) => {
 	const ref = React.useRef(null)
 	const pointerdownRef = React.useRef(false)
 
-	// Manually updates elements from props.children.
+	// Mounts elements from props.children (once).
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			const elements = initElementsFromChildren(children)
 			dispatch({
-				type: "MANUALLY_UPDATE_ELEMENTS",
+				type: "MOUNT",
 				elements,
 			})
 		}, [dispatch, children]),
@@ -263,7 +261,7 @@ const Editor = React.memo(({ id, className, style, state, dispatch, children }) 
 			data-root
 		/>
 	)
-})
+}
 
 // {process.env.NODE_ENV !== "production" && (
 // 	<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={tabSize(2)}>

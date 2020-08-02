@@ -5,6 +5,7 @@ import { initElementsFromMarkup } from "../parsers"
 import { useImmerReducer } from "use-immer"
 
 const newInitialState = () => ({
+	mounted: false,
 	focused: false,
 	elements: [
 		{
@@ -31,8 +32,8 @@ const newInitialState = () => ({
 
 function EditorReducer(e, action) {
 	switch (action.type) {
-	case "MANUALLY_UPDATE_ELEMENTS":
-		actions.manuallyUpdateElements(e, action)
+	case "MOUNT":
+		actions.mount(e, action)
 		return
 	case "FOCUS":
 		actions.focus(e, action)

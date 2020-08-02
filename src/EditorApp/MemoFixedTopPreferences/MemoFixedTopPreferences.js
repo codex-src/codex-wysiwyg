@@ -151,9 +151,9 @@ const MemoFixedTopPreferences = React.memo(({ prefs }) => {
 							className="p-6 text-sm font-mono whitespace-pre-wrap text-gray-800"
 							style={{
 								...tabSize(2),
+
 								// NOTE: className="break-words" does not
 								// work as expected.
-								fontSize: prefs.desc === "markup" && "0.8125rem",
 								wordBreak: "break-word",
 							}}
 						>

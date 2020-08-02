@@ -20,9 +20,12 @@ function render(e) {
 	e.shouldRerender++
 }
 
-// Manually updates elements.
-export function manuallyUpdateElements(e, { elements }) {
-	e.elements = elements
+// Mounts the editor.
+export function mount(e, { elements }) {
+	Object.assign(e, {
+		mounted: true,
+		elements,
+	})
 	render(e)
 }
 
