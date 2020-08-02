@@ -1,5 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme")
-const defaultVariants = require("./tailwind-defaultVariants")
+
+const { fontFamily: { mono, sans } } = defaultTheme
 
 function trimWhitespace(str) {
 	return str.split(/\s+/).join(" ").trim()
@@ -43,22 +44,18 @@ module.exports = {
 				`),
 			},
 			fontFamily: {
-				sans: [
-					...defaultTheme.fontFamily.sans.slice(0, 3),
-					"Inter",
-					...defaultTheme.fontFamily.sans.slice(3),
-				],
+				// After Menlo:
+				//
+				// eslint-disable-next-line quotes
+				mono: [...mono.slice(0, 1), '"Fira Code"', ...mono.slice(1)],
+
+				// After system-ui, -apple-system, BlinkMacSystemFont:
+				sans: [...sans.slice(0, 3), "Inter", ...sans.slice(3)],
 			},
 		},
 	},
 	variants: {
 		typography: [],
-
-		backgroundColor: [...defaultVariants.backgroundColor, "disabled"],
-		borderColor: [...defaultVariants.borderColor, "disabled"],
-		divideColor: [...defaultVariants.divideColor, "disabled"],
-		placeholderColor: [...defaultVariants.placeholderColor, "disabled"],
-		textColor: [...defaultVariants.textColor, "disabled"],
 	},
 	plugins: [
 		require("@tailwindcss/ui"),
