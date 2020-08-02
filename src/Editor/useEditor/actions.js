@@ -1,8 +1,8 @@
-import addOrRemoveTypesOnSelection from "./addOrRemoveTypesOnSelection"
+import applyTypesOnSelection from "./applyTypesOnSelection"
 import deleteOnSelection from "./deleteOnSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
-import getIndex from "./getIndex"
+import getIndexIdempotent from "./getIndexIdempotent"
 import getRangeTypes from "./getRangeTypes"
 import getShorthandVars from "./getShorthandVars"
 import insertHardParagraphAtCollapsed from "./insertHardParagraphAtCollapsed"
@@ -56,7 +56,7 @@ function cloneStartTextNode(e) {
 		}
 		return textNode
 	}
-	const x = getIndex(ch1, e.range.start.offset + testForSelection(e))
+	const x = getIndexIdempotent(ch1, e.range.start.offset + testForSelection(e))
 	return JSONClone(ch1[x])
 }
 
@@ -102,7 +102,7 @@ export function addOrRemoveTypes(e, { types }) {
 	// NOTE: Uses focus(...) because React.useLayoutEffect
 	// removes the range.
 	focus(e)
-	addOrRemoveTypesOnSelection(e, types)
+	applyTypesOnSelection(e, types)
 	render(e)
 }
 

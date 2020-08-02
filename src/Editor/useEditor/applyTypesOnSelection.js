@@ -22,8 +22,8 @@ function testMethod(children, types) {
 	return !every ? "add" : "remove"
 }
 
-// Adds or removes types on the current range.
-function addOrRemoveTypesOnSelection(e, types) {
+// Applies types on the current range.
+function applyTypesOnSelection(e, types) {
 	const { x1, x2 } = getShorthandVars(e)
 
 	const ch = queryChildrenNonIdempotent(e.elements.slice(x1, x2 + 1), e.range)
@@ -54,11 +54,11 @@ function addOrRemoveTypesOnSelection(e, types) {
 		}
 		break
 	default:
-		throw new Error(`addOrRemoveTypesOnSelection: no such method; method=${method}`)
+		throw new Error(`applyTypesOnSelection: no such method; method=${method}`)
 	}
 
 	e.elements.slice(x1, x2 + 1)
 		.map(each => deferOnChildren(each.props.children))
 }
 
-export default addOrRemoveTypesOnSelection
+export default applyTypesOnSelection

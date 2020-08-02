@@ -1,4 +1,4 @@
-import getIndex from "./getIndex"
+import getIndexIdempotent from "./getIndexIdempotent"
 import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 import JSONEqual from "lib/JSON/JSONEqual"
@@ -13,7 +13,7 @@ function getRangeTypes(e) {
 		if (!ch1.length) {
 			return {}
 		}
-		const x = getIndex(ch1, e.range.start.offset)
+		const x = getIndexIdempotent(ch1, e.range.start.offset)
 		return ch1[x].types
 	}
 
