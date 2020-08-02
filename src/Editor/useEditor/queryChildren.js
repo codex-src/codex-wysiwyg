@@ -1,8 +1,9 @@
 import createIndex from "./createIndex"
 import getIndex from "./getIndex"
 
-// Gets children from the current range.
-export function getChildren(elements, range) {
+// Queries children from an array of elements and a range.
+// Note that this function is idempotent.
+export function queryChildrenIdempotent(elements, range) {
 	const ch = []
 	for (const each of elements) {
 		const { key, props: { children } } = each
@@ -26,8 +27,9 @@ export function getChildren(elements, range) {
 	return ch
 }
 
-// Creates children from the current range.
-export function createChildren(elements, range) {
+// Queries children from an array of elements and a range.
+// Note that this function is non-idempotent.
+export function queryChildrenNonIdempotent(elements, range) {
 	const ch = []
 	for (const each of elements) {
 		const { key, props: { children } } = each

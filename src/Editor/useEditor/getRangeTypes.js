@@ -3,7 +3,7 @@ import getShorthandVars from "./getShorthandVars"
 import JSONClone from "lib/JSON/JSONClone"
 import JSONEqual from "lib/JSON/JSONEqual"
 import testForSelection from "./testForSelection"
-import { getChildren } from "./aggregateChildren"
+import { queryChildrenIdempotent } from "./queryChildren"
 
 // Gets the current range types.
 function getRangeTypes(e) {
@@ -17,7 +17,7 @@ function getRangeTypes(e) {
 		return ch1[x].types
 	}
 
-	const ch = getChildren(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = queryChildrenIdempotent(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		return {}
 	}
