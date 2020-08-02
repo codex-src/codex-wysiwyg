@@ -2,9 +2,9 @@ import applyTypesOnSelection from "./applyTypesOnSelection"
 import deleteOnSelection from "./deleteOnSelection"
 import extendRangeLTR from "./extendRangeLTR"
 import extendRangeRTL from "./extendRangeRTL"
-import getIndexIdempotent from "./getIndexIdempotent"
+import getIndex from "./getIndex"
 import getRangeTypes from "./getRangeTypes"
-import getShorthandVars from "./getShorthandVars"
+import getVars from "./getVars"
 import insertHardParagraphAtCollapsed from "./insertHardParagraphAtCollapsed"
 import insertTextAtCollapsed from "./insertTextAtCollapsed"
 import JSONClone from "lib/JSON/JSONClone"
@@ -46,7 +46,7 @@ export function select(e, { range }) {
 
 // Clones the start text node or returns an empty text node.
 function cloneStartTextNode(e) {
-	const { ch1 } = getShorthandVars(e)
+	const { ch1 } = getVars(e)
 	if (!ch1.length) {
 		const textNode = {
 			types: {},
@@ -56,7 +56,7 @@ function cloneStartTextNode(e) {
 		}
 		return textNode
 	}
-	const x = getIndexIdempotent(ch1, e.range.start.offset + testForSelection(e))
+	const x = getIndex(ch1, e.range.start.offset + testForSelection(e))
 	return JSONClone(ch1[x])
 }
 
@@ -146,7 +146,7 @@ export function uncontrolledInput(e, { children, range }) {
 		return
 	}
 
-	const { el1 } = getShorthandVars(e)
+	const { el1 } = getVars(e)
 	el1.props.children = children
 	e.range = range
 	collapseToStart(e)

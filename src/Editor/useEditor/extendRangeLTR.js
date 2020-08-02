@@ -1,10 +1,10 @@
 import * as iterate from "lib/UTF8/iterate"
-import getShorthandVars from "./getShorthandVars"
+import getVars from "./getVars"
 import textContent from "./textContent"
 
 // Extends the current range left-to-right.
 function extendRangeLTRImpl(e, boundary) {
-	const { x2 } = getShorthandVars(e)
+	const { x2 } = getVars(e)
 
 	const curr = e.elements[x2]
 	let next = null

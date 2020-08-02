@@ -2,9 +2,9 @@ import textContent from "./textContent"
 
 // Gets an index for children at an offset. Note that this
 // function is idempotent.
-function getIndexIdempotent(children, offset) {
+function getIndex(children, offset) {
 	if (!children.length) {
-		throw new Error("getIndexIdempotent: FIXME")
+		throw new Error("getIndex: FIXME")
 	}
 
 	if (!offset) {
@@ -23,4 +23,4 @@ function getIndexIdempotent(children, offset) {
 	return x
 }
 
-export default getIndexIdempotent
+export default getIndex

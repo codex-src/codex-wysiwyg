@@ -1,10 +1,10 @@
 import * as iterate from "lib/UTF8/iterate"
-import getShorthandVars from "./getShorthandVars"
+import getVars from "./getVars"
 import textContent from "./textContent"
 
 // Extends the current range right-to-left.
 function extendRangeRTLImpl(e, boundary) {
-	const { x1 } = getShorthandVars(e)
+	const { x1 } = getVars(e)
 
 	const curr = e.elements[x1]
 	let prev = null

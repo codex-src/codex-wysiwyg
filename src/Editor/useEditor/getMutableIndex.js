@@ -3,7 +3,7 @@ import textContent from "./textContent"
 
 // Gets an index for children at an offset. Note that this
 // function is non-idempotent.
-function getIndexNonIdempotent(children, offset) {
+function getMutableIndex(children, offset) {
 	if (!children.length) {
 		children.push({
 			types: {},
@@ -49,4 +49,4 @@ function getIndexNonIdempotent(children, offset) {
 	return nodeOffset + 1
 }
 
-export default getIndexNonIdempotent
+export default getMutableIndex

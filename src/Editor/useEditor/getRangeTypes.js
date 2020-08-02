@@ -1,23 +1,23 @@
-import getIndexIdempotent from "./getIndexIdempotent"
-import getShorthandVars from "./getShorthandVars"
+import getIndex from "./getIndex"
+import getVars from "./getVars"
 import JSONClone from "lib/JSON/JSONClone"
 import JSONEqual from "lib/JSON/JSONEqual"
 import testForSelection from "./testForSelection"
-import { queryChildrenIdempotent } from "./queryChildren"
+import { queryChildren } from "./queryChildren"
 
 // Gets the current range types.
 function getRangeTypes(e) {
-	const { x1, x2, ch1 } = getShorthandVars(e)
+	const { x1, x2, ch1 } = getVars(e)
 
 	if (!testForSelection(e)) {
 		if (!ch1.length) {
 			return {}
 		}
-		const x = getIndexIdempotent(ch1, e.range.start.offset)
+		const x = getIndex(ch1, e.range.start.offset)
 		return ch1[x].types
 	}
 
-	const ch = queryChildrenIdempotent(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = queryChildren(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		return {}
 	}

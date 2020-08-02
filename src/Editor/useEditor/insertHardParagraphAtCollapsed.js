@@ -1,15 +1,15 @@
 import deferOnChildren from "./deferOnChildren"
-import getIndexNonIdempotent from "./getIndexNonIdempotent"
-import getShorthandVars from "./getShorthandVars"
+import getMutableIndex from "./getMutableIndex"
+import getVars from "./getVars"
 import hash from "lib/x/hash"
 
 // Inserts a hard paragraph at the current range.
 function insertHardParagraphAtCollapsed(e) {
-	const { x1, el1, ch1 } = getShorthandVars(e)
+	const { x1, el1, ch1 } = getVars(e)
 
 	const id = hash()
 
-	const x = getIndexNonIdempotent(ch1, e.range.start.offset)
+	const x = getMutableIndex(ch1, e.range.start.offset)
 	e.elements.splice(x1, 1, {
 		...el1,
 		props: {

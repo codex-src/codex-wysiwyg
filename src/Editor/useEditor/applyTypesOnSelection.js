@@ -1,7 +1,7 @@
 import deferOnChildren from "./deferOnChildren"
-import getShorthandVars from "./getShorthandVars"
+import getVars from "./getVars"
 import JSONEqual from "lib/JSON/JSONEqual"
-import { queryChildrenNonIdempotent } from "./queryChildren"
+import { queryMutableChildren } from "./queryChildren"
 
 // Tests for "plaintext", "add", or "remove".
 function testMethod(children, types) {
@@ -24,9 +24,9 @@ function testMethod(children, types) {
 
 // Applies types on the current range.
 function applyTypesOnSelection(e, types) {
-	const { x1, x2 } = getShorthandVars(e)
+	const { x1, x2 } = getVars(e)
 
-	const ch = queryChildrenNonIdempotent(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = queryMutableChildren(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		// No-op
 		return
