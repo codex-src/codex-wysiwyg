@@ -8,13 +8,13 @@ const markdown = {
 	code:   element => `\`${toPlaintext(element.props.children)}\``,
 	strike: element => `~~${toText(element.props.children, markdown)}~~`,
 	a:      element => `[${toText(element.props.children, markdown)}](${element.props.href || "TODO"})`,
-	"h1":   element => `# ${toText(toTree(element.props.children, markdown))}`,
-	"h2":   element => `## ${toText(toTree(element.props.children, markdown))}`,
-	"h3":   element => `### ${toText(toTree(element.props.children, markdown))}`,
-	"h4":   element => `#### ${toText(toTree(element.props.children, markdown))}`,
-	"h5":   element => `##### ${toText(toTree(element.props.children, markdown))}`,
-	"h6":   element => `###### ${toText(toTree(element.props.children, markdown))}`,
-	"p":    element => toText(toTree(element.props.children), markdown),
+	h1:     element => `# ${toText(toTree(element.props.children, markdown))}`,
+	h2:     element => `## ${toText(toTree(element.props.children, markdown))}`,
+	h3:     element => `### ${toText(toTree(element.props.children, markdown))}`,
+	h4:     element => `#### ${toText(toTree(element.props.children, markdown))}`,
+	h5:     element => `##### ${toText(toTree(element.props.children, markdown))}`,
+	h6:     element => `###### ${toText(toTree(element.props.children, markdown))}`,
+	p:      element => toText(toTree(element.props.children), markdown),
 }
 
 const markup = {
@@ -23,13 +23,13 @@ const markup = {
 	code:   element => `<code>${toText(element.props.children, markup)}</code>`,
 	strike: element => `<strike>${toText(element.props.children, markup)}</strike>`,
 	a:      element => `<a href="${element.props.href}">${toText(element.props.children, markup)}</a>`,
-	"h1":   element => `<h1>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h1>`,
-	"h2":   element => `<h2>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h2>`,
-	"h3":   element => `<h3>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h3>`,
-	"h4":   element => `<h4>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h4>`,
-	"h5":   element => `<h5>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h5>`,
-	"h6":   element => `<h6>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h6>`,
-	"p":    element => `<p>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</p>`,
+	h1:     element => `<h1>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h1>`,
+	h2:     element => `<h2>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h2>`,
+	h3:     element => `<h3>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h3>`,
+	h4:     element => `<h4>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h4>`,
+	h5:     element => `<h5>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h5>`,
+	h6:     element => `<h6>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</h6>`,
+	p:      element => `<p>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</p>`,
 }
 
 // Converts tree-shaped children to plaintext.
