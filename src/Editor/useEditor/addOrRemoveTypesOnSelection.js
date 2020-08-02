@@ -3,13 +3,13 @@ import defer from "./defer"
 import getShorthandVars from "./getShorthandVars"
 import JSONEqual from "lib/JSON/JSONEqual"
 
-// Aggregates text nodes on the current range; uses
-// createIndex(...).
-function aggregate(elements, range) {
+// Creates children from the current range.
+//
+// TODO: Extract to aggregateChildren?
+function createChildren(elements, range) {
 	const ch = []
 	for (const each of elements) {
 		const { key, props: { children } } = each
-
 		if (!children.length) {
 			// No-op
 			continue
@@ -27,7 +27,7 @@ function aggregate(elements, range) {
 	return ch
 }
 
-// Tests for a method to add or remove types.
+// Tests for "plaintext", "add", or "remove".
 function testMethod(children, types) {
 	const keys = Object.keys(types)
 	if (!keys.length) {
@@ -50,7 +50,7 @@ function testMethod(children, types) {
 function addOrRemoveTypesOnSelection(e, types) {
 	const { x1, x2 } = getShorthandVars(e)
 
-	const ch = aggregate(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = createChildren(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		// No-op
 		return

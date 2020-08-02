@@ -1,9 +1,9 @@
 import JSONClone from "lib/JSON/JSONClone"
 import textContent from "./textContent"
 
-// Creates a text node at a text offset and returns the
+// Creates an index for children at an offset. Returns the
 // created text node offset.
-function createIndex(children, textOffset) {
+function createIndex(children, offset) {
 	if (!children.length) {
 		children.push({
 			types: {},
@@ -12,35 +12,35 @@ function createIndex(children, textOffset) {
 			},
 		})
 		return 0
-	} else if (!textOffset) {
+	} else if (!offset) {
 		return 0
-	} else if (textOffset === textContent(children).length) {
+	} else if (offset === textContent(children).length) {
 		return children.length
 	}
 	let nodeOffset = 0
 	for (; nodeOffset < children.length; nodeOffset++) {
-		if (textOffset - children[nodeOffset].props.children.length <= 0) {
+		if (offset - children[nodeOffset].props.children.length <= 0) {
 			// No-op
 			break
 		}
-		textOffset -= children[nodeOffset].props.children.length
+		offset -= children[nodeOffset].props.children.length
 	}
 	// At the end of a node:
-	if (textOffset - children[nodeOffset].props.children.length === 0) {
+	if (offset - children[nodeOffset].props.children.length === 0) {
 		return nodeOffset + 1
 	}
 	const curr = {
 		...JSONClone(children[nodeOffset]),
 		props: {
 			...children[nodeOffset].props,
-			children: children[nodeOffset].props.children.slice(0, textOffset),
+			children: children[nodeOffset].props.children.slice(0, offset),
 		},
 	}
 	const next = {
 		...JSONClone(children[nodeOffset]),
 		props: {
 			...children[nodeOffset].props,
-			children: children[nodeOffset].props.children.slice(textOffset),
+			children: children[nodeOffset].props.children.slice(offset),
 		},
 	}
 	children.splice(nodeOffset, 1, curr, next)

@@ -4,13 +4,13 @@ import JSONClone from "lib/JSON/JSONClone"
 import JSONEqual from "lib/JSON/JSONEqual"
 import testForSelection from "./testForSelection"
 
-// Aggregates text nodes on the current range; uses
-// getIndex(...).
-function aggregate(elements, range) {
+// Gets children from the current range.
+//
+// TODO: Extract to aggregateChildren?
+function getChildren(elements, range) {
 	const ch = []
 	for (const each of elements) {
 		const { key, props: { children } } = each
-
 		if (!children.length) {
 			// No-op
 			continue
@@ -43,7 +43,7 @@ function getRangeTypes(e) {
 		return ch1[x].types
 	}
 
-	const ch = aggregate(e.elements.slice(x1, x2 + 1), e.range)
+	const ch = getChildren(e.elements.slice(x1, x2 + 1), e.range)
 	if (!ch.length) {
 		return {}
 	}

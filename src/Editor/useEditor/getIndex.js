@@ -1,26 +1,26 @@
 import textContent from "./textContent"
 
-// Gets the text node offset for a text offset.
-function getIndex(children, textOffset) {
+// Gets an index for children at an offset.
+function getIndex(children, offset) {
 	if (!children.length) {
 		if (process.env.NODE_ENV !== "test") {
 			throw new Error("getIndex: FIXME")
 		}
 		return -1
-	} else if (!textOffset) {
+	} else if (!offset) {
 		return 0
-	} else if (textOffset === textContent(children).length) {
+	} else if (offset === textContent(children).length) {
 		return children.length - 1
 	}
-	let nodeOffset = 0
-	for (; nodeOffset < children.length; nodeOffset++) {
-		if (textOffset - children[nodeOffset].props.children.length <= 0) {
+	let x = 0
+	for (; x < children.length; x++) {
+		if (offset - children[x].props.children.length <= 0) {
 			// No-op
 			break
 		}
-		textOffset -= children[nodeOffset].props.children.length
+		offset -= children[x].props.children.length
 	}
-	return nodeOffset
+	return x
 }
 
 export default getIndex

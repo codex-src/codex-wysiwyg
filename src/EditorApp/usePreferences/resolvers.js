@@ -5,7 +5,7 @@ import toTree from "Editor/components/toReactTree/toTree"
 const markdown = {
 	em:     element => `_${toText(element.props.children, markdown)}_`,
 	strong: element => `**${toText(element.props.children, markdown)}**`,
-	code:   element => `\`${text(element.props.children)}\``,
+	code:   element => `\`${toPlaintext(element.props.children)}\``,
 	strike: element => `~~${toText(element.props.children, markdown)}~~`,
 	a:      element => `[${toText(element.props.children, markdown)}](${element.props.href || "TODO"})`,
 	"h1":   element => `# ${toText(toTree(element.props.children, markdown))}`,
@@ -32,26 +32,24 @@ const markup = {
 	"p":    element => `<p>\n\t${toText(toTree(element.props.children), markup) || "<br />"}\n</p>`,
 }
 
-// Reads text from tree-shaped text nodes. Does not use a
-// resolver-type.
-function text(treeTextNodes) {
+// Converts tree-shaped children to plaintext.
+function toPlaintext(tree) {
 	let str = ""
-	for (const each of toArray(treeTextNodes)) {
+	for (const each of toArray(tree)) {
 		if (typeof each === "string") {
 			str += each
 			continue
 		}
 		str += each.props.children &&
-			text(each.props.children)
+			toPlaintext(each.props.children)
 	}
 	return str
 }
 
-// Reads text from non-tree-shaped text nodes and a
-// resolver-type.
-function toText(children, resolver) {
+// Converts tree-shaped children to text.
+function toText(tree, resolver) {
 	let str = ""
-	for (const each of toArray(children)) {
+	for (const each of toArray(tree)) {
 		if (typeof each === "string") {
 			str += resolver !== markup ? each : escape(each)
 			continue
@@ -61,7 +59,7 @@ function toText(children, resolver) {
 	return str
 }
 
-// Converts to GFM.
+// Converts elements to markdown.
 export function toMarkdown(elements) {
 	let str = ""
 	for (const each of elements) {
@@ -73,7 +71,7 @@ export function toMarkdown(elements) {
 	return str
 }
 
-// Converts to HTML.
+// Converts elements to markup.
 export function toMarkup(elements) {
 	let str = ""
 	for (const each of elements) {
