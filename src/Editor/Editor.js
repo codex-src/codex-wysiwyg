@@ -255,8 +255,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				// TODO
 			}}
 
-			contentEditable
-			suppressContentEditableWarning
+			contentEditable={state.mounted}
+			suppressContentEditableWarning={state.mounted}
 
 			data-root
 		/>
