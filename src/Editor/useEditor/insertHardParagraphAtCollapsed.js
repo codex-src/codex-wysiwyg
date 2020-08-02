@@ -1,5 +1,5 @@
 import createIndex from "./createIndex"
-import defer from "./defer"
+import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
 import hash from "lib/x/hash"
 
@@ -7,26 +7,26 @@ import hash from "lib/x/hash"
 function insertHardParagraphAtCollapsed(e) {
 	const { x1, el1, ch1 } = getShorthandVars(e)
 
-	const newID = hash()
+	const id = hash()
 
 	const x = createIndex(ch1, e.range.start.offset)
 	e.elements.splice(x1, 1, {
 		...el1,
 		props: {
 			...el1.props,
-			children: defer(ch1.slice(0, x)),
+			children: deferOnChildren(ch1.slice(0, x)),
 		},
 	}, {
 		...el1,
-		key: newID,
+		key: id,
 		props: {
 			...el1.props,
-			children: defer(ch1.slice(x)),
+			children: deferOnChildren(ch1.slice(x)),
 		},
 	})
 
 	const start = {
-		key: newID,
+		key: id,
 		offset: 0,
 	}
 	return start

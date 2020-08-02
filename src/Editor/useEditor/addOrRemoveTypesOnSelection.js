@@ -1,5 +1,5 @@
 import createIndex from "./createIndex"
-import defer from "./defer"
+import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
 import JSONEqual from "lib/JSON/JSONEqual"
 
@@ -82,7 +82,7 @@ function addOrRemoveTypesOnSelection(e, types) {
 	}
 
 	e.elements.slice(x1, x2 + 1)
-		.map(each => defer(each.props.children))
+		.map(each => deferOnChildren(each.props.children))
 }
 
 export default addOrRemoveTypesOnSelection

@@ -1,5 +1,5 @@
 import createIndex from "./createIndex"
-import defer from "./defer"
+import deferOnChildren from "./deferOnChildren"
 import getShorthandVars from "./getShorthandVars"
 
 // Inserts text at the current range.
@@ -13,7 +13,7 @@ function insertTextAtCollapsed(e, clonedTextNode, text) {
 			children: text,
 		},
 	})
-	defer(ch1)
+	deferOnChildren(ch1)
 }
 
 export default insertTextAtCollapsed
