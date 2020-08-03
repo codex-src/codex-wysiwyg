@@ -1,5 +1,0 @@
-[data-type="em"],
-[data-type="strong"],
-[data-type="strike"] {
-	box-shadow: 0 0.1875em 0 var(--gray-200);
-}

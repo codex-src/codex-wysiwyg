@@ -16,15 +16,12 @@ import { // Unsorted
 
 import "./Editor.css"
 
-const MemoElements = React.memo(({ elements, rangeStartKey }) => (
+const MemoElements = React.memo(({ elements }) => (
 	elements.map(each => (
 		React.createElement(componentMap[each.type], {
 			...each.props,
-
 			key: each.key, // For React
 			id:  each.key, // For the DOM
-
-			rangeStartKey,
 		})
 	))
 ))
@@ -55,20 +52,23 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				selection.removeAllRanges()
 			}
 			ReactDOM.render(
-				<MemoElements elements={state.elements} rangeStartKey={state.range.start.key} />, ref.current, () => {
-				if (!state.focused) {
-					// No-op
-					return
-				}
-				try {
-					const userRange = convRangeToUserLiteral(state.range)
-					selection.addRange(userRange)
-				} catch (error) {
-					console.error(error)
-				}
-			})
+				<MemoElements elements={state.elements} />,
+				ref.current,
+				() => {
+					if (!state.focused) {
+						// No-op
+						return
+					}
+					try {
+						const userRange = convRangeToUserLiteral(state.range)
+						selection.addRange(userRange)
+					} catch (error) {
+						console.error(error)
+					}
+				},
+			)
 		}, [state]),
-		[state.shouldRerender, state.range.start.key],
+		[state.shouldRerender],
 	)
 
 	return (

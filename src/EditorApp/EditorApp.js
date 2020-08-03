@@ -13,6 +13,8 @@ import {
 	useEditor,
 } from "Editor"
 
+import "./data-feature.css"
+
 const App = () => {
 	const [state, dispatch] = useEditor()
 	const [prefs, prefsDispatch] = usePreferences(() => state.elements)
@@ -76,6 +78,26 @@ const App = () => {
 		prefs.desc,
 		prefsDispatch,
 	])
+
+	// Manages [data-feature-focus-line].
+	React.useEffect(() => {
+		if (!state.range.start.key) {
+			// No-op
+			return
+		} else if (state.range.start !== state.range.end) {
+			// No-op
+			return
+		}
+		const el = document.getElementById(state.range.start.key)
+		if (el) {
+			el.setAttribute("data-feature-focus-line", true)
+		}
+		return () => {
+			if (el) {
+				el.removeAttribute("data-feature-focus-line")
+			}
+		}
+	}, [state.range])
 
 	// Binds the next keydown event to hide output.
 	useKeydown(e => {

@@ -1,0 +1,15 @@
+[data-root][contenteditable="true"] [data-feature-focus-line] {
+	/* background-color: var(--blue-50); */
+	background-color: rgba(235, 245, 255, 0.5);
+}
+
+[data-root][contenteditable="true"] [data-type="em"],
+[data-root][contenteditable="true"] [data-type="strong"],
+[data-root][contenteditable="true"] [data-type="strike"] {
+	box-shadow: 0 0.1875em 0 var(--gray-200);
+}
+[data-root][contenteditable="true"] [data-feature-focus-line] [data-type="em"],
+[data-root][contenteditable="true"] [data-feature-focus-line] [data-type="strong"],
+[data-root][contenteditable="true"] [data-feature-focus-line] [data-type="strike"] {
+	box-shadow: 0 0.1875em 0 var(--blue-200);
+}

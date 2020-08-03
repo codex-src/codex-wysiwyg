@@ -20,6 +20,23 @@ const Release = ({ date, children }) => (
 const Releases = () => (
 	<React.Fragment>
 
+		<Release date="August 4, 2020">
+			<p>
+				– Added an experimental feature ‘Focus Line’.{" "}
+				The currently focused element renders a light blue background.{" "}
+				This makes it easier to discern elements from one another.
+			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				– Added an experimental feature ‘Underscore Rich Text’.{" "}
+				Some rich text elements render a soft <code>box-shadow</code> in read-write mode.{" "}
+				This makes it easier to discern inline elements from one another.
+			</p>
+		</Release>
+
+		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="August 2, 2020">
 			<p>
 				– Dramatically improved performance by removing useless renders.{" "}

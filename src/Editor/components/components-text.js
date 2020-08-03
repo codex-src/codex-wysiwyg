@@ -6,8 +6,6 @@ import { // Unsorted
 	relNoopener,
 } from "./miscProps"
 
-import "./components-text.css"
-
 // <em>
 export const Em = ({ children }) => (
 	<T type="em">
