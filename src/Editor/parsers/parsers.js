@@ -18,11 +18,21 @@ function parseChildren(element, parser) {
 			return
 		}
 		for (const each of on.childNodes) {
-			// No-op <br> and <... contenteditable="false">:
-			if (domUtils.isElement(each) && (domUtils.isBrElement(each) ||
-					each.getAttribute("contenteditable") === "false")) {
-				// No-op
-				continue
+			// No-op:
+			//
+			// - <... contenteditable="false">
+			// - <br>
+			// - <...></...>
+			//
+			if (domUtils.isElement(each)) {
+ 				if (
+					each.getAttribute("contenteditable") === "false" ||
+					domUtils.isBrElement(each) ||
+					!each.childNodes.length // NOTE: Jest (jsdom) does not support element.innerText
+				) {
+					// No-op
+					continue
+				}
 			}
 			const nextTypes = JSONClone(types)
 			if (domUtils.isElement(each)) {

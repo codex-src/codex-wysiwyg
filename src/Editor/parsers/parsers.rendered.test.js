@@ -24,6 +24,27 @@ test("<p><br></p>", () => {
 	])
 })
 
+test("<p><code></code></p>", () => {
+	const id = hash()
+	const tree = renderTree((
+		<article>
+			<div id={id} data-type="p">
+				<span data-type="code"></span>
+			</div>
+		</article>
+	))
+	const elements = parseRenderedElements(tree)
+	expect(elements).toEqual([
+		{
+			type: "p",
+			key: id,
+			props: {
+				children: [],
+			},
+		},
+	])
+})
+
 test("<p>Hello, <code>world</code>!</p>", () => {
 	const id = hash()
 	const tree = renderTree((

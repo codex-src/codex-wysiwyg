@@ -240,10 +240,10 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				// TODO
 			}}
 
-			// onCopy={e => {
-			// 	e.preventDefault()
-			// 	// TODO
-			// }}
+			onCopy={e => {
+				e.preventDefault()
+				// TODO
+			}}
 
 			onPaste={e => {
 				e.preventDefault()
