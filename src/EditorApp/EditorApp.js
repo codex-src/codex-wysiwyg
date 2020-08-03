@@ -132,7 +132,7 @@ const App = () => {
 							)}
 							<Editor
 								id="main-editor"
-								className="min-h-full text-lg text-gray-800"
+								className="pb-32 min-h-full text-lg text-gray-800"
 								state={state}
 								dispatch={dispatch}
 							>
