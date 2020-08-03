@@ -36,7 +36,7 @@ export const Code = ({ children }) => (
 // <strike>
 export const Strike = ({ children }) => (
 	<T type="strike">
-		<span className="line-through text-gray-400" {...disableAutoCorrect}>
+		<span className="line-through" {...disableAutoCorrect}>
 			{children}
 		</span>
 	</T>
