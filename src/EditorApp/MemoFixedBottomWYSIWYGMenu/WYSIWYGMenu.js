@@ -23,7 +23,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.strong && "var(--blue-500)",
-						backgroundColor: rangeTypes.strong && "#ebf5ffbf",
+						backgroundColor: rangeTypes.strong && "var(--blue-50)",
 					}}
 					onClick={e => {
 						dispatch({
@@ -59,7 +59,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.em && "var(--blue-500)",
-						backgroundColor: rangeTypes.em && "#ebf5ffbf",
+						backgroundColor: rangeTypes.em && "var(--blue-50)",
 					}}
 					onClick={e => {
 						dispatch({
@@ -95,7 +95,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.code && "var(--blue-500)",
-						backgroundColor: rangeTypes.code && "#ebf5ffbf",
+						backgroundColor: rangeTypes.code && "var(--blue-50)",
 					}}
 					onClick={e => {
 						dispatch({
@@ -131,7 +131,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.strike && "var(--blue-500)",
-						backgroundColor: rangeTypes.strike && "#ebf5ffbf",
+						backgroundColor: rangeTypes.strike && "var(--blue-50)",
 					}}
 					onClick={e => {
 						dispatch({
@@ -167,7 +167,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.a && "var(--blue-500)",
-						backgroundColor: rangeTypes.a && "#ebf5ffbf",
+						backgroundColor: rangeTypes.a && "var(--blue-50)",
 					}}
 					onClick={e => {
 						dispatch({

@@ -16,12 +16,15 @@ import { // Unsorted
 
 import "./Editor.css"
 
-const MemoElements = React.memo(({ elements }) => (
+const MemoElements = React.memo(({ elements, rangeStartKey }) => (
 	elements.map(each => (
 		React.createElement(componentMap[each.type], {
 			...each.props,
+
 			key: each.key, // For React
 			id:  each.key, // For the DOM
+
+			rangeStartKey,
 		})
 	))
 ))
@@ -51,7 +54,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 			if (selection.rangeCount) {
 				selection.removeAllRanges()
 			}
-			ReactDOM.render(<MemoElements elements={state.elements} />, ref.current, () => {
+			ReactDOM.render(
+				<MemoElements elements={state.elements} rangeStartKey={state.range.start.key} />, ref.current, () => {
 				if (!state.focused) {
 					// No-op
 					return
@@ -64,7 +68,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				}
 			})
 		}, [state]),
-		[state.shouldRerender],
+		[state.shouldRerender, state.range.start.key],
 	)
 
 	return (

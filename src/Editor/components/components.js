@@ -32,9 +32,9 @@ export const H5 = H1 // TODO
 export const H6 = H1 // TODO
 
 // <p>
-export const P = React.memo(({ id, children }) => (
+export const P = React.memo(({ id, children, rangeStartKey }) => (
 	<T type="p">
-		<Node id={id} className="leading-relaxed">
+		<Node id={id} className="-mx-1 px-1 leading-relaxed rounded-sm" style={{ backgroundColor: id === rangeStartKey && "var(--blue-50)" }}>
 			{toReactTree(children) || (
 				<br />
 			)}
