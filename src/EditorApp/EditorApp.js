@@ -84,20 +84,25 @@ const App = () => {
 		if (!state.range.start.key) {
 			// No-op
 			return
-		} else if (state.range.start !== state.range.end) {
+		} else if (state.range.start.key !== state.range.end.key) {
 			// No-op
 			return
 		}
 		const el = document.getElementById(state.range.start.key)
 		if (el) {
-			el.setAttribute("data-feature-focus-line", true)
+			const fn = !state.focused ? () => el.removeAttribute("data-feature-focus-line")
+				: () => el.setAttribute("data-feature-focus-line", true)
+			fn()
 		}
 		return () => {
 			if (el) {
 				el.removeAttribute("data-feature-focus-line")
 			}
 		}
-	}, [state.range])
+	}, [
+		state.focused,
+		state.range,
+	])
 
 	// Binds the next keydown event to hide output.
 	useKeydown(e => {
