@@ -6,6 +6,7 @@
 	tab-size: 4;
 }
 [data-root] * {
+	/* caret-color: var(--blue-600); */
 	caret-color: var(--black);
 }
 

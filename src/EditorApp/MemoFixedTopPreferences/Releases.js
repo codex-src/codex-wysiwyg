@@ -30,9 +30,11 @@ const Releases = () => (
 				<br />
 			</p>
 			<p>
-				– Added an experimental feature ‘Underscore Rich Text’.{" "}
-				Some rich text elements render a soft <code>box-shadow</code> in read-write mode.{" "}
-				This makes it easier to discern inline elements from one another.
+				<strike>
+					– Added an experimental feature ‘Underscore Rich Text’.{" "}
+					Some rich text elements render a soft <code>box-shadow</code> in read-write mode.{" "}
+					This makes it easier to discern inline elements from one another.
+				</strike>
 			</p>
 		</Release>
 
