@@ -229,6 +229,10 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				}
 			}}
 
+			// onCompositionEnd={e => {
+			// 	// ...
+			// }}
+
 			onInput={e => {
 				const range = getCurrentRange(ref.current)
 				const children = parseRenderedChildren(document.getElementById(range.start.key))
@@ -236,6 +240,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					type: "UNCONTROLLED_INPUT",
 					range,
 					children,
+					preventRerender: e.nativeEvent.isComposing,
 				})
 			}}
 
