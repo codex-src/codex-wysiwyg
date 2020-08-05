@@ -26,6 +26,12 @@ const Releases = () => (
 				Specifically added support for <code>"insert-composed-text-unidentified"</code> and <code>"insert-composed-text-identified"</code>.{" "}
 				These synthetic events / handlers manage the inputs from non en-US keyboards.
 			</p>
+			<p>
+				<br />
+			</p>
+			<p>
+				Composition text input <em>is</em> tested for Chrome but <strong>not</strong> yet tested for Safari, Firefox, etc.
+			</p>
 		</Release>
 
 		<hr className="border-t border-gray-200 opacity-50" />
