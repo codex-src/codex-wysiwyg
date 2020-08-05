@@ -17,6 +17,11 @@ test("insertText(...)", () => {
 	expect(insertText.insertText({ ...e, key: "foo" })).not.toBeTruthy()
 })
 
+test("insertTextComposed(...)", () => {
+	const e = { key: "Dead" }
+	expect(insertText.insertTextComposed(e)).toBeTruthy()
+})
+
 test("insertTab(...)", () => {
 	const e = {
 		shiftKey: false,

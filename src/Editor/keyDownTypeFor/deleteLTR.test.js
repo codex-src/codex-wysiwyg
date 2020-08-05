@@ -29,10 +29,10 @@ test("runeMacOS(...)", () => {
 		ctrlKey: true,
 		altKey: false,
 		metaKey: false,
-		keyCode: keyCodeFor("D"),
+		key: "d",
 	}
 	expect(deleteLTR.runeMacOS(e)).toBeTruthy()
-	// expect(deleteLTR.rune({ ...e, shiftKey: true })).toBeTruthy()
+	expect(deleteLTR.runeMacOS({ ...e, shiftKey: true })).not.toBeTruthy()
 })
 
 /*

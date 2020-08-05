@@ -6,6 +6,9 @@ export const insertText = e => testKeyDown(e)
 	.forKey([...e.key][0])
 	.check()
 
+// TODO: Add support for e.nativeEvent.isComposing?
+export const insertTextComposed = e => e.key === "Dead"
+
 export const insertTab = e => testKeyDown(e)
 	.forShift({ passthrough: true })
 	.forKeyCode("Tab")

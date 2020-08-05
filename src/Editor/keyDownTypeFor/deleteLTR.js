@@ -7,7 +7,8 @@ export const runeAny = e => testKeyDown(e)
 
 export const runeMacOS = e => testKeyDown(e)
 	.forCtrl()
-	.forKeyCode("D")
+	// .forKeyCode("D")
+	.forKey("d") // Uses "d" for en-US keyboards
 	.check()
 
 export const wordNonMacOS = e => testKeyDown(e)
