@@ -205,7 +205,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					break
 				case "insert-composed-text-unidentified":
 				case "insert-composed-text-identified":
-					if (testForSelection(state)) {
+					if (testForSelection(state) && state.range.start.key !== state.range.end.key) {
 						e.preventDefault()
 						// COMPAT: e.preventDefault(...) on
 						// "insert-composed-text-unidentified" breaks
@@ -213,19 +213,17 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 						// emitted. In Chrome 84, use of
 						// document.activeElement.blur(...) appears to
 						// emit oncompositionend.
-						if (keyDownType === "insert-composed-text-unidentified") {
-							const selection = document.getSelection()
-							if (selection.rangeCount) {
-								document.activeElement.blur()
-								const range = {
-									...state.range,
-									end: state.range.start,
-								}
-								setTimeout(() => {
-									const userRange = convRangeToUserLiteral(range)
-									selection.addRange(userRange)
-								}, 0)
+						const selection = document.getSelection()
+						if (selection.rangeCount) {
+							document.activeElement.blur()
+							const range = {
+								...state.range,
+								end: state.range.start,
 							}
+							setTimeout(() => {
+								const userRange = convRangeToUserLiteral(range)
+								selection.addRange(userRange)
+							}, 0)
 						}
 						dispatch({
 							type: "INSERT_TEXT",

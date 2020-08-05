@@ -22,7 +22,9 @@ const Releases = () => (
 
 		<Release date="August 6, 2020">
 			<p>
-				– Added basic support for compositional text input.
+				– Added basic support for compositional text input.{" "}
+				Specifically added support for <code>"insert-composed-text-unidentified"</code> and <code>"insert-composed-text-identified"</code>.{" "}
+				These synthetic events / handlers manage the inputs from non en-US keyboards.
 			</p>
 		</Release>
 
