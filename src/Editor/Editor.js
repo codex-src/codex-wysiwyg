@@ -46,8 +46,6 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
 		React.useCallback(() => {
-			console.log("render")
-
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
 			const selection = document.getSelection()
 			if (selection.rangeCount) {
@@ -178,10 +176,13 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				case "apply-format-markdown-code":
 				case "apply-format-markdown-strike":
 				case "apply-format-markdown-a":
-					// NOTE: Formatting events must always be
-					// prevented.
-					e.preventDefault()
+
+					// // NOTE: Formatting events must always be
+					// // prevented.
+					// e.preventDefault()
+
 					if (testForSelection(state)) {
+						e.preventDefault()
 						formatType = keyDownType.slice("apply-format-markdown-".length)
 						const types = {}
 						if (formatType !== "plaintext") {
