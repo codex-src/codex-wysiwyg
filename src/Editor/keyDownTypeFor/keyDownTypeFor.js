@@ -35,8 +35,10 @@ function keyDownTypeFor(e) {
 		return "apply-format-markdown-a"
 	case insertText.insertText(e):
 		return "insert-text"
-	case insertText.insertTextComposed(e):
-		return "insert-text-composed"
+	case insertText.insertComposedTextUnidentified(e):
+		return "insert-composed-text-unidentified"
+	case insertText.insertComposedTextIdentified(e):
+		return "insert-composed-text-identified"
 	case insertText.insertTab(e):
 		return "insert-tab"
 	case insertText.insertSoftParagraph(e):

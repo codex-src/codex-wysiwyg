@@ -151,6 +151,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					console.log(keyDownType)
 				}
 
+				console.log({ ...e })
+
 				switch (keyDownType) {
 				case "apply-format-plaintext":
 				case "apply-format-em":

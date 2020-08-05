@@ -17,9 +17,22 @@ test("insertText(...)", () => {
 	expect(insertText.insertText({ ...e, key: "foo" })).not.toBeTruthy()
 })
 
-test("insertTextComposed(...)", () => {
-	const e = { key: "Dead" }
-	expect(insertText.insertTextComposed(e)).toBeTruthy()
+test("insertComposedTextUnidentified(...)", () => {
+	const e = {
+		keyCode: 229,
+		key: "Dead",
+	}
+	expect(insertText.insertComposedTextUnidentified(e)).toBeTruthy()
+	expect(insertText.insertComposedTextIdentified(e)).not.toBeTruthy()
+})
+
+test("insertComposedTextIdentified(...)", () => {
+	const e = {
+		keyCode: 229,
+		key: "ㅇ", // kr/"d"
+	}
+	expect(insertText.insertComposedTextIdentified(e)).toBeTruthy()
+	expect(insertText.insertComposedTextUnidentified(e)).not.toBeTruthy()
 })
 
 test("insertTab(...)", () => {

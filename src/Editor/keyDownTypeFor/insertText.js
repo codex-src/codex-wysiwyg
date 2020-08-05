@@ -3,11 +3,18 @@ import testKeyDown from "lib/Client/testKeyDown"
 export const insertText = e => testKeyDown(e)
 	.forShift({ passthrough: true })
 	.forAlt({ passthrough: true })
-	.forKey([...e.key][0])
+	.forKey(!e.key ? "" : [...e.key][0]) // FIXME?
 	.check()
 
-// TODO: Add support for e.nativeEvent.isComposing?
-export const insertTextComposed = e => e.key === "Dead"
+export const insertComposedTextUnidentified = e => (
+	e.keyCode === 229 &&
+	e.key === "Dead"
+)
+
+export const insertComposedTextIdentified = e => (
+	e.keyCode === 229 &&
+	e.key !== "Dead"
+)
 
 export const insertTab = e => testKeyDown(e)
 	.forShift({ passthrough: true })
