@@ -1,9 +1,9 @@
 import testKeyDown from "lib/Client/testKeyDown"
 
-export const insertText = e => testKeyDown(e)
+export const insertText = e => e.keyCode !== 229 && testKeyDown(e) // Must negate e.keyCode=229
 	.forShift({ passthrough: true })
 	.forAlt({ passthrough: true })
-	.forKey(!e.key ? "" : [...e.key][0]) // FIXME?
+	.forKey([...e.key][0])
 	.check()
 
 export const insertComposedTextUnidentified = e => (

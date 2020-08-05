@@ -151,8 +151,6 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					console.log(keyDownType)
 				}
 
-				console.log({ ...e })
-
 				switch (keyDownType) {
 				case "apply-format-plaintext":
 				case "apply-format-em":
@@ -205,20 +203,33 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 						})
 					}
 					break
-				case "insert-text-composed":
+				case "insert-composed-text-unidentified":
+				case "insert-composed-text-identified":
 					if (testForSelection(state)) {
 						e.preventDefault()
-						// NOTE: e.preventDefault(...) on
-						// "insert-text-composed" breaks composition and
-						// oncompositionend is never emitted. Use of
+						// COMPAT: e.preventDefault(...) on
+						// "insert-composed-text-unidentified" breaks
+						// composition and oncompositionend is never
+						// emitted. In Chrome 84, use of
 						// document.activeElement.blur(...) appears to
-						// emit oncompositionend but the insertion point
-						// is lost.
-						document.activeElement.blur()
-						insertText = ""
+						// emit oncompositionend.
+						if (keyDownType === "insert-composed-text-unidentified") {
+							const selection = document.getSelection()
+							if (selection.rangeCount) {
+								document.activeElement.blur()
+								const range = {
+									...state.range,
+									end: state.range.start,
+								}
+								setTimeout(() => {
+									const userRange = convRangeToUserLiteral(range)
+									selection.addRange(userRange)
+								}, 0)
+							}
+						}
 						dispatch({
 							type: "INSERT_TEXT",
-							insertText,
+							insertText: "",
 						})
 					}
 					break
