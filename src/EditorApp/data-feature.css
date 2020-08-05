@@ -1,6 +1,6 @@
 [contenteditable="true"] [data-feature-focus-line] {
 	/* background-color: var(--blue-50); */
-	background-color: rgba(235, 245, 255, 0.75);
+	background-color: rgba(235, 245, 255, 0.67);
 }
 
 /* [contenteditable="true"] [id] > [data-type="em"], */

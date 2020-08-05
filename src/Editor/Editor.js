@@ -46,6 +46,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 	// Rerenders on state.shouldRerender.
 	React.useLayoutEffect(
 		React.useCallback(() => {
+			console.log("render")
+
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
 			const selection = document.getSelection()
 			if (selection.rangeCount) {
@@ -135,6 +137,10 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				}
 			}}
 
+			// TODO: e.nativeEvent.isComposing or
+			// "insert-text-composed" needs to negate
+			// state.rangeTypes because the insertion point is
+			// advanced during composition.
 			onKeyDown={e => {
 				let formatType = ""
 				let insertText = ""
@@ -144,6 +150,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				if (keyDownType) {
 					console.log(keyDownType)
 				}
+
 				switch (keyDownType) {
 				case "apply-format-plaintext":
 				case "apply-format-em":
@@ -151,31 +158,37 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				case "apply-format-code":
 				case "apply-format-strike":
 				case "apply-format-a":
+					// NOTE: Formatting events must always be
+					// prevented.
 					e.preventDefault()
-					formatType = keyDownType.slice("apply-format-".length)
-					const types = {}
-					if (formatType !== "plaintext") {
-						types[formatType] = {} // TODO
+					if (testForSelection(state)) {
+						formatType = keyDownType.slice("apply-format-".length)
+						const types = {}
+						if (formatType !== "plaintext") {
+							types[formatType] = {} // TODO
+						}
+						dispatch({
+							type: "APPLY_TYPES",
+							types,
+						})
 					}
-					dispatch({
-						type: "ADD_OR_REMOVE_TYPES",
-						types,
-					})
 					break
 				case "apply-format-markdown-em":
 				case "apply-format-markdown-strong":
 				case "apply-format-markdown-code":
 				case "apply-format-markdown-strike":
 				case "apply-format-markdown-a":
+					// NOTE: Formatting events must always be
+					// prevented.
+					e.preventDefault()
 					if (testForSelection(state)) {
-						e.preventDefault()
 						formatType = keyDownType.slice("apply-format-markdown-".length)
 						const types = {}
 						if (formatType !== "plaintext") {
 							types[formatType] = {} // TODO
 						}
 						dispatch({
-							type: "ADD_OR_REMOVE_TYPES",
+							type: "APPLY_TYPES",
 							types,
 						})
 					}
@@ -184,6 +197,23 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					if (testForSelection(state)) {
 						e.preventDefault()
 						insertText = e.key
+						dispatch({
+							type: "INSERT_TEXT",
+							insertText,
+						})
+					}
+					break
+				case "insert-text-composed":
+					if (testForSelection(state)) {
+						e.preventDefault()
+						// NOTE: e.preventDefault(...) on
+						// "insert-text-composed" breaks composition and
+						// oncompositionend is never emitted. Use of
+						// document.activeElement.blur(...) appears to
+						// emit oncompositionend but the insertion point
+						// is lost.
+						document.activeElement.blur()
+						insertText = ""
 						dispatch({
 							type: "INSERT_TEXT",
 							insertText,
@@ -229,9 +259,16 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				}
 			}}
 
-			// onCompositionEnd={e => {
-			// 	// ...
-			// }}
+			onCompositionEnd={e => {
+				const range = getCurrentRange(ref.current)
+				const children = parseRenderedChildren(document.getElementById(range.start.key))
+				dispatch({
+					type: "UNCONTROLLED_INPUT",
+					range,
+					children,
+					noopRender: false, // onCompositionEnd must rerender
+				})
+			}}
 
 			onInput={e => {
 				const range = getCurrentRange(ref.current)
@@ -240,7 +277,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 					type: "UNCONTROLLED_INPUT",
 					range,
 					children,
-					preventRerender: e.nativeEvent.isComposing,
+					noopRender: e.nativeEvent.isComposing,
 				})
 			}}
 

@@ -20,6 +20,13 @@ const Release = ({ date, children }) => (
 const Releases = () => (
 	<React.Fragment>
 
+		<Release date="August 6, 2020">
+			<p>
+				– Added basic support for compositional text input.
+			</p>
+		</Release>
+
+		<hr className="border-t border-gray-200 opacity-50" />
 		<Release date="August 4, 2020">
 			<p>
 				– Added an experimental feature ‘Focus Line’.{" "}

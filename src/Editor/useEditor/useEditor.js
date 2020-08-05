@@ -47,7 +47,10 @@ function EditorReducer(e, action) {
 	case "INSERT_TEXT":
 		actions.insertText(e, action)
 		return
-	case "ADD_OR_REMOVE_TYPES":
+	// case "INSERT_TEXT_COMPOSED_ON_SELECTION":
+	// 	actions.insertTextComposedOnSelection(e, action)
+	// 	return
+	case "APPLY_TYPES":
 		actions.addOrRemoveTypes(e, action)
 		return
 	case "INSERT_HARD_PARAGRAPH":

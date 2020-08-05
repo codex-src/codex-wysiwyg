@@ -143,7 +143,7 @@ export function $delete(e, { deleteType }) {
 }
 
 // Uncontrolled input handler.
-export function uncontrolledInput(e, { children, range, preventRerender }) {
+export function uncontrolledInput(e, { children, range, noopRender }) {
 	if (!e.range.start.key || !e.range.end.key) {
 		// No-op
 		return
@@ -153,7 +153,7 @@ export function uncontrolledInput(e, { children, range, preventRerender }) {
 	el1.props.children = children
 	e.range = range
 	collapseToStart(e)
-	if (!preventRerender) {
+	if (!noopRender) {
 		render(e)
 	}
 }
