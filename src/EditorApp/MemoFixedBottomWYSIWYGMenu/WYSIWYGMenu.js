@@ -27,8 +27,10 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					}}
 					onClick={e => {
 						dispatch({
-							type: "ADD_OR_REMOVE_TYPES",
-							types: { strong: {} },
+							type: "APPLY_TYPES",
+							types: {
+								strong: {},
+							},
 						})
 					}}
 				>
@@ -63,8 +65,10 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					}}
 					onClick={e => {
 						dispatch({
-							type: "ADD_OR_REMOVE_TYPES",
-							types: { em: {} },
+							type: "APPLY_TYPES",
+							types: {
+								em: {},
+							},
 						})
 					}}
 				>
@@ -99,8 +103,10 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					}}
 					onClick={e => {
 						dispatch({
-							type: "ADD_OR_REMOVE_TYPES",
-							types: { code: {} },
+							type: "APPLY_TYPES",
+							types: {
+								code: {},
+							},
 						})
 					}}
 				>
@@ -135,8 +141,10 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					}}
 					onClick={e => {
 						dispatch({
-							type: "ADD_OR_REMOVE_TYPES",
-							types: { strike: {} },
+							type: "APPLY_TYPES",
+							types: {
+								strike: {},
+							},
 						})
 					}}
 				>
@@ -171,8 +179,12 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 					}}
 					onClick={e => {
 						dispatch({
-							type: "ADD_OR_REMOVE_TYPES",
-							types: { a: {} /* TODO */ },
+							type: "APPLY_TYPES",
+							types: {
+								a: {
+ 									href: "", // TODO
+								},
+							},
 						})
 					}}
 				>
