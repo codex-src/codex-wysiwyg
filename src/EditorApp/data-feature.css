@@ -1,6 +1,8 @@
 [contenteditable="true"] [data-feature-focus-line] {
-	/* background-color: var(--blue-50); */
-	background-color: rgba(235, 245, 255, 0.67);
+	margin: -0.0625em -0.25em;
+	padding: 0.0625em 0.25em;
+	background-color: rgba(235, 245, 255, 0.5);
+	box-shadow: 0 1px var(--blue-200), 1px 0 var(--blue-200), inset 0 1px var(--blue-200), -1px 0 var(--blue-200);
 }
 
 /* [contenteditable="true"] [id] > [data-type="em"], */

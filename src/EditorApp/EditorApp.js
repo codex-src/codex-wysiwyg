@@ -80,7 +80,7 @@ const App = () => {
 	])
 
 	// Manages [data-feature-focus-line].
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		if (!state.range.start.key) {
 			// No-op
 			return
