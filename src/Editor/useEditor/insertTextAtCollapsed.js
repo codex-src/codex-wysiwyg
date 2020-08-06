@@ -3,13 +3,13 @@ import getMutableIndex from "./getMutableIndex"
 import getVars from "./getVars"
 
 // Inserts text at the current range.
-function insertTextAtCollapsed(e, clonedTextNode, text) {
+function insertTextAtCollapsed(e, startTextNode, text) {
 	const { ch1 } = getVars(e)
 	const x = getMutableIndex(ch1, e.range.start.offset)
 	ch1.splice(x, 0, {
-		...clonedTextNode,
+		...startTextNode,
 		props: {
-			...clonedTextNode.props,
+			...startTextNode.props,
 			children: text,
 		},
 	})

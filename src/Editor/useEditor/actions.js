@@ -63,7 +63,11 @@ function cloneStartTextNode(e) {
 		}
 		return textNode
 	}
-	const x = getIndex(ch1, e.range.start.offset + testForSelection(e))
+	// NOTE: getIndex returns **after** the current text node.
+	let x = getIndex(ch1, e.range.start.offset + testForSelection(e))
+	if (x && x === ch1.length) {
+		x--
+	}
 	return JSONClone(ch1[x])
 }
 
@@ -74,12 +78,12 @@ export function insertText(e, text) {
 		return
 	}
 
-	const clonedTextNode = cloneStartTextNode(e)
+	const startTextNode = cloneStartTextNode(e)
 	if (testForSelection(e)) {
 		deleteOnSelection(e)
 		collapseToStart(e)
 	}
-	insertTextAtCollapsed(e, clonedTextNode, text)
+	insertTextAtCollapsed(e, startTextNode, text)
 	e.range.start.offset += text.length
 	collapseToStart(e)
 	render(e)
