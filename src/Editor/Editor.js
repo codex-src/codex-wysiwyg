@@ -186,7 +186,10 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 						formatType = keyDownType.slice("apply-format-markdown-".length)
 						const types = {}
 						if (formatType !== "plaintext") {
-							types[formatType] = {} // TODO
+							// types[formatType] = {}
+							types[formatType] = formatType !== "a" ? {} : {
+								href: "TODO",
+							}
 						}
 						dispatch({
 							type: "APPLY_TYPES",

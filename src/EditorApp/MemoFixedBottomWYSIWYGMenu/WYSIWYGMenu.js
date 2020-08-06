@@ -182,7 +182,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 							type: "APPLY_TYPES",
 							types: {
 								a: {
- 									href: "", // TODO
+ 									href: "TODO",
 								},
 							},
 						})
