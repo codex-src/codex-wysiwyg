@@ -10,12 +10,19 @@ const init = elements => ({
 	show: false,
 	desc: "releases",
 	resolved: {
-		markdown: toMarkdown(elements),
-		markup: toMarkup(elements),
+		markdown: "",
+		markup: "",
 	},
 })
 
 const actions = state => ({
+	// Mounts elements.
+	mountElements(elements) {
+		Object.assign(state.resolved, {
+			markdown: toMarkdown(elements),
+			markup: toMarkup(elements),
+		})
+	},
 	// Toggles read-only mode.
 	toggleReadOnlyMode() {
 		state.readOnlyMode = !state.readOnlyMode
@@ -60,6 +67,9 @@ const actions = state => ({
 
 function PreferencesReducer(state, action) {
 	switch (action.type) {
+	case "MOUNT_ELEMENTS":
+		actions(state).mountElements(action.elements)
+		return
 	case "TOGGLE_READ_ONLY_MODE":
 		actions(state).toggleReadOnlyMode()
 		return

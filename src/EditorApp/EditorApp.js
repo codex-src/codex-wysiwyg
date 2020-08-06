@@ -15,99 +15,126 @@ import {
 
 import "./data-feature.css"
 
+function useLayoutFocusLines(state) {
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			const keys = []
+			originalFor:
+			for (let x = 0; x < state.elements.length; x++) {
+				if (state.elements[x].key === state.range.start.key) {
+					for (; x < state.elements.length; x++) {
+						keys.push(state.elements[x].key)
+						if (state.elements[x].key === state.range.end.key) {
+							// No-op
+							break originalFor
+						}
+					}
+				}
+			}
+			const els = []
+			for (let x = 0; x < keys.length; x++) {
+				const el = document.getElementById(keys[x])
+				if (!el) {
+					// No-op
+					continue
+				}
+				const fn = !state.focused ? attr => el.removeAttribute(attr)
+					: attr => el.setAttribute(attr, true)
+				if (!x && keys.length === 1) {
+					fn("data-feature-focus-line")
+				} else if (!x) {
+					fn("data-feature-focus-line-start")
+				} else if (x && x + 1 < keys.length) {
+					fn("data-feature-focus-line-center")
+				} else {
+					fn("data-feature-focus-line-end")
+				}
+				els.push(el)
+			}
+			return () => {
+				for (const each of els) {
+					each.removeAttribute("data-feature-focus-line")
+					each.removeAttribute("data-feature-focus-line-start")
+					each.removeAttribute("data-feature-focus-line-center")
+					each.removeAttribute("data-feature-focus-line-end")
+				}
+			}
+		}, [state]),
+		[state.focused, state.range],
+	)
+}
+
 const App = () => {
 	const [state, dispatch] = useEditor()
-	const [prefs, prefsDispatch] = usePreferences(() => state.elements)
+	const [prefs, dispatchPrefs] = usePreferences(() => state.elements)
 
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
-	// Debounces elements by one 60 FPS frame.
-	React.useEffect(() => {
-		// Do not prevent the unmounted render:
-		if (!state.mounted) {
-			if (!prefs.show || (prefs.show && prefs.desc === "releases")) {
-				// No-op
-				return
+	// Mounts elements from state.elements (because of
+	// props.children).
+	React.useEffect(
+		React.useCallback(() => {
+			if (state.mounted) {
+				const elements = state.elements
+				dispatchPrefs({
+					type: "MOUNT_ELEMENTS",
+					elements,
+				})
 			}
-		}
+		}, [state, dispatchPrefs]),
+		[state.mounted],
+	)
+
+	// Effect for debouncedElements (debounced once per 60 FPS).
+	React.useEffect(() => {
 		const id = setTimeout(() => {
 			setDebouncedElements(state.elements)
 		}, 16.67)
 		return () => {
 			clearTimeout(id)
 		}
-	}, [
-		state.mounted,
-		state.elements,
-		prefs.show,
-		prefs.desc,
-	])
+	}, [state.elements])
 
-	// NOTE: prefs.readOnlyMode is a synthetic property of an
-	// editor. Read-only mode can be enabled and disabled by
-	// toggling contenteditable on the editor element.
+	// Effect for read-only mode.
 	React.useEffect(() => {
 		const article = document.getElementById("main-editor")
 		article.contentEditable = !prefs.readOnlyMode
 	}, [prefs.readOnlyMode])
 
-	React.useLayoutEffect(() => {
-		if (prefs.show && prefs.desc === "markdown") {
-			prefsDispatch({
-				type: "UPDATE_MARKDOWN",
-				elements: debouncedElements,
-			})
-		}
-	}, [
-		debouncedElements,
-		prefs.show,
-		prefs.desc,
-		prefsDispatch,
-	])
-
-	React.useLayoutEffect(() => {
-		if (prefs.show && prefs.desc === "markup") {
-			prefsDispatch({
-				type: "UPDATE_MARKUP",
-				elements: debouncedElements,
-			})
-		}
-	}, [
-		debouncedElements,
-		prefs.show,
-		prefs.desc,
-		prefsDispatch,
-	])
-
-	// Manages [data-feature-focus-line].
-	React.useLayoutEffect(() => {
-		if (!state.range.start.key) {
-			// No-op
-			return
-		} else if (state.range.start.key !== state.range.end.key) {
-			// No-op
-			return
-		}
-		const el = document.getElementById(state.range.start.key)
-		if (el) {
-			const fn = !state.focused ? () => el.removeAttribute("data-feature-focus-line")
-				: () => el.setAttribute("data-feature-focus-line", true)
-			fn()
-		}
-		return () => {
-			if (el) {
-				el.removeAttribute("data-feature-focus-line")
+	// Effect for markdown.
+	React.useEffect(
+		React.useCallback(() => {
+			if (prefs.show && prefs.desc === "markdown") {
+				const elements = debouncedElements
+				dispatchPrefs({
+					type: "UPDATE_MARKDOWN",
+					elements,
+				})
 			}
-		}
-	}, [
-		state.focused,
-		state.range,
-	])
+		}, [debouncedElements, prefs, dispatchPrefs]),
+		[debouncedElements],
+	)
 
-	// Binds the next keydown event to hide output.
+	// Effect for markup.
+	React.useEffect(
+		React.useCallback(() => {
+			if (prefs.show && prefs.desc === "markup") {
+				const elements = debouncedElements
+				dispatchPrefs({
+					type: "UPDATE_MARKUP",
+					elements,
+				})
+			}
+		}, [debouncedElements, prefs, dispatchPrefs]),
+		[debouncedElements],
+	)
+
+	// Effect for the focused line/s.
+	useLayoutFocusLines(state)
+
 	useKeydown(e => {
 		if (e.keyCode === keyCodeFor("Escape")) {
-			prefsDispatch({
+			dispatchPrefs({
 				type: "HIDE_ALL",
 			})
 		}
@@ -115,7 +142,7 @@ const App = () => {
 
 	return (
 		<ContextDispatch.Provider value={dispatch}>
-			<ContextPrefsDispatch.Provider value={prefsDispatch}>
+			<ContextPrefsDispatch.Provider value={dispatchPrefs}>
 
 				<div className="px-6 py-32 flex flex-row justify-center h-full">
 					<div className="w-full max-w-2xl h-full">
@@ -125,9 +152,11 @@ const App = () => {
 						<div className="relative h-full">
 							{(state.elements.length === 1 && !state.elements[0].props.children.length) && (
 								<div className="absolute pointer-events-none">
-									<p className="text-lg text-gray-800" style={{ opacity: !state.focused ? 0.25 : 0.375 }}>
-										A long time ago in a galaxy far, far away…
-									</p>
+									<div id="main-editor-placeholder">
+										<p className="text-lg text-gray-800" style={{ opacity: !state.focused ? 0.25 : 0.375 }}>
+											A long time ago in a galaxy far, far away…
+										</p>
+									</div>
 								</div>
 							)}
 							<Editor

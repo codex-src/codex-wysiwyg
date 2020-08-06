@@ -36,7 +36,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 		React.useCallback(() => {
 			const elements = initElementsFromChildren(children)
 			dispatch({
-				type: "MOUNT",
+				type: "MOUNT_ELEMENTS",
 				elements,
 			})
 		}, [dispatch, children]),
@@ -141,7 +141,7 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 			// advanced during composition.
 			onKeyDown={e => {
 				let formatType = ""
-				let insertText = ""
+				let text = ""
 				let deleteType = ""
 
 				const keyDownType = keyDownTypeFor(e)
@@ -197,10 +197,10 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 				case "insert-text":
 					if (testForSelection(state)) {
 						e.preventDefault()
-						insertText = e.key
+						text = e.key
 						dispatch({
 							type: "INSERT_TEXT",
-							insertText,
+							text,
 						})
 					}
 					break
@@ -228,16 +228,16 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 						}
 						dispatch({
 							type: "INSERT_TEXT",
-							insertText: "",
+							text: "",
 						})
 					}
 					break
 				case "insert-tab":
 					e.preventDefault()
-					insertText = "\t"
+					text = "\t"
 					dispatch({
 						type: "INSERT_TEXT",
-						insertText,
+						text,
 					})
 					break
 				case "insert-soft-paragraph":

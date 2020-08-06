@@ -20,13 +20,17 @@ function render(e) {
 	e.shouldRerender++
 }
 
-// Mounts the editor.
-export function mount(e, { elements }) {
-	Object.assign(e, {
-		mounted: true,
-		elements,
-	})
+// Mounts elements (because of props.children).
+export function mountElements(e, elements) {
+	e.mounted = true
+	e.elements = elements
 	render(e)
+
+	// Object.assign(e, {
+	// 	mounted: true,
+	// 	elements,
+	// })
+	// render(e)
 }
 
 // Focuses the editor. Note that focusing the editor is
@@ -42,7 +46,7 @@ export function blur(e) {
 }
 
 // Selects a range and recomputes state.rangeTypes.
-export function select(e, { range }) {
+export function select(e, range) {
 	e.range = range
 	e.rangeTypes = getRangeTypes(e)
 }
@@ -64,7 +68,7 @@ function cloneStartTextNode(e) {
 }
 
 // Inserts text at the current range.
-export function insertText(e, { insertText: text }) {
+export function insertText(e, text) {
 	if (!e.range.start.key || !e.range.end.key) {
 		// No-op
 		return
@@ -96,7 +100,7 @@ export function insertText(e, { insertText: text }) {
 // }
 
 // Adds or removes types from the current range.
-export function addOrRemoveTypes(e, { types }) {
+export function applyTypes(e, types) {
 	if (!e.range.start.key || !e.range.end.key) {
 		// No-op
 		return
@@ -126,7 +130,7 @@ export function insertHardParagraph(e) {
 }
 
 // Deletes the next word, rune, line or the current range.
-export function $delete(e, { deleteType }) {
+export function $delete(e, deleteType) {
 	if (!e.range.start.key || !e.range.end.key) {
 		// No-op
 		return
@@ -143,7 +147,7 @@ export function $delete(e, { deleteType }) {
 }
 
 // Uncontrolled input handler.
-export function uncontrolledInput(e, { children, range, noopRender }) {
+export function uncontrolledInput(e, children, range, noopRender) {
 	if (!e.range.start.key || !e.range.end.key) {
 		// No-op
 		return

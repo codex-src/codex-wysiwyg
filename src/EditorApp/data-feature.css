@@ -1,21 +1,27 @@
-[contenteditable="true"] [data-feature-focus-line] {
+#main-editor [id] {
 	margin: -0.0625em -0.25em;
 	padding: 0.0625em 0.25em;
+}
+#main-editor-placeholder {
+	/* NOTE: Uses 0.0625em not -0.0625em for
+	#main-editor-placeholder. */
+	margin: 0.0625em -0.25em;
+	padding: 0.0625em 0.25em;
+}
+
+#main-editor [id][data-feature-focus-line] {
 	background-color: rgba(235, 245, 255, 0.5);
 	box-shadow: 0 1px var(--blue-200), 1px 0 var(--blue-200), inset 0 1px var(--blue-200), -1px 0 var(--blue-200);
 }
-
-/* [contenteditable="true"] [id] > [data-type="em"], */
-/* [contenteditable="true"] [id] > [data-type="strong"], */
-/* [contenteditable="true"] [id] > [data-type="strike"] { */
-/* 	box-shadow: 0 0.1875em 0 var(--gray-200); */
-/* } */
-/* [contenteditable="true"] [id][data-feature-focus-line] > [data-type="em"], */
-/* [contenteditable="true"] [id][data-feature-focus-line] > [data-type="strong"], */
-/* [contenteditable="true"] [id][data-feature-focus-line] > [data-type="strike"] { */
-/* 	box-shadow: 0 0.1875em 0 var(--blue-200); */
-/* } */
-/*  */
-/* [contenteditable="false"] [data-type="strike"] { */
-/* 	color: var(--gray-400); */
-/* } */
+#main-editor [id][data-feature-focus-line-start] {
+	background-color: rgba(235, 245, 255, 0.5);
+	box-shadow: 1px 0 var(--blue-200), inset 0 1px var(--blue-200), -1px 0 var(--blue-200);
+}
+#main-editor [id][data-feature-focus-line-center] {
+	background-color: rgba(235, 245, 255, 0.5);
+	box-shadow: 1px 0 var(--blue-200), -1px 0 var(--blue-200);
+}
+#main-editor [id][data-feature-focus-line-end] {
+	background-color: rgba(235, 245, 255, 0.5);
+	box-shadow: 0 1px var(--blue-200), 1px 0 var(--blue-200), -1px 0 var(--blue-200);
+}

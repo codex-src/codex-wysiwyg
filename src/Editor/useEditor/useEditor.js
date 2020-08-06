@@ -32,8 +32,8 @@ const newInitialState = () => ({
 
 function EditorReducer(e, action) {
 	switch (action.type) {
-	case "MOUNT":
-		actions.mount(e, action)
+	case "MOUNT_ELEMENTS":
+		actions.mountElements(e, action.elements)
 		return
 	case "FOCUS":
 		actions.focus(e, action)
@@ -42,25 +42,22 @@ function EditorReducer(e, action) {
 		actions.blur(e, action)
 		return
 	case "SELECT":
-		actions.select(e, action)
+		actions.select(e, action.range)
 		return
 	case "INSERT_TEXT":
-		actions.insertText(e, action)
+		actions.insertText(e, action.text)
 		return
-	// case "INSERT_TEXT_COMPOSED_ON_SELECTION":
-	// 	actions.insertTextComposedOnSelection(e, action)
-	// 	return
 	case "APPLY_TYPES":
-		actions.addOrRemoveTypes(e, action)
+		actions.applyTypes(e, action.types)
 		return
 	case "INSERT_HARD_PARAGRAPH":
 		actions.insertHardParagraph(e, action)
 		return
 	case "DELETE":
-		actions.$delete(e, action)
+		actions.$delete(e, action.deleteType)
 		return
 	case "UNCONTROLLED_INPUT":
-		actions.uncontrolledInput(e, action)
+		actions.uncontrolledInput(e, action.children, action.range, action.noopRender)
 		return
 	default:
 		throw new Error(`useEditor.EditorReducer: type mismatch; action.type=${action.type}`)
