@@ -23,12 +23,31 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 
 🙌 &nbsp;**Author on the web in a well-behaved WYSIWYG editor**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 🧠 &nbsp;**Use markdown syntax as shortcuts for WYSIWYG formatting**<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting**<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 ✂️ &nbsp;**Cut, copy, and paste as markdown**<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 👩‍💻 &nbsp;**Render to GitHub Flavored Markdown and semantic HTML in realtime**<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 🧐 &nbsp;**Customize the editor’s aesthetic to your needs**<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 🤪 &nbsp;**_Forget markdown syntax_**<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
+
 ✨ &nbsp;**More!**
 
 ## Current Status
