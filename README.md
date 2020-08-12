@@ -38,7 +38,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 - **Author on the web in a well-behaved WYSIWYG editor.** ✍️<br>
 	All modern desktop browsers will be supported, including iOS.
-- **Auto-generate table-of-contents from auto-linked headers.** ⚓️<br>
+- **Auto-generate table-of-contents.** 🔗<br>
 	Codex generates document-unique links for every header element and generates a table-of-contents for you, for every document.
 - **Use markdown syntax as shortcuts for WYSIWYG formatting.** 🧠⚡️<br>
 	For example, `**bold**` → `<strong>bold</strong>`.
