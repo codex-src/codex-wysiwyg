@@ -2,9 +2,11 @@
 
 **Codex is an in-development WYSIWYG editor _for the developer community_.**
 
-Historically, developers have a distaste for WYSIWYG editors for two reasons: WYSIWYG editor’s don’t understand markdown and WYSIWYG editor’s don’t export to markdown. Codex is purpose-built to solve these problems.
+Historically, the developer community has had a distaste for WYSIWYG editors. Namely, there are two reasons: WYSIWYG editor’s don’t understand markdown, and WYSIWYG editor’s don’t copy-paste to markdown.
 
-[Markdown editors are pretty cool and all](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all decisions _must_ prioritize markdown. This can become a problem later on.
+Codex is purpose-built to solve these problems and more!
+
+Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all design decisions *must* prioritze markdown, even at the cost of the editor itself. And this is a problem if you’re trying to sincerely improve people’s lives, because at the end of the day I don’t think most of us _want_ to write code, we simply _need_ to write code to express ourselves.
 
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it!
 
