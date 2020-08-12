@@ -11,6 +11,20 @@ Namely, there are three reasons:
 
 **Codex is purpose-built to solve these problems and more.** 🌈
 
+## In-Progress Demo
+
+The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it! Feedback about _all aspects_ of Codex are welcome. Feel free to [create an issue](https://github.com/codex-src/codex-wysiwyg/issues/new) or DM me on Twitter [@username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
+
+<br>
+<div align="center">
+	<a href="https://codex-wysiwyg.netlify.app">
+		<img src="https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png" width="640">
+	</a>
+</div>
+<br>
+
+<!-- [![](https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png)](http://codex-wysiwyg.netlify.app) -->
+
 ## Wait — Why WYSIWYG?
 
 Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all design decisions *must* prioritize markdown, even at the expense of the editing experience.
@@ -49,20 +63,6 @@ Here’s what’s currently missing from the MVP features:
 - [ ] Support for markdown-to-WYSIWYG transformations
 - [ ] Support for clipboard operations (cut, copy, paste)
 - [ ] Support for history operations (undo, redo)
-
-## In-Progress Demo
-
-The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it! Feedback about _all aspects_ of Codex are welcome. Feel free to [create an issue](https://github.com/codex-src/codex-wysiwyg/issues/new) or DM me on Twitter [@username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
-
-<br>
-<div align="center">
-	<a href="https://codex-wysiwyg.netlify.app">
-		<img src="https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png" width="640">
-	</a>
-</div>
-<br>
-
-<!-- [![](https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png)](http://codex-wysiwyg.netlify.app) -->
 
 ---
 
