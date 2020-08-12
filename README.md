@@ -9,9 +9,7 @@ Namely, there are three reasons:
 - WYSIWYG editor’s don’t support export to markdown or HTML
 - _WYSIWYG editors just don’t understand developers_ 😡
 
-**Codex is purpose-built to solve these problems and more.** 🌈
-
-<br>
+**Codex is purpose-built to solve these problems and more.** 🌈<br>
 
 ### Wait — Why WYSIWYG?
 
