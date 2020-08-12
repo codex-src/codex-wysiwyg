@@ -32,7 +32,7 @@ Namely, there are three reasons:
 
 Don’t get me wrong, [markdown editors are pretty cool](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all design decisions *must* prioritize markdown, even at the expense of the editing experience.
 
-> _So what if we had a WYSIWYG editor that uniquely understood the needs of the developer community?_ 🤔
+_So what if we had a WYSIWYG editor that uniquely understood the needs of the developer community?_ 🤔
 
 ## With Codex, you’ll be able to:
 
