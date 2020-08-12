@@ -17,7 +17,7 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 
 > _So what if we had a WYSIWYG editor that uniquely understood the needs of the developer community?_ 🤔
 
-🥁 Enter Codex_ 🥁
+🥁 Enter Codex! 🥁
 
 ## With Codex, you’ll be able to:
 
