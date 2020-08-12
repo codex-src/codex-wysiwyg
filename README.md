@@ -2,7 +2,7 @@
 
 **Codex is an in-development WYSIWYG editor _for the developer community_.**
 
-Historically, the developer community has had a distaste for WYSIWYG editors. 🤢
+Historically, the developer community has had a distaste for WYSIWYG editors.
 
 Namely, there are three reasons:
 - WYSIWYG editor’s don’t understand markdown
@@ -21,21 +21,21 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 
 ## With Codex, you’ll be able to:
 
-🙌 &nbsp;**Author on the web in a well-behaved WYSIWYG editor.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All modern desktop browsers will be supported, including iOS.<br><br>
-🧠 &nbsp;**Use markdown syntax as shortcuts for WYSIWYG formatting.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example, **bold** transforms to <strong>bold</strong>.<br><br>
-👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Don’t compromise on code! Say what you mean, and mean what you say.<br><br>
-✂️ &nbsp;**Cut, copy, and paste as markdown.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion.<br><br>
-👩‍💻 &nbsp;**Render to GitHub Flavored Markdown and semantic HTML in realtime.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bootstrap your next project by using Codex to generate your content.<br><br>
-🧐 &nbsp;**Customize the editor’s aesthetic to your needs.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Light mode, dark mode, and support for colorful themes.<br><br>
-🤪 &nbsp;**_Forget markdown syntax_.**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Haha…<br><br>
-✨ &nbsp;**More!**
+- **Author on the web in a well-behaved WYSIWYG editor.** 🙌
+	All modern desktop browsers will be supported, including iOS.<br><br>
+- **Use markdown syntax as shortcuts for WYSIWYG formatting.** 🧠
+	For example, **bold** transforms to <strong>bold</strong>.<br><br>
+- **Author inline code and code blocks with dynamic syntax highlighting.** 👾
+	Don’t compromise on code! Say what you mean, and mean what you say.<br><br>
+- **Cut, copy, and paste as markdown.** ✂️
+	Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion.<br><br>
+- **Render to GitHub Flavored Markdown and semantic HTML in realtime.** 👩‍💻
+	Bootstrap your next project by using Codex to generate your content.<br><br>
+- **Customize the editor’s aesthetic to your needs.** 🧐
+	Light mode, dark mode, and support for colorful themes.<br><br>
+- **_Forget markdown syntax_.** 🤪
+	Haha…<br><br>
+✨ **More!**
 
 ## Current Status
 
