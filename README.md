@@ -19,7 +19,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 ## With Codex, you’ll be able to:
 
-🙌  Author on the web in a well-behaved WYSIWYG editor<br>
+🙌 &nbsp;Author on the web in a well-behaved WYSIWYG editor<br>
 🧠 Use markdown syntax as shortcuts for WYSIWYG formatting<br>
 👾 Author inline code and code blocks with dynamic syntax highlighting<br>
 ✂️ Cut, copy, and paste as markdown<br>
