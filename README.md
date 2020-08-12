@@ -13,7 +13,9 @@ Namely, there are three reasons:
 
 ## In-Progress Demo
 
-The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it! Feedback about _all aspects_ of Codex are welcome. Feel free to [create an issue](https://github.com/codex-src/codex-wysiwyg/issues/new) or DM me on Twitter [@username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
+The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it!
+
+Feedback about _all aspects_ of Codex are welcome. Feel free to [create an issue](https://github.com/codex-src/codex-wysiwyg/issues/new) or DM me on Twitter [@username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
 
 <br>
 <div align="center">
