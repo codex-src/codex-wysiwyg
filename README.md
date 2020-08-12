@@ -22,19 +22,19 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 ## With Codex, you’ll be able to:
 
 - **Author on the web in a well-behaved WYSIWYG editor.** 🙌
-	All modern desktop browsers will be supported, including iOS.<br><br>
+	All modern desktop browsers will be supported, including iOS.
 - **Use markdown syntax as shortcuts for WYSIWYG formatting.** 🧠
-	For example, **bold** transforms to <strong>bold</strong>.<br><br>
+	For example, **bold** transforms to <strong>bold</strong>.
 - **Author inline code and code blocks with dynamic syntax highlighting.** 👾
-	Don’t compromise on code! Say what you mean, and mean what you say.<br><br>
+	Don’t compromise on code! Say what you mean, and mean what you say.
 - **Cut, copy, and paste as markdown.** ✂️
-	Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion.<br><br>
+	Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion.
 - **Render to GitHub Flavored Markdown and semantic HTML in realtime.** 👩‍💻
-	Bootstrap your next project by using Codex to generate your content.<br><br>
+	Bootstrap your next project by using Codex to generate your content.
 - **Customize the editor’s aesthetic to your needs.** 🧐
-	Light mode, dark mode, and support for colorful themes.<br><br>
+	Light mode, dark mode, and support for colorful themes.
 - **_Forget markdown syntax_.** 🤪
-	Haha…<br><br>
+	Haha…
 ✨ **More!**
 
 ## Current Status
