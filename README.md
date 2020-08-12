@@ -56,7 +56,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 ## Current Status
 
-The Codex editor is currently: alpha status. ⏳
+The Codex editor is currently: **alpha status**. ⏳
 
 Here’s what’s currently missing from the MVP features:
 
