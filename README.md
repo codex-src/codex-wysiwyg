@@ -19,14 +19,14 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 ## With Codex, you’ll be able to:
 
-###### 🙌 &nbsp;Author on the web in a well-behaved WYSIWYG editor<br>
-###### 🧠 &nbsp;Use markdown syntax as shortcuts for WYSIWYG formatting<br>
-###### 👾 &nbsp;Author inline code and code blocks with dynamic syntax highlighting<br>
-###### ✂️ &nbsp;Cut, copy, and paste as markdown<br>
-###### 👩‍💻 &nbsp;Render to GitHub Flavored Markdown and semantic HTML in realtime<br>
-###### 💅 &nbsp;Customize the editor’s aesthetic to your needs<br>
-###### 🤪 &nbsp;_Forget markdown syntax_<br>
-###### ✨ &nbsp;More!
+🙌 &nbsp;**Author on the web in a well-behaved WYSIWYG editor**<br>
+🧠 &nbsp;**Use markdown syntax as shortcuts for WYSIWYG formatting**<br>
+👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting**<br>
+✂️ &nbsp;**Cut, copy, and paste as markdown**<br>
+👩‍💻 &nbsp;**Render to GitHub Flavored Markdown and semantic HTML in realtime**<br>
+💅 &nbsp;**Customize the editor’s aesthetic to your needs**<br>
+🤪 &nbsp;**_Forget markdown syntax_**<br>
+✨ &nbsp;**More!**
 
 ## Current Status
 
