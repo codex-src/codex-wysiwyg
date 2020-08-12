@@ -38,8 +38,6 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 - **Author on the web in a well-behaved WYSIWYG editor.** ✍️<br>
 	All modern desktop browsers will be supported, including iOS.
-- **Auto-generate table-of-contents.** 🔗<br>
-	Codex generates document-unique links for every header element and generates a table-of-contents for you, for every document.
 - **Use markdown syntax as shortcuts for WYSIWYG formatting.** 🧠⚡️<br>
 	For example, `**bold**` → `<strong>bold</strong>`.
 - **Author inline code and code blocks with dynamic syntax highlighting.** 🌈<br>
@@ -50,6 +48,8 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 	Bootstrap your next project by using Codex to generate your content.
 - **Customize the editor’s aesthetic to your needs.** 🧐<br>
 	Light mode, dark mode, and support for colorful themes.
+- **Auto-generate table-of-contents.** 🔗<br>
+	Codex generates document-unique links for every header element and generates a table-of-contents for you, for every document.
 - **_Forget markdown syntax?!_** 🤪<br>
 	_Is he serious??_
 - **More!** ✨
