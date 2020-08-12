@@ -20,7 +20,7 @@ Feedback about _all aspects_ of Codex are welcome. You’re welcome to:
 
 ## Wait — Why WYSIWYG?
 
-Historically, the developer community has had a distaste for WYSIWYG editors.
+Historically, the developer community has had a distaste for WYSIWYG editors. 🤢
 
 Namely, there are three reasons:
 - WYSIWYG editor’s don’t understand markdown
