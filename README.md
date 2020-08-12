@@ -11,7 +11,7 @@ Namely, there are three reasons:
 
 **Codex is purpose-built to solve these problems and more.** 🌈
 
-### Wait — Why WYSIWYG?
+## Wait — Why WYSIWYG?
 
 Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all design decisions *must* prioritize markdown, even at the expense of the editing experience.
 
