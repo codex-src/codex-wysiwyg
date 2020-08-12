@@ -58,7 +58,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 The Codex editor is currently: **alpha status**. ⏳
 
-Here’s what’s currently missing from the MVP features:
+Missing MVP features:
 
 - [ ] Support for pending formatting ranges (e.g. formatting without a selection)
 - [ ] Support for multiline elements; `<blockquote>`, `<ul>`, etc.
