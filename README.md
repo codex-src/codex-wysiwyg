@@ -1,6 +1,6 @@
 # Codex — WYSIWYG for Developers
 
-**Codex is an in-development WYSIWYG editor _for_ the developer community.**
+**Codex is an in-development WYSIWYG editor _for the developer community_.**
 
 Historically, developers have a distaste for WYSIWYG editors for two reasons: WYSIWYG editor’s don’t understand markdown and WYSIWYG editor’s don’t export to markdown. Codex is purpose-built to solve these problems.
 
