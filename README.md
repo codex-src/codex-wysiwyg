@@ -22,7 +22,7 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 ## With Codex, you’ll be able to:
 
 🙌 &nbsp;**Author on the web in a well-behaved WYSIWYG editor**<br>
-	Test<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
 🧠 &nbsp;**Use markdown syntax as shortcuts for WYSIWYG formatting**<br>
 👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting**<br>
 ✂️ &nbsp;**Cut, copy, and paste as markdown**<br>
