@@ -1,4 +1,4 @@
-# Codex — WYSIWYG for Developers
+# Codex — WYSIWYG for Developers 🦕
 
 **Codex is an in-development WYSIWYG editor _for the developer community_.**
 
@@ -39,7 +39,7 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 
 ## Current Status
 
-The Codex editor is currently in <u>alpha</u> status.
+The Codex editor is currently in alpha ⏳ status.
 
 Here’s what’s currently missing from the MVP features:
 
