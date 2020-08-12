@@ -24,11 +24,11 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 - **Author on the web in a well-behaved WYSIWYG editor.** ✍️<br>
 	All modern desktop browsers will be supported, including iOS.
 - **Use markdown syntax as shortcuts for WYSIWYG formatting.** 🧠⚡️<br>
-	For example, **bold** will transforms to <strong>bold</strong>.
+	For example, `**bold**` will transforms to `<strong>bold</strong>`.
 - **Author inline code and code blocks with dynamic syntax highlighting.** 🌈<br>
-	Don’t compromise on code! Say what you mean, and mean what you say.
+	You, dear developer, are a respected member of society.
 - **Cut, copy, and paste as markdown.** ✂️<br>
-	Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion.
+	Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion!.
 - **Render to GitHub Flavored Markdown and semantic HTML in realtime.** 👩‍💻👨‍💻<br>
 	Bootstrap your next project by using Codex to generate your content.
 - **Customize the editor’s aesthetic to your needs.** 🧐<br>
