@@ -20,7 +20,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.strong && "var(--blue-500)",
 						backgroundColor: rangeTypes.strong && "var(--blue-50)",
@@ -58,7 +58,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.em && "var(--blue-500)",
 						backgroundColor: rangeTypes.em && "var(--blue-50)",
@@ -96,7 +96,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.code && "var(--blue-500)",
 						backgroundColor: rangeTypes.code && "var(--blue-50)",
@@ -134,7 +134,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.strike && "var(--blue-500)",
 						backgroundColor: rangeTypes.strike && "var(--blue-50)",
@@ -172,7 +172,7 @@ const WYSIWYGMenu = ({ readOnlyMode, focused, rangeTypes }) => {
 				onMouseLeave={e => setTooltip("")}
 			>
 				<button
-					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 disabled:text-gray-400 hover:bg-gray-100 focus:bg-gray-100 disabled:bg-transparent rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
+					className="p-2 relative text-gray-400 hover:text-gray-800 focus:text-gray-800 hover:bg-gray-100 focus:bg-gray-100 rounded-lg focus:outline-none transition duration-200 ease-in-out pointer-events-auto"
 					style={{
 						color: rangeTypes.a && "var(--blue-500)",
 						backgroundColor: rangeTypes.a && "var(--blue-50)",
