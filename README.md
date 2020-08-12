@@ -13,7 +13,7 @@ Namely, there are three reasons:
 
 ## In-Progress Demo
 
-The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app):
+The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app).
 <br>
 <div align="center">
 	<a href="https://codex-wysiwyg.netlify.app">
