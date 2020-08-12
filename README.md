@@ -21,33 +21,20 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 
 ## With Codex, you’ll be able to:
 
-🙌 &nbsp;**Author on the web in a well-behaved WYSIWYG editor**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
-🧠 &nbsp;**Use markdown syntax as shortcuts for WYSIWYG formatting**<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
-👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting**<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
-✂️ &nbsp;**Cut, copy, and paste as markdown**<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
-👩‍💻 &nbsp;**Render to GitHub Flavored Markdown and semantic HTML in realtime**<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
-🧐 &nbsp;**Customize the editor’s aesthetic to your needs**<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
-🤪 &nbsp;**_Forget markdown syntax_**<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test<br>
-
+🙌 &nbsp;**Author on the web in a well-behaved WYSIWYG editor.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All modern desktop browsers will be supported, including iOS.<br>
+🧠 &nbsp;**Use markdown syntax as shortcuts for WYSIWYG formatting.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example, **bold** transforms to <strong>bold</strong>.<br>
+👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Don’t compromise on code! Say what you mean, and mean what you say.<br>
+✂️ &nbsp;**Cut, copy, and paste as markdown.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Never loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion.<br>
+👩‍💻 &nbsp;**Render to GitHub Flavored Markdown and semantic HTML in realtime.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bootstrap your next project by using Codex to generate your content.<br>
+🧐 &nbsp;**Customize the editor’s aesthetic to your needs.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Light mode, dark mode, and support for colorful themes.<br>
+🤪 &nbsp;**_Forget markdown syntax_.**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Haha…<br>
 ✨ &nbsp;**More!**
 
 ## Current Status
