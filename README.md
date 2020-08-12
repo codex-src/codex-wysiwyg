@@ -35,7 +35,7 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 	Light mode, dark mode, and support for colorful themes.
 - **_Forget markdown syntax?!_** 🤪<br>
 	_Is he serious?_
-✨ **More!**
+- **More!** ✨
 
 ## Current Status
 
