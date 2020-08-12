@@ -2,17 +2,6 @@
 
 **Codex is an in-development WYSIWYG editor _for the developer community_.**
 
-Historically, the developer community has had a distaste for WYSIWYG editors.
-
-Namely, there are three reasons:
-- WYSIWYG editor’s don’t understand markdown
-- WYSIWYG editor’s don’t support export to markdown or HTML
-- _WYSIWYG editors just don’t understand developers_ 😭
-
-**Codex is purpose-built to solve these problems and more.** 🌈
-
-## In-Progress Demo
-
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app).
 <br>
 <div align="center">
@@ -31,11 +20,18 @@ Feedback about _all aspects_ of Codex are welcome. You’re welcome to:
 
 ## Wait — Why WYSIWYG?
 
+Historically, the developer community has had a distaste for WYSIWYG editors.
+
+Namely, there are three reasons:
+- WYSIWYG editor’s don’t understand markdown
+- WYSIWYG editor’s don’t support export to markdown or HTML
+- _WYSIWYG editors just don’t understand developers_ 😭
+
+**Codex is purpose-built to solve these problems and more.** 🌈
+
 Don’t get me wrong, [markdown editors are pretty cool](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all design decisions *must* prioritize markdown, even at the expense of the editing experience.
 
 > _So what if we had a WYSIWYG editor that uniquely understood the needs of the developer community?_ 🤔
-
-🥁 Enter Codex! 🥁
 
 ## With Codex, you’ll be able to:
 
@@ -57,7 +53,7 @@ Don’t get me wrong, [markdown editors are pretty cool](https://editor-v2-arch.
 
 ## Current Status
 
-The Codex editor is currently in alpha ⏳ status.
+The Codex editor is currently: alpha status. ⏳
 
 Here’s what’s currently missing from the MVP features:
 
