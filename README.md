@@ -4,7 +4,11 @@
 
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it!
 
-[![](https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png)](http://codex-wysiwyg.netlify.app)
+<div align="center">
+	<img src="http://codex-wysiwyg.netlify.app" width="600">
+</div>
+
+<!-- [![](https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png)](http://codex-wysiwyg.netlify.app) -->
 
 ---
 
