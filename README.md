@@ -6,9 +6,13 @@ Historically, developers have a distaste for WYSIWYG editors for two reasons: WY
 
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it!
 
+<br>
 <div align="center">
-	<img src="https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png" width="480">
+	<a href="https://codex-wysiwyg.netlify.app">
+		<img src="https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png" width="640">
+	</a>
 </div>
+<br>
 
 <!-- [![](https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png)](http://codex-wysiwyg.netlify.app) -->
 
