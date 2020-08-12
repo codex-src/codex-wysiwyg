@@ -7,7 +7,7 @@ Historically, the developer community has had a distaste for WYSIWYG editors.
 Namely, there are three reasons:
 - WYSIWYG editor’s don’t understand markdown
 - WYSIWYG editor’s don’t support export to markdown or HTML
-- _WYSIWYG editors just don’t understand developers_ 😡
+- _WYSIWYG editors just don’t understand developers_ 😭
 
 **Codex is purpose-built to solve these problems and more.** 🌈
 
@@ -19,14 +19,14 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 
 ## With Codex, you’ll be able to:
 
-* Author on the web in a well-behaved WYSIWYG editor
-* Use markdown syntax as shortcuts for WYSIWYG formatting
-* Author inline code and code blocks with dynamic syntax highlighting
-* Cut, copy, and paste as markdown
-* Render to GitHub Flavored Markdown and semantic HTML in realtime
-* Customize the editor’s aesthetic to your needs
-* _Forget markdown syntax_ 😅
-* More ✨
+🙌 Author on the web in a well-behaved WYSIWYG editor<br>
+🧠 Use markdown syntax as shortcuts for WYSIWYG formatting<br>
+👾 Author inline code and code blocks with dynamic syntax highlighting<br>
+✂️ Cut, copy, and paste as markdown<br>
+👩‍💻 Render to GitHub Flavored Markdown and semantic HTML in realtime<br>
+💅 Customize the editor’s aesthetic to your needs<br>
+🤪 _Forget markdown syntax_<br>
+✨ More!
 
 ## Current Status
 
