@@ -13,13 +13,7 @@ Namely, there are three reasons:
 
 ## In-Progress Demo
 
-The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it! Feedback about _all aspects_ of Codex are welcome.
-
-You’re welcome to:
-
-- [Create an issue on GitHub](https://github.com/codex-src/codex-wysiwyg/issues/new).
-- [DM me on Twitter @username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
-
+The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it!
 <br>
 <div align="center">
 	<a href="https://codex-wysiwyg.netlify.app">
@@ -29,6 +23,13 @@ You’re welcome to:
 <br>
 
 <!-- [![](https://i.ibb.co/kBT0qL3/Screen-Shot-2020-08-12-at-4-01-03-PM.png)](http://codex-wysiwyg.netlify.app) -->
+
+Feedback about _all aspects_ of Codex are welcome.
+
+You’re welcome to:
+
+- [Create an issue on GitHub](https://github.com/codex-src/codex-wysiwyg/issues/new).
+- [DM me on Twitter @username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
 
 ## Wait — Why WYSIWYG?
 
