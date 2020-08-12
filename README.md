@@ -24,7 +24,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 👾 &nbsp;**Author inline code and code blocks with dynamic syntax highlighting**<br>
 ✂️ &nbsp;**Cut, copy, and paste as markdown**<br>
 👩‍💻 &nbsp;**Render to GitHub Flavored Markdown and semantic HTML in realtime**<br>
-💅 &nbsp;**Customize the editor’s aesthetic to your needs**<br>
+🧐 &nbsp;**Customize the editor’s aesthetic to your needs**<br>
 🤪 &nbsp;**_Forget markdown syntax_**<br>
 ✨ &nbsp;**More!**
 
