@@ -5,15 +5,13 @@ import ReactDOM from "react-dom"
 
 import "debug.css"
 
-// import "stylesheets/tailwind-css/group-hover.css"
+import "tailwind-css/tailwind.generated.css" // Takes precedence
+import "tailwind-css/color-vars.css"
+import "tailwind-css/em-context.css"
+import "tailwind-css/font-mono.css"
 
-import "stylesheets/tailwind-css/tailwind.generated.css" // Takes precedence
-import "stylesheets/tailwind-css/color-vars.css"
-import "stylesheets/tailwind-css/font-mono.css"
-import "stylesheets/tailwind-css/em-context.css"
-
-import "stylesheets/prism-js/language-gfm.css"
-import "stylesheets/prism-js/language-html.css"
+import "prism-js/language-gfm.css"
+import "prism-js/language-html.css"
 
 ReactDOM.render(
 	<EditorApp />,
