@@ -1,8 +1,9 @@
 # Codex — WYSIWYG for Developers 🦕
 
-**Codex is an in-development WYSIWYG editor _for the developer community_.**
+**Codex is an in-development (status: alpha) WYSIWYG editor _for the developer community_.**
 
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app).
+
 <br>
 <div align="center">
 	<a href="https://codex-wysiwyg.netlify.app">
