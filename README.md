@@ -7,7 +7,7 @@ The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://co
 <br>
 <div align="center">
 	<a href="https://codex-wysiwyg.netlify.app">
-		<img src="https://i.ibb.co/BZF8tPM/Group-35-1.png" width="720">
+		<img src="https://i.ibb.co/BZF8tPM/Group-35-1.png" width="640">
 	</a>
 </div>
 <br>
