@@ -9,7 +9,7 @@ Namely, there are three reasons:
 - WYSIWYG editor’s don’t support export to markdown or HTML
 - _WYSIWYG editors just don’t understand developers_ 😡
 
-**Codex is purpose-built to solve these problems and more.** 🌈<br>
+**Codex is purpose-built to solve these problems and more.** 🌈
 
 ### Wait — Why WYSIWYG?
 
@@ -17,9 +17,7 @@ Don’t get me wrong, [markdown editors are pretty cool and all](https://editor-
 
 _So what if we had a WYSIWYG editor that uniquely understood the needs of the developer community?_ 🤔
 
-<br>
-
-### With Codex, you’ll be able to:
+## With Codex, you’ll be able to:
 
 * Author on the web in a well-behaved WYSIWYG editor
 * Use markdown syntax as shortcuts for WYSIWYG formatting
@@ -30,9 +28,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 * _Forget markdown syntax_ 😅
 * More ✨
 
-<br>
-
-### Current Status
+## Current Status
 
 The Codex editor is currently in <u>alpha</u> status.
 
@@ -45,9 +41,7 @@ Here’s what’s currently missing from the MVP features:
 - [ ] Support for clipboard operations (cut, copy, paste)
 - [ ] Support for history operations (undo, redo)
 
-<br>
-
-### In-Progress Demo
+## In-Progress Demo
 
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app). Have at it!
 
