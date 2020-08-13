@@ -27,8 +27,8 @@ Historically, the developer community has had a distaste for WYSIWYG editors. �
 
 Namely, there are three reasons:
 
-- WYSIWYG editor’s don’t understand markdown.
-- WYSIWYG editor’s don’t support export to markdown or HTML.
+- WYSIWYG editors don’t understand markdown.
+- WYSIWYG editors don’t support export to markdown or HTML.
 - _WYSIWYG editors just don’t understand developers._ 😭
 
 **Codex is purpose-built to solve these problems and more.** 🌈
