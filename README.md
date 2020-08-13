@@ -1,4 +1,4 @@
-# Codex — WYSIWYG for Developers 🦕
+# Codex 🦕
 
 **Codex is an in-development (status: alpha) WYSIWYG editor _for the developer community_.**
 
