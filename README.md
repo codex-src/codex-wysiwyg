@@ -48,7 +48,7 @@ _So what if we had a WYSIWYG editor that uniquely understood the needs of the de
 - **Author inline code and code blocks with dynamic syntax highlighting.** 🌈<br>
 	You, dear developer, are a respected member of society.
 - **Cut, copy, and paste as markdown.** ✂️<br>
-	_Never_ loose the semantic meaning of your documents. This also means your documents will be interoperable with Notion!.
+	_Never_ lose the semantic meaning of your documents. This also means your documents will be interoperable with Notion!
 - **Render to GitHub Flavored Markdown and semantic HTML in realtime.** 👩‍💻👨‍💻<br>
 	Bootstrap your next project by using Codex to generate your content.
 - **Customize the editor’s aesthetic to your needs.** 🧐<br>
@@ -71,6 +71,10 @@ Missing MVP features:
 - [ ] Support for markdown-to-WYSIWYG transformations
 - [ ] Support for clipboard operations (cut, copy, paste)
 - [ ] Support for history operations (undo, redo)
+
+## License
+
+Codex WYSIWYG is open source software licensed as MIT.
 
 ---
 
