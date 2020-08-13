@@ -19,6 +19,8 @@ Feedback about _all aspects_ of Codex are welcome. You’re welcome to:
 - [Create an issue on GitHub](https://github.com/codex-src/codex-wysiwyg/issues/new).
 - [DM me on Twitter @username_ZAYDEK](https://twitter.com/messages/compose?recipient_id=899350210064687105).
 
+<!--
+
 ## Wait — Why WYSIWYG?
 
 Historically, the developer community has had a distaste for WYSIWYG editors. 🤢
@@ -34,6 +36,8 @@ Namely, there are three reasons:
 Don’t get me wrong, [markdown editors are pretty cool](https://editor-v2-arch.netlify.app) but lack the ability to control their own destiny. By which I mean, all design decisions *must* prioritize markdown, even at the expense of the editing experience.
 
 _So what if we had a WYSIWYG editor that uniquely understood the needs of the developer community?_ 🤔
+
+-->
 
 ## With Codex, you’ll be able to:
 
