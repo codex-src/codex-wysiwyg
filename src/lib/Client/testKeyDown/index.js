@@ -3,7 +3,10 @@ import userAgent from "lib/Client/userAgent"
 
 const MODIFIERS = ["shiftKey", "ctrlKey", "altKey", "metaKey"]
 
-// Tests a keydown event.
+// Tests a keydown event for a combination of modifier keys
+// and a key code OR or a key. Note that
+// testKeyDown.forKeyCode(...) may use a string instead of a
+// number (uses forKeyCode(...) internally).
 function testKeyDown(e) {
 	const flags = {
 		shiftKey: false,
@@ -71,11 +74,6 @@ function testKeyDown(e) {
 			return this
 		},
 		check() {
-			// NOTE: e.keyCode and e.key takes precedence for
-			// performance reasons.
-			if (e.keyCode !== flags.keyCode && e.key !== flags.key) {
-				return false
-			}
 			for (const each of MODIFIERS) {
 				if (flags[each] !== undefined) {
 					if (e[each] !== flags[each]) {
@@ -83,7 +81,11 @@ function testKeyDown(e) {
 					}
 				}
 			}
-			return true
+			const ok = (
+				e.keyCode === flags.keyCode ||
+				e.key === flags.key
+			)
+			return ok
 		},
 	}
 	return state
