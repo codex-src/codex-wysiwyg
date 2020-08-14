@@ -5,7 +5,7 @@
 		"lodash": "^4.17.19",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
-		"react-scripts": "3.4.1",
+		"react-scripts": "next",
 		"use-immer": "^0.4.1",
 		"uuidv4": "^6.1.0"
 	},
@@ -36,6 +36,6 @@
 		"@tailwindcss/ui": "^0.4.0",
 		"debug.css": "https://github.com/codex-src/debug.css",
 		"serve": "^11.3.2",
-		"tailwindcss": "^1.6.0"
+		"tailwindcss": "^1.6.2"
 	}
 }
