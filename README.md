@@ -72,6 +72,14 @@ Missing MVP features:
 - [ ] Support for clipboard operations (cut, copy, paste)
 - [ ] Support for history operations (undo, redo)
 
+Planned (future) features:
+
+- [ ] Support for more inline types (highlights, annotations, etc.)
+- [ ] Support for custom-rendered cursors
+- [ ] Support for collaborative editing
+
+The purpose of the Codex WYSIWYG editor is to make note-taking and publishing to the web as easy as possible for the developer community.
+
 ## License
 
 Codex WYSIWYG is open source software licensed as MIT.
