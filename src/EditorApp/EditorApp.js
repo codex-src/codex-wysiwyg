@@ -2,8 +2,8 @@ import ContextDispatch from "./ContextDispatch"
 import ContextPrefsDispatch from "./ContextPrefsDispatch"
 import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import keyCodeFor from "lib/Client/keyCodeFor"
-import MemoFixedBottomWYSIWYGMenu from "./MemoFixedBottomWYSIWYGMenu"
-import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
+// import MemoFixedTopPreferences from "./MemoFixedTopPreferences"
+import MemoWYSIWYGToolbar from "./MemoWYSIWYGToolbar"
 import React from "react"
 import useKeydown from "lib/x/handlers/useKeydown"
 import usePreferences from "./usePreferences"
@@ -129,8 +129,8 @@ const App = () => {
 		[debouncedElements],
 	)
 
-	// Effect for the focused line/s.
-	useLayoutFocusLines(state)
+	// // Effect for the focused line/s.
+	// useLayoutFocusLines(state)
 
 	useKeydown(e => {
 		if (e.keyCode === keyCodeFor("Escape")) {
@@ -147,7 +147,7 @@ const App = () => {
 				<div className="px-6 py-32 flex flex-row justify-center h-full">
 					<div className="w-full max-w-2xl h-full">
 
-						<MemoFixedTopPreferences prefs={prefs} />
+						{/* <MemoFixedTopPreferences prefs={prefs} /> */}
 
 						<div className="relative h-full">
 							{(state.elements.length === 1 && !state.elements[0].props.children.length) && (
@@ -186,11 +186,20 @@ const App = () => {
 							</Editor>
 						</div>
 
-						<MemoFixedBottomWYSIWYGMenu
-							readOnlyMode={prefs.readOnlyMode}
-							focused={state.focused}
-							rangeTypes={state.rangeTypes}
-						/>
+						{!prefs.readOnlyMode && (
+							<aside className="px-3 py-8 fixed inset-x-0 bottom-0 pointer-events-none">
+								<div className="flex flex-row justify-center">
+									<div className="pointer-events-auto">
+										<MemoWYSIWYGToolbar
+											state={state}
+											dispatch={dispatch}
+											prefs={prefs}
+											dispatchPrefs={dispatchPrefs}
+										/>
+									</div>
+								</div>
+							</aside>
+						)}
 
 					</div>
 				</div>

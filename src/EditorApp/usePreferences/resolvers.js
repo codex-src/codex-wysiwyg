@@ -33,52 +33,55 @@ const markup = {
 }
 
 // Converts tree-shaped children to plaintext.
+//
+// TODO: Can we do toTree without a resolver or a plaintext
+// resolver and remove this function?
 function toPlaintext(tree) {
-	let str = ""
+	let text = ""
 	for (const each of toArray(tree)) {
 		if (typeof each === "string") {
-			str += each
+			text += each
 			continue
 		}
-		str += each.props.children &&
+		text += each.props.children &&
 			toPlaintext(each.props.children)
 	}
-	return str
+	return text
 }
 
 // Converts tree-shaped children to text.
 function toText(tree, resolver) {
-	let str = ""
+	let text = ""
 	for (const each of toArray(tree)) {
 		if (typeof each === "string") {
-			str += resolver !== markup ? each : escape(each)
+			text += resolver !== markup ? each : escape(each)
 			continue
 		}
-		str += resolver[each.type](each)
+		text += resolver[each.type](each)
 	}
-	return str
+	return text
 }
 
 // Converts elements to markdown.
 export function toMarkdown(elements) {
-	let str = ""
+	let text = ""
 	for (const each of elements) {
-		str += markdown[each.type](each)
+		text += markdown[each.type](each)
 		if (each !== elements[elements.length - 1]) {
-			str += "\n"
+			text += "\n"
 		}
 	}
-	return str
+	return text
 }
 
 // Converts elements to markup.
 export function toMarkup(elements) {
-	let str = ""
+	let text = ""
 	for (const each of elements) {
-		str += markup[each.type](each)
+		text += markup[each.type](each)
 		if (each !== elements[elements.length - 1]) {
-			str += "\n"
+			text += "\n"
 		}
 	}
-	return str
+	return text
 }
