@@ -16,18 +16,13 @@ const init = elements => ({
 })
 
 const actions = state => ({
-	// Mounts elements.
 	mountElements(elements) {
-		Object.assign(state.resolved, {
-			markdown: toMarkdown(elements),
-			markup: toMarkup(elements),
-		})
+		state.resolved.markdown = toMarkdown(elements)
+		state.resolved.markup = toMarkup(elements)
 	},
-	// Toggles read-only mode.
 	toggleReadOnlyMode() {
 		state.readOnlyMode = !state.readOnlyMode
 	},
-	// Toggles releases.
 	toggleReleases() {
 		state.show = (
 			!state.show ||
@@ -35,7 +30,6 @@ const actions = state => ({
 		)
 		state.desc = "releases"
 	},
-	// Toggles rendering markdown.
 	toggleMarkdown() {
 		state.show = (
 			!state.show ||
@@ -43,7 +37,6 @@ const actions = state => ({
 		)
 		state.desc = "markdown"
 	},
-	// Toggles rendering markup.
 	toggleMarkup() {
 		state.show = (
 			!state.show ||
@@ -51,15 +44,12 @@ const actions = state => ({
 		)
 		state.desc = "markup"
 	},
-	// Updates the resolved markdown.
 	updateMarkdown(elements) {
 		state.resolved.markdown = toMarkdown(elements)
 	},
-	// Updates the resolved markup.
 	updateMarkup(elements) {
 		state.resolved.markup = toMarkup(elements)
 	},
-	// Closes the current renderer.
 	hideAll() {
 		state.show = false
 	},

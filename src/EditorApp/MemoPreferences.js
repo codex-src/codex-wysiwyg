@@ -9,13 +9,10 @@ import {
 	TooltipBottomRight,
 } from "./Tooltips"
 
-function tabSize(size) {
-	const style = {
-		MozTabSize: size,
-		tabSize: size,
-	}
-	return style
-}
+const tabSize = size => ({
+	MozTabSize: size,
+	tabSize: size,
+})
 
 const MemoPreferences = React.memo(({ prefs, dispatchPrefs }) => {
 	const [tooltip, setTooltip] = React.useState("")
@@ -77,7 +74,7 @@ const MemoPreferences = React.memo(({ prefs, dispatchPrefs }) => {
 						{(!prefs.show && tooltip === "releases") && (
 							<TooltipBottomRight>
 								<p className="text-xs whitespace-pre text-gray-100">
-									View ReleasesFragment
+									View Releases
 								</p>
 							</TooltipBottomRight>
 						)}

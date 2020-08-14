@@ -13,26 +13,14 @@ import {
 
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
-const App = () => {
+const EditorApp = () => {
 	const [state, dispatch] = useEditor()
 	const [prefs, dispatchPrefs] = usePreferences(() => state.elements)
 
 	const [debouncedElements, setDebouncedElements] = React.useState(() => state.elements)
 
-	// Effect for debouncedElements.
-	//
-	// TODO: Extract if possible.
-	React.useEffect(() => {
-		const id = setTimeout(() => {
-			setDebouncedElements(state.elements)
-		}, 16.67)
-		return () => {
-			clearTimeout(id)
-		}
-	}, [state.elements])
-
-	// Mounts elements from state.elements (because of
-	// props.children).
+	// Mounts deferred elements to preferences (because of the
+	// props.children pattern).
 	React.useEffect(
 		React.useCallback(() => {
 			if (state.mounted) {
@@ -46,13 +34,23 @@ const App = () => {
 		[state.mounted],
 	)
 
-	// // Effect for read-only mode.
-	// React.useEffect(() => {
-	// 	const article = document.getElementById("main-editor")
-	// 	article.contentEditable = !prefs.readOnlyMode
-	// }, [prefs.readOnlyMode])
+	// Manages debouncedElements.
+	React.useEffect(() => {
+		const id = setTimeout(() => {
+			setDebouncedElements(state.elements)
+		}, 16.67)
+		return () => {
+			clearTimeout(id)
+		}
+	}, [state.elements])
 
-	// Effect for rendered markdown.
+	// Manages read-only mode.
+	React.useEffect(() => {
+		const article = document.getElementById("main-editor")
+		article.contentEditable = !prefs.readOnlyMode
+	}, [prefs.readOnlyMode])
+
+	// Manages rendered markdown.
 	React.useEffect(
 		React.useCallback(() => {
 			if (prefs.show && prefs.desc === "markdown") {
@@ -66,7 +64,7 @@ const App = () => {
 		[debouncedElements],
 	)
 
-	// Effect for rendered markup.
+	// Manages rendered markup.
 	React.useEffect(
 		React.useCallback(() => {
 			if (prefs.show && prefs.desc === "markup") {
@@ -92,7 +90,6 @@ const App = () => {
 		<div className="px-6 py-32 flex flex-row justify-center h-full">
 			<div className="w-full max-w-2xl h-full">
 
-				{/* Preferences */}
 				<div className="px-3 pb-8 fixed inset-0 z-10 pointer-events-none">
 					<MemoPreferences
 						state={state}
@@ -139,7 +136,6 @@ const App = () => {
 					</Editor>
 				</div>
 
-				{/* Toolbar */}
 				{!prefs.readOnlyMode && (
 					<aside className="px-3 py-8 fixed inset-x-0 bottom-0 pointer-events-none">
 						<div className="flex flex-row justify-center">
@@ -158,4 +154,4 @@ const App = () => {
 	)
 }
 
-export default App
+export default EditorApp
