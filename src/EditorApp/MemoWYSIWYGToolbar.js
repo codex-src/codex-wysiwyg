@@ -3,11 +3,11 @@ import React from "react"
 import userAgent from "lib/Client/userAgent"
 import { TooltipTop } from "./Tooltips"
 
-const MemoWYSIWYGToolbar = React.memo(({ state, dispatch, prefs, dispatchPrefs }) => {
+const MemoWYSIWYGToolbar = React.memo(({ state, dispatch }) => {
 	const [tooltip, setTooltip] = React.useState("")
 
 	return (
-		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero">
+		<div className="px-3 py-2 flex flex-row items-center bg-white rounded-lg shadow-hero pointer-events-auto">
 			<div className="-ml-0.5" />
 
 			{/* <strong> */}

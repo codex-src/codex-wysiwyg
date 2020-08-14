@@ -1,6 +1,8 @@
-import ctrlOrCmd from "lib/Client/ctrlOrCmd"
 import React from "react"
+import userAgent from "lib/Client/userAgent"
 import { ReadOnlyEditor } from "Editor"
+
+const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
 const Release = ({ date, children }) => (
 	<div className="px-6 py-4">
@@ -17,7 +19,7 @@ const Release = ({ date, children }) => (
 	</div>
 )
 
-const Releases = () => (
+const ReleasesFragment = () => (
 	<React.Fragment>
 
 		<Release date="August 7, 2020">
@@ -199,4 +201,4 @@ const Releases = () => (
 	</React.Fragment>
 )
 
-export default Releases
+export default ReleasesFragment
