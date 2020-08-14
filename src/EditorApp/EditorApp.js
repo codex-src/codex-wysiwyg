@@ -53,29 +53,33 @@ const EditorApp = () => {
 	// Manages rendered markdown.
 	React.useEffect(
 		React.useCallback(() => {
-			if (prefs.show && prefs.desc === "markdown") {
-				const elements = debouncedElements
-				dispatchPrefs({
-					type: "UPDATE_MARKDOWN",
-					elements,
-				})
+			if (prefs.show) {
+				if (prefs.desc === "markdown") {
+					const elements = debouncedElements
+					dispatchPrefs({
+						type: "UPDATE_MARKDOWN",
+						elements,
+					})
+				}
 			}
 		}, [debouncedElements, prefs, dispatchPrefs]),
-		[debouncedElements],
+		[debouncedElements, prefs.show],
 	)
 
 	// Manages rendered markup.
 	React.useEffect(
 		React.useCallback(() => {
-			if (prefs.show && prefs.desc === "markup") {
-				const elements = debouncedElements
-				dispatchPrefs({
-					type: "UPDATE_MARKUP",
-					elements,
-				})
+			if (prefs.show) {
+				if (prefs.desc === "markup") {
+					const elements = debouncedElements
+					dispatchPrefs({
+						type: "UPDATE_MARKUP",
+						elements,
+					})
+				}
 			}
 		}, [debouncedElements, prefs, dispatchPrefs]),
-		[debouncedElements],
+		[debouncedElements, prefs.show],
 	)
 
 	useKeydown(e => {
