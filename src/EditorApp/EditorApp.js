@@ -23,6 +23,8 @@ const EditorApp = () => {
 
 	// Mounts deferred elements to preferences (because of the
 	// props.children pattern).
+	//
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	React.useEffect(
 		React.useCallback(() => {
 			if (state.mounted) {
@@ -53,6 +55,8 @@ const EditorApp = () => {
 	}, [prefs.readOnlyMode])
 
 	// Manages rendered markdown.
+	//
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	React.useEffect(
 		React.useCallback(() => {
 			if (prefs.show) {
@@ -69,6 +73,8 @@ const EditorApp = () => {
 	)
 
 	// Manages rendered markup.
+	//
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	React.useEffect(
 		React.useCallback(() => {
 			if (prefs.show) {

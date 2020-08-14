@@ -4,7 +4,7 @@ import React from "react"
 import { initElementsFromMarkup } from "../parsers"
 import { useImmerReducer } from "use-immer"
 
-const newInitialState = () => ({
+const initialState = {
 	mounted: false,
 	focused: false,
 	elements: [
@@ -28,7 +28,7 @@ const newInitialState = () => ({
 	},
 	rangeTypes: {},
 	shouldRerender: 0,
-})
+}
 
 function EditorReducer(e, action) {
 	switch (action.type) {
@@ -64,17 +64,20 @@ function EditorReducer(e, action) {
 	}
 }
 
-// Instantiates an editor from markup.
+// Instantiates an editor state from markup.
 export function useEditorFromMarkup(markup) {
-	const initialState = React.useMemo(() => {
+	const state = React.useMemo(() => {
 		const elements = initElementsFromMarkup(markup)
-		return newInitialState(elements)
+		const state = {
+			...initialState,
+			elements,
+		}
+		return state
 	}, [markup])
-	return useImmerReducer(EditorReducer, initialState)
+	return useImmerReducer(EditorReducer, state)
 }
 
-// Instantiates an editor.
+// Instantiates an editor state.
 export function useEditor() {
-	const initialState = React.useMemo(newInitialState)
 	return useImmerReducer(EditorReducer, initialState)
 }

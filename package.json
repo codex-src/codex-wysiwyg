@@ -3,8 +3,8 @@
 	"dependencies": {
 		"emoji-trie": "https://github.com/codex-src/emoji-trie.js",
 		"lodash": "^4.17.19",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
+		"react": "next",
+		"react-dom": "next",
 		"react-scripts": "next",
 		"use-immer": "^0.4.1",
 		"uuidv4": "^6.1.0"

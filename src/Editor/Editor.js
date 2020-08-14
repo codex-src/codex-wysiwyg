@@ -32,6 +32,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 	const pointerdownRef = React.useRef(false)
 
 	// Mounts elements from props.children (once).
+	//
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			const elements = initElementsFromChildren(children)
@@ -44,6 +46,8 @@ const Editor = ({ id, className, style, state, dispatch, children }) => {
 	)
 
 	// Rerenders on state.shouldRerender.
+	//
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	React.useLayoutEffect(
 		React.useCallback(() => {
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=138439#c10
