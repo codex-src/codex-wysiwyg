@@ -1,6 +1,8 @@
 # Codex 🦕
 
-**Codex is an in-development (status: alpha) WYSIWYG editor _for the developer community_.**
+**Codex is an in-development (status: alpha) WYSIWYG editor for the developer community.**
+
+The purpose of Codex is to make note-taking, publishing to the web, and new forms of self-expression accessible for the developer community.
 
 The current alpha is hosted on Netlify at [codex-wysiwyg.netlify.app](https://codex-wysiwyg.netlify.app).
 
@@ -77,8 +79,6 @@ Planned (future) features:
 - [ ] Support for more inline types
 - [ ] Support for custom-rendered cursors
 - [ ] Support for collaborative editing
-
-The purpose of the Codex WYSIWYG editor is to make note-taking and publishing to the web as easy as possible for the developer community.
 
 ## License
 
