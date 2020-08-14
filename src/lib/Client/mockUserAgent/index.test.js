@@ -1,6 +1,6 @@
-import { // Unsorted
-	mockNonMacOS,
+import {
 	mockMacOS,
+	mockNonMacOS,
 } from "./index"
 
 // Tests the user agent for a substring.

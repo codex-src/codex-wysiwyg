@@ -2,9 +2,9 @@ import hash from "lib/x/hash"
 import React from "react"
 import renderTree from "lib/DOM/renderTree"
 
-import { // Unsorted
-	getPositionFromUserLiteral,
+import {
 	convPositionToUserLiteral,
+	getPositionFromUserLiteral,
 } from "./Position"
 
 const contentEditable = {

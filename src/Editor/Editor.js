@@ -4,14 +4,14 @@ import React from "react"
 import ReactDOM from "react-dom"
 import testForSelection from "./useEditor/testForSelection"
 
-import { // Unsorted
+import {
 	initElementsFromChildren,
 	parseRenderedChildren,
 } from "./parsers"
 
-import { // Unsorted
-	getCurrentRange,
+import {
 	convRangeToUserLiteral,
+	getCurrentRange,
 } from "./Range"
 
 import "./Editor.css"

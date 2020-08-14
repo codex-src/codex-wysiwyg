@@ -1,12 +1,12 @@
-import { // Unsorted
-	Em,
-	Strong,
-	Code,
-	Strike,
+import {
 	A,
+	Code,
+	Em,
+	Strike,
+	Strong,
 } from "./components-text"
 
-import { // Unsorted
+import {
 	H1,
 	H2,
 	H3,

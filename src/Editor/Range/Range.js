@@ -1,8 +1,8 @@
 import testForSelection from "../useEditor/testForSelection"
 
-import { // Unsorted
-	getPositionFromUserLiteral,
+import {
 	convPositionToUserLiteral,
+	getPositionFromUserLiteral,
 } from "./Position"
 
 // Gets the current range scoped to a tree.

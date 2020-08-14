@@ -1,7 +1,7 @@
 import React from "react"
 import T from "./T"
 
-import { // Unsorted
+import {
 	disableAutoCorrect,
 	relNoopener,
 } from "./miscProps"

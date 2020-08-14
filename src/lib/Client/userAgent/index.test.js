@@ -1,8 +1,8 @@
 import userAgent from "./index"
 
-import { // Unsorted
-	mockNonMacOS,
+import {
 	mockMacOS,
+	mockNonMacOS,
 } from "lib/Client/mockUserAgent"
 
 test("MacOSX=false", () => {

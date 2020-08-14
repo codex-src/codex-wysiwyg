@@ -2,7 +2,7 @@ import * as emojiTrie from "emoji-trie"
 import testAlphanum from "lib/UTF8/testAlphanum"
 import { atStart } from "lib/UTF8/runes"
 
-import { // Unsorted
+import {
 	testHWhitespace,
 	testWhitespace,
 } from "lib/UTF8/testWhitespace"

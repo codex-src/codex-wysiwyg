@@ -1,9 +1,9 @@
 import * as deleteRTL from "./deleteRTL"
 import keyCodeFor from "lib/Client/keyCodeFor"
 
-import { // Unsorted
-	mockNonMacOS,
+import {
 	mockMacOS,
+	mockNonMacOS,
 } from "lib/Client/mockUserAgent"
 
 /*

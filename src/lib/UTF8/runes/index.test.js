@@ -1,6 +1,6 @@
-import { // Unsorted
-	atStart,
+import {
 	atEnd,
+	atStart,
 } from "./index"
 
 test("atStart(...)", () => {
