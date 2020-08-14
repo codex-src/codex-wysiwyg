@@ -9,9 +9,9 @@ import {
 	TooltipBottomRight,
 } from "./Tooltips"
 
-const tabSize = size => ({
-	MozTabSize: size,
-	tabSize: size,
+const tabSize = tabSize => ({
+	MozTabSize: tabSize,
+	tabSize,
 })
 
 const MemoPreferences = React.memo(({ prefs, dispatchPrefs }) => {

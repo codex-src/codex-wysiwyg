@@ -11,6 +11,8 @@ import {
 	useEditor,
 } from "Editor"
 
+import "./EditorApp.css"
+
 const ctrlOrCmd = !userAgent.MacOSX ? "ctrl" : "cmd"
 
 const EditorApp = () => {

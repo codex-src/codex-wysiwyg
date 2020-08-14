@@ -1,0 +1,12 @@
+/* [data-root="true"][contenteditable="true"] [data-type="p"][data-feature-empty], */
+/* [data-root="true"][contenteditable="false"] [data-type="p"][data-feature-empty] { */
+/* 	transition-property: line-height; */
+/* 	transition-duration: 200ms; */
+/* 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); */
+/* } */
+
+/* TODO: Add support for obscuring repeat empty elements in
+CSS or JS? */
+[data-root="true"][contenteditable="false"] [data-type="p"][data-feature-empty] {
+	line-height: 1;
+}

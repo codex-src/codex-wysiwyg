@@ -27,7 +27,17 @@ const Node = ({ id, className, style, children, ...props }) => {
 		whiteSpace: "pre-wrap",
 		overflowWrap: "break-word",
 	}
-	return <div ref={ref} id={id} className={className} style={imperativeStyle} {...props} />
+
+	return (
+		<div
+			ref={ref}
+			id={id}
+			className={className}
+			style={imperativeStyle}
+			data-feature-empty={!children.length || undefined}
+			{...props}
+		/>
+	)
 }
 
 export default Node
