@@ -27,12 +27,27 @@ function doSomething(children) {
 				break
 			}
 		}
-		recurse(children.slice(x, x2))
+
+		// recurse(children.slice(x, x2))
 	}
 }
 
-// Returns a map of the types in common. Returns null if
-// there are no types in common.
+// // Returns a map of the types in common. Returns null if
+// // there are no types in common.
+// function typesInCommon(types1, types2) {
+// 	const common = {}
+// 	for (const each of Object.keys(types2)) {
+// 		if (types1[each] && types2[each] && JSONEqual(types1[each], types2[each])) {
+// 			common[each] = types1[each]
+// 		}
+// 	}
+// 	if (!Object.keys(common).length) {
+// 		return null
+// 	}
+// 	return common
+// }
+
+// Returns a map of the types in common.
 function typesInCommon(types1, types2) {
 	const common = {}
 	for (const each of Object.keys(types2)) {
@@ -40,22 +55,101 @@ function typesInCommon(types1, types2) {
 			common[each] = types1[each]
 		}
 	}
-	if (!Object.keys(common).length) {
-		return null
-	}
 	return common
 }
 
 
-// // Converts children to tree-shaped children.
-// function toTree(children) {
-// 	const tree = []
-// 	for (const each of children) {
-// 		const [parentElement, types] = queryNext(tree, each)
-// 		parentElement.push(createElement(each, types))
+// // Returns an array of keys of the uncommon types.
+// function uncommonTypeKeys(types1, types2) {
+// 	const common = {}
+// 	for (const each of Object.keys(types2)) {
+// 		if (types1[each] && types2[each] && JSONEqual(types1[each], types2[each])) {
+// 			common[each] = types1[each]
+// 		}
 // 	}
-// 	return tree
+// 	return common
 // }
+
+// Returns an array of uncommon type keys.
+function uncommonKeys(types1, types2) {
+	const uncommon = []
+	for (const each of Object.keys(types1)) {
+		if (!types2[each] || !JSONEqual(types1[each], types2[each])) {
+			uncommon.push(each)
+		}
+	}
+	return uncommon
+}
+
+function fn(children) {
+	if (!children.length) {
+		// ....
+	}
+
+	const common = JSONClone(children[0].types)
+	for (const each of children.slice(1)) {
+		const keys = uncommonKeys(common, each)
+		for (const key of keys) {
+			common[key] = undefined
+		}
+	}
+
+	sortedCommonArray = convTypesToArray(common)
+	for (const each of sortedCommonArray) {
+		// render
+	}
+
+	// ...
+}
+
+// Stress test
+
+//   -   code
+//  ---  code + strong
+// ----- code + strong + em
+//  ---  code + strong
+//   -   code
+
+<code>
+	aaa
+	<strong>
+		bbb
+		<em>
+			ccc
+		</em>
+		ddd
+	</strong>
+	eee
+</code>
+
+// render in common
+// render remaining (could be a string)
+
+// ----- code + strong + em
+//  ---  code + strong
+//   -   code
+//  ---  code + strong
+// ----- code + strong + em
+
+function render() {
+
+}
+
+<code>
+	<strong>
+		<em>
+			aaa
+		</em>
+		bbb
+	</strong>
+	ccc
+	<strong>
+		ddd
+		<em>
+			eee
+		</em>
+	</strong>
+</code>
 
 [
 	{

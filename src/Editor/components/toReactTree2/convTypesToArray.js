@@ -12,11 +12,14 @@ function sorter(t1, t2) {
 	return SORT_ORDER[t1] - SORT_ORDER[t2]
 }
 
-// Convert a type-map to a type-array.
+// Convert a type map to a sorted type array.
 function convTypesToArray(types) {
 	const keys = Object.keys(types).sort(sorter)
 	return keys.reduce((acc, each) => {
-		acc.push({ type: each, props: types[each] })
+		acc.push({
+			type: each,
+			props: types[each],
+		})
 		return acc
 	}, [])
 }
