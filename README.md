@@ -76,6 +76,7 @@ Missing MVP features:
 
 Planned (future) features:
 
+- [ ] Support for rich-text search
 - [ ] Support for more inline types
 - [ ] Support for custom-rendered cursors
 - [ ] Support for collaborative editing
