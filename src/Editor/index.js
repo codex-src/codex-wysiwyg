@@ -1,3 +1,2 @@
-export * from "./useEditor/useEditor"
 export { default as Editor } from "./Editor"
-export { default as ReadOnlyEditor } from "./ReadOnlyEditor"
+export { default as useEditor } from "./useEditor"
