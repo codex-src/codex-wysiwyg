@@ -16,4 +16,12 @@ const EditorApp = () => {
 	)
 }
 
-export default EditorApp
+const Layout = () => (
+	<div className="px-4 py-24 flex flex-row justify-center">
+		<div className="w-full max-w-3xl">
+			<EditorApp />
+		</div>
+	</div>
+)
+
+export default Layout
