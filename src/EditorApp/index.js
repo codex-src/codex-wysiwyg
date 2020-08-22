@@ -10,6 +10,8 @@ const EditorApp = () => {
 
 	return (
 		<Editor
+			className="focus:outline-none"
+
 			state={state}
 			dispatch={dispatch}
 		/>

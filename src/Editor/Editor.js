@@ -1,6 +1,11 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
+import {
+	computeEditorRangeFromCurrentDOMRange,
+	convertEditorRangeToDOMRange,
+} from "./model/Range"
+
 // const MemoElements = React.memo(({ elements }) => (
 // 	elements.map(each => (
 // 		React.createElement(componentMap[each.type], {
@@ -10,6 +15,24 @@ import ReactDOM from "react-dom"
 // 		})
 // 	))
 // ))
+
+const Paragraph = ({ children }) => (
+	<p>
+		{children || (
+			<br />
+		)}
+	</p>
+)
+
+const Render = ({ renderable }) => (
+	renderable.map(each => (
+		React.createElement(Paragraph /* componentMap[each.type] */, {
+			...each.props,
+			key: each.key, // React key
+			id:  each.key, // DOM ID
+		})
+	))
+)
 
 const Editor = ({
 	id,
@@ -33,20 +56,19 @@ const Editor = ({
 				selection.removeAllRanges()
 			}
 			ReactDOM.render(
-				// <MemoElements elements={state.elements} />,
-				"Hello, world!",
+				<Render renderable={state.renderable} />,
 				articleRef.current,
 				() => {
 					if (!state.focused) {
 						// No-op
 						return
 					}
-					// try {
-					// 	const userRange = convRangeToUserLiteral(state.range)
-					// 	selection.addRange(userRange)
-					// } catch (error) {
-					// 	console.error(error)
-					// }
+					try {
+						const domRange = convertEditorRangeToDOMRange(state.range)
+						selection.addRange(domRange)
+					} catch (error) {
+						console.error(error)
+					}
 				},
 			)
 		}, [state]),
@@ -62,15 +84,15 @@ const Editor = ({
 			style={style}
 
 			onFocus={e => {
-				// dispatch({
-				// 	type: "FOCUS",
-				// })
+				dispatch({
+					type: "FOCUS",
+				})
 			}}
 
 			onBlur={e => {
-				// dispatch({
-				// 	type: "BLUR",
-				// })
+				dispatch({
+					type: "BLUR",
+				})
 			}}
 
 			onPointerDown={e => {
@@ -84,37 +106,39 @@ const Editor = ({
 				// 	}
 				// 	return
 				// }
-				// const range = getCurrentRange(ref.current)
+				// const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
 				// if (!range) {
 				// 	// No-op
 				// 	return
 				// }
-				// dispatch({
-				// 	type: "SELECT",
-				// 	range,
-				// })
+				// // dispatch({
+				// // 	type: "SELECT",
+				// // 	range,
+				// // })
 			}}
 
-			onPointerUp={e => {
-				// isPointerDownRef.current = false
-			}}
+			// onPointerUp={e => {
+			// 	isPointerDownRef.current = false
+			// }}
 
 			// TODO: Add COMPAT guard for select-all or prevent
 			// default?
 			onSelect={e => {
-				// try {
-				// 	const range = getCurrentRange(ref.current)
-				// 	if (!range) {
-				// 		// No-op
-				// 		return
-				// 	}
-				// 	dispatch({
-				// 		type: "SELECT",
-				// 		range,
-				// 	})
-				// } catch (error) {
-				// 	console.error(error)
-				// }
+				try {
+					const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
+					if (!range) {
+						// No-op
+						return
+					}
+					console.log(range)
+
+					// dispatch({
+					// 	type: "SELECT",
+					// 	range,
+					// })
+				} catch (error) {
+					console.error(`onSelect: error=${error}`)
+				}
 			}}
 
 			onKeyDown={e => {
@@ -166,7 +190,7 @@ const Editor = ({
 			//  		if (formatType !== "plaintext") {
 			//  			// types[formatType] = {}
 			//  			types[formatType] = formatType !== "a" ? {} : {
-			//  				href: "TODO",
+			//  				harticleRef: "TODO",
 			//  			}
 			//  		}
 			//  		dispatch({
@@ -203,8 +227,8 @@ const Editor = ({
 			//  				end: state.range.start,
 			//  			}
 			//  			setTimeout(() => {
-			//  				const userRange = convRangeToUserLiteral(range)
-			//  				selection.addRange(userRange)
+			//  				const domRange = convertEditorRangeToDOMRange(range)
+			//  				selection.addRange(domRange)
 			//  			}, 0)
 			//  		}
 			//  		dispatch({
@@ -253,7 +277,7 @@ const Editor = ({
 			}}
 
 			onCompositionEnd={e => {
-				// const range = getCurrentRange(ref.current)
+				// const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
 				// const children = parseRenderedChildren(document.getElementById(range.start.key))
 				// dispatch({
 				// 	type: "UNCONTROLLED_INPUT",
@@ -264,7 +288,7 @@ const Editor = ({
 			}}
 
 			onInput={e => {
-				// const range = getCurrentRange(ref.current)
+				// const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
 				// const children = parseRenderedChildren(document.getElementById(range.start.key))
 				// dispatch({
 				// 	type: "UNCONTROLLED_INPUT",
@@ -303,11 +327,12 @@ const tabSize = n => ({
 	tabSize: n,
 })
 
-const EditorWithDebugger = ({ state, dispatch }) => (
+const EditorWithDebugger = ({ state, dispatch, ...props }) => (
 	<>
 		<Editor
 			state={state}
 			dispatch={dispatch}
+			{...props}
 		/>
 		{process.env.NODE_ENV !== "production" && (
 			<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={tabSize(2)}>

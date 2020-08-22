@@ -17,14 +17,6 @@ const createInitialState = initialValueMarkdown => ({
 	},
 
 	shouldRerender: 0,
-	renderable: [
-		{
-			key: "abc-xyz",
-			props: {
-				children: "",
-			},
-		},
-	],
 })
 
 const actions = state => ({
@@ -33,9 +25,6 @@ const actions = state => ({
 	},
 	blur() {
 		state.focused = false
-	},
-	select(range) {
-		state.range = range
 	},
 })
 
@@ -46,9 +35,6 @@ function EditorReducer(state, action) {
 		return
 	case "BLUR":
 		actions(state).blur()
-		return
-	case "SELECT":
-		actions(state).select(action.range)
 		return
 	default:
 		throw new Error(`EditorReducer: type mismatch; action.type=${action.type}`)
