@@ -298,4 +298,23 @@ const Editor = ({
 	)
 }
 
-export default Editor
+const tabSize = n => ({
+	MozTabSize: n,
+	tabSize: n,
+})
+
+const EditorWithDebugger = ({ state, dispatch }) => (
+	<>
+		<Editor
+			state={state}
+			dispatch={dispatch}
+		/>
+		{process.env.NODE_ENV !== "production" && (
+			<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={tabSize(2)}>
+				{JSON.stringify(state, null, "\t")}
+			</pre>
+		)}
+	</>
+)
+
+export default EditorWithDebugger

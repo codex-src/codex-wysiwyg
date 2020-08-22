@@ -1,25 +1,40 @@
 import { useImmerReducer } from "use-immer"
 
 const createInitialState = initialValueMarkdown => ({
-	// ...
+	readOnlyMode: false,
+
+	focused: false,
+	content: [],
+	cursors: {
+		start: {
+			key: "",
+			offset: 0,
+		},
+		end: {
+			key: "",
+			offset: 0,
+		},
+	},
+
+	shouldRerender: 0,
 })
 
 const actions = state => ({
-	a() {
-
+	focus() {
+		state.focused = true
 	},
-	b() {
-
+	blur() {
+		state.focused = false
 	},
 })
 
 function EditorReducer(state, action) {
 	switch (action.type) {
-	case "A":
-		actions(state).a()
+	case "FOCUS":
+		actions(state).focus()
 		return
-	case "B":
-		actions(state).a()
+	case "BLUR":
+		actions(state).blur()
 		return
 	default:
 		throw new Error(`EditorReducer: type mismatch; action.type=${action.type}`)
