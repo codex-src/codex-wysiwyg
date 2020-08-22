@@ -2,12 +2,12 @@
 	"name": "codex-wysiwyg",
 	"dependencies": {
 		"emoji-trie": "https://github.com/codex-src/emoji-trie.js",
-		"lodash": "^4.17.19",
-		"react": "next",
-		"react-dom": "next",
-		"react-scripts": "next",
-		"use-immer": "^0.4.1",
-		"uuidv4": "^6.1.0"
+		"lodash": "latest",
+		"react": "latest",
+		"react-dom": "latest",
+		"react-scripts": "latest",
+		"use-immer": "latest",
+		"uuidv4": "latest"
 	},
 	"scripts": {
 		"tailwind-start": "tailwind build -c src/tailwind-css/js/tailwind.config.js -o src/tailwind-css/css/tailwind.generated.css",
@@ -33,9 +33,9 @@
 		]
 	},
 	"devDependencies": {
-		"@tailwindcss/ui": "^0.4.0",
+		"@tailwindcss/ui": "latest",
 		"debug.css": "https://github.com/codex-src/debug.css",
-		"serve": "^11.3.2",
-		"tailwindcss": "^1.6.2"
+		"serve": "latest",
+		"tailwindcss": "latest"
 	}
 }
