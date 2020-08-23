@@ -5,10 +5,8 @@ import {
 	useCodexEditor,
 } from "Editor"
 
-// TODO: Add support for useCodexEditorFromID(...)?
 const EditorApp = () => {
 	const [state, dispatch] = useCodexEditor("Hello, world!")
-
 	return (
 		<CodexReadWriteEditor
 			className="focus:outline-none"
