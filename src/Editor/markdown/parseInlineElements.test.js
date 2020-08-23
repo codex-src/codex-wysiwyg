@@ -6,7 +6,8 @@ test("plaintext", () => {
 })
 
 test("_em_", () => {
-	expect(parseInlineElements("Hello, _world_!")).toEqual([
+	const parsed = parseInlineElements("Hello, _world_!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "em",
@@ -20,7 +21,8 @@ test("_em_", () => {
 })
 
 test("__strong__", () => {
-	expect(parseInlineElements("Hello, __world__!")).toEqual([
+	const parsed = parseInlineElements("Hello, __world__!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "strong",
@@ -34,7 +36,8 @@ test("__strong__", () => {
 })
 
 test("___strong em___", () => {
-	expect(parseInlineElements("Hello, ___world___!")).toEqual([
+	const parsed = parseInlineElements("Hello, ___world___!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "strong em",
@@ -48,7 +51,8 @@ test("___strong em___", () => {
 })
 
 test("*em*", () => {
-	expect(parseInlineElements("Hello, *world*!")).toEqual([
+	const parsed = parseInlineElements("Hello, *world*!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "em",
@@ -62,7 +66,8 @@ test("*em*", () => {
 })
 
 test("**strong**", () => {
-	expect(parseInlineElements("Hello, **world**!")).toEqual([
+	const parsed = parseInlineElements("Hello, **world**!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "strong",
@@ -76,7 +81,8 @@ test("**strong**", () => {
 })
 
 test("***strong em***", () => {
-	expect(parseInlineElements("Hello, ***world***!")).toEqual([
+	const parsed = parseInlineElements("Hello, ***world***!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "strong em",
@@ -90,7 +96,8 @@ test("***strong em***", () => {
 })
 
 test("`code`", () => {
-	expect(parseInlineElements("Hello, `world`!")).toEqual([
+	const parsed = parseInlineElements("Hello, `world`!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "code",
@@ -104,7 +111,8 @@ test("`code`", () => {
 })
 
 test("~code~", () => {
-	expect(parseInlineElements("Hello, ~world~!")).toEqual([
+	const parsed = parseInlineElements("Hello, ~world~!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "code",
@@ -118,7 +126,8 @@ test("~code~", () => {
 })
 
 test("~~strike~~", () => {
-	expect(parseInlineElements("Hello, ~~world~~!")).toEqual([
+	const parsed = parseInlineElements("Hello, ~~world~~!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "strike",
@@ -132,7 +141,8 @@ test("~~strike~~", () => {
 })
 
 test("https://", () => {
-	expect(parseInlineElements("Hello, https://!")).toEqual([
+	const parsed = parseInlineElements("Hello, https://!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "a",
@@ -146,7 +156,8 @@ test("https://", () => {
 })
 
 test("https://google.com", () => {
-	expect(parseInlineElements("Hello, https://google.com!")).toEqual([
+	const parsed = parseInlineElements("Hello, https://google.com!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "a",
@@ -160,7 +171,8 @@ test("https://google.com", () => {
 })
 
 test("[](href)", () => {
-	expect(parseInlineElements("Hello, [](href)!")).toEqual([
+	const parsed = parseInlineElements("Hello, [](href)!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "a",
@@ -175,7 +187,8 @@ test("[](href)", () => {
 })
 
 test("[a]()", () => {
-	expect(parseInlineElements("Hello, [a]()!")).toEqual([
+	const parsed = parseInlineElements("Hello, [a]()!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "a",
@@ -190,7 +203,8 @@ test("[a]()", () => {
 })
 
 test("[a](href)", () => {
-	expect(parseInlineElements("Hello, [world](href)!")).toEqual([
+	const parsed = parseInlineElements("Hello, [world](href)!")
+	expect(parsed).toEqual([
 		"Hello, ",
 		{
 			type: "a",
@@ -203,3 +217,48 @@ test("[a](href)", () => {
 		"!",
 	])
 })
+
+test("_test_test_", () => {
+	const parsed = parseInlineElements("_test_test_")
+	expect(parsed).toEqual([
+		{
+			type: "em",
+			props: {
+				syntax: "_",
+				children: "test_test",
+			},
+		},
+	])
+})
+
+test("__test__test__", () => {
+	const parsed = parseInlineElements("__test__test__")
+	expect(parsed).toEqual([
+		{
+			type: "strong",
+			props: {
+				syntax: "__",
+				children: "test__test",
+			},
+		},
+	])
+})
+
+test("___test___test___", () => {
+	const parsed = parseInlineElements("___test___test___")
+	console.log(parsed)
+	expect(parsed).toEqual([
+		{
+			type: "strong em",
+			props: {
+				syntax: "___",
+				children: "test___test",
+			},
+		},
+	])
+})
+
+// // test("[a](href)[a](href)", () => {
+// 	const parsed = parseInlineElements("[a](href)[a](href)")).toEqual(["[a](href
+// // parsed	expect()[a](href)"])
+// // })

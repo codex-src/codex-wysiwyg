@@ -60,13 +60,17 @@ function parseInlineElements(chunk) {
 		// 	// No-op
 		// 	break
 		// }
+		//
+		// TODO: Add escape.
+		// TODO: Add support for pedantic syntax.
+		//
 		switch (ch) {
 
 		case "_":
 			// ___strong em___
 			if (lex({
 				type: "strong em",
-				regex: /^(\_{3})([^\_]+)(\_{3})/,
+				regex: /^(\_{3})([^\_]+)(\_{3})(?:[^a-zA-Z]|$)/,
 			})) {
 				// No-op
 				continue
@@ -74,7 +78,7 @@ function parseInlineElements(chunk) {
 			// __strong__
 			if (lex({
 				type: "strong",
-				regex: /^(\_{2})([^\*]+)(\_{2})/,
+				regex: /^(\_{2})([^\*]+)(\_{2})(?:[^a-zA-Z]|$)/,
 			})) {
 				// No-op
 				continue
@@ -82,7 +86,7 @@ function parseInlineElements(chunk) {
 			// _em_
 			if (lex({
 				type: "em",
-				regex: /^(\_{1})([^\*]+)(\_{1})/,
+				regex: /^(\_{1})([^\*]+)(\_{1})(?:[^a-zA-Z]|$)/,
 			})) {
 				// No-op
 				continue
@@ -168,7 +172,7 @@ function parseInlineElements(chunk) {
 			// [a](href)
 			if (lex({
 				type: "a",
-				regex: /^(\[)([^\]]*)(\]\([^\)]*\))/,
+				regex: /^(\[)([^\]]*)(\]\([^\)]*\))(?:[^a-zA-Z]|$)/,
 				props: matches => ({
 					href: matches[3].match(/^\]\(([^\)]*)\)/)[1],
 				}),
