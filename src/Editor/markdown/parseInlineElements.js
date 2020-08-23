@@ -74,12 +74,12 @@ function parseInlineElements(chunk) {
 	let x2 = 0
 
 	const emit = ({
-		syntax,
-		regex,
 		type,
+		syntax,
+		re,
 		...props
 	}) => {
-		matches = chunk.slice(x2).match(regex)
+		matches = chunk.slice(x2).match(re)
 		if (matches && matches.length === 2) {
 			if (x2 > x1) {
 				els.push(chunk.slice(x1, x2))
@@ -108,25 +108,25 @@ function parseInlineElements(chunk) {
 		case "_":
 			// ___strong em___
 			if (emit({
-				syntax: "___",
-				regex: /^\_{3}([^_]+)\_{3}/,
 				type: "strong em",
+				syntax: "___",
+				re: /^\_{3}([^\_]+)\_{3}/,
 			})) {
 				// No-op
 				continue
 			}
 			if (emit({
-				syntax: "__",
-				regex: /^\_{2}([^*]+)\_{2}/,
 				type: "strong",
+				syntax: "__",
+				re: /^\_{2}([^\*]+)\_{2}/,
 			})) {
 				// No-op
 				continue
 			}
 			if (emit({
-				syntax: "_",
-				regex: /^\_{1}([^*]+)\_{1}/,
 				type: "em",
+				syntax: "_",
+				re: /^\_{1}([^\*]+)\_{1}/,
 			})) {
 				// No-op
 				continue
@@ -136,30 +136,42 @@ function parseInlineElements(chunk) {
 		case "*":
 			// ***strong em***
 			if (emit({
-				syntax: "***",
-				regex: /^\*{3}([^*]+)\*{3}/,
 				type: "strong em",
+				syntax: "***",
+				re: /^\*{3}([^\*]+)\*{3}/,
 			})) {
 				// No-op
 				continue
 			}
 			if (emit({
-				syntax: "**",
-				regex: /^\*{2}([^*]+)\*{2}/,
 				type: "strong",
+				syntax: "**",
+				re: /^\*{2}([^\*]+)\*{2}/,
 			})) {
 				// No-op
 				continue
 			}
 			if (emit({
-				syntax: "*",
-				regex: /^\*{1}([^*]+)\*{1}/,
 				type: "em",
+				syntax: "*",
+				re: /^\*{1}([^\*]+)\*{1}/,
 			})) {
 				// No-op
 				continue
 			}
 			break
+
+		// case "`":
+		// 	// `code`
+		// 	if (emit({
+		// 		syntax: "`",
+		// 		re: /^\*{1}([^\*]+)\*{1}/,
+		// 		type: "code",
+		// 	})) {
+		// 		// No-op
+		// 		continue
+		// 	}
+		// 	break
 
 		default:
 			// No-op
