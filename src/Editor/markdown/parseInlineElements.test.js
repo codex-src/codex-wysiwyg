@@ -131,6 +131,21 @@ test("~~strike~~", () => {
 	])
 })
 
+test("https://", () => {
+	expect(parseInlineElements("Hello, https://!")).toEqual([
+		"Hello, ",
+		{
+			type: "a",
+			props: {
+				syntax: ["https://", ""],
+				children: "",
+			},
+		},
+		"!",
+	])
+})
+
+
 test("https://google.com", () => {
 	expect(parseInlineElements("Hello, https://google.com!")).toEqual([
 		"Hello, ",
@@ -144,6 +159,36 @@ test("https://google.com", () => {
 		"!",
 	])
 })
+
+test("[](href)", () => {
+	expect(parseInlineElements("Hello, [](https://google.com)!")).toEqual([
+		"Hello, ",
+		{
+			type: "a",
+			props: {
+				syntax: ["[", "](https://google.com)"],
+				href: "https://google.com",
+				children: "",
+			},
+		},
+		"!",
+	])
+})
+
+// test("[a]()", () => {
+// 	expect(parseInlineElements("Hello, [a]()!")).toEqual([
+// 		"Hello, ",
+// 		{
+// 			type: "a",
+// 			props: {
+// 				syntax: ["[", "](https://google.com)"],
+// 				href: "",
+// 				children: "",
+// 			},
+// 		},
+// 		"!",
+// 	])
+// })
 
 test("[a](href)", () => {
 	expect(parseInlineElements("Hello, [world](https://google.com)!")).toEqual([
