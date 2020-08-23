@@ -90,24 +90,27 @@ function parseInlineElements(chunk) {
 	const emit = ({
 		type,
 		regex,
-		// children: originalChildren,
-		props
+		children: originalChildren,
+		props,
 	}) => {
 		matches = chunk.slice(x2).match(regex)
 		if (matches && matches.length === 4) {
 			if (x2 > x1) {
 				els.push(chunk.slice(x1, x2))
 			}
+			let children = matches[2]
+			if (originalChildren) {
+				children = originalChildren(matches)
+			}
 			els.push({
 				type,
 				props: {
 					...(props && props(matches)),
 					syntax: matches[1] !== matches[3] ? [matches[1], matches[3]] : matches[1],
-					children: matches[2],
+					children,
 				},
 			})
-			x2 += matches[1].length + matches[2].length +
-				matches[3].length - 1
+			x2 += matches[1].length + children.length + matches[3].length - 1
 			x1 = x2 + 1
 			return true
 		}
@@ -203,38 +206,37 @@ function parseInlineElements(chunk) {
 			}
 			break
 
-		// // (https?://)(www.)?(<URI>)?
-		// //
-		// // https://tools.ietf.org/html/rfc3986#:~:text=Page%2049
-		// export const URLRegex = /^(https?:\/\/(?:www\.)?)([\w-.~:/?#[\]@!$&'()*+,;=%]+)?/
+			// // (https?://)(www.)?(<URI>)?
+			// //
+			// // https://tools.ietf.org/html/rfc3986#:~:text=Page%2049
+			// export const URLRegex = /^(https?:\/\/(?:www\.)?)([\w-.~:/?#[\]@!$&'()*+,;=%]+)?/
 
-		// // (https?://)(www.)?(<URI>)?
-		// //
-		// // https://tools.ietf.org/html/rfc3986 [Page 49]
-		// export const URLRegex = /^(https?:\/\/(?:www\.)?)([\w-.~:/?#[\]@!$&'()*+,;=%]+)?/
-		// //
-		// if (children.length && ascii.isPunctuation(children[children.length - 1]) && children[children.length - 1] !== "/") {
-		// 	children = children.slice(0, children.length - 1)
-		// }
+			// // (https?://)(www.)?(<URI>)?
+			// //
+			// // https://tools.ietf.org/html/rfc3986 [Page 49]
+			// export const URLRegex = /^(https?:\/\/(?:www\.)?)([\w-.~:/?#[\]@!$&'()*+,;=%]+)?/
+			// //
+			// if (children.length && ascii.isPunctuation(children[children.length - 1]) && children[children.length - 1] !== "/") {
+			// 	children = children.slice(0, children.length - 1)
+			// }
 
-		// case "h":
-		// 	// http://
-		// 	// https://
-		// 	if (emit({
-		// 		type: "a",
-		// 		syntax: matches => [matches[1]],
-		// 		regex: /^(https?:\/\/(?:www\.)?)([a-zA-Z0-9\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]*)/,
-		// 		children: matches => {
-		// 			if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]$/.test(matches[2])) {
-		// 				return matches[2].slice(0, matches[2].length - 1)
-		// 			}
-		// 			return matches[2]
-		// 		},
-		// 	})) {
-		// 		// No-op
-		// 		continue
-		// 	}
-		// 	break
+		case "h":
+			// http://
+			// https://
+			if (emit({
+				type: "a",
+				regex: /^(https?:\/\/(?:www\.)?)([a-zA-Z0-9\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]*)()/,
+				children: matches => {
+					if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]$/.test(matches[2])) {
+						return matches[2].slice(0, matches[2].length - 1)
+					}
+					return matches[2]
+				},
+			})) {
+				// No-op
+				continue
+			}
+			break
 
 		case "[":
 			// [a](href)
