@@ -1,15 +1,15 @@
 import React from "react"
 
 import {
-	Editor,
-	useEditor,
+	CodexReadWriteEditor,
+	useCodexEditor,
 } from "Editor"
 
 const EditorApp = () => {
-	const [state, dispatch] = useEditor("Hello, world!")
+	const [state, dispatch] = useCodexEditor("Hello, world!")
 
 	return (
-		<Editor
+		<CodexReadWriteEditor
 			className="focus:outline-none"
 			state={state}
 			dispatch={dispatch}

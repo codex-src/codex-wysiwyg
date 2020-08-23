@@ -1,3 +1,3 @@
-export { default as Editor } from "./Editor"
-// export { default as ReadOnlyEditor } from "./Editor_readOnly"
-export { default as useEditor } from "./useEditor"
+// export { default as CodexReadOnlyEditor } from "./Editor_readOnly"
+export { default as CodexReadWriteEditor } from "./Editor"
+export { default as useCodexEditor } from "./useEditor"
