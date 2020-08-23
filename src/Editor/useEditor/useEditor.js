@@ -4,8 +4,8 @@ import { useImmerReducer } from "use-immer"
 const createInitialState = initialValueMarkdown => ({
 	readOnlyMode: false,
 	focused: false,
-	markdown: [],
-	cursors: {
+	chunks: [], // TODO: Rename?
+	range: {
 		start: {
 			key: "",
 			offset: 0,
@@ -42,7 +42,7 @@ const actions = state => ({
 		state.focused = false
 	},
 	select(range) {
-		state.cursors = range
+		state.range = range
 	},
 })
 

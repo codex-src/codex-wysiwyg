@@ -1,7 +1,16 @@
+import Apply from "lib/x/Apply"
 import disableAutoCorrect from "lib/x/disableAutoCorrect"
 import React from "react"
 import target_blank from "lib/x/target_blank"
 import Type from "./HOC/Type"
+
+export const Syntax = ({ className, style, children }) => (
+	<Apply className="markdown">
+		<span className={className || "text-blue-600"} style={style}>
+			{children}
+		</span>
+	</Apply>
+)
 
 // <em>
 export const Em = ({ children }) => (

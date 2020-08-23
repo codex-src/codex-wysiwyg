@@ -21,7 +21,7 @@ import {
 // onCopy
 // onPaste
 //
-// TODO: Change to MemoEditor?
+// Renders a read-write editor.
 const Editor = ({
 	id,
 	className,
