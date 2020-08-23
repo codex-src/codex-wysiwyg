@@ -1,4 +1,4 @@
-import hash from "lib/x/hash"
+import hash32 from "lib/x/hash/hash32"
 import { useImmerReducer } from "use-immer"
 
 const createInitialState = initialValueMarkdown => ({
@@ -19,9 +19,9 @@ const createInitialState = initialValueMarkdown => ({
 	elements: [
 		{
 			type: "p",
-			key: hash(),
+			key: hash32(),
 			props: {
-				children: "",
+				children: null,
 			},
 		},
 	],

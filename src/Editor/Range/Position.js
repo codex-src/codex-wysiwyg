@@ -1,6 +1,8 @@
 import domUtils from "lib/DOM/domUtils"
 
+// TODO: Add support for non-<br> components?
 export function computeEditorPositionFromDOMPosition({ node, offset: originalOffset }) {
+
 	// Guard non-contenteditable descendants:
 	if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
 		return null

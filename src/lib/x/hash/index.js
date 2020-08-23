@@ -7,13 +7,15 @@ function hash(length = DEFAULT_LENGTH) {
 	if (length < 1 || length > 32) {
 		throw new Error(`hash: length must be 1-32; length=${length}`)
 	}
-	const id = uuidv4().split("-").join("").slice(0, length)
-	if (length >= DEFAULT_LENGTH && id.search(/[a-z]/) === -1) {
+	// Must have one /[a-z]/:
+	const prettyID = uuidv4().split("-").join("").slice(0, length)
+	if (length >= DEFAULT_LENGTH && prettyID.search(/[a-z]/) === -1) {
 		return hash(length)
-	} else if (length >= DEFAULT_LENGTH && id.search(/\d/) === -1) {
+	// Must have one or more /[0-9]/:
+	} else if (length >= DEFAULT_LENGTH && prettyID.search(/[0-9]/) === -1) {
 		return hash(length)
 	}
-	return id
+	return prettyID
 }
 
 export default hash

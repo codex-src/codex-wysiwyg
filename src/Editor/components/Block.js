@@ -5,10 +5,13 @@ import Type from "./HOC/Type"
 // <p>
 export const MemoParagraph = React.memo(({ id, children }) => (
 	<Type type="p">
-		<Node id={id} style={{ minHeight: "1em" }}>
-			{children}
+		<Node id={id} style={{ height: !children /* lineHeight */ && "1em" }}>
+			{children || (
+				<br />
+			)}
 		</Node>
 	</Type>
 ))
 
 // ...
+
