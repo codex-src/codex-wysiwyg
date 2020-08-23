@@ -145,7 +145,6 @@ test("https://", () => {
 	])
 })
 
-
 test("https://google.com", () => {
 	expect(parseInlineElements("Hello, https://google.com!")).toEqual([
 		"Hello, ",
@@ -161,13 +160,13 @@ test("https://google.com", () => {
 })
 
 test("[](href)", () => {
-	expect(parseInlineElements("Hello, [](https://google.com)!")).toEqual([
+	expect(parseInlineElements("Hello, [](href)!")).toEqual([
 		"Hello, ",
 		{
 			type: "a",
 			props: {
-				syntax: ["[", "](https://google.com)"],
-				href: "https://google.com",
+				syntax: ["[", "](href)"],
+				href: "href",
 				children: "",
 			},
 		},
@@ -175,29 +174,29 @@ test("[](href)", () => {
 	])
 })
 
-// test("[a]()", () => {
-// 	expect(parseInlineElements("Hello, [a]()!")).toEqual([
-// 		"Hello, ",
-// 		{
-// 			type: "a",
-// 			props: {
-// 				syntax: ["[", "](https://google.com)"],
-// 				href: "",
-// 				children: "",
-// 			},
-// 		},
-// 		"!",
-// 	])
-// })
-
-test("[a](href)", () => {
-	expect(parseInlineElements("Hello, [world](https://google.com)!")).toEqual([
+test("[a]()", () => {
+	expect(parseInlineElements("Hello, [a]()!")).toEqual([
 		"Hello, ",
 		{
 			type: "a",
 			props: {
-				syntax: ["[", "](https://google.com)"],
-				href: "https://google.com",
+				syntax: ["[", "]()"],
+				href: "",
+				children: "a",
+			},
+		},
+		"!",
+	])
+})
+
+test("[a](href)", () => {
+	expect(parseInlineElements("Hello, [world](href)!")).toEqual([
+		"Hello, ",
+		{
+			type: "a",
+			props: {
+				syntax: ["[", "](href)"],
+				href: "href",
 				children: "world",
 			},
 		},
