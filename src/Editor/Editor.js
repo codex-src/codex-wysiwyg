@@ -33,6 +33,18 @@ const Render = ({ renderable }) => (
 	))
 )
 
+// Exposes:
+//
+// onFocus
+// onBlur
+// onSelect
+// onKeyDown
+// onCompositionEnd
+// onInput
+// onCut
+// onCopy
+// onPaste
+//
 const Editor = ({
 	id,
 	className,
@@ -40,6 +52,8 @@ const Editor = ({
 
 	state,
 	dispatch,
+
+	...props
 }) => {
 	const articleRef = React.useRef(null)
 	const isPointerDownRef = React.useRef(false)
@@ -88,12 +102,19 @@ const Editor = ({
 			style={style}
 
 			onFocus={e => {
+				if (props.onFocus && typeof props.onFocus === "function") {
+					props.onFocus(e)
+				}
+				run(props.onFocus)
 				dispatch({
 					type: "FOCUS",
 				})
 			}}
 
 			onBlur={e => {
+				if (props.onBlur && typeof props.onBlur === "function") {
+					props.onBlur(e)
+				}
 				dispatch({
 					type: "BLUR",
 				})
@@ -132,6 +153,9 @@ const Editor = ({
 			// TODO: Add COMPAT guard for select-all or prevent
 			// default?
 			onSelect={e => {
+				if (props.onSelect && typeof props.onSelect === "function") {
+					props.onSelect(e)
+				}
 				try {
 					const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
 					if (!range) {
@@ -148,6 +172,10 @@ const Editor = ({
 			}}
 
 			// onKeyDown={e => {
+			// 	if (props.onKeyDown && typeof props.onKeyDown === "function") {
+			// 		props.onKeyDown(e)
+			// 	}
+			//
 			// 	let formatType = ""
 			// 	let text = ""
 			// 	let deleteType = ""
@@ -279,6 +307,9 @@ const Editor = ({
 			// }}
 
 			// onCompositionEnd={e => {
+			// 	if (props.onCompositionEnd && typeof props.onCompositionEnd === "function") {
+			// 		props.onCompositionEnd(e)
+			// 	}
 			// 	const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
 			// 	const children = parseRenderedChildren(document.getElementById(range.start.key))
 			// 	dispatch({
@@ -290,6 +321,9 @@ const Editor = ({
 			// }}
 
 			// onInput={e => {
+			// 	if (props.onInput && typeof props.onInput === "function") {
+			// 		props.onInput(e)
+			// 	}
 			// 	const range = computeEditorRangeFromCurrentDOMRange(articleRef.current)
 			// 	const children = parseRenderedChildren(document.getElementById(range.start.key))
 			// 	dispatch({
@@ -301,15 +335,24 @@ const Editor = ({
 			// }}
 
 			// onCut={e => {
-			// 	// TODO
+			// 	if (props.onCut && typeof props.onCut === "function") {
+			// 		props.onCut(e)
+			// 	}
+			// 	// ...
 			// }}
 
 			// onCopy={e => {
-			// // TODO
+			// 	if (props.onCopy && typeof props.onCopy === "function") {
+			// 		props.onCopy(e)
+			// 	}
+			// 	// ...
 			// }}
 
 			// onPaste={e => {
-			// 	// TODO
+			// 	if (props.onPaste && typeof props.onPaste === "function") {
+			// 		props.onPaste(e)
+			// 	}
+			// 	// ...
 			// }}
 
 			onDragStart={e => {
@@ -319,23 +362,26 @@ const Editor = ({
 			contentEditable
 			suppressContentEditableWarning
 
-			data-codex-root
+			data-type="root"
 		/>
 	)
 }
 
 const EditorWithDebugger = ({ state, dispatch, ...props }) => (
 	<>
+
 		<Editor
 			state={state}
 			dispatch={dispatch}
 			{...props}
 		/>
+
 		{process.env.NODE_ENV !== "production" && (
 			<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify(state, null, "\t")}
 			</pre>
 		)}
+
 	</>
 )
 
