@@ -1,7 +1,8 @@
 import hash32 from "lib/x/hash/hash32"
+import React from "react"
 import { useImmerReducer } from "use-immer"
 
-const createInitialState = initialValueMarkdown => ({
+const createInitialStateFromChunks = chunks => ({
 	readOnlyMode: false,
 	focused: false,
 	chunks: [], // TODO: Rename?
@@ -68,8 +69,11 @@ function EditorReducer(state, action) {
 	}
 }
 
-function useEditor(initialValueMarkdown) {
-	return useImmerReducer(EditorReducer, {}, () => createInitialState(initialValueMarkdown))
+function useEditor(initialValueMarkdownString) {
+	const chunks = React.useMemo(() => {
+		return initialValueMarkdownString.split("\n")
+	}, [initialValueMarkdownString])
+	return useImmerReducer(EditorReducer, {}, () => createInitialStateFromChunks(chunks))
 }
 
 export default useEditor
