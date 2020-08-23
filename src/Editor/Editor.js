@@ -7,7 +7,7 @@ import ReactDOM from "react-dom"
 import {
 	computeEditorRangeFromCurrentDOMRange,
 	convertEditorRangeToDOMRange,
-} from "./Range"
+} from "./range"
 
 // Supports:
 //
@@ -337,8 +337,6 @@ const Editor = ({
 
 			contentEditable
 			suppressContentEditableWarning
-
-			data-type="root"
 		/>
 	)
 }
