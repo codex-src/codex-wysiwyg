@@ -1,6 +1,5 @@
-// import keyDownTypeFor from "./keyDownTypeFor"
 import Elements from "./components/Elements"
-import Node from "./components/Node"
+// import keyDownTypeFor from "./keyDownTypeFor"
 import React from "react"
 import ReactDOM from "react-dom"
 // import testForSelection from "./useEditor/testForSelection"
