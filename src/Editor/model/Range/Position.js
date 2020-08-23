@@ -5,7 +5,7 @@ export function computeEditorPositionFromDOMPosition({ node, offset: originalOff
 	if (!domUtils.ascendElement(node).closest("[contenteditable='true']")) {
 		return null
 	}
-	// Guard node and originalOffset (1 of 2):
+	// Guard node and originalOffset:
 	while (!domUtils.isTextNodeOrBrElement(node)) {
 		if (originalOffset && originalOffset === node.childNodes.length) {
 			originalOffset = node.childNodes.length - 1
@@ -13,10 +13,9 @@ export function computeEditorPositionFromDOMPosition({ node, offset: originalOff
 		node = node.childNodes[originalOffset]
 		originalOffset = 0
 	}
-	// Guard originalOffset (2 of 2):
+	// Guard originalOffset:
 	if (originalOffset > (node.nodeValue || "").length) {
-		// TODO
-		originalOffset = Math.max(0, (node.nodeValue || "").length)
+		originalOffset = (node.nodeValue || "").length
 	}
 	let key = ""
 	let offset = 0

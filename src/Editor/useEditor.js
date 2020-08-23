@@ -35,7 +35,7 @@ const actions = state => ({
 		state.focused = false
 	},
 	select(range) {
-		state.range = range
+		state.cursors = range
 	},
 })
 
