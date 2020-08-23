@@ -1,3 +1,5 @@
+import toArray from "lib/x/toArray"
+
 // function must(value) {
 // 	if ((typeof value === "number" && value === -1) || !value) {
 // 		throw new Error(`must: value=${value}`)
@@ -70,75 +72,100 @@ function parseInlineElements(chunk) {
 
 	let x1 = 0
 	let x2 = 0
+
+	const emit = ({
+		syntax,
+		regex,
+		type,
+		...props
+	}) => {
+		matches = chunk.slice(x2).match(regex)
+		if (matches && matches.length === 2) {
+			if (x2 > x1) {
+				els.push(chunk.slice(x1, x2))
+			}
+			els.push({
+				type,
+				props: {
+					...props,
+					syntax,
+					children: matches[1],
+				},
+			})
+			x2 += toArray(syntax)[0].length + matches[1].length +
+				toArray(syntax).slice(-1)[0].length - 1
+			x1 = x2 + 1
+			return true
+		}
+		return false
+	}
+
 	for (; x2 < chunk.length; x2++) {
 		ch = chunk[x2]
 
 		switch (ch) {
+
+		case "_":
+			// ___strong em___
+			if (emit({
+				syntax: "___",
+				regex: /^\_{3}([^_]+)\_{3}/,
+				type: "strong em",
+			})) {
+				// No-op
+				continue
+			}
+			if (emit({
+				syntax: "__",
+				regex: /^\_{2}([^*]+)\_{2}/,
+				type: "strong",
+			})) {
+				// No-op
+				continue
+			}
+			if (emit({
+				syntax: "_",
+				regex: /^\_{1}([^*]+)\_{1}/,
+				type: "em",
+			})) {
+				// No-op
+				continue
+			}
+			break
+
 		case "*":
 			// ***strong em***
-			matches = chunk.slice(x2).match(/^\*{3}([^*]+)\*{3}/)
-			if (matches && matches.length === 2) {
-				if (x2 > x1) {
-					els.push(chunk.slice(x1, x2))
-				}
-				els.push({
-					type: "strong",
-					props: {
-						syntax: ch.repeat(3),
-						children: matches[1],
-					},
-				})
-				x2 += (ch.repeat(1) + matches[1] + ch.repeat(1)).length - 1
-				x1 = x2 + 1
+			if (emit({
+				syntax: "***",
+				regex: /^\*{3}([^*]+)\*{3}/,
+				type: "strong em",
+			})) {
+				// No-op
 				continue
 			}
-			// **strong**
-			matches = chunk.slice(x2).match(/^\*{2}([^*]+)\*{2}/)
-			if (matches && matches.length === 2) {
-				if (x2 > x1) {
-					els.push(chunk.slice(x1, x2))
-				}
-				els.push({
-					type: "strong",
-					props: {
-						syntax: ch.repeat(2),
-						children: matches[1],
-					},
-				})
-				x2 += (ch.repeat(2) + matches[1] + ch.repeat(2)).length - 1
-				x1 = x2 + 1
+			if (emit({
+				syntax: "**",
+				regex: /^\*{2}([^*]+)\*{2}/,
+				type: "strong",
+			})) {
+				// No-op
 				continue
 			}
-			// **em**
-			matches = chunk.slice(x2).match(/^\*{1}([^*]+)\*{1}/)
-			if (matches && matches.length === 2) {
-				if (x2 > x1) {
-					els.push(chunk.slice(x1, x2))
-				}
-				els.push({
-					type: "em",
-					props: {
-						syntax: ch.repeat(1),
-						children: matches[1],
-					},
-				})
-				x2 += (ch.repeat(1) + matches[1] + ch.repeat(1)).length - 1
-				x1 = x2 + 1
+			if (emit({
+				syntax: "*",
+				regex: /^\*{1}([^*]+)\*{1}/,
+				type: "em",
+			})) {
+				// No-op
 				continue
 			}
-
 			break
+
 		default:
 			// No-op
 			break
-		}
 
-		// // TOOD: This can probably be heavily optimized.
-		// if (!els.length || (els.length && typeof els[els.length - 1] !== "string")) {
-		// 	els.push(ch)
-		// 	continue
-		// }
-		// els[els.length - 1] += ch
+		}
 	}
 
 	if (x2 > x1) {
