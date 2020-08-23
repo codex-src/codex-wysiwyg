@@ -9,7 +9,7 @@ import {
 	convertEditorRangeToDOMRange,
 } from "./Range"
 
-// Exposes:
+// Supports:
 //
 // onFocus
 // onBlur
@@ -21,6 +21,7 @@ import {
 // onCopy
 // onPaste
 //
+// TODO: Change to MemoEditor?
 const Editor = ({
 	id,
 	className,

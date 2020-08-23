@@ -1,12 +1,9 @@
+import componentMap from "./componentMap"
 import React from "react"
-
-import {
-	MemoParagraph,
-} from "./Block"
 
 const Elements = ({ elements }) => (
 	elements.map(each => (
-		React.createElement(MemoParagraph /* componentMap[each.type] */, { // TODO
+		React.createElement(componentMap[each.type], {
 			...each.props,
 			key: each.key, // React key
 			id:  each.key, // DOM ID

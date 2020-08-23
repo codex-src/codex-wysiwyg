@@ -1,6 +1,5 @@
 import disableAutoCorrect from "lib/x/disableAutoCorrect"
 import React from "react"
-import relNoopener from "lib/x/relNoopener"
 import target_blank from "lib/x/target_blank"
 import Type from "./HOC/Type"
 
@@ -43,7 +42,7 @@ export const Strike = ({ children }) => (
 // <a href="...">
 export const A = ({ href, children }) => (
 	<Type type="a" props={{ href }}>
-		<span className="mx-px underline text-blue-600" {...relNoopener}>
+		<span className="mx-px underline text-blue-600" {...target_blank}>
 			{children}
 		</span>
 	</Type>

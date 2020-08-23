@@ -1,8 +1,8 @@
+import hash from "lib/x/hash"
 import { useImmerReducer } from "use-immer"
 
 const createInitialState = initialValueMarkdown => ({
 	readOnlyMode: false,
-
 	focused: false,
 	content: [],
 	cursors: {
@@ -16,10 +16,10 @@ const createInitialState = initialValueMarkdown => ({
 		},
 	},
 	// history: ...
-
 	elements: [
 		{
-			key: "abc-xyz",
+			type: "p",
+			key: hash(),
 			props: {
 				children: "",
 			},
