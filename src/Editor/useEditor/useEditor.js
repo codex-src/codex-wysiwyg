@@ -4,7 +4,7 @@ import { useImmerReducer } from "use-immer"
 const createInitialState = initialValueMarkdown => ({
 	readOnlyMode: false,
 	focused: false,
-	content: [],
+	markdown: [],
 	cursors: {
 		start: {
 			key: "",
