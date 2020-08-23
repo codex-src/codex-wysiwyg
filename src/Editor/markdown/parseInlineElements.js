@@ -70,7 +70,7 @@ function parseInlineElements(chunk) {
 			// ___strong em___
 			if (lex({
 				type: "strong em",
-				regex: /^(\_{3})([^\_]+)(\_{3})(?:[^a-zA-Z]|$)/,
+				regex: /^(\_{3})(\w+)(\_{3})/,
 			})) {
 				// No-op
 				continue
@@ -78,7 +78,7 @@ function parseInlineElements(chunk) {
 			// __strong__
 			if (lex({
 				type: "strong",
-				regex: /^(\_{2})([^\_]+)(\_{2})(?:[^a-zA-Z]|$)/,
+				regex: /^(\_{2})(\w+)(\_{2})/,
 			})) {
 				// No-op
 				continue
@@ -86,7 +86,7 @@ function parseInlineElements(chunk) {
 			// _em_
 			if (lex({
 				type: "em",
-				regex: /^(\_{1})([^\_]+)(\_{1})(?:[^a-zA-Z]|$)/,
+				regex: /^(\_{1})(\w+)(\_{1})/,
 			})) {
 				// No-op
 				continue
