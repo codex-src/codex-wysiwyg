@@ -67,15 +67,37 @@ function parseInlineElements(chunk) {
 
 	let ch = ""
 	let matches = null
-	for (let x1 = 0; x1 < chunk.length; x1++) {
-		ch = chunk[x1]
+
+	let x1 = 0
+	let x2 = 0
+	for (; x2 < chunk.length; x2++) {
+		ch = chunk[x2]
 
 		switch (ch) {
 		case "*":
-
-			// **strong**
-			matches = chunk.slice(x1).match(/^\*{2}([^*]+)\*{2}/)
+			// ***strong em***
+			matches = chunk.slice(x2).match(/^\*{3}([^*]+)\*{3}/)
 			if (matches && matches.length === 2) {
+				if (x2 > x1) {
+					els.push(chunk.slice(x1, x2))
+				}
+				els.push({
+					type: "strong",
+					props: {
+						syntax: ch.repeat(3),
+						children: matches[1],
+					},
+				})
+				x2 += (ch.repeat(1) + matches[1] + ch.repeat(1)).length - 1
+				x1 = x2 + 1
+				continue
+			}
+			// **strong**
+			matches = chunk.slice(x2).match(/^\*{2}([^*]+)\*{2}/)
+			if (matches && matches.length === 2) {
+				if (x2 > x1) {
+					els.push(chunk.slice(x1, x2))
+				}
 				els.push({
 					type: "strong",
 					props: {
@@ -83,14 +105,16 @@ function parseInlineElements(chunk) {
 						children: matches[1],
 					},
 				})
-				x1 += (ch.repeat(2) + matches[1] + ch.repeat(2))
-					.length - 1
+				x2 += (ch.repeat(2) + matches[1] + ch.repeat(2)).length - 1
+				x1 = x2 + 1
 				continue
 			}
-
 			// **em**
-			matches = chunk.slice(x1).match(/^\*{1}([^*]+)\*{1}/)
+			matches = chunk.slice(x2).match(/^\*{1}([^*]+)\*{1}/)
 			if (matches && matches.length === 2) {
+				if (x2 > x1) {
+					els.push(chunk.slice(x1, x2))
+				}
 				els.push({
 					type: "em",
 					props: {
@@ -98,46 +122,50 @@ function parseInlineElements(chunk) {
 						children: matches[1],
 					},
 				})
-				x1 += (ch.repeat(1) + matches[1] + ch.repeat(1))
-					.length - 1
+				x2 += (ch.repeat(1) + matches[1] + ch.repeat(1)).length - 1
+				x1 = x2 + 1
 				continue
 			}
 
-			// if (chunk.slice(x1 + 3) === "***") {
-			// 	// ...
-			// } else if (chunk.slice(x1 + 2) === "**") {
-			// 	// ...
-			// } else if (chunk.slice(x1 + 1) === "*") {
-			// 	// ...
-			// }
-
-			// const offset = chunk.slice(x1 + 1).indexOf("*")
-			// if (offset >= 0) {
-			// 	els.push({
-			// 		type: "em",
-			// 		props: {
-			// 			syntax: ch,
-			// 			children: chunk.slice(x1 + 1, x1 + 1 + offset),
-			// 		},
-			// 	})
-			// 	x1 = x1 + 1 + offset
-			// 	continue
-			// }
 			break
 		default:
 			// No-op
 			break
 		}
 
-		// TOOD: This can probably be heavily optimized.
-		if (!els.length || (els.length && typeof els[els.length - 1] !== "string")) {
-			els.push(ch)
-			continue
-		}
-		els[els.length - 1] += ch
+		// // TOOD: This can probably be heavily optimized.
+		// if (!els.length || (els.length && typeof els[els.length - 1] !== "string")) {
+		// 	els.push(ch)
+		// 	continue
+		// }
+		// els[els.length - 1] += ch
 	}
 
+	if (x2 > x1) {
+		els.push(chunk.slice(x1, x2))
+	}
 	return els
 }
 
 export default parseInlineElements
+
+// if (chunk.slice(x1 + 3) === "***") {
+// 	// ...
+// } else if (chunk.slice(x1 + 2) === "**") {
+// 	// ...
+// } else if (chunk.slice(x1 + 1) === "*") {
+// 	// ...
+// }
+
+// const offset = chunk.slice(x1 + 1).indexOf("*")
+// if (offset >= 0) {
+// 	els.push({
+// 		type: "em",
+// 		props: {
+// 			syntax: ch,
+// 			children: chunk.slice(x1 + 1, x1 + 1 + offset),
+// 		},
+// 	})
+// 	x1 = x1 + 1 + offset
+// 	continue
+// }
