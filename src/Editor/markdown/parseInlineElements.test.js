@@ -88,3 +88,17 @@ test("***strong em***", () => {
 		"!",
 	])
 })
+
+test("`code`", () => {
+	expect(parseInlineElements("Hello, `world`!")).toEqual([
+		"Hello, ",
+		{
+			type: "code",
+			props: {
+				syntax: "`",
+				children: "world",
+			},
+		},
+		"!",
+	])
+})

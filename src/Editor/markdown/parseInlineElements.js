@@ -161,17 +161,17 @@ function parseInlineElements(chunk) {
 			}
 			break
 
-		// case "`":
-		// 	// `code`
-		// 	if (emit({
-		// 		syntax: "`",
-		// 		re: /^\*{1}([^\*]+)\*{1}/,
-		// 		type: "code",
-		// 	})) {
-		// 		// No-op
-		// 		continue
-		// 	}
-		// 	break
+		case "`":
+			// `code`
+			if (emit({
+				type: "code",
+				syntax: "`",
+				re: /^\`{1}([^\`]+)\`{1}/,
+			})) {
+				// No-op
+				continue
+			}
+			break
 
 		default:
 			// No-op
