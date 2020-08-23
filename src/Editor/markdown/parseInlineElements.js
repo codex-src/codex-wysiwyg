@@ -78,31 +78,28 @@ function parseInlineElements(chunk) {
 		return null
 	}
 
-	const els = []
-
-	let ch = ""
-	let matches = null
+	const parsed = []
 
 	let x1 = 0
 	let x2 = 0
 
-	// TODO: Extract using a closure pattern?
-	const emit = ({
+	// const lex = lexer(chunk, x1, x2)
+	const lex = ({
 		type,
 		regex,
 		children: originalChildren,
 		props,
 	}) => {
-		matches = chunk.slice(x2).match(regex)
+		const matches = chunk.slice(x2).match(regex)
 		if (matches && matches.length === 4) {
 			if (x2 > x1) {
-				els.push(chunk.slice(x1, x2))
+				parsed.push(chunk.slice(x1, x2))
 			}
 			let children = matches[2]
 			if (originalChildren) {
 				children = originalChildren(matches)
 			}
-			els.push({
+			parsed.push({
 				type,
 				props: {
 					...(props && props(matches)),
@@ -118,13 +115,13 @@ function parseInlineElements(chunk) {
 	}
 
 	for (; x2 < chunk.length; x2++) {
-		ch = chunk[x2]
+		const ch = chunk[x2]
 
 		switch (ch) {
 
 		case "_":
 			// ___strong em___
-			if (emit({
+			if (lex({
 				type: "strong em",
 				regex: /^(\_{3})([^\_]+)(\_{3})/,
 			})) {
@@ -132,7 +129,7 @@ function parseInlineElements(chunk) {
 				continue
 			}
 			// __strong__
-			if (emit({
+			if (lex({
 				type: "strong",
 				regex: /^(\_{2})([^\*]+)(\_{2})/,
 			})) {
@@ -140,7 +137,7 @@ function parseInlineElements(chunk) {
 				continue
 			}
 			// _em_
-			if (emit({
+			if (lex({
 				type: "em",
 				regex: /^(\_{1})([^\*]+)(\_{1})/,
 			})) {
@@ -151,7 +148,7 @@ function parseInlineElements(chunk) {
 
 		case "*":
 			// ***strong em***
-			if (emit({
+			if (lex({
 				type: "strong em",
 				regex: /^(\*{3})([^\*]+)(\*{3})/,
 			})) {
@@ -159,7 +156,7 @@ function parseInlineElements(chunk) {
 				continue
 			}
 			// **strong**
-			if (emit({
+			if (lex({
 				type: "strong",
 				regex: /^(\*{2})([^\*]+)(\*{2})/,
 			})) {
@@ -167,7 +164,7 @@ function parseInlineElements(chunk) {
 				continue
 			}
 			// *em*
-			if (emit({
+			if (lex({
 				type: "em",
 				regex: /^(\*{1})([^\*]+)(\*{1})/,
 			})) {
@@ -178,7 +175,7 @@ function parseInlineElements(chunk) {
 
 		case "`":
 			// `code`
-			if (emit({
+			if (lex({
 				type: "code",
 				regex: /^(\`{1})([^\`]+)(\`{1})/,
 			})) {
@@ -189,7 +186,7 @@ function parseInlineElements(chunk) {
 
 		case "~":
 			// ~~strike~~
-			if (emit({
+			if (lex({
 				type: "strike",
 				regex: /^(\~{2})([^\~]+)(\~{2})/,
 			})) {
@@ -197,7 +194,7 @@ function parseInlineElements(chunk) {
 				continue
 			}
 			// ~code~
-			if (emit({
+			if (lex({
 				type: "code",
 				regex: /^(\~{1})([^\~]+)(\~{1})/,
 			})) {
@@ -223,7 +220,7 @@ function parseInlineElements(chunk) {
 		case "h":
 			// http://
 			// https://
-			if (emit({
+			if (lex({
 				type: "a",
 				regex: /^(https?:\/\/(?:www\.)?)([a-zA-Z0-9\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]*)()/,
 				children: matches => {
@@ -240,7 +237,7 @@ function parseInlineElements(chunk) {
 
 		case "[":
 			// [a](href)
-			if (emit({
+			if (lex({
 				type: "a",
 				regex: /^(\[)([^\]]*)(\]\([^\)]*\))/,
 				props: matches => ({
@@ -259,9 +256,9 @@ function parseInlineElements(chunk) {
 	}
 
 	if (x2 > x1) {
-		els.push(chunk.slice(x1, x2))
+		parsed.push(chunk.slice(x1, x2))
 	}
-	return els
+	return parsed
 }
 
 export default parseInlineElements
