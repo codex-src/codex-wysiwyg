@@ -1,8 +1,6 @@
 import keyCodeFor from "lib/Client/keyCodeFor"
 import userAgent from "lib/Client/userAgent"
 
-const MODIFIERS = ["shiftKey", "ctrlKey", "altKey", "metaKey"]
-
 // Tests a keydown event for a combination of modifier keys
 // and a key code OR or a key. Note that
 // testKeyDown.forKeyCode(...) may use a string instead of a
@@ -74,7 +72,8 @@ function testKeyDown(e) {
 			return this
 		},
 		check() {
-			for (const each of MODIFIERS) {
+			const mods = ["shiftKey", "ctrlKey", "altKey", "metaKey"]
+			for (const each of mods) {
 				if (flags[each] !== undefined) {
 					if (e[each] !== flags[each]) {
 						return false
