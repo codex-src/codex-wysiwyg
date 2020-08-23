@@ -70,7 +70,7 @@ function parseInlineElements(chunk) {
 			// ___strong em___
 			if (lex({
 				type: "strong em",
-				regex: /^(\_{3})(\w+)(\_{3})/,
+				regex: /^(\_{3})([^\_]*[\S]*)(\_{3})/,
 			})) {
 				// No-op
 				continue
@@ -78,7 +78,7 @@ function parseInlineElements(chunk) {
 			// __strong__
 			if (lex({
 				type: "strong",
-				regex: /^(\_{2})(\w+)(\_{2})/,
+				regex: /^(\_{2})([^\_]*[\S]*)(\_{2})/,
 			})) {
 				// No-op
 				continue
@@ -86,7 +86,7 @@ function parseInlineElements(chunk) {
 			// _em_
 			if (lex({
 				type: "em",
-				regex: /^(\_{1})(\w+)(\_{1})/,
+				regex: /^(\_{1})([^\_]*[\S]*)(\_{1})/,
 			})) {
 				// No-op
 				continue
@@ -172,9 +172,9 @@ function parseInlineElements(chunk) {
 			// [a](href)
 			if (lex({
 				type: "a",
-				regex: /^(\[)([^\]]*)(\]\([^\)]*\))(?:[^a-zA-Z]|$)/,
+				regex: /^(\[)([^\]]*[^\s\[]*)(\]\([^\)]*[^\s\[]*\))/,
 				props: matches => ({
-					href: matches[3].match(/^\]\(([^\)]*)\)/)[1],
+					href: matches[3].match(/^\]\(([^\)]*[^\s\[]*)\)/)[1],
 				}),
 			})) {
 				// No-op
@@ -195,24 +195,3 @@ function parseInlineElements(chunk) {
 }
 
 export default parseInlineElements
-
-// if (chunk.slice(x1 + 3) === "***") {
-// 	// ...
-// } else if (chunk.slice(x1 + 2) === "**") {
-// 	// ...
-// } else if (chunk.slice(x1 + 1) === "*") {
-// 	// ...
-// }
-
-// const offset = chunk.slice(x1 + 1).indexOf("*")
-// if (offset >= 0) {
-// 	els.push({
-// 		type: "em",
-// 		props: {
-// 			syntax: ch,
-// 			children: chunk.slice(x1 + 1, x1 + 1 + offset),
-// 		},
-// 	})
-// 	x1 = x1 + 1 + offset
-// 	continue
-// }

@@ -1,8 +1,13 @@
 import parseInlineElements from "./parseInlineElements"
 
-test("plaintext", () => {
+test("(empty)", () => {
 	expect(parseInlineElements("")).toEqual(null)
-	expect(parseInlineElements("Hello, world!")).toEqual(["Hello, world!"])
+})
+
+test("plaintext", () => {
+	expect(parseInlineElements("Hello, world!")).toEqual([
+		"Hello, world!",
+	])
 })
 
 test("_em_", () => {
@@ -246,7 +251,6 @@ test("__test__test__", () => {
 
 test("___test___test___", () => {
 	const parsed = parseInlineElements("___test___test___")
-	console.log(parsed)
 	expect(parsed).toEqual([
 		{
 			type: "strong em",
@@ -258,7 +262,31 @@ test("___test___test___", () => {
 	])
 })
 
-// // test("[a](href)[a](href)", () => {
-// 	const parsed = parseInlineElements("[a](href)[a](href)")).toEqual(["[a](href
-// // parsed	expect()[a](href)"])
-// // })
+// test("[a](href)[a](href)", () => {
+// 	const parsed = parseInlineElements("[a](href)[a](href)")
+// 	expect(parsed).toEqual([
+// 		"[a](href)[a](href)",
+// 	])
+// })
+
+test("[a](href)[a](href)", () => {
+	const parsed = parseInlineElements("[a](href)[a](href)")
+	expect(parsed).toEqual([
+		{
+			type: "a",
+			props: {
+				syntax: ["[", "](href)"],
+				href: "href",
+				children: "a",
+			},
+		},
+		{
+			type: "a",
+			props: {
+				syntax: ["[", "](href)"],
+				href: "href",
+				children: "a",
+			},
+		},
+	])
+})
