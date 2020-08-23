@@ -130,3 +130,18 @@ test("~~strike~~", () => {
 		"!",
 	])
 })
+
+test("[a](href)", () => {
+	expect(parseInlineElements("Hello, [world](https://google.com)!")).toEqual([
+		"Hello, ",
+		{
+			type: "a",
+			props: {
+				syntax: ["[", "](https://google.com)"],
+				children: "world",
+			},
+		},
+		"!",
+	])
+})
+

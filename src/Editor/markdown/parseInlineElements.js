@@ -60,6 +60,19 @@ import toArray from "lib/x/toArray"
 // 	}
 // }
 
+// TODO: Add support for naked URLs and URLs.
+
+// const info = emojiTrie.atStart(substr)
+// if (info && info.status === "fully-qualified") {
+// 	elements.push({
+// 		type: typeEnum.Emoji,
+// 		description: info.description,
+// 		children: info.emoji,
+// 	})
+// 	x1 += info.emoji.length - 1
+// 	continue
+// }
+
 function parseInlineElements(chunk) {
 	if (!chunk) {
 		return null
@@ -73,6 +86,7 @@ function parseInlineElements(chunk) {
 	let x1 = 0
 	let x2 = 0
 
+	// TODO: Extract using a closure pattern?
 	const emit = ({
 		type,
 		syntax,
@@ -80,9 +94,13 @@ function parseInlineElements(chunk) {
 		...props
 	}) => {
 		matches = chunk.slice(x2).match(re)
-		if (matches && matches.length === 2) {
+		if (matches && matches.length > 1) {
 			if (x2 > x1) {
 				els.push(chunk.slice(x1, x2))
+			}
+			// Lazily evaluate syntax; added for [a](href):
+			if (typeof syntax === "function") {
+				syntax = syntax(matches)
 			}
 			els.push({
 				type,
@@ -188,6 +206,18 @@ function parseInlineElements(chunk) {
 				type: "code",
 				syntax: "~",
 				re: /^\~{1}([^\~]+)\~{1}/,
+			})) {
+				// No-op
+				continue
+			}
+			break
+
+		case "[":
+			// [a](href)
+			if (emit({
+				type: "a",
+				syntax: matches => ["[", `](${matches[2]})`],
+				re: /^\[([^\]]*)\]\(([^\)]*)\)/,
 			})) {
 				// No-op
 				continue
