@@ -89,29 +89,28 @@ function parseInlineElements(chunk) {
 	// TODO: Extract using a closure pattern?
 	const emit = ({
 		type,
-		syntax,
+		// syntax,
 		re,
+		children: originalChildren,
 		...props
 	}) => {
 		matches = chunk.slice(x2).match(re)
-		if (matches && matches.length > 1) {
+		if (matches && matches.length === 4) {
 			if (x2 > x1) {
 				els.push(chunk.slice(x1, x2))
-			}
-			// Lazily evaluate syntax; added for [a](href):
-			if (typeof syntax === "function") {
-				syntax = syntax(matches)
 			}
 			els.push({
 				type,
 				props: {
 					...props,
-					syntax,
-					children: matches[1],
+					syntax: matches[1] !== matches[3]
+						? [matches[1], matches[3]]
+						: matches[1],
+					children: matches[2],
 				},
 			})
-			x2 += toArray(syntax)[0].length + matches[1].length +
-				toArray(syntax).slice(-1)[0].length - 1
+			x2 += matches[1].length + matches[2].length +
+				matches[3].length - 1
 			x1 = x2 + 1
 			return true
 		}
@@ -127,24 +126,23 @@ function parseInlineElements(chunk) {
 			// ___strong em___
 			if (emit({
 				type: "strong em",
-				syntax: "___",
-				re: /^\_{3}([^\_]+)\_{3}/,
+				re: /^(\_{3})([^\_]+)(\_{3})/,
 			})) {
 				// No-op
 				continue
 			}
+			// __strong__
 			if (emit({
 				type: "strong",
-				syntax: "__",
-				re: /^\_{2}([^\*]+)\_{2}/,
+				re: /^(\_{2})([^\*]+)(\_{2})/,
 			})) {
 				// No-op
 				continue
 			}
+			// _em_
 			if (emit({
 				type: "em",
-				syntax: "_",
-				re: /^\_{1}([^\*]+)\_{1}/,
+				re: /^(\_{1})([^\*]+)(\_{1})/,
 			})) {
 				// No-op
 				continue
@@ -155,24 +153,23 @@ function parseInlineElements(chunk) {
 			// ***strong em***
 			if (emit({
 				type: "strong em",
-				syntax: "***",
-				re: /^\*{3}([^\*]+)\*{3}/,
+				re: /^(\*{3})([^\*]+)(\*{3})/,
 			})) {
 				// No-op
 				continue
 			}
+			// **strong**
 			if (emit({
 				type: "strong",
-				syntax: "**",
-				re: /^\*{2}([^\*]+)\*{2}/,
+				re: /^(\*{2})([^\*]+)(\*{2})/,
 			})) {
 				// No-op
 				continue
 			}
+			// *em*
 			if (emit({
 				type: "em",
-				syntax: "*",
-				re: /^\*{1}([^\*]+)\*{1}/,
+				re: /^(\*{1})([^\*]+)(\*{1})/,
 			})) {
 				// No-op
 				continue
@@ -183,8 +180,7 @@ function parseInlineElements(chunk) {
 			// `code`
 			if (emit({
 				type: "code",
-				syntax: "`",
-				re: /^\`{1}([^\`]+)\`{1}/,
+				re: /^(\`{1})([^\`]+)(\`{1})/,
 			})) {
 				// No-op
 				continue
@@ -195,17 +191,48 @@ function parseInlineElements(chunk) {
 			// ~~strike~~
 			if (emit({
 				type: "strike",
-				syntax: "~~",
-				re: /^\~{2}([^\~]+)\~{2}/,
+				re: /^(\~{2})([^\~]+)(\~{2})/,
 			})) {
 				// No-op
 				continue
 			}
-			// ~code~ (alternate syntax)
+			// ~code~
 			if (emit({
 				type: "code",
-				syntax: "~",
-				re: /^\~{1}([^\~]+)\~{1}/,
+				re: /^(\~{1})([^\~]+)(\~{1})/,
+			})) {
+				// No-op
+				continue
+			}
+			break
+
+		// // (https?://)(www.)?(<URI>)?
+		// //
+		// // https://tools.ietf.org/html/rfc3986#:~:text=Page%2049
+		// export const URLRegex = /^(https?:\/\/(?:www\.)?)([\w-.~:/?#[\]@!$&'()*+,;=%]+)?/
+
+		// // (https?://)(www.)?(<URI>)?
+		// //
+		// // https://tools.ietf.org/html/rfc3986 [Page 49]
+		// export const URLRegex = /^(https?:\/\/(?:www\.)?)([\w-.~:/?#[\]@!$&'()*+,;=%]+)?/
+		// //
+		// if (children.length && ascii.isPunctuation(children[children.length - 1]) && children[children.length - 1] !== "/") {
+		// 	children = children.slice(0, children.length - 1)
+		// }
+
+		case "h":
+			// http://
+			// https://
+			if (emit({
+				type: "a",
+				syntax: matches => [matches[1]],
+				re: /^(https?:\/\/(?:www\.)?)([a-zA-Z0-9\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]*)/,
+				children: matches => {
+					if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]$/.test(matches[2])) {
+						return matches[2].slice(0, matches[2].length - 1)
+					}
+					return matches[2]
+				},
 			})) {
 				// No-op
 				continue
@@ -223,6 +250,7 @@ function parseInlineElements(chunk) {
 				continue
 			}
 			break
+
 
 		default:
 			// No-op
