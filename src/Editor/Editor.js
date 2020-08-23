@@ -9,19 +9,16 @@ import {
 	convertEditorRangeToDOMRange,
 } from "./range"
 
-// Supports:
+// Renders a read-write editor. Accepts id, className,
+// style, *state, *dispatch, onFocus, onBlur, onSelect,
+// onKeyDown, onCompositionEnd, onInput, onCut, onCopy, and
+// onPaste as props.
 //
-// onFocus
-// onBlur
-// onSelect
-// onKeyDown
-// onCompositionEnd
-// onInput
-// onCut
-// onCopy
-// onPaste
+// <CodexReadWriteEditor
+//   state={state}
+//   dispatch={dispatch}
+// />
 //
-// Renders a read-write editor.
 const Editor = ({
 	id,
 	className,
@@ -34,6 +31,16 @@ const Editor = ({
 }) => {
 	const articleRef = React.useRef(null)
 	const isPointerDownRef = React.useRef(false)
+
+	// Throws on bad state or dispatch.
+	React.useLayoutEffect(
+		React.useCallback(() => {
+			if (state === undefined || dispatch === undefined) {
+				throw new Error("CodexReadWriteEditor: use <ReadWriteEditor state={state} dispatch={dispatch}>")
+			}
+		}, [state, dispatch]),
+		[],
+	)
 
 	// Rerenders on state.shouldRerender.
 	//

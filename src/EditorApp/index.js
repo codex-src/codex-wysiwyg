@@ -9,7 +9,6 @@ import {
 const EditorApp = () => {
 	const [state, dispatch] = useCodexEditor("Hello, world!")
 
-	// <CodexReadOnlyEditor markdown="..." />
 	return (
 		<CodexReadWriteEditor
 			className="focus:outline-none"
