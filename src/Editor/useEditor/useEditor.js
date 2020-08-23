@@ -2,7 +2,6 @@ import { useImmerReducer } from "use-immer"
 
 const createInitialState = initialValueMarkdown => ({
 	readOnlyMode: false,
-
 	focused: false,
 	content: [],
 	cursors: {
@@ -15,7 +14,7 @@ const createInitialState = initialValueMarkdown => ({
 			offset: 0,
 		},
 	},
-
+	// history: ...
 	shouldRerender: 0,
 	renderable: [
 		{
@@ -28,6 +27,12 @@ const createInitialState = initialValueMarkdown => ({
 })
 
 const actions = state => ({
+	enableReadOnlyMode() {
+		state.readOnlyMode = true
+	},
+	enableReadWriteMode() {
+		state.readOnlyMode = false
+	},
 	focus() {
 		state.focused = true
 	},
@@ -41,6 +46,12 @@ const actions = state => ({
 
 function EditorReducer(state, action) {
 	switch (action.type) {
+	case "ENABLE_READ_ONLY_MODE":
+		actions(state).enableReadOnlyMode()
+		return
+	case "ENABLE_READ_WRITE_MODE":
+		actions(state).enableReadWriteMode()
+		return
 	case "FOCUS":
 		actions(state).focus()
 		return
