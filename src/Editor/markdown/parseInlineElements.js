@@ -28,12 +28,12 @@ import toArray from "lib/x/toArray"
 // 	}
 // 	// Peeks a regex pattern. Note that the regex pattern must
 // 	// use a caret and a group e.g. /^(world)/.
-// 	peekRegex(re) {
+// 	peekRegex(regex) {
 // 		if (!(this.x1 + 1 < this.chunk.length)) {
 // 			this.offset = 0
 // 			return false
 // 		}
-// 		const matches = this.chunk.slice(this.x1 + 1).match(re)
+// 		const matches = this.chunk.slice(this.x1 + 1).match(regex)
 // 		if (!matches) {
 // 			this.offset = 0
 // 			return false
@@ -89,12 +89,11 @@ function parseInlineElements(chunk) {
 	// TODO: Extract using a closure pattern?
 	const emit = ({
 		type,
-		// syntax,
-		re,
-		children: originalChildren,
-		...props
+		regex,
+		// children: originalChildren,
+		props
 	}) => {
-		matches = chunk.slice(x2).match(re)
+		matches = chunk.slice(x2).match(regex)
 		if (matches && matches.length === 4) {
 			if (x2 > x1) {
 				els.push(chunk.slice(x1, x2))
@@ -102,10 +101,8 @@ function parseInlineElements(chunk) {
 			els.push({
 				type,
 				props: {
-					...props,
-					syntax: matches[1] !== matches[3]
-						? [matches[1], matches[3]]
-						: matches[1],
+					...(props && props(matches)),
+					syntax: matches[1] !== matches[3] ? [matches[1], matches[3]] : matches[1],
 					children: matches[2],
 				},
 			})
@@ -126,7 +123,7 @@ function parseInlineElements(chunk) {
 			// ___strong em___
 			if (emit({
 				type: "strong em",
-				re: /^(\_{3})([^\_]+)(\_{3})/,
+				regex: /^(\_{3})([^\_]+)(\_{3})/,
 			})) {
 				// No-op
 				continue
@@ -134,7 +131,7 @@ function parseInlineElements(chunk) {
 			// __strong__
 			if (emit({
 				type: "strong",
-				re: /^(\_{2})([^\*]+)(\_{2})/,
+				regex: /^(\_{2})([^\*]+)(\_{2})/,
 			})) {
 				// No-op
 				continue
@@ -142,7 +139,7 @@ function parseInlineElements(chunk) {
 			// _em_
 			if (emit({
 				type: "em",
-				re: /^(\_{1})([^\*]+)(\_{1})/,
+				regex: /^(\_{1})([^\*]+)(\_{1})/,
 			})) {
 				// No-op
 				continue
@@ -153,7 +150,7 @@ function parseInlineElements(chunk) {
 			// ***strong em***
 			if (emit({
 				type: "strong em",
-				re: /^(\*{3})([^\*]+)(\*{3})/,
+				regex: /^(\*{3})([^\*]+)(\*{3})/,
 			})) {
 				// No-op
 				continue
@@ -161,7 +158,7 @@ function parseInlineElements(chunk) {
 			// **strong**
 			if (emit({
 				type: "strong",
-				re: /^(\*{2})([^\*]+)(\*{2})/,
+				regex: /^(\*{2})([^\*]+)(\*{2})/,
 			})) {
 				// No-op
 				continue
@@ -169,7 +166,7 @@ function parseInlineElements(chunk) {
 			// *em*
 			if (emit({
 				type: "em",
-				re: /^(\*{1})([^\*]+)(\*{1})/,
+				regex: /^(\*{1})([^\*]+)(\*{1})/,
 			})) {
 				// No-op
 				continue
@@ -180,7 +177,7 @@ function parseInlineElements(chunk) {
 			// `code`
 			if (emit({
 				type: "code",
-				re: /^(\`{1})([^\`]+)(\`{1})/,
+				regex: /^(\`{1})([^\`]+)(\`{1})/,
 			})) {
 				// No-op
 				continue
@@ -191,7 +188,7 @@ function parseInlineElements(chunk) {
 			// ~~strike~~
 			if (emit({
 				type: "strike",
-				re: /^(\~{2})([^\~]+)(\~{2})/,
+				regex: /^(\~{2})([^\~]+)(\~{2})/,
 			})) {
 				// No-op
 				continue
@@ -199,7 +196,7 @@ function parseInlineElements(chunk) {
 			// ~code~
 			if (emit({
 				type: "code",
-				re: /^(\~{1})([^\~]+)(\~{1})/,
+				regex: /^(\~{1})([^\~]+)(\~{1})/,
 			})) {
 				// No-op
 				continue
@@ -220,37 +217,38 @@ function parseInlineElements(chunk) {
 		// 	children = children.slice(0, children.length - 1)
 		// }
 
-		case "h":
-			// http://
-			// https://
-			if (emit({
-				type: "a",
-				syntax: matches => [matches[1]],
-				re: /^(https?:\/\/(?:www\.)?)([a-zA-Z0-9\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]*)/,
-				children: matches => {
-					if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]$/.test(matches[2])) {
-						return matches[2].slice(0, matches[2].length - 1)
-					}
-					return matches[2]
-				},
-			})) {
-				// No-op
-				continue
-			}
-			break
+		// case "h":
+		// 	// http://
+		// 	// https://
+		// 	if (emit({
+		// 		type: "a",
+		// 		syntax: matches => [matches[1]],
+		// 		regex: /^(https?:\/\/(?:www\.)?)([a-zA-Z0-9\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]*)/,
+		// 		children: matches => {
+		// 			if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]$/.test(matches[2])) {
+		// 				return matches[2].slice(0, matches[2].length - 1)
+		// 			}
+		// 			return matches[2]
+		// 		},
+		// 	})) {
+		// 		// No-op
+		// 		continue
+		// 	}
+		// 	break
 
 		case "[":
 			// [a](href)
 			if (emit({
 				type: "a",
-				syntax: matches => ["[", `](${matches[2]})`],
-				re: /^\[([^\]]*)\]\(([^\)]*)\)/,
+				regex: /^(\[)([^\]]*)(\]\([^\)]*\))/,
+				props: matches => ({
+					href: matches[3].match(/^\]\(([^\)]*)\)/)[1],
+				}),
 			})) {
 				// No-op
 				continue
 			}
 			break
-
 
 		default:
 			// No-op
