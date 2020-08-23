@@ -102,3 +102,31 @@ test("`code`", () => {
 		"!",
 	])
 })
+
+test("~code~", () => {
+	expect(parseInlineElements("Hello, ~world~!")).toEqual([
+		"Hello, ",
+		{
+			type: "code",
+			props: {
+				syntax: "~",
+				children: "world",
+			},
+		},
+		"!",
+	])
+})
+
+test("~~strike~~", () => {
+	expect(parseInlineElements("Hello, ~~world~~!")).toEqual([
+		"Hello, ",
+		{
+			type: "strike",
+			props: {
+				syntax: "~~",
+				children: "world",
+			},
+		},
+		"!",
+	])
+})

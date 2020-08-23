@@ -173,10 +173,30 @@ function parseInlineElements(chunk) {
 			}
 			break
 
+		case "~":
+			// ~~strike~~
+			if (emit({
+				type: "strike",
+				syntax: "~~",
+				re: /^\~{2}([^\~]+)\~{2}/,
+			})) {
+				// No-op
+				continue
+			}
+			// ~code~ (alternate syntax)
+			if (emit({
+				type: "code",
+				syntax: "~",
+				re: /^\~{1}([^\~]+)\~{1}/,
+			})) {
+				// No-op
+				continue
+			}
+			break
+
 		default:
 			// No-op
 			break
-
 		}
 	}
 
