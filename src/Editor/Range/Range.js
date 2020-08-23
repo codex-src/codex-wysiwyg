@@ -1,4 +1,4 @@
-import testForSelection from "../../useEditor/testForSelection"
+import testForSelection from "../useEditor/testForSelection"
 
 import {
 	computeEditorPositionFromDOMPosition,

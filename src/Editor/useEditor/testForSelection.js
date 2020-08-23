@@ -1,4 +1,4 @@
-// Tests a state for the presence of a selection.
+// Tests for the presence of a selection.
 function testForSelection(state) {
 	const ok = (
 		state.range.start.key !== state.range.end.key ||

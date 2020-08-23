@@ -1,11 +1,13 @@
+import keyDownTypeFor from "./keyDownTypeFor"
 import Node from "./components/Node"
 import React from "react"
 import ReactDOM from "react-dom"
+import testForSelection from "./useEditor/testForSelection"
 
 import {
 	computeEditorRangeFromCurrentDOMRange,
 	convertEditorRangeToDOMRange,
-} from "./model/Range"
+} from "./Range"
 
 // const MemoElements = React.memo(({ elements }) => (
 // 	elements.map(each => (
@@ -105,7 +107,6 @@ const Editor = ({
 				if (props.onFocus && typeof props.onFocus === "function") {
 					props.onFocus(e)
 				}
-				run(props.onFocus)
 				dispatch({
 					type: "FOCUS",
 				})
@@ -171,6 +172,10 @@ const Editor = ({
 				}
 			}}
 
+			// // TODO: e.nativeEvent.isComposing or
+			// // "insert-text-composed" needs to negate
+			// // state.rangeTypes because the insertion point is
+			// // advanced during composition.
 			// onKeyDown={e => {
 			// 	if (props.onKeyDown && typeof props.onKeyDown === "function") {
 			// 		props.onKeyDown(e)
@@ -179,19 +184,18 @@ const Editor = ({
 			// 	let formatType = ""
 			// 	let text = ""
 			// 	let deleteType = ""
-			// 			// 	const keyDownType = keyDownTypeFor(e)
+			//
+			// 	const keyDownType = keyDownTypeFor(e)
 			// 	if (keyDownType) {
 			// 		console.log(keyDownType)
 			// 	}
-			// 			// 	switch (keyDownType) {
+			// 	switch (keyDownType) {
 			// 	case "apply-format-plaintext":
 			// 	case "apply-format-em":
 			// 	case "apply-format-strong":
 			// 	case "apply-format-code":
 			// 	case "apply-format-strike":
 			// 	case "apply-format-a":
-			// 		// NOTE: Formatting events must always be
-			// 		// prevented.
 			// 		e.preventDefault()
 			// 		if (testForSelection(state)) {
 			// 			formatType = keyDownType.slice("apply-format-".length)
@@ -210,17 +214,14 @@ const Editor = ({
 			// 	case "apply-format-markdown-code":
 			// 	case "apply-format-markdown-strike":
 			// 	case "apply-format-markdown-a":
-			// 			// 		// // NOTE: Formatting events must always be
-			// 		// // prevented.
-			// 		// e.preventDefault()
-			// 			// 		if (testForSelection(state)) {
+			// 		if (testForSelection(state)) {
 			// 			e.preventDefault()
 			// 			formatType = keyDownType.slice("apply-format-markdown-".length)
 			// 			const types = {}
 			// 			if (formatType !== "plaintext") {
 			// 				// types[formatType] = {}
 			// 				types[formatType] = formatType !== "a" ? {} : {
-			// 					harticleRef: "TODO",
+			// 					href: "TODO",
 			// 				}
 			// 			}
 			// 			dispatch({
@@ -369,19 +370,16 @@ const Editor = ({
 
 const EditorWithDebugger = ({ state, dispatch, ...props }) => (
 	<>
-
 		<Editor
 			state={state}
 			dispatch={dispatch}
 			{...props}
 		/>
-
 		{process.env.NODE_ENV !== "production" && (
 			<pre className="mt-6 text-xs whitespace-pre-wrap break-words" style={{ MozTabSize: 2, tabSize: 2 }}>
 				{JSON.stringify(state, null, "\t")}
 			</pre>
 		)}
-
 	</>
 )
 
