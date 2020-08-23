@@ -2,6 +2,7 @@ import { useImmerReducer } from "use-immer"
 
 const createInitialState = initialValueMarkdown => ({
 	readOnlyMode: false,
+
 	focused: false,
 	content: [],
 	cursors: {
@@ -15,8 +16,8 @@ const createInitialState = initialValueMarkdown => ({
 		},
 	},
 	// history: ...
-	shouldRerender: 0,
-	renderable: [
+
+	elements: [
 		{
 			key: "abc-xyz",
 			props: {
@@ -24,6 +25,7 @@ const createInitialState = initialValueMarkdown => ({
 			},
 		},
 	],
+	shouldRerender: 0,
 })
 
 const actions = state => ({

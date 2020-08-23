@@ -1,39 +1,14 @@
-import keyDownTypeFor from "./keyDownTypeFor"
+// import keyDownTypeFor from "./keyDownTypeFor"
+import Elements from "./components/Elements"
 import Node from "./components/Node"
 import React from "react"
 import ReactDOM from "react-dom"
-import testForSelection from "./useEditor/testForSelection"
+// import testForSelection from "./useEditor/testForSelection"
 
 import {
 	computeEditorRangeFromCurrentDOMRange,
 	convertEditorRangeToDOMRange,
 } from "./Range"
-
-// const MemoElements = React.memo(({ elements }) => (
-// 	elements.map(each => (
-// 		React.createElement(componentMap[each.type], {
-// 			...each.props,
-// 			key: each.key, // For React
-// 			id:  each.key, // For the DOM
-// 		})
-// 	))
-// ))
-
-const MemoParagraph = React.memo(({ id, children }) => (
-	<Node id={id} style={{ minHeight: "1em", border: "1px solid red" }} data-type="p">
-		{children}
-	</Node>
-))
-
-const Render = ({ renderable }) => (
-	renderable.map(each => (
-		React.createElement(MemoParagraph /* componentMap[each.type] */, {
-			...each.props,
-			key: each.key, // React key
-			id:  each.key, // DOM ID
-		})
-	))
-)
 
 // Exposes:
 //
@@ -71,7 +46,7 @@ const Editor = ({
 				selection.removeAllRanges()
 			}
 			ReactDOM.render(
-				<Render renderable={state.renderable} />,
+				<Elements elements={state.elements} />,
 				articleRef.current,
 				() => {
 					if (!state.focused) {
