@@ -1,5 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme")
-const defaultVariants = require("./defaultVariants")
+const defaultVariants = require("./tailwind-defaultVariants")
 
 function trimWhitespace(str) {
 	return str.split(/\s+/).join(" ").trim()
